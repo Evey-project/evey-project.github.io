@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" class="no-js"><head>
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,33 +7,35 @@
       
       
       
-        <link rel="canonical" href="https://eveyproject.org/">
+        <link rel="canonical" href="https://eveyproject.org/fr/environment/logs-monitoring/">
       
       
+        <link rel="prev" href="../notifications/">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../../plugins/">
       
       
         
-          <link rel="alternate" href="/" hreflang="en">
+          <link rel="alternate" href="../../../environment/logs-monitoring/" hreflang="en">
         
-          <link rel="alternate" href="/fr/" hreflang="fr">
+          <link rel="alternate" href="./" hreflang="fr">
         
       
       
-      <link rel="icon" href="assets/brand/favicon.svg">
+      <link rel="icon" href="../../../assets/brand/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Evey</title>
+        <title>Sauvegardes, logs et supervision - Evey</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,20 +49,20 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/brand.css">
+      <link rel="stylesheet" href="../../../stylesheets/brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -89,8 +91,8 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey" class="md-skip">
-          Skip to content
+        <a href="#backups-logs-and-monitoring" class="md-skip">
+          Aller au contenu
         </a>
       
     </div>
@@ -102,10 +104,10 @@
       
 
 <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Sauvegardes, logs et supervision
             
           </span>
         </div>
@@ -162,20 +164,20 @@
       <div class="md-header__option">
   <div class="md-select">
     
-    <button class="md-header__button md-icon" aria-label="Select language">
+    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
     </button>
     <div class="md-select__inner">
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="/" hreflang="en" class="md-select__link">
+            <a href="../../../environment/logs-monitoring/" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="/fr/" hreflang="fr" class="md-select__link">
+            <a href="./" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -196,21 +198,21 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
       </label>
-      <nav class="md-search__options" aria-label="Search">
+      <nav class="md-search__options" aria-label="Recherche">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Partager" aria-label="Partager" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
             
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
           </a>
         
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
         </button>
@@ -223,7 +225,7 @@
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Initializing search
+            Initialisation de la recherche
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -235,7 +237,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/Evey-project/evey" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/Evey-project/evey" title="Aller au dépôt" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
@@ -256,7 +258,7 @@
         
           
             
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
       
@@ -264,17 +266,15 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
         
   
   
     
   
-  Home
+  Accueil
 
       </a>
     </li>
@@ -289,13 +289,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../../installation/" class="md-tabs__link">
           
   
   
     
   
-  Getting started
+  Premiers pas
 
         </a>
       </li>
@@ -311,7 +311,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="administration/libraries/" class="md-tabs__link">
+        <a href="../../administration/libraries/" class="md-tabs__link">
           
   
   
@@ -333,13 +333,37 @@
     
     
       <li class="md-tabs__item">
-        <a href="playback/how-playback-is-decided/" class="md-tabs__link">
+        <a href="../../playback/how-playback-is-decided/" class="md-tabs__link">
           
   
   
     
   
-  Playback
+  Lecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Exploitation
 
         </a>
       </li>
@@ -355,13 +379,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="operations/troubleshooting/" class="md-tabs__link">
+        <a href="../../plugins/" class="md-tabs__link">
           
   
   
     
   
-  Operations
+  Plugins et API
 
         </a>
       </li>
@@ -377,35 +401,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="../../design-principles/" class="md-tabs__link">
           
   
   
     
   
-  Plugins &amp; API
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="design-principles/" class="md-tabs__link">
-          
-  
-  
-    
-  
-  Internals
+  Fonctionnement interne
 
         </a>
       </li>
@@ -424,9 +426,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -437,16 +437,16 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href="../../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     Evey
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/Evey-project/evey" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/Evey-project/evey" title="Aller au dépôt" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
@@ -463,44 +463,17 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Home
+    Accueil
   
 
     
@@ -509,81 +482,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your media server, not its infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See what Evey decided, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Apps and extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Find your way
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -628,7 +526,7 @@
   <span class="md-ellipsis">
     
   
-    Getting started
+    Premiers pas
   
 
     
@@ -644,7 +542,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Getting started
+    Premiers pas
   
 
           </label>
@@ -657,14 +555,14 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Install
+    Installation
   
 
     
@@ -685,14 +583,14 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/first-setup/" class="md-nav__link">
+      <a href="../../getting-started/first-setup/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    First setup
+    Première configuration
   
 
     
@@ -713,14 +611,14 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/apps/" class="md-nav__link">
+      <a href="../../getting-started/apps/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Applications et appareils
   
 
     
@@ -741,14 +639,14 @@
   
   
     <li class="md-nav__item">
-      <a href="privacy/" class="md-nav__link">
+      <a href="../../privacy/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Privacy policy
+    Règles de confidentialité
   
 
     
@@ -844,14 +742,14 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/libraries/" class="md-nav__link">
+      <a href="../../administration/libraries/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Libraries and metadata
+    Bibliothèques et métadonnées
   
 
     
@@ -872,14 +770,14 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/users/" class="md-nav__link">
+      <a href="../../administration/users/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Users, profiles and parental control
+    Utilisateurs, profils et contrôle parental
   
 
     
@@ -929,7 +827,7 @@
   <span class="md-ellipsis">
     
   
-    Remote access and HTTPS
+    Accès distant et HTTPS
   
 
     
@@ -945,7 +843,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Remote access and HTTPS
+    Accès distant et HTTPS
   
 
           </label>
@@ -958,14 +856,14 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/remote-access/" class="md-nav__link">
+      <a href="../../administration/remote-access/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Remote access and HTTPS
+    Accès distant et HTTPS
   
 
     
@@ -986,14 +884,14 @@
   
   
     <li class="md-nav__item">
-      <a href="reverse-proxy/" class="md-nav__link">
+      <a href="../../reverse-proxy/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Reverse proxy configurations
+    Configurations de reverse proxy
   
 
     
@@ -1022,14 +920,14 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/hardware-acceleration/" class="md-nav__link">
+      <a href="../../administration/hardware-acceleration/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Hardware acceleration
+    Accélération matérielle
   
 
     
@@ -1050,14 +948,14 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/" class="md-nav__link">
+      <a href="../../oidc/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Single sign-on (OIDC)
+    Authentification unique (OIDC)
   
 
     
@@ -1078,14 +976,14 @@
   
   
     <li class="md-nav__item">
-      <a href="notifications/" class="md-nav__link">
+      <a href="../../notifications/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    E-mail and notifications
+    E-mail et notifications
   
 
     
@@ -1106,14 +1004,14 @@
   
   
     <li class="md-nav__item">
-      <a href="backups/" class="md-nav__link">
+      <a href="../../backups/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Backups and updates
+    Sauvegardes et mises à jour
   
 
     
@@ -1182,7 +1080,7 @@
   <span class="md-ellipsis">
     
   
-    Playback
+    Lecture
   
 
     
@@ -1198,7 +1096,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Playback
+    Lecture
   
 
           </label>
@@ -1211,14 +1109,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/how-playback-is-decided/" class="md-nav__link">
+      <a href="../../playback/how-playback-is-decided/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    How playback is decided
+    Comment Evey choisit le mode de lecture
   
 
     
@@ -1239,14 +1137,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/transcoding/" class="md-nav__link">
+      <a href="../../playback/transcoding/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Transcoding and server capacity
+    Transcodage et capacité du serveur
   
 
     
@@ -1267,14 +1165,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/mkvgo/" class="md-nav__link">
+      <a href="../../playback/mkvgo/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    MKVGo in Evey
+    MKVGo dans Evey
   
 
     
@@ -1295,14 +1193,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/hdr/" class="md-nav__link">
+      <a href="../../playback/hdr/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    HDR and Dolby Vision
+    HDR et Dolby Vision
   
 
     
@@ -1323,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/audio/" class="md-nav__link">
+      <a href="../../playback/audio/" class="md-nav__link">
         
   
   
@@ -1351,14 +1249,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/subtitles/" class="md-nav__link">
+      <a href="../../playback/subtitles/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Subtitles
+    Sous-titres
   
 
     
@@ -1379,14 +1277,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/casting/" class="md-nav__link">
+      <a href="../../playback/casting/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Casting
+    Diffusion (Chromecast)
   
 
     
@@ -1407,14 +1305,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/watching-together/" class="md-nav__link">
+      <a href="../../playback/watching-together/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Watching together
+    Regarder ensemble
   
 
     
@@ -1439,8 +1337,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1468,26 +1368,29 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Operations
+    Exploitation
   
 
     
@@ -1498,12 +1401,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Operations
+    Exploitation
   
 
           </label>
@@ -1516,14 +1419,14 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/troubleshooting/" class="md-nav__link">
+      <a href="../../operations/troubleshooting/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshooting
+    Dépannage
   
 
     
@@ -1544,14 +1447,14 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/monitoring/" class="md-nav__link">
+      <a href="../../operations/monitoring/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Monitoring and logs
+    Supervision et logs
   
 
     
@@ -1572,14 +1475,14 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/background-work/" class="md-nav__link">
+      <a href="../../operations/background-work/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Background work and server load
+    Tâches de fond et charge du serveur
   
 
     
@@ -1600,14 +1503,14 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/media-health/" class="md-nav__link">
+      <a href="../../runbooks/media-health/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Media health
+    Santé des médias
   
 
     
@@ -1628,14 +1531,14 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/cli/" class="md-nav__link">
+      <a href="../../runbooks/cli/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Command line
+    Ligne de commande
   
 
     
@@ -1656,14 +1559,14 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/recovery/" class="md-nav__link">
+      <a href="../../runbooks/recovery/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Recovery
+    Restauration
   
 
     
@@ -1684,14 +1587,14 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/migration-runbook/" class="md-nav__link">
+      <a href="../../runbooks/migration-runbook/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Database migrations
+    Migrations de la base
   
 
     
@@ -1712,14 +1615,14 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/incident-runbook/" class="md-nav__link">
+      <a href="../../runbooks/incident-runbook/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Incident runbook
+    Procédures d'incident
   
 
     
@@ -1754,24 +1657,27 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
         
           
-          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Advanced deployments
+    Déploiements avancés
   
 
     
@@ -1787,7 +1693,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Advanced deployments
+    Déploiements avancés
   
 
           </label>
@@ -1800,14 +1706,14 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/advanced-deployments/" class="md-nav__link">
+      <a href="../../operations/advanced-deployments/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Advanced deployments
+    Déploiements avancés
   
 
     
@@ -1828,14 +1734,14 @@
   
   
     <li class="md-nav__item">
-      <a href="deployment-bare-metal/" class="md-nav__link">
+      <a href="../../deployment-bare-metal/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Without a container
+    Sans conteneur
   
 
     
@@ -1856,14 +1762,14 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/sandbox-deployment/" class="md-nav__link">
+      <a href="../../plugins/sandbox-deployment/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Plugin sandbox setup
+    Mise en place de la sandbox des plugins
   
 
     
@@ -1889,8 +1795,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1921,25 +1829,28 @@
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
         
           
-          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    Environment variables
+    Variables d'environnement
   
 
     
@@ -1950,12 +1861,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_10">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Environment variables
+    Variables d'environnement
   
 
           </label>
@@ -1968,14 +1879,14 @@
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="../../configuration/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Configuration reference
+    Référence de configuration
   
 
     
@@ -1996,14 +1907,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/server/" class="md-nav__link">
+      <a href="../server/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Server and network
+    Serveur et réseau
   
 
     
@@ -2024,14 +1935,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/database-search/" class="md-nav__link">
+      <a href="../database-search/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Database and search
+    Base de données et recherche
   
 
     
@@ -2052,14 +1963,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/accounts/" class="md-nav__link">
+      <a href="../accounts/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Accounts and sign-in
+    Comptes et connexion
   
 
     
@@ -2080,14 +1991,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/libraries/" class="md-nav__link">
+      <a href="../libraries/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Libraries and metadata
+    Bibliothèques et métadonnées
   
 
     
@@ -2108,14 +2019,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/transcoding/" class="md-nav__link">
+      <a href="../transcoding/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Transcoding and hardware
+    Transcodage et matériel
   
 
     
@@ -2136,14 +2047,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/playback-delivery/" class="md-nav__link">
+      <a href="../playback-delivery/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Playback delivery and downloads
+    Diffusion de la lecture et téléchargements
   
 
     
@@ -2164,14 +2075,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/background/" class="md-nav__link">
+      <a href="../background/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Background work
+    Tâches de fond
   
 
     
@@ -2192,14 +2103,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/plugins/" class="md-nav__link">
+      <a href="../plugins/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Plugins and sandbox
+    Plugins et sandbox
   
 
     
@@ -2220,14 +2131,14 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/notifications/" class="md-nav__link">
+      <a href="../notifications/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    E-mail and notifications
+    E-mail et notifications
   
 
     
@@ -2245,17 +2156,44 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="environment/logs-monitoring/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sauvegardes, logs et supervision
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Backups, logs and monitoring
+    Sauvegardes, logs et supervision
   
 
     
@@ -2264,6 +2202,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sauvegardes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history-retention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conservation des historiques
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supervision externe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Développement uniquement
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2330,7 +2343,7 @@
   <span class="md-ellipsis">
     
   
-    Plugins &amp; API
+    Plugins et API
   
 
     
@@ -2346,7 +2359,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Plugins &amp; API
+    Plugins et API
   
 
           </label>
@@ -2359,7 +2372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="../../plugins/" class="md-nav__link">
         
   
   
@@ -2387,14 +2400,14 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/dev-setup/" class="md-nav__link">
+      <a href="../../plugins/dev-setup/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Writing a plugin
+    Écrire un plugin
   
 
     
@@ -2415,14 +2428,14 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/api-reference/" class="md-nav__link">
+      <a href="../../plugins/api-reference/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Plugin API reference
+    Référence de l'API des plugins
   
 
     
@@ -2443,14 +2456,14 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/security-model/" class="md-nav__link">
+      <a href="../../plugins/security-model/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Permissions and slots
+    Permissions et slots
   
 
     
@@ -2471,14 +2484,14 @@
   
   
     <li class="md-nav__item">
-      <a href="themes/" class="md-nav__link">
+      <a href="../../themes/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Themes
+    Thèmes
   
 
     
@@ -2499,14 +2512,14 @@
   
   
     <li class="md-nav__item">
-      <a href="webhooks-api-keys/" class="md-nav__link">
+      <a href="../../webhooks-api-keys/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Webhooks and API keys
+    Webhooks et clés d'API
   
 
     
@@ -2556,14 +2569,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
+            <a href="../../api/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    Server API
+    API du serveur
   
 
     
@@ -2585,7 +2598,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Server API
+    API du serveur
   
 
           </label>
@@ -2600,14 +2613,14 @@
   
   
     <li class="md-nav__item">
-      <a href="api/public/" class="md-nav__link">
+      <a href="../../api/public/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Public API
+    API publique
   
 
     
@@ -2628,14 +2641,14 @@
   
   
     <li class="md-nav__item">
-      <a href="api/admin/" class="md-nav__link">
+      <a href="../../api/admin/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Admin API
+    API d'administration
   
 
     
@@ -2656,14 +2669,14 @@
   
   
     <li class="md-nav__item">
-      <a href="api/plugins/" class="md-nav__link">
+      <a href="../../api/plugins/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Plugin API
+    API des plugins
   
 
     
@@ -2736,7 +2749,7 @@
   <span class="md-ellipsis">
     
   
-    Internals
+    Fonctionnement interne
   
 
     
@@ -2752,7 +2765,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Internals
+    Fonctionnement interne
   
 
           </label>
@@ -2765,14 +2778,14 @@
   
   
     <li class="md-nav__item">
-      <a href="design-principles/" class="md-nav__link">
+      <a href="../../design-principles/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Design principles
+    Principes de conception
   
 
     
@@ -2793,7 +2806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ARCHITECTURE/" class="md-nav__link">
+      <a href="../../ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -2821,14 +2834,14 @@
   
   
     <li class="md-nav__item">
-      <a href="playback-serving/" class="md-nav__link">
+      <a href="../../playback-serving/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Playback pipeline
+    Chaîne de lecture
   
 
     
@@ -2849,14 +2862,14 @@
   
   
     <li class="md-nav__item">
-      <a href="SECURITY/" class="md-nav__link">
+      <a href="../../SECURITY/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Security model and plugin sandbox
+    Modèle de sécurité et sandbox des plugins
   
 
     
@@ -2877,14 +2890,14 @@
   
   
     <li class="md-nav__item">
-      <a href="i18n-accessibility/" class="md-nav__link">
+      <a href="../../i18n-accessibility/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Languages and accessibility
+    Langues et accessibilité
   
 
     
@@ -2905,14 +2918,14 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Contributing
+    Contribuer
   
 
     
@@ -2941,14 +2954,12 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden="">
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
   
   
   
@@ -2957,15 +2968,15 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      Table des matières
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run your media server, not its infrastructure
+        Sauvegardes
       
     </span>
   </a>
@@ -2973,10 +2984,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#log" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        Log
       
     </span>
   </a>
@@ -2984,10 +2995,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#history-retention" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See what Evey decided, and why
+        Conservation des historiques
       
     </span>
   </a>
@@ -2995,10 +3006,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#external-monitoring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Apps and extensions
+        Supervision externe
       
     </span>
   </a>
@@ -3006,10 +3017,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#development-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        Développement uniquement
       
     </span>
   </a>
@@ -3030,177 +3041,166 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
-
-  <a href="https://github.com/Evey-project/evey/edit/master/wiki/content/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/fr/environment/logs-monitoring.md" title="Editer cette page" class="md-content__button md-icon" rel="edit">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
   </a>
 
 
-<h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted server for films, series, music and photos. It aims to
-behave like an appliance: you give it your media and the people who watch,
-and it works out the rest from the machine it runs on.</p>
-<p><a class="md-button md-button--primary" href="installation/">Install Evey</a>
-<a class="md-button" href="https://demo.eveyproject.org">Try the demo</a></p>
-<h2 id="run-your-media-server-not-its-infrastructure">Run your media server, not its infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>A normal installation is one container and one compose file, with no <code>.env</code>
-to write. What a media server needs around it comes inside:</p>
-<ul>
-<li><strong>Database and search engine included.</strong> Postgres and Meilisearch run in the
-  same container, listen only inside it, and get passwords generated on the
-  first start, kept owner-only in the data folder.</li>
-<li><strong>File ownership worked out.</strong> When it can, the container adopts the owner of
-  your media folder, so that repairs can write. The server itself never runs as
-  root.</li>
-<li><strong>Less to size by hand.</strong> The graphics card is detected, the transcoding
-  capacity is measured, and the route for each playback follows what the
-  device says it can play.</li>
-</ul>
-<p>Bringing your own database or search cluster stays possible:
-<a href="operations/advanced-deployments/">Advanced deployments</a>.</p>
-<div class="evey-showcase">
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The home page" data-gallery="showcase" loading="lazy" src="images/showcase-home.webp"></a>
-<br>
-<figcaption>The home page: resume playback, then each library.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="A film page" data-gallery="showcase" loading="lazy" src="images/showcase-media.webp"></a>
-<br>
-<figcaption>A film page, with its artwork, ratings and credits.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The web player" data-gallery="showcase" loading="lazy" src="images/showcase-player.webp"></a>
-<br>
-<figcaption>The web player.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The admin dashboard while two films play" data-gallery="showcase" loading="lazy" src="images/showcase-dashboard.webp"></a>
-<br>
-<figcaption>The admin dashboard while two people watch: the picture each one is seeing, and how it is delivered.</figcaption>
-</figure>
-</div>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>Do less work, whenever possible</strong></p>
-<ul>
-<li><strong>Direct Play</strong>: the file as it is; the server only reads it.</li>
-<li><strong><a href="playback/mkvgo/">MKVGo</a></strong>: when only the container has to change, Evey's in-process media
-  layer repackages the tracks: no re-encoding, no media process started per
-  stream, no segments written to disk. FFmpeg copies them where it cannot.</li>
-<li><strong>FFmpeg</strong>: for real transformations, and as a fallback when MKVGo cannot
-  handle the structural work.</li>
-</ul>
-<p><a href="playback/mkvgo/">MKVGo in Evey</a></p>
-</div>
-<div>
-<p><strong>Know what the machine can actually do</strong></p>
-<p>An accelerator counts only once a real encode on it succeeds. At its first
-quiet moment the server times real encodes from a 4K clip, up to 1440p on the
-processor and up to 2160p on each accelerator, then sends every stream to the
-cheapest route that proved it can serve it. When room runs short, a new
-stream gets a lower quality, or moves from a full graphics card to the
-processor; it is refused, with a clear message, only when no capacity is left.
-<a href="playback/transcoding/">Transcoding and server capacity</a></p>
-</div>
-<div>
-<p><strong>Third-party code is contained, not trusted</strong></p>
-<p>A plugin is analysed before install, gets only the permissions declared and
-accepted by the administrator, and runs as its own process, with no direct
-network access and capped memory, processes and disk. In Docker on a recent
-kernel it sees only its own directory, and a seccomp denylist blocks system
-calls known to be dangerous; an older host gets a weaker sandbox, and the
-admin panel says which one is active.
-<a href="SECURITY/#sandbox-modes">Security model and plugin sandbox</a></p>
-</div>
-<div>
-<p><strong>Find broken media before playback does</strong></p>
-<p><strong>Media Health</strong> reads your MKV and WebM files and explains what it finds.
-What it can repair (a missing seek index, an MP4 named <code>.mkv</code>, tracks stored
-in blocks) is repaired on request, checked before it replaces the file, with
-the original kept by default and every change journaled. The rest is reported,
-never rewritten behind your back.
-<a href="runbooks/media-health/">Media health</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">See what Evey decided, and why<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>The dashboard above lists every playback: who, on which device, in <strong>Direct
-Play</strong>, <strong>Remux</strong> or <strong>Transcode</strong>, whether video and audio are copied or
-encoded and by what, the bitrate and the progress. In the player, <strong>Stream
-info</strong> reflects the plan actually served, and says why the file was not
-played as it is.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Stream info in the web player" loading="lazy" src="images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux: the packaging changes, without re-encoding the video or the audio. "Copied" describes the tracks, not the playback method.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a></p>
-<h2 id="apps-and-extensions">Apps and extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>A web app served by the server itself, apps for Android and Android TV
-(signed in from a phone or a computer with Quick Connect), and casting to a Chromecast.
-Plugins and themes extend the interface, and the same plugin runs on the web,
-on Android and on the TV.
-<a href="getting-started/apps/">Apps and devices</a> ·
-<a href="plugins/">Plugins</a></p>
-<h2 id="find-your-way">Find your way<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
-<div class="grid cards">
-<ul>
-<li>
-<p><strong><a href="installation/">Install Evey</a></strong></p>
-<p>One container and one compose file. Requirements and first launch.</p>
-</li>
-<li>
-<p><strong><a href="getting-started/first-setup/">First setup</a></strong></p>
-<p>The setup wizard, your libraries, the people who will use the server.</p>
-</li>
-<li>
-<p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Libraries, users and profiles, remote access, hardware acceleration,
-backups.</p>
-</li>
-<li>
-<p><strong><a href="playback/how-playback-is-decided/">How playback is decided</a></strong></p>
-<p>Direct Play, Remux and Transcode, and how to read Stream info.</p>
-</li>
-<li>
-<p><strong><a href="operations/troubleshooting/">Troubleshooting</a></strong></p>
-<p>Where to look when something does not work: symptoms, logs, recovery.</p>
-</li>
-<li>
-<p><strong><a href="plugins/">Plugins &amp; API</a></strong></p>
-<p>Installing and writing plugins and themes, the server API.</p>
-</li>
-</ul>
-</div>
-<p class="evey-meta">
-Evey is in beta and has no numbered release yet: this documentation follows the
-development branch. ·
-<a href="https://github.com/Evey-project/evey">Source on GitHub</a> ·
-<a href="https://demo.eveyproject.org">Public demo</a> (sign in with demo / demo) ·
-AGPL-3.0-or-later ·
-Security reports: security@eveyproject.org
-</p>
-
-<!-- sources
-one container, no .env: docs/installation.md ; docs/adr/0028-install-is-one-compose-file.md
-embedded db/search, loopback, generated secrets: docker/entrypoint.sh - ensure_secret, pg_start 127.0.0.1, meilisearch --http-addr 127.0.0.1:7700
-media owner adopted, never root: docker/entrypoint.sh - PUID/PGID auto-detection, setpriv
-do less work: docs/playback/mkvgo.md ; internal/app/transcoding/decision.go ; internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager (no ffmpeg, no session state, no on-disk segments) ; docs/playback-serving.md (copy rung: mkvgo, else ffmpeg -c copy)
-less to size: internal/adapters/driven/ffmpeg/hw_readiness.go ; internal/app/transcoding/calibration_service.go ; docs/playback/how-playback-is-decided.md
-accelerators proved, quiet moment: internal/app/transcoding/calibration_service.go - idleProbes ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
-1440p software, 2160p hardware: internal/adapters/driven/ffmpeg/benchmark.go - swBenchLadder, hwBenchLadder
-lower rung, gpu to software, then refused: internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter, ErrVideoCapacityExhausted
-contained plugins: docs/SECURITY.md (Administrator preview, System calls: denylist) ; internal/app/plugin/install.go ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; internal/adapters/driven/pluginrunner/runner_resmon.go
-media health: internal/app/maintenance/seek_index.go - Verdict ; internal/app/maintenance/seek_index_reindex.go - DeepVerify ; internal/app/maintenance/repair_journal.go - Reversible
-stream info, one plan: docs/adr/0030-one-plan-one-decision.md ; internal/app/transcoding/route_tonemap_report_test.go
-one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx ; frontend/apps/tv/src/features/plugins/PluginSlot.tsx
--->
+<h1 id="backups-logs-and-monitoring">Sauvegardes, logs et supervision<a class="headerlink" href="#backups-logs-and-monitoring" title="Permanent link">¶</a></h1>
+<p>Les sauvegardes, le log du serveur, la durée de conservation des historiques,
+et les métriques pour une supervision externe.</p>
+<h2 id="backups">Sauvegardes<a class="headerlink" href="#backups" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_BACKUP_DIR</code></td>
+<td><code>/data/backups</code></td>
+<td>L'emplacement des sauvegardes de la base.</td>
+</tr>
+<tr>
+<td><code>EVEY_BACKUP_INTERVAL_HOURS</code></td>
+<td><code>0</code> (désactivé)</td>
+<td>Une sauvegarde toutes les N heures. Utilisée seulement si aucune planification n'est définie dans <strong>Admin → Sauvegarde BDD et restauration → Planification</strong>, qui est la méthode habituelle.</td>
+</tr>
+<tr>
+<td><code>EVEY_BACKUP_RETENTION_DAYS</code></td>
+<td><code>30</code></td>
+<td>Les sauvegardes plus anciennes sont supprimées au démarrage et par la planification ci-dessus. Une planification définie dans le panneau a sa propre durée de conservation.</td>
+</tr>
+</tbody>
+</table>
+<p>Voir <a href="../../backups/">Sauvegardes et mises à jour</a>.</p>
+<h2 id="log">Log<a class="headerlink" href="#log" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_LOG_LEVEL</code></td>
+<td><code>info</code></td>
+<td><code>debug</code>, <code>info</code>, <code>warn</code> ou <code>error</code>. <strong>Admin → Configuration du serveur → Paramètres du serveur</strong> le remplace.</td>
+</tr>
+<tr>
+<td><code>EVEY_LOG_DIR</code></td>
+<td><code>/data/logs</code></td>
+<td>L'emplacement du fichier de log quotidien <code>evey-AAAA-MM-JJ.log</code>. Définie par l'image. Ce fichier fait référence : <code>docker logs</code> montre le même flux, mais Docker le fait tourner.</td>
+</tr>
+<tr>
+<td><code>EVEY_LOG_MAX_SIZE_MB</code></td>
+<td><code>50</code></td>
+<td>Taille d'un fichier de log avant rotation.</td>
+</tr>
+<tr>
+<td><code>EVEY_LOG_RETENTION_DAYS</code></td>
+<td><code>90</code></td>
+<td>Nombre de jours de conservation des fichiers de log.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="history-retention">Conservation des historiques<a class="headerlink" href="#history-retention" title="Permanent link">¶</a></h2>
+<p>Chacune est remplacée par le champ correspondant de <strong>Admin → Configuration du
+serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien suivant.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_PLAY_SESSION_RETENTION_DAYS</code></td>
+<td><code>0</code> (toujours)</td>
+<td>Les sessions de lecture terminées de l'historique.</td>
+</tr>
+<tr>
+<td><code>EVEY_AUDIT_LOG_RETENTION_DAYS</code></td>
+<td><code>0</code> (toujours)</td>
+<td>Le journal d'audit des actions d'administration.</td>
+</tr>
+<tr>
+<td><code>EVEY_METRICS_RETENTION_DAYS</code></td>
+<td><code>90</code></td>
+<td>Les échantillons de ressources du serveur (processeur, mémoire, bande passante).</td>
+</tr>
+<tr>
+<td><code>EVEY_QOE_RETENTION_DAYS</code></td>
+<td><code>30</code></td>
+<td>Les rapports de qualité de lecture des lecteurs.</td>
+</tr>
+<tr>
+<td><code>EVEY_METRICS_SAMPLE_INTERVAL_SEC</code></td>
+<td><code>60</code></td>
+<td>La fréquence de ces échantillons de ressources.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="external-monitoring">Supervision externe<a class="headerlink" href="#external-monitoring" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_METRICS_SCRAPE_TOKEN</code></td>
+<td>vide</td>
+<td>Un jeton fixe accepté sur <code>GET /metrics</code> en plus d'une session d'administrateur, pour que Prometheus ou Grafana puissent collecter sans renouveler une connexion. Vide : seule une session d'administrateur est acceptée.</td>
+</tr>
+<tr>
+<td><code>EVEY_OTLP_ENDPOINT</code></td>
+<td>vide</td>
+<td>Un point d'accès OpenTelemetry vers lequel envoyer les traces. Vide : aucune trace.</td>
+</tr>
+<tr>
+<td><code>EVEY_TRACING_SERVICE_NAME</code></td>
+<td><code>evey</code></td>
+<td>Le nom du service dans les traces.</td>
+</tr>
+<tr>
+<td><code>EVEY_TRACING_SAMPLE_RATIO</code></td>
+<td><code>0</code></td>
+<td>La part des requêtes tracées, de 0 à 1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="development-only">Développement uniquement<a class="headerlink" href="#development-only" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_LOG_DEV_MODE</code></td>
+<td><code>false</code></td>
+<td>Mode développeur : les contrôles de sécurité du démarrage ne font qu'avertir, et les plugins peuvent tourner sans la bibliothèque de sandbox. Jamais sur un vrai serveur ; avec <code>EVEY_ENV=production</code>, le serveur refuse de démarrer.</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -3213,8 +3213,6 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
 
 
 
-
-  
 
 
 
@@ -3231,7 +3229,7 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
           <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
-  Back to top
+  Retour en haut de la page
 </button>
         
       </main>
@@ -3240,19 +3238,33 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
   
     
       
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
         
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer">
+          
+          <a href="../notifications/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: E-mail et notifications">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                E-mail et notifications
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Install">
+          <a href="../../plugins/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Plugins">
             <div class="md-footer__title">
               <span class="md-footer__direction">
-                Next
+                Suivant
               </span>
               <div class="md-ellipsis">
-                Install
+                Plugins
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3309,11 +3321,11 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <script>

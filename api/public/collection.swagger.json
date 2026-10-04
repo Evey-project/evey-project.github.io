@@ -1,0 +1,674 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "evey/v1/collection.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "CollectionService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/collections": {
+      "get": {
+        "operationId": "CollectionService_ListCollections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListCollectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "minItems",
+            "description": "Collections holding fewer than this many VISIBLE members are omitted.\n0 means the server default (2): a saga you own one film of is a film, not\na collection, and 97% of the auto-created TMDB sagas were exactly that -\na wall of one-title entries nobody could use (measured 2026-08-04).\nPass 1 to list everything, which is what curation screens want.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      },
+      "post": {
+        "operationId": "CollectionService_CreateCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    },
+    "/api/v1/collections/{id}": {
+      "get": {
+        "operationId": "CollectionService_GetCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Page of members to return alongside the collection. 0 means the server\ndefault (50). The mobile and TV clients were already sending these as\nquery parameters, against a response that carried no members at all.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      },
+      "delete": {
+        "operationId": "CollectionService_DeleteCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      },
+      "put": {
+        "operationId": "CollectionService_UpdateCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CollectionServiceUpdateCollectionBody"
+            }
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    },
+    "/api/v1/collections/{id}/items": {
+      "get": {
+        "operationId": "CollectionService_GetCollectionItems",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCollectionItemsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      },
+      "post": {
+        "operationId": "CollectionService_AddCollectionItem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AddCollectionItemResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CollectionServiceAddCollectionItemBody"
+            }
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    },
+    "/api/v1/collections/{id}/items/order": {
+      "put": {
+        "operationId": "CollectionService_ReorderCollectionItems",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReorderCollectionItemsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CollectionServiceReorderCollectionItemsBody"
+            }
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    },
+    "/api/v1/collections/{id}/items/{mediaItemId}": {
+      "delete": {
+        "operationId": "CollectionService_RemoveCollectionItem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RemoveCollectionItemResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    },
+    "/api/v1/media/{mediaItemId}/collections": {
+      "get": {
+        "summary": "The collections a title belongs to. Without it a film page cannot say\n\"part of the Alien saga\" nor link to the rest of it - the one place a\nviewer actually wonders about it.",
+        "operationId": "CollectionService_ListCollectionsForMediaItem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListCollectionsForMediaItemResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CollectionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CollectionServiceAddCollectionItemBody": {
+      "type": "object",
+      "properties": {
+        "mediaItemId": {
+          "type": "string"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CollectionServiceReorderCollectionItemsBody": {
+      "type": "object",
+      "properties": {
+        "mediaItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The members in their new order. Position in this list IS the new\nposition; any member left out keeps its current one."
+        }
+      }
+    },
+    "CollectionServiceUpdateCollectionBody": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionRule"
+          }
+        },
+        "sortBy": {
+          "type": "string"
+        },
+        "smart": {
+          "type": "boolean"
+        },
+        "overview": {
+          "type": "string",
+          "description": "Optional so that a client editing only the name leaves the synopsis of a\nTMDB saga alone: absent means \"keep\", empty string means \"clear\"."
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1AddCollectionItemResponse": {
+      "type": "object"
+    },
+    "v1CollectionItemProto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "overview": {
+          "type": "string"
+        },
+        "communityRating": {
+          "type": "number",
+          "format": "double"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1CollectionProto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "overview": {
+          "type": "string"
+        },
+        "tmdbId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "posterUrl": {
+          "type": "string"
+        },
+        "backdropUrl": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionRule"
+          }
+        },
+        "sortBy": {
+          "type": "string",
+          "description": "How the members are ordered. \"release\" (default) reads a saga in release\norder; \"manual\" honours the hand-set position, which is the only way to\nexpress a chronological order that differs from it (prequels).\nAlso \"title\", \"added_at\", \"year\", \"rating\"."
+        },
+        "sortOrder": {
+          "type": "string"
+        },
+        "itemCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of members THIS caller can see - already access- and parental-\nfiltered. A client cannot compute it (it never receives the members of\nevery collection) and every surface needs it: to say \"4 films\", and to\ntell a real saga from a one-title stub."
+        },
+        "kind": {
+          "type": "string",
+          "description": "\"saga\" (sourced from a TMDB collection), \"smart\" (rule-driven) or\n\"manual\" (hand-built). Lets a client badge them and filter, instead of\ninferring it from the presence of tmdb_id."
+        }
+      }
+    },
+    "v1CollectionRule": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionRule"
+          }
+        },
+        "sortBy": {
+          "type": "string"
+        },
+        "smart": {
+          "type": "boolean"
+        },
+        "overview": {
+          "type": "string",
+          "description": "Free text shown under the title, like the synopsis a TMDB saga carries.\nThe column and the domain always had it; only the request did not, so a\ndescription typed at creation went nowhere (found 2026-08-04)."
+        }
+      }
+    },
+    "v1CreateCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "collection": {
+          "$ref": "#/definitions/v1CollectionProto"
+        }
+      }
+    },
+    "v1DeleteCollectionResponse": {
+      "type": "object"
+    },
+    "v1GetCollectionItemsResponse": {
+      "type": "object",
+      "properties": {
+        "mediaItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionItemProto"
+          }
+        }
+      }
+    },
+    "v1GetCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "collection": {
+          "$ref": "#/definitions/v1CollectionProto"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionItemProto"
+          },
+          "description": "The members themselves, access- and parental-filtered like item_count.\nWithout them a client had to make a second call to show anything, and the\ntwo that did not made an empty page instead (found 2026-08-04)."
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ListCollectionsForMediaItemResponse": {
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionProto"
+          }
+        }
+      }
+    },
+    "v1ListCollectionsResponse": {
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1CollectionProto"
+          }
+        }
+      }
+    },
+    "v1RemoveCollectionItemResponse": {
+      "type": "object"
+    },
+    "v1ReorderCollectionItemsResponse": {
+      "type": "object"
+    },
+    "v1UpdateCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "collection": {
+          "$ref": "#/definitions/v1CollectionProto"
+        }
+      }
+    }
+  }
+}

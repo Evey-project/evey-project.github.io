@@ -1,0 +1,220 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "evey/v1/remote_access.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "RemoteAccessService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/admin/network-info": {
+      "get": {
+        "operationId": "RemoteAccessService_GetNetworkInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1NetworkInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "RemoteAccessService"
+        ]
+      }
+    },
+    "/api/v1/admin/remote-access": {
+      "get": {
+        "operationId": "RemoteAccessService_GetRemoteAccess",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RemoteAccessConfig"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "RemoteAccessService"
+        ]
+      },
+      "put": {
+        "operationId": "RemoteAccessService_UpdateRemoteAccess",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RemoteAccessConfig"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateRemoteAccessRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RemoteAccessService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1NetworkInfo": {
+      "type": "object",
+      "properties": {
+        "interfaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1NetworkInterface"
+          }
+        }
+      }
+    },
+    "v1NetworkInterface": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RemoteAccessConfig": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "externalUrl": {
+          "type": "string"
+        },
+        "lanNetworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxRemoteBitrateKbps": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "serverBaseUrl": {
+          "type": "string"
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Derived, read-only. The server already computed these to decide whether it\nis refusing everyone; the panel needs the same answer to warn about it, and\nderiving it again client-side would let the two disagree.\n\npublished: this instance has a publicly reachable address configured.\nlockout_risk: published AND remote access off - every client outside the\nlocal network is being refused on every route. That state was invisible\neverywhere on 2026-07-29 and took two days to find, which is why it is part\nof the contract rather than something an operator has to infer."
+        },
+        "lockoutRisk": {
+          "type": "boolean"
+        },
+        "trustedProxies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The trusted proxies in force, without the loopback baseline that is always\ntrusted: the panel's list when one is saved, else EVEY_TRUSTED_PROXIES."
+        },
+        "trustedProxiesFromPanel": {
+          "type": "boolean",
+          "description": "True when the list above comes from the panel rather than the environment."
+        }
+      }
+    },
+    "v1UpdateRemoteAccessRequest": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "externalUrl": {
+          "type": "string"
+        },
+        "lanNetworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxRemoteBitrateKbps": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "trustedProxies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Replaces EVEY_TRUSTED_PROXIES while not empty (loopback is always kept).\nAn empty list, sent with clear_trusted_proxies, hands the answer back to\nthe environment."
+        },
+        "clearTrustedProxies": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

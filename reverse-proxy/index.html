@@ -7,33 +7,35 @@
       
       
       
-        <link rel="canonical" href="https://eveyproject.org/">
+        <link rel="canonical" href="https://eveyproject.org/reverse-proxy/">
       
       
+        <link rel="prev" href="../administration/remote-access/">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../administration/hardware-acceleration/">
       
       
         
-          <link rel="alternate" href="/" hreflang="en">
+          <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="/fr/" hreflang="fr">
+          <link rel="alternate" href="../fr/reverse-proxy/" hreflang="fr">
         
       
       
-      <link rel="icon" href="assets/brand/favicon.svg">
+      <link rel="icon" href="../assets/brand/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Evey</title>
+        <title>Reverse proxy configurations - Evey</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,20 +49,20 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/brand.css">
+      <link rel="stylesheet" href="../stylesheets/brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -89,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey" class="md-skip">
+        <a href="#reverse-proxy" class="md-skip">
           Skip to content
         </a>
       
@@ -103,9 +105,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Reverse proxy configurations
             
           </span>
         </div>
@@ -169,13 +171,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="/" hreflang="en" class="md-select__link">
+            <a href="./" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="/fr/" hreflang="fr" class="md-select__link">
+            <a href="../fr/reverse-proxy/" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -264,11 +266,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link">
           
   
   
@@ -307,11 +307,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="administration/libraries/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../administration/libraries/" class="md-tabs__link">
           
   
   
@@ -333,7 +335,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="playback/how-playback-is-decided/" class="md-tabs__link">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
           
   
   
@@ -355,7 +357,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="operations/troubleshooting/" class="md-tabs__link">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
           
   
   
@@ -377,7 +379,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="../plugins/" class="md-tabs__link">
           
   
   
@@ -399,7 +401,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="design-principles/" class="md-tabs__link">
+        <a href="../design-principles/" class="md-tabs__link">
           
   
   
@@ -424,9 +426,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -437,9 +437,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     Evey
@@ -463,37 +463,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -509,81 +482,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your media server, not its infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See what Evey decided, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Apps and extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Find your way
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -657,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -685,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/first-setup/" class="md-nav__link">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
         
   
   
@@ -713,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/apps/" class="md-nav__link">
+      <a href="../getting-started/apps/" class="md-nav__link">
         
   
   
@@ -741,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="privacy/" class="md-nav__link">
+      <a href="../privacy/" class="md-nav__link">
         
   
   
@@ -773,8 +671,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -796,19 +696,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -826,7 +729,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -844,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/libraries/" class="md-nav__link">
+      <a href="../administration/libraries/" class="md-nav__link">
         
   
   
@@ -872,7 +775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/users/" class="md-nav__link">
+      <a href="../administration/users/" class="md-nav__link">
         
   
   
@@ -897,8 +800,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -911,18 +816,21 @@
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -940,7 +848,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -958,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/remote-access/" class="md-nav__link">
+      <a href="../administration/remote-access/" class="md-nav__link">
         
   
   
@@ -983,10 +891,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="reverse-proxy/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reverse proxy configurations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1002,6 +937,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#streaming---what-a-proxys-defaults-do-to-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streaming - what a proxy's defaults do to it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security headers &amp; CSP - read this if your proxy sets its own
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caddy-bundled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caddy (bundled)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caddy (bundled)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#behind-a-proxy-you-already-run-tls-terminated-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behind a proxy you already run (TLS terminated upstream)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traefik
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-proxy-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx Proxy Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real client IPs and the remote-access gate
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1022,7 +1071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/hardware-acceleration/" class="md-nav__link">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
         
   
   
@@ -1050,7 +1099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/" class="md-nav__link">
+      <a href="../oidc/" class="md-nav__link">
         
   
   
@@ -1078,7 +1127,7 @@
   
   
     <li class="md-nav__item">
-      <a href="notifications/" class="md-nav__link">
+      <a href="../notifications/" class="md-nav__link">
         
   
   
@@ -1106,7 +1155,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups/" class="md-nav__link">
+      <a href="../backups/" class="md-nav__link">
         
   
   
@@ -1211,7 +1260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/how-playback-is-decided/" class="md-nav__link">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
         
   
   
@@ -1239,7 +1288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/transcoding/" class="md-nav__link">
+      <a href="../playback/transcoding/" class="md-nav__link">
         
   
   
@@ -1267,7 +1316,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/mkvgo/" class="md-nav__link">
+      <a href="../playback/mkvgo/" class="md-nav__link">
         
   
   
@@ -1295,7 +1344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/hdr/" class="md-nav__link">
+      <a href="../playback/hdr/" class="md-nav__link">
         
   
   
@@ -1323,7 +1372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/audio/" class="md-nav__link">
+      <a href="../playback/audio/" class="md-nav__link">
         
   
   
@@ -1351,7 +1400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/subtitles/" class="md-nav__link">
+      <a href="../playback/subtitles/" class="md-nav__link">
         
   
   
@@ -1379,7 +1428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/casting/" class="md-nav__link">
+      <a href="../playback/casting/" class="md-nav__link">
         
   
   
@@ -1407,7 +1456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/watching-together/" class="md-nav__link">
+      <a href="../playback/watching-together/" class="md-nav__link">
         
   
   
@@ -1516,7 +1565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/troubleshooting/" class="md-nav__link">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
         
   
   
@@ -1544,7 +1593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/monitoring/" class="md-nav__link">
+      <a href="../operations/monitoring/" class="md-nav__link">
         
   
   
@@ -1572,7 +1621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/background-work/" class="md-nav__link">
+      <a href="../operations/background-work/" class="md-nav__link">
         
   
   
@@ -1600,7 +1649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/media-health/" class="md-nav__link">
+      <a href="../runbooks/media-health/" class="md-nav__link">
         
   
   
@@ -1628,7 +1677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/cli/" class="md-nav__link">
+      <a href="../runbooks/cli/" class="md-nav__link">
         
   
   
@@ -1656,7 +1705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/recovery/" class="md-nav__link">
+      <a href="../runbooks/recovery/" class="md-nav__link">
         
   
   
@@ -1684,7 +1733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/migration-runbook/" class="md-nav__link">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
         
   
   
@@ -1712,7 +1761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/incident-runbook/" class="md-nav__link">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
         
   
   
@@ -1800,7 +1849,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/advanced-deployments/" class="md-nav__link">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
         
   
   
@@ -1828,7 +1877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="deployment-bare-metal/" class="md-nav__link">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
         
   
   
@@ -1856,7 +1905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/sandbox-deployment/" class="md-nav__link">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
         
   
   
@@ -1968,7 +2017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -1996,7 +2045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/server/" class="md-nav__link">
+      <a href="../environment/server/" class="md-nav__link">
         
   
   
@@ -2024,7 +2073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/database-search/" class="md-nav__link">
+      <a href="../environment/database-search/" class="md-nav__link">
         
   
   
@@ -2052,7 +2101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/accounts/" class="md-nav__link">
+      <a href="../environment/accounts/" class="md-nav__link">
         
   
   
@@ -2080,7 +2129,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/libraries/" class="md-nav__link">
+      <a href="../environment/libraries/" class="md-nav__link">
         
   
   
@@ -2108,7 +2157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/transcoding/" class="md-nav__link">
+      <a href="../environment/transcoding/" class="md-nav__link">
         
   
   
@@ -2136,7 +2185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/playback-delivery/" class="md-nav__link">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
         
   
   
@@ -2164,7 +2213,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/background/" class="md-nav__link">
+      <a href="../environment/background/" class="md-nav__link">
         
   
   
@@ -2192,7 +2241,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/plugins/" class="md-nav__link">
+      <a href="../environment/plugins/" class="md-nav__link">
         
   
   
@@ -2220,7 +2269,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/notifications/" class="md-nav__link">
+      <a href="../environment/notifications/" class="md-nav__link">
         
   
   
@@ -2248,7 +2297,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/logs-monitoring/" class="md-nav__link">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
         
   
   
@@ -2359,7 +2408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="../plugins/" class="md-nav__link">
         
   
   
@@ -2387,7 +2436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/dev-setup/" class="md-nav__link">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
         
   
   
@@ -2415,7 +2464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/api-reference/" class="md-nav__link">
+      <a href="../plugins/api-reference/" class="md-nav__link">
         
   
   
@@ -2443,7 +2492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/security-model/" class="md-nav__link">
+      <a href="../plugins/security-model/" class="md-nav__link">
         
   
   
@@ -2471,7 +2520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="themes/" class="md-nav__link">
+      <a href="../themes/" class="md-nav__link">
         
   
   
@@ -2499,7 +2548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="webhooks-api-keys/" class="md-nav__link">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
         
   
   
@@ -2556,7 +2605,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
+            <a href="../api/" class="md-nav__link ">
               
   
   
@@ -2600,7 +2649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/public/" class="md-nav__link">
+      <a href="../api/public/" class="md-nav__link">
         
   
   
@@ -2628,7 +2677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/admin/" class="md-nav__link">
+      <a href="../api/admin/" class="md-nav__link">
         
   
   
@@ -2656,7 +2705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/plugins/" class="md-nav__link">
+      <a href="../api/plugins/" class="md-nav__link">
         
   
   
@@ -2765,7 +2814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="design-principles/" class="md-nav__link">
+      <a href="../design-principles/" class="md-nav__link">
         
   
   
@@ -2793,7 +2842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ARCHITECTURE/" class="md-nav__link">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -2821,7 +2870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback-serving/" class="md-nav__link">
+      <a href="../playback-serving/" class="md-nav__link">
         
   
   
@@ -2849,7 +2898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="SECURITY/" class="md-nav__link">
+      <a href="../SECURITY/" class="md-nav__link">
         
   
   
@@ -2877,7 +2926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="i18n-accessibility/" class="md-nav__link">
+      <a href="../i18n-accessibility/" class="md-nav__link">
         
   
   
@@ -2905,7 +2954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -2941,9 +2990,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden="">
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2962,10 +3009,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#streaming---what-a-proxys-defaults-do-to-it" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run your media server, not its infrastructure
+        Streaming - what a proxy's defaults do to it
       
     </span>
   </a>
@@ -2973,10 +3020,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        Security headers &amp; CSP - read this if your proxy sets its own
       
     </span>
   </a>
@@ -2984,10 +3031,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#caddy-bundled" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See what Evey decided, and why
+        Caddy (bundled)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caddy (bundled)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#behind-a-proxy-you-already-run-tls-terminated-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behind a proxy you already run (TLS terminated upstream)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx
       
     </span>
   </a>
@@ -2995,10 +3070,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#traefik" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Apps and extensions
+        Traefik
       
     </span>
   </a>
@@ -3006,10 +3081,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#nginx-proxy-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        Nginx Proxy Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real client IPs and the remote-access gate
       
     </span>
   </a>
@@ -3030,177 +3116,266 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
-
-  <a href="https://github.com/Evey-project/evey/edit/master/wiki/content/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+  <a href="https://github.com/Evey-project/evey/edit/master/docs/reverse-proxy.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
   </a>
 
 
-<h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted server for films, series, music and photos. It aims to
-behave like an appliance: you give it your media and the people who watch,
-and it works out the rest from the machine it runs on.</p>
-<p><a class="md-button md-button--primary" href="installation/">Install Evey</a>
-<a class="md-button" href="https://demo.eveyproject.org">Try the demo</a></p>
-<h2 id="run-your-media-server-not-its-infrastructure">Run your media server, not its infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>A normal installation is one container and one compose file, with no <code>.env</code>
-to write. What a media server needs around it comes inside:</p>
+<h1 id="reverse-proxy">Reverse Proxy<a class="headerlink" href="#reverse-proxy" title="Permanent link">¶</a></h1>
+<p>Evey serves <strong>both the API and the web UI</strong> on port <strong>9091</strong> (plain HTTP). A
+reverse proxy only needs to terminate TLS and forward everything to
+<code>evey:9091</code>: there is <strong>no separate frontend to build or serve</strong>.</p>
+<p>Wherever you run a proxy, tell Evey its public URL and which proxy to trust.
+The simplest place is <strong>Admin → Remote Access</strong>: an <code>https://</code> <strong>External URL</strong>
+and, when the proxy is a container, its network in <strong>Trusted proxies</strong>. Both
+apply without a restart. The same answers can come from the environment, for
+an installation described entirely as code (the panel wins when both are set):</p>
+<div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SERVER_BASE_URL=https://media.example.com
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_TRUSTED_PROXIES=172.16.0.0/12       # only needed if the proxy is a container; loopback is always trusted
+</span></code></pre></div>
+<p>An <code>https://</code> address is what tells Evey a proxy terminates TLS in front of
+it: cookies get the <code>Secure</code> flag, HSTS is sent, and <code>X-Forwarded-Proto</code> from
+a trusted proxy is honoured. No separate switch is needed (the former
+<code>EVEY_FORWARDED_PROTO</code> is still accepted as an override, but deprecated).</p>
+<h2 id="streaming---what-a-proxys-defaults-do-to-it">Streaming - what a proxy's defaults do to it<a class="headerlink" href="#streaming---what-a-proxys-defaults-do-to-it" title="Permanent link">¶</a></h2>
+<p>Evey works behind a reverse proxy left on its defaults: every long-lived
+response either sends bytes continuously (HLS segments, direct play,
+transcode output) or pings the client every 30 s (the event streams), so a
+default read timeout never fires. Two things are still worth knowing:</p>
 <ul>
-<li><strong>Database and search engine included.</strong> Postgres and Meilisearch run in the
-  same container, listen only inside it, and get passwords generated on the
-  first start, kept owner-only in the data folder.</li>
-<li><strong>File ownership worked out.</strong> When it can, the container adopts the owner of
-  your media folder, so that repairs can write. The server itself never runs as
-  root.</li>
-<li><strong>Less to size by hand.</strong> The graphics card is detected, the transcoding
-  capacity is measured, and the route for each playback follows what the
-  device says it can play.</li>
+<li><strong>Buffering.</strong> A proxy that buffers responses (nginx does by default) reads
+  a direct-play file into its own buffers and temp files before the client
+  gets it - functional, but a multi-GB film then transits through the proxy
+  host's disk. <code>proxy_buffering off</code> on the streaming paths avoids that.</li>
+<li><strong>Scans.</strong> <code>/api/v1/libraries/*/scan</code> streams progress for as long as the
+  scan runs; a proxy that caps a response's total duration (rare - nginx and
+  Caddy do not by default) would cut it short. The scan itself continues
+  server-side regardless.</li>
 </ul>
-<p>Bringing your own database or search cluster stays possible:
-<a href="operations/advanced-deployments/">Advanced deployments</a>.</p>
-<div class="evey-showcase">
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The home page" data-gallery="showcase" loading="lazy" src="images/showcase-home.webp"></a>
-<br>
-<figcaption>The home page: resume playback, then each library.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="A film page" data-gallery="showcase" loading="lazy" src="images/showcase-media.webp"></a>
-<br>
-<figcaption>A film page, with its artwork, ratings and credits.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The web player" data-gallery="showcase" loading="lazy" src="images/showcase-player.webp"></a>
-<br>
-<figcaption>The web player.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The admin dashboard while two films play" data-gallery="showcase" loading="lazy" src="images/showcase-dashboard.webp"></a>
-<br>
-<figcaption>The admin dashboard while two people watch: the picture each one is seeing, and how it is delivered.</figcaption>
-</figure>
-</div>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>Do less work, whenever possible</strong></p>
+<p>The paths concerned:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>/api/v1/media/*/hls/*
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>/api/v1/media/*/stream
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>/api/v1/libraries/*/scan
+</span></code></pre></div>
+<p>The bundled Caddy and the Nginx/Traefik examples below set both (no
+buffering, no timeout) on these paths. With a UI-driven proxy such as Nginx
+Proxy Manager, the defaults are fine and the tuning is an optional snippet.</p>
+<h2 id="security-headers--csp---read-this-if-your-proxy-sets-its-own">Security headers &amp; CSP - read this if your proxy sets its own<a class="headerlink" href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" title="Permanent link">¶</a></h2>
+<p>Evey emits a complete Content-Security-Policy. If your proxy passes it through,
+you're done.</p>
+<p>Many setups instead strip it (<code>header_down -Content-Security-Policy</code> in Caddy)
+and curate their own - that's fine, but then <strong>your</strong> policy must keep these
+tokens or features break silently:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Directive</th>
+<th>Breaks without it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>'self'</code></td>
+<td><code>frame-src</code></td>
+<td>Every plugin UI and theme script (blank iframe). They run in <code>/plugin-frame.html</code>, a page of Evey framed by the app (see below).</td>
+</tr>
+<tr>
+<td><code>'wasm-unsafe-eval'</code></td>
+<td><code>script-src</code></td>
+<td>Browser AC-3/E-AC-3 playback (the ac3go WebAssembly decoder can't compile → the film plays muted). This is the narrow token that permits Wasm compilation only - NOT general <code>eval()</code>.</td>
+</tr>
+<tr>
+<td><code>https://www.gstatic.com</code></td>
+<td><code>script-src</code> (+ <code>frame-src</code>)</td>
+<td>The Google Cast sender SDK never loads → no cast button for anyone. It is the only way a browser can discover Chromecasts on the user's own LAN.</td>
+</tr>
+<tr>
+<td><code>blob:</code></td>
+<td><code>media-src</code></td>
+<td>MSE playback (hls.js attaches the stream via a blob URL).</td>
+</tr>
+<tr>
+<td><code>blob:</code></td>
+<td><code>worker-src</code></td>
+<td>hls.js silently falls back to main-thread demuxing (choppier on mobile).</td>
+</tr>
+</tbody>
+</table>
+<p>A known-good policy for a curating proxy:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>default-src 'self'; base-uri 'self'; object-src 'none';
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>img-src 'self' https: data: blob:; media-src 'self' blob:;
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>style-src 'self' 'unsafe-inline';
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>script-src 'self' 'wasm-unsafe-eval' https://www.gstatic.com;
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>connect-src 'self' https: wss:; worker-src 'self' blob:; font-src 'self' data:;
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>frame-src 'self' https://www.gstatic.com
+</span></code></pre></div>
+<p><code>base-uri</code> and <code>object-src</code> have no fallback to <code>default-src</code>, so a policy that
+omits them leaves <code>&lt;base href&gt;</code> injection and <code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code> embedding
+unrestricted. Keep them if you curate your own policy.</p>
+<p><code>script-src</code> has no <code>'unsafe-inline'</code>: a script injected into the page does
+not run. Do not add it back - nothing in the app needs it.</p>
+<p>Two pages carry their own policy, sent by the app; leave the app's header on
+those two paths:</p>
 <ul>
-<li><strong>Direct Play</strong>: the file as it is; the server only reads it.</li>
-<li><strong><a href="playback/mkvgo/">MKVGo</a></strong>: when only the container has to change, Evey's in-process media
-  layer repackages the tracks: no re-encoding, no media process started per
-  stream, no segments written to disk. FFmpeg copies them where it cannot.</li>
-<li><strong>FFmpeg</strong>: for real transformations, and as a fallback when MKVGo cannot
-  handle the structural work.</li>
+<li><code>/plugin-frame.html</code>, the page plugin UIs and theme scripts run in. Its
+  policy sandboxes it (even opened outside an iframe), limits its network to
+  the hosts the plugin's manifest declares, and lets only the app frame it,
+  so it also sends <code>X-Frame-Options: SAMEORIGIN</code>: do not overwrite that with
+  <code>DENY</code> on this path, or every plugin UI stays blank.</li>
+<li><code>/cast-receiver.html</code>, described below.</li>
 </ul>
-<p><a href="playback/mkvgo/">MKVGo in Evey</a></p>
-</div>
-<div>
-<p><strong>Know what the machine can actually do</strong></p>
-<p>An accelerator counts only once a real encode on it succeeds. At its first
-quiet moment the server times real encodes from a 4K clip, up to 1440p on the
-processor and up to 2160p on each accelerator, then sends every stream to the
-cheapest route that proved it can serve it. When room runs short, a new
-stream gets a lower quality, or moves from a full graphics card to the
-processor; it is refused, with a clear message, only when no capacity is left.
-<a href="playback/transcoding/">Transcoding and server capacity</a></p>
-</div>
-<div>
-<p><strong>Third-party code is contained, not trusted</strong></p>
-<p>A plugin is analysed before install, gets only the permissions declared and
-accepted by the administrator, and runs as its own process, with no direct
-network access and capped memory, processes and disk. In Docker on a recent
-kernel it sees only its own directory, and a seccomp denylist blocks system
-calls known to be dangerous; an older host gets a weaker sandbox, and the
-admin panel says which one is active.
-<a href="SECURITY/#sandbox-modes">Security model and plugin sandbox</a></p>
-</div>
-<div>
-<p><strong>Find broken media before playback does</strong></p>
-<p><strong>Media Health</strong> reads your MKV and WebM files and explains what it finds.
-What it can repair (a missing seek index, an MP4 named <code>.mkv</code>, tracks stored
-in blocks) is repaired on request, checked before it replaces the file, with
-the original kept by default and every change journaled. The rest is reported,
-never rewritten behind your back.
-<a href="runbooks/media-health/">Media health</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">See what Evey decided, and why<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>The dashboard above lists every playback: who, on which device, in <strong>Direct
-Play</strong>, <strong>Remux</strong> or <strong>Transcode</strong>, whether video and audio are copied or
-encoded and by what, the bitrate and the progress. In the player, <strong>Stream
-info</strong> reflects the plan actually served, and says why the file was not
-played as it is.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Stream info in the web player" loading="lazy" src="images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux: the packaging changes, without re-encoding the video or the audio. "Copied" describes the tracks, not the playback method.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a></p>
-<h2 id="apps-and-extensions">Apps and extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>A web app served by the server itself, apps for Android and Android TV
-(signed in from a phone or a computer with Quick Connect), and casting to a Chromecast.
-Plugins and themes extend the interface, and the same plugin runs on the web,
-on Android and on the TV.
-<a href="getting-started/apps/">Apps and devices</a> ·
-<a href="plugins/">Plugins</a></p>
-<h2 id="find-your-way">Find your way<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
-<div class="grid cards">
+<p>One page needs a wider policy: <code>/cast-receiver.html</code>, the page a Chromecast
+loads when it plays from Evey. The Cast player injects styles, fonts and
+images from <code>www.gstatic.com</code> into it, and the app sends that page its own
+policy for this reason. Leave the app's header on that path, or apply this
+policy to that path only:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://www.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob: https:; worker-src 'self' blob:; font-src 'self' data: https://www.gstatic.com; connect-src 'self' https: wss:; frame-src https://www.gstatic.com; base-uri 'self'; object-src 'none'
+</span></code></pre></div>
+<p>Rules of thumb:</p>
 <ul>
-<li>
-<p><strong><a href="installation/">Install Evey</a></strong></p>
-<p>One container and one compose file. Requirements and first launch.</p>
-</li>
-<li>
-<p><strong><a href="getting-started/first-setup/">First setup</a></strong></p>
-<p>The setup wizard, your libraries, the people who will use the server.</p>
-</li>
-<li>
-<p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Libraries, users and profiles, remote access, hardware acceleration,
-backups.</p>
-</li>
-<li>
-<p><strong><a href="playback/how-playback-is-decided/">How playback is decided</a></strong></p>
-<p>Direct Play, Remux and Transcode, and how to read Stream info.</p>
-</li>
-<li>
-<p><strong><a href="operations/troubleshooting/">Troubleshooting</a></strong></p>
-<p>Where to look when something does not work: symptoms, logs, recovery.</p>
-</li>
-<li>
-<p><strong><a href="plugins/">Plugins &amp; API</a></strong></p>
-<p>Installing and writing plugins and themes, the server API.</p>
-</li>
+<li><strong>Exactly one CSP header must reach the browser.</strong> With two (e.g. the app's
+  AND your proxy's, or Caddy's AND Nginx Proxy Manager's "Advanced" snippet),
+  browsers enforce the <em>intersection</em> - the strictest wins and the failure is
+  silent. Check with <code>curl -sI https://your.domain | grep -ci content-security-policy</code>
+  → must print <code>1</code>.</li>
+<li><strong>Keep the policy on ONE line.</strong> A CSP split across lines in a proxy config
+  is a classic silent corruption: the join swallows the characters at the seam
+  (<code>...gstatic.com; connect-src</code> became <code>...gstaticonnect-src</code> once, which
+  disabled the Cast SDK and merged two directives).</li>
+<li><strong>Check the plugin frame keeps its own policy:</strong>
+  <code>curl -sI https://your.domain/plugin-frame.html | grep -i -e content-security -e x-frame</code>
+  must show <code>sandbox allow-scripts</code> and <code>SAMEORIGIN</code>.</li>
 </ul>
-</div>
-<p class="evey-meta">
-Evey is in beta and has no numbered release yet: this documentation follows the
-development branch. ·
-<a href="https://github.com/Evey-project/evey">Source on GitHub</a> ·
-<a href="https://demo.eveyproject.org">Public demo</a> (sign in with demo / demo) ·
-AGPL-3.0-or-later ·
-Security reports: security@eveyproject.org
-</p>
-
-<!-- sources
-one container, no .env: docs/installation.md ; docs/adr/0028-install-is-one-compose-file.md
-embedded db/search, loopback, generated secrets: docker/entrypoint.sh - ensure_secret, pg_start 127.0.0.1, meilisearch --http-addr 127.0.0.1:7700
-media owner adopted, never root: docker/entrypoint.sh - PUID/PGID auto-detection, setpriv
-do less work: docs/playback/mkvgo.md ; internal/app/transcoding/decision.go ; internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager (no ffmpeg, no session state, no on-disk segments) ; docs/playback-serving.md (copy rung: mkvgo, else ffmpeg -c copy)
-less to size: internal/adapters/driven/ffmpeg/hw_readiness.go ; internal/app/transcoding/calibration_service.go ; docs/playback/how-playback-is-decided.md
-accelerators proved, quiet moment: internal/app/transcoding/calibration_service.go - idleProbes ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
-1440p software, 2160p hardware: internal/adapters/driven/ffmpeg/benchmark.go - swBenchLadder, hwBenchLadder
-lower rung, gpu to software, then refused: internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter, ErrVideoCapacityExhausted
-contained plugins: docs/SECURITY.md (Administrator preview, System calls: denylist) ; internal/app/plugin/install.go ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; internal/adapters/driven/pluginrunner/runner_resmon.go
-media health: internal/app/maintenance/seek_index.go - Verdict ; internal/app/maintenance/seek_index_reindex.go - DeepVerify ; internal/app/maintenance/repair_journal.go - Reversible
-stream info, one plan: docs/adr/0030-one-plan-one-decision.md ; internal/app/transcoding/route_tonemap_report_test.go
-one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx ; frontend/apps/tv/src/features/plugins/PluginSlot.tsx
--->
+<p>Every bundled example reads the domain from <strong>one place</strong>: <code>EVEY_DOMAIN</code> in
+your <code>.env</code>. Set it once; Caddy, Nginx and Traefik all pick it up.</p>
+<div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>EVEY_DOMAIN=media.example.com
+</span></code></pre></div>
+<h2 id="caddy-bundled">Caddy (bundled)<a class="headerlink" href="#caddy-bundled" title="Permanent link">¶</a></h2>
+<p>The repo ships <a href="https://github.com/Evey-project/evey/blob/master/docker/Caddyfile"><code>docker/Caddyfile</code></a> (built into an image by
+<a href="https://github.com/Evey-project/evey/blob/master/docker/Dockerfile.caddy"><code>docker/Dockerfile.caddy</code></a>): it gets automatic
+HTTPS for <code>EVEY_DOMAIN</code> and proxies everything to <code>evey:9091</code>, with the
+streaming exceptions already set. It also curates the canonical security
+headers/CSP from the section above (and strips the app's own CSP so exactly
+one reaches the browser). Add a <code>caddy</code> service to your compose (see the
+<code>caddy</code> service in the repo <a href="https://github.com/Evey-project/evey/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a>).</p>
+<h3 id="behind-a-proxy-you-already-run-tls-terminated-upstream">Behind a proxy you already run (TLS terminated upstream)<a class="headerlink" href="#behind-a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h3>
+<p>On a NAS that already has a reverse proxy (the vendor's, Nginx Proxy Manager,
+a Traefik on a shared Docker network), <strong>no Caddy is needed</strong>: Evey emits its
+own security headers and a complete CSP, and the streaming rules can only be
+enforced by the proxy that faces the client anyway - a second proxy behind it
+adds nothing. Put the evey service on that proxy's network and target
+<code>evey-server:9091</code> (the container name; the service name <code>evey</code> resolves too):</p>
+<div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="c1"># no ports: the proxy is the only way in</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="nt">EVEY_SERVER_BASE_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://media.example.com</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">      </span><span class="nt">EVEY_TRUSTED_PROXIES</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.0.0/12</span><span class="w">     </span><span class="c1"># narrow to the proxy's subnet once known</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="c1"># ...</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">proxy-net</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>Then, in that proxy, for the route to <code>evey-server:9091</code>: forward
+<code>X-Forwarded-For</code> and <code>X-Forwarded-Proto</code>, enable WebSocket support, and apply
+the streaming rules above (no buffering, no read/write timeout on the
+streaming paths) - the Nginx, Traefik and Nginx Proxy Manager sections below
+show the exact lines.</p>
+<h2 id="nginx">Nginx<a class="headerlink" href="#nginx" title="Permanent link">¶</a></h2>
+<p>Use <a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/evey.conf.template"><code>examples/nginx/evey.conf.template</code></a>
+(a ready compose is at
+<a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/docker-compose.nginx.yml"><code>examples/nginx/docker-compose.nginx.yml</code></a>).
+The nginx image renders it at startup with <code>EVEY_DOMAIN</code> substituted -
+certificates must exist under the matching file names. It proxies to
+<code>evey:9091</code> with streaming buffering disabled - no frontend build step.</p>
+<h2 id="traefik">Traefik<a class="headerlink" href="#traefik" title="Permanent link">¶</a></h2>
+<p>See <a href="https://github.com/Evey-project/evey/blob/master/examples/traefik/docker-compose.traefik.yml"><code>examples/traefik/docker-compose.traefik.yml</code></a>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>-f<span class="w"> </span>examples/traefik/docker-compose.traefik.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+<h2 id="nginx-proxy-manager">Nginx Proxy Manager<a class="headerlink" href="#nginx-proxy-manager" title="Permanent link">¶</a></h2>
+<p>The evey container must be on the network NPM uses (see "Behind a proxy you
+already run" above). Then, <strong>Edit Proxy Host</strong>:</p>
+<ol>
+<li><strong>Details</strong>: Scheme <code>http</code>, Forward Hostname <code>evey-server</code>, Forward Port
+   <code>9091</code>. <strong>Websockets Support: on</strong> (SyncPlay). <strong>Cache Assets: off</strong> - it
+   would cache media segments and playlists with a fixed expiry. Block Common
+   Exploits can stay on (turn it off if a search or a plugin upload ever
+   answers 403 for no reason).</li>
+<li><strong>SSL</strong>: your certificate, Force SSL, HTTP/2. HSTS is optional here - the
+   app already sends it.
+That is all: NPM forwards <code>X-Forwarded-For</code> / <code>X-Forwarded-Proto</code> and the
+Host header on its own, and its default timeouts never fire on Evey's
+streams (see the streaming section above).</li>
+</ol>
+<p><strong>Optional</strong> - keep NPM from buffering direct-play files through its own disk:
+<strong>Advanced</strong> → <em>Custom Nginx Configuration</em> (the <code>Custom Locations</code> tab cannot
+express the regex):</p>
+<div class="language-nginx highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Plugin uploads (up to 100 MB) and backup restores (up to 2 GB).</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">client_max_body_size</span><span class="w"> </span><span class="s">2G</span><span class="p">;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Streaming - no buffering, no timeout.</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/api/v1/media/.+/(hls|stream)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://evey-server:9091</span><span class="p">;</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kn">proxy_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="kn">proxy_request_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Connection</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="p">}</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1"># Library scans stream their progress for as long as the scan runs.</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/api/v1/libraries/.+/scan</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://evey-server:9091</span><span class="p">;</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="kn">proxy_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Connection</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Every other path (the web UI, the rest of the API, the SyncPlay WebSocket)
+goes through NPM's own proxy block, which the Details tab configures. Skip
+the snippet and nothing breaks - it only changes where big files are buffered.</p>
+<h2 id="real-client-ips-and-the-remote-access-gate">Real client IPs and the remote-access gate<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
+<p>Once your proxy forwards the real client address, Evey can tell a viewer at home
+from one on the internet. That is what the WAN bitrate cap and the remote-access
+gate act on, so the two settings only behave correctly together:</p>
+<ul>
+<li>The trusted proxies (panel or <code>EVEY_TRUSTED_PROXIES</code>) must cover the proxy (<code>172.16.0.0/12</code> when it is a
+  container on the Docker network; nothing to add when it runs on the host,
+  loopback is always trusted). Whatever you set is ADDED to the loopback
+  baseline - it never replaces it, so a Docker value cannot silently stop the
+  gate from seeing real client addresses.</li>
+<li>Chained proxies each need to preserve <code>X-Forwarded-For</code>. In Caddy that is
+  <code>servers { trusted_proxies static private_ranges }</code>; nginx uses
+  <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code>.</li>
+</ul>
+<p><strong>Turning this on changes who counts as remote.</strong> Before it, every request looked
+like it came from the proxy's own private address, so everyone was classified
+LAN. After it, real remote clients are correctly identified - and if remote
+access is disabled they are refused on every route
+(<code>403 {"code":"remote_access_disabled"}</code>), although no application setting
+changed.</p>
+<p>Evey guards against it: remote access defaults to enabled whenever a public
+URL is configured and no explicit choice was made, the state is logged at every
+boot, refusals are logged with the client IP, <code>evey admin doctor</code> fails loudly
+on "published but refusing", and the admin panel shows a warning. If you change proxy trust settings, check
+<code>evey admin doctor</code> afterwards.</p>
 
 
 
@@ -3213,8 +3388,6 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
 
 
 
-
-  
 
 
 
@@ -3240,19 +3413,33 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../administration/remote-access/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Remote access and HTTPS">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Remote access and HTTPS
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Install">
+          <a href="../administration/hardware-acceleration/" class="md-footer__link md-footer__link--next" aria-label="Next: Hardware acceleration">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Install
+                Hardware acceleration
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3309,11 +3496,11 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <script>

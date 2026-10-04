@@ -7,33 +7,35 @@
       
       
       
-        <link rel="canonical" href="https://eveyproject.org/">
+        <link rel="canonical" href="https://eveyproject.org/playback-serving/">
       
       
+        <link rel="prev" href="../ARCHITECTURE/">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../SECURITY/">
       
       
         
-          <link rel="alternate" href="/" hreflang="en">
+          <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="/fr/" hreflang="fr">
+          <link rel="alternate" href="../fr/playback-serving/" hreflang="fr">
         
       
       
-      <link rel="icon" href="assets/brand/favicon.svg">
+      <link rel="icon" href="../assets/brand/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Evey</title>
+        <title>Playback pipeline - Evey</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,20 +49,20 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/brand.css">
+      <link rel="stylesheet" href="../stylesheets/brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -89,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey" class="md-skip">
+        <a href="#serving-a-video---the-hls-playback-path" class="md-skip">
           Skip to content
         </a>
       
@@ -103,9 +105,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Playback pipeline
             
           </span>
         </div>
@@ -169,13 +171,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="/" hreflang="en" class="md-select__link">
+            <a href="./" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="/fr/" hreflang="fr" class="md-select__link">
+            <a href="../fr/playback-serving/" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -264,11 +266,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link">
           
   
   
@@ -311,7 +311,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="administration/libraries/" class="md-tabs__link">
+        <a href="../administration/libraries/" class="md-tabs__link">
           
   
   
@@ -333,7 +333,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="playback/how-playback-is-decided/" class="md-tabs__link">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
           
   
   
@@ -355,7 +355,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="operations/troubleshooting/" class="md-tabs__link">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
           
   
   
@@ -377,7 +377,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="../plugins/" class="md-tabs__link">
           
   
   
@@ -395,11 +395,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="design-principles/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-principles/" class="md-tabs__link">
           
   
   
@@ -424,9 +426,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -437,9 +437,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     Evey
@@ -463,37 +463,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -509,81 +482,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your media server, not its infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See what Evey decided, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Apps and extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Find your way
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -657,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -685,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/first-setup/" class="md-nav__link">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
         
   
   
@@ -713,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/apps/" class="md-nav__link">
+      <a href="../getting-started/apps/" class="md-nav__link">
         
   
   
@@ -741,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="privacy/" class="md-nav__link">
+      <a href="../privacy/" class="md-nav__link">
         
   
   
@@ -844,7 +742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/libraries/" class="md-nav__link">
+      <a href="../administration/libraries/" class="md-nav__link">
         
   
   
@@ -872,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/users/" class="md-nav__link">
+      <a href="../administration/users/" class="md-nav__link">
         
   
   
@@ -958,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/remote-access/" class="md-nav__link">
+      <a href="../administration/remote-access/" class="md-nav__link">
         
   
   
@@ -986,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reverse-proxy/" class="md-nav__link">
+      <a href="../reverse-proxy/" class="md-nav__link">
         
   
   
@@ -1022,7 +920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/hardware-acceleration/" class="md-nav__link">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
         
   
   
@@ -1050,7 +948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/" class="md-nav__link">
+      <a href="../oidc/" class="md-nav__link">
         
   
   
@@ -1078,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="notifications/" class="md-nav__link">
+      <a href="../notifications/" class="md-nav__link">
         
   
   
@@ -1106,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups/" class="md-nav__link">
+      <a href="../backups/" class="md-nav__link">
         
   
   
@@ -1211,7 +1109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/how-playback-is-decided/" class="md-nav__link">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
         
   
   
@@ -1239,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/transcoding/" class="md-nav__link">
+      <a href="../playback/transcoding/" class="md-nav__link">
         
   
   
@@ -1267,7 +1165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/mkvgo/" class="md-nav__link">
+      <a href="../playback/mkvgo/" class="md-nav__link">
         
   
   
@@ -1295,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/hdr/" class="md-nav__link">
+      <a href="../playback/hdr/" class="md-nav__link">
         
   
   
@@ -1323,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/audio/" class="md-nav__link">
+      <a href="../playback/audio/" class="md-nav__link">
         
   
   
@@ -1351,7 +1249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/subtitles/" class="md-nav__link">
+      <a href="../playback/subtitles/" class="md-nav__link">
         
   
   
@@ -1379,7 +1277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/casting/" class="md-nav__link">
+      <a href="../playback/casting/" class="md-nav__link">
         
   
   
@@ -1407,7 +1305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/watching-together/" class="md-nav__link">
+      <a href="../playback/watching-together/" class="md-nav__link">
         
   
   
@@ -1516,7 +1414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/troubleshooting/" class="md-nav__link">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
         
   
   
@@ -1544,7 +1442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/monitoring/" class="md-nav__link">
+      <a href="../operations/monitoring/" class="md-nav__link">
         
   
   
@@ -1572,7 +1470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/background-work/" class="md-nav__link">
+      <a href="../operations/background-work/" class="md-nav__link">
         
   
   
@@ -1600,7 +1498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/media-health/" class="md-nav__link">
+      <a href="../runbooks/media-health/" class="md-nav__link">
         
   
   
@@ -1628,7 +1526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/cli/" class="md-nav__link">
+      <a href="../runbooks/cli/" class="md-nav__link">
         
   
   
@@ -1656,7 +1554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/recovery/" class="md-nav__link">
+      <a href="../runbooks/recovery/" class="md-nav__link">
         
   
   
@@ -1684,7 +1582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/migration-runbook/" class="md-nav__link">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
         
   
   
@@ -1712,7 +1610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/incident-runbook/" class="md-nav__link">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
         
   
   
@@ -1800,7 +1698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/advanced-deployments/" class="md-nav__link">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
         
   
   
@@ -1828,7 +1726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="deployment-bare-metal/" class="md-nav__link">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
         
   
   
@@ -1856,7 +1754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/sandbox-deployment/" class="md-nav__link">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
         
   
   
@@ -1968,7 +1866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -1996,7 +1894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/server/" class="md-nav__link">
+      <a href="../environment/server/" class="md-nav__link">
         
   
   
@@ -2024,7 +1922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/database-search/" class="md-nav__link">
+      <a href="../environment/database-search/" class="md-nav__link">
         
   
   
@@ -2052,7 +1950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/accounts/" class="md-nav__link">
+      <a href="../environment/accounts/" class="md-nav__link">
         
   
   
@@ -2080,7 +1978,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/libraries/" class="md-nav__link">
+      <a href="../environment/libraries/" class="md-nav__link">
         
   
   
@@ -2108,7 +2006,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/transcoding/" class="md-nav__link">
+      <a href="../environment/transcoding/" class="md-nav__link">
         
   
   
@@ -2136,7 +2034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/playback-delivery/" class="md-nav__link">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
         
   
   
@@ -2164,7 +2062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/background/" class="md-nav__link">
+      <a href="../environment/background/" class="md-nav__link">
         
   
   
@@ -2192,7 +2090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/plugins/" class="md-nav__link">
+      <a href="../environment/plugins/" class="md-nav__link">
         
   
   
@@ -2220,7 +2118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/notifications/" class="md-nav__link">
+      <a href="../environment/notifications/" class="md-nav__link">
         
   
   
@@ -2248,7 +2146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/logs-monitoring/" class="md-nav__link">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
         
   
   
@@ -2359,7 +2257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="../plugins/" class="md-nav__link">
         
   
   
@@ -2387,7 +2285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/dev-setup/" class="md-nav__link">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
         
   
   
@@ -2415,7 +2313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/api-reference/" class="md-nav__link">
+      <a href="../plugins/api-reference/" class="md-nav__link">
         
   
   
@@ -2443,7 +2341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/security-model/" class="md-nav__link">
+      <a href="../plugins/security-model/" class="md-nav__link">
         
   
   
@@ -2471,7 +2369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="themes/" class="md-nav__link">
+      <a href="../themes/" class="md-nav__link">
         
   
   
@@ -2499,7 +2397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="webhooks-api-keys/" class="md-nav__link">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
         
   
   
@@ -2556,7 +2454,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
+            <a href="../api/" class="md-nav__link ">
               
   
   
@@ -2600,7 +2498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/public/" class="md-nav__link">
+      <a href="../api/public/" class="md-nav__link">
         
   
   
@@ -2628,7 +2526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/admin/" class="md-nav__link">
+      <a href="../api/admin/" class="md-nav__link">
         
   
   
@@ -2656,7 +2554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/plugins/" class="md-nav__link">
+      <a href="../api/plugins/" class="md-nav__link">
         
   
   
@@ -2696,8 +2594,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -2717,19 +2617,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
             
   
   
@@ -2747,7 +2650,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2765,7 +2668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="design-principles/" class="md-nav__link">
+      <a href="../design-principles/" class="md-nav__link">
         
   
   
@@ -2793,7 +2696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ARCHITECTURE/" class="md-nav__link">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -2818,10 +2721,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="playback-serving/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playback pipeline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2837,6 +2767,103 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The mental model: 3 questions, 2 engines, 1 key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading order - follow one request through the code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-engines-by-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two engines, by cost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audio is decided separately from video
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packaging-cmaf-hls-dash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packaging: CMAF, HLS, DASH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-patterns-in-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design patterns in play
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision-brain-the-app-layer-planresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The decision brain: the app-layer PlanResolver
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2849,7 +2876,7 @@
   
   
     <li class="md-nav__item">
-      <a href="SECURITY/" class="md-nav__link">
+      <a href="../SECURITY/" class="md-nav__link">
         
   
   
@@ -2877,7 +2904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="i18n-accessibility/" class="md-nav__link">
+      <a href="../i18n-accessibility/" class="md-nav__link">
         
   
   
@@ -2905,7 +2932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -2941,9 +2968,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden="">
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2962,10 +2987,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run your media server, not its infrastructure
+        The mental model: 3 questions, 2 engines, 1 key
       
     </span>
   </a>
@@ -2973,10 +2998,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        Reading order - follow one request through the code
       
     </span>
   </a>
@@ -2984,10 +3009,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#the-two-engines-by-cost" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See what Evey decided, and why
+        The two engines, by cost
       
     </span>
   </a>
@@ -2995,10 +3020,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Apps and extensions
+        Audio is decided separately from video
       
     </span>
   </a>
@@ -3006,10 +3031,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#packaging-cmaf-hls-dash" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        Packaging: CMAF, HLS, DASH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-patterns-in-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design patterns in play
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision-brain-the-app-layer-planresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The decision brain: the app-layer PlanResolver
       
     </span>
   </a>
@@ -3030,177 +3077,202 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
-
-  <a href="https://github.com/Evey-project/evey/edit/master/wiki/content/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+  <a href="https://github.com/Evey-project/evey/edit/master/docs/playback-serving.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
   </a>
 
 
-<h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted server for films, series, music and photos. It aims to
-behave like an appliance: you give it your media and the people who watch,
-and it works out the rest from the machine it runs on.</p>
-<p><a class="md-button md-button--primary" href="installation/">Install Evey</a>
-<a class="md-button" href="https://demo.eveyproject.org">Try the demo</a></p>
-<h2 id="run-your-media-server-not-its-infrastructure">Run your media server, not its infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>A normal installation is one container and one compose file, with no <code>.env</code>
-to write. What a media server needs around it comes inside:</p>
+<h1 id="serving-a-video---the-hls-playback-path">Serving a video - the HLS playback path<a class="headerlink" href="#serving-a-video---the-hls-playback-path" title="Permanent link">¶</a></h1>
+<p>This is the <strong>read path</strong>: what happens when a player asks for a video, from the
+first <code>master.m3u8</code> request down to the bytes of a segment. It is the counterpart
+to the scan pipeline in <a href="../ARCHITECTURE/">ARCHITECTURE.md</a> (the write path that
+primes the read model), and the deep-dive behind
+<a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">CODEBASE_MAP.md</a> "Golden path 4".</p>
+<p>The playback path is <strong>VITAL</strong> and spread across ~8 files in the <code>http</code> adapter.
+There is no single function that runs the whole flow - this document is the map.</p>
+<h2 id="the-mental-model-3-questions-2-engines-1-key">The mental model: 3 questions, 2 engines, 1 key<a class="headerlink" href="#the-mental-model-3-questions-2-engines-1-key" title="Permanent link">¶</a></h2>
+<p>Serving a video reduces to answering three questions, then packaging the answer,
+with everything addressed by one hash:</p>
 <ul>
-<li><strong>Database and search engine included.</strong> Postgres and Meilisearch run in the
-  same container, listen only inside it, and get passwords generated on the
-  first start, kept owner-only in the data folder.</li>
-<li><strong>File ownership worked out.</strong> When it can, the container adopts the owner of
-  your media folder, so that repairs can write. The server itself never runs as
-  root.</li>
-<li><strong>Less to size by hand.</strong> The graphics card is detected, the transcoding
-  capacity is measured, and the route for each playback follows what the
-  device says it can play.</li>
+<li><strong>Q1 - Can I read the file cheaply?</strong> Probe dispatch, by <strong>file extension</strong>:
+  <code>.mkv/.webm</code> and <code>.mp4/.mov</code> go to <strong><a href="../playback/mkvgo/">mkvgo</a></strong> (head-only, no process); everything
+  else, and any fast-path failure, goes to <strong>ffprobe</strong> (the authority).</li>
+<li><strong>Q2 - Can the client play it as-is?</strong> The playback <strong>decision</strong>, taken <em>per
+  track</em>: video <code>copy</code> vs <code>transcode</code>, audio <code>copy</code> vs <code>transcode</code> vs the wasm
+  AC-3 path. Video and audio are decided <strong>independently</strong> - the common case is
+  "copy the video, re-encode the audio to AAC".</li>
+<li><strong>Q3 - How much can this host encode?</strong> The calibrated <strong>capability</strong> (from the
+  measurement taken at the first quiet moment) plus <strong>admission</strong> (which ladder
+  rung fits, is there a slot).</li>
 </ul>
-<p>Bringing your own database or search cluster stays possible:
-<a href="operations/advanced-deployments/">Advanced deployments</a>.</p>
-<div class="evey-showcase">
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The home page" data-gallery="showcase" loading="lazy" src="images/showcase-home.webp"></a>
-<br>
-<figcaption>The home page: resume playback, then each library.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="A film page" data-gallery="showcase" loading="lazy" src="images/showcase-media.webp"></a>
-<br>
-<figcaption>A film page, with its artwork, ratings and credits.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The web player" data-gallery="showcase" loading="lazy" src="images/showcase-player.webp"></a>
-<br>
-<figcaption>The web player.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The admin dashboard while two films play" data-gallery="showcase" loading="lazy" src="images/showcase-dashboard.webp"></a>
-<br>
-<figcaption>The admin dashboard while two people watch: the picture each one is seeing, and how it is delivered.</figcaption>
-</figure>
-</div>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>Do less work, whenever possible</strong></p>
+<p>Two engines run through all of it:</p>
 <ul>
-<li><strong>Direct Play</strong>: the file as it is; the server only reads it.</li>
-<li><strong><a href="playback/mkvgo/">MKVGo</a></strong>: when only the container has to change, Evey's in-process media
-  layer repackages the tracks: no re-encoding, no media process started per
-  stream, no segments written to disk. FFmpeg copies them where it cannot.</li>
-<li><strong>FFmpeg</strong>: for real transformations, and as a fallback when MKVGo cannot
-  handle the structural work.</li>
+<li><strong>mkvgo</strong> - reads and repackages (remux / on-demand) without spawning a process. <strong>Free.</strong></li>
+<li><strong>ffmpeg / ffprobe</strong> - decodes, re-encodes, probes by spawning a process. <strong>Costly.</strong></li>
 </ul>
-<p><a href="playback/mkvgo/">MKVGo in Evey</a></p>
-</div>
-<div>
-<p><strong>Know what the machine can actually do</strong></p>
-<p>An accelerator counts only once a real encode on it succeeds. At its first
-quiet moment the server times real encodes from a 4K clip, up to 1440p on the
-processor and up to 2160p on each accelerator, then sends every stream to the
-cheapest route that proved it can serve it. When room runs short, a new
-stream gets a lower quality, or moves from a full graphics card to the
-processor; it is refused, with a clear message, only when no capacity is left.
-<a href="playback/transcoding/">Transcoding and server capacity</a></p>
-</div>
-<div>
-<p><strong>Third-party code is contained, not trusted</strong></p>
-<p>A plugin is analysed before install, gets only the permissions declared and
-accepted by the administrator, and runs as its own process, with no direct
-network access and capped memory, processes and disk. In Docker on a recent
-kernel it sees only its own directory, and a seccomp denylist blocks system
-calls known to be dangerous; an older host gets a weaker sandbox, and the
-admin panel says which one is active.
-<a href="SECURITY/#sandbox-modes">Security model and plugin sandbox</a></p>
-</div>
-<div>
-<p><strong>Find broken media before playback does</strong></p>
-<p><strong>Media Health</strong> reads your MKV and WebM files and explains what it finds.
-What it can repair (a missing seek index, an MP4 named <code>.mkv</code>, tracks stored
-in blocks) is repaired on request, checked before it replaces the file, with
-the original kept by default and every change journaled. The rest is reported,
-never rewritten behind your back.
-<a href="runbooks/media-health/">Media health</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">See what Evey decided, and why<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>The dashboard above lists every playback: who, on which device, in <strong>Direct
-Play</strong>, <strong>Remux</strong> or <strong>Transcode</strong>, whether video and audio are copied or
-encoded and by what, the bitrate and the progress. In the player, <strong>Stream
-info</strong> reflects the plan actually served, and says why the file was not
-played as it is.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Stream info in the web player" loading="lazy" src="images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux: the packaging changes, without re-encoding the video or the audio. "Copied" describes the tracks, not the playback method.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a></p>
-<h2 id="apps-and-extensions">Apps and extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>A web app served by the server itself, apps for Android and Android TV
-(signed in from a phone or a computer with Quick Connect), and casting to a Chromecast.
-Plugins and themes extend the interface, and the same plugin runs on the web,
-on Android and on the TV.
-<a href="getting-started/apps/">Apps and devices</a> ·
-<a href="plugins/">Plugins</a></p>
-<h2 id="find-your-way">Find your way<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
-<div class="grid cards">
+<p>One key: everything (cache directory, ffmpeg session, segment URLs) is addressed by
+the <strong>decision fingerprint</strong> - a hash of the decision. Same bytes ⇒ same hash ⇒ one
+shared encode. The whole system's correctness rests on that hash being <strong>stable</strong>
+between the manifest a player holds and every segment it later fetches.</p>
+<h2 id="reading-order---follow-one-request-through-the-code">Reading order - follow one request through the code<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
+<p>Open these in sequence to trace a single playback request end to end:</p>
+<ol>
+<li><strong>Entry</strong> · <code>internal/adapters/driving/http/transcode_handler_vod.go</code> -
+   <code>serveHTTP</code> authenticates, then dispatches to master / variant / segment / audio.</li>
+<li><strong>The plan</strong> · <code>http/transcode_vod_plan.go</code> marshals the request into a
+   <code>PlaybackRequest</code>; <code>app/transcoding/playback_plan_resolver.go</code> -
+   <code>PlanResolver.Resolve</code> returns one immutable <code>PlaybackPlan</code>: the decision
+   (Q2), the ladder class, the shaped ladder, the hardware route, the packager
+   and the fingerprint. Every manifest and segment of the session is served from
+   it (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>). <code>makeDecision</code> and
+   <code>buildFingerprint</code> in <code>http/transcode_vod_fingerprint.go</code> are thin wrappers
+   for the call sites without a plan (prewarm, on-demand master).</li>
+<li><strong>Q2 · Decision</strong> · <code>internal/app/transcoding/decision.go</code> -
+   <code>MakePlaybackDecisionWithPrefs</code> (pure): the per-track copy/transcode brain.
+   The resolver layers on the request-time pins (<code>vd=</code> / <code>ad=</code>), the
+   audio-resync override, etc.</li>
+<li><strong>Q3 · Capability</strong> · <code>internal/app/transcoding/calibration_service.go</code> -
+   <code>Current()</code> returns <code>domain/transcoding.Derive(report, policy)</code>
+   (<code>derive.go</code>): the host's ceilings, derived from the last calibration.</li>
+<li><strong>Ladder and admission</strong> · the resolver shapes the ladder (complexity class
+   → producer profiles → source/capability caps → CMCD/AV1 caps → admission
+   route and ceiling), then <strong>freezes it</strong> on the admission pin
+   (<code>admission_shaper.go</code>, <code>FreezeLadder</code>), read verbatim on every later call -
+   the cache-hash invariant made structural. <code>video_session_limiter.go</code> holds
+   the capacity slot; the route spills from hardware to software when full.</li>
+<li><strong>Fingerprint</strong> · a <code>DecisionFingerprint</code> (type + <code>Hash()</code> in
+   <code>app/transcoding/segment_cache.go</code>), assembled by the resolver. The hash is
+   the cache key.</li>
+<li><strong>Producing the bytes</strong> · copy → <strong>mkvgo</strong> <code>app/transcoding/ondemand.go</code> (port) /
+   <code>adapters/driven/mkvgo/ondemand.go</code>; transcode → <strong>ffmpeg</strong>
+   <code>adapters/driven/ffmpeg/hls_transcoder.go</code> (<code>BuildFFmpegArgs</code> is pure; segments
+   land in <code>/cache/transcode/segments/&lt;hash&gt;/</code>).</li>
+<li><strong>Packaging</strong> · <code>app/transcoding/manifest_generator.go</code> - <code>master.m3u8</code> /
+   <code>stream_N.m3u8</code>; <code>manifest_generator_dash.go</code> - <code>manifest.mpd</code>.</li>
+</ol>
+<h2 id="the-two-engines-by-cost">The two engines, by cost<a class="headerlink" href="#the-two-engines-by-cost" title="Permanent link">¶</a></h2>
+<p>The <strong>probe dispatcher</strong> (<code>adapters/driven/prober/dispatcher.go</code>) is a
+chain-of-responsibility keyed on extension: it tries mkvgo, and falls back to
+ffprobe on any doubt (parse error, panic, unmappable result, a dropped MP4
+media track, DoVi profile 5, unreadable colour). Both fast-paths are always on
+(nil gates in <code>wire.go</code>); ffprobe is the safety net, never bypassed. A second,
+identical dispatcher (<code>keyframe_dispatcher.go</code>) handles the seek index.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>mkvgo (free)</th>
+<th>ffprobe / ffmpeg (costly)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Metadata probe (codec, dims, HDR, bitrate, duration)</td>
+<td><code>.mkv/.webm/.mp4/.mov</code> head-only</td>
+<td>everything else, or fallback</td>
+</tr>
+<tr>
+<td>Frame-rate mode (cfr/vfr)</td>
+<td><code>AnalyzeFrameRateMode</code></td>
+<td>- (migrated)</td>
+</tr>
+<tr>
+<td>Remux MKV→MP4 (no re-encode)</td>
+<td><code>RemuxToMP4</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>On-demand HLS/DASH (copy rung)</td>
+<td><code>OnDemandPackager</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>Video re-encode / HDR tonemap</td>
+<td>-</td>
+<td><code>hls_transcoder.go</code></td>
+</tr>
+<tr>
+<td>Interlace detect (idet), seek-landing, chromaprint, DoVi P5</td>
+<td>- (needs decode / side-data)</td>
+<td>ffmpeg / ffprobe</td>
+</tr>
+</tbody>
+</table>
+<p>Three ffprobe forks still run on MKV/MP4 sources whose data mkvgo already exposes
+(duration in <code>trickplay.go</code>, bitrate+dims in <code>complexity_classifier.go</code>, playback
+audio-delay in <code>audio_delay.go</code>) - candidates to migrate; small CPU win, mostly wiring.</p>
+<h2 id="audio-is-decided-separately-from-video">Audio is decided separately from video<a class="headerlink" href="#audio-is-decided-separately-from-video" title="Permanent link">¶</a></h2>
+<p><code>makeDecision</code> produces <code>VideoDecision</code> and <code>AudioDecision</code> independently. The
+"copy rung" (<code>isCopyRequest</code>) is gated on the <strong>video</strong> only; even a copied video
+usually carries a re-encoded AAC track alongside. The audio decision has three
+outcomes: copy, transcode to AAC (ffmpeg, light), or - for <strong>AC-3 / E-AC-3</strong> on a
+browser that can't decode it natively - the <strong>wasm path</strong>: the master is made
+video-only with an <code>#EVEY-AUDIO-URI</code> tag, the AC-3 is <strong>copied</strong> (mkvgo <code>od_audio</code>
+if the plan builds, else ffmpeg <code>-c:a copy</code>), and <code>ac3go.wasm</code> decodes it to PCM in
+the browser (<code>WasmAudioEngine.ts</code>), clock-locked to the video. Safari is excluded
+by capability, not by name: <code>canWasmDecodeAC3()</code> returns true only when the browser
+reports it <em>cannot</em> play AC-3 natively - Safari reports it can.</p>
+<h2 id="packaging-cmaf-hls-dash">Packaging: CMAF, HLS, DASH<a class="headerlink" href="#packaging-cmaf-hls-dash" title="Permanent link">¶</a></h2>
+<p>The container is always <strong>CMAF</strong> (fMP4): a per-variant <code>init.mp4</code> plus <code>.m4s</code>
+segments. (The MPEG-TS branch in <code>hls_transcoder.go</code> is dead - <code>needsFMP4Segments</code>
+always returns true.) Over the <em>same</em> segments:</p>
 <ul>
-<li>
-<p><strong><a href="installation/">Install Evey</a></strong></p>
-<p>One container and one compose file. Requirements and first launch.</p>
-</li>
-<li>
-<p><strong><a href="getting-started/first-setup/">First setup</a></strong></p>
-<p>The setup wizard, your libraries, the people who will use the server.</p>
-</li>
-<li>
-<p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Libraries, users and profiles, remote access, hardware acceleration,
-backups.</p>
-</li>
-<li>
-<p><strong><a href="playback/how-playback-is-decided/">How playback is decided</a></strong></p>
-<p>Direct Play, Remux and Transcode, and how to read Stream info.</p>
-</li>
-<li>
-<p><strong><a href="operations/troubleshooting/">Troubleshooting</a></strong></p>
-<p>Where to look when something does not work: symptoms, logs, recovery.</p>
-</li>
-<li>
-<p><strong><a href="plugins/">Plugins &amp; API</a></strong></p>
-<p>Installing and writing plugins and themes, the server API.</p>
-</li>
+<li><strong>HLS</strong> (<code>master.m3u8</code> → <code>stream_N.m3u8</code> → <code>EXT-X-MAP</code> init + <code>.m4s</code>) - both engines.</li>
+<li><strong>DASH</strong> (<code>manifest.mpd</code>) - on the mkvgo copy path the packager's own manifest
+  (<code>OnDemandPlan.HasDASH</code>, byte-identical, zero storage, disabled under AES-128);
+  on the ffmpeg path a manifest <strong>declared from the plan</strong> over the same fragments
+  the HLS playlists address (<code>ManifestGenerator.MPD</code>), written before any fragment
+  exists. What makes it honest is the <strong>segment grid</strong> (<code>domain/transcoding.SegmentGrid</code>):
+  every transcoded rung is cut on the same whole number of frames (72 at 23.976 fps,
+  75 at 25, 90 at 29.97), so a segment is exact in the video track's ticks and
+  identical across the switch set; the copy fallback declares its keyframe plan. A
+  source whose frame rate is unknown or variable stays on the legacy 3 s clock, keeps
+  HLS, and answers 404 on <code>manifest.mpd</code>. No client is switched to DASH: HLS stays the
+  default everywhere. mkvgo's <code>DASHFromCMAF</code> over the produced fragments is the
+  parity oracle (<code>internal/pkg/cmafparity</code>, <code>TestDASHGridIntegration</code> at 23.976/25/29.97
+  fps: cold, seek, two-rung switch set, separate audio within one AAC frame).</li>
 </ul>
-</div>
-<p class="evey-meta">
-Evey is in beta and has no numbered release yet: this documentation follows the
-development branch. ·
-<a href="https://github.com/Evey-project/evey">Source on GitHub</a> ·
-<a href="https://demo.eveyproject.org">Public demo</a> (sign in with demo / demo) ·
-AGPL-3.0-or-later ·
-Security reports: security@eveyproject.org
-</p>
-
-<!-- sources
-one container, no .env: docs/installation.md ; docs/adr/0028-install-is-one-compose-file.md
-embedded db/search, loopback, generated secrets: docker/entrypoint.sh - ensure_secret, pg_start 127.0.0.1, meilisearch --http-addr 127.0.0.1:7700
-media owner adopted, never root: docker/entrypoint.sh - PUID/PGID auto-detection, setpriv
-do less work: docs/playback/mkvgo.md ; internal/app/transcoding/decision.go ; internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager (no ffmpeg, no session state, no on-disk segments) ; docs/playback-serving.md (copy rung: mkvgo, else ffmpeg -c copy)
-less to size: internal/adapters/driven/ffmpeg/hw_readiness.go ; internal/app/transcoding/calibration_service.go ; docs/playback/how-playback-is-decided.md
-accelerators proved, quiet moment: internal/app/transcoding/calibration_service.go - idleProbes ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
-1440p software, 2160p hardware: internal/adapters/driven/ffmpeg/benchmark.go - swBenchLadder, hwBenchLadder
-lower rung, gpu to software, then refused: internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter, ErrVideoCapacityExhausted
-contained plugins: docs/SECURITY.md (Administrator preview, System calls: denylist) ; internal/app/plugin/install.go ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; internal/adapters/driven/pluginrunner/runner_resmon.go
-media health: internal/app/maintenance/seek_index.go - Verdict ; internal/app/maintenance/seek_index_reindex.go - DeepVerify ; internal/app/maintenance/repair_journal.go - Reversible
-stream info, one plan: docs/adr/0030-one-plan-one-decision.md ; internal/app/transcoding/route_tonemap_report_test.go
-one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx ; frontend/apps/tv/src/features/plugins/PluginSlot.tsx
--->
+<p>Per-session URLs are re-baked (<code>transcode_vod_manifest_rebake.go</code>) to carry the
+stream token, for HLS and DASH alike, including cookie-less Chromecast.</p>
+<h2 id="design-patterns-in-play">Design patterns in play<a class="headerlink" href="#design-patterns-in-play" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Ports &amp; adapters (hexagonal)</strong> - the app layer talks to interfaces
+  (<code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code>); ffmpeg
+  and mkvgo implement them. A new engine is a new adapter.</li>
+<li><strong>Strategy</strong> - <code>StreamProducer</code> (software / hardware / copy), picked by a
+  <code>ProducerSelector</code>.</li>
+<li><strong>Chain of responsibility with fallback</strong> - the probe/keyframe dispatchers
+  (mkvgo → ffprobe authority).</li>
+<li><strong>Content-addressed cache</strong> - the <code>DecisionFingerprint</code> hash keys the cache and
+  the ffmpeg session.</li>
+<li><strong>Pure core / imperative shell</strong> - <code>Derive</code>, <code>MakePlaybackDecision</code>, the cost
+  model are pure and unit-tested without ffmpeg or a DB.</li>
+<li><strong>Immutable value object</strong> - <code>StreamPlan</code>: the admission decision, emitted once,
+  never mutated, so the URLs↔bytes invariant holds by construction.</li>
+<li><strong>Graceful degradation</strong> - a safe fallback at every step: 720p default capability,
+  hw→software spill, copy→transcode, mkvgo→ffprobe.</li>
+</ul>
+<h2 id="the-decision-brain-the-app-layer-planresolver">The decision brain: the app-layer PlanResolver<a class="headerlink" href="#the-decision-brain-the-app-layer-planresolver" title="Permanent link">¶</a></h2>
+<p>The request-handling brain - decision pins, ladder shaping, hardware routing,
+fingerprint assembly, copy-rung routing, producer pick - lives in the app
+layer: <code>PlanResolver</code> (<code>app/transcoding/playback_plan_resolver.go</code>), the
+concrete <code>PlaybackPlanResolver</code>
+(<a href="https://github.com/Evey-project/evey/blob/master/internal/app/transcoding/playback_plan.go"><code>playback_plan.go</code></a>). Each
+request is resolved <strong>once</strong>: the http adapter marshals the <code>*http.Request</code>
+into a transport-free <code>PlaybackRequest</code> (<code>http/transcode_vod_plan.go</code>) and
+serves off the returned immutable <code>PlaybackPlan</code>. Every consumer - manifest
+input, shed probe, stale-URL seal, producer pick, segment key - reads that
+single resolution, so <em>within a request</em> the cache-hash invariant holds by
+construction (and the segment hot path went from ~5 profile prefs fetches
+to 1). The source-fact helpers (codec, HDR, SAR, ten-bit…) live alongside in
+<code>app/transcoding/source_facts.go</code>; the adapter keeps thin aliases. Across
+requests the invariant still rests on URL baking: <strong>every input to the
+decision must be baked into the child URLs</strong>, or a mid-play poll can flip the
+plan under the player (<code>querySuffix</code> in <code>manifest_generator.go</code>).</p>
 
 
 
@@ -3213,8 +3285,6 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
 
 
 
-
-  
 
 
 
@@ -3240,19 +3310,33 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../ARCHITECTURE/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Architecture">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Architecture
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Install">
+          <a href="../SECURITY/" class="md-footer__link md-footer__link--next" aria-label="Next: Security model and plugin sandbox">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Install
+                Security model and plugin sandbox
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3309,11 +3393,11 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <script>

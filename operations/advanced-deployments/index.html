@@ -7,33 +7,35 @@
       
       
       
-        <link rel="canonical" href="https://eveyproject.org/">
+        <link rel="canonical" href="https://eveyproject.org/operations/advanced-deployments/">
       
       
+        <link rel="prev" href="../../runbooks/incident-runbook/">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../../deployment-bare-metal/">
       
       
         
-          <link rel="alternate" href="/" hreflang="en">
+          <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="/fr/" hreflang="fr">
+          <link rel="alternate" href="../../fr/operations/advanced-deployments/" hreflang="fr">
         
       
       
-      <link rel="icon" href="assets/brand/favicon.svg">
+      <link rel="icon" href="../../assets/brand/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Evey</title>
+        <title>Advanced deployments - Evey</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,20 +49,20 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/brand.css">
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -89,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey" class="md-skip">
+        <a href="#advanced-deployments" class="md-skip">
           Skip to content
         </a>
       
@@ -103,9 +105,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href="../.." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Advanced deployments
             
           </span>
         </div>
@@ -169,13 +171,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="/" hreflang="en" class="md-select__link">
+            <a href="./" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="/fr/" hreflang="fr" class="md-select__link">
+            <a href="../../fr/operations/advanced-deployments/" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -264,11 +266,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../../installation/" class="md-tabs__link">
           
   
   
@@ -311,7 +311,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="administration/libraries/" class="md-tabs__link">
+        <a href="../../administration/libraries/" class="md-tabs__link">
           
   
   
@@ -333,7 +333,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="playback/how-playback-is-decided/" class="md-tabs__link">
+        <a href="../../playback/how-playback-is-decided/" class="md-tabs__link">
           
   
   
@@ -351,11 +351,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="operations/troubleshooting/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../troubleshooting/" class="md-tabs__link">
           
   
   
@@ -377,7 +379,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="../../plugins/" class="md-tabs__link">
           
   
   
@@ -399,7 +401,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="design-principles/" class="md-tabs__link">
+        <a href="../../design-principles/" class="md-tabs__link">
           
   
   
@@ -424,9 +426,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -437,9 +437,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href="../.." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     Evey
@@ -463,37 +463,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -509,81 +482,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your media server, not its infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See what Evey decided, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Apps and extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Find your way
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -657,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -685,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/first-setup/" class="md-nav__link">
+      <a href="../../getting-started/first-setup/" class="md-nav__link">
         
   
   
@@ -713,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/apps/" class="md-nav__link">
+      <a href="../../getting-started/apps/" class="md-nav__link">
         
   
   
@@ -741,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="privacy/" class="md-nav__link">
+      <a href="../../privacy/" class="md-nav__link">
         
   
   
@@ -844,7 +742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/libraries/" class="md-nav__link">
+      <a href="../../administration/libraries/" class="md-nav__link">
         
   
   
@@ -872,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/users/" class="md-nav__link">
+      <a href="../../administration/users/" class="md-nav__link">
         
   
   
@@ -958,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/remote-access/" class="md-nav__link">
+      <a href="../../administration/remote-access/" class="md-nav__link">
         
   
   
@@ -986,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reverse-proxy/" class="md-nav__link">
+      <a href="../../reverse-proxy/" class="md-nav__link">
         
   
   
@@ -1022,7 +920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/hardware-acceleration/" class="md-nav__link">
+      <a href="../../administration/hardware-acceleration/" class="md-nav__link">
         
   
   
@@ -1050,7 +948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/" class="md-nav__link">
+      <a href="../../oidc/" class="md-nav__link">
         
   
   
@@ -1078,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="notifications/" class="md-nav__link">
+      <a href="../../notifications/" class="md-nav__link">
         
   
   
@@ -1106,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups/" class="md-nav__link">
+      <a href="../../backups/" class="md-nav__link">
         
   
   
@@ -1211,7 +1109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/how-playback-is-decided/" class="md-nav__link">
+      <a href="../../playback/how-playback-is-decided/" class="md-nav__link">
         
   
   
@@ -1239,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/transcoding/" class="md-nav__link">
+      <a href="../../playback/transcoding/" class="md-nav__link">
         
   
   
@@ -1267,7 +1165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/mkvgo/" class="md-nav__link">
+      <a href="../../playback/mkvgo/" class="md-nav__link">
         
   
   
@@ -1295,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/hdr/" class="md-nav__link">
+      <a href="../../playback/hdr/" class="md-nav__link">
         
   
   
@@ -1323,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/audio/" class="md-nav__link">
+      <a href="../../playback/audio/" class="md-nav__link">
         
   
   
@@ -1351,7 +1249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/subtitles/" class="md-nav__link">
+      <a href="../../playback/subtitles/" class="md-nav__link">
         
   
   
@@ -1379,7 +1277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/casting/" class="md-nav__link">
+      <a href="../../playback/casting/" class="md-nav__link">
         
   
   
@@ -1407,7 +1305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/watching-together/" class="md-nav__link">
+      <a href="../../playback/watching-together/" class="md-nav__link">
         
   
   
@@ -1439,8 +1337,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1468,19 +1368,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -1498,7 +1401,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1516,7 +1419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/troubleshooting/" class="md-nav__link">
+      <a href="../troubleshooting/" class="md-nav__link">
         
   
   
@@ -1544,7 +1447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/monitoring/" class="md-nav__link">
+      <a href="../monitoring/" class="md-nav__link">
         
   
   
@@ -1572,7 +1475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/background-work/" class="md-nav__link">
+      <a href="../background-work/" class="md-nav__link">
         
   
   
@@ -1600,7 +1503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/media-health/" class="md-nav__link">
+      <a href="../../runbooks/media-health/" class="md-nav__link">
         
   
   
@@ -1628,7 +1531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/cli/" class="md-nav__link">
+      <a href="../../runbooks/cli/" class="md-nav__link">
         
   
   
@@ -1656,7 +1559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/recovery/" class="md-nav__link">
+      <a href="../../runbooks/recovery/" class="md-nav__link">
         
   
   
@@ -1684,7 +1587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/migration-runbook/" class="md-nav__link">
+      <a href="../../runbooks/migration-runbook/" class="md-nav__link">
         
   
   
@@ -1712,7 +1615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/incident-runbook/" class="md-nav__link">
+      <a href="../../runbooks/incident-runbook/" class="md-nav__link">
         
   
   
@@ -1737,8 +1640,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1753,18 +1658,21 @@
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
         
           
-          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="">
             
   
   
@@ -1782,7 +1690,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1797,10 +1705,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="operations/advanced-deployments/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced deployments
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1816,6 +1751,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-embedded-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The embedded database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The embedded database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgres-major-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Postgres major upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-postgres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Postgres
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-meilisearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Meilisearch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-onto-the-embedded-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moving onto the embedded database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arm-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ARM hosts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#image-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image tags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1828,7 +1877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="deployment-bare-metal/" class="md-nav__link">
+      <a href="../../deployment-bare-metal/" class="md-nav__link">
         
   
   
@@ -1856,7 +1905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/sandbox-deployment/" class="md-nav__link">
+      <a href="../../plugins/sandbox-deployment/" class="md-nav__link">
         
   
   
@@ -1922,17 +1971,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
         
           
-          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="">
             
   
   
@@ -1968,7 +2020,7 @@
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="../../configuration/" class="md-nav__link">
         
   
   
@@ -1996,7 +2048,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/server/" class="md-nav__link">
+      <a href="../../environment/server/" class="md-nav__link">
         
   
   
@@ -2024,7 +2076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/database-search/" class="md-nav__link">
+      <a href="../../environment/database-search/" class="md-nav__link">
         
   
   
@@ -2052,7 +2104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/accounts/" class="md-nav__link">
+      <a href="../../environment/accounts/" class="md-nav__link">
         
   
   
@@ -2080,7 +2132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/libraries/" class="md-nav__link">
+      <a href="../../environment/libraries/" class="md-nav__link">
         
   
   
@@ -2108,7 +2160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/transcoding/" class="md-nav__link">
+      <a href="../../environment/transcoding/" class="md-nav__link">
         
   
   
@@ -2136,7 +2188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/playback-delivery/" class="md-nav__link">
+      <a href="../../environment/playback-delivery/" class="md-nav__link">
         
   
   
@@ -2164,7 +2216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/background/" class="md-nav__link">
+      <a href="../../environment/background/" class="md-nav__link">
         
   
   
@@ -2192,7 +2244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/plugins/" class="md-nav__link">
+      <a href="../../environment/plugins/" class="md-nav__link">
         
   
   
@@ -2220,7 +2272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/notifications/" class="md-nav__link">
+      <a href="../../environment/notifications/" class="md-nav__link">
         
   
   
@@ -2248,7 +2300,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/logs-monitoring/" class="md-nav__link">
+      <a href="../../environment/logs-monitoring/" class="md-nav__link">
         
   
   
@@ -2359,7 +2411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="../../plugins/" class="md-nav__link">
         
   
   
@@ -2387,7 +2439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/dev-setup/" class="md-nav__link">
+      <a href="../../plugins/dev-setup/" class="md-nav__link">
         
   
   
@@ -2415,7 +2467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/api-reference/" class="md-nav__link">
+      <a href="../../plugins/api-reference/" class="md-nav__link">
         
   
   
@@ -2443,7 +2495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/security-model/" class="md-nav__link">
+      <a href="../../plugins/security-model/" class="md-nav__link">
         
   
   
@@ -2471,7 +2523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="themes/" class="md-nav__link">
+      <a href="../../themes/" class="md-nav__link">
         
   
   
@@ -2499,7 +2551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="webhooks-api-keys/" class="md-nav__link">
+      <a href="../../webhooks-api-keys/" class="md-nav__link">
         
   
   
@@ -2556,7 +2608,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
+            <a href="../../api/" class="md-nav__link ">
               
   
   
@@ -2600,7 +2652,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/public/" class="md-nav__link">
+      <a href="../../api/public/" class="md-nav__link">
         
   
   
@@ -2628,7 +2680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/admin/" class="md-nav__link">
+      <a href="../../api/admin/" class="md-nav__link">
         
   
   
@@ -2656,7 +2708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/plugins/" class="md-nav__link">
+      <a href="../../api/plugins/" class="md-nav__link">
         
   
   
@@ -2765,7 +2817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="design-principles/" class="md-nav__link">
+      <a href="../../design-principles/" class="md-nav__link">
         
   
   
@@ -2793,7 +2845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ARCHITECTURE/" class="md-nav__link">
+      <a href="../../ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -2821,7 +2873,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback-serving/" class="md-nav__link">
+      <a href="../../playback-serving/" class="md-nav__link">
         
   
   
@@ -2849,7 +2901,7 @@
   
   
     <li class="md-nav__item">
-      <a href="SECURITY/" class="md-nav__link">
+      <a href="../../SECURITY/" class="md-nav__link">
         
   
   
@@ -2877,7 +2929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="i18n-accessibility/" class="md-nav__link">
+      <a href="../../i18n-accessibility/" class="md-nav__link">
         
   
   
@@ -2905,7 +2957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   
@@ -2941,9 +2993,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden="">
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2962,10 +3012,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run your media server, not its infrastructure
+        The embedded database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The embedded database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgres-major-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Postgres major upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-postgres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Postgres
       
     </span>
   </a>
@@ -2973,10 +3051,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#external-meilisearch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        External Meilisearch
       
     </span>
   </a>
@@ -2984,10 +3062,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#moving-onto-the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See what Evey decided, and why
+        Moving onto the embedded database
       
     </span>
   </a>
@@ -2995,10 +3073,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#arm-hosts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Apps and extensions
+        ARM hosts
       
     </span>
   </a>
@@ -3006,10 +3084,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#image-tags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        Image tags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugin-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugin sandbox
       
     </span>
   </a>
@@ -3030,176 +3119,194 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
-
-  <a href="https://github.com/Evey-project/evey/edit/master/wiki/content/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+  <a href="https://github.com/Evey-project/evey/edit/master/docs/operations/advanced-deployments.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
   </a>
 
 
-<h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted server for films, series, music and photos. It aims to
-behave like an appliance: you give it your media and the people who watch,
-and it works out the rest from the machine it runs on.</p>
-<p><a class="md-button md-button--primary" href="installation/">Install Evey</a>
-<a class="md-button" href="https://demo.eveyproject.org">Try the demo</a></p>
-<h2 id="run-your-media-server-not-its-infrastructure">Run your media server, not its infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>A normal installation is one container and one compose file, with no <code>.env</code>
-to write. What a media server needs around it comes inside:</p>
+<h1 id="advanced-deployments">Advanced deployments<a class="headerlink" href="#advanced-deployments" title="Permanent link">¶</a></h1>
+<p>The <a href="../../installation/">single-container install</a> suits most servers. This
+page covers the layouts an operator may prefer: the database or the search
+engine as separate services, ARM hosts, the image variants, and the plugin
+sandbox on unusual hosts. To run Evey without Docker at all, see
+<a href="../../deployment-bare-metal/">Without a container</a>.</p>
+<h2 id="the-embedded-database">The embedded database<a class="headerlink" href="#the-embedded-database" title="Permanent link">¶</a></h2>
+<p>The database cluster lives in <code>./evey-data/postgres</code> (Postgres 17, created on
+the first start, owned by the server user). It listens on the container's
+loopback only and requires the generated password, so a plugin running under
+another user cannot open it. <code>docker stop</code> shuts it down cleanly after the
+server has closed its connections.</p>
+<p>The data directory must be on a local filesystem (ext4, btrfs, xfs...), not on
+an SMB/CIFS or NFS share.</p>
+<p>To open a SQL shell:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
+</span></code></pre></div>
+<h3 id="postgres-major-upgrade">Postgres major upgrade<a class="headerlink" href="#postgres-major-upgrade" title="Permanent link">¶</a></h3>
+<p>The image pins the embedded Postgres major version (17). An image shipping a
+newer major refuses to open the old cluster, with a message pointing here,
+rather than run a data directory it cannot read. The way across is a dump with
+the old image and a restore with the new one:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) pg_dump -h 127.0.0.1 -U evey -Fc evey'</span><span class="w"> </span>&gt;<span class="w"> </span>evey-before-upgrade.dump
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>mv<span class="w"> </span>evey-data/postgres<span class="w"> </span>evey-data/postgres.old<span class="w">      </span><span class="c1"># keep it until the restore is verified</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># put the new image tag in the compose file, then:</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w">                              </span><span class="c1"># creates an empty cluster on the new major</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-T<span class="w"> </span>evey<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) pg_restore -h 127.0.0.1 -U evey -d evey --no-owner'</span><span class="w"> </span>&lt;<span class="w"> </span>evey-before-upgrade.dump
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</span></code></pre></div>
+<h2 id="external-postgres">External Postgres<a class="headerlink" href="#external-postgres" title="Permanent link">¶</a></h2>
+<p>To manage the database lifecycle yourself (a managed Postgres, a pinned major
+version, your own dump policy), run it as a separate service and point the
+server at it. <strong>Setting <code>EVEY_DB_HOST</code> is what turns the embedded database
+off.</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">docker-compose.yml</label><label for="__tabbed_1_2">.env</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1"># ... as in the single-container file, plus:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">EVEY_DB_HOST</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">EVEY_DB_SSLMODE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disable</span><span class="w">          </span><span class="c1"># internal network, no TLS</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nt">postgres</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> condition</span><span class="p">:</span><span class="w"> </span><span class="nv">service_healthy</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:16-alpine</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">evey-postgres</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${EVEY_DB_NAME:-evey}</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${EVEY_DB_USER:-evey}</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${EVEY_DB_PASSWORD:?EVEY_DB_PASSWORD must be set in .env}</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./postgres-data:/var/lib/postgresql/data</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD-SHELL"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"pg_isready</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">${EVEY_DB_USER:-evey}"</span><span class="p p-Indicator">]</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3s</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>EVEY_DB_PASSWORD=&lt;strong-password&gt;   # the server refuses to start with the default 'evey'
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="external-meilisearch">External Meilisearch<a class="headerlink" href="#external-meilisearch" title="Permanent link">¶</a></h2>
+<p>Same principle for the search engine: turn the embedded one off, point the
+server at yours and share the key. An explicit <code>MEILI_MASTER_KEY</code> wins over the
+generated <code>./evey-data/keys/meili.key</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">docker-compose.yml</label><label for="__tabbed_2_2">.env</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1"># ... plus:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">EVEY_EMBEDDED_MEILI</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">EVEY_MEILI_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://meilisearch:7700</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="nt">meilisearch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> condition</span><span class="p">:</span><span class="w"> </span><span class="nv">service_healthy</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">meilisearch</span><span class="p">:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">getmeili/meilisearch:v1.12</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">evey-meilisearch</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nt">MEILI_MASTER_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${MEILI_MASTER_KEY:?MEILI_MASTER_KEY must be set in .env}</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">      </span><span class="nt">MEILI_NO_ANALYTICS</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./meili-data:/meili_data</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"curl"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"-sf"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"http://localhost:7700/health"</span><span class="p p-Indicator">]</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>MEILI_MASTER_KEY=&lt;run: openssl rand -hex 16&gt;
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>The index is rebuilt from the database (<code>evey admin reindex-search</code>), so
+<code>meili-data</code> can always be discarded.</p>
+<h2 id="moving-onto-the-embedded-database">Moving onto the embedded database<a class="headerlink" href="#moving-onto-the-embedded-database" title="Permanent link">¶</a></h2>
+<p>An installation that runs Postgres as a separate service can move to the single
+container. The embedded database imports a dump found at
+<code>./evey-data/postgres-import.sql.gz</code> once, into the cluster it creates on its
+first start, before the server runs; the server's migrations then apply on top.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. dump the current database (plain SQL, gzipped)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-T<span class="w"> </span>postgres<span class="w"> </span>pg_dump<span class="w"> </span>-U<span class="w"> </span>evey<span class="w"> </span>--no-owner<span class="w"> </span>--no-privileges<span class="w"> </span>evey<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>&gt;<span class="w"> </span>evey-data/postgres-import.sql.gz
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># 2. replace the compose file with the single-container one, keeping your</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">#    media folders, reverse-proxy settings and hardware lines.</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># 3. first start: create the cluster, import, migrate, start the server</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey<span class="w">     </span><span class="c1"># "evey: import done"</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1"># 4. an external Meilisearch index is not carried over: rebuild it</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reindex-search
+</span></code></pre></div>
+<p><code>EVEY_DB_PASSWORD</code>, <code>MEILI_MASTER_KEY</code> and the <code>EVEY_DB_HOST</code> /
+<code>EVEY_MEILI_URL</code> settings are no longer needed. Keep <code>./postgres-data</code> until
+you have checked the server. A dump left next to an existing cluster is
+reported and ignored, never merged; a failed import discards the new cluster so
+that the next start retries.</p>
+<h2 id="arm-hosts">ARM hosts<a class="headerlink" href="#arm-hosts" title="Permanent link">¶</a></h2>
+<p>Images built from a release tag (<code>0.2.0</code>, pre-releases such as <code>0.2.0-beta.1</code>
+included) are multi-architecture (<code>linux/amd64</code> and <code>linux/arm64</code>); Docker
+picks the right one. Branch tags such as <code>beta-0.0.1</code> are amd64 only: pin a
+release tag on an ARM host.</p>
 <ul>
-<li><strong>Database and search engine included.</strong> Postgres and Meilisearch run in the
-  same container, listen only inside it, and get passwords generated on the
-  first start, kept owner-only in the data folder.</li>
-<li><strong>File ownership worked out.</strong> When it can, the container adopts the owner of
-  your media folder, so that repairs can write. The server itself never runs as
-  root.</li>
-<li><strong>Less to size by hand.</strong> The graphics card is detected, the transcoding
-  capacity is measured, and the route for each playback follows what the
-  device says it can play.</li>
+<li><strong>Hardware transcoding on ARM</strong> is limited to Rockchip SoCs (RK3588, RK3576,
+  RK3568 class) through RKMPP. Map <code>/dev/mpp_service</code>, <code>/dev/dri</code> and, where
+  the kernel exposes it, <code>/dev/rga</code>; Evey probes and benchmarks the encoder
+  before using it. RKMPP has not been validated by the project on real hardware
+  yet. A Raspberry Pi or a Realtek-based ARM NAS has no hardware encoder Evey
+  can use: those servers rely on Direct Play and software transcoding, sized by
+  the same calibration as any other host.</li>
+<li><strong>HDR tone mapping</strong> uses the same SIMD <code>tonemapx</code> filter on ARM (NEON) as on
+  x86-64 (AVX2).</li>
 </ul>
-<p>Bringing your own database or search cluster stays possible:
-<a href="operations/advanced-deployments/">Advanced deployments</a>.</p>
-<div class="evey-showcase">
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The home page" data-gallery="showcase" loading="lazy" src="images/showcase-home.webp"></a>
-<br>
-<figcaption>The home page: resume playback, then each library.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="A film page" data-gallery="showcase" loading="lazy" src="images/showcase-media.webp"></a>
-<br>
-<figcaption>A film page, with its artwork, ratings and credits.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The web player" data-gallery="showcase" loading="lazy" src="images/showcase-player.webp"></a>
-<br>
-<figcaption>The web player.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The admin dashboard while two films play" data-gallery="showcase" loading="lazy" src="images/showcase-dashboard.webp"></a>
-<br>
-<figcaption>The admin dashboard while two people watch: the picture each one is seeing, and how it is delivered.</figcaption>
-</figure>
-</div>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>Do less work, whenever possible</strong></p>
+<h2 id="image-tags">Image tags<a class="headerlink" href="#image-tags" title="Permanent link">¶</a></h2>
+<p>The image is <code>gravityz/evey</code>.</p>
 <ul>
-<li><strong>Direct Play</strong>: the file as it is; the server only reads it.</li>
-<li><strong><a href="playback/mkvgo/">MKVGo</a></strong>: when only the container has to change, Evey's in-process media
-  layer repackages the tracks: no re-encoding, no media process started per
-  stream, no segments written to disk. FFmpeg copies them where it cannot.</li>
-<li><strong>FFmpeg</strong>: for real transformations, and as a fallback when MKVGo cannot
-  handle the structural work.</li>
+<li>Release tags <code>vX.Y.Z</code> publish <code>X.Y.Z</code>, <code>X.Y</code>, <code>X</code> and <code>latest</code>. <code>latest</code> is
+  always the most recent stable release: a pre-release (<code>vX.Y.Z-beta.N</code>)
+  publishes only its own tag and never moves <code>latest</code>.</li>
+<li>Branch builds publish the branch name (for example <code>beta-0.0.1</code>) and
+  <code>sha-&lt;commit&gt;</code>.</li>
+<li><strong>Plugin runtimes.</strong> The default image bundles Python 3 for plugins. The
+  <code>-nodejs</code> variant adds Node.js; <code>-full</code> adds PHP, Ruby and Lua. Use a variant
+  only if a plugin you install needs it.</li>
+<li><strong>GPU families.</strong> Published images carry the drivers for every supported
+  Intel and AMD generation. A self-built image can keep only one with
+  <code>docker build --build-arg GPU=intel-legacy .</code> (Intel Gen9 to Gen11),
+  <code>GPU=intel</code> (Gen12 and newer), <code>GPU=amd</code> or <code>GPU=none</code>. NVIDIA needs no
+  variant: the NVIDIA Container Toolkit injects the host driver at run time.</li>
 </ul>
-<p><a href="playback/mkvgo/">MKVGo in Evey</a></p>
-</div>
-<div>
-<p><strong>Know what the machine can actually do</strong></p>
-<p>An accelerator counts only once a real encode on it succeeds. At its first
-quiet moment the server times real encodes from a 4K clip, up to 1440p on the
-processor and up to 2160p on each accelerator, then sends every stream to the
-cheapest route that proved it can serve it. When room runs short, a new
-stream gets a lower quality, or moves from a full graphics card to the
-processor; it is refused, with a clear message, only when no capacity is left.
-<a href="playback/transcoding/">Transcoding and server capacity</a></p>
-</div>
-<div>
-<p><strong>Third-party code is contained, not trusted</strong></p>
-<p>A plugin is analysed before install, gets only the permissions declared and
-accepted by the administrator, and runs as its own process, with no direct
-network access and capped memory, processes and disk. In Docker on a recent
-kernel it sees only its own directory, and a seccomp denylist blocks system
-calls known to be dangerous; an older host gets a weaker sandbox, and the
-admin panel says which one is active.
-<a href="SECURITY/#sandbox-modes">Security model and plugin sandbox</a></p>
-</div>
-<div>
-<p><strong>Find broken media before playback does</strong></p>
-<p><strong>Media Health</strong> reads your MKV and WebM files and explains what it finds.
-What it can repair (a missing seek index, an MP4 named <code>.mkv</code>, tracks stored
-in blocks) is repaired on request, checked before it replaces the file, with
-the original kept by default and every change journaled. The rest is reported,
-never rewritten behind your back.
-<a href="runbooks/media-health/">Media health</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">See what Evey decided, and why<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>The dashboard above lists every playback: who, on which device, in <strong>Direct
-Play</strong>, <strong>Remux</strong> or <strong>Transcode</strong>, whether video and audio are copied or
-encoded and by what, the bitrate and the progress. In the player, <strong>Stream
-info</strong> reflects the plan actually served, and says why the file was not
-played as it is.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Stream info in the web player" loading="lazy" src="images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux: the packaging changes, without re-encoding the video or the audio. "Copied" describes the tracks, not the playback method.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a></p>
-<h2 id="apps-and-extensions">Apps and extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>A web app served by the server itself, apps for Android and Android TV
-(signed in from a phone or a computer with Quick Connect), and casting to a Chromecast.
-Plugins and themes extend the interface, and the same plugin runs on the web,
-on Android and on the TV.
-<a href="getting-started/apps/">Apps and devices</a> ·
-<a href="plugins/">Plugins</a></p>
-<h2 id="find-your-way">Find your way<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
-<div class="grid cards">
-<ul>
-<li>
-<p><strong><a href="installation/">Install Evey</a></strong></p>
-<p>One container and one compose file. Requirements and first launch.</p>
-</li>
-<li>
-<p><strong><a href="getting-started/first-setup/">First setup</a></strong></p>
-<p>The setup wizard, your libraries, the people who will use the server.</p>
-</li>
-<li>
-<p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Libraries, users and profiles, remote access, hardware acceleration,
-backups.</p>
-</li>
-<li>
-<p><strong><a href="playback/how-playback-is-decided/">How playback is decided</a></strong></p>
-<p>Direct Play, Remux and Transcode, and how to read Stream info.</p>
-</li>
-<li>
-<p><strong><a href="operations/troubleshooting/">Troubleshooting</a></strong></p>
-<p>Where to look when something does not work: symptoms, logs, recovery.</p>
-</li>
-<li>
-<p><strong><a href="plugins/">Plugins &amp; API</a></strong></p>
-<p>Installing and writing plugins and themes, the server API.</p>
-</li>
-</ul>
-</div>
-<p class="evey-meta">
-Evey is in beta and has no numbered release yet: this documentation follows the
-development branch. ·
-<a href="https://github.com/Evey-project/evey">Source on GitHub</a> ·
-<a href="https://demo.eveyproject.org">Public demo</a> (sign in with demo / demo) ·
-AGPL-3.0-or-later ·
-Security reports: security@eveyproject.org
-</p>
-
+<h2 id="plugin-sandbox">Plugin sandbox<a class="headerlink" href="#plugin-sandbox" title="Permanent link">¶</a></h2>
+<p>The image contains everything needed to confine plugins, without privileged
+mode. The default sandbox mode (<code>auto</code>) picks the strongest backend the host
+allows: Landlock on any modern kernel. Check the mode actually in force in the
+<strong>Security Dashboard</strong> of <strong>Admin → Plugins</strong>. A host that shows <code>basic</code> cannot
+isolate plugin file access: see <a href="../../plugins/sandbox-deployment/">Plugin sandbox setup</a>
+for what that means and what to change. The layers themselves are described in
+<a href="../../SECURITY/">Security model and plugin sandbox</a>.</p>
 <!-- sources
-one container, no .env: docs/installation.md ; docs/adr/0028-install-is-one-compose-file.md
-embedded db/search, loopback, generated secrets: docker/entrypoint.sh - ensure_secret, pg_start 127.0.0.1, meilisearch --http-addr 127.0.0.1:7700
-media owner adopted, never root: docker/entrypoint.sh - PUID/PGID auto-detection, setpriv
-do less work: docs/playback/mkvgo.md ; internal/app/transcoding/decision.go ; internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager (no ffmpeg, no session state, no on-disk segments) ; docs/playback-serving.md (copy rung: mkvgo, else ffmpeg -c copy)
-less to size: internal/adapters/driven/ffmpeg/hw_readiness.go ; internal/app/transcoding/calibration_service.go ; docs/playback/how-playback-is-decided.md
-accelerators proved, quiet moment: internal/app/transcoding/calibration_service.go - idleProbes ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
-1440p software, 2160p hardware: internal/adapters/driven/ffmpeg/benchmark.go - swBenchLadder, hwBenchLadder
-lower rung, gpu to software, then refused: internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter, ErrVideoCapacityExhausted
-contained plugins: docs/SECURITY.md (Administrator preview, System calls: denylist) ; internal/app/plugin/install.go ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; internal/adapters/driven/pluginrunner/runner_resmon.go
-media health: internal/app/maintenance/seek_index.go - Verdict ; internal/app/maintenance/seek_index_reindex.go - DeepVerify ; internal/app/maintenance/repair_journal.go - Reversible
-stream info, one plan: docs/adr/0030-one-plan-one-decision.md ; internal/app/transcoding/route_tonemap_report_test.go
-one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx ; frontend/apps/tv/src/features/plugins/PluginSlot.tsx
+embedded db, import, major upgrade: docker/entrypoint.sh
+external db switch: internal/config/config.go (EVEY_DB_HOST)
+arm, tags, variants: previous docs/installation.md sections 4, 7, 8 ; Dockerfile
+sandbox auto: docs/SECURITY.md ; docs/plugins/sandbox-deployment.md
 -->
 
 
@@ -3213,8 +3320,6 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
 
 
 
-
-  
 
 
 
@@ -3240,19 +3345,33 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../../runbooks/incident-runbook/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Incident runbook">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Incident runbook
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Install">
+          <a href="../../deployment-bare-metal/" class="md-footer__link md-footer__link--next" aria-label="Next: Without a container">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Install
+                Without a container
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3309,11 +3428,11 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <script>

@@ -1,0 +1,4484 @@
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/fr/SECURITY/">
+      
+      
+        <link rel="prev" href="../playback-serving/">
+      
+      
+        <link rel="next" href="../i18n-accessibility/">
+      
+      
+        
+          <link rel="alternate" href="../../SECURITY/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="fr">
+        
+      
+      
+      <link rel="icon" href="../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Modèle de sécurité et sandbox des plugins - Evey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plugin-sandbox-and-threat-model" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Modèle de sécurité et sandbox des plugins
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../SECURITY/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Partager" aria-label="Partager" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Premiers pas
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Administration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Lecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Exploitation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Plugins et API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fonctionnement interne
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Premiers pas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Premiers pas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Première configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Applications et appareils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Règles de confidentialité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Administration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bibliothèques et métadonnées
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilisateurs, profils et contrôle parental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accès distant et HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accès distant et HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accès distant et HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configurations de reverse proxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accélération matérielle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentification unique (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E-mail et notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sauvegardes et mises à jour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Lecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comment Evey choisit le mode de lecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transcodage et capacité du serveur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MKVGo dans Evey
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR et Dolby Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sous-titres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diffusion (Chromecast)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder ensemble
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exploitation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Exploitation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dépannage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supervision et logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tâches de fond et charge du serveur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Santé des médias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ligne de commande
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restauration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrations de la base
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procédures d'incident
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Déploiements avancés
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Déploiements avancés
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Déploiements avancés
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sans conteneur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mise en place de la sandbox des plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Variables d'environnement
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Variables d'environnement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Référence de configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Serveur et réseau
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de données et recherche
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comptes et connexion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bibliothèques et métadonnées
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transcodage et matériel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diffusion de la lecture et téléchargements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tâches de fond
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins et sandbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E-mail et notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sauvegardes, logs et supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins et API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plugins et API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Écrire un plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Référence de l'API des plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions et slots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thèmes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Webhooks et clés d'API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API du serveur
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API du serveur
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API publique
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API d'administration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API des plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fonctionnement interne
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fonctionnement interne
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Principes de conception
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chaîne de lecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modèle de sécurité et sandbox des plugins
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modèle de sécurité et sandbox des plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modèle de menace
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À l'installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="À l'installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zip-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraction du ZIP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifest-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifeste et permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyse statique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrator-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aperçu par l'administrateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-run-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À l'exécution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="À l'exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fichiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appels système
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-separate-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un utilisateur séparé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-socket-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentification de la socket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limites de ressources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Isolation de l'interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Durcissement du serveur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-notification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification des plantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modes de sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modes de sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto (par défaut)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#landlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        landlock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        strict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Récapitulatif
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limites connues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-exposure-outside-the-plugin-threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposition réseau (hors modèle de menace des plugins)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-logs-may-contain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que les logs peuvent contenir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signaler une vulnérabilité
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Langues et accessibilité
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribuer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modèle de menace
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À l'installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="À l'installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zip-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraction du ZIP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifest-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifeste et permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyse statique
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrator-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aperçu par l'administrateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-run-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À l'exécution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="À l'exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fichiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Réseau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appels système
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-separate-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Un utilisateur séparé
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-socket-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentification de la socket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limites de ressources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Isolation de l'interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Durcissement du serveur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-notification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification des plantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modes de sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modes de sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto (par défaut)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#landlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        landlock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        strict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Récapitulatif
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limites connues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-exposure-outside-the-plugin-threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposition réseau (hors modèle de menace des plugins)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-logs-may-contain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que les logs peuvent contenir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signaler une vulnérabilité
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/fr/SECURITY.md" title="Editer cette page" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="plugin-sandbox-and-threat-model">Sandbox des plugins et modèle de menace<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
+<p>Cette page décrit ce que fait le serveur pour contenir un plugin : les
+vérifications à l'installation, les couches de protection à l'exécution, les
+modes de sandbox, et ce que chacun ne peut toujours pas empêcher. Si vous
+écrivez un plugin et voulez savoir ce que vous pouvez déclarer et ce qui sera
+refusé, lisez <a href="../plugins/security-model/">Permissions et slots</a>.</p>
+<h2 id="threat-model">Modèle de menace<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
+<p>Les plugins tournent dans des processus séparés qui dialoguent avec le serveur
+en gRPC sur des sockets Unix. Par défaut, le serveur ne fait confiance à aucun
+code de plugin. Les risques contre lesquels il se protège, du plus grave au
+moins grave :</p>
+<ol>
+<li><strong>Usurpation</strong> : un plugin se fait passer pour un autre afin d'utiliser ses
+   permissions.</li>
+<li><strong>Élévation de privilèges</strong> : un plugin sort de sa sandbox et exécute des
+   commandes avec les droits du serveur.</li>
+<li><strong>Accès aux fichiers</strong> : un plugin lit ou écrit hors de son propre dossier,
+   en particulier les secrets du serveur.</li>
+<li><strong>Exfiltration réseau</strong> : un plugin envoie des données vers un hôte de son
+   choix.</li>
+<li><strong>Abus de ressources</strong> : minage, fork bomb, épuisement de la mémoire ou du
+   disque.</li>
+<li><strong>Chaîne d'approvisionnement</strong> : du code obscurci ou compilé que l'analyse
+   ne sait pas lire.</li>
+</ol>
+<h2 id="at-install">À l'installation<a class="headerlink" href="#at-install" title="Permanent link">¶</a></h2>
+<h3 id="zip-extraction">Extraction du ZIP<a class="headerlink" href="#zip-extraction" title="Permanent link">¶</a></h3>
+<p>Avant qu'aucun fichier ne soit écrit :</p>
+<ul>
+<li>au plus 5 000 entrées, 100 Mo par fichier, 500 Mo décompressés au total, et
+  un taux de compression de 100:1 au-delà de 1 Mo décompressé (bombes de décompression) ;</li>
+<li>les entrées dont le chemin sort de l'archive (<code>..</code>) sont refusées ;</li>
+<li>les liens symboliques sont refusés ;</li>
+<li>les bits setuid, setgid et sticky sont retirés.</li>
+</ul>
+<p>Source : <code>internal/adapters/driven/pluginrunner/zip.go</code>.</p>
+<h3 id="manifest-and-permissions">Manifeste et permissions<a class="headerlink" href="#manifest-and-permissions" title="Permanent link">¶</a></h3>
+<p>Le manifeste déclare les permissions que demande le plugin. Une permission
+inconnue fait refuser l'installation. Elles sont ensuite appliquées :</p>
+<ul>
+<li><strong><code>subprocess</code></strong> autorise les processus enfants. Sans elle, le noyau refuse
+  la création de processus (<code>-deny-fork</code>), et le filtre <code>LD_PRELOAD</code> refuse en
+  plus <code>execve</code> aux plugins interprétés.</li>
+<li><strong><code>native-binary</code></strong> autorise la livraison de code compilé ou d'archives, que
+  l'analyse ne sait pas lire.</li>
+<li><strong>Les permissions d'API</strong> (<code>api.library</code>, <code>api.user</code>, <code>api.metadata</code>,
+  <code>media.read</code>, <code>media.write</code>, <code>notification.sender</code>...) sont vérifiées à
+  chaque appel vers le serveur par
+  <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driving/grpcapi/plugin_interceptor.go"><code>PluginPermissionInterceptor</code></a>.</li>
+</ul>
+<p>La liste complète des permissions se trouve dans
+<a href="../plugins/security-model/#permissions-catalog">Permissions et slots</a>.</p>
+<h3 id="static-analysis">Analyse statique<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h3>
+<p>Chaque fichier du paquet est analysé par
+<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/analyzer.go"><code>pluginrunner.AnalyzePlugin</code></a>,
+après une passe de normalisation qui défait les obscurcissements courants
+(alias, concaténations de chaînes, f-strings) :</p>
+<table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th>Gravité</th>
+<th>Exemples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell_exec</code></td>
+<td>CRITIQUE</td>
+<td><code>os.system</code>, <code>subprocess.run</code>, <code>child_process.exec</code>, PHP <code>system()</code>/<code>shell_exec()</code>/<code>proc_open()</code>, <code>preg_replace /e</code>, backticks Ruby, <code>open('\|cmd')</code></td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td>AVERTISSEMENT / CRITIQUE</td>
+<td><code>requests.get</code>, <code>fetch</code>, reverse shells et bind shells</td>
+</tr>
+<tr>
+<td><code>filesystem</code></td>
+<td>AVERTISSEMENT / CRITIQUE</td>
+<td><code>/etc/passwd</code>, <code>.ssh/</code>, <code>rm -rf</code>, opérations sur des liens symboliques</td>
+</tr>
+<tr>
+<td><code>obfuscation</code></td>
+<td>CRITIQUE</td>
+<td><code>eval</code>, décodage base64, séquences hexadécimales, <code>__builtins__</code>, <code>base64 -d \| bash</code></td>
+</tr>
+<tr>
+<td><code>privilege</code></td>
+<td>CRITIQUE</td>
+<td><code>setuid</code>, <code>chmod 4777</code>, <code>sudo</code>, signal envoyé au PID 1</td>
+</tr>
+<tr>
+<td><code>cryptomining</code></td>
+<td>CRITIQUE</td>
+<td><code>stratum+tcp</code>, <code>xmrig</code>, <code>cryptonight</code></td>
+</tr>
+<tr>
+<td><code>runtime_install</code></td>
+<td>CRITIQUE</td>
+<td><code>pip install</code>, <code>npm install</code>, <code>curl ... \| sh</code></td>
+</tr>
+<tr>
+<td><code>dynamic_import</code></td>
+<td>CRITIQUE</td>
+<td><code>__import__()</code>, <code>importlib.import_module</code></td>
+</tr>
+<tr>
+<td><code>sandbox_escape</code></td>
+<td>CRITIQUE</td>
+<td><code>vm.runIn*</code>, <code>process.binding</code>, <code>new Function</code>, <code>__subclasses__()</code>, <code>__mro__</code></td>
+</tr>
+<tr>
+<td><code>deserialization</code></td>
+<td>CRITIQUE / AVERTISSEMENT</td>
+<td><code>pickle.loads</code>, <code>marshal.loads</code>, <code>__reduce__</code> ; AVERTISSEMENT : <code>yaml.load()</code> sans Loader</td>
+</tr>
+<tr>
+<td><code>native_code</code></td>
+<td>CRITIQUE / AVERTISSEMENT</td>
+<td><code>ctypes.CDLL</code>, <code>ffi.Library</code> ; AVERTISSEMENT : <code>unsafe</code> en Go</td>
+</tr>
+<tr>
+<td><code>compiled_binary</code></td>
+<td>AVERTISSEMENT, puis BLOCAGE</td>
+<td><code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code></td>
+</tr>
+<tr>
+<td><code>embedded_archive</code></td>
+<td>AVERTISSEMENT, puis BLOCAGE</td>
+<td><code>.zip</code>, <code>.tar.gz</code></td>
+</tr>
+<tr>
+<td><code>mime_mismatch</code></td>
+<td>traité comme CRITIQUE</td>
+<td>une extension d'image pour un autre contenu</td>
+</tr>
+<tr>
+<td><code>suspicious_url</code></td>
+<td>AVERTISSEMENT</td>
+<td>un schéma autre que HTTP dans une URL</td>
+</tr>
+<tr>
+<td><code>unvendored_deps</code></td>
+<td>AVERTISSEMENT</td>
+<td>un <code>requirements.txt</code> ou <code>package.json</code> sans modules embarqués</td>
+</tr>
+</tbody>
+</table>
+<p>Un résultat CRITIQUE ou un <code>mime_mismatch</code> fait refuser l'installation.
+<code>compiled_binary</code> et <code>embedded_archive</code> la font refuser, sauf si le manifeste
+déclare <code>native-binary</code>.</p>
+<p><strong>Ce que l'analyse ne peut pas garantir.</strong> Elle fonctionne par motifs. Elle
+déjoue des classes d'obscurcissement connues (concaténation en plusieurs étapes
+vers une fonction appelable, recherche d'une fonction native par son nom,
+évasion par <code>Function.constructor</code>), chacune couverte par un cas de test de
+régression dans <code>tests/fixtures/plugins/malicious/</code>, mais elle ne peut pas
+suivre toutes les transformations faites à l'exécution (<code>strrev("metsys")</code>,
+décodage d'une charge lue dans un fichier). Elle lit aussi les commentaires :
+un commentaire <code># pip install foo</code> déclenche <code>runtime_install</code>. <strong>C'est la
+sandbox d'exécution qui fait office de barrière, pas l'analyse</strong> : un plugin
+qui passerait un motif entre les mailles ne peut toujours ni lire les données
+du serveur, ni faire un appel système interdit, ni dépasser ses limites de
+ressources, ni appeler une méthode du serveur pour laquelle il n'a pas de
+permission.</p>
+<h3 id="signature">Signature<a class="headerlink" href="#signature" title="Permanent link">¶</a></h3>
+<p>Un paquet peut être signé avec cosign. <code>EVEY_PLUGINS_COSIGN_POLICY</code> détermine
+l'effet d'une vérification qui échoue :</p>
+<table>
+<thead>
+<tr>
+<th>Politique</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>off</code></td>
+<td>La signature n'est pas vérifiée.</td>
+</tr>
+<tr>
+<td><code>warn</code> (par défaut)</td>
+<td>Un échec est consigné et affiché à l'administrateur, sans bloquer. Sans clé publique configurée, rien n'est vérifié.</td>
+</tr>
+<tr>
+<td><code>enforce</code></td>
+<td>Un échec fait refuser l'installation ou la mise à jour.</td>
+</tr>
+</tbody>
+</table>
+<p>La clé publique est fournie par <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code>. Source :
+<code>internal/adapters/driven/pluginrunner/cosign.go</code>.</p>
+<h3 id="administrator-preview">Aperçu par l'administrateur<a class="headerlink" href="#administrator-preview" title="Permanent link">¶</a></h3>
+<p><code>POST /api/v1/admin/plugins/preview</code> exécute l'analyse sans installer.
+L'administrateur voit les permissions demandées, chaque résultat avec son
+fichier, sa ligne et sa catégorie, les URL trouvées dans le code, et
+l'empreinte SHA256 du paquet ; cette même empreinte est vérifiée au moment de
+l'installation, si bien que le paquet analysé est bien celui qui est installé.
+Une mise à jour affiche la différence de permissions, de slots et d'hôtes, et
+toute nouvelle permission doit être explicitement acceptée.</p>
+<p>L'administrateur est le point de décision pour les permissions élevées : Evey
+expose la surface, l'administrateur accepte ou refuse.</p>
+<h2 id="at-run-time">À l'exécution<a class="headerlink" href="#at-run-time" title="Permanent link">¶</a></h2>
+<h3 id="filesystem">Fichiers<a class="headerlink" href="#filesystem" title="Permanent link">¶</a></h3>
+<p>Un plugin voit son propre dossier et son dossier de socket, pas les données du
+serveur. Le moyen dépend du <a href="#sandbox-modes">mode de sandbox</a> : une liste
+d'autorisations Landlock, ou une liste blanche de montages bubblewrap. En mode
+<code>basic</code> sur un noyau sans Landlock, il n'y a pas de confinement par chemin : ce
+sont alors l'utilisateur séparé et les permissions de fichiers qui protègent
+les secrets du serveur (voir plus bas).</p>
+<h3 id="network">Réseau<a class="headerlink" href="#network" title="Permanent link">¶</a></h3>
+<p>Un plugin n'a <strong>aucun accès direct au réseau</strong>, quoi qu'il déclare : toute
+socket IP est refusée (<code>-deny-inet</code> en <code>landlock</code> et <code>basic</code>, un namespace
+réseau en <code>bubblewrap</code> et <code>strict</code>). Un plugin doté de la permission <code>network</code>
+appelle la méthode <code>Fetch</code> du serveur par sa socket Unix. Le serveur, dans
+<code>internal/adapters/driving/pluginhost/fetch.go</code> :</p>
+<ul>
+<li>vérifie la cible dans la liste <code>external_fetch</code> du plugin (hôtes exacts,
+  sans distinction de casse) ;</li>
+<li>n'autorise que <code>http</code> et <code>https</code>, et seulement <code>GET</code> et <code>HEAD</code> ;</li>
+<li>se connecte via un client protégé contre le SSRF (<code>internal/pkg/ssrf</code>), qui
+  refuse les adresses privées, réservées et link-local après la résolution DNS,
+  de sorte que le DNS rebinding et les redirections sont revérifiés ;</li>
+<li>n'ajoute aucun identifiant du serveur, et plafonne la taille de la réponse.</li>
+</ul>
+<p>Cela ferme les voies que laissait l'accès direct (adresses IP littérales comme
+<code>169.254.169.254</code>, résolveur propre au plugin). Reste une limite : le relais
+contrôle <em>où</em> part un appel, pas <em>ce qu'il</em> transporte. Voir les
+<a href="#known-limits">Limites connues</a>.</p>
+<p><strong>Recommandé aux administrateurs système.</strong> Le relais déplace la surface SSRF
+vers le serveur. Une règle de sortie sur le conteneur <code>evey-server</code>,
+indépendante du code, ajoute un second rempart : bloquer <code>169.254.0.0/16</code> et
+restreindre le réseau interne aux points d'accès de la base et du moteur de
+recherche.</p>
+<h3 id="system-calls">Appels système<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
+<p>Deux filtres seccomp refusent les mêmes appels système dangereux :</p>
+<ol>
+<li><strong>Le filtre noyau</strong>, installé par
+   <a href="https://github.com/Evey-project/evey/blob/master/cmd/evey-plugin-launcher"><code>evey-plugin-launcher</code></a> juste avant de lancer
+   le plugin (<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey-plugin-launcher/seccomp_linux.go"><code>seccomp_linux.go</code></a>).
+   Le plugin et ses enfants en héritent, et il <strong>couvre aussi les binaires
+   compilés statiques</strong>. Un appel système d'une architecture différente tue le
+   processus. Appliqué en <code>landlock</code> et <code>basic</code>.</li>
+<li><strong>Le filtre <code>LD_PRELOAD</code></strong>, <a href="https://github.com/Evey-project/evey/blob/master/sandbox/sandbox.c"><code>sandbox/sandbox.c</code></a>,
+   chargé dans les plugins interprétés qui ne déclarent pas <code>subprocess</code>. Il
+   refuse en plus <code>execve</code>/<code>execveat</code> et interdit le vidage mémoire du plugin.
+   Appliqué en <code>landlock</code>, <code>basic</code> et <code>strict</code>. Si la bibliothèque manque, un
+   tel plugin n'est pas démarré (<code>plugin.error</code>).</li>
+</ol>
+<p>Appels système refusés :</p>
+<table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th>Appels système</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Débogage</td>
+<td><code>ptrace</code>, <code>process_vm_readv</code>, <code>process_vm_writev</code></td>
+</tr>
+<tr>
+<td>Signaux</td>
+<td><code>tgkill</code>, <code>rt_sigqueueinfo</code>, <code>rt_tgsigqueueinfo</code> vers tout processus autre que le plugin lui-même (les deux filtres) ; <code>kill</code> de même dans le filtre noyau, et vers toute cible dans le filtre <code>LD_PRELOAD</code> ; <code>tkill</code> dans le filtre noyau (le filtre <code>LD_PRELOAD</code> l'autorise vers le plugin lui-même) ; <code>pidfd_send_signal</code>, <code>pidfd_getfd</code> (vole un descripteur de fichier). Un runtime qui se renvoie un signal ou préempte ses propres threads continue de fonctionner. Avec Landlock ABI 6 ou plus, un plugin ne peut pas non plus envoyer de signal à un processus hors de sa sandbox</td>
+</tr>
+<tr>
+<td>Montages</td>
+<td><code>mount</code>, <code>umount2</code>, <code>pivot_root</code>, <code>chroot</code></td>
+</tr>
+<tr>
+<td>Namespaces</td>
+<td><code>unshare</code>, <code>setns</code></td>
+</tr>
+<tr>
+<td>Modules noyau</td>
+<td><code>init_module</code>, <code>finit_module</code>, <code>delete_module</code></td>
+</tr>
+<tr>
+<td>BPF, perf</td>
+<td><code>bpf</code>, <code>perf_event_open</code></td>
+</tr>
+<tr>
+<td>Entrées-sorties matérielles</td>
+<td><code>ioperm</code>, <code>iopl</code> (x86-64 seulement, où ils existent)</td>
+</tr>
+<tr>
+<td>Swap</td>
+<td><code>swapon</code>, <code>swapoff</code></td>
+</tr>
+<tr>
+<td>Contrôle du système</td>
+<td><code>syslog</code>, <code>reboot</code>, <code>settimeofday</code>, <code>clock_settime</code>, <code>clock_adjtime</code>, <code>adjtimex</code></td>
+</tr>
+<tr>
+<td>Kexec</td>
+<td><code>kexec_load</code>, <code>kexec_file_load</code></td>
+</tr>
+<tr>
+<td>Primitives d'exploitation du noyau</td>
+<td><code>io_uring_setup</code>, <code>io_uring_enter</code>, <code>io_uring_register</code>, <code>userfaultfd</code></td>
+</tr>
+<tr>
+<td>Identité</td>
+<td><code>setuid</code>, <code>setgid</code>, <code>setreuid</code>, <code>setregid</code>, <code>setresuid</code>, <code>setresgid</code>, <code>capset</code></td>
+</tr>
+<tr>
+<td>Trousseau de clés</td>
+<td><code>add_key</code>, <code>request_key</code>, <code>keyctl</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pour un plugin sans <code>subprocess</code>, le noyau refuse aussi la création de
+processus (<code>fork</code>, <code>vfork</code>, <code>clone</code> sans <code>CLONE_THREAD</code>) ; les threads
+fonctionnent toujours.</p>
+<p>Il s'agit d'une <strong>liste de refus</strong> : <code>open</code>, <code>read</code>, <code>write</code>, <code>mmap</code>, <code>socket</code>
+et <code>connect</code> en Unix restent autorisés. Les chemins sont confinés par la couche
+fichiers, pas par seccomp. En <code>bubblewrap</code>, le lanceur n'est pas utilisé : un
+binaire statique n'y a aucun filtre seccomp, et il est contenu par les
+namespaces et la liste blanche de montages.</p>
+<h3 id="a-separate-user">Un utilisateur séparé<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
+<p>Un plugin peut tourner sous l'utilisateur 1001 (<code>evey-plugin</code>), distinct du
+serveur (1000), de sorte que les permissions de fichiers suffisent à lui
+rendre illisibles les secrets du serveur. <code>EVEY_PLUGINS_UID_SEPARATION</code> le
+règle :</p>
+<ul>
+<li><code>auto</code> (par défaut) : seulement quand la sandbox se résout en <code>basic</code>, seul
+  cas où les permissions de fichiers sont l'unique rempart autour des
+  secrets ;</li>
+<li><code>on</code> : toujours, comme couche supplémentaire ;</li>
+<li><code>off</code> : jamais.</li>
+</ul>
+<p>Le changement d'utilisateur est fait par le lanceur, qui détient
+<code>cap_setuid</code> ; le serveur, lui, tourne sans privilège ni capacité. Le lanceur
+refuse toute cible inférieure à 1000. S'il ne peut pas changer d'utilisateur,
+un plugin en <code>basic</code> est refusé (l'utilisateur y est l'unique rempart), alors
+qu'en <code>landlock</code> il tourne sous l'utilisateur du serveur, avec un
+avertissement. En <code>bubblewrap</code> et <code>strict</code>, c'est le namespace utilisateur qui
+joue ce rôle.</p>
+<p>Quand la séparation est active, la clé de signature (<code>0600</code>) et les
+sauvegardes (dossier <code>0700</code>, fichiers <code>0600</code>) sont réservées à leur
+propriétaire à l'exécution, ce qui tient même sur un <code>/data</code> monté depuis
+l'hôte. Tous les plugins partagent l'utilisateur 1001 : ils sont isolés les
+uns des autres par la couche fichiers, pas par l'utilisateur.</p>
+<h3 id="host-socket-authentication">Authentification de la socket<a class="headerlink" href="#host-socket-authentication" title="Permanent link">¶</a></h3>
+<p>Chaque plugin a sa propre socket, <code>/tmp/evey/plugins/&lt;plugin_id&gt;/host.sock</code>,
+servie par son propre serveur gRPC. À chaque appel, le serveur lit le PID de
+l'appelant auprès du noyau (<code>SO_PEERCRED</code>, impossible à falsifier depuis
+l'espace utilisateur) et le compare au PID enregistré au démarrage du plugin.
+L'identité du plugin vient de la socket, jamais d'un en-tête. Un plugin ne
+peut donc ni se faire passer pour un autre, ni appeler la socket d'un autre
+plugin, ni faire passer ses appels par un processus enfant.</p>
+<h3 id="resource-limits">Limites de ressources<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
+<p>Un moniteur en espace utilisateur (les cgroups ne sont pas disponibles dans
+un conteneur non privilégié) lit <code>/proc/&lt;pid&gt;</code> environ toutes les 2 secondes
+et arrête un plugin qui dépasse une limite :</p>
+<ul>
+<li>mémoire (RSS), 256 Mio par défaut ;</li>
+<li>processus et threads, 64 par défaut ;</li>
+<li>disque occupé par son dossier, 100 Mio par défaut, vérifié toutes les 30
+  secondes ;</li>
+<li>priorité CPU, <code>nice</code> 10 par défaut, appliquée au démarrage.</li>
+</ul>
+<p>Les limites se règlent par plugin dans <strong>Admin → Plugins</strong>. Voir
+l'<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>.</p>
+<h3 id="interface-isolation">Isolation de l'interface<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
+<p>L'interface d'un plugin s'exécute dans une <code>&lt;iframe sandbox="allow-scripts"&gt;</code>,
+sans accès à la même origine, sans formulaires ni fenêtres surgissantes, sous
+une Content-Security-Policy qui n'autorise les connexions que vers ses hôtes
+<code>external_fetch</code>. Le pont limite ce qu'elle peut demander à la page : <code>toast</code>
+au plus 3 fois par seconde, 200 caractères, sans HTML ; <code>navigate</code> n'accepte
+que <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> et <code>/search</code> ; <code>resize</code> entre 50
+et 800 px. Les slots sont vérifiés à l'installation, puis de nouveau à
+l'affichage.</p>
+<h3 id="server-hardening">Durcissement du serveur<a class="headerlink" href="#server-hardening" title="Permanent link">¶</a></h3>
+<p>Au démarrage, le serveur interdit son propre vidage mémoire
+(<code>PR_SET_DUMPABLE=0</code>, <a href="https://github.com/Evey-project/evey/blob/master/cmd/evey/hardening_linux.go"><code>hardening_linux.go</code></a>) :
+un processus tournant sous le même utilisateur ne peut pas lire sa mémoire ni
+son environnement via <code>/proc</code>, ce qui protège la clé de signature en mémoire
+ainsi que les mots de passe de la base et du moteur de recherche, même sur un
+noyau sans Landlock.</p>
+<h3 id="crash-notification">Notification des plantages<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
+<p>Le runner publie un événement <code>plugin.error</code> quand la bibliothèque de sandbox
+manque pour un plugin qui en a besoin, ou quand un plugin se termine en
+erreur. Le service de notification le transmet à l'administrateur par les
+canaux configurés. Un PID qui ne correspond pas sur une socket est consigné
+comme avertissement.</p>
+<h2 id="sandbox-modes">Modes de sandbox<a class="headerlink" href="#sandbox-modes" title="Permanent link">¶</a></h2>
+<p>Le mode détermine la façon dont les fichiers et le réseau sont confinés.
+<code>EVEY_PLUGINS_SANDBOX_MODE</code> fixe la valeur initiale (<code>auto</code> par défaut) ; elle
+se modifie ensuite dans <strong>Admin → Plugins</strong>. Le runner l'applique dans
+<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/runner_sandbox.go"><code>applySandbox</code></a>. Dans
+tous les modes : aucun accès IP direct, le moniteur de ressources, et
+l'authentification de la socket.</p>
+<h3 id="auto-default"><code>auto</code> (par défaut)<a class="headerlink" href="#auto-default" title="Permanent link">¶</a></h3>
+<p>Se résout, une fois, au premier démarrage d'un plugin, vers le mode le plus
+robuste que la machine permet : <strong>landlock</strong>, puis <strong>bubblewrap</strong>, puis
+<strong>basic</strong>. Landlock passe en premier parce qu'il ne demande aucun privilège et
+fonctionne sous le profil de sécurité par défaut de Docker. bubblewrap n'est
+choisi que si Landlock est absent et qu'une sandbox de test se construit
+réellement
+(<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/sandbox_probe.go"><code>ProbeSandbox</code></a>),
+ce qui revient en pratique à une installation sans conteneur ou à un
+conteneur privilégié. Le mode retenu est consigné dans les logs et affiché sur
+la ligne <strong>Sandbox de l'hôte</strong> du <strong>Tableau de bord sécurité</strong>, dans
+<strong>Admin → Plugins</strong>.</p>
+<h3 id="landlock"><code>landlock</code><a class="headerlink" href="#landlock" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Fichiers :</strong> une liste d'autorisations Landlock appliquée par le lanceur.
+  Dossiers système (<code>/usr</code>, <code>/lib</code>, <code>/lib64</code>, <code>/bin</code>, <code>/sbin</code>, <code>/etc</code>, <code>/app</code>)
+  en lecture seule ; dans <code>/dev</code>, seulement <code>null</code>, <code>zero</code>, <code>full</code>, <code>random</code> et
+  <code>urandom</code>, pour que les nœuds des cartes graphiques et le terminal du serveur
+  restent hors d'atteinte ; dossier du plugin et dossier de sa socket en
+  lecture-écriture ; tout le reste, y compris <code>/data</code> et les autres plugins,
+  refusé. Un plugin qui a reçu <code>hardware.gpu</code> obtient son nœud de rendu, seule
+  exception.</li>
+<li><strong>Réseau :</strong> <code>-restrict-net</code> et <code>-deny-inet</code> ; sortie uniquement via
+  <code>Fetch</code>.</li>
+<li><strong>Appels système :</strong> le filtre noyau et le filtre <code>LD_PRELOAD</code>.</li>
+<li><strong>Prérequis :</strong> un noyau 5.13 ou plus récent avec Landlock dans la liste
+  des LSM actifs, et le lanceur (c'est le cas avec l'image officielle sur une
+  machine récente). Un mode <code>landlock</code> explicite refuse de démarrer un plugin
+  qu'il ne peut pas confiner.</li>
+</ul>
+<h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Fichiers et processus :</strong> six namespaces isolés (<code>user</code>, <code>pid</code>, <code>uts</code>,
+  <code>ipc</code>, <code>cgroup</code>, <code>net</code>) et une liste blanche de montages ; rien d'autre
+  n'existe à l'intérieur.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Chemin</th>
+<th>Accès</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/usr</code>, <code>/bin</code>, <code>/sbin</code>, <code>/lib</code>, <code>/lib64</code></td>
+<td>lecture seule</td>
+</tr>
+<tr>
+<td><code>/etc/ssl</code>, <code>/etc/ca-certificates</code>, <code>/etc/resolv.conf</code>, <code>/etc/nsswitch.conf</code>, <code>/etc/{alpine,os}-release</code></td>
+<td>lecture seule (jamais <code>/etc</code> en entier : ni <code>passwd</code>, ni <code>shadow</code>, ni <code>ssh</code>)</td>
+</tr>
+<tr>
+<td>le dossier du plugin, le dossier de sa socket</td>
+<td>lecture-écriture</td>
+</tr>
+<tr>
+<td><code>/proc</code></td>
+<td>son propre montage</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>un jeu synthétique minimal (null, zero, random, urandom, tty, pts)</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>un tmpfs vide</td>
+</tr>
+</tbody>
+</table>
+<p><code>/data</code>, <code>/var</code>, <code>/home</code>, <code>/root</code>, <code>/run</code> et les dossiers des autres
+  plugins n'existent pas à l'intérieur. Un plugin témoin
+  (<code>tests/fixtures/plugins/canary-sandbox-runtime/</code>) vérifie cette disposition
+  sur une installation en fonctionnement. Source : <code>buildBwrapCmd</code> dans
+  <code>internal/adapters/driven/pluginrunner/runner_bwrap.go</code>.
+- <strong>Réseau :</strong> le namespace réseau, pour tous les plugins.
+- <strong>Appels système :</strong> aucun filtre seccomp ; ce sont les namespaces qui
+  isolent.
+- <strong>Prérequis :</strong> le binaire <code>bwrap</code> et les appels système <code>mount</code>/<code>unshare</code>.
+  Dans Docker, cela exige un profil de sécurité assoupli : c'est donc, en
+  pratique, un mode pour les installations sans conteneur.</p>
+<h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
+<p><code>bubblewrap</code>, plus le filtre <code>LD_PRELOAD</code> (plugins interprétés uniquement).</p>
+<h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
+<p>Le dernier recours d'<code>auto</code> : l'utilisateur séparé, le filtre noyau, le filtre
+<code>LD_PRELOAD</code>, <code>-deny-inet</code>, et Landlock si le noyau le propose. Sur un noyau
+sans Landlock, il n'y a pas de confinement par chemin : un plugin peut lire les
+fichiers lisibles par tous qui ne sont pas sensibles, et voir la liste des
+processus. Les secrets du serveur restent protégés par l'utilisateur séparé et
+<code>PR_SET_DUMPABLE</code>, le réseau est coupé, et les appels système dangereux sont
+refusés, binaires compilés compris.</p>
+<h3 id="summary">Récapitulatif<a class="headerlink" href="#summary" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Couche</th>
+<th>landlock</th>
+<th>basic</th>
+<th>bubblewrap</th>
+<th>strict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fichiers</td>
+<td>liste d'autorisations Landlock</td>
+<td>aucune sans Landlock (permissions de fichiers seules)</td>
+<td>liste blanche de montages</td>
+<td>liste blanche de montages</td>
+</tr>
+<tr>
+<td>Réseau</td>
+<td><code>-restrict-net</code> + <code>-deny-inet</code></td>
+<td><code>-deny-inet</code></td>
+<td>namespace réseau</td>
+<td>namespace réseau</td>
+</tr>
+<tr>
+<td>Seccomp noyau (binaires statiques compris)</td>
+<td>oui</td>
+<td>oui</td>
+<td>non</td>
+<td>non</td>
+</tr>
+<tr>
+<td>Seccomp <code>LD_PRELOAD</code> (plugins interprétés sans <code>subprocess</code>)</td>
+<td>oui</td>
+<td>oui</td>
+<td>non</td>
+<td>oui</td>
+</tr>
+<tr>
+<td>Utilisateur séparé</td>
+<td>avec <code>on</code></td>
+<td>oui (<code>auto</code>)</td>
+<td>namespace utilisateur</td>
+<td>namespace utilisateur</td>
+</tr>
+<tr>
+<td>Limites de ressources</td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+<td>oui</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Déploiement</th>
+<th>Ce que vous obtenez</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker sur un noyau récent (<code>auto</code> donne <code>landlock</code>)</td>
+<td>Confinement par chemin, aucun accès réseau direct, appels système dangereux refusés, binaires statiques compris. C'est le cas normal.</td>
+</tr>
+<tr>
+<td>Docker sur un ancien noyau sans Landlock, par exemple un vieux NAS (<code>auto</code> donne <code>basic</code>)</td>
+<td>Secrets protégés et réseau coupé, mais fichiers lisibles par tous visibles. Voir <a href="../plugins/sandbox-deployment/">Mise en place de la sandbox des plugins</a>.</td>
+</tr>
+<tr>
+<td>Sans conteneur (<code>auto</code> donne <code>bubblewrap</code>)</td>
+<td>L'isolation des fichiers et des processus la plus forte, sans filtre seccomp pour les binaires statiques.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
+<td><code>auto</code></td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> ou <code>basic</code>. Modifiable aussi dans <strong>Admin → Plugins</strong>.</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_UID_SEPARATION</code></td>
+<td><code>auto</code></td>
+<td><code>auto</code>, <code>on</code> ou <code>off</code>. Incompatible avec <code>no_new_privs</code> sur le conteneur.</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_COSIGN_POLICY</code></td>
+<td><code>warn</code></td>
+<td><code>off</code>, <code>warn</code> ou <code>enforce</code>.</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code></td>
+<td>aucune</td>
+<td>La clé avec laquelle les signatures sont vérifiées.</td>
+</tr>
+</tbody>
+</table>
+<p>L'image officielle embarque <code>evey-plugin-launcher</code> (Landlock et le filtre
+noyau) et <code>bubblewrap</code>. bubblewrap nécessite aussi les namespaces utilisateur
+non privilégiés sur la machine hôte. Quelle configuration pour quelle machine,
+en termes simples :
+<a href="../plugins/sandbox-deployment/">Mise en place de la sandbox des plugins</a>.</p>
+<h2 id="known-limits">Limites connues<a class="headerlink" href="#known-limits" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Limite</th>
+<th>Conséquence</th>
+<th>Ce qui la restreint aujourd'hui</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pas de confinement par chemin en <code>basic</code> sur un noyau sans Landlock</td>
+<td>Un plugin peut lire les fichiers non sensibles lisibles par tous, et les dossiers des autres plugins</td>
+<td>Secrets protégés par l'utilisateur séparé et <code>PR_SET_DUMPABLE</code> ; <code>auto</code> préfère Landlock ou bubblewrap</td>
+</tr>
+<tr>
+<td>Tous les plugins partagent l'utilisateur 1001</td>
+<td>Un plugin peut envoyer des signaux à ses voisins (pas au serveur)</td>
+<td><code>PR_SET_DUMPABLE</code> empêche de lire les autres processus via <code>/proc</code> ; Landlock et bubblewrap isolent les dossiers des plugins</td>
+</tr>
+<tr>
+<td>Seccomp est une liste de refus</td>
+<td>Les appels sur les fichiers et les sockets Unix restent permis</td>
+<td>Les chemins sont confinés par Landlock ou bubblewrap ; les sockets IP sont refusées</td>
+</tr>
+<tr>
+<td>Le relais déplace la surface SSRF vers le serveur</td>
+<td>Une faille dans sa validation pourrait atteindre une adresse interne</td>
+<td>Liste d'autorisations et client anti-SSRF en Go ; une règle de sortie sur le conteneur comme couche indépendante</td>
+</tr>
+<tr>
+<td>Le relais contrôle où part un appel, pas ce qu'il transporte</td>
+<td>Des données peuvent partir vers un hôte de la liste du plugin</td>
+<td>N'autoriser que des hôtes auxquels vous confiez ces données</td>
+</tr>
+<tr>
+<td>L'analyse fonctionne par motifs</td>
+<td>Un obscurcissement délibéré peut cacher du code</td>
+<td>L'aperçu par l'administrateur ; la barrière est la sandbox, pas l'analyse</td>
+</tr>
+<tr>
+<td><code>LD_PRELOAD</code> ne couvre que les plugins interprétés dynamiques</td>
+<td>Un binaire statique en <code>basic</code> sans le lanceur y échappe</td>
+<td>L'image officielle embarque toujours le lanceur, dont le filtre noyau couvre les binaires statiques</td>
+</tr>
+</tbody>
+</table>
+<h2 id="network-exposure-outside-the-plugin-threat-model">Exposition réseau (hors modèle de menace des plugins)<a class="headerlink" href="#network-exposure-outside-the-plugin-threat-model" title="Permanent link">¶</a></h2>
+<p>Deux règles déterminent qui peut atteindre le serveur :</p>
+<ul>
+<li><strong>Seul le port HTTP est destiné à être publié.</strong> Le port gRPC
+  (<code>EVEY_SERVER_PORT</code>, 9090 par défaut) est un transport interne dont le seul
+  client est la passerelle HTTP du même processus ; l'API HTTP est sur ce port
+  plus un. gRPC n'écoute par défaut que sur la boucle locale
+  (<code>EVEY_GRPC_BIND=127.0.0.1</code>), car le contrôle d'accès distant est un
+  middleware HTTP qui ne le couvre pas. Élargir cette écoute affiche un
+  avertissement ; la filtrer devient alors la responsabilité de
+  l'administrateur système.</li>
+<li><strong>Le contrôle d'accès distant se fonde sur la seule adresse client validée à
+  la frontière des proxys de confiance</strong>, jamais sur un en-tête de la requête.
+  Un client ne peut pas se faire passer pour <code>127.0.0.1</code> via
+  <code>X-Forwarded-For</code>, et une requête qui n'a pas traversé cette frontière est
+  considérée comme distante. C'est un contrôle de déploiement, pas une
+  authentification.</li>
+</ul>
+<p>Voir <a href="../administration/remote-access/">Accès distant et HTTPS</a> et la
+<a href="../environment/server/#remote-access">Référence de configuration</a>.</p>
+<h2 id="what-the-logs-may-contain">Ce que les logs peuvent contenir<a class="headerlink" href="#what-the-logs-may-contain" title="Permanent link">¶</a></h2>
+<p>Le log du serveur alimente <strong>Logs &amp; Debug</strong>, les rapports de bug et les
+sauvegardes : les identifiants y sont donc masqués au moment de l'écriture
+(<code>internal/pkg/logger/redact.go</code>). Un attribut dont la clé désigne un secret
+(<code>authorization</code>, <code>token</code>, <code>api_key</code>, <code>password</code>, <code>pin</code>, <code>secret</code>...) est
+remplacé en entier, et toute chaîne contenant un jeton bearer, un JWT ou une
+paire <code>secret=valeur</code> est masquée. Les routes de consultation des logs
+appliquent la même règle aux lignes plus anciennes. Côté code : ne jamais
+journaliser une valeur non secrète sous un nom de clé secret (elle serait
+masquée), et ajouter tout nouveau type d'identifiant à cette liste avant de le
+journaliser.</p>
+<h2 id="reporting-a-vulnerability">Signaler une vulnérabilité<a class="headerlink" href="#reporting-a-vulnerability" title="Permanent link">¶</a></h2>
+<p>Signalez-la en privé, jamais dans une issue publique :
+<code>security@eveyproject.org</code>, l'adresse de la
+<a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">politique de sécurité</a> du dépôt. Elle couvre
+l'authentification des plugins, les permissions et les évasions de sandbox
+comme tout le reste. Ne testez pas sur des instances d'Evey qui ne sont pas
+les vôtres.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+        
+          
+          <a href="../playback-serving/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Chaîne de lecture">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Chaîne de lecture
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../i18n-accessibility/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Langues et accessibilité">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                Langues et accessibilité
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

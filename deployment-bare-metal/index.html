@@ -7,33 +7,35 @@
       
       
       
-        <link rel="canonical" href="https://eveyproject.org/">
+        <link rel="canonical" href="https://eveyproject.org/deployment-bare-metal/">
       
       
+        <link rel="prev" href="../operations/advanced-deployments/">
       
-        <link rel="next" href="installation/">
+      
+        <link rel="next" href="../plugins/sandbox-deployment/">
       
       
         
-          <link rel="alternate" href="/" hreflang="en">
+          <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="/fr/" hreflang="fr">
+          <link rel="alternate" href="../fr/deployment-bare-metal/" hreflang="fr">
         
       
       
-      <link rel="icon" href="assets/brand/favicon.svg">
+      <link rel="icon" href="../assets/brand/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Evey</title>
+        <title>Without a container - Evey</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,20 +49,20 @@
         
         
         
-        <link rel="stylesheet" href="assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="stylesheets/brand.css">
+      <link rel="stylesheet" href="../stylesheets/brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -89,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey" class="md-skip">
+        <a href="#bare-metal-deployment-no-docker" class="md-skip">
           Skip to content
         </a>
       
@@ -103,9 +105,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Without a container
             
           </span>
         </div>
@@ -169,13 +171,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="/" hreflang="en" class="md-select__link">
+            <a href="./" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="/fr/" hreflang="fr" class="md-select__link">
+            <a href="../fr/deployment-bare-metal/" hreflang="fr" class="md-select__link">
               Français
             </a>
           </li>
@@ -264,11 +266,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="installation/" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link">
           
   
   
@@ -311,7 +311,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="administration/libraries/" class="md-tabs__link">
+        <a href="../administration/libraries/" class="md-tabs__link">
           
   
   
@@ -333,7 +333,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="playback/how-playback-is-decided/" class="md-tabs__link">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
           
   
   
@@ -351,11 +351,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="operations/troubleshooting/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
           
   
   
@@ -377,7 +379,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="../plugins/" class="md-tabs__link">
           
   
   
@@ -399,7 +401,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="design-principles/" class="md-tabs__link">
+        <a href="../design-principles/" class="md-tabs__link">
           
   
   
@@ -424,9 +426,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -437,9 +437,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+    <a href=".." title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
       
-  <img src="assets/brand/wordmark.svg" alt="logo">
+  <img src="../assets/brand/wordmark.svg" alt="logo">
 
     </a>
     Evey
@@ -463,37 +463,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -509,81 +482,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your media server, not its infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See what Evey decided, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Apps and extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Find your way
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -657,7 +555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -685,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/first-setup/" class="md-nav__link">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
         
   
   
@@ -713,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/apps/" class="md-nav__link">
+      <a href="../getting-started/apps/" class="md-nav__link">
         
   
   
@@ -741,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="privacy/" class="md-nav__link">
+      <a href="../privacy/" class="md-nav__link">
         
   
   
@@ -844,7 +742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/libraries/" class="md-nav__link">
+      <a href="../administration/libraries/" class="md-nav__link">
         
   
   
@@ -872,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/users/" class="md-nav__link">
+      <a href="../administration/users/" class="md-nav__link">
         
   
   
@@ -958,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/remote-access/" class="md-nav__link">
+      <a href="../administration/remote-access/" class="md-nav__link">
         
   
   
@@ -986,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reverse-proxy/" class="md-nav__link">
+      <a href="../reverse-proxy/" class="md-nav__link">
         
   
   
@@ -1022,7 +920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="administration/hardware-acceleration/" class="md-nav__link">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
         
   
   
@@ -1050,7 +948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/" class="md-nav__link">
+      <a href="../oidc/" class="md-nav__link">
         
   
   
@@ -1078,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="notifications/" class="md-nav__link">
+      <a href="../notifications/" class="md-nav__link">
         
   
   
@@ -1106,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups/" class="md-nav__link">
+      <a href="../backups/" class="md-nav__link">
         
   
   
@@ -1211,7 +1109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/how-playback-is-decided/" class="md-nav__link">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
         
   
   
@@ -1239,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/transcoding/" class="md-nav__link">
+      <a href="../playback/transcoding/" class="md-nav__link">
         
   
   
@@ -1267,7 +1165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/mkvgo/" class="md-nav__link">
+      <a href="../playback/mkvgo/" class="md-nav__link">
         
   
   
@@ -1295,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/hdr/" class="md-nav__link">
+      <a href="../playback/hdr/" class="md-nav__link">
         
   
   
@@ -1323,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/audio/" class="md-nav__link">
+      <a href="../playback/audio/" class="md-nav__link">
         
   
   
@@ -1351,7 +1249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/subtitles/" class="md-nav__link">
+      <a href="../playback/subtitles/" class="md-nav__link">
         
   
   
@@ -1379,7 +1277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/casting/" class="md-nav__link">
+      <a href="../playback/casting/" class="md-nav__link">
         
   
   
@@ -1407,7 +1305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback/watching-together/" class="md-nav__link">
+      <a href="../playback/watching-together/" class="md-nav__link">
         
   
   
@@ -1439,8 +1337,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1468,19 +1368,22 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -1498,7 +1401,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1516,7 +1419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/troubleshooting/" class="md-nav__link">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
         
   
   
@@ -1544,7 +1447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/monitoring/" class="md-nav__link">
+      <a href="../operations/monitoring/" class="md-nav__link">
         
   
   
@@ -1572,7 +1475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/background-work/" class="md-nav__link">
+      <a href="../operations/background-work/" class="md-nav__link">
         
   
   
@@ -1600,7 +1503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/media-health/" class="md-nav__link">
+      <a href="../runbooks/media-health/" class="md-nav__link">
         
   
   
@@ -1628,7 +1531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/cli/" class="md-nav__link">
+      <a href="../runbooks/cli/" class="md-nav__link">
         
   
   
@@ -1656,7 +1559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/recovery/" class="md-nav__link">
+      <a href="../runbooks/recovery/" class="md-nav__link">
         
   
   
@@ -1684,7 +1587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/migration-runbook/" class="md-nav__link">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
         
   
   
@@ -1712,7 +1615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/incident-runbook/" class="md-nav__link">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
         
   
   
@@ -1737,8 +1640,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1753,18 +1658,21 @@
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
         
           
-          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="">
             
   
   
@@ -1782,7 +1690,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1800,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/advanced-deployments/" class="md-nav__link">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
         
   
   
@@ -1825,10 +1733,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="deployment-bare-metal/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Without a container
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1844,6 +1779,181 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binaries-build-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binaries (build from source)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ld_preload-seccomp-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The LD_PRELOAD seccomp shim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-run-as-a-dedicated-non-root-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Run as a dedicated non-root user
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pick-the-sandbox-backend-for-your-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pick the sandbox backend for your kernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Pick the sandbox backend for your kernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#landlock-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Landlock (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-last-resort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic (last resort)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-uid-separation-protect-secrets-without-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. UID separation (protect secrets without root)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-secret-file-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Secret file permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-environment--config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Environment &amp; config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verify-your-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verify your sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1856,7 +1966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/sandbox-deployment/" class="md-nav__link">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
         
   
   
@@ -1922,17 +2032,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
         
           
-          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="">
             
   
   
@@ -1968,7 +2081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -1996,7 +2109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/server/" class="md-nav__link">
+      <a href="../environment/server/" class="md-nav__link">
         
   
   
@@ -2024,7 +2137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/database-search/" class="md-nav__link">
+      <a href="../environment/database-search/" class="md-nav__link">
         
   
   
@@ -2052,7 +2165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/accounts/" class="md-nav__link">
+      <a href="../environment/accounts/" class="md-nav__link">
         
   
   
@@ -2080,7 +2193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/libraries/" class="md-nav__link">
+      <a href="../environment/libraries/" class="md-nav__link">
         
   
   
@@ -2108,7 +2221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/transcoding/" class="md-nav__link">
+      <a href="../environment/transcoding/" class="md-nav__link">
         
   
   
@@ -2136,7 +2249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/playback-delivery/" class="md-nav__link">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
         
   
   
@@ -2164,7 +2277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/background/" class="md-nav__link">
+      <a href="../environment/background/" class="md-nav__link">
         
   
   
@@ -2192,7 +2305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/plugins/" class="md-nav__link">
+      <a href="../environment/plugins/" class="md-nav__link">
         
   
   
@@ -2220,7 +2333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/notifications/" class="md-nav__link">
+      <a href="../environment/notifications/" class="md-nav__link">
         
   
   
@@ -2248,7 +2361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="environment/logs-monitoring/" class="md-nav__link">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
         
   
   
@@ -2359,7 +2472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="../plugins/" class="md-nav__link">
         
   
   
@@ -2387,7 +2500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/dev-setup/" class="md-nav__link">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
         
   
   
@@ -2415,7 +2528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/api-reference/" class="md-nav__link">
+      <a href="../plugins/api-reference/" class="md-nav__link">
         
   
   
@@ -2443,7 +2556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/security-model/" class="md-nav__link">
+      <a href="../plugins/security-model/" class="md-nav__link">
         
   
   
@@ -2471,7 +2584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="themes/" class="md-nav__link">
+      <a href="../themes/" class="md-nav__link">
         
   
   
@@ -2499,7 +2612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="webhooks-api-keys/" class="md-nav__link">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
         
   
   
@@ -2556,7 +2669,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
+            <a href="../api/" class="md-nav__link ">
               
   
   
@@ -2600,7 +2713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/public/" class="md-nav__link">
+      <a href="../api/public/" class="md-nav__link">
         
   
   
@@ -2628,7 +2741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/admin/" class="md-nav__link">
+      <a href="../api/admin/" class="md-nav__link">
         
   
   
@@ -2656,7 +2769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/plugins/" class="md-nav__link">
+      <a href="../api/plugins/" class="md-nav__link">
         
   
   
@@ -2765,7 +2878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="design-principles/" class="md-nav__link">
+      <a href="../design-principles/" class="md-nav__link">
         
   
   
@@ -2793,7 +2906,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ARCHITECTURE/" class="md-nav__link">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
         
   
   
@@ -2821,7 +2934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="playback-serving/" class="md-nav__link">
+      <a href="../playback-serving/" class="md-nav__link">
         
   
   
@@ -2849,7 +2962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="SECURITY/" class="md-nav__link">
+      <a href="../SECURITY/" class="md-nav__link">
         
   
   
@@ -2877,7 +2990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="i18n-accessibility/" class="md-nav__link">
+      <a href="../i18n-accessibility/" class="md-nav__link">
         
   
   
@@ -2905,7 +3018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -2941,9 +3054,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden="">
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2962,10 +3073,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#1-prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run your media server, not its infrastructure
+        1. Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binaries-build-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binaries (build from source)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ld_preload-seccomp-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The LD_PRELOAD seccomp shim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-run-as-a-dedicated-non-root-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Run as a dedicated non-root user
       
     </span>
   </a>
@@ -2973,10 +3134,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#3-pick-the-sandbox-backend-for-your-kernel" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        3. Pick the sandbox backend for your kernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Pick the sandbox backend for your kernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#landlock-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Landlock (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-last-resort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic (last resort)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-uid-separation-protect-secrets-without-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. UID separation (protect secrets without root)
       
     </span>
   </a>
@@ -2984,10 +3195,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#5-secret-file-permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See what Evey decided, and why
+        5. Secret file permissions
       
     </span>
   </a>
@@ -2995,10 +3206,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#6-environment--config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Apps and extensions
+        6. Environment &amp; config
       
     </span>
   </a>
@@ -3006,10 +3217,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#find-your-way" class="md-nav__link">
+  <a href="#7-verify-your-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Find your way
+        7. Verify your sandbox
       
     </span>
   </a>
@@ -3030,177 +3241,265 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
-
-  <a href="https://github.com/Evey-project/evey/edit/master/wiki/content/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+  <a href="https://github.com/Evey-project/evey/edit/master/docs/deployment-bare-metal.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
   </a>
 
 
-<h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted server for films, series, music and photos. It aims to
-behave like an appliance: you give it your media and the people who watch,
-and it works out the rest from the machine it runs on.</p>
-<p><a class="md-button md-button--primary" href="installation/">Install Evey</a>
-<a class="md-button" href="https://demo.eveyproject.org">Try the demo</a></p>
-<h2 id="run-your-media-server-not-its-infrastructure">Run your media server, not its infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>A normal installation is one container and one compose file, with no <code>.env</code>
-to write. What a media server needs around it comes inside:</p>
+<h1 id="bare-metal-deployment-no-docker">Bare-Metal Deployment (no Docker)<a class="headerlink" href="#bare-metal-deployment-no-docker" title="Permanent link">¶</a></h1>
+<p>Running Evey directly on a host (systemd, an init script, or by hand) instead of
+the <a href="../installation/">Docker image</a>. The Docker image is the recommended path -
+it ships the plugin sandbox, hardening, and runtimes pre-wired. Going bare metal
+means <strong>you</strong> reproduce that posture: the right binaries side by side, a
+dedicated non-root user, the sandbox backend your kernel supports, and
+owner-only secret directories. This page is the step-by-step for that.</p>
+<p>If you only want the easy install, stop here and use
+<a href="../installation/">installation.md</a>.</p>
+<h2 id="1-prerequisites">1. Prerequisites<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
+<h3 id="binaries-build-from-source">Binaries (build from source)<a class="headerlink" href="#binaries-build-from-source" title="Permanent link">¶</a></h3>
+<p>Build both Go binaries and <strong>place them in the same directory</strong>. The plugin
+runner locates the launcher by checking <code>$EVEY_PLUGIN_LAUNCHER</code> first, then
+next to its own executable (<code>os.Executable()</code>), then <code>$PATH</code> - so keeping them
+adjacent is the simplest correct layout.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># from the repo root</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w -X main.version=</span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--always<span class="k">)</span><span class="s2"> -X main.commit=</span><span class="k">$(</span>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD<span class="k">)</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span>evey<span class="w"> </span>./cmd/evey
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w">                                        </span>-o<span class="w"> </span>evey-plugin-launcher<span class="w"> </span>./cmd/evey-plugin-launcher
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># install side by side, e.g.:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>evey<span class="w"> </span>evey-plugin-launcher<span class="w"> </span>/opt/evey/
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># optional: shell completion and the manual page, both printed by the binary</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>/opt/evey/evey<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/bash_completion.d/evey<span class="w"> </span>&gt;/dev/null
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>/opt/evey/evey<span class="w"> </span>man<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/usr/local/share/man/man1/evey.1<span class="w"> </span>&gt;/dev/null
+</span></code></pre></div>
+<p>Lookup order in <code>launcherPath()</code> (<code>internal/adapters/driven/pluginrunner/runner_landlock.go</code>):</p>
+<ol>
+<li><code>$EVEY_PLUGIN_LAUNCHER</code> (must be an executable file) - explicit override.</li>
+<li><code>evey-plugin-launcher</code> in the <strong>same directory</strong> as the running <code>evey</code> binary.</li>
+<li><code>evey-plugin-launcher</code> somewhere on <code>$PATH</code>.</li>
+</ol>
+<h3 id="the-ld_preload-seccomp-shim">The LD_PRELOAD seccomp shim<a class="headerlink" href="#the-ld_preload-seccomp-shim" title="Permanent link">¶</a></h3>
+<p>Build the <code>libevey-sandbox.so</code> shim (a small C file; needs a C compiler):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gcc<span class="w"> </span>-shared<span class="w"> </span>-fPIC<span class="w"> </span>-nostartfiles<span class="w"> </span>-o<span class="w"> </span>libevey-sandbox.so<span class="w"> </span>sandbox/sandbox.c
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0644</span><span class="w"> </span>libevey-sandbox.so<span class="w"> </span>/app/libevey-sandbox.so
+</span></code></pre></div>
+<p>The runner looks for it at the <strong>hardcoded path <code>/app/libevey-sandbox.so</code></strong>
+(<code>sandboxLibPath</code> in <code>runner.go</code>). If it is absent, plugins <strong>refuse to start</strong>
+(fail-closed) - unless you run in dev mode. This shim adds a seccomp denylist for
+dynamically-linked plugins and is layered on top of Landlock/bubblewrap.</p>
+<blockquote>
+<p>The Docker image keeps the open-source binaries, SDK, and this shim under
+<code>/app</code> (no secrets there). On bare metal you can either mirror that path
+(<code>/app/libevey-sandbox.so</code>) or symlink it.</p>
+</blockquote>
+<h3 id="runtimes">Runtimes<a class="headerlink" href="#runtimes" title="Permanent link">¶</a></h3>
+<p>Install whatever your plugins' <code>entrypoint:</code> invokes. The runner recognises
+these interpreters (<code>knownInterpreters</code> in <code>runner_start.go</code>): <code>python3</code>, <code>python</code>,
+<code>node</code>, <code>php</code>, <code>ruby</code>, <code>perl</code>, <code>lua</code>, <code>bash</code>, <code>sh</code>. At minimum:</p>
 <ul>
-<li><strong>Database and search engine included.</strong> Postgres and Meilisearch run in the
-  same container, listen only inside it, and get passwords generated on the
-  first start, kept owner-only in the data folder.</li>
-<li><strong>File ownership worked out.</strong> When it can, the container adopts the owner of
-  your media folder, so that repairs can write. The server itself never runs as
-  root.</li>
-<li><strong>Less to size by hand.</strong> The graphics card is detected, the transcoding
-  capacity is measured, and the route for each playback follows what the
-  device says it can play.</li>
+<li><strong><code>python3</code></strong> - the majority of community plugins.</li>
+<li><strong><code>node</code></strong>, <strong><code>php</code></strong>, <strong><code>ruby</code></strong>, <strong><code>lua</code></strong> - only if your plugins use them.</li>
 </ul>
-<p>Bringing your own database or search cluster stays possible:
-<a href="operations/advanced-deployments/">Advanced deployments</a>.</p>
-<div class="evey-showcase">
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The home page" data-gallery="showcase" loading="lazy" src="images/showcase-home.webp"></a>
-<br>
-<figcaption>The home page: resume playback, then each library.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="A film page" data-gallery="showcase" loading="lazy" src="images/showcase-media.webp"></a>
-<br>
-<figcaption>A film page, with its artwork, ratings and credits.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The web player" data-gallery="showcase" loading="lazy" src="images/showcase-player.webp"></a>
-<br>
-<figcaption>The web player.</figcaption>
-</figure>
-<figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="The admin dashboard while two films play" data-gallery="showcase" loading="lazy" src="images/showcase-dashboard.webp"></a>
-<br>
-<figcaption>The admin dashboard while two people watch: the picture each one is seeing, and how it is delivered.</figcaption>
-</figure>
-</div>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>Do less work, whenever possible</strong></p>
+<p>Plus the core runtime dependencies:</p>
 <ul>
-<li><strong>Direct Play</strong>: the file as it is; the server only reads it.</li>
-<li><strong><a href="playback/mkvgo/">MKVGo</a></strong>: when only the container has to change, Evey's in-process media
-  layer repackages the tracks: no re-encoding, no media process started per
-  stream, no segments written to disk. FFmpeg copies them where it cannot.</li>
-<li><strong>FFmpeg</strong>: for real transformations, and as a fallback when MKVGo cannot
-  handle the structural work.</li>
+<li><strong>ffmpeg</strong> (transcoding; the image also bundles VAAPI drivers + <code>chromaprint</code>
+  for intro detection).</li>
+<li><strong>PostgreSQL</strong> (server + a database).</li>
+<li><strong>Meilisearch</strong> (search index; or run it embedded via the official binary).</li>
+<li><strong><code>bwrap</code></strong> (bubblewrap) - only if you intend to use the bubblewrap sandbox
+  backend (see below).</li>
+<li><strong><code>libcap</code></strong> (<code>setcap</code>) - to grant the file capability described in §4.</li>
 </ul>
-<p><a href="playback/mkvgo/">MKVGo in Evey</a></p>
-</div>
-<div>
-<p><strong>Know what the machine can actually do</strong></p>
-<p>An accelerator counts only once a real encode on it succeeds. At its first
-quiet moment the server times real encodes from a 4K clip, up to 1440p on the
-processor and up to 2160p on each accelerator, then sends every stream to the
-cheapest route that proved it can serve it. When room runs short, a new
-stream gets a lower quality, or moves from a full graphics card to the
-processor; it is refused, with a clear message, only when no capacity is left.
-<a href="playback/transcoding/">Transcoding and server capacity</a></p>
-</div>
-<div>
-<p><strong>Third-party code is contained, not trusted</strong></p>
-<p>A plugin is analysed before install, gets only the permissions declared and
-accepted by the administrator, and runs as its own process, with no direct
-network access and capped memory, processes and disk. In Docker on a recent
-kernel it sees only its own directory, and a seccomp denylist blocks system
-calls known to be dangerous; an older host gets a weaker sandbox, and the
-admin panel says which one is active.
-<a href="SECURITY/#sandbox-modes">Security model and plugin sandbox</a></p>
-</div>
-<div>
-<p><strong>Find broken media before playback does</strong></p>
-<p><strong>Media Health</strong> reads your MKV and WebM files and explains what it finds.
-What it can repair (a missing seek index, an MP4 named <code>.mkv</code>, tracks stored
-in blocks) is repaired on request, checked before it replaces the file, with
-the original kept by default and every change journaled. The rest is reported,
-never rewritten behind your back.
-<a href="runbooks/media-health/">Media health</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">See what Evey decided, and why<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>The dashboard above lists every playback: who, on which device, in <strong>Direct
-Play</strong>, <strong>Remux</strong> or <strong>Transcode</strong>, whether video and audio are copied or
-encoded and by what, the bitrate and the progress. In the player, <strong>Stream
-info</strong> reflects the plan actually served, and says why the file was not
-played as it is.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Stream info in the web player" loading="lazy" src="images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux: the packaging changes, without re-encoding the video or the audio. "Copied" describes the tracks, not the playback method.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a></p>
-<h2 id="apps-and-extensions">Apps and extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>A web app served by the server itself, apps for Android and Android TV
-(signed in from a phone or a computer with Quick Connect), and casting to a Chromecast.
-Plugins and themes extend the interface, and the same plugin runs on the web,
-on Android and on the TV.
-<a href="getting-started/apps/">Apps and devices</a> ·
-<a href="plugins/">Plugins</a></p>
-<h2 id="find-your-way">Find your way<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
-<div class="grid cards">
+<h2 id="2-run-as-a-dedicated-non-root-user">2. Run as a dedicated non-root user<a class="headerlink" href="#2-run-as-a-dedicated-non-root-user" title="Permanent link">¶</a></h2>
+<p><strong>Never run the server as root.</strong> Create a group and two unprivileged users,
+as the Docker image does; plugins are dropped to UID 1001 (<code>pluginUID</code> in
+<code>pluginhost/host_server.go</code>):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>groupadd<span class="w"> </span>--gid<span class="w"> </span><span class="m">1000</span><span class="w"> </span>evey
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--uid<span class="w"> </span><span class="m">1000</span><span class="w"> </span>--gid<span class="w"> </span>evey<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>evey
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--uid<span class="w"> </span><span class="m">1001</span><span class="w"> </span>--gid<span class="w"> </span>evey<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>evey-plugin
+</span></code></pre></div>
+<p>The group's id matters: the launcher drops a plugin to UID 1001 and to the
+server's own group, and refuses any id below 1000. A group created by
+<code>useradd --system</code> alone gets a system id below 1000, and plugins in <code>basic</code>
+mode are then refused.</p>
 <ul>
-<li>
-<p><strong><a href="installation/">Install Evey</a></strong></p>
-<p>One container and one compose file. Requirements and first launch.</p>
-</li>
-<li>
-<p><strong><a href="getting-started/first-setup/">First setup</a></strong></p>
-<p>The setup wizard, your libraries, the people who will use the server.</p>
-</li>
-<li>
-<p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Libraries, users and profiles, remote access, hardware acceleration,
-backups.</p>
-</li>
-<li>
-<p><strong><a href="playback/how-playback-is-decided/">How playback is decided</a></strong></p>
-<p>Direct Play, Remux and Transcode, and how to read Stream info.</p>
-</li>
-<li>
-<p><strong><a href="operations/troubleshooting/">Troubleshooting</a></strong></p>
-<p>Where to look when something does not work: symptoms, logs, recovery.</p>
-</li>
-<li>
-<p><strong><a href="plugins/">Plugins &amp; API</a></strong></p>
-<p>Installing and writing plugins and themes, the server API.</p>
-</li>
+<li><code>evey</code> (UID 1000) runs the server.</li>
+<li><code>evey-plugin</code> (UID 1001) is the UID plugins are dropped to (by the launcher
+  when uid separation is active), so a compromised plugin lands as a different,
+  unprivileged user that cannot read the server's secrets by plain filesystem
+  permissions. See §4.</li>
 </ul>
-</div>
-<p class="evey-meta">
-Evey is in beta and has no numbered release yet: this documentation follows the
-development branch. ·
-<a href="https://github.com/Evey-project/evey">Source on GitHub</a> ·
-<a href="https://demo.eveyproject.org">Public demo</a> (sign in with demo / demo) ·
-AGPL-3.0-or-later ·
-Security reports: security@eveyproject.org
-</p>
-
-<!-- sources
-one container, no .env: docs/installation.md ; docs/adr/0028-install-is-one-compose-file.md
-embedded db/search, loopback, generated secrets: docker/entrypoint.sh - ensure_secret, pg_start 127.0.0.1, meilisearch --http-addr 127.0.0.1:7700
-media owner adopted, never root: docker/entrypoint.sh - PUID/PGID auto-detection, setpriv
-do less work: docs/playback/mkvgo.md ; internal/app/transcoding/decision.go ; internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager (no ffmpeg, no session state, no on-disk segments) ; docs/playback-serving.md (copy rung: mkvgo, else ffmpeg -c copy)
-less to size: internal/adapters/driven/ffmpeg/hw_readiness.go ; internal/app/transcoding/calibration_service.go ; docs/playback/how-playback-is-decided.md
-accelerators proved, quiet moment: internal/app/transcoding/calibration_service.go - idleProbes ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
-1440p software, 2160p hardware: internal/adapters/driven/ffmpeg/benchmark.go - swBenchLadder, hwBenchLadder
-lower rung, gpu to software, then refused: internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter, ErrVideoCapacityExhausted
-contained plugins: docs/SECURITY.md (Administrator preview, System calls: denylist) ; internal/app/plugin/install.go ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; internal/adapters/driven/pluginrunner/runner_resmon.go
-media health: internal/app/maintenance/seek_index.go - Verdict ; internal/app/maintenance/seek_index_reindex.go - DeepVerify ; internal/app/maintenance/repair_journal.go - Reversible
-stream info, one plan: docs/adr/0030-one-plan-one-decision.md ; internal/app/transcoding/route_tonemap_report_test.go
-one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx ; frontend/apps/tv/src/features/plugins/PluginSlot.tsx
--->
+<p>The server marks itself <strong>non-dumpable</strong> at startup (<code>PR_SET_DUMPABLE=0</code>,
+<code>cmd/evey/hardening_linux.go</code>) so a co-resident plugin can't scrape
+<code>/proc/&lt;server-pid&gt;/{mem,environ}</code>.</p>
+<h2 id="3-pick-the-sandbox-backend-for-your-kernel">3. Pick the sandbox backend for your kernel<a class="headerlink" href="#3-pick-the-sandbox-backend-for-your-kernel" title="Permanent link">¶</a></h2>
+<p>Set <code>EVEY_PLUGINS_SANDBOX_MODE</code>. <code>auto</code> (the default) resolves
+<strong>landlock → bubblewrap → basic</strong> and picks the strongest your host supports
+(<code>resolveAutoMode()</code> in <code>runner_landlock.go</code>). Choose explicitly if you want
+fail-closed behaviour.</p>
+<h3 id="landlock-recommended">Landlock (recommended)<a class="headerlink" href="#landlock-recommended" title="Permanent link">¶</a></h3>
+<p>A per-path filesystem allowlist (plugins see only their own dir + socket dir,
+never your data/secrets) plus a Landlock v4 TCP-egress filter. Needs <strong>no
+privilege, no mount, no namespaces</strong> - the launcher applies it to itself, then
+<code>execve</code>s the plugin.</p>
+<p><strong>Kernel requirement</strong> - Landlock must be both compiled in <em>and</em> in the active
+LSM list. The runner's <code>landlockAvailable()</code> (<code>landlock_probe_linux.go</code>) probes
+<code>landlock_create_ruleset(VERSION)</code>; it returns an errno when the syscall is
+absent (kernel <code>&lt;5.13</code>) or when Landlock is not in the active LSM list. Verify:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uname<span class="w"> </span>-r<span class="w">                              </span><span class="c1"># want &gt;= 5.13</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>/sys/kernel/security/lsm<span class="w">          </span><span class="c1"># must include "landlock"</span>
+</span></code></pre></div>
+<p>If <code>landlock</code> is missing from that list, enable it on the kernel command line
+and reboot (the exact list varies per distro - keep the existing entries and
+append <code>landlock</code>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># e.g. in GRUB_CMDLINE_LINUX:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>lsm=lockdown,capability,yama,apparmor,bpf,landlock
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">    </span><span class="c1"># explicit + fail-closed (refuses a plugin if Landlock can't be enforced)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># or leave it on the default:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># resolves to landlock when available</span>
+</span></code></pre></div>
+<p><code>landlock</code> mode passes <code>-require-landlock</code> to the launcher, which exits non-zero
+rather than running a plugin unconfined if Landlock isn't enforced.</p>
+<h3 id="bubblewrap">bubblewrap<a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
+<p>If you can't get Landlock, install the <code>bwrap</code> binary. bubblewrap puts each
+plugin in user/pid/uts/ipc/(net) namespaces with a mount whitelist. It needs
+<strong>unprivileged user namespaces enabled</strong> and the <strong><code>mount</code> syscall available</strong> -
+true on most bare-metal Linux, but blocked inside a non-privileged Docker
+container (which is exactly why Landlock is the container default). <code>auto</code> only
+selects bubblewrap when Landlock is <strong>absent</strong> and a throwaway bwrap probe
+actually succeeds (<code>ProbeSandbox</code> / <code>sandbox_probe.go</code>).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>bubblewrap<span class="w">  </span><span class="c1"># bwrap namespaces</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># or:</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>strict<span class="w">      </span><span class="c1"># bubblewrap + the LD_PRELOAD seccomp shim</span>
+</span></code></pre></div>
+<p>Sanity-check that the host actually permits the namespace+mount setup:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>bwrap<span class="w"> </span>--unshare-user<span class="w"> </span>--unshare-net<span class="w"> </span>--ro-bind<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/bin/true<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"bwrap OK"</span>
+</span></code></pre></div>
+<h3 id="basic-last-resort">basic (last resort)<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
+<p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> - UID drop + the LD_PRELOAD seccomp shim, and
+the launcher still installs the kernel seccomp denylist and best-effort Landlock
+if present. There is <strong>no per-path filesystem confinement</strong>: a plugin runs at
+UID 1001 with seccomp only. Use this only on old/locked-down kernels where
+neither Landlock nor bubblewrap is available, and lean on the UID separation in
+§4 to protect secrets.</p>
+<blockquote>
+<p><strong>A plugin granted the <code>subprocess</code> permission requires the launcher</strong>, even in
+basic mode. The LD_PRELOAD shim does not survive an <code>exec</code> of a child process,
+so it cannot confine a plugin allowed to spawn subprocesses - only the
+launcher's kernel seccomp (installed right before <code>exec</code> and inherited across
+it) does. If <code>evey-plugin-launcher</code> is missing (see §1), such a plugin
+<strong>refuses to start</strong> in production (fail-closed) rather than running
+unconfined. Plugins without that permission fall back to the LD_PRELOAD shim as
+documented above.</p>
+</blockquote>
+<h2 id="4-uid-separation-protect-secrets-without-root">4. UID separation (protect secrets without root)<a class="headerlink" href="#4-uid-separation-protect-secrets-without-root" title="Permanent link">¶</a></h2>
+<p>UID separation runs each plugin under a separate user (UID 1001, <code>evey-plugin</code>),
+distinct from the server (UID 1000), so a plugin can't read the server's
+<code>jwt.key</code>, backups or logs by plain filesystem permissions (DAC). It matters most
+in <strong><code>basic</code></strong> mode (no Landlock path confinement); under Landlock or bubblewrap
+the filesystem is already walled off, so it's redundant there.</p>
+<p>Controlled by <code>EVEY_PLUGINS_UID_SEPARATION</code> (<code>auto</code> | <code>on</code> | <code>off</code>, default
+<code>auto</code>):</p>
+<ul>
+<li><code>auto</code> - enable only when the sandbox resolves to <code>basic</code>. On a modern
+  bare-metal kernel (Landlock) it stays off, by design.</li>
+<li><code>on</code> - always, even under Landlock/bubblewrap (an extra independent layer).</li>
+<li><code>off</code> - never.</li>
+</ul>
+<p><strong>The drop is done by the launcher, not the server.</strong> The server stays non-root
+with <strong>no</strong> capabilities; the small <code>evey-plugin-launcher</code> binary carries a single
+file capability and <code>setuid</code>s itself to 1001 just before exec'ing the plugin:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>setcap<span class="w"> </span>cap_setuid+ep<span class="w"> </span>/opt/evey/evey-plugin-launcher
+</span></code></pre></div>
+<p>This keeps the server fully unprivileged - a server RCE can't <code>setuid(0)</code> because
+the server holds no caps; only the tiny, no-input launcher does (and it refuses
+any target UID below 1000). If the launcher can't drop (capability missing, or
+<code>no_new_privs</code> set), a plugin in <code>basic</code> mode is <strong>refused</strong> - the UID is its only
+secret wall there; under Landlock it logs a warning and runs at the server's UID.</p>
+<blockquote>
+<p><strong>Incompatible with <code>no_new_privs</code>.</strong> If you launch the server with
+<code>no-new-privileges</code> (or systemd <code>NoNewPrivileges=yes</code>), the file capability is
+ignored on exec: plugins are refused in <code>basic</code> mode, and under Landlock uid
+separation degrades to same-UID (with a warning). Pick one.</p>
+</blockquote>
+<p>If the server runs <strong>as root</strong> instead (not recommended), it drops plugins to
+1001 directly and the launcher capability isn't needed.</p>
+<p>See the plain-language guide for the per-scenario picture:
+<a href="../plugins/sandbox-deployment/">plugins/sandbox-deployment.md</a>.</p>
+<h2 id="5-secret-file-permissions">5. Secret file permissions<a class="headerlink" href="#5-secret-file-permissions" title="Permanent link">¶</a></h2>
+<p>Mirror what the Docker image does (<code>Dockerfile</code>): keep the secret-bearing
+directories <strong>owner-only</strong> so a plugin dropped to UID 1001 can't read them via
+plain DAC, even without Landlock.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>evey:evey<span class="w"> </span>/var/lib/evey
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># The SERVER owns plugins/ (it extracts installs there); group evey - which</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># evey-plugin belongs to - only reads/execs the installed files:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">750</span><span class="w"> </span>/var/lib/evey/plugins
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># owner-only (no group/other) on the secret dirs:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>/var/lib/evey/keys<span class="w"> </span>/var/lib/evey/logs<span class="w"> </span>/var/lib/evey/backups
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># the JWT signing key itself:</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/var/lib/evey/jwt.key<span class="w">      </span><span class="c1"># (auto-generated 0600 on first boot)</span>
+</span></code></pre></div>
+<p>(Adjust paths to wherever you point <code>EVEY_*_DIR</code> / <code>EVEY_JWT_PRIVATE_KEY_PATH</code>.)</p>
+<h2 id="6-environment--config">6. Environment &amp; config<a class="headerlink" href="#6-environment--config" title="Permanent link">¶</a></h2>
+<p>All runtime config is via <code>EVEY_*</code> environment variables. Set the database,
+search, storage paths, JWT key path, and reverse-proxy vars the same way the
+Docker deployment does - see <a href="../configuration/">configuration.md</a> for the full
+table and <a href="../installation/">installation.md</a> for the database/search/reverse-proxy
+walkthrough. Don't duplicate the table here. Notes specific to bare metal:</p>
+<ul>
+<li>Point <code>EVEY_DB_HOST</code> / <code>EVEY_MEILI_URL</code> at your local PostgreSQL / Meilisearch.</li>
+<li>The server still serves <strong>plain HTTP</strong> - put a reverse proxy in front for TLS
+  (an <code>https://</code> External URL and the proxy in Trusted proxies, in
+  <strong>Admin → Remote Access</strong>, or <code>EVEY_SERVER_BASE_URL</code> and
+  <code>EVEY_TRUSTED_PROXIES</code>). See <a href="../reverse-proxy/">reverse-proxy.md</a>.</li>
+<li><strong>The server opens TWO ports, and only one of them may be exposed.</strong>
+  <code>EVEY_SERVER_PORT</code> (default <code>9090</code>) is the native gRPC listener; the HTTP API
+  your clients and reverse proxy talk to is <strong>that port plus one</strong> (<code>9091</code>).
+  Point your reverse proxy and your firewall at the HTTP port only. The gRPC
+  port is an internal transport: the remote-access network gate, which decides
+  whether clients outside your LAN may connect at all, is wired into the HTTP
+  chain and <strong>does not cover the gRPC listener</strong>. Because of that, the gRPC
+  listener binds to <strong>loopback only</strong> by default (<code>EVEY_GRPC_BIND=127.0.0.1</code>),
+  so a bare-metal run cannot expose it by accident. If you have a reason to
+  publish it - a native gRPC client on another host - set
+  <code>EVEY_GRPC_BIND=0.0.0.0</code>; the server warns at boot that the gate does not
+  apply to it, and firewalling it is then on you.</li>
+<li>Migrations run automatically at startup; no separate migrate step.</li>
+<li>The plugin resource caps (<code>EVEY_PLUGINS_MEMORY_MB</code>, <code>_PIDS_MAX</code>,
+  <code>_DISK_MAX_MB</code>, <code>_CPU_NICE</code>) and the sandbox mode are admin-editable at runtime
+  from Admin → Plugins; the env values are just the initial defaults.</li>
+</ul>
+<h2 id="7-verify-your-sandbox">7. Verify your sandbox<a class="headerlink" href="#7-verify-your-sandbox" title="Permanent link">¶</a></h2>
+<p>The server logs the resolved sandbox backend. After the first plugin starts,
+check the server log:</p>
+<ul>
+<li><strong>auto resolution</strong> (logged once):
+  <code>plugin sandbox auto-detection complete  selected_mode=landlock</code>
+  (or <code>bubblewrap</code> / <code>basic</code>).</li>
+<li><strong>per-plugin</strong> (every plugin start):
+  <code>plugin sandbox applied  sandbox_mode=landlock plugin_id=...</code></li>
+<li><strong>fell back to basic</strong> (a warning you do <em>not</em> want to see if you expected
+  Landlock): <code>plugin sandbox auto-detection fell back to basic mode: no per-path filesystem isolation available …</code> - means neither Landlock nor a working bwrap
+  was found. Re-check §3.</li>
+</ul>
+<p>Confirm the kernel pieces independently:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>/sys/kernel/security/lsm<span class="w">          </span><span class="c1"># Landlock active? (should list "landlock")</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>grep<span class="w"> </span>Seccomp:<span class="w"> </span>/proc/&lt;plugin-pid&gt;/status<span class="w">   </span><span class="c1"># 2 = filter mode active on a running plugin</span>
+</span></code></pre></div>
+<p>A <code>Seccomp: 2</code> line on a live plugin process confirms the kernel seccomp filter
+is installed. If you pinned <code>EVEY_PLUGINS_SANDBOX_MODE=landlock</code> and Landlock
+isn't enforced, the plugin <strong>refuses to start</strong> - that's the fail-closed
+contract working as intended.</p>
+<hr>
+<p>For everything else (backups, updates, recovery CLI, troubleshooting) the
+Docker-oriented sections of <a href="../installation/">installation.md</a> apply equally -
+the <code>evey admin</code> subcommands and backup mechanics are the same binary.</p>
 
 
 
@@ -3213,8 +3512,6 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
 
 
 
-
-  
 
 
 
@@ -3240,19 +3537,33 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../operations/advanced-deployments/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Advanced deployments">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Advanced deployments
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Install">
+          <a href="../plugins/sandbox-deployment/" class="md-footer__link md-footer__link--next" aria-label="Next: Plugin sandbox setup">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Install
+                Plugin sandbox setup
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3309,11 +3620,11 @@ one plugin, three screens: frontend/packages/client/src/native/PluginWebView.tsx
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
   
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <script>

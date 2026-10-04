@@ -1,0 +1,262 @@
+/* The brand red, measured for WCAG AA (4.5:1) on 2026-09-08 rather than picked
+   by eye: raw #DC2626 lands at 3.9:1 on the dark background and 4.2:1 on the
+   light raised surface, so light and dark carry different reds. These are the
+   same pairs the apps use (frontend/packages/theme/src/themeVars.ts). */
+:root {
+  --md-primary-fg-color: #c81e1e;
+  --md-primary-fg-color--light: #dc2626;
+  --md-primary-fg-color--dark: #b91c1c;
+  --md-accent-fg-color: #b91c1c;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #ffffffb3;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #f36464;
+  --md-primary-fg-color--light: #f87171;
+  --md-primary-fg-color--dark: #e04a4a;
+  --md-accent-fg-color: #f87171;
+  --md-primary-bg-color: #0b0f19;
+  --md-typeset-a-color: #f36464;
+}
+
+/* The header keeps the dark ground of the apps in both schemes - a full-width
+   red bar reads as an error state, not as a brand. */
+.md-header,
+.md-tabs {
+  background-color: #0b0f19;
+  color: #e6e8f0;
+}
+
+/* ── Breathing room ───────────────────────────────────────────────────────────
+   Material packs the sidebar, the prose and the table of contents tight against
+   each other. On a documentation site that is read for troubleshooting, that
+   density is what makes a page feel like a wall. These rules only add space -
+   no colour, no size change - so the page stays the same, just less cramped. */
+
+/* Sidebar and table of contents: taller rows, and a real gutter between the
+   navigation and the text it points at. */
+.md-nav__item {
+  padding-top: 0.12rem;
+  padding-bottom: 0.12rem;
+}
+
+.md-nav__link {
+  line-height: 1.5;
+}
+
+.md-nav--secondary .md-nav__link {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    padding-right: 0.8rem;
+  }
+  .md-sidebar--secondary {
+    padding-left: 0.8rem;
+  }
+  /* Keep the measure readable: prose sits away from both rails. */
+  .md-content {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+}
+
+/* Prose: a slightly longer line height and more air above headings, which is
+   what separates one procedure step from the next when skimming. */
+.md-typeset {
+  line-height: 1.68;
+}
+
+.md-typeset h2 {
+  margin-top: 2.2em;
+  margin-bottom: 0.7em;
+}
+
+.md-typeset h3 {
+  margin-top: 1.8em;
+}
+
+.md-typeset ul,
+.md-typeset ol {
+  margin-top: 0.6em;
+}
+
+.md-typeset li + li {
+  margin-top: 0.35em;
+}
+
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: 0.7em 0.9em;
+}
+
+/* ── Code ─────────────────────────────────────────────────────────────────────
+   A block that is a file carries its name in a bar above it, like an editor
+   tab, so "save this as docker-compose.yml" reads at a glance. The bar keeps
+   the dark ground of the header in both schemes, underlined in brand red. The
+   rounding is set on the bar and the block, never with overflow: hidden, which
+   would clip the annotation bubbles that open over the code. */
+.md-typeset .highlight span.filename {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  padding: 0.55em 1.2em;
+  border-radius: 0.4rem 0.4rem 0 0;
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  background-color: #0b0f19;
+  color: #e6e8f0;
+  font-family: var(--md-code-font-family);
+  font-size: 0.78em;
+  font-weight: 500;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .highlight span.filename {
+  background-color: #1a2133;
+}
+
+.md-typeset .highlight span.filename + pre,
+.md-typeset .highlight span.filename + pre > code {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.md-typeset pre > code {
+  border-radius: 0.4rem;
+}
+
+/* The numbered bubbles in a code block take the brand red instead of the
+   theme's default accent, so they read as "click me" against the syntax
+   colours. */
+.md-typeset .md-annotation__index::after {
+  background-color: var(--md-primary-fg-color);
+}
+
+/* Buttons wrap on a phone; without a bottom margin the second row sits flush
+   against the first and the two read as one control. */
+.md-typeset .md-button {
+  margin: 0 0.4rem 0.6rem 0;
+}
+
+/* Home page: the destinations under the two-sentence introduction. A compact
+   grid, one line of description each - the page is an index, not a banner. */
+.md-typeset .grid.cards > ul > li {
+  padding: 0.8rem 1rem;
+}
+
+.md-typeset .evey-meta {
+  margin-top: 2rem;
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Screenshots of the interface: a thin frame so a dark capture does not melt
+   into the dark theme, a pointer to say it opens full size (glightbox). */
+.md-typeset figure.evey-shot {
+  margin: 1.2rem 0;
+}
+.md-typeset figure.evey-shot img {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  cursor: zoom-in;
+}
+.md-typeset figure.evey-shot figcaption {
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Two captures to compare, side by side; stacked on a phone. */
+.md-typeset .evey-shot-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .evey-shot-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Logo ─────────────────────────────────────────────────────────────────────
+   The logo is the full wordmark, so the site name Material prints next to it
+   would only repeat it. The name stays in the markup for screen readers; the
+   page title Material swaps in on scroll is untouched. */
+.md-header__button.md-logo img,
+.md-nav__title .md-nav__button.md-logo img {
+  width: auto;
+  height: 1.2rem;
+}
+.md-header__title .md-header__topic:first-child {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Material drops the header logo on narrow screens and leaves the site name
+   alone; with the name hidden the header would be blank, so the wordmark stays. */
+@media screen and (max-width: 76.1875em) {
+  .md-header__button.md-logo {
+    display: inline-block;
+  }
+}
+
+/* The drawer's title bar is brand red by default, which swallows the red V of
+   the wordmark: the dark ground of the header instead, and no repeated name. */
+.md-nav--primary .md-nav__title[for="__drawer"] {
+  background-color: #0b0f19;
+  color: transparent;
+}
+
+/* Home page: four captures of the interface, two by two, one per row on a
+   phone, in one 16:10 frame each. The dashboard capture is wider: its frame
+   keeps the left part (menu and live playback cards). Click-through opens the
+   full images as one gallery. */
+.md-typeset .evey-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1rem;
+  margin: 1.2rem 0 1.6rem;
+}
+.md-typeset .evey-showcase figure.evey-shot {
+  margin: 0;
+}
+.md-typeset .evey-showcase figure.evey-shot img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: left top;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .evey-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Home page: better with less. Two columns of short paragraphs, one
+   on a phone; the link closing each paragraph sits on its own line. */
+.md-typeset .evey-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+}
+.md-typeset .evey-points > div > p:first-child {
+  margin-bottom: 0.3rem;
+}
+.md-typeset .evey-points > div > p:last-child a:last-child {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .evey-points {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A capture taller than it is wide (a player panel): half the column, so it
+   does not fill the screen; full width on a phone. */
+.md-typeset figure.evey-shot--narrow {
+  max-width: 28rem;
+}

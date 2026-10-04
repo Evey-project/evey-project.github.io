@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://eveyproject.org/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/ARCHITECTURE/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/ARCHITECTURE/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/ARCHITECTURE/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/SECURITY/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/SECURITY/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/SECURITY/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/backups/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/backups/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/backups/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/configuration/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/configuration/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/contributing/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/contributing/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/deployment-bare-metal/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/deployment-bare-metal/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/deployment-bare-metal/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/design-principles/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/design-principles/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/design-principles/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/i18n-accessibility/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/i18n-accessibility/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/i18n-accessibility/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/installation/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/installation/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/installation/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/notifications/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/notifications/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/notifications/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/oidc/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/oidc/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/oidc/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback-serving/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback-serving/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback-serving/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/privacy/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/privacy/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/reverse-proxy/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/reverse-proxy/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/reverse-proxy/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/themes/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/themes/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/themes/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/webhooks-api-keys/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/webhooks-api-keys/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/webhooks-api-keys/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/administration/hardware-acceleration/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/hardware-acceleration/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/hardware-acceleration/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/administration/libraries/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/libraries/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/libraries/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/administration/remote-access/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/remote-access/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/remote-access/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/administration/users/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/users/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/users/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/api/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/api/admin/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/admin/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/admin/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/api/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/api/public/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/public/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/public/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/accounts/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/accounts/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/accounts/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/background/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/background/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/background/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/database-search/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/database-search/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/database-search/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/libraries/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/libraries/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/libraries/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/logs-monitoring/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/logs-monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/logs-monitoring/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/notifications/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/notifications/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/notifications/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/playback-delivery/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/playback-delivery/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/playback-delivery/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/server/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/server/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/server/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/environment/transcoding/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/transcoding/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/transcoding/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/getting-started/apps/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/getting-started/apps/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/getting-started/apps/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/getting-started/first-setup/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/getting-started/first-setup/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/getting-started/first-setup/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/operations/advanced-deployments/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/advanced-deployments/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/advanced-deployments/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/operations/background-work/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/background-work/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/background-work/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/operations/monitoring/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/monitoring/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/operations/troubleshooting/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/audio/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/audio/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/audio/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/casting/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/casting/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/casting/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/hdr/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/hdr/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/hdr/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/how-playback-is-decided/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/how-playback-is-decided/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/how-playback-is-decided/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/mkvgo/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/mkvgo/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/mkvgo/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/subtitles/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/subtitles/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/subtitles/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/transcoding/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/transcoding/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/transcoding/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/playback/watching-together/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/watching-together/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/watching-together/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/plugins/api-reference/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/api-reference/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/api-reference/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/plugins/dev-setup/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/dev-setup/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/dev-setup/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/plugins/sandbox-deployment/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/sandbox-deployment/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/sandbox-deployment/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/plugins/security-model/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/security-model/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/security-model/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/runbooks/cli/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/cli/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/cli/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/runbooks/incident-runbook/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/incident-runbook/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/incident-runbook/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/runbooks/media-health/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/media-health/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/media-health/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/runbooks/migration-runbook/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/migration-runbook/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/migration-runbook/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/runbooks/recovery/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/recovery/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/recovery/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/ARCHITECTURE/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/ARCHITECTURE/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/ARCHITECTURE/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/SECURITY/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/SECURITY/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/SECURITY/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/backups/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/backups/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/backups/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/configuration/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/configuration/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/contributing/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/contributing/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/deployment-bare-metal/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/deployment-bare-metal/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/deployment-bare-metal/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/design-principles/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/design-principles/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/design-principles/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/i18n-accessibility/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/i18n-accessibility/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/i18n-accessibility/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/installation/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/installation/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/notifications/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/notifications/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/notifications/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/oidc/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/oidc/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/oidc/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback-serving/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback-serving/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback-serving/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/privacy/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/privacy/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/reverse-proxy/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/reverse-proxy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/reverse-proxy/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/themes/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/themes/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/themes/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/webhooks-api-keys/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/webhooks-api-keys/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/webhooks-api-keys/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/administration/hardware-acceleration/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/hardware-acceleration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/hardware-acceleration/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/administration/libraries/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/libraries/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/libraries/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/administration/remote-access/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/remote-access/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/remote-access/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/administration/users/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/administration/users/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/administration/users/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/api/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/api/admin/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/admin/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/admin/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/api/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/api/public/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/api/public/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/api/public/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/accounts/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/accounts/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/accounts/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/background/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/background/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/background/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/database-search/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/database-search/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/database-search/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/libraries/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/libraries/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/libraries/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/logs-monitoring/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/logs-monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/logs-monitoring/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/notifications/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/notifications/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/notifications/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/playback-delivery/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/playback-delivery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/playback-delivery/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/plugins/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/plugins/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/plugins/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/server/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/server/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/server/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/environment/transcoding/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/environment/transcoding/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/environment/transcoding/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/getting-started/apps/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/getting-started/apps/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/getting-started/apps/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/getting-started/first-setup/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/getting-started/first-setup/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/getting-started/first-setup/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/operations/advanced-deployments/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/advanced-deployments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/advanced-deployments/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/operations/background-work/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/background-work/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/background-work/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/operations/monitoring/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/monitoring/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/monitoring/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/operations/troubleshooting/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/operations/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/operations/troubleshooting/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/audio/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/audio/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/audio/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/casting/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/casting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/casting/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/hdr/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/hdr/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/hdr/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/how-playback-is-decided/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/how-playback-is-decided/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/how-playback-is-decided/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/mkvgo/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/mkvgo/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/mkvgo/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/subtitles/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/subtitles/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/subtitles/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/transcoding/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/transcoding/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/transcoding/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/playback/watching-together/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/playback/watching-together/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/playback/watching-together/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/plugins/api-reference/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/api-reference/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/api-reference/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/plugins/dev-setup/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/dev-setup/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/dev-setup/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/plugins/sandbox-deployment/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/sandbox-deployment/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/sandbox-deployment/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/plugins/security-model/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/plugins/security-model/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/plugins/security-model/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/runbooks/cli/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/cli/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/cli/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/runbooks/incident-runbook/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/incident-runbook/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/incident-runbook/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/runbooks/media-health/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/media-health/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/media-health/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/runbooks/migration-runbook/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/migration-runbook/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/migration-runbook/"/>
+    </url>
+    <url>
+        <loc>https://eveyproject.org/fr/runbooks/recovery/</loc>
+        <lastmod>2026-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://eveyproject.org/fr/runbooks/recovery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eveyproject.org/runbooks/recovery/"/>
+    </url>
+</urlset>

@@ -1,0 +1,229 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "evey/v1/parental.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ParentalService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/profiles/{profileId}/parental": {
+      "get": {
+        "operationId": "ParentalService_GetParentalSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetParentalSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ParentalService"
+        ]
+      },
+      "put": {
+        "operationId": "ParentalService_UpdateParentalSettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateParentalSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ParentalServiceUpdateParentalSettingsBody"
+            }
+          }
+        ],
+        "tags": [
+          "ParentalService"
+        ]
+      }
+    },
+    "/api/v1/profiles/{profileId}/parental/verify-pin": {
+      "post": {
+        "operationId": "ParentalService_VerifyPin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VerifyPinResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ParentalServiceVerifyPinBody"
+            }
+          }
+        ],
+        "tags": [
+          "ParentalService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ParentalServiceUpdateParentalSettingsBody": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "maxAge": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "unsetMaxAge": {
+          "type": "boolean"
+        },
+        "blockedTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "currentPin": {
+          "type": "string"
+        },
+        "newPin": {
+          "type": "string"
+        },
+        "currentPassword": {
+          "type": "string",
+          "description": "Required on the FIRST-TIME PIN set (no existing PIN yet). Protects\nagainst a stolen JWT silently locking the legitimate owner out of\ntheir profile. Ignored when rotating an existing PIN - `current_pin`\ncovers that path."
+        }
+      }
+    },
+    "ParentalServiceVerifyPinBody": {
+      "type": "object",
+      "properties": {
+        "pin": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetParentalSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "maxAge": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "blockedTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hasPin": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1UpdateParentalSettingsResponse": {
+      "type": "object"
+    },
+    "v1VerifyPinResponse": {
+      "type": "object",
+      "properties": {
+        "valid": {
+          "type": "boolean"
+        },
+        "pinToken": {
+          "type": "string",
+          "description": "Short-lived proof of PIN entry, passed to RefreshToken to authorise a\nswitch out of a kids profile. Present only when valid is true."
+        }
+      }
+    }
+  }
+}

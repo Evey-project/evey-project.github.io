@@ -1,0 +1,1330 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "evey/v1/playback.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "PlaybackService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/playback/history": {
+      "get": {
+        "operationId": "PlaybackService_GetWatchHistory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetWatchHistoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.cursor",
+            "description": "Opaque keyset cursor returned by a previous PaginationResponse. When\nset, server uses keyset pagination instead of offset and ignores\n`page` - guarantees no skips/duplicates under concurrent writes.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      },
+      "delete": {
+        "summary": "ClearWatchHistory deletes all of the caller's own watch progress.",
+        "operationId": "PlaybackService_ClearWatchHistory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ClearWatchHistoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "description": "Defaults to the caller's active profile; a non-admin cannot target another.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/next-up": {
+      "get": {
+        "operationId": "PlaybackService_GetNextUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetNextUpResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/progress": {
+      "post": {
+        "operationId": "PlaybackService_ReportProgress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReportProgressResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ReportProgressRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/resume": {
+      "get": {
+        "operationId": "PlaybackService_GetResumeItems",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetResumeItemsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/start": {
+      "post": {
+        "operationId": "PlaybackService_StartStream",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PlaySession"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1StartStreamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/stop": {
+      "post": {
+        "operationId": "PlaybackService_StopStream",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1StopStreamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1StopStreamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/{mediaItemId}/progress": {
+      "get": {
+        "operationId": "PlaybackService_GetWatchProgress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1WatchProgress"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/{mediaItemId}/stream-info": {
+      "get": {
+        "operationId": "PlaybackService_GetStreamInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1StreamInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "maxBitrate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "maxWidth",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "maxHeight",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "supportedCodecs",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "supportedContainers",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "audioStreamIndex",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "subtitleStreamIndex",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "supportedAudioCodecs",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "networkType",
+            "description": "network_type hints the active client connection (\"wifi\" or \"cellular\").\nEmpty defaults to wifi. When \"cellular\", the profile's\nmax_bitrate_cellular_kbps preference (if set) caps the stream.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "supportsHdr",
+            "description": "supports_hdr signals the client display can render HDR (HDR10/HLG) natively.\nThe web player sets it from the (dynamic-range: high) media query. When\nfalse (the default), an HDR source is transcoded/tonemapped to SDR; when\ntrue, an HDR10/HLG source can direct-play / remux. Dolby Vision always\ntranscodes regardless (a single bool can't distinguish a DoVi-capable\npanel from an HDR10-only one).",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "wasmAudio",
+            "description": "wasm_audio: the client decodes AC-3/E-AC-3 itself (ac3go), same capability\nas ?wasmAudio=1 on the master. Needs its own field - such a client must not\nadvertise those codecs in supported_audio_codecs (MSE refuses them muxed).",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "fmp4AudioPassthrough",
+            "description": "fmp4_audio_passthrough: audio codecs the client accepts as a RAW\npassthrough inside our fMP4 segments, beyond the always-wired\nAAC/AC-3/E-AC-3. Separate from supported_audio_codecs on purpose:\n\"I decode MP3\" and \"I accept MP3 muxed in fMP4\" are different questions,\nand the web player declares the first unconditionally while AVPlayer\nrefuses the second. Only \"mp3\" is honoured today; anything else is\nignored server-side. Empty (older clients) keeps the previous behaviour,\na server-side re-encode to AAC.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "maxH264Level",
+            "description": "max_h264_level: the highest H.264 level_idc the device decodes (41 = 4.1,\n51 = 5.1). Same meaning as ?maxH264Level= on the HLS master. 0 (older\nclients) leaves the decision level-blind, as before.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "maxH264Height",
+            "description": "max_h264_height: the tallest H.264 picture the device decodes, when its\nH.264 decoder stops below max_height (a Chromecast Ultra plays 2160p HEVC\nbut 1080p H.264). Same meaning as ?maxH264Height= on the HLS master. 0\n(older clients, most devices) = no separate limit.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/{mediaItemId}/unwatched": {
+      "post": {
+        "operationId": "PlaybackService_MarkAsUnwatched",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MarkAsUnwatchedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    },
+    "/api/v1/playback/{mediaItemId}/watched": {
+      "post": {
+        "operationId": "PlaybackService_MarkAsWatched",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MarkAsWatchedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mediaItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profileId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlaybackService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Artwork": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/v1ArtworkType"
+        },
+        "url": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isSelected": {
+          "type": "boolean"
+        },
+        "blurhash": {
+          "type": "string",
+          "description": "Compact (~30-char) blurhash placeholder. Empty when the source predates\nthe feature or encoding failed. Clients decode it to show a coloured\npreview while the full image is still loading (Wolt blurhash spec)."
+        }
+      }
+    },
+    "v1ArtworkType": {
+      "type": "string",
+      "enum": [
+        "ARTWORK_TYPE_UNSPECIFIED",
+        "ARTWORK_TYPE_PRIMARY",
+        "ARTWORK_TYPE_BACKDROP",
+        "ARTWORK_TYPE_BANNER",
+        "ARTWORK_TYPE_THUMB",
+        "ARTWORK_TYPE_LOGO",
+        "ARTWORK_TYPE_DISC"
+      ],
+      "default": "ARTWORK_TYPE_UNSPECIFIED"
+    },
+    "v1ClearWatchHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1GetNextUpResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediaItem"
+          }
+        }
+      }
+    },
+    "v1GetResumeItemsResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediaItem"
+          }
+        },
+        "progress": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1WatchProgress"
+          }
+        }
+      }
+    },
+    "v1GetWatchHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1WatchProgress"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/v1PaginationResponse"
+        }
+      }
+    },
+    "v1MarkAsUnwatchedResponse": {
+      "type": "object"
+    },
+    "v1MarkAsWatchedResponse": {
+      "type": "object"
+    },
+    "v1MediaItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "libraryId": {
+          "type": "string"
+        },
+        "parentId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/v1MediaItemType"
+        },
+        "title": {
+          "type": "string"
+        },
+        "sortTitle": {
+          "type": "string"
+        },
+        "originalTitle": {
+          "type": "string"
+        },
+        "overview": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "filePath": {
+          "type": "string"
+        },
+        "fileSize": {
+          "type": "string",
+          "format": "int64"
+        },
+        "containerFormat": {
+          "type": "string"
+        },
+        "durationMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "bitrate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "indexNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "communityRating": {
+          "type": "number",
+          "format": "double"
+        },
+        "officialRating": {
+          "type": "string"
+        },
+        "premiereDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "providerIds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "studios": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "streams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediaStream"
+          }
+        },
+        "people": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediaPerson"
+          }
+        },
+        "artwork": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Artwork"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Rating"
+          }
+        },
+        "trailers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Trailer"
+          }
+        },
+        "certificationsByCountry": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Per-country content ratings (e.g. {\"US\":\"PG-13\",\"FR\":\"-12\"}).\nofficial_rating mirrors the \"US\" entry when available."
+        },
+        "seriesTitle": {
+          "type": "string",
+          "description": "Ancestor display titles, stamped by the read endpoints on episodes (both)\nand seasons (series_title only): rows and search results can label an\nepisode with its series without one round-trip per card."
+        },
+        "seasonTitle": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MediaItemType": {
+      "type": "string",
+      "enum": [
+        "MEDIA_ITEM_TYPE_UNSPECIFIED",
+        "MEDIA_ITEM_TYPE_MOVIE",
+        "MEDIA_ITEM_TYPE_SERIES",
+        "MEDIA_ITEM_TYPE_SEASON",
+        "MEDIA_ITEM_TYPE_EPISODE",
+        "MEDIA_ITEM_TYPE_ALBUM",
+        "MEDIA_ITEM_TYPE_ARTIST",
+        "MEDIA_ITEM_TYPE_TRACK",
+        "MEDIA_ITEM_TYPE_PHOTO",
+        "MEDIA_ITEM_TYPE_BOOK"
+      ],
+      "default": "MEDIA_ITEM_TYPE_UNSPECIFIED",
+      "description": " - MEDIA_ITEM_TYPE_BOOK: Deprecated: see LIBRARY_TYPE_BOOKS."
+    },
+    "v1MediaPerson": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/v1PersonType"
+        },
+        "thumbUrl": {
+          "type": "string"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1MediaStream": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "$ref": "#/definitions/v1MediaStreamType"
+        },
+        "codec": {
+          "type": "string"
+        },
+        "codecLongName": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "isForced": {
+          "type": "boolean"
+        },
+        "isExternal": {
+          "type": "boolean"
+        },
+        "externalPath": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "frameRate": {
+          "type": "number",
+          "format": "double"
+        },
+        "pixelFormat": {
+          "type": "string"
+        },
+        "colorSpace": {
+          "type": "string"
+        },
+        "colorTransfer": {
+          "type": "string"
+        },
+        "colorPrimaries": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sampleRate": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bitDepth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bitrate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MediaStreamType": {
+      "type": "string",
+      "enum": [
+        "MEDIA_STREAM_TYPE_UNSPECIFIED",
+        "MEDIA_STREAM_TYPE_VIDEO",
+        "MEDIA_STREAM_TYPE_AUDIO",
+        "MEDIA_STREAM_TYPE_SUBTITLE",
+        "MEDIA_STREAM_TYPE_ATTACHMENT"
+      ],
+      "default": "MEDIA_STREAM_TYPE_UNSPECIFIED"
+    },
+    "v1PaginationRequest": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque keyset cursor returned by a previous PaginationResponse. When\nset, server uses keyset pagination instead of offset and ignores\n`page` - guarantees no skips/duplicates under concurrent writes."
+        }
+      }
+    },
+    "v1PaginationResponse": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nextCursor": {
+          "type": "string",
+          "description": "Opaque cursor for the next page. Empty when no more pages or when\nthe server fell back to offset pagination."
+        }
+      }
+    },
+    "v1PersonType": {
+      "type": "string",
+      "enum": [
+        "PERSON_TYPE_UNSPECIFIED",
+        "PERSON_TYPE_ACTOR",
+        "PERSON_TYPE_DIRECTOR",
+        "PERSON_TYPE_WRITER",
+        "PERSON_TYPE_PRODUCER",
+        "PERSON_TYPE_COMPOSER",
+        "PERSON_TYPE_GUEST_STAR"
+      ],
+      "default": "PERSON_TYPE_UNSPECIFIED"
+    },
+    "v1PlayMethod": {
+      "type": "string",
+      "enum": [
+        "PLAY_METHOD_UNSPECIFIED",
+        "PLAY_METHOD_DIRECT_PLAY",
+        "PLAY_METHOD_DIRECT_STREAM",
+        "PLAY_METHOD_TRANSCODE"
+      ],
+      "default": "PLAY_METHOD_UNSPECIFIED"
+    },
+    "v1PlaySession": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "profileId": {
+          "type": "string"
+        },
+        "mediaItemId": {
+          "type": "string"
+        },
+        "playMethod": {
+          "$ref": "#/definitions/v1PlayMethod"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "deviceName": {
+          "type": "string"
+        },
+        "clientName": {
+          "type": "string"
+        },
+        "positionMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "isPaused": {
+          "type": "boolean"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1Rating": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "title": "imdb, rt, metacritic, tmdb"
+        },
+        "value": {
+          "type": "number",
+          "format": "double"
+        },
+        "maxValue": {
+          "type": "number",
+          "format": "double",
+          "title": "10 for imdb/tmdb, 100 for rt/metacritic"
+        }
+      }
+    },
+    "v1ReportProgressRequest": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "positionMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "isPaused": {
+          "type": "boolean"
+        },
+        "isMuted": {
+          "type": "boolean"
+        },
+        "volumeLevel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "castDeviceName": {
+          "type": "string",
+          "description": "Name of the remote device the media is ACTUALLY playing on when the\nreporting client is only a relay (web sender driving a Chromecast).\nThe position/pause fields above then describe the REMOTE playback.\nEmpty = playing on the session's own device (clears a previous value)."
+        }
+      }
+    },
+    "v1ReportProgressResponse": {
+      "type": "object",
+      "properties": {
+        "remoteCommand": {
+          "type": "string"
+        }
+      }
+    },
+    "v1StartStreamRequest": {
+      "type": "object",
+      "properties": {
+        "mediaItemId": {
+          "type": "string"
+        },
+        "profileId": {
+          "type": "string"
+        },
+        "playMethod": {
+          "$ref": "#/definitions/v1PlayMethod"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "deviceName": {
+          "type": "string"
+        },
+        "clientName": {
+          "type": "string"
+        },
+        "startPositionMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "audioStreamIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "subtitleStreamIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "servedBitrateBps": {
+          "type": "string",
+          "format": "int64",
+          "description": "Bitrate (bits/s) the client will actually pull, copied from the StreamInfo\nthe player just fetched. Stamped onto the session so the admin dashboard\nshows the served rate, not the source. Absent/0 falls back to the source\nbitrate server-side (older clients keep the previous behaviour)."
+        },
+        "videoDecision": {
+          "type": "string",
+          "description": "Per-track serving decision + served codecs/resolution, copied from the\nStreamInfo the player just resolved. Persisted on the session so the admin\npanel can distinguish a copy rung (video copied) from a real transcode and\nshow the served codecs. video_decision/audio_decision are \"copy\"|\"transcode\";\nvideo_codec/audio_codec carry a \"source-\u003etarget\" form when transcoding."
+        },
+        "audioDecision": {
+          "type": "string"
+        },
+        "videoCodec": {
+          "type": "string"
+        },
+        "audioCodec": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "string"
+        }
+      }
+    },
+    "v1StopStreamRequest": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "positionMs": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1StopStreamResponse": {
+      "type": "object"
+    },
+    "v1StreamInfo": {
+      "type": "object",
+      "properties": {
+        "mediaItemId": {
+          "type": "string"
+        },
+        "directPlayUrl": {
+          "type": "string"
+        },
+        "transcodeUrl": {
+          "type": "string"
+        },
+        "mediaStreams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MediaStream"
+          }
+        },
+        "playMethod": {
+          "$ref": "#/definitions/v1PlayMethod"
+        },
+        "container": {
+          "type": "string"
+        },
+        "bitrate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "transcodeReasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "videoDecision": {
+          "type": "string"
+        },
+        "audioDecision": {
+          "type": "string"
+        },
+        "videoCodec": {
+          "type": "string",
+          "description": "Target (served) codecs and resolution the client will actually receive.\nFor a copy decision these equal the source; for a transcode they are the\nrung output (e.g. h264 / aac). The player echoes them back on StartStream\nso the admin \"Now Playing\" panel can show what's really being served."
+        },
+        "audioCodec": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "audioBitrate": {
+          "type": "string",
+          "format": "int64",
+          "description": "Audio bitrate actually served, in bits per second. A Matroska container\nrarely carries a per-track bitrate, so the source probe usually has none -\nbut on a transcode we know it exactly: it is what we ask the encoder for.\n0 when unknown (audio copied from a source that declares no bitrate)."
+        }
+      }
+    },
+    "v1Trailer": {
+      "type": "object",
+      "properties": {
+        "site": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "official": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        },
+        "useSubtitles": {
+          "type": "boolean"
+        },
+        "subtitleLanguage": {
+          "type": "string"
+        }
+      }
+    },
+    "v1WatchProgress": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "profileId": {
+          "type": "string"
+        },
+        "mediaItemId": {
+          "type": "string"
+        },
+        "positionMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "durationMs": {
+          "type": "string",
+          "format": "int64"
+        },
+        "percentComplete": {
+          "type": "number",
+          "format": "double"
+        },
+        "played": {
+          "type": "boolean"
+        },
+        "playCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastPlayedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "title": {
+          "type": "string",
+          "description": "Display metadata, populated by GetWatchHistory so clients show a real label\ninstead of the bare media_item_id. Empty when the item can't be resolved.\n\nmovie title, or episode title for episodes"
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "\"movie\" | \"episode\" | \"track\" | ..."
+        },
+        "indexNumber": {
+          "type": "integer",
+          "format": "int32",
+          "title": "episode number (episodes only)"
+        },
+        "parentIndexNumber": {
+          "type": "integer",
+          "format": "int32",
+          "title": "season number (episodes only)"
+        },
+        "seriesTitle": {
+          "type": "string",
+          "title": "parent series title (episodes only)"
+        }
+      }
+    }
+  }
+}
