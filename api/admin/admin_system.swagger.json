@@ -418,6 +418,44 @@
         }
       }
     },
+    "v1LoadTestDiskActivity": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "type": "string"
+        },
+        "utilPercentAvg": {
+          "type": "number",
+          "format": "double"
+        },
+        "utilPercentPeak": {
+          "type": "number",
+          "format": "double"
+        },
+        "readBytesPerSecAvg": {
+          "type": "string",
+          "format": "int64"
+        },
+        "awaitMsAvg": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "description": "LoadTestDiskActivity is one physical drive's activity over the sustained\ntier. util_percent is the share of time the drive had a request in flight\n(iostat %util); await_ms is the mean time one read took, queueing included."
+    },
+    "v1LoadTestPoolBranch": {
+      "type": "object",
+      "properties": {
+        "branch": {
+          "type": "string"
+        },
+        "viewers": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "LoadTestPoolBranch is how many of the run's viewers were placed on one branch\n(underlying disk) of a pooled mount."
+    },
     "v1LoadTestReport": {
       "type": "object",
       "properties": {
@@ -611,6 +649,30 @@
         "storageOpaque": {
           "type": "boolean",
           "description": "storage_opaque is true when one of those mounts hides the disks from the\nserver's kernel (a FUSE pool, a network or VM share): the disk counter\ncannot see its reads, a cold-cache eviction stops at the mount and a pool\ncounts as one disk. The storage figures then describe the delivery path."
+        },
+        "poolBranches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LoadTestPoolBranch"
+          },
+          "description": "pool_branches is where the audience's titles sit on a pooled mount, one\nentry per branch (disk), most viewers first. Empty when the library is not\non a pool that can say. A pool is not a RAID: a file lives on ONE disk, so\na skewed placement is a skewed load whatever the pool's total capacity."
+        },
+        "disks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LoadTestDiskActivity"
+          },
+          "description": "disks is what each physical drive did over the sustained tier, busiest\nfirst. Read from the host-wide block counters, so it also includes whatever\nelse was reading those disks: it describes the drives, not only this run."
+        },
+        "servedPaths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LoadTestServedPath"
+          },
+          "description": "served_paths is what the server decided for each viewer type over the\nwhole run: how a client-mix verdict says what it was measured on."
         }
       },
       "description": "LoadTestReport is what the box MEASURED, next to what the admission model\npredicted - the panel shows both so the operator sees promises kept."
@@ -649,9 +711,48 @@
         "samples": {
           "type": "integer",
           "format": "int32"
+        },
+        "goHeapLiveBytesAvg": {
+          "type": "string",
+          "format": "int64",
+          "description": "go_heap_live_bytes_avg / _max: the heap the server's last garbage collections\nfound reachable, over the tier. go_mem_limit_bytes is GOMEMLIMIT (0 = unset).\ngo_gc_cpu_percent_avg / _peak: the share of the Go runtime's CPU time spent\ncollecting. A latency verdict with a high GC share and a heap at its limit is\nthe collector, not the disk."
+        },
+        "goHeapLiveBytesMax": {
+          "type": "string",
+          "format": "int64"
+        },
+        "goMemLimitBytes": {
+          "type": "string",
+          "format": "int64"
+        },
+        "goGcCpuPercentAvg": {
+          "type": "number",
+          "format": "double"
+        },
+        "goGcCpuPercentPeak": {
+          "type": "number",
+          "format": "double"
         }
       },
       "description": "LoadTestResources is what the box was actually spending. The figures come\nfrom the server's own cgroup, so every ffmpeg it spawned is already counted;\nserved_bytes_per_sec is tallied by the viewers themselves (they reach the\nserver over loopback, where no NIC counter would see the traffic)."
+    },
+    "v1LoadTestServedPath": {
+      "type": "object",
+      "properties": {
+        "viewerType": {
+          "type": "string",
+          "description": "viewer_type is \"mkvgo\", \"transcode\", \"natural\" or \"client:\u003cprofile\u003e\"."
+        },
+        "path": {
+          "type": "string",
+          "description": "path is the server's X-Evey-Served-By: \"mkvgo\" (packaged from the source,\nno encode), \"ffmpeg-copy\" (remuxed by ffmpeg, no encode), \"transcode\"."
+        },
+        "viewers": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "LoadTestServedPath is how many viewers of one type the server served by one\npath, counted once per viewer by the path its first segment came from."
     },
     "v1LoadTestSourceMix": {
       "type": "object",
@@ -666,6 +767,10 @@
         "count": {
           "type": "integer",
           "format": "int32"
+        },
+        "videoRange": {
+          "type": "string",
+          "description": "video_range is the class's dynamic range: \"sdr\", \"hdr10\", \"hlg\", \"dovi\",\n\"dovi5\" (Dolby Vision profile 5, encoded for every client), \"\" unprobed."
         }
       },
       "description": "LoadTestSourceMix is one source class and how many viewers were placed on it."
@@ -727,6 +832,15 @@
         "samples": {
           "type": "integer",
           "format": "int32"
+        },
+        "goHeapLiveBytes": {
+          "type": "string",
+          "format": "int64",
+          "description": "go_heap_live_bytes / go_gc_cpu_percent: the server's Go runtime over this\ntier (see LoadTestResources)."
+        },
+        "goGcCpuPercent": {
+          "type": "number",
+          "format": "double"
         }
       },
       "description": "LoadTestTierCost is what ONE audience size cost the server: one row of the\nreport's table. Every CPU figure is the SERVER's share - the load generator's\nown overhead has already been subtracted - and mem_used_bytes is anonymous\nmemory, never the page cache of the films being read."
@@ -780,6 +894,10 @@
         "demoMode": {
           "type": "boolean",
           "description": "demo_mode says this is the public demo instance (EVEY_DEMO=1): the\nclients show a banner and grey out what the server reports locked. The\nserver refuses the locked operations whether or not a client honours it."
+        },
+        "demoExtended": {
+          "type": "boolean",
+          "description": "demo_extended says this is a private, extended demo (EVEY_DEMO=extended):\ndemo_mode is FALSE there, since the clients' read-only locks and shared-\naccount behaviour must not apply, and the login screen publishes no\ncredentials. The clients use it only to keep their hands off the network settings."
         }
       }
     },
@@ -844,7 +962,7 @@
       "properties": {
         "scenario": {
           "type": "string",
-          "description": "scenario is WHO the simulated viewers are: \"transcode\", \"natural\",\n\"mkvgo\", the ratio mixes \"light\"/\"balanced\"/\"heavy\", or \"mkvgo+N\"\n(N pinned transcodes then pure direct-play)."
+          "description": "scenario is WHO the simulated viewers are: \"transcode\", \"natural\",\n\"mkvgo\", the ratio mixes \"light\"/\"balanced\"/\"heavy\", \"mkvgo+N\"\n(N pinned transcodes then pure direct-play), or a client mix:\n\"clients:history\" (the proportions of the last 30 days' playbacks) or\n\"clients:tv=40,mobile=40,web-chrome=20\" (profiles: tv, tv-browser, mobile,\nweb-chrome, web-safari), where each viewer declares what that player\ndeclares and the server picks its path."
         },
         "maxViewers": {
           "type": "integer",
@@ -863,6 +981,10 @@
         "coldCache": {
           "type": "boolean",
           "description": "cold_cache keeps evicting the library's files from the OS page cache for\nthe whole run, so the server's reads hit the actual storage. A box whose\nlibrary fits in RAM otherwise measures its memory bus and overstates the\nviewer count, sometimes by a factor of several. Cold measures the day the\nlibrary dwarfs the RAM; warm (the default) measures today. Both are true,\nand the report says which one was measured."
+        },
+        "direct": {
+          "type": "boolean",
+          "description": "direct sends the viewers to the server's own loopback instead of the\npublic address. The default goes through the reverse proxy, the way real\nviewers come; on a box whose proxy path tops out below the server (670\nMb/s in front of a server that serves 15 Gb/s, measured 2026-10-06), that\nrun measures the proxy. Direct measures what the server alone holds."
         }
       }
     },
