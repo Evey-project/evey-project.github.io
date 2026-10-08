@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#plugin-sandboxing---which-setup-for-your-server" class="md-skip">
+        <a href="#plugin-sandbox-setup" class="md-skip">
           Skip to content
         </a>
       
@@ -1854,10 +1854,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#what-protects-you-in-plain-words" class="md-nav__link">
+  <a href="#what-protects-you" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What protects you (in plain words)
+        What protects you
       
     </span>
   </a>
@@ -1887,10 +1887,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-risks-in-plain-words" class="md-nav__link">
+  <a href="#what-a-malicious-plugin-could-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The risks, in plain words
+        What a malicious plugin could do
       
     </span>
   </a>
@@ -1898,10 +1898,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#config-examples-copypaste" class="md-nav__link">
+  <a href="#configuration-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config examples (copy/paste)
+        Configuration examples
       
     </span>
   </a>
@@ -1909,10 +1909,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#changing-the-sandbox-mode-while-running" class="md-nav__link">
+  <a href="#change-the-sandbox-mode-while-running" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Changing the sandbox mode while running
+        Change the sandbox mode while running
       
     </span>
   </a>
@@ -1920,21 +1920,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verify-its-working" class="md-nav__link">
+  <a href="#verify-it-is-working" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify it's working
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See also
+        Verify it is working
       
     </span>
   </a>
@@ -3036,10 +3025,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#what-protects-you-in-plain-words" class="md-nav__link">
+  <a href="#what-protects-you" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What protects you (in plain words)
+        What protects you
       
     </span>
   </a>
@@ -3069,10 +3058,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-risks-in-plain-words" class="md-nav__link">
+  <a href="#what-a-malicious-plugin-could-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The risks, in plain words
+        What a malicious plugin could do
       
     </span>
   </a>
@@ -3080,10 +3069,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#config-examples-copypaste" class="md-nav__link">
+  <a href="#configuration-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config examples (copy/paste)
+        Configuration examples
       
     </span>
   </a>
@@ -3091,10 +3080,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#changing-the-sandbox-mode-while-running" class="md-nav__link">
+  <a href="#change-the-sandbox-mode-while-running" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Changing the sandbox mode while running
+        Change the sandbox mode while running
       
     </span>
   </a>
@@ -3102,21 +3091,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verify-its-working" class="md-nav__link">
+  <a href="#verify-it-is-working" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify it's working
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See also
+        Verify it is working
       
     </span>
   </a>
@@ -3146,37 +3124,35 @@
   </a>
 
 
-<h1 id="plugin-sandboxing---which-setup-for-your-server">Plugin sandboxing - which setup for your server<a class="headerlink" href="#plugin-sandboxing---which-setup-for-your-server" title="Permanent link">¶</a></h1>
-<p>Evey runs third-party plugins inside a sandbox. <strong>For almost everyone the answer
-is: leave the defaults.</strong> The server detects your machine and picks the strongest
-isolation it can, automatically. Read on only if you run an <strong>old NAS</strong>, run
-Evey <strong>without Docker</strong>, or want to <strong>tighten things further</strong>.</p>
-<p>For the full technical model see <a href="../../SECURITY/">SECURITY.md</a>. This page is the
-plain-language decision guide.</p>
-<hr>
-<h2 id="what-protects-you-in-plain-words">What protects you (in plain words)<a class="headerlink" href="#what-protects-you-in-plain-words" title="Permanent link">¶</a></h2>
-<p>A plugin you install is boxed in. The box, depending on your machine:</p>
+<h1 id="plugin-sandbox-setup">Plugin sandbox setup<a class="headerlink" href="#plugin-sandbox-setup" title="Permanent link">¶</a></h1>
+<p>Which sandbox setup fits your server, in plain words. For almost everyone
+the answer is: leave the defaults. The server detects the machine and picks
+the strongest isolation it can. Read on only if you run an old NAS, run Evey
+without Docker, or want to tighten things further. The full technical model
+is in <a href="../../SECURITY/">Security model and plugin sandbox</a>.</p>
+<h2 id="what-protects-you">What protects you<a class="headerlink" href="#what-protects-you" title="Permanent link">¶</a></h2>
+<p>A plugin you install is boxed in. Depending on the machine, the box:</p>
 <ul>
-<li><strong>Limits which files it can touch</strong> - it sees its own folder and the system
-  libraries it needs to run, nothing else (not your media, not your secrets, not
-  other plugins).</li>
-<li><strong>Blocks dangerous system actions</strong> - debugging other processes, loading kernel
-  modules, changing the clock, mounting disks, etc. are refused at the kernel.</li>
-<li><strong>Cuts off direct network access</strong>, always. A plugin that asked for the
-  network (and you approved it) reaches only the hosts it declared, through the
-  server.</li>
-<li><strong>Caps CPU, memory, disk and process count</strong>, so a runaway plugin can't take
-  the server down.</li>
-<li><strong>Keeps your secrets unreadable</strong> - the login-signing key and backups.</li>
+<li><strong>limits which files it can touch</strong>: its own folder and the system
+  libraries it needs, nothing else (not your media, not your secrets, not
+  other plugins);</li>
+<li><strong>blocks dangerous system actions</strong> at the kernel: debugging other
+  processes, loading modules, changing the clock, mounting disks;</li>
+<li><strong>cuts off direct network access</strong>, always: a plugin that asked for the
+  network, and that you approved, reaches only the hosts it declared, through
+  the server;</li>
+<li><strong>caps CPU, memory, disk and process count</strong>, so a runaway plugin cannot
+  take the server down;</li>
+<li><strong>keeps your secrets unreadable</strong>: the login-signing key and the backups.</li>
 </ul>
-<p>On top of that: plugins are <strong>admin-only to install</strong>, they're <strong>scanned</strong> for
-suspicious code, and you <strong>approve their permissions</strong> before they run.</p>
-<p><strong>Check what's actually in force:</strong> Admin → Plugins → Security Dashboard shows
-the <em>host sandbox</em> - the mode <code>auto</code> resolved to (<code>landlock</code>, <code>bubblewrap</code> or
-<code>basic</code>) with the individual probe results. If it shows <strong>basic</strong>, your host
-offers no per-path filesystem isolation (plugins run with UID-drop + seccomp
-only); the probes tell you why, and the sections below tell you how to fix it.</p>
-<hr>
+<p>On top of that, plugins are admin-only to install, scanned for suspicious
+code, and you approve their permissions before they run.</p>
+<p><strong>Check what is in force:</strong> <strong>Admin -&gt; Plugins -&gt; Security Dashboard</strong> shows
+the host sandbox, the mode <code>auto</code> resolved to (<code>landlock</code>, <code>bubblewrap</code> or
+<code>basic</code>) with the probe results (<strong>Landlock kernel</strong>, <strong>Sandbox launcher</strong>,
+<strong>Bubblewrap</strong>). <code>basic</code> means the host offers no per-path file isolation:
+plugins run with a uid drop and seccomp only, the probes say why, and the
+sections below say what to change.</p>
 <h2 id="pick-your-situation">Pick your situation<a class="headerlink" href="#pick-your-situation" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3188,34 +3164,30 @@ only); the probes tell you why, and the sections below tell you how to fix it.</
 </thead>
 <tbody>
 <tr>
-<td><strong>Modern Linux in Docker</strong> (kernel ≥ 5.13 - basically anything from ~2021 on) - <em>the normal case</em></td>
-<td><strong>Strongest isolation</strong> (Landlock), automatically.</td>
-<td><strong>Nothing.</strong> Leave defaults.</td>
+<td><strong>Modern Linux in Docker</strong> (kernel 5.13 or newer, roughly anything from 2021 on), the normal case</td>
+<td>the strongest isolation (Landlock), automatically</td>
+<td>nothing</td>
 </tr>
 <tr>
-<td><strong>Old NAS in Docker</strong> (e.g. older Synology, kernel &lt; 5.13)</td>
-<td>Good isolation, <strong>minus the per-folder file walls</strong>. Secrets, network and system actions are still locked down.</td>
-<td><strong>Nothing.</strong> uid separation (below) turns itself on in this case.</td>
+<td><strong>Old NAS in Docker</strong> (kernel older than 5.13)</td>
+<td>good isolation minus the per-folder file walls; secrets, network and system actions stay locked down</td>
+<td>nothing: uid separation (below) turns itself on</td>
 </tr>
 <tr>
-<td><strong>Any Linux, no Docker</strong> (bare-metal)</td>
-<td><strong>Strongest isolation</strong>, automatically (Landlock on a modern kernel, otherwise bubblewrap namespaces).</td>
-<td>Follow the <a href="../../deployment-bare-metal/">bare-metal guide</a>.</td>
+<td><strong>Any Linux, no Docker</strong></td>
+<td>the strongest isolation available: Landlock on a modern kernel, otherwise bubblewrap namespaces</td>
+<td>follow <a href="../../deployment-bare-metal/">Without a container</a></td>
 </tr>
 </tbody>
 </table>
-<p>How to know which one you got: open <strong>Admin → Plugins</strong> - the Security panel's
-badge shows the sandbox mode actually in force: <code>landlock</code> or <code>bubblewrap</code> means
-strong, <code>basic</code> means the "old NAS" case.</p>
-<hr>
 <h2 id="the-one-knob-you-might-touch-uid-separation">The one knob you might touch: uid separation<a class="headerlink" href="#the-one-knob-you-might-touch-uid-separation" title="Permanent link">¶</a></h2>
-<p><strong>What it does, plainly:</strong> makes a plugin run under a <strong>different user account</strong>
-than Evey itself, so it physically cannot read Evey's secret files - even if
-nothing else stopped it.</p>
-<p><strong>When it matters:</strong> only on an <strong>old machine without the per-folder file walls</strong>
-(i.e. the <code>basic</code> case). On modern machines the file walls already keep secrets
-out of reach, so uid separation there is just a redundant extra layer.</p>
-<p><strong>The setting</strong> - <code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
+<p>Uid separation makes a plugin run under a different user account than the
+server, so it physically cannot read the server's secret files even if
+nothing else stopped it. It only matters on a machine without the
+per-folder file walls (the <code>basic</code> case); on a modern machine the walls
+already keep secrets out of reach, and the separation is a redundant extra
+layer.</p>
+<p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
 <thead>
 <tr>
@@ -3226,107 +3198,98 @@ out of reach, so uid separation there is just a redundant extra layer.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>auto</code> <em>(default)</em></td>
-<td>Turns itself <strong>on only when it's actually needed</strong> (the <code>basic</code> case). Off where it's redundant.</td>
-<td><strong>Leave this</strong> - it does the right thing per machine.</td>
+<td><code>auto</code> (default)</td>
+<td>on only when it is needed (the <code>basic</code> case), off where it is redundant</td>
+<td>always, unless one of the two cases below applies</td>
 </tr>
 <tr>
 <td><code>on</code></td>
-<td><strong>Always on</strong>, even on modern machines - a second, independent secret wall on top of the file walls.</td>
-<td>You want maximum belt-and-braces and accept the small cost below.</td>
+<td>always on, a second independent wall on top of the file walls</td>
+<td>you want belt and braces and accept the small cost below</td>
 </tr>
 <tr>
 <td><code>off</code></td>
-<td><strong>Never.</strong></td>
-<td>A specific plugin misbehaves when run under it (rare).</td>
+<td>never</td>
+<td>a specific plugin misbehaves when run under it (rare)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>The gotcha:</strong> uid separation is <strong>incompatible with the <code>no-new-privileges</code>
-Docker hardening option</strong> - pick one. If your setup can't grant it on an old
-machine (<code>basic</code>), Evey <strong>refuses to start the plugin</strong> rather than run it next to
-your secrets; on a modern machine it logs a warning and runs the plugin normally
-(you just don't get the extra wall). The official image already ships everything needed; you only set
-this variable.</p>
-<p><strong>Small cost of <code>on</code>:</strong> the plugin runs as a separate account, so a plugin that
-writes scratch files <em>inside its own folder</em> could trip up. If one does, set
-<code>off</code>. (This is why the default is <code>auto</code> - it only takes that risk where there's
-a real benefit.)</p>
-<hr>
-<h2 id="the-risks-in-plain-words">The risks, in plain words<a class="headerlink" href="#the-risks-in-plain-words" title="Permanent link">¶</a></h2>
-<p>What a <strong>malicious</strong> plugin could and couldn't do - by scenario:</p>
-<p><strong>Modern Linux (Docker or bare-metal):</strong>
-A bad plugin is fully boxed in. It <strong>cannot</strong> read your secrets, <strong>cannot</strong> see
-or touch other plugins' files, <strong>cannot</strong> make arbitrary network calls, and
-<strong>cannot</strong> tamper with the system. The only realistic way out is a serious Linux
-<strong>kernel</strong> bug - true of <em>any</em> sandbox that isn't a full virtual machine.</p>
-<p><strong>Old NAS in Docker, no per-folder walls (<code>basic</code>):</strong>
-- ✅ Your <strong>secrets stay protected</strong> (login key, backups) by the separate user
-  account, which <code>auto</code> turns on here.
-- ✅ The plugin has <strong>no direct network</strong>; a permitted one reaches only the
-  hosts it declared.
-- ✅ <strong>Dangerous system actions are still blocked</strong> at the kernel.
-- ⚠️ But with no per-folder walls, a bad plugin <strong>could read ordinary, non-secret
-  files</strong>, <strong>list running processes</strong>, and - because plugins share one account -
-  potentially <strong>read or disturb another plugin's files</strong>.
-- <strong>Bottom line:</strong> only install plugins you trust on such a host, or move to a
-  modern kernel for the full file walls.</p>
-<hr>
-<h2 id="config-examples-copypaste">Config examples (copy/paste)<a class="headerlink" href="#config-examples-copypaste" title="Permanent link">¶</a></h2>
-<p>These go in your <code>.env</code> (Docker compose) or as <code>EVEY_*</code> environment variables.</p>
-<p><strong>1. Normal modern server - recommended (do nothing):</strong>
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Defaults are correct. Optionally make it explicit:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># picks the strongest available</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># EVEY_PLUGINS_UID_SEPARATION=auto      # (default) on only where needed</span>
-</span></code></pre></div><p></p>
-<p><strong>2. Old NAS:</strong> nothing to set, <code>auto</code> already runs plugins under the separate
-account there. Keep <code>no-new-privileges</code> out of your compose <code>security_opt</code>,
-which would stop it:
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># (default) on in the basic case</span>
-</span></code></pre></div><p></p>
-<p><strong>3. Maximum belt-and-braces on a modern server (stack both walls):</strong>
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># → landlock</span>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Uid separation is incompatible with the <code>no-new-privileges</code> Docker
+option: pick one. When the drop cannot be granted on an old machine
+(<code>basic</code>), the server refuses to start the plugin rather than run it
+next to your secrets; on a modern machine it logs a warning and runs the
+plugin without the extra wall. The image ships everything needed, you
+only set the variable.</p>
+</div>
+<p>The small cost of <code>on</code>: the plugin runs as a separate account, so a plugin
+that writes scratch files inside its own folder can trip up. If one does,
+set <code>off</code>. That is why the default is <code>auto</code>: it only takes that risk where
+there is a real benefit.</p>
+<h2 id="what-a-malicious-plugin-could-do">What a malicious plugin could do<a class="headerlink" href="#what-a-malicious-plugin-could-do" title="Permanent link">¶</a></h2>
+<p><strong>Modern Linux (Docker or bare metal):</strong> a bad plugin is fully boxed in. It
+cannot read your secrets, cannot see or touch other plugins' files, cannot
+make arbitrary network calls and cannot tamper with the system. The only
+realistic way out is a serious kernel bug, true of any sandbox that is not a
+full virtual machine.</p>
+<p><strong>Old NAS in Docker, no per-folder walls (<code>basic</code>):</strong></p>
+<ul>
+<li>your secrets stay protected (login key, backups) by the separate user
+  account, which <code>auto</code> turns on here;</li>
+<li>the plugin has no direct network; a permitted one reaches only the hosts it
+  declared;</li>
+<li>dangerous system actions are still blocked at the kernel;</li>
+<li>but with no per-folder walls, a bad plugin could read ordinary, non-secret
+  files, list running processes and, because plugins share one account,
+  read or disturb another plugin's files.</li>
+</ul>
+<p>Only install plugins you trust on such a host, or move to a modern kernel
+for the full file walls.</p>
+<h2 id="configuration-examples">Configuration examples<a class="headerlink" href="#configuration-examples" title="Permanent link">¶</a></h2>
+<p>These go in your <code>.env</code> (compose) or as <code>EVEY_*</code> environment variables.</p>
+<div class="language-bash highlight"><span class="filename">1. Modern server, recommended (nothing to do)</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># picks the strongest available (default)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># EVEY_PLUGINS_UID_SEPARATION=auto      # (default) on only where needed</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><span class="filename">2. Old NAS (nothing to set, shown for clarity)</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># keep no-new-privileges out of the compose security_opt, it would block the drop</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># (default) on in the basic case</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><span class="filename">3. Belt and braces on a modern server</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># resolves to landlock</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># add the independent uid wall on top</span>
-</span></code></pre></div><p></p>
-<p><strong>4. Pin a specific mode (advanced):</strong>
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">      </span><span class="c1"># refuse to start plugins if Landlock is unavailable (fail-closed)</span>
-</span></code></pre></div><p></p>
-<p><strong>5. A plugin breaks under uid separation:</strong>
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>off
-</span></code></pre></div><p></p>
-<p><strong>6. Resource caps (all admin-editable later from Admin → Plugins):</strong>
-</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">EVEY_PLUGINS_MEMORY_MB</span><span class="o">=</span><span class="m">256</span><span class="w">              </span><span class="c1"># max RAM per plugin</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">EVEY_PLUGINS_PIDS_MAX</span><span class="o">=</span><span class="m">64</span><span class="w">                </span><span class="c1"># max processes/threads</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><span class="filename">4. Pin a mode (advanced)</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">      </span><span class="c1"># refuse to start plugins if Landlock is unavailable</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><span class="filename">5. A plugin breaks under uid separation</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>off
+</span></code></pre></div>
+<div class="language-bash highlight"><span class="filename">6. Resource caps (editable later from Admin -&gt; Plugins -&gt; Resource limits)</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">EVEY_PLUGINS_MEMORY_MB</span><span class="o">=</span><span class="m">256</span><span class="w">              </span><span class="c1"># max RAM per plugin</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">EVEY_PLUGINS_PIDS_MAX</span><span class="o">=</span><span class="m">64</span><span class="w">                </span><span class="c1"># max processes and threads</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">EVEY_PLUGINS_DISK_MAX_MB</span><span class="o">=</span><span class="m">100</span><span class="w">            </span><span class="c1"># max install-dir size (0 = off)</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nv">EVEY_PLUGINS_CPU_NICE</span><span class="o">=</span><span class="m">10</span><span class="w">                </span><span class="c1"># scheduling priority 0-19 (higher = nicer)</span>
-</span></code></pre></div><p></p>
-<hr>
-<h2 id="changing-the-sandbox-mode-while-running">Changing the sandbox mode while running<a class="headerlink" href="#changing-the-sandbox-mode-while-running" title="Permanent link">¶</a></h2>
-<p>You can change the mode from the <strong>Resource limits</strong> card on <strong>Admin → Plugins</strong>.
-Running plugins are <strong>restarted automatically</strong> so the new mode takes effect immediately
-(no manual disable/enable). The Security badge shows the mode actually in force.
-If a plugin can't run under the new mode (e.g. you picked <code>bubblewrap</code> on Docker,
-where it needs privileges), it shows up as <strong>errored</strong> in the dashboard - just
-switch back.</p>
-<hr>
-<h2 id="verify-its-working">Verify it's working<a class="headerlink" href="#verify-its-working" title="Permanent link">¶</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># the launcher carries the capability used for uid separation:</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>getcap<span class="w"> </span>/evey-plugin-launcher<span class="w">        </span><span class="c1"># → cap_setuid=ep</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># which user a running plugin runs as (evey = shared with server, evey-plugin = separated):</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ps<span class="w"> </span>-o<span class="w"> </span>user,pid,args<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>grep<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"node|python"</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># the sandbox mode actually in force: the Security badge on the Admin → Plugins page.</span>
 </span></code></pre></div>
-<hr>
-<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">¶</a></h2>
-<ul>
-<li><a href="../../SECURITY/">SECURITY.md</a> - the full plugin security model (every layer, the
-  per-mode table, known limits).</li>
-<li><a href="../../deployment-bare-metal/">deployment-bare-metal.md</a> - running without Docker.</li>
-<li><a href="../../installation/">installation.md</a> - the Docker self-host walkthrough.</li>
-</ul>
+<h2 id="change-the-sandbox-mode-while-running">Change the sandbox mode while running<a class="headerlink" href="#change-the-sandbox-mode-while-running" title="Permanent link">¶</a></h2>
+<p>Change <strong>Sandbox mode</strong> in the <strong>Resource limits</strong> card of <strong>Admin -&gt;
+Plugins</strong>. Running plugins are restarted automatically so the new mode takes
+effect at once, and the <strong>Security Dashboard</strong> shows the mode in force. A
+plugin that cannot run under the new mode (for example <code>bubblewrap</code> inside
+an unprivileged container) shows up as errored: switch back.</p>
+<h2 id="verify-it-is-working">Verify it is working<a class="headerlink" href="#verify-it-is-working" title="Permanent link">¶</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># the launcher carries the capability used for uid separation</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>getcap<span class="w"> </span>/evey-plugin-launcher<span class="w">        </span><span class="c1"># cap_setuid=ep</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># which user a running plugin runs as (evey = shared with the server,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># evey-plugin = separated); the image has no ps, so ask Docker</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>docker<span class="w"> </span>top<span class="w"> </span>evey-server<span class="w"> </span>-o<span class="w"> </span>user,pid,args<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"node|python"</span>
+</span></code></pre></div>
+<p>The sandbox mode in force is the badge of <strong>Admin -&gt; Plugins -&gt; Security
+Dashboard</strong>.</p>
+<!-- sources
+auto resolution and probes: internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; runner_sandbox.go - effectiveMode, SandboxStatus, uidSepApplies, WithUIDSeparation, applyBasicSandbox
+defaults: internal/config/config.go (EVEY_PLUGINS_SANDBOX_MODE, EVEY_PLUGINS_UID_SEPARATION, EVEY_PLUGINS_MEMORY_MB, _PIDS_MAX, _DISK_MAX_MB, _CPU_NICE)
+restart on mode change: internal/app/plugin/runtime_service.go - RestartRunningPlugins
+image: Dockerfile (setcap cap_setuid+ep /evey-plugin-launcher, no procps) ; docker-compose.yml (no security_opt)
+labels: i18n/en/admin.yaml - plugins.security.title, probeLandlock, probeLauncher, probeBubblewrap, plugins.resourceLimits.title, resourceLimits.sandboxMode
+-->
 
 
 

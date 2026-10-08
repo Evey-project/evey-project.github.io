@@ -3037,79 +3037,82 @@
 
 
 <h1 id="playback-delivery-and-downloads">Diffusion de la lecture et téléchargements<a class="headerlink" href="#playback-delivery-and-downloads" title="Permanent link">¶</a></h1>
-<p>La façon dont les flux sont empaquetés, et ce que le serveur prépare pour les
-téléchargements. Les valeurs par défaut correspondent au comportement
-recommandé ; ces options servent à couper une voie pendant une investigation,
-ou à activer une voie désactivée par défaut.</p>
-<p>Une variable qui a une clé peut aussi se définir par une ligne portant cette
-clé dans <strong>Admin → Configuration du serveur → Entrées de configuration</strong> ; la
-ligne l'emporte sur l'environnement. Le panneau propose les clés des
-téléchargements ; les autres se saisissent telles qu'elles figurent ici.
-Toutes sont lues au démarrage.</p>
+<p>Les options derrière la façon dont les flux sont empaquetés et ce que le
+serveur prépare pour les téléchargements. Les valeurs par défaut
+correspondent au comportement recommandé : ces options servent à couper une
+voie pendant une investigation, ou à activer une voie désactivée par défaut.
+Comment un flux est choisi au départ :
+<a href="../../playback/how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</p>
+<p>Une variable qui a une clé de panneau peut aussi se définir par une ligne
+portant cette clé dans <strong>Admin → Configuration du serveur → Entrées de
+configuration</strong> ; la ligne l'emporte sur l'environnement. Le panneau propose
+les clés des téléchargements ; les autres se saisissent telles qu'elles
+figurent ici. Toutes sont lues au démarrage : un changement s'applique au
+redémarrage suivant, quelle que soit la façon de le faire.</p>
 <h2 id="packaging">Empaquetage<a class="headerlink" href="#packaging" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Clé du panneau</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND</code></td>
-<td><code>transcoding.hls_ondemand</code></td>
 <td>activé</td>
-<td>Sert un fichier dont les pistes peuvent être copiées en le réempaquetant à la volée, sans ffmpeg et sans rien écrire dans le cache. Désactivé : ces fichiers passent par la voie de copie ffmpeg.</td>
+<td>Sert un fichier dont les pistes peuvent être copiées en le réempaquetant à la volée, sans ffmpeg et sans rien écrire dans le cache. <code>off</code> : ces fichiers passent par la voie de copie ffmpeg.</td>
+<td>Entrées de configuration <code>transcoding.hls_ondemand</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_REMUX_COPY</code></td>
-<td><code>transcoding.remux_copy</code></td>
 <td>activé</td>
-<td>La voie de copie ffmpeg : la vidéo est copiée sans réencodage quand le fichier le permet. Désactivé : ces fichiers sont transcodés.</td>
+<td>La voie de copie ffmpeg : la vidéo est copiée sans réencodage quand le fichier le permet. <code>off</code> : ces fichiers sont transcodés.</td>
+<td>Entrées de configuration <code>transcoding.remux_copy</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_AUDIO_RENDITION_ENABLED</code></td>
-<td></td>
 <td><code>true</code></td>
 <td>Propose les pistes audio comme des variantes séparées, pour qu'un lecteur change de langue sans recharger la vidéo. Permet aussi de lire une vidéo copiée avec une piste audio réencodée à part.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_COPY_FALLBACK_RUNG</code></td>
-<td></td>
 <td><code>true</code></td>
 <td>Ajoute une qualité basse transcodée à côté d'un flux copié, pour qu'un lecteur dont la connexion s'effondre puisse descendre au lieu de se figer. Ne coûte rien tant qu'aucun lecteur ne l'utilise.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_CONCAT</code></td>
-<td><code>transcoding.hls_ondemand_concat</code></td>
 <td>activé</td>
 <td>La lecture enchaînée sans coupure entre épisodes, quand le lecteur web la demande. Un épisode qui ne peut pas être copié revient au flux normal.</td>
+<td>Entrées de configuration <code>transcoding.hls_ondemand_concat</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_TRACK_TRIM</code></td>
-<td><code>transcoding.hls_ondemand_track_trim</code></td>
 <td>désactivé</td>
 <td>Ne met dans chaque flux que la piste audio sélectionnée, au lieu de toutes.</td>
+<td>Entrées de configuration <code>transcoding.hls_ondemand_track_trim</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_ENCRYPT</code></td>
-<td><code>transcoding.hls_ondemand_encrypt</code></td>
 <td>désactivé</td>
 <td>Chiffre en AES-128 les flux réempaquetés (HLS seulement : aucun manifeste DASH n'est alors proposé).</td>
+<td>Entrées de configuration <code>transcoding.hls_ondemand_encrypt</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_KEY_ROTATION_SEGMENTS</code></td>
-<td><code>transcoding.hls_key_rotation_segments</code></td>
 <td><code>0</code></td>
 <td>Avec le chiffrement, change de clé tous les N segments ; <code>0</code> = une clé par titre.</td>
+<td>Entrées de configuration <code>transcoding.hls_key_rotation_segments</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_CAST_WASM_AUDIO_ENABLED</code></td>
-<td></td>
 <td><code>false</code></td>
 <td>Laisse un Chromecast décoder lui-même le Dolby Digital au lieu de recevoir de l'AAC. Désactivé parce que cela surchargeait les récepteurs d'entrée de gamme sans rien économiser. Les navigateurs ne sont pas concernés.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3118,29 +3121,29 @@ Toutes sont lues au démarrage.</p>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Clé du panneau</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_COMPAT_DOWNLOAD</code></td>
-<td><code>transcoding.compat_download</code></td>
 <td>activé</td>
 <td>Prépare un téléchargement dont l'audio est lisible par un téléphone (AAC), vidéo intacte. Seul l'audio est réencodé, ce qui prend quelques minutes.</td>
+<td>Entrées de configuration <code>transcoding.compat_download</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_DOWNLOAD_QUALITY_CHOICE</code></td>
-<td><code>downloads.quality_choice</code></td>
 <td>désactivé</td>
 <td>Propose une copie plus légère en 720p pour les téléchargements. Elle réencode la vidéo, à peu près en temps réel sur une machine modeste : c'est pourquoi elle reste désactivée tant que vous ne l'activez pas.</td>
+<td>Entrées de configuration <code>downloads.quality_choice</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_DOWNLOAD_REDUCE_ABOVE_BYTES</code></td>
-<td><code>downloads.reduce_above_bytes</code></td>
 <td><code>4294967296</code> (4 Gio)</td>
 <td>La taille au-delà de laquelle l'application propose la copie allégée ; le téléphone la propose aussi quand le film ne tient pas.</td>
+<td>Entrées de configuration <code>downloads.reduce_above_bytes</code>, redémarrage</td>
 </tr>
 </tbody>
 </table>
@@ -3151,6 +3154,7 @@ Toutes sont lues au démarrage.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3158,11 +3162,13 @@ Toutes sont lues au démarrage.</p>
 <td><code>EVEY_PLAYBACK_SKIP_FORWARD</code></td>
 <td><code>30</code></td>
 <td>Secondes sautées par le bouton d'avance.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_PLAYBACK_SKIP_BACKWARD</code></td>
 <td><code>30</code></td>
 <td>Secondes sautées par le bouton de retour.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

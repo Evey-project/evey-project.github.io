@@ -28,7 +28,7 @@
     
     
       
-        <title>Documentation de l'API d'Evey - Evey</title>
+        <title>API du serveur - Evey</title>
       
     
     
@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey-api-documentation" class="md-skip">
+        <a href="#server-api" class="md-skip">
           Aller au contenu
         </a>
       
@@ -154,7 +154,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Documentation de l'API d'Evey
+              API du serveur
             
           </span>
         </div>
@@ -2898,21 +2898,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Organisation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Utilisation
+        Authentification
       
     </span>
   </a>
@@ -2953,9 +2942,10 @@
   </a>
 
 
-<h1 id="evey-api-documentation">Documentation de l'API d'Evey<a class="headerlink" href="#evey-api-documentation" title="Permanent link">¶</a></h1>
-<p>Les spécifications OpenAPI (Swagger 2.0) du serveur multimédia Evey.</p>
-<h2 id="structure">Organisation<a class="headerlink" href="#structure" title="Permanent link">¶</a></h2>
+<h1 id="server-api">API du serveur<a class="headerlink" href="#server-api" title="Permanent link">¶</a></h1>
+<p>L'API HTTP du serveur, décrite en fichiers OpenAPI (Swagger 2.0), un par
+service. Cet index dit quel dossier contient quoi et comment un appel
+s'authentifie ; les fichiers eux-mêmes sont la référence.</p>
 <table>
 <thead>
 <tr>
@@ -2966,27 +2956,66 @@
 <tbody>
 <tr>
 <td><a href="public/">API publique</a></td>
-<td>Ce que voient les utilisateurs : navigation dans les médias, lecture, collections, playlists, etc.</td>
+<td>Ce qu'un utilisateur connecté peut faire : parcourir, lire, collectionner, demander.</td>
 </tr>
 <tr>
 <td><a href="admin/">API d'administration</a></td>
-<td>L'administration du serveur : configuration, transcodage, sauvegardes, métadonnées, etc.</td>
+<td>L'administration du serveur : configuration, transcodage, sauvegardes, métadonnées, utilisateurs.</td>
 </tr>
 <tr>
 <td><a href="plugins/">API des plugins</a></td>
-<td>La gestion des plugins et les intégrations par webhook.</td>
+<td>La gestion des plugins, les webhooks, et les préférences que l'interface d'un plugin garde par utilisateur.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="usage">Utilisation<a class="headerlink" href="#usage" title="Permanent link">¶</a></h2>
-<p>Chaque dossier contient des fichiers <code>.swagger.json</code> à importer dans n'importe
-quel outil compatible OpenAPI (Swagger UI, Postman, Insomnia, etc.).</p>
+<p>Chaque fichier <code>.swagger.json</code> s'importe dans n'importe quel outil OpenAPI
+(Swagger UI, Postman, Insomnia). Les routes HTTP sont générées à partir des
+définitions gRPC de <code>proto/evey/v1/</code> : un nom de méthode dans un fichier est
+la méthode gRPC qui se trouve derrière.</p>
+<h2 id="authentication">Authentification<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
+<p>Trois sortes d'identifiants atteignent l'API, tous dans l'en-tête
+<code>Authorization</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Identifiant</th>
+<th>Qui</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jeton de session</td>
+<td>Une personne connectée par une application</td>
+<td><code>Bearer &lt;jeton&gt;</code>, obtenu à la connexion et renouvelé par l'application.</td>
+</tr>
+<tr>
+<td>Clé d'API</td>
+<td>Un script, au nom de l'administrateur qui l'a créée</td>
+<td><code>Bearer evey_...</code> (le préfixe <code>Bearer</code> est facultatif). À permissions limitées, révocable : <a href="../webhooks-api-keys/">Webhooks et clés d'API</a>.</td>
+</tr>
+<tr>
+<td>Jeton de plugin</td>
+<td>L'interface d'un plugin, par la page hôte</td>
+<td>Émis pour cinq minutes, pour un plugin et un utilisateur, ne portant que les portées <code>public</code> et <code>prefs</code> accordées au plugin ; toute autre méthode le refuse. Le cadre ne le détient jamais : la page hôte relaie les appels.</td>
+</tr>
+</tbody>
+</table>
+<p>Un jeton de plugin ne peut jamais atteindre une méthode d'administration,
+quelles que soient ses portées
+(<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>,
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>).</p>
 <h2 id="regeneration">Régénération<a class="headerlink" href="#regeneration" title="Permanent link">¶</a></h2>
-<p>Ces spécifications sont générées à partir des définitions protobuf avec
-<code>buf generate</code>. Pour les mettre à jour :</p>
+<p>Pour les contributeurs : les fichiers sont régénérés à partir des définitions
+protobuf.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>buf<span class="w"> </span>generate<span class="w"> </span>--template<span class="w"> </span>buf.gen.local.yaml
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python3<span class="w"> </span>docs/api/sync.py
 </span></code></pre></div>
+<!-- sources
+session token, api key, plugin token: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticate, authenticateAPIKey, authorizePluginToken
+plugin token: internal/app/plugin/token_service.go - PluginTokenTTL ; internal/pkg/auth/plugin_jwt.go - AllowedPluginScopes ; docs/adr/0003-plugin-scoped-tokens.md ; docs/adr/0012-plugin-token-deny-by-default.md
+generation: docs/api/sync.py ; buf.gen.local.yaml
+-->
 
 
 

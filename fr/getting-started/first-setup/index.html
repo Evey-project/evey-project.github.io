@@ -686,6 +686,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. L'assistant de configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-of-4---language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 sur 4 - Langue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-of-4---welcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 sur 4 - Bienvenue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-of-4---admin-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 sur 4 - Compte administrateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-of-4---first-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 sur 4 - Première bibliothèque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3014,6 +3064,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. L'assistant de configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-of-4---language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 sur 4 - Langue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-of-4---welcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 sur 4 - Bienvenue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-of-4---admin-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 sur 4 - Compte administrateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-of-4---first-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 sur 4 - Première bibliothèque
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3095,22 +3195,108 @@
 
 
 <h1 id="first-setup">Première configuration<a class="headerlink" href="#first-setup" title="Permanent link">¶</a></h1>
-<p>Le serveur tourne et vous avez ouvert <code>http://&lt;adresse-du-serveur&gt;:9091</code>.
+<p>Le serveur tourne et vous avez ouvert <code>http://&lt;adresse-du-serveur&gt;:9091</code> dans
+un navigateur (quelle adresse :
+<a href="../../installation/#the-address-to-open-next">L'adresse à ouvrir ensuite</a>).
 Il reste quatre étapes avant de pouvoir regarder quoi que ce soit :
 l'assistant de configuration, les bibliothèques, les utilisateurs et les
 applications.</p>
 <h2 id="1-the-setup-wizard">1. L'assistant de configuration<a class="headerlink" href="#1-the-setup-wizard" title="Permanent link">¶</a></h2>
-<p>Un serveur sans administrateur s'ouvre sur un assistant en quatre étapes :</p>
-<ol>
-<li><strong>Langue</strong> : la langue par défaut des nouveaux profils et des
-   métadonnées (titres, résumés, genres).</li>
-<li><strong>Bienvenue</strong>.</li>
-<li><strong>Compte administrateur</strong> : un nom d'utilisateur d'au moins 3 caractères
-   et un mot de passe d'au moins 8. Le nom du serveur, facultatif, apparaît
-   sur la page de connexion et dans la liste des serveurs des applications.</li>
-<li><strong>Première bibliothèque</strong> : un nom et un type. Vous pouvez passer cette
-   étape et ajouter les bibliothèques ensuite.</li>
-</ol>
+<p>Tant que le serveur n'a pas d'administrateur, toute adresse sur ce serveur
+s'ouvre sur l'assistant : une seule carte avec le logo Evey, une ligne
+<strong>Étape 1 sur 4 - Langue</strong> et quatre points qui se remplissent au fil des
+étapes. Il ne pose que quatre questions et prend une minute.</p>
+<h3 id="step-1-of-4---language">Étape 1 sur 4 - Langue<a class="headerlink" href="#step-1-of-4---language" title="Permanent link">¶</a></h3>
+<p>La carte est titrée <strong>Choisissez la langue du serveur</strong>. Deux listes
+déroulantes :</p>
+<ul>
+<li><strong>Langue</strong> : devient la langue par défaut des nouveaux profils et des
+  métadonnées que le serveur récupère (titres, résumés, genres). L'assistant
+  lui-même passe aussitôt dans cette langue.</li>
+<li><strong>Région</strong> : pré-remplie d'après la langue ; elle sert aux classifications
+  de contenu et aux préférences régionales. <strong>Automatique</strong> est proposé.</li>
+</ul>
+<p>Les deux se modifient ensuite dans le panneau d'administration. Appuyez sur
+<strong>Continuer</strong>.</p>
+<h3 id="step-2-of-4---welcome">Étape 2 sur 4 - Bienvenue<a class="headerlink" href="#step-2-of-4---welcome" title="Permanent link">¶</a></h3>
+<p><strong>Bienvenue sur Evey</strong> et une phrase. Appuyez sur <strong>Commencer</strong> (ou
+<strong>Retour</strong>).</p>
+<div class="evey-shot-pair">
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Étape 1 de l'assistant : langue et région" data-gallery="setup" loading="lazy" src="../../../images/setup-wizard-1-language.webp"></a>
+<br>
+<figcaption>Étape 1 : la langue du serveur, et la région utilisée pour les classifications d'âge (interface en anglais).</figcaption>
+</figure>
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Étape 2 de l'assistant : bienvenue" data-gallery="setup" loading="lazy" src="../../../images/setup-wizard-2-welcome.webp"></a>
+<br>
+<figcaption>Étape 2 : rien à remplir.</figcaption>
+</figure>
+</div>
+<h3 id="step-3-of-4---admin-account">Étape 3 sur 4 - Compte administrateur<a class="headerlink" href="#step-3-of-4---admin-account" title="Permanent link">¶</a></h3>
+<p>La carte est titrée <strong>Créer un compte administrateur</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Règle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Nom d'utilisateur</strong></td>
+<td>Au moins 3 caractères.</td>
+</tr>
+<tr>
+<td><strong>Mot de passe</strong></td>
+<td>Au moins 8 caractères.</td>
+</tr>
+<tr>
+<td><strong>Confirmer le mot de passe</strong></td>
+<td>Doit être identique.</td>
+</tr>
+<tr>
+<td><strong>Nom du serveur</strong></td>
+<td>Facultatif. Affiché sur la page de connexion, dans l'onglet du navigateur, dans la liste des serveurs des applications et dans les e-mails, par exemple « Salon ». Modifiable ensuite dans <strong>Admin → Configuration du serveur → Nom du serveur</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>Appuyez sur <strong>Continuer</strong>. Le compte est créé et vous êtes connecté : à
+partir de là, le serveur a un administrateur et l'assistant ne sera plus
+proposé.</p>
+<h3 id="step-4-of-4---first-library">Étape 4 sur 4 - Première bibliothèque<a class="headerlink" href="#step-4-of-4---first-library" title="Permanent link">¶</a></h3>
+<p>La carte est titrée <strong>Ajoutez votre première bibliothèque</strong> :</p>
+<ul>
+<li><strong>Nom de la bibliothèque</strong>, par exemple « Films ».</li>
+<li><strong>Type de bibliothèque</strong> : <strong>Films</strong>, <strong>Séries</strong>, <strong>Musique</strong> ou
+  <strong>Photos</strong>.</li>
+<li><strong>Chemins</strong> : une liste déroulante des dossiers montés dans le conteneur en
+  <code>/media</code>, <code>/media2</code>... ; choisissez-en un, ou <strong>Entrer un chemin
+  personnalisé...</strong> pour taper un chemin tel que <code>/media/movies</code>. Quand aucun
+  dossier <code>/media</code> n'est monté, la liste est remplacée par un champ texte.</li>
+</ul>
+<p>Appuyez sur <strong>Créer</strong> pour lancer le premier scan, ou sur <strong>Passer</strong> : les
+deux mènent à la page d'accueil. Les bibliothèques s'ajoutent à tout moment
+depuis le panneau d'administration (section suivante).</p>
+<div class="evey-shot-pair">
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Étape 3 de l'assistant : le compte administrateur" data-gallery="setup" loading="lazy" src="../../../images/setup-wizard-3-admin.webp"></a>
+<br>
+<figcaption>Étape 3 : le compte administrateur ; le nom du serveur est facultatif.</figcaption>
+</figure>
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Étape 4 de l'assistant : la première bibliothèque" data-gallery="setup" loading="lazy" src="../../../images/setup-wizard-4-library.webp"></a>
+<br>
+<figcaption>Étape 4 : un nom, un type, et un dossier vu depuis l'intérieur du conteneur.</figcaption>
+</figure>
+</div>
+<details class="note">
+<summary>Ouvrir l'adresse une fois l'administrateur créé</summary>
+<p>La même adresse s'ouvre sur la page de connexion, et <code>/setup</code> vous y
+renvoie aussi. Si deux personnes arrivent sur l'assistant en même temps,
+le compte de la seconde est refusé et son navigateur passe à la page de
+connexion.</p>
+</details>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Le tableau de bord d'administration du serveur de démo" loading="lazy" src="../../../images/admin-dashboard.webp"></a>
 <br>
@@ -3137,9 +3323,14 @@ des profils et du contrôle parental :
 <a href="../../administration/users/">Utilisateurs, profils et contrôle parental</a>.</p>
 <h2 id="4-connect-the-apps">4. Connecter les applications<a class="headerlink" href="#4-connect-the-apps" title="Permanent link">¶</a></h2>
 <p>L'application web est l'adresse que vous avez déjà ouverte. Les applications
-Android et Android TV demandent l'adresse du serveur, puis une connexion ;
-une TV peut se connecter avec un code validé depuis un téléphone. Voir
-<a href="../apps/">Applications et appareils</a>.</p>
+Android et Android TV s'ouvrent sur un écran qui demande l'adresse du
+serveur : tapez la <strong>même adresse que dans le navigateur</strong>, avec <code>http://</code> et
+le port, par exemple <code>http://192.168.1.20:9091</code>, puis connectez-vous. Une TV
+peut se connecter avec un code validé depuis un téléphone plutôt qu'avec un
+mot de passe.</p>
+<p>Comment trouver l'adresse, ce que fait le scan automatique, et ce que
+signifie chaque message d'erreur :
+<a href="../apps/#the-server-address-to-enter">L'adresse du serveur à saisir</a>.</p>
 <h2 id="what-the-server-does-by-itself">Ce que le serveur fait tout seul<a class="headerlink" href="#what-the-server-does-by-itself" title="Permanent link">¶</a></h2>
 <p>Rien de ceci ne demande de réglage :</p>
 <ul>

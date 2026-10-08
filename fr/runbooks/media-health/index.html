@@ -1593,22 +1593,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#three-verdicts" class="md-nav__link">
+  <a href="#two-verdicts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Trois verdicts
+        Deux verdicts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Trois verdicts">
+    <nav class="md-nav" aria-label="Deux verdicts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repairable-here" class="md-nav__link">
+  <a href="#repairable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Réparable ici
+        Réparable
       
     </span>
   </a>
@@ -1616,10 +1616,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
+  <a href="#info" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Information
+        Info
       
     </span>
   </a>
@@ -3040,22 +3040,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#three-verdicts" class="md-nav__link">
+  <a href="#two-verdicts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Trois verdicts
+        Deux verdicts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Trois verdicts">
+    <nav class="md-nav" aria-label="Deux verdicts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repairable-here" class="md-nav__link">
+  <a href="#repairable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Réparable ici
+        Réparable
       
     </span>
   </a>
@@ -3063,10 +3063,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
+  <a href="#info" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Information
+        Info
       
     </span>
   </a>
@@ -3157,16 +3157,20 @@
 
 
 <h1 id="media-health">Santé des médias<a class="headerlink" href="#media-health" title="Permanent link">¶</a></h1>
-<p><strong>Admin → Santé des médias</strong> lit chaque fichier MKV/WebM de vos bibliothèques et
-donne à chacun une seule réponse. Le but est une page qui se vide : ce qu'Evey
-sait réparer, il le répare ; le reste est signalé une fois et peut être marqué
-comme vu.</p>
+<p>Un titre se déplace lentement, cale toujours au même endroit, ou son son
+dérive : <strong>Admin → Santé des médias</strong> lit chaque fichier MKV/WebM de vos
+bibliothèques et donne à chacun une seule réponse. Le but est une page qui se
+vide : ce qu'Evey sait réparer, il le répare (<strong>Tout réparer</strong>) ; le reste est
+signalé une fois et peut être marqué comme vu.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Santé des médias après une analyse : un fichier à réparer, une remarque" loading="lazy" src="../../../images/admin-media-health.webp"></a>
 <br>
 <figcaption>Une analyse avec un fichier qu'Evey sait réparer (son index de lecture manque) et une remarque (des octets en trop après la fin du fichier, sans conséquence) (interface en anglais).</figcaption>
 </figure>
-<h2 id="three-verdicts">Trois verdicts<a class="headerlink" href="#three-verdicts" title="Permanent link">¶</a></h2>
+<h2 id="two-verdicts">Deux verdicts<a class="headerlink" href="#two-verdicts" title="Permanent link">¶</a></h2>
+<p>Un fichier qui n'est pas <strong>Sain</strong> (index, conteneur, tailles et calage de
+l'audio corrects) reçoit l'une de deux réponses, et volontairement deux
+seulement :</p>
 <table>
 <thead>
 <tr>
@@ -3177,26 +3181,21 @@ comme vu.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>Sain</strong></td>
-<td>Index, conteneur, tailles et calage de l'audio sont corrects.</td>
-<td>Rien.</td>
-</tr>
-<tr>
-<td><strong>Réparable ici</strong></td>
+<td><strong>Réparable</strong></td>
 <td>Un défaut qu'Evey répare sur ce serveur.</td>
-<td><strong>Tout réparer</strong> s'en charge en arrière-plan.</td>
+<td><strong>Tout réparer</strong> s'en charge en arrière-plan ; son compteur est exactement leur nombre.</td>
 </tr>
 <tr>
-<td><strong>Information</strong></td>
+<td><strong>Info</strong></td>
 <td>Une mesure faite sur le fichier, qu'Evey ne réécrit pas de lui-même.</td>
 <td>Rien. Marquez-la comme vue.</td>
 </tr>
 </tbody>
 </table>
-<p>Aucun ne vous confie une corvée. Une mesure sur
-laquelle Evey ne peut pas agir reste une remarque, et une mesure peut se tromper :
-si le fichier se lit bien, il va bien.</p>
-<h3 id="repairable-here">Réparable ici<a class="headerlink" href="#repairable-here" title="Permanent link">¶</a></h3>
+<p>Aucune des deux ne vous confie une corvée. Une mesure sur laquelle Evey ne
+peut pas agir reste une remarque, et une mesure peut se tromper : si le
+fichier se lit bien, il va bien.</p>
+<h3 id="repairable">Réparable<a class="headerlink" href="#repairable" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Sans index de lecture</strong>, ou avec un index inutilisable. Le symptôme : un déplacement
   dans la lecture ou une reprise lents. L'index est reconstruit dans une copie
@@ -3216,7 +3215,7 @@ si le fichier se lit bien, il va bien.</p>
   <strong>Ré-entrelacer les pistes</strong> les réécrit côte à côte sans réencodage et vérifie
   que chaque paquet a été conservé avant de remplacer le fichier.</li>
 </ul>
-<h3 id="information">Information<a class="headerlink" href="#information" title="Permanent link">¶</a></h3>
+<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Téléchargement incomplet</strong> : la fin du fichier n'est jamais arrivée. Il se
   lit jusqu'à la coupure. Aucun outil ne récupère la partie manquante ; seule la
@@ -3253,7 +3252,7 @@ enregistrée comme votre jugement, pas comme une mesure, et <strong>Historique</
 l'annuler.</p>
 <h2 id="marking-as-seen">Marquer comme vu<a class="headerlink" href="#marking-as-seen" title="Permanent link">¶</a></h2>
 <p><strong>Vu, ne plus signaler</strong> (un fichier) et <strong>Tout marquer comme vu</strong> (un groupe)
-retirent une remarque Information de la vue <strong>En attente</strong>. Seules les remarques
+retirent une remarque Info de la vue <strong>En attente</strong>. Seules les remarques
 peuvent être marquées : un défaut réparable se répare. La marque vaut pour le
 fichier tel qu'il est : si sa taille ou sa date change, l'analyse suivante le
 diagnostique à nouveau. <strong>Re-signaler</strong> annule la marque.</p>
@@ -3324,7 +3323,8 @@ lecture-écriture dans le conteneur (pas de <code>:ro</code> sur le volume) ; ap
 qui a rencontré un volume en lecture seule, la page le signale. L'analyse
 fonctionne dans les deux cas.</p>
 <h2 id="from-the-command-line">En ligne de commande<a class="headerlink" href="#from-the-command-line" title="Permanent link">¶</a></h2>
-<p>Le même moteur est disponible dans la CLI d'exploitation (voir <code>cli.md</code>) :</p>
+<p>Le même moteur est disponible dans la CLI d'exploitation, voir
+<a href="../cli/#media-maintenance">Ligne de commande</a> :</p>
 <ul>
 <li><code>evey admin reindex-no-cue --root &lt;dossier&gt; [--apply] [--resync]</code> reconstruit
   les index manquants, à blanc sauf avec <code>--apply</code> ;</li>

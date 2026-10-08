@@ -3015,7 +3015,11 @@
 
 
 <h1 id="accounts-and-sign-in">Comptes et connexion<a class="headerlink" href="#accounts-and-sign-in" title="Permanent link">¶</a></h1>
-<p>Durée des sessions, clé de signature et authentification unique.</p>
+<p>Les variables derrière les sessions et l'authentification unique : la durée
+d'une connexion, l'emplacement de la clé de signature et le fournisseur
+OIDC. L'authentification unique se configure normalement dans le panneau,
+comme décrit dans <a href="../../oidc/">Authentification unique (OIDC)</a> ; les
+variables de cette page en sont le repli.</p>
 <h2 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3023,6 +3027,7 @@
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3030,31 +3035,38 @@
 <td><code>EVEY_JWT_PRIVATE_KEY_PATH</code></td>
 <td><code>/data/jwt.key</code></td>
 <td>La clé qui signe les jetons d'accès, générée au premier démarrage. Si elle est perdue, le démarrage suivant en génère une nouvelle et les applications renouvellent leurs jetons : personne n'est déconnecté.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_ACCESS_TTL</code></td>
 <td><code>15m</code></td>
 <td>Durée de vie d'un jeton d'accès. Les applications le renouvellent sans rien demander.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_REFRESH_TTL</code></td>
 <td><code>168h</code> (7 jours)</td>
 <td>Durée de vie d'une session de connexion : sans utiliser une application pendant ce temps, il faut se reconnecter.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_REFRESH_LONG_TTL</code></td>
 <td><code>4320h</code> (180 jours)</td>
 <td>Durée de vie d'une session qu'une application demande à conserver, comme une TV connectée par Connexion rapide.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
 <h2 id="single-sign-on-oidc">Authentification unique (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h2>
+<p>Chaque champ enregistré dans la carte <strong>Authentification unique (SSO)</strong> de
+<strong>Admin → Configuration du serveur</strong> remplace sa variable, sans redémarrage.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3062,42 +3074,46 @@
 <td><code>EVEY_OIDC_ENABLED</code></td>
 <td><code>false</code></td>
 <td>Active l'authentification unique.</td>
+<td>Configuration du serveur → Authentification unique (SSO), immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ISSUER</code></td>
 <td>vide</td>
 <td>L'URL de l'émetteur du fournisseur, par exemple <code>https://auth.example.com/realms/main</code>.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_CLIENT_ID</code></td>
 <td>vide</td>
 <td>Le client enregistré pour Evey chez le fournisseur.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_CLIENT_SECRET</code></td>
 <td>vide</td>
-<td>Son secret.</td>
+<td>Son secret. Activée sans lui, le serveur avertit au démarrage.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_REDIRECT_URL</code></td>
 <td>vide</td>
 <td>L'adresse de retour envoyée au fournisseur : <code>https://&lt;votre adresse&gt;/api/v1/auth/oidc/callback</code>. Vide : construite à partir de l'adresse publique du serveur (<strong>Admin → Accès distant</strong>).</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ALLOWED_EMAIL_DOMAINS</code></td>
 <td>vide (tous)</td>
 <td>Les domaines d'e-mail autorisés à se connecter, séparés par des virgules. Le fournisseur doit avoir vérifié l'adresse.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ALLOW_SIGNUP</code></td>
 <td>vide</td>
 <td><code>true</code> ou <code>false</code> : créer un compte pour les nouveaux utilisateurs SSO. Vide : activé seulement si des domaines e-mail sont renseignés.</td>
+<td>même carte, immédiat</td>
 </tr>
 </tbody>
 </table>
-<p>Ce sont des valeurs de repli : chaque réglage enregistré dans la carte
-<strong>Authentification unique (SSO)</strong> de <strong>Admin → Configuration du serveur</strong>
-remplace sa variable, sans redémarrage. Configurer un fournisseur : <a href="../../oidc/">Authentification unique (OIDC)</a>.</p>
 
 
 

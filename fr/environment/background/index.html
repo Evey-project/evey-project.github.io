@@ -3015,21 +3015,23 @@
 
 
 <h1 id="background-work">Tâches de fond<a class="headerlink" href="#background-work" title="Permanent link">¶</a></h1>
-<p>Les passes que le serveur mène de lui-même, et la façon dont elles partagent
-le processeur. Leur comportement :
+<p>Les variables derrière les passes que le serveur mène de lui-même et la
+façon dont elles partagent le processeur. Ce que fait chaque passe et
+comment la lecture en est protégée :
 <a href="../../operations/background-work/">Tâches de fond et charge du serveur</a>.</p>
 <h2 id="cpu-share">Part du processeur<a class="headerlink" href="#cpu-share" title="Permanent link">¶</a></h2>
 <p>La part du processeur que peuvent utiliser les tâches de fond se règle dans
 <strong>Admin → Configuration du serveur → Puissance allouée</strong>, immédiatement, sans
-redémarrage. Elle n'a pas de variable d'environnement. Les deux variables
-ci-dessous dimensionnent un pool à la main et court-circuitent cette part pour
-lui :</p>
+redémarrage ; elle n'a pas de variable d'environnement. Les deux variables
+ci-dessous dimensionnent un pool à la main et court-circuitent cette part
+pour lui.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3037,82 +3039,86 @@ lui :</p>
 <td><code>EVEY_LIBRARY_SCAN_WORKERS</code></td>
 <td>selon la part</td>
 <td>Fichiers analysés en parallèle pendant un scan.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_DETECTION_MAX_PARALLEL</code></td>
 <td>selon la part</td>
 <td>Titres analysés en même temps pour les intros et génériques.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
 <h2 id="passes">Passes<a class="headerlink" href="#passes" title="Permanent link">¶</a></h2>
 <p>Chaque variable a une clé, acceptée aussi comme ligne dans <strong>Admin →
-Configuration du serveur → Entrées de configuration</strong>, qui propose ces clés ;
-la ligne l'emporte. Toutes sont lues au démarrage, et la carte <strong>Travaux en
-arrière-plan</strong> du même écran règle les principales.</p>
+Configuration du serveur → Entrées de configuration</strong>, qui propose ces
+clés ; la ligne l'emporte sur l'environnement. La carte <strong>Travaux en
+arrière-plan</strong> du même écran règle les principales. Toutes sont lues au
+démarrage : un changement s'applique au redémarrage suivant, quelle que
+soit la façon de le faire.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Clé du panneau</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_TRANSCODING_PAUSE_BG_ON_PLAYBACK</code></td>
-<td><code>transcoding.pause_bg_on_playback</code></td>
 <td>activé</td>
 <td>Met les tâches de fond en pause pendant une lecture. <code>off</code> les laisse tourner.</td>
+<td>Entrées de configuration <code>transcoding.pause_bg_on_playback</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL</code></td>
-<td><code>transcoding.keyframe_backfill</code></td>
 <td>activé</td>
 <td>Indexe les images clés des fichiers scannés et classe leur fréquence d'images. La lecture directe et la copie en dépendent. <code>off</code> la désactive.</td>
+<td>Entrées de configuration <code>transcoding.keyframe_backfill</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_BATCH</code></td>
-<td><code>transcoding.keyframe_backfill_batch</code></td>
 <td>défaut du serveur</td>
 <td>Fichiers par passe (&gt; 0).</td>
+<td>Entrées de configuration <code>transcoding.keyframe_backfill_batch</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_PAUSE_MS</code></td>
-<td><code>transcoding.keyframe_backfill_pause_ms</code></td>
 <td>défaut du serveur</td>
 <td>Millisecondes entre deux fichiers (&gt;= 0).</td>
+<td>Entrées de configuration <code>transcoding.keyframe_backfill_pause_ms</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_IDLE_SEC</code></td>
-<td><code>transcoding.keyframe_backfill_idle_sec</code></td>
 <td>défaut du serveur</td>
 <td>Secondes entre deux passes au repos (&gt; 0).</td>
+<td>Entrées de configuration <code>transcoding.keyframe_backfill_idle_sec</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_LEVEL_BACKFILL</code></td>
-<td><code>transcoding.level_backfill</code></td>
 <td>activé</td>
 <td>Relève le niveau H.264/HEVC des fichiers scannés avant que cette information ne soit collectée. <code>off</code> la désactive.</td>
+<td>Entrées de configuration <code>transcoding.level_backfill</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_LEVEL_BACKFILL_BATCH</code>, <code>_PAUSE_MS</code>, <code>_IDLE_SEC</code></td>
-<td><code>transcoding.level_backfill_batch</code>, <code>_pause_ms</code>, <code>_idle_sec</code></td>
 <td>défaut du serveur</td>
 <td>Même rythme, pour cette passe.</td>
+<td>Entrées de configuration <code>transcoding.level_backfill_batch</code>, <code>_pause_ms</code>, <code>_idle_sec</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_SNAPSHOT_FASTPATH</code></td>
-<td><code>transcoding.snapshot_fastpath</code></td>
 <td>activé</td>
 <td>Extrait les miniatures avec le décodeur rapide intégré. <code>off</code> n'utilise que l'extracteur exact de ffmpeg, pour l'écarter quand une miniature montre la mauvaise image.</td>
+<td>Entrées de configuration <code>transcoding.snapshot_fastpath</code>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_TITLE_PROBE</code></td>
-<td><code>transcoding.title_probe</code></td>
 <td>activé</td>
 <td>Sonde les titres en arrière-plan, en basse priorité, en pause pendant les lectures. <code>off</code> la désactive.</td>
+<td>Entrées de configuration <code>transcoding.title_probe</code>, redémarrage</td>
 </tr>
 </tbody>
 </table>

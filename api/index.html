@@ -28,7 +28,7 @@
     
     
       
-        <title>Evey API Documentation - Evey</title>
+        <title>Server API - Evey</title>
       
     
     
@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#evey-api-documentation" class="md-skip">
+        <a href="#server-api" class="md-skip">
           Skip to content
         </a>
       
@@ -154,7 +154,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Evey API Documentation
+              Server API
             
           </span>
         </div>
@@ -2898,21 +2898,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
+        Authentication
       
     </span>
   </a>
@@ -2953,38 +2942,76 @@
   </a>
 
 
-<h1 id="evey-api-documentation">Evey API Documentation<a class="headerlink" href="#evey-api-documentation" title="Permanent link">¶</a></h1>
-<p>OpenAPI (Swagger 2.0) specifications for the Evey media server.</p>
-<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">¶</a></h2>
+<h1 id="server-api">Server API<a class="headerlink" href="#server-api" title="Permanent link">¶</a></h1>
+<p>The server's HTTP API, described as OpenAPI (Swagger 2.0) files, one per
+service. This index tells you which folder holds what and how a call is
+authenticated; the files themselves are the reference.</p>
 <table>
 <thead>
 <tr>
 <th>Section</th>
-<th>Description</th>
+<th>Contents</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="public/">Public API</a></td>
-<td>User-facing endpoints - media browsing, playback, collections, playlists, etc.</td>
+<td>What a signed-in user can do: browse, play, collect, request.</td>
 </tr>
 <tr>
 <td><a href="admin/">Admin API</a></td>
-<td>Server administration - system config, transcoding, backups, metadata, etc.</td>
+<td>Server administration: configuration, transcoding, backups, metadata, users.</td>
 </tr>
 <tr>
 <td><a href="plugins/">Plugin API</a></td>
-<td>Plugin management and webhook integrations.</td>
+<td>Plugin management, webhooks, and the preferences a plugin's interface keeps per user.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">¶</a></h2>
-<p>Each folder contains individual <code>.swagger.json</code> files that can be imported into any OpenAPI-compatible tool (Swagger UI, Postman, Insomnia, etc.).</p>
+<p>Every <code>.swagger.json</code> file imports into any OpenAPI tool (Swagger UI, Postman,
+Insomnia). The HTTP routes are generated from the gRPC definitions in
+<code>proto/evey/v1/</code>, so a method name in a file is the gRPC method behind it.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
+<p>Three kinds of credential reach the API, all in the <code>Authorization</code> header:</p>
+<table>
+<thead>
+<tr>
+<th>Credential</th>
+<th>Who</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Session token</td>
+<td>A person signed in through an app</td>
+<td><code>Bearer &lt;token&gt;</code>, obtained by signing in and renewed by the app.</td>
+</tr>
+<tr>
+<td>API key</td>
+<td>A script, on behalf of the administrator who created it</td>
+<td><code>Bearer evey_...</code> (the <code>Bearer</code> prefix is optional). Scoped, revocable: <a href="../webhooks-api-keys/">Webhooks and API keys</a>.</td>
+</tr>
+<tr>
+<td>Plugin token</td>
+<td>A plugin's interface, through the host page</td>
+<td>Minted for five minutes for one plugin and one user, carrying only the <code>public</code> and <code>prefs</code> scopes the plugin was granted; every other method refuses it. The frame never holds it: the host page proxies the calls.</td>
+</tr>
+</tbody>
+</table>
+<p>A plugin token can never reach an administration method, whatever its scopes
+(<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>,
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>).</p>
 <h2 id="regeneration">Regeneration<a class="headerlink" href="#regeneration" title="Permanent link">¶</a></h2>
-<p>These specs are generated from protobuf definitions via <code>buf generate</code>. To update:</p>
+<p>For contributors: the files are regenerated from the protobuf definitions.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>buf<span class="w"> </span>generate<span class="w"> </span>--template<span class="w"> </span>buf.gen.local.yaml
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python3<span class="w"> </span>docs/api/sync.py
 </span></code></pre></div>
+<!-- sources
+session token, api key, plugin token: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticate, authenticateAPIKey, authorizePluginToken
+plugin token: internal/app/plugin/token_service.go - PluginTokenTTL ; internal/pkg/auth/plugin_jwt.go - AllowedPluginScopes ; docs/adr/0003-plugin-scoped-tokens.md ; docs/adr/0012-plugin-token-deny-by-default.md
+generation: docs/api/sync.py ; buf.gen.local.yaml
+-->
 
 
 

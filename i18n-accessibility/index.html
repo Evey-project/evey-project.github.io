@@ -2882,10 +2882,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#what-is-and-isnt-translated" class="md-nav__link">
+  <a href="#what-is-and-is-not-translated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is and isn't translated
+        What is and is not translated
       
     </span>
   </a>
@@ -2904,10 +2904,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-string-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        How a string reaches the screen
       
     </span>
   </a>
@@ -2915,10 +2915,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-limitations" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Honest limitations
+        What is not done yet
       
     </span>
   </a>
@@ -2965,10 +2965,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#whats-in-place" class="md-nav__link">
+  <a href="#what-is-in-place" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's in place
+        What is in place
       
     </span>
   </a>
@@ -2976,10 +2976,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-gaps-not-done-yet" class="md-nav__link">
+  <a href="#what-is-not-done-yet_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Honest gaps (not done yet)
+        What is not done yet
       
     </span>
   </a>
@@ -3085,10 +3085,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#what-is-and-isnt-translated" class="md-nav__link">
+  <a href="#what-is-and-is-not-translated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is and isn't translated
+        What is and is not translated
       
     </span>
   </a>
@@ -3107,10 +3107,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-string-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How it works
+        How a string reaches the screen
       
     </span>
   </a>
@@ -3118,10 +3118,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-limitations" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Honest limitations
+        What is not done yet
       
     </span>
   </a>
@@ -3168,10 +3168,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#whats-in-place" class="md-nav__link">
+  <a href="#what-is-in-place" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's in place
+        What is in place
       
     </span>
   </a>
@@ -3179,10 +3179,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-gaps-not-done-yet" class="md-nav__link">
+  <a href="#what-is-not-done-yet_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Honest gaps (not done yet)
+        What is not done yet
       
     </span>
   </a>
@@ -3229,106 +3229,147 @@
 
 
 <h1 id="languages--accessibility">Languages &amp; Accessibility<a class="headerlink" href="#languages--accessibility" title="Permanent link">¶</a></h1>
-<p>An honest account of where Evey stands on internationalization (i18n) and
-accessibility (a11y): what works, how it works, and what doesn't yet. This is a
-self-hosted project built and maintained by one person - treat a11y in
-particular as <em>best-effort, not certified</em>.</p>
-<hr>
+<p>Where Evey stands on internationalization (i18n) and accessibility (a11y):
+what is translated and how the catalogue reaches each client, then what is
+in place for assistive technology and what is not. The catalogue lives in
+<code>i18n/&lt;locale&gt;/*.yaml</code> at the repository root, served by
+<code>internal/pkg/i18n</code> and loaded by each app's i18n module. This is a
+self-hosted project maintained by one person: treat a11y in particular as
+best-effort, not certified.</p>
 <h2 id="internationalization-i18n">Internationalization (i18n)<a class="headerlink" href="#internationalization-i18n" title="Permanent link">¶</a></h2>
-<h3 id="what-is-and-isnt-translated">What is and isn't translated<a class="headerlink" href="#what-is-and-isnt-translated" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Translated:</strong> the UI chrome - buttons, menus, settings, error messages,
-  push notification text, notification e-mails (in the recipient's language).
-  Password reset e-mails are sent in English.</li>
-<li><strong>Not translated by Evey:</strong> media metadata (titles, plot summaries, genres)
-  comes from your metadata provider (TMDB/OMDb) in the <strong>Metadata language</strong> set
-  in the setup wizard or in <strong>Admin → Server Config → Language &amp; Region</strong>
-  (<code>EVEY_METADATA_LANGUAGE</code> is only the default), which is independent of the UI
-  language.
-  Your own libraries, file names, and anything you type are stored as-is.</li>
-</ul>
-<p>So the UI can be in French while a movie's synopsis is in English (or vice
-versa) - they're two separate settings.</p>
+<h3 id="what-is-and-is-not-translated">What is and is not translated<a class="headerlink" href="#what-is-and-is-not-translated" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Translated by Evey</th>
+<th>Not translated by Evey</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the UI chrome: buttons, menus, settings, error messages, push notification text, notification e-mails (in the recipient's language)</td>
+<td>media metadata (titles, plot summaries, genres), which comes from the metadata provider in the <strong>Metadata language</strong> set in the setup wizard or in <strong>Admin → Server Config → Language &amp; Region</strong> (<code>EVEY_METADATA_LANGUAGE</code> is only the default)</td>
+</tr>
+<tr>
+<td></td>
+<td>your own libraries, file names, and anything you type, stored as-is</td>
+</tr>
+</tbody>
+</table>
+<p>Password reset e-mails are sent in English. The UI language and the
+metadata language are two separate settings: the UI can be in French while a
+film's synopsis is in English, or the reverse.</p>
 <h3 id="supported-ui-languages">Supported UI languages<a class="headerlink" href="#supported-ui-languages" title="Permanent link">¶</a></h3>
 <p>Six: <strong>English (en)</strong>, <strong>French (fr)</strong>, <strong>German (de)</strong>, <strong>Spanish (es)</strong>,
 <strong>Chinese (zh)</strong>, <strong>Hindi (hi)</strong>. English is the source language and the
 fallback: any string missing in another language falls back to English rather
 than showing a blank or a key.</p>
-<h3 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h3>
+<h3 id="how-a-string-reaches-the-screen">How a string reaches the screen<a class="headerlink" href="#how-a-string-reaches-the-screen" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>One source of truth:</strong> <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a> at the repo root,
-  split into namespaces (<code>common</code>, <code>auth</code>, <code>media</code>, <code>player</code>, <code>admin</code>,
-  <code>errors</code>, <code>notifications</code>, <code>mobile</code>, <code>downloads</code>, <code>requests</code>). The same catalog drives
-  every surface.</li>
-<li>The <strong>server</strong> loads it and serves it at <code>GET /api/v1/i18n/{locale}</code>, and uses
-  it directly for translated API error messages and notification text.</li>
-<li>The <strong>web, mobile, and TV apps</strong> load translations from that endpoint
-  (i18next + http-backend), cache them locally, and keep <code>&lt;html lang&gt;</code> in sync
-  with the active language so assistive tech announces the right language.</li>
+<li><strong>One source of truth:</strong> <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a> at the repo
+  root, split into namespaces (<code>common</code>, <code>auth</code>, <code>media</code>, <code>player</code>, <code>admin</code>,
+  <code>errors</code>, <code>notifications</code>, <code>mobile</code>, <code>downloads</code>, <code>requests</code>). The same
+  catalogue drives every surface.</li>
+<li>The <strong>server</strong> loads it and serves it at <code>GET /api/v1/i18n/{locale}</code>, and
+  uses it directly for translated API error messages and notification text.</li>
+<li>The <strong>web app</strong> loads translations from that endpoint (i18next with the
+  HTTP backend), keeps a copy in the browser's local storage for the next
+  start, and keeps <code>&lt;html lang&gt;</code> in sync with the active language so
+  assistive tech announces the right language. The <strong>mobile and TV apps</strong>
+  load from the same endpoint through the shared native i18n module and
+  ship a bundled English floor (<code>fallback.en.json</code>, <code>offlineStrings.ts</code>)
+  for the screens shown before a server answers.</li>
 <li>Language is picked from your account preference, falling back to the
   browser/device language (<code>Accept-Language</code> is parsed, region stripped:
-  <code>fr-FR</code> → <code>fr</code>), then to the <strong>Server language</strong> of <strong>Admin → Server Config →
-  Language &amp; Region</strong> (which also sets the language of new accounts), then to
-  English.</li>
+  <code>fr-FR</code> becomes <code>fr</code>), then to the <strong>Server language</strong> of <strong>Admin → Server
+  Config → Language &amp; Region</strong> (which also sets the language of new
+  accounts), then to English.</li>
 <li>Interpolation and pluralization use i18next (<code>{{count}}</code> etc.).</li>
 </ul>
-<h3 id="honest-limitations">Honest limitations<a class="headerlink" href="#honest-limitations" title="Permanent link">¶</a></h3>
+<h3 id="what-is-not-done-yet">What is not done yet<a class="headerlink" href="#what-is-not-done-yet" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Completeness varies.</strong> English is authoritative and always complete; the
-  other five are kept at parity by hand with a check script, but a brand-new
-  feature may land in English first and fall back until translated.</li>
-<li><strong>No right-to-left languages yet.</strong> There's no Arabic/Hebrew/Persian, and the
-  layout has not been built or tested for RTL - adding one is real work (CSS
+  other five are kept at parity by hand, with a test
+  (<code>internal/pkg/i18n/parity_test.go</code>) that fails when a key set drifts,
+  but a brand-new feature may land in English first and fall back until
+  translated.</li>
+<li><strong>No right-to-left languages.</strong> There is no Arabic/Hebrew/Persian, and the
+  layout has not been built or tested for RTL: adding one is real work (CSS
   logical properties, <code>dir</code> handling), not just a translation file.</li>
-<li><strong>Translations aren't professionally reviewed.</strong> They're community/maintainer
+<li><strong>Translations are not professionally reviewed.</strong> They are maintainer
   quality. Corrections are welcome.</li>
-<li><strong>Locale-aware formatting is partial.</strong> Dates/numbers rely on the platform
-  <code>Intl</code>/browser locale and aren't uniformly wired on every screen.</li>
+<li><strong>Locale-aware formatting is partial.</strong> Dates and numbers rely on the
+  platform <code>Intl</code>/browser locale and are not uniformly wired on every screen.</li>
 </ul>
 <h3 id="adding-or-fixing-a-language">Adding or fixing a language<a class="headerlink" href="#adding-or-fixing-a-language" title="Permanent link">¶</a></h3>
 <ol>
 <li>Copy <code>i18n/en/</code> to <code>i18n/&lt;your-locale&gt;/</code> and translate the YAML values
    (keep the keys).</li>
 <li>Add the locale to the allowlist in
-   <a href="https://github.com/Evey-project/evey/blob/master/internal/pkg/i18n/i18n.go"><code>internal/pkg/i18n/i18n.go</code></a> (<code>supportedLocales</code>).</li>
-<li>Keep the key set identical across locales - the parity check fails otherwise.</li>
+   <a href="https://github.com/Evey-project/evey/blob/master/internal/pkg/i18n/i18n.go"><code>internal/pkg/i18n/i18n.go</code></a>
+   (<code>supportedLocales</code>).</li>
+<li>Keep the key set identical across locales: the parity test fails
+   otherwise, and <code>TestI18nPlaceholdersAgreeAcrossLocales</code> checks that the
+   <code>{{placeholders}}</code> of each string agree too.</li>
 </ol>
-<hr>
 <h2 id="accessibility-a11y">Accessibility (a11y)<a class="headerlink" href="#accessibility-a11y" title="Permanent link">¶</a></h2>
 <h3 id="where-this-stands">Where this stands<a class="headerlink" href="#where-this-stands" title="Permanent link">¶</a></h3>
-<p>Evey is built with semantic HTML, ARIA labels, and React Native accessibility
-props, and a few things below are deliberate. But it has <strong>not</strong> been formally
-audited against WCAG, there is <strong>no automated accessibility testing</strong> in the
-suite, and it has <strong>not</strong> been systematically tested with screen readers. Parts
-of it are likely usable with assistive tech; parts are likely not. If you depend
-on AT, expect rough edges and please report specifics.</p>
-<h3 id="whats-in-place">What's in place<a class="headerlink" href="#whats-in-place" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Reduced motion:</strong> <code>prefers-reduced-motion: reduce</code> is honored globally -
-  animations and transitions are effectively disabled when your OS asks for it.</li>
-<li><strong>Language for AT:</strong> <code>&lt;html lang&gt;</code> tracks the active UI language.</li>
-<li><strong>Keyboard (player):</strong> full keyboard controls with an on-screen shortcuts
-  overlay (<code>?</code>), and shortcuts are suppressed while you're typing in a field.</li>
-<li><strong>Labelled controls:</strong> icon-only buttons and sliders carry <code>aria-label</code> on web
-  and <code>accessibilityLabel</code>/<code>accessibilityRole</code> on mobile (the larger share of
-  interactive controls, not all).</li>
-<li><strong>Theming:</strong> five themes ship in-box (default dark, AMOLED, dark-red,
-  light-default, light-blue); more via theme plugins.</li>
-<li><strong>Android TV:</strong> D-pad focus handling for remote navigation.</li>
-</ul>
-<h3 id="honest-gaps-not-done-yet">Honest gaps (not done yet)<a class="headerlink" href="#honest-gaps-not-done-yet" title="Permanent link">¶</a></h3>
+<p>Evey is built with semantic HTML, ARIA labels and React Native accessibility
+props, and a few things below are deliberate. But it has <strong>not</strong> been
+formally audited against WCAG, there is <strong>no automated accessibility
+testing</strong> in the suite, and it has <strong>not</strong> been systematically tested with
+screen readers. Parts of it are likely usable with assistive tech; parts are
+likely not. If you depend on AT, expect rough edges and please report
+specifics.</p>
+<h3 id="what-is-in-place">What is in place<a class="headerlink" href="#what-is-in-place" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>What is done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reduced motion</td>
+<td><code>prefers-reduced-motion: reduce</code> is honored globally (<code>frontend/apps/web/src/styles/main.css</code>): animations and transitions are effectively disabled when your OS asks for it</td>
+</tr>
+<tr>
+<td>Language for AT</td>
+<td><code>&lt;html lang&gt;</code> tracks the active UI language</td>
+</tr>
+<tr>
+<td>Keyboard (player)</td>
+<td>full keyboard controls with an on-screen shortcuts overlay (<code>?</code>, <code>KeyboardShortcutsOverlay.tsx</code>); shortcuts are suppressed while you type in a field</td>
+</tr>
+<tr>
+<td>Labelled controls</td>
+<td>icon-only buttons and sliders carry <code>aria-label</code> on web and <code>accessibilityLabel</code>/<code>accessibilityRole</code> on mobile (the larger share of interactive controls, not all)</td>
+</tr>
+<tr>
+<td>Theming</td>
+<td>five themes ship in-box (default dark, AMOLED, dark-red, light-default, light-blue); more via theme plugins</td>
+</tr>
+<tr>
+<td>Android TV</td>
+<td>D-pad focus handling for remote navigation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-is-not-done-yet_1">What is not done yet<a class="headerlink" href="#what-is-not-done-yet_1" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>No screen-reader pass.</strong> NVDA/VoiceOver/TalkBack flows are unverified;
   some custom widgets (menus, modals, the seek bar, track pickers) may not
   announce their state or role correctly.</li>
-<li><strong>Focus management isn't audited.</strong> Focus-visible styling and focus order in
-  dialogs/overlays are inconsistent in places.</li>
+<li><strong>Focus management is not audited.</strong> Focus-visible styling and focus order
+  in dialogs and overlays are inconsistent in places.</li>
 <li><strong>Contrast is measured for the built-in themes only.</strong> A unit test
-  (<code>frontend/packages/theme/src/contrast.test.ts</code>) holds every shipped theme to
-  WCAG AA 4.5:1 for the accent, the three text ramps and the danger set against
-  the background and both surfaces; the TV app re-checks its derived tokens.
-  Theme plugins and the colours a plugin injects at runtime are not checked -
-  a custom theme can still fail in spots. AAA is not targeted.</li>
+  (<code>frontend/packages/theme/src/contrast.test.ts</code>) holds every shipped theme
+  to WCAG AA 4.5:1 for the accent, the three text ramps and the danger set
+  against the background and both surfaces; the TV app re-checks its derived
+  tokens (<code>ThemeProvider.contrast.test.ts</code>). Theme plugins and the colours a
+  plugin injects at runtime are not checked: a custom theme can still fail
+  in spots. AAA is not targeted.</li>
 <li><strong>No in-app text scaling</strong> beyond browser/OS zoom, and no dedicated
   high-contrast mode.</li>
 <li><strong>Subtitle styling on mobile is limited</strong> (a constraint of the underlying
@@ -3337,7 +3378,15 @@ on AT, expect rough edges and please report specifics.</p>
 <h3 id="reporting-an-issue">Reporting an issue<a class="headerlink" href="#reporting-an-issue" title="Permanent link">¶</a></h3>
 <p>Tell us the page/screen, the specific control, what you expected, and the
 assistive tech + version you used. Concrete reports get fixed; "it's not
-accessible" can't be acted on. a11y fixes are handled best-effort.</p>
+accessible" cannot be acted on. a11y fixes are handled best-effort.</p>
+<!-- sources
+catalogue: i18n/en, de, es, fr, hi, zh ; internal/pkg/i18n/i18n.go - supportedLocales, FallbackLocale, ParseLocale ; internal/pkg/i18n/parity_test.go ; internal/contractguard - TestI18nPlaceholdersAgreeAcrossLocales, TestServerEmittedI18nKeysExistInCatalogue
+endpoint: internal/adapters/driving/http/server.go - GET /api/v1/i18n/{locale}
+loaders: frontend/apps/web/src/i18n/index.ts - HttpBackend, getCached, documentElement.lang ; frontend/packages/client/src/native/i18n.ts ; frontend/apps/mobile/src/i18n/fallback.en.json ; frontend/apps/tv/src/i18n/offlineStrings.ts
+mails: internal/adapters/driven/email/password_reset_emailer.go ; internal/adapters/driven/email/notification_emailer.go - WithNotificationLocale
+labels: i18n admin.serverConfig.languageRegion, serverLanguage, metadataLanguage
+a11y: frontend/apps/web/src/styles/main.css - prefers-reduced-motion ; frontend/apps/web/src/features/playback/KeyboardShortcutsOverlay.tsx ; frontend/packages/theme/src/themeVars.ts ; frontend/packages/theme/src/contrast.test.ts ; frontend/apps/tv/src/providers/ThemeProvider.contrast.test.ts ; frontend/apps/mobile/package.json - expo-video
+-->
 
 
 

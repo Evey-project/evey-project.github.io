@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#plugin-developer-setup" class="md-skip">
+        <a href="#writing-a-plugin" class="md-skip">
           Aller au contenu
         </a>
       
@@ -2388,56 +2388,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. Prérequis">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#always-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Toujours nécessaires
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#per-language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Selon le langage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-stubs-for-another-language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Générer des stubs pour un autre langage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-but-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Facultatifs mais recommandés
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -2452,10 +2402,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-scaffold-your-first-plugin" class="md-nav__link">
+  <a href="#3-your-first-plugin-step-by-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Créer son premier plugin
+        3. Votre premier plugin, pas à pas
       
     </span>
   </a>
@@ -2463,10 +2413,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-run-the-install-loop" class="md-nav__link">
+  <a href="#4-call-the-server-from-the-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. La boucle d'installation
+        4. Appeler le serveur depuis le backend
       
     </span>
   </a>
@@ -2474,10 +2424,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-iterate" class="md-nav__link">
+  <a href="#5-add-an-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Itérer
+        5. Ajouter une interface
       
     </span>
   </a>
@@ -2485,10 +2435,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-sign-your-plugin-optional-in-dev-recommended-for-distribution" class="md-nav__link">
+  <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Signer son plugin (facultatif en développement, recommandé pour le distribuer)
+        6. Atteindre le monde extérieur
       
     </span>
   </a>
@@ -2496,10 +2446,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-resource-limits-and-sandbox" class="md-nav__link">
+  <a href="#7-sign-your-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Limites de ressources et sandbox
+        7. Signer son plugin
       
     </span>
   </a>
@@ -2507,10 +2457,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-distribute-a-plugin" class="md-nav__link">
+  <a href="#8-what-the-installer-checks-in-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Distribuer un plugin
+        8. Ce que vérifie l'installateur, dans l'ordre
       
     </span>
   </a>
@@ -2518,10 +2468,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-troubleshooting" class="md-nav__link">
+  <a href="#9-what-your-process-runs-under" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Dépannage
+        9. Dans quelles conditions tourne votre processus
       
     </span>
   </a>
@@ -2529,10 +2479,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#10-going-further" class="md-nav__link">
+  <a href="#10-distribute-a-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Pour aller plus loin
+        10. Distribuer un plugin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Dépannage
       
     </span>
   </a>
@@ -3111,56 +3072,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. Prérequis">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#always-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Toujours nécessaires
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#per-language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Selon le langage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-stubs-for-another-language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Générer des stubs pour un autre langage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-but-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Facultatifs mais recommandés
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -3175,10 +3086,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-scaffold-your-first-plugin" class="md-nav__link">
+  <a href="#3-your-first-plugin-step-by-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Créer son premier plugin
+        3. Votre premier plugin, pas à pas
       
     </span>
   </a>
@@ -3186,10 +3097,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-run-the-install-loop" class="md-nav__link">
+  <a href="#4-call-the-server-from-the-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. La boucle d'installation
+        4. Appeler le serveur depuis le backend
       
     </span>
   </a>
@@ -3197,10 +3108,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-iterate" class="md-nav__link">
+  <a href="#5-add-an-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Itérer
+        5. Ajouter une interface
       
     </span>
   </a>
@@ -3208,10 +3119,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-sign-your-plugin-optional-in-dev-recommended-for-distribution" class="md-nav__link">
+  <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Signer son plugin (facultatif en développement, recommandé pour le distribuer)
+        6. Atteindre le monde extérieur
       
     </span>
   </a>
@@ -3219,10 +3130,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-resource-limits-and-sandbox" class="md-nav__link">
+  <a href="#7-sign-your-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Limites de ressources et sandbox
+        7. Signer son plugin
       
     </span>
   </a>
@@ -3230,10 +3141,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-distribute-a-plugin" class="md-nav__link">
+  <a href="#8-what-the-installer-checks-in-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Distribuer un plugin
+        8. Ce que vérifie l'installateur, dans l'ordre
       
     </span>
   </a>
@@ -3241,10 +3152,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-troubleshooting" class="md-nav__link">
+  <a href="#9-what-your-process-runs-under" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Dépannage
+        9. Dans quelles conditions tourne votre processus
       
     </span>
   </a>
@@ -3252,10 +3163,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#10-going-further" class="md-nav__link">
+  <a href="#10-distribute-a-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Pour aller plus loin
+        10. Distribuer un plugin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Dépannage
       
     </span>
   </a>
@@ -3285,466 +3207,434 @@
   </a>
 
 
-<h1 id="plugin-developer-setup">Préparer son environnement de développement de plugins<a class="headerlink" href="#plugin-developer-setup" title="Permanent link">¶</a></h1>
-<p>Le parcours complet pour quelqu'un qui vient de cloner Evey et veut écrire,
-tester et publier un plugin ou un thème. Choisissez l'environnement d'exécution
-qui correspond au langage de votre plugin ; le reste est commun.</p>
+<h1 id="writing-a-plugin">Écrire un plugin<a class="headerlink" href="#writing-a-plugin" title="Permanent link">¶</a></h1>
+<p>Cette page mène un développeur d'un clone d'Evey à un plugin qui tourne sur un
+serveur local, puis à un paquet signé que d'autres administrateurs peuvent
+installer. Le tutoriel de la <a href="#3-your-first-plugin-step-by-step">section 3</a>
+est le chemin principal ; le reste est de la référence à laquelle vous
+reviendrez. Les appels et les champs eux-mêmes sont dans la
+<a href="../api-reference/">Référence de l'API des plugins</a>.</p>
+<pre class="mermaid"><code>flowchart LR
+  subgraph server["Serveur Evey"]
+    host["HostService&lt;br/&gt;vérifie chaque appel selon&lt;br/&gt;les permissions déclarées"]
+    ui["Interface web&lt;br/&gt;emplacements des plugins"]
+  end
+  subgraph plugin["Plugin, dans sa sandbox"]
+    backend["PluginService&lt;br/&gt;votre processus backend"]
+    front["Module d'interface&lt;br/&gt;iframe isolée"]
+  end
+  backend &lt;--&gt;|"gRPC sur un socket Unix"| host
+  front &lt;--&gt;|"pont postMessage"| ui
+  host --&gt;|"Fetch : hôtes déclarés uniquement"| net(("Internet"))</code></pre>
+<p>Un plugin est un ZIP avec un <code>plugin.yaml</code> à sa racine et un processus
+backend que le serveur démarre dans une sandbox. Le processus sert un petit
+service gRPC sur un socket Unix et rappelle le serveur sur un autre. Il peut
+aussi embarquer un module d'interface, dessiné dans un cadre isolé de la page,
+et ne parle au monde extérieur que par le serveur, vers les hôtes qu'il a
+déclarés.</p>
 <h2 id="1-prerequisites">1. Prérequis<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
-<p>Evey fait tourner le processus hôte (Go) et reçoit les plugins sous forme de ZIP.
-L'environnement d'exécution du plugin dépend de ce qu'appelle votre code.</p>
-<h3 id="always-required">Toujours nécessaires<a class="headerlink" href="#always-required" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
 <th>Outil</th>
 <th>Pourquoi</th>
-<th>Installation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Go ≥ 1.27</td>
-<td>Compiler l'hôte Evey</td>
-<td><code>https://go.dev/dl/</code></td>
-</tr>
-<tr>
-<td>Docker + Docker Compose</td>
-<td>La pile de développement par défaut (PostgreSQL, Meilisearch, serveur, web)</td>
-<td>https://docs.docker.com/engine/install/</td>
+<td>Go 1.27, Node.js 22 avec pnpm, Docker avec Compose</td>
+<td>La pile de développement (<code>make dev</code>) construit le serveur et l'application web.</td>
 </tr>
 <tr>
 <td><code>bubblewrap</code> (<code>bwrap</code>)</td>
-<td>Sandbox des processus de plugins, nécessaire pour les modes <code>bubblewrap</code> et <code>strict</code></td>
-<td><code>apt install bubblewrap</code> (Debian/Ubuntu), <code>dnf install bubblewrap</code> (Fedora), <code>pacman -S bubblewrap</code> (Arch). macOS : installez Linux dans une VM, bwrap n'existe que sous Linux.</td>
+<td>Seulement pour les modes de sandbox <code>bubblewrap</code> et <code>strict</code>. Le mode <code>auto</code> par défaut utilise Landlock et n'a besoin de rien sur un noyau 5.13 ou plus récent.</td>
+</tr>
+<tr>
+<td><a href="https://docs.sigstore.dev/cosign/installation/">cosign</a></td>
+<td>Pour signer votre paquet avant de le distribuer (<a href="#7-sign-your-plugin">section 7</a>). Inutile pour développer.</td>
 </tr>
 </tbody>
 </table>
-<p>Le mode de sandbox <code>basic</code> fonctionne sans bwrap, mais ne devrait jamais servir
-hors d'expériences locales jetables : abandonnez-le dès que possible.</p>
-<h3 id="per-language">Selon le langage<a class="headerlink" href="#per-language" title="Permanent link">¶</a></h3>
-<p>Prenez ce que votre plugin utilise vraiment ; vous n'avez pas besoin de tout.</p>
-<table>
-<thead>
-<tr>
-<th>Langage du plugin</th>
-<th>Outils</th>
-<th>Remarques</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Python 3</td>
-<td><code>python3</code>, <code>pip</code></td>
-<td>Utilisez <code>pip install --user</code> pour garder la machine propre. Les stubs du SDK sont dans <code>sdk/python/</code>.</td>
-</tr>
-<tr>
-<td>Node.js</td>
-<td>Node 20+, <code>npm</code> ou <code>pnpm</code></td>
-<td>Le SDK charge <code>plugin_api.proto</code> à l'exécution via <code>@grpc/proto-loader</code>.</td>
-</tr>
-<tr>
-<td>Go</td>
-<td>Go ≥ 1.21</td>
-<td>Pas de stubs fournis : générez-les avec <code>protoc-gen-go</code> + <code>protoc-gen-go-grpc</code> ; un binaire Go compilé demande aussi la permission <code>native-binary</code>.</td>
-</tr>
-<tr>
-<td>Dart / Java / PHP / Ruby / Swift</td>
-<td>La chaîne d'outils du langage</td>
-<td>Les stubs sont pré-générés dans <code>sdk/&lt;langage&gt;/</code>.</td>
-</tr>
-<tr>
-<td>Thème en CSS seul</td>
-<td>Rien de plus</td>
-<td>Un thème est un ZIP avec <code>kind: theme</code> et un <code>theme.css</code>.</td>
-</tr>
-<tr>
-<td>JS de thème</td>
-<td>Rien de plus (l'hôte fait tourner votre JS dans une <code>iframe</code> isolée avec <code>sandbox="allow-scripts"</code> et une CSP verrouillée)</td>
-<td>L'analyse statique refuse les cookies, le stockage, les appels réseau et l'accès à la page hôte (<code>document.cookie</code>, <code>localStorage</code>, <code>fetch(</code>, <code>window.parent</code>...) : voir <a href="../../themes/#what-the-scanner-refuses">Thèmes</a>.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="generating-stubs-for-another-language">Générer des stubs pour un autre langage<a class="headerlink" href="#generating-stubs-for-another-language" title="Permanent link">¶</a></h3>
-<p>Des stubs pré-générés sont fournis pour les langages ci-dessus, mais le contrat
-gRPC des plugins n'est qu'un fichier proto : vous pouvez viser <strong>n'importe quel
-langage que <code>protoc</code> prend en charge</strong> (Rust, C#, Kotlin, Elixir, …). La source
-unique est :</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>proto/plugin/v1/plugin_api.proto
+<p>Choisissez le langage de votre plugin parmi les environnements que le serveur
+sait lancer : <code>python</code>, <code>nodejs</code>, <code>php</code>, <code>ruby</code>, <code>lua</code>, <code>bash</code> et <code>sh</code> ont
+besoin de leur interpréteur dans l'image, <code>go</code> livre un binaire compilé et
+demande la permission <code>native-binary</code>. L'image par défaut n'embarque que
+Python ; l'image <code>-nodejs</code> ajoute Node.js et l'image <code>-full</code> ajoute PHP, Ruby
+et Lua. Un manifeste qui nomme un environnement absent de l'image est refusé
+à l'installation, avec la liste des environnements disponibles.</p>
+<p>Le contrat gRPC tient dans un fichier, <code>proto/plugin/v1/plugin_api.proto</code>. Des
+stubs sont générés pour Python, Node.js, PHP, Ruby, Dart, Java et Swift sous
+<code>sdk/&lt;langage&gt;/</code>, et le serveur copie les stubs de votre langage à côté de
+votre point d'entrée au démarrage du plugin : un plugin Node.js ou Python n'a
+rien à embarquer, l'image fournit <code>@grpc/grpc-js</code> et <code>@grpc/proto-loader</code> aux
+plugins Node.js et <code>grpcio</code> aux plugins Python. Pour un autre langage, générez
+les stubs avec <code>protoc</code> et livrez-les dans le ZIP :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>protoc<span class="w"> </span>--proto_path<span class="o">=</span>proto<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">       </span>--&lt;lang&gt;_out<span class="o">=</span>OUT_DIR<span class="w"> </span>--grpc_&lt;lang&gt;_out<span class="o">=</span>OUT_DIR<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span>proto/plugin/v1/plugin_api.proto
 </span></code></pre></div>
-<p>Générez avec <code>protoc</code> (ou <code>buf</code>), en y branchant le plugin gRPC de votre langage :</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># forme générale : les options --*_out exactes dépendent du langage et du plugin</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>protoc<span class="w"> </span>--proto_path<span class="o">=</span>proto<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">       </span>--&lt;lang&gt;_out<span class="o">=</span>OUT_DIR<span class="w"> </span>--grpc_&lt;lang&gt;_out<span class="o">=</span>OUT_DIR<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">       </span>proto/plugin/v1/plugin_api.proto
-</span></code></pre></div>
-<p>Les recettes des langages fournis (quel plugin gRPC chacun demande :
-<code>grpc_php_plugin</code>, <code>protoc-gen-grpc-java</code>, <code>protoc-gen-grpc-swift</code>, …) se trouvent
-dans la cible <code>plugin-sdk</code> du <code>Makefile</code> racine et dans chaque
-<code>sdk/&lt;langage&gt;/README.md</code> (par exemple <code>sdk/php/README.md</code>). <code>make plugin-sdk</code>
-régénère les stubs fournis.</p>
-<p>Livrez les stubs générés dans le ZIP de votre plugin : l'hôte ne copie
-automatiquement que les stubs des langages qu'il fournit (<code>sdk/&lt;langage&gt;/</code>).</p>
-<h3 id="optional-but-recommended">Facultatifs mais recommandés<a class="headerlink" href="#optional-but-recommended" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Outil</th>
-<th>Pourquoi</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>cosign</code> (Sigstore)</td>
-<td>Signer le ZIP de votre plugin. <code>EVEY_PLUGINS_COSIGN_POLICY</code> vaut <code>warn</code> par défaut (pas <code>off</code>) : avec <code>warn</code> et sans clé publique configurée, la vérification ne fait rien (un avertissement est journalisé, rien n'est bloqué) ; réglez <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code> pour vérifier réellement les signatures, et la politique sur <code>enforce</code> pour refuser les envois non signés (<code>enforce</code> sans clé publique arrête le serveur au démarrage plutôt que d'accepter tous les plugins sans vérification). https://docs.sigstore.dev/cosign/installation/</td>
-</tr>
-<tr>
-<td><code>pre-commit</code></td>
-<td>Repérer les problèmes évidents avant de soumettre un plugin.</td>
-</tr>
-<tr>
-<td><code>golangci-lint</code></td>
-<td>Nécessaire si votre plugin est en Go et que vous voulez les mêmes contrôles que l'hôte.</td>
-</tr>
-</tbody>
-</table>
+<p><code>make plugin-sdk</code> régénère les stubs fournis ; chaque <code>sdk/&lt;lang&gt;/README.md</code>
+nomme le plugin gRPC dont son langage a besoin.</p>
 <h2 id="2-bring-up-evey-locally">2. Lancer Evey en local<a class="headerlink" href="#2-bring-up-evey-locally" title="Permanent link">¶</a></h2>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:Evey-project/evey.git
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>evey
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cp<span class="w"> </span>.env.dev.example<span class="w"> </span>.env.dev<span class="w">   </span><span class="c1"># une configuration locale raisonnable</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>make<span class="w"> </span>dev<span class="w">                        </span><span class="c1"># docker compose up : postgres, meilisearch, serveur (Air), web (Vite)</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:Evey-project/evey.git
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>evey
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>cp<span class="w"> </span>.env.dev.example<span class="w"> </span>.env.dev<span class="w">   </span><span class="c1"># puis renseignez MEDIA_DIR, EVEY_DB_PASSWORD, MEILI_MASTER_KEY</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>make<span class="w"> </span>setup<span class="w">                      </span><span class="c1"># une fois : ajoute evey.test à /etc/hosts</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>make<span class="w"> </span>dev<span class="w">                        </span><span class="c1"># postgres, meilisearch, le serveur (Air), l'application web (Vite)</span>
 </span></code></pre></div>
-<p>Une fois le serveur en bonne santé, ouvrez https://evey.test (servi par Caddy). L'assistant
-de configuration crée le compte administrateur au premier démarrage, comme
-décrit dans <a href="../../getting-started/first-setup/">Première configuration</a>.</p>
-<p>Si <code>make dev</code> échoue sur <code>bwrap</code> :</p>
-<ul>
-<li>vérifiez que <code>which bwrap</code> renvoie un chemin sur la machine hôte ;</li>
-<li>dans Docker, le conteneur de développement contient le binaire bwrap ; si vous
-  avez modifié la pile Compose, montez-le, ou réglez
-  <code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> <em>pour le seul conteneur de développement</em>.</li>
-</ul>
-<h2 id="3-scaffold-your-first-plugin">3. Créer son premier plugin<a class="headerlink" href="#3-scaffold-your-first-plugin" title="Permanent link">¶</a></h2>
-<p>Les exemples sont dans <code>examples/plugins/</code> : des points de départ en Node.js et
-Python (<code>nodejs-example</code>, <code>python-example</code>), une source de métadonnées
-(<code>metadata-example</code>), un récepteur de webhooks (<code>webhook-receiver</code>), un widget
-d'accueil (<code>weather</code>), la configuration d'un plugin (<code>config-demo</code>) et deux thèmes
-(<code>theme-dark-blue</code>, <code>open-workshop</code>). Prenez le plus proche de votre besoin et
-copiez-le dans un dossier de travail. Pour la persistance et les permissions,
-voyez <strong><code>examples/plugins/data-demo</code></strong> : il utilise le stockage de données propre
-au plugin et demande les permissions <code>public</code> / <code>prefs</code> et l'emplacement
-<code>admin.nav</code>.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>examples/plugins/nodejs-example<span class="w"> </span>~/my-first-plugin
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>~/my-first-plugin
-</span></code></pre></div>
-<p>Modifiez <code>plugin.yaml</code> :</p>
-<ul>
-<li><code>name</code> : en kebab-case, unique ;</li>
-<li><code>version</code> : semver, à augmenter à chaque publication ;</li>
-<li><code>kind</code> : <code>plugin</code> (partie serveur requise) ou <code>theme</code> (interface seulement) ;</li>
-<li><code>language</code> : <code>python</code> | <code>nodejs</code> | <code>go</code> | <code>php</code> | <code>ruby</code> | <code>lua</code> | <code>bash</code> |
-  <code>sh</code> (l'identifiant du manifeste, pas le nom du binaire de l'interpréteur ;
-  <code>python3</code>/<code>node</code> ne sont pas des valeurs valides de <code>language</code>, voir
-  <code>entrypoint</code> ci-dessous) ;</li>
-<li><code>entrypoint</code> : la ligne de commande qu'exécute l'environnement d'exécution ;</li>
-<li><code>permissions</code> : déclarez chaque API de l'hôte que vous appelez. L'installeur
-  refuse les appels non déclarés. La liste exhaustive est dans le
-  <a href="../security-model/#permissions-catalog">catalogue des permissions</a> ;</li>
-<li><code>external_fetch</code> : quand vous devez parler à une API tierce. Les entrées sont
-  des noms d'hôte seuls (<code>api.example.com</code>) : aucun schéma nécessaire ni utilisé
-  (un préfixe <code>https://</code> est lu et seul le nom d'hôte est gardé), pas de jokers
-  (<code>*.example.com</code> est refusé à l'installation :
-  <code>external_fetch entry %q is a wildcard - use explicit hostnames</code>), pas
-  d'adresses IP littérales (aucune, pas seulement celles de la RFC 1918). Le
-  validateur est dans <code>internal/adapters/driven/pluginrunner/manifest.go</code>
-  (<code>validateExternalFetch</code>) ; ses tests sont dans
-  <code>internal/adapters/driven/pluginrunner/manifest_test.go</code> : lancez
-  <code>go test ./internal/adapters/driven/pluginrunner/...</code> pour vérifier votre
-  valeur.</li>
-</ul>
-<p>Module d'interface (facultatif pour <code>kind: plugin</code>, interdit pour <code>kind: theme</code>) :</p>
-<div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">frontend</span><span class="p">:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home.section</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist/index.js</span>
-</span></code></pre></div>
-<p>L'emplacement doit exister dans <code>internal/domain/plugin/slots.go</code> (<code>home.section</code>,
-<code>home.hero</code>, <code>library.sidebar</code>, <code>media.detail.sidebar</code>, <code>player.overlay</code>,
-<code>sidebar.bottom</code>, <code>settings.user.appearance</code>, et <code>admin.nav</code>, le seul emplacement
-contrôlé de la zone d'administration, une entrée de menu qui ouvre la page isolée
-de votre plugin). Tout le reste (injection dans <code>admin.*</code>, <code>login.*</code>, <code>setup.*</code>,
-<code>profile.security.*</code>) est refusé à l'installation.</p>
-<p><strong>Stocker des données.</strong> Votre partie serveur dispose d'un stockage clé/valeur
-privé par la socket de l'hôte (<code>SetData</code>/<code>GetData</code>/<code>DeleteData</code>/<code>ListDataKeys</code>),
-sans permission, effacé automatiquement à la désinstallation. Pour des préférences
-par utilisateur depuis votre iframe, demandez la permission <code>prefs</code> ; pour un
-accès en lecture seule à des informations non sensibles sur les médias (titre,
-affiche), demandez <code>public</code>. Voir la <a href="../api-reference/#permissions">référence de l'API</a>.
-Les portées d'administration, d'authentification, système et d'écriture
-générique ne peuvent jamais être demandées.</p>
-<h2 id="4-run-the-install-loop">4. La boucle d'installation<a class="headerlink" href="#4-run-the-install-loop" title="Permanent link">¶</a></h2>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># zipper votre plugin</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>~/my-first-plugin
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>zip<span class="w"> </span>-r<span class="w"> </span>my-first-plugin.zip<span class="w"> </span>.<span class="w"> </span>-x<span class="w"> </span><span class="s2">".*"</span><span class="w"> </span><span class="s2">"node_modules/*"</span><span class="w"> </span><span class="s2">"*.pyc"</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># l'envoyer par l'interface d'administration</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>open<span class="w"> </span>https://evey.test/admin/plugins
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># ou par l'API</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>curl<span class="w"> </span>-F<span class="w"> </span><span class="s2">"plugin=@my-first-plugin.zip"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">     </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$EVEY_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">     </span>https://evey.test/api/v1/admin/plugins/upload
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># une signature va dans un second champ : -F "sig=@my-first-plugin.zip.sig"</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># une mise à jour qui demande de nouvelles permissions : -F "accept_permission_changes=true"</span>
-</span></code></pre></div>
-<p>L'installeur procède dans cet ordre, et chaque étape peut refuser
-l'installation :</p>
+<p>Ouvrez <code>https://evey.test</code>. L'assistant d'installation crée le compte
+administrateur au premier lancement, comme décrit dans
+<a href="../../getting-started/first-setup/">Première configuration</a>. Les fichiers des
+plugins arrivent dans <code>./evey-data/plugins/&lt;id-du-plugin&gt;/</code>, monté en
+<code>/data/plugins</code> dans le conteneur.</p>
+<h2 id="3-your-first-plugin-step-by-step">3. Votre premier plugin, pas à pas<a class="headerlink" href="#3-your-first-plugin-step-by-step" title="Permanent link">¶</a></h2>
+<p>L'exemple <code>examples/plugins/nodejs-example</code> est le plus petit plugin complet :
+il sert <code>PluginService</code>, se connecte à <code>HostService</code>, et écrit une ligne dans
+son journal quand le serveur le démarre. Nous le copions, changeons une chose,
+et l'installons.</p>
 <ol>
-<li><strong>Validation du manifeste</strong> : <code>plugin.yaml</code> lu directement dans le ZIP (avant
-   les contrôles sur le ZIP lui-même, plus bas), vérifié selon le schéma. Liste
-   des emplacements. Liste des permissions et capacités. Analyse de
-   <code>external_fetch</code> (refuse les jokers et toute adresse IP littérale ; un préfixe
-   de schéma comme <code>http://</code> est accepté mais ignoré, seul le nom d'hôte est
-   gardé). L'environnement d'exécution du <code>language</code> déclaré doit exister dans
-   l'image.</li>
-<li><strong>Élévation de permissions</strong> (mise à jour seulement) : l'installeur compare le
-   nouveau manifeste à la version précédente. Toute permission, capacité,
-   emplacement ou hôte <code>external_fetch</code> nouvellement demandé bloque l'installation
-   avec une erreur que l'appelant doit explicitement passer outre
-   (<code>accept_permission_changes: true</code> depuis l'interface). Une première
-   installation saute cette étape : il n'y a rien à comparer.</li>
-<li><strong>Signature cosign</strong> : vérifiée quand un vérificateur de signature est
-   configuré ; un échec ne bloque l'installation que si
-   <code>EVEY_PLUGINS_COSIGN_POLICY=enforce</code>. Voir la section 6.</li>
-<li><strong>Extraction du ZIP</strong> : extension, taille totale ≤ 500 Mo, taille par entrée
-   ≤ 100 Mo, taux de compression ≤ 100:1, pas de liens symboliques, pas
-   d'entrées qui remontent l'arborescence ; les fichiers arrivent dans un dossier
-   de préparation (une mise à jour ne touche jamais la version en service tant
-   que toutes les étapes suivantes ne sont pas passées).</li>
-<li><strong>Assainisseur CSS</strong> (thèmes seulement) : retire <code>@import</code>, bloque les <code>url()</code>
-   autres que <code>data:</code>, bloque les superpositions plein écran, bloque les
-   sélecteurs qui visent <code>[type=password]</code> et <code>.admin-*</code>, plafonne <code>z-index</code> à
-   999.</li>
-<li><strong>Analyse du JS de thème</strong> (thèmes seulement) : refuse toute référence à
-   <code>document.cookie</code>, <code>localStorage</code>, <code>fetch</code>, <code>eval</code>, <code>globalThis</code>, aux accès par
-   crochets sur les globales de l'hôte, à <code>constructor.constructor</code>, etc. Un thème
-   ne doit utiliser que l'API <code>evey.theme.*</code>.</li>
-<li><strong>Analyse statique</strong> : parcourt chaque fichier texte à la recherche
-   d'exécution de shell, de reverse shell, d'eval, de décodage base64 suivi
-   d'exécution, de motifs d'obfuscation, de commandes d'installation à
-   l'exécution, d'élévation de privilèges. Une trouvaille critique refuse
-   l'installation. Les trouvailles de niveau avertissement (désérialisation,
-   obfuscation, code natif) deviennent un refus sauf si la permission
-   correspondante est déclarée.</li>
-<li><strong>Enregistrement</strong> : met le dossier de préparation en place, écrit la ligne
-   dans PostgreSQL, et lance éventuellement l'environnement d'exécution.</li>
-</ol>
-<p>Si une étape échoue, l'interface d'administration affiche la raison exacte. Les
-journaux du serveur (<code>docker compose logs evey</code>) contiennent la trace complète.</p>
-<h2 id="5-iterate">5. Itérer<a class="headerlink" href="#5-iterate" title="Permanent link">¶</a></h2>
-<p>Rechargez votre plugin à chaud pendant le développement :</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># modifier le code → re-zipper → renvoyer par l'interface (bouton Mettre à jour)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># ou, plus rapide : déposer le fichier directement dans le dossier du plugin, dans le conteneur</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey<span class="w"> </span>ls<span class="w"> </span>/data/plugins/&lt;plugin-id&gt;/
+<li>
+<p><strong>Copiez l'exemple.</strong></p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>examples/plugins/nodejs-example<span class="w"> </span>~/hello-plugin
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>~/hello-plugin
 </span></code></pre></div>
-<p>Un envoi n'est accepté comme mise à jour que si sa <code>version</code> est supérieure à
-celle installée : augmentez-la à chaque itération (une version égale ou
-inférieure est refusée), ou désinstallez d'abord. Si vous ajoutez une nouvelle permission, vous passerez par la procédure
-d'élévation : c'est voulu, pas un bug.</p>
-<p>Les journaux du processus du plugin arrivent :</p>
+</li>
+<li>
+<p><strong>Donnez-lui un nom.</strong> Modifiez <code>plugin.yaml</code> :</p>
+<div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-plugin</span><span class="w">          </span><span class="c1"># unique, en kebab-case</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">plugin</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0</span><span class="w">              </span><span class="c1"># semver : à incrémenter à chaque envoi</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dit bonjour dans son journal</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vous</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nodejs</span><span class="w">            </span><span class="c1"># l'environnement que le serveur doit avoir</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node main.js</span><span class="w">    </span><span class="c1"># la ligne de commande que le serveur lance</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nt">permissions</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">api.library</span><span class="w">             </span><span class="c1"># laisse le backend lire les médias</span>
+</span></code></pre></div>
+<p><code>language</code> dit au serveur quel environnement vérifier et quels stubs
+copier ; <code>entrypoint</code> est ce qu'il lance, dans le dossier du plugin, avec
+l'environnement de l'étape suivante.</p>
+</li>
+<li>
+<p><strong>Lisez <code>main.js</code>.</strong> Le serveur passe trois variables au processus :
+   <code>EVEY_PLUGIN_ID</code>, <code>EVEY_PLUGIN_SOCK</code> (le socket sur lequel <em>votre</em>
+   processus doit écouter, en servant <code>PluginService</code>) et <code>EVEY_HOST_SOCK</code>
+   (le socket auquel vous vous connectez pour appeler <code>HostService</code>).
+   L'exemple charge <code>plugin_api.proto</code> depuis son propre dossier, où le
+   serveur l'a copié, et implémente les cinq méthodes de <code>PluginService</code>.
+   Changez le message dans <code>Initialize</code> :</p>
+<div class="language-js highlight"><span class="filename">main.js (extrait)</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">Initialize</span><span class="p">(</span><span class="nx">call</span><span class="p">,</span><span class="w"> </span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nx">hostLog</span><span class="p">(</span><span class="s2">"LOG_LEVEL_INFO"</span><span class="p">,</span><span class="w"> </span><span class="sb">`bonjour de </span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">EVEY_PLUGIN_ID</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">},</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Compressez-le.</strong> Le manifeste doit être à la racine de l'archive, pas
+   dans un sous-dossier :</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>zip<span class="w"> </span>-r<span class="w"> </span>../hello-plugin.zip<span class="w"> </span>.<span class="w"> </span>-x<span class="w"> </span><span class="s2">".*"</span><span class="w"> </span><span class="s2">"node_modules/*"</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Installez-le.</strong> Dans <strong>Admin → Plugins</strong>, <strong>Installer un plugin</strong>,
+   choisissez le ZIP puis <strong>Aperçu et installation</strong> : l'aperçu liste
+   <code>api.library</code> et le résultat de l'analyse statique. Par l'API, le même
+   envoi s'écrit :</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-F<span class="w"> </span><span class="s2">"plugin=@hello-plugin.zip"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$EVEY_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">     </span>https://evey.test/api/v1/admin/plugins/upload
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Lisez le journal.</strong> Sur la carte du plugin, <strong>Logs</strong> montre la ligne
+   écrite par <code>Initialize</code>. <code>docker compose logs evey</code> porte le côté serveur du
+   même démarrage, sous l'identifiant du plugin.</p>
+</li>
+<li>
+<p><strong>Itérez.</strong> Modifiez le code, incrémentez <code>version</code>, compressez de nouveau
+   et utilisez <strong>Mettre à jour depuis la source…</strong> sur la carte. Un envoi avec
+   la même version ou une version inférieure est refusé ; une nouvelle
+   permission dans le manifeste déclenche l'étape de consentement que
+   l'administrateur doit approuver.</p>
+</li>
+</ol>
+<p>Vous avez là tout le contrat backend. À partir d'ici, un plugin grandit dans
+trois directions : appeler le serveur (<code>HostService</code>, section 4), dessiner une
+interface (section 5), et atteindre le monde extérieur (section 6).</p>
+<h2 id="4-call-the-server-from-the-backend">4. Appeler le serveur depuis le backend<a class="headerlink" href="#4-call-the-server-from-the-backend" title="Permanent link">¶</a></h2>
+<p>Chaque appel à <code>HostService</code> porte l'identité du plugin : le serveur vérifie
+le processus sur le socket par son PID, et un intercepteur refuse tout appel
+dont le manifeste ne déclare pas la permission. Trois groupes n'ont besoin
+d'aucune permission :</p>
 <ul>
-<li>dans <code>/admin/plugins/&lt;id&gt;</code>, les N dernières lignes dans l'interface ;</li>
-<li>dans <code>docker compose logs evey | grep &lt;plugin-id&gt;</code>, le flux complet.</li>
+<li><code>Log</code> écrit dans le journal du plugin, affiché sur sa carte ;</li>
+<li><code>GetConfig</code> lit les valeurs que l'administrateur a saisies dans <strong>Config</strong>
+  (déclarées dans <code>config_schema</code>), <code>SetConfig</code> laisse le plugin y conserver
+  ses propres clés ;</li>
+<li><code>GetData</code> / <code>SetData</code> / <code>DeleteData</code> / <code>ListDataKeys</code> est le stockage
+  clé/valeur privé du plugin, effacé à la désinstallation.</li>
 </ul>
-<h2 id="6-sign-your-plugin-optional-in-dev-recommended-for-distribution">6. Signer son plugin (facultatif en développement, recommandé pour le distribuer)<a class="headerlink" href="#6-sign-your-plugin-optional-in-dev-recommended-for-distribution" title="Permanent link">¶</a></h2>
+<p><code>GetMediaItem</code> et <code>ListMediaItems</code> demandent <code>api.library</code> ou <code>media.read</code> ;
+<code>Fetch</code> demande <code>network</code>. Le tableau complet, avec les méthodes déclarées
+dans le contrat mais pas encore servies, est dans la
+<a href="../api-reference/#hostservice-what-the-plugin-can-call">référence de l'API</a>.</p>
+<h2 id="5-add-an-interface">5. Ajouter une interface<a class="headerlink" href="#5-add-an-interface" title="Permanent link">¶</a></h2>
+<p>Une interface est un module JavaScript que la page charge dans un cadre isolé,
+dans l'un des emplacements que le serveur autorise. Déclarez où sont les
+fichiers et où va le module :</p>
+<div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">web_root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="w">               </span><span class="c1"># le dossier servi comme ressources statiques</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">frontend</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home.section</span><span class="w">       </span><span class="c1"># voir la liste des emplacements</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist/index.js</span><span class="w">       </span><span class="c1"># doit être sous web_root</span>
+</span></code></pre></div>
+<p>Le module reçoit un pont <code>window.evey</code> : <code>evey.onInit</code> lui remet la
+configuration du plugin, la langue, le thème et la surface sur laquelle il
+atterrit ; <code>evey.resize</code>, <code>evey.toast</code> et <code>evey.navigate</code> agissent sur la
+page dans des limites fixes ; et, quand le manifeste déclare <code>prefs</code> ou
+<code>public</code>, <code>evey.prefs.*</code> et <code>evey.media.*</code> atteignent le serveur par un jeton
+de courte durée que l'hôte détient pour le cadre.
+<code>examples/plugins/weather</code> est un widget complet avec une étape de build ;
+<code>examples/plugins/data-demo</code> montre <code>prefs</code>, <code>public</code> et l'emplacement
+<code>admin.nav</code>. Le pont et les emplacements sont décrits dans la
+<a href="../api-reference/#frontend-api">référence de l'API</a>.</p>
+<h2 id="6-reach-the-outside-world">6. Atteindre le monde extérieur<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
+<p>Un processus de plugin ne peut ouvrir aucun socket vers Internet, quel que
+soit le mode de sandbox. La seule sortie est l'appel <code>Fetch</code> de
+<code>HostService</code> : le serveur vérifie la cible contre le manifeste, puis fait la
+requête lui-même.</p>
+<div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">permissions</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">external_fetch</span><span class="p">:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">api.open-meteo.com</span><span class="w">       </span><span class="c1"># noms d'hôte nus : pas de schéma, pas de joker, pas d'IP</span>
+</span></code></pre></div>
+<p><code>network</code> sans <code>external_fetch</code> est refusé à l'installation. À l'exécution, le
+courtier accepte <code>http</code> et <code>https</code>, <code>GET</code> et <code>HEAD</code>, répond jusqu'à 8 Mio en
+20 secondes, et refuse les adresses privées ou réservées même derrière une
+redirection. Le cadre de l'interface reçoit la même liste d'hôtes comme
+<code>connect-src</code>, donc un widget peut appeler ces hôtes directement en <code>https</code>.
+Les règles sont dans
+<a href="../security-model/#external-fetch-rules">Permissions et emplacements</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Les hôtes sont un contrat avec l'administrateur</p>
+<p>L'administrateur voit la liste des hôtes à l'installation et doit
+approuver tout ajout à la mise à jour. Limitez-la à ce dont le plugin a
+besoin, et dites dans votre README ce que chaque hôte reçoit.</p>
+</div>
+<h2 id="7-sign-your-plugin">7. Signer son plugin<a class="headerlink" href="#7-sign-your-plugin" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Ce que prouve une signature</p>
-<p>Une signature atteste que le ZIP installé par l'administrateur est, octet
-pour octet, celui que <strong>vous</strong> avez publié, et qu'il a été signé avec la clé
-à laquelle il fait confiance. Elle ne dit rien de ce que fait le plugin :
-les permissions, les hôtes et l'analyse de l'aperçu s'appliquent toujours.
-Evey la vérifie <strong>hors ligne et dans son propre processus</strong> (ECDSA P-256 sur
-le SHA-256 du ZIP, le format que produit <code>cosign sign-blob --key</code>) : pas de
-binaire <code>cosign</code> sur le serveur, pas de réseau, pas de journal de
+<p>Une signature dit que le ZIP que l'administrateur installe est, octet
+pour octet, celui que <strong>vous</strong> avez publié, signé avec la clé en
+laquelle il a confiance. Elle ne dit rien de ce que fait le plugin : les
+permissions, les hôtes et l'analyse de l'aperçu s'appliquent toujours.
+Evey la vérifie hors ligne et dans son propre processus (ECDSA P-256 sur
+le SHA-256 du ZIP, le format que produit <code>cosign sign-blob --key</code>) : pas
+de binaire <code>cosign</code> sur le serveur, pas de réseau, pas de journal de
 transparence.</p>
 </div>
-<p>Il vous faut <a href="https://docs.sigstore.dev/cosign/installation/">cosign</a> sur
-<strong>votre</strong> machine uniquement.</p>
-<p><strong>1. Une seule fois : générer une paire de clés.</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># choisissez une vraie phrase secrète ; cosign.key reste privée, ne la commitez jamais</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">COSIGN_PASSWORD</span><span class="o">=</span><span class="s2">"your-passphrase"</span><span class="w"> </span>cosign<span class="w"> </span>generate-key-pair
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># -&gt; cosign.key (privée) et cosign.pub (le fichier que vous distribuez)</span>
+<p>Vous n'avez besoin de <a href="https://docs.sigstore.dev/cosign/installation/">cosign</a>
+que sur votre machine.</p>
+<ol>
+<li>
+<p><strong>Une fois : générez une paire de clés.</strong></p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># choisissez une vraie phrase de passe ; cosign.key reste privée, ne la committez jamais</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">COSIGN_PASSWORD</span><span class="o">=</span><span class="s2">"votre-phrase-de-passe"</span><span class="w"> </span>cosign<span class="w"> </span>generate-key-pair
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># -&gt; cosign.key (privée) et cosign.pub (le fichier que vous distribuez)</span>
 </span></code></pre></div>
-<p><strong>2. À chaque version : zipper, puis signer.</strong> Le manifeste est à la racine du
-ZIP. Signez hors ligne, comme le serveur vérifie :</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>my-first-plugin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>zip<span class="w"> </span>-r<span class="w"> </span>../my-first-plugin.zip<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">COSIGN_PASSWORD</span><span class="o">=</span><span class="s2">"your-passphrase"</span><span class="w"> </span>cosign<span class="w"> </span>sign-blob<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--key<span class="w"> </span>cosign.key<span class="w"> </span>--tlog-upload<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--yes<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--output-signature<span class="w"> </span>my-first-plugin.zip.sig<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span>my-first-plugin.zip
+</li>
+<li>
+<p><strong>À chaque version : compressez, puis signez</strong> le fichier exact que vous
+   distribuerez.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>hello-plugin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>zip<span class="w"> </span>-r<span class="w"> </span>../hello-plugin.zip<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nv">COSIGN_PASSWORD</span><span class="o">=</span><span class="s2">"votre-phrase-de-passe"</span><span class="w"> </span>cosign<span class="w"> </span>sign-blob<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--key<span class="w"> </span>cosign.key<span class="w"> </span>--tlog-upload<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--yes<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>--output-signature<span class="w"> </span>hello-plugin.zip.sig<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>hello-plugin.zip
 </span></code></pre></div>
-<p><strong>3. Vérifier avant d'expédier</strong>, avec la même vérification que le serveur :</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cosign<span class="w"> </span>verify-blob<span class="w"> </span>--key<span class="w"> </span>cosign.pub<span class="w"> </span>--signature<span class="w"> </span>my-first-plugin.zip.sig<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--insecure-ignore-tlog<span class="w"> </span>my-first-plugin.zip<span class="w">      </span><span class="c1"># -&gt; Verified OK</span>
+</li>
+<li>
+<p><strong>Vérifiez avant de livrer</strong>, avec la même vérification que fait le
+   serveur :</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cosign<span class="w"> </span>verify-blob<span class="w"> </span>--key<span class="w"> </span>cosign.pub<span class="w"> </span>--signature<span class="w"> </span>hello-plugin.zip.sig<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>--insecure-ignore-tlog<span class="w"> </span>hello-plugin.zip<span class="w">      </span><span class="c1"># -&gt; Verified OK</span>
 </span></code></pre></div>
-<p><strong>4. Publier trois fichiers ensemble</strong> : <code>my-first-plugin.zip</code>,
-<code>my-first-plugin.zip.sig</code> et <code>cosign.pub</code>. Indiquez l'empreinte de la clé
-publique à un endroit où vos utilisateurs peuvent la comparer (README, notes de
-version), pour qu'ils sachent que <code>cosign.pub</code> n'a pas été remplacé.</p>
-<p><strong>Sur l'instance qui l'installe :</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># placer la clé publique à un endroit lisible par le serveur</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>cp<span class="w"> </span>cosign.pub<span class="w"> </span>/etc/evey/cosign.pub
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EVEY_PLUGINS_COSIGN_PUBLIC_KEY</span><span class="o">=</span>/etc/evey/cosign.pub
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EVEY_PLUGINS_COSIGN_POLICY</span><span class="o">=</span>warn<span class="w">   </span><span class="c1"># ou "enforce" pour refuser ce qui ne se vérifie pas</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</li>
+<li>
+<p><strong>Publiez les trois fichiers ensemble</strong> : <code>hello-plugin.zip</code>,
+   <code>hello-plugin.zip.sig</code> et <code>cosign.pub</code>. Mettez l'empreinte de la clé
+   publique quelque part où vos utilisateurs peuvent la comparer (README,
+   notes de version), pour qu'ils sachent que <code>cosign.pub</code> n'a pas été
+   remplacée.</p>
+</li>
+</ol>
+<p>Sur l'instance qui l'installe, l'administrateur renseigne la clé et une
+politique, puis redémarre le serveur :</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">EVEY_PLUGINS_COSIGN_PUBLIC_KEY</span><span class="o">=</span>/etc/evey/cosign.pub
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">EVEY_PLUGINS_COSIGN_POLICY</span><span class="o">=</span>warn<span class="w">   </span><span class="c1"># ou "enforce" pour refuser ce qui ne se vérifie pas</span>
 </span></code></pre></div>
-<p>Ensuite, dans <strong>Admin → Plugins</strong>, choisissez le ZIP puis, dans le champ
-<strong>Fichier signature</strong>, son <code>.zip.sig</code>. Par l'API, la signature est le champ
-facultatif <code>sig</code> de l'envoi (section 4). L'aperçu affiche <strong>Signé</strong> ou une
-signature invalide, et la carte du plugin dans le tableau de bord de sécurité
-conserve le résultat.</p>
-<p>Les pièges habituels :</p>
+<p>Puis, dans <strong>Admin → Plugins</strong>, il choisit le ZIP et, dans <strong>Fichier
+signature (.zip.sig, optionnel)</strong>, son <code>.zip.sig</code> ; par l'API, la signature
+est le champ <code>sig</code> de l'envoi. L'aperçu affiche <strong>Signé</strong> ou une signature
+invalide, et le Tableau de bord sécurité conserve le résultat.</p>
+<p>Ce qui piège souvent :</p>
 <ul>
-<li><strong>Toute modification du ZIP casse la signature</strong>, même un simple re-zip des
-  mêmes fichiers. Signez exactement le fichier que vous distribuez, et
-  resignez à chaque version.</li>
+<li><strong>Tout changement du ZIP casse la signature</strong>, même recompresser les mêmes
+  fichiers. Signez le fichier que vous distribuez, et signez de nouveau à
+  chaque version.</li>
 <li><strong>Seules les clés ECDSA P-256 sont acceptées</strong>, ce que produit <code>cosign
-  generate-key-pair</code>. La signature sans clé (identités Sigstore) et les
-  références KMS ne sont pas vérifiées.</li>
-<li>La clé est lue dans un fichier PEM au démarrage : un fichier absent ou mal
-  formé arrête le démarrage au lieu de faire échouer la première installation.
+  generate-key-pair</code>. La signature sans clé et les références KMS ne sont pas
+  vérifiées.</li>
+<li>La clé est lue dans un fichier PEM au démarrage : un fichier manquant ou mal
+  formé arrête le serveur au lieu de faire échouer la première installation.
   Avec <code>enforce</code> et sans clé, le serveur refuse de démarrer.</li>
-<li>Avec <code>warn</code> (la valeur par défaut) et sans clé publique configurée, <strong>rien
-  n'est vérifié</strong> ; le serveur se contente de journaliser un avertissement au
-  démarrage.</li>
-<li>Une mauvaise clé, un ZIP altéré et un <code>.sig</code> absent se lisent tous comme une
-  signature en échec : avec <code>enforce</code>, l'installation ou la mise à jour est
-  refusée.</li>
+<li>Avec le <code>warn</code> par défaut et sans clé publique configurée, <strong>rien n'est
+  vérifié</strong> ; le serveur se contente d'un avertissement au démarrage.</li>
+<li>Une mauvaise clé, un ZIP altéré et un <code>.sig</code> manquant se lisent tous comme
+  une signature en échec : sous <code>enforce</code>, l'installation ou la mise à jour
+  est refusée.</li>
 </ul>
-<h2 id="7-resource-limits-and-sandbox">7. Limites de ressources et sandbox<a class="headerlink" href="#7-resource-limits-and-sandbox" title="Permanent link">¶</a></h2>
-<p>Valeurs par défaut appliquées à chaque processus de plugin :</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Défaut</th>
-<th>Effet</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
-<td><code>auto</code></td>
-<td><code>auto</code> = choisit le meilleur disponible (normalement <code>landlock</code>). <code>landlock</code> = liste d'autorisations Landlock + blocage inconditionnel des sorties TCP (<code>-restrict-net</code> + seccomp <code>-deny-inet</code>, sans exception pour la permission <code>network</code>) + seccomp chargé par LD_PRELOAD. <code>basic</code> = seccomp chargé par LD_PRELOAD + changement d'UID seulement (débogage). <code>bubblewrap</code> = espaces de noms complets + racine montée en lecture seule + <code>--unshare-net</code> (inconditionnel aussi, pour chaque plugin, quelle que soit la permission <code>network</code>). <code>strict</code> = bubblewrap + le seccomp chargé par LD_PRELOAD.</td>
-</tr>
-<tr>
-<td><code>EVEY_PLUGINS_MEMORY_MB</code></td>
-<td>256</td>
-<td>Mémoire résidente maximale. Le moniteur de ressources lit <code>/proc</code> et arrête le plugin au-delà. <code>0</code> désactive.</td>
-</tr>
-<tr>
-<td><code>EVEY_PLUGINS_CPU_NICE</code></td>
-<td>10</td>
-<td>Valeur <code>nice</code> (0-19) appliquée au lancement, pour qu'un plugin ne puisse jamais priver le serveur de processeur.</td>
-</tr>
-<tr>
-<td><code>EVEY_PLUGINS_PIDS_MAX</code></td>
-<td>64</td>
-<td>Nombre maximal de threads et processus. Empêche les bombes de fork. <code>0</code> désactive.</td>
-</tr>
-<tr>
-<td><code>EVEY_PLUGINS_DISK_MAX_MB</code></td>
-<td>100</td>
-<td>Taille maximale du dossier d'installation ; le moniteur la mesure toutes les 30 s environ et arrête un plugin qui la dépasse. <code>0</code> désactive.</td>
-</tr>
-</tbody>
-</table>
-<p>Un plugin qui parle au réseau a besoin à la fois de <code>permissions: [network]</code> et de
-<code>external_fetch: [&lt;hôte&gt;...]</code>. Les sorties réseau directes sont coupées par la
-sandbox pour chaque plugin, sans condition et quelles que soient ses permissions
-(voir les modes de sandbox ci-dessus) : le processus du plugin ne peut jamais
-ouvrir lui-même une socket vers Internet. La seule issue est l'intermédiaire
-<code>Fetch</code> côté hôte : le plugin l'appelle par la socket Unix <code>EVEY_PLUGIN_SOCK</code>,
-l'hôte vérifie l'hôte visé dans <code>external_fetch</code>, puis se connecte par un client
-protégé contre les SSRF (adresses privées et réservées refusées à la connexion,
-redirections revérifiées selon l'IP résolue et l'hôte autorisé). Voir
-<code>internal/adapters/driving/pluginhost/fetch.go</code>.</p>
-<h2 id="8-distribute-a-plugin">8. Distribuer un plugin<a class="headerlink" href="#8-distribute-a-plugin" title="Permanent link">¶</a></h2>
-<p>Il n'existe pas encore de catalogue officiel : un administrateur installe un
-plugin en envoyant son ZIP dans le panneau d'administration, depuis l'endroit où
-vous le publiez (une release GitHub, votre propre site). Distribuer, aujourd'hui,
-signifie :</p>
+<h2 id="8-what-the-installer-checks-in-order">8. Ce que vérifie l'installateur, dans l'ordre<a class="headerlink" href="#8-what-the-installer-checks-in-order" title="Permanent link">¶</a></h2>
+<p>Chaque étape peut refuser le paquet ; l'administrateur voit la raison, et le
+journal du serveur porte le détail.</p>
+<ol>
+<li><strong>Manifeste.</strong> <code>plugin.yaml</code> est lu directement dans le ZIP : champs
+   obligatoires, semver, permissions et capacités connues, emplacements dans
+   la liste autorisée, entrées <code>external_fetch</code> qui sont des noms d'hôte nus,
+   <code>web_root</code> présent quand <code>frontend</code> est déclaré. Le <code>language</code> déclaré doit
+   être un environnement de l'image.</li>
+<li><strong>Version et escalade.</strong> Pour un plugin déjà installé, la nouvelle version
+   doit être supérieure, et toute nouvelle permission, capacité, emplacement
+   ou hôte arrête l'installation ici tant que l'administrateur n'a pas
+   approuvé la différence (<code>accept_permission_changes=true</code> sur la route
+   d'envoi).</li>
+<li><strong>Signature et empreinte.</strong> La signature est vérifiée quand une clé
+   publique est configurée ; un échec ne bloque que sous <code>enforce</code>.
+   L'empreinte du ZIP est enregistrée, et vérifiée de nouveau quand une mise
+   à jour prévisualisée plus tôt est appliquée.</li>
+<li><strong>Extraction</strong> dans un dossier de transit : au plus 5 000 entrées, 100 Mo
+   par fichier, 500 Mo au total, un taux de compression de 100:1, aucun lien
+   symbolique, aucun chemin qui sort de l'archive. Une mise à jour ne touche
+   jamais la version en cours tant que toutes les étapes suivantes n'ont pas
+   réussi.</li>
+<li><strong>Thèmes seulement :</strong> la feuille de style est assainie et réécrite, et un
+   <code>theme.js</code> qui correspond à un motif interdit fait refuser le paquet.</li>
+<li><strong>Analyse statique</strong> de chaque fichier texte : un constat critique refuse
+   le paquet ; les avertissements <code>deserialization</code> et <code>obfuscation</code> le
+   refusent aussi, et <code>native_code</code>, les binaires compilés et les archives
+   embarquées le refusent sauf si le manifeste déclare <code>native-binary</code>.</li>
+<li><strong>Enregistrement et démarrage.</strong> Le dossier de transit est mis en place,
+   la ligne est écrite, et le processus est démarré.</li>
+</ol>
+<p>Ce que cherche l'analyse est listé dans
+<a href="../../SECURITY/#static-analysis">Sandbox des plugins et modèle de menace</a>.
+Elle lit aussi les commentaires : une ligne <code># pip install foo</code> dans un
+commentaire est signalée comme du code.</p>
+<h2 id="9-what-your-process-runs-under">9. Dans quelles conditions tourne votre processus<a class="headerlink" href="#9-what-your-process-runs-under" title="Permanent link">¶</a></h2>
+<p>Le serveur démarre le processus avec une priorité processeur abaissée, un
+plafond de mémoire, une limite de processus et de threads, et une taille
+maximale pour son dossier ; un moniteur arrête un plugin qui les dépasse. Les
+défauts sont 256 Mio, 64 processus et 100 Mio, ajustables par
+l'administrateur dans <strong>Admin → Plugins → Limites de ressources</strong>. Sans la
+permission <code>subprocess</code>, le processus ne peut pas créer d'enfants, quel que
+soit le langage ; les threads fonctionnent.</p>
+<p>La sandbox confine le système de fichiers au dossier du plugin et coupe tout
+socket réseau, sans condition. Le mode en vigueur dépend de l'hôte, pas du
+plugin : <a href="../../SECURITY/#sandbox-modes">Sandbox des plugins et modèle de menace</a>
+les décrit, et <a href="../sandbox-deployment/">Mise en place de la sandbox des plugins</a>
+dit à un administrateur lequel choisir.</p>
+<h2 id="10-distribute-a-plugin">10. Distribuer un plugin<a class="headerlink" href="#10-distribute-a-plugin" title="Permanent link">¶</a></h2>
+<p>Il n'y a pas de catalogue : un administrateur installe un plugin en envoyant
+son ZIP ou en collant son URL dans le panneau d'administration, depuis
+l'endroit où vous le publiez (une release sur une forge, votre propre site).</p>
 <ul>
-<li>Fournir ensemble le ZIP, son <code>.sig</code> et votre <code>cosign.pub</code> (section 6), pour que
-  l'administrateur qui le reçoit puisse vérifier l'envoi avec
-  <code>EVEY_PLUGINS_COSIGN_POLICY=warn</code> ou <code>enforce</code>.</li>
-<li>Indiquer les permissions et les hôtes <code>external_fetch</code> dans votre README :
-  l'administrateur les voit à l'installation et doit les approuver ; une surprise
-  à cet endroit est la première raison d'un refus.</li>
-<li>Pour faire figurer votre plugin parmi les exemples fournis, ouvrez une PR sur
-  <code>examples/plugins/</code> avec les sources et un README. Les exemples sont relus et
-  compilés depuis les sources ; une PR ne vaut pas approbation et ne porte aucune
-  signature du projet.</li>
+<li>Livrez le ZIP, son <code>.sig</code> et votre <code>cosign.pub</code> ensemble (section 7).</li>
+<li>Indiquez les permissions et les hôtes <code>external_fetch</code> dans votre README :
+  l'administrateur les voit à l'installation et doit les approuver ; une
+  surprise à cet endroit est la première cause de refus.</li>
+<li>Pour faire figurer votre plugin parmi les exemples fournis, ouvrez une pull
+  request contre <code>examples/plugins/</code> avec la source et un README. Les exemples
+  sont relus et construits depuis la source ; une inscription n'est pas une
+  recommandation et ne porte aucune signature du projet.</li>
 </ul>
-<h2 id="9-troubleshooting">9. Dépannage<a class="headerlink" href="#9-troubleshooting" title="Permanent link">¶</a></h2>
+<h2 id="11-troubleshooting">11. Dépannage<a class="headerlink" href="#11-troubleshooting" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Symptôme</th>
 <th>Cause</th>
-<th>Correction</th>
+<th>Remède</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>bwrap: ... permission denied</code></td>
-<td>Mode <code>bubblewrap</code> dans Docker : les profils seccomp et AppArmor par défaut bloquent les appels <code>unshare</code> et <code>mount</code> dont il a besoin.</td>
-<td>Gardez le mode <code>auto</code> par défaut, qui utilise Landlock dans un conteneur. Sinon, appliquez le profil fourni <code>docker/seccomp-evey.json</code> (aussi présent dans l'image sous <code>/etc/evey/seccomp.json</code>), un affaiblissement assumé de la sécurité : voir <a href="../sandbox-deployment/">Configuration du sandbox des plugins</a>.</td>
-</tr>
-<tr>
-<td><code>forbidden pattern "fetch(" found in theme JS</code></td>
-<td>L'analyse du JS de thème a repéré une API interdite.</td>
-<td>Un thème ne doit appeler que <code>evey.theme.*</code>. Voyez <code>internal/pkg/themejs/scan.go</code> pour la liste de ce qui est bloqué.</td>
+<td><code>plugin requires "nodejs" runtime which is not installed in this image</code></td>
+<td>La variante d'image n'a pas l'interpréteur.</td>
+<td>Utilisez l'image <code>-nodejs</code> ou <code>-full</code>, ou écrivez le plugin en Python.</td>
 </tr>
 <tr>
 <td><code>manifest: external_fetch entry "*.tmdb.org" is a wildcard - use explicit hostnames</code></td>
-<td>Tous les jokers sont refusés à l'installation, sans exception.</td>
-<td>Utilisez <code>api.tmdb.org</code> (et listez chaque sous-domaine nécessaire), pas <code>*.tmdb.org</code> ni <code>cdn.*.tmdb.org</code>.</td>
+<td>Les jokers sont refusés à l'installation, sans exception.</td>
+<td>Listez chaque nom d'hôte nécessaire (<code>api.tmdb.org</code>, <code>image.tmdb.org</code>).</td>
 </tr>
 <tr>
 <td><code>manifest: frontend slot "admin.section" not allowed</code></td>
-<td>Les interfaces de plugins sont interdites dans les zones privilégiées.</td>
-<td>Choisissez un emplacement non critique dans la liste, ou repensez le plugin.</td>
+<td>L'emplacement est hors de la liste autorisée.</td>
+<td>Prenez un emplacement de la <a href="../api-reference/#slots">liste</a> ; <code>admin.nav</code> est le seul emplacement de la zone d'administration.</td>
 </tr>
 <tr>
-<td><code>signature does not match the plugin or the configured key</code></td>
-<td>Le <code>.sig</code> a été fait avec une autre clé, ou le ZIP a changé après la signature.</td>
-<td>Resignez exactement ce ZIP avec la bonne clé, ou mettez à jour <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code>.</td>
+<td><code>manifest: network permission requires non-empty external_fetch</code></td>
+<td><code>network</code> déclaré sans hôtes.</td>
+<td>Ajoutez les hôtes, ou retirez la permission.</td>
 </tr>
 <tr>
 <td><code>plugin already installed at version 1.0.0, new version must be higher</code></td>
 <td>Le ZIP porte la version déjà installée.</td>
-<td>Augmentez <code>version</code> dans <code>plugin.yaml</code>, ou désinstallez d'abord le plugin.</td>
+<td>Incrémentez <code>version</code>, ou désinstallez d'abord.</td>
 </tr>
 <tr>
-<td>Le plugin s'arrête, le journal indique <code>memory quota exceeded (… MB &gt; … MB)</code></td>
-<td>Le moniteur de ressources l'a tué au-delà de sa limite de mémoire (code 137).</td>
-<td>Réduisez sa consommation, ou relevez sa limite de mémoire sur sa carte dans <strong>Admin → Plugins</strong> (<code>EVEY_PLUGINS_MEMORY_MB</code> fixe la valeur par défaut).</td>
+<td><code>signature does not match the plugin or the configured key</code></td>
+<td>Le <code>.sig</code> a été fait avec une autre clé, ou le ZIP a changé après la signature.</td>
+<td>Re-signez le ZIP exact avec la bonne clé, ou corrigez <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code>.</td>
 </tr>
 <tr>
-<td>Module d'interface invisible</td>
-<td>Plugin non activé, emplacement erroné, ou mauvais préfixe <code>web_root</code> dans <code>frontend.src</code>.</td>
-<td>Regardez la page Plugins de l'administration (badge d'état), vérifiez que la chaîne de l'emplacement correspond à un vrai <code>&lt;PluginSlot name=...&gt;</code>, et cherchez les appels <code>/api/v1/plugins/{id}/assets/...</code> dans l'onglet réseau.</td>
+<td><code>plugin blocked: theme.js contains forbidden pattern</code></td>
+<td>Le scanner du script de thème a trouvé une API interdite.</td>
+<td>Un thème ne peut appeler que <code>evey.theme.*</code> : voir <a href="../../themes/#what-the-scanner-refuses">Thèmes</a>.</td>
+</tr>
+<tr>
+<td>Le journal se termine par <code>memory quota exceeded (... MB &gt; ... MB)</code></td>
+<td>Le moniteur a arrêté le plugin au-delà de sa limite de mémoire.</td>
+<td>Réduisez la consommation, ou montez <strong>Mémoire max (Mio)</strong> dans <strong>Limites de ressources</strong>.</td>
+</tr>
+<tr>
+<td><code>bwrap: ... permission denied</code></td>
+<td>Mode <code>bubblewrap</code> dans Docker, bloqué par le profil seccomp ou AppArmor du conteneur.</td>
+<td>Gardez le mode <code>auto</code> par défaut. Sinon, voir <a href="../sandbox-deployment/">Mise en place de la sandbox des plugins</a>.</td>
+</tr>
+<tr>
+<td>Le module d'interface n'apparaît pas</td>
+<td>Le plugin est désactivé, l'emplacement est mal orthographié, ou <code>src</code> n'est pas sous <code>web_root</code>.</td>
+<td>Vérifiez l'état de la carte, le nom de l'emplacement, et les requêtes <code>/api/v1/plugins/&lt;id&gt;/assets/...</code> dans le panneau réseau du navigateur.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="10-going-further">10. Pour aller plus loin<a class="headerlink" href="#10-going-further" title="Permanent link">¶</a></h2>
-<ul>
-<li>Le modèle de sécurité de bout en bout : <a href="../security-model/">security-model.md</a></li>
-<li>La surface de l'API de l'hôte : <a href="../api-reference/">api-reference.md</a></li>
-<li>Les emplacements disponibles : <a href="../api-reference/#slots">api-reference.md</a></li>
-<li>Le code du SDK par langage : <code>sdk/</code></li>
-<li>Les plugins et thèmes de référence : <code>examples/plugins/</code></li>
-</ul>
+<!-- sources
+runtimes, image variants: internal/adapters/driven/pluginrunner/runtime_availability.go - runtimeBinaries, compiledLanguages ; internal/app/plugin/install.go - parseAndValidateManifest ; Dockerfile (RUNTIMES lean/nodejs/full)
+stubs copied at start, NODE_PATH: internal/adapters/driven/filesystem/plugin_fs.go - CopySDKStubs ; internal/adapters/driven/pluginrunner/runner_start.go ; sdk/python/README.md ; examples/plugins/nodejs-example/package.json
+dev stack: DEV.md (Quick Start) ; Makefile - setup, dev ; docker-compose.yml (evey-data/plugins:/data/plugins)
+example: examples/plugins/nodejs-example/main.js, plugin.yaml
+env vars: internal/adapters/driven/pluginrunner/runner_start.go (EVEY_PLUGIN_ID, EVEY_PLUGIN_SOCK, EVEY_HOST_SOCK)
+upload route, fields: internal/adapters/driving/http/plugin_asset_handler.go (plugin, sig, accept_permission_changes)
+host RPC permissions: internal/adapters/driving/grpcapi/plugin_interceptor.go ; peer auth: internal/adapters/driving/pluginhost/peer_creds.go
+host RPCs: internal/adapters/driving/pluginhost/host_server.go - Log, GetConfig, SetConfig, GetData ; fetch.go - Fetch (GET/HEAD, maxFetchBytes, fetchTimeout)
+frame connect-src: frontend/packages/client/src/plugins/hostProtocol.ts - buildConnectSrc ; internal/adapters/driving/http/plugin_frame_handler.go - pluginFramePolicy
+bridge: frontend/packages/client/src/plugins/bridgeScript.ts - EveyBridge
+cosign: internal/adapters/driven/pluginrunner/cosign.go - loadP256PublicKey ; internal/config/config.go - CosignPolicy validation
+install order: internal/app/plugin/install.go - installLocalZip, parseAndValidateManifest, resolveExistingPlugin, verifyPluginIntegrity, extractPluginToStaging, validateStagedPlugin, checkEscalatedWarnings, swapAndPersistPlugin ; update.go - ApplyUpdate ; zip limits: docs/SECURITY.md (ZIP extraction)
+resource limits: internal/config/config.go - Plugins ; internal/adapters/driven/pluginrunner/runner_resmon.go ; i18n admin.plugins.resourceLimits.*
+error texts: internal/adapters/driven/pluginrunner/manifest.go ; internal/domain/plugin/model.go ; internal/app/plugin/install.go ; cosign.go ; runner_resmon.go
+-->
 
 
 

@@ -956,6 +956,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#publish-the-server-in-three-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish the server in three steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#remote-access-is-decided-from-the-public-address" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -978,15 +989,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#https-a-reverse-proxy-in-front-of-evey" class="md-nav__link">
+  <a href="#what-evey-needs-to-know-about-the-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HTTPS: a reverse proxy in front of Evey
+        What Evey needs to know about the proxy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="HTTPS: a reverse proxy in front of Evey">
+    <nav class="md-nav" aria-label="What Evey needs to know about the proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1002,17 +1013,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-two-network-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The two network steps
-      
-    </span>
-  </a>
   
 </li>
       
@@ -3017,6 +3017,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#publish-the-server-in-three-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish the server in three steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#remote-access-is-decided-from-the-public-address" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3039,15 +3050,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#https-a-reverse-proxy-in-front-of-evey" class="md-nav__link">
+  <a href="#what-evey-needs-to-know-about-the-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HTTPS: a reverse proxy in front of Evey
+        What Evey needs to know about the proxy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="HTTPS: a reverse proxy in front of Evey">
+    <nav class="md-nav" aria-label="What Evey needs to know about the proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3063,17 +3074,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-two-network-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The two network steps
-      
-    </span>
-  </a>
   
 </li>
       
@@ -3112,27 +3112,41 @@
 
 
 <h1 id="remote-access-and-https">Remote access and HTTPS<a class="headerlink" href="#remote-access-and-https" title="Permanent link">¶</a></h1>
-<p>Reaching the server from outside the home involves two separate things: a
-public HTTPS address in front of Evey, and Evey's own remote-access setting,
-which decides whether clients outside your network are served.</p>
+<p>Publish the server at an <code>https://</code> address and the people in your household
+can use it from anywhere. This page is for the administrator: it covers the
+public address, the remote-access switch the server sets on its own, and what
+Evey needs to know about the reverse proxy in front of it.</p>
+<h2 id="publish-the-server-in-three-steps">Publish the server in three steps<a class="headerlink" href="#publish-the-server-in-three-steps" title="Permanent link">¶</a></h2>
+<ol>
+<li>Put a reverse proxy in front of Evey that terminates HTTPS and forwards
+   everything to port <code>9091</code>: the bundled Caddy, or a proxy you already run.
+   Ready-made configurations are in
+   <a href="../../reverse-proxy/">Reverse proxy configurations</a>.</li>
+<li>In <strong>Admin → Remote Access</strong>, set <strong>External URL</strong> to the <code>https://</code> address
+   and, when the proxy runs in another container, its network in <strong>Trusted
+   proxies</strong> (<code>172.16.0.0/12</code> for Docker's default networks).</li>
+<li>Nothing else: a server given a public address opens remote access on its
+   own. <code>evey admin doctor</code> confirms the proxy list in force and warns when a
+   published server is refusing remote clients.</li>
+</ol>
 <h2 id="remote-access-is-decided-from-the-public-address">Remote access is decided from the public address<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
 <p>Evey decides remote access at startup unless you have chosen it yourself:</p>
 <ul>
-<li>if the server was given a public address (<code>EVEY_SERVER_BASE_URL</code> or
-  <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>), remote access is <strong>on</strong>;</li>
+<li>if the server was given a public address (<strong>External URL</strong>,
+  <code>EVEY_SERVER_BASE_URL</code> or <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>), remote access
+  is <strong>on</strong>;</li>
 <li>otherwise it is <strong>off</strong>, and only clients on your local networks are served.</li>
 </ul>
-<p>Once you change the setting in <strong>Admin → Remote Access</strong>, your choice is kept
-and the server no longer infers it: a published server can stay LAN-only if
-that is what you want.</p>
+<p>Once you change <strong>Enable Remote Access</strong> yourself, your choice is kept and the
+server no longer infers it: a published server can stay LAN-only if that is
+what you want. Remote access is a choice about who may reach the server, not
+a protection: every page still requires signing in.</p>
 <p>When remote access is off, a client outside the local networks receives a
 <code>403</code> on every page, and the apps show a message saying remote access is
 disabled rather than a generic error. If the server is reachable from the
 internet while remote access is off, the admin page shows <strong>Every remote user
 is locked out</strong>, the server logs it at startup and logs each refusal with the
 client address, and <code>evey admin doctor</code> reports it as a failure.</p>
-<p>Remote access is a choice about who may reach the server, not a protection:
-every page still requires signing in.</p>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">¶</a></h2>
 <p><strong>Admin → Remote Access</strong>. Every setting applies without a restart: the
 network ones to the next request, the bitrate to the next playback.</p>
@@ -3171,24 +3185,24 @@ network ones to the next request, the bitrate to the next playback.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="https-a-reverse-proxy-in-front-of-evey">HTTPS: a reverse proxy in front of Evey<a class="headerlink" href="#https-a-reverse-proxy-in-front-of-evey" title="Permanent link">¶</a></h2>
+<h2 id="what-evey-needs-to-know-about-the-proxy">What Evey needs to know about the proxy<a class="headerlink" href="#what-evey-needs-to-know-about-the-proxy" title="Permanent link">¶</a></h2>
 <p>Evey serves plain HTTP on port 9091, API and web interface together. HTTPS is
-the job of a reverse proxy, which forwards everything to <code>evey-server:9091</code>.
-Evey needs to know two things about it, both in <strong>Admin → Remote Access</strong>:</p>
+the job of the reverse proxy, and Evey needs two things about it, both in
+<strong>Admin → Remote Access</strong>:</p>
 <ul>
 <li><strong>External URL</strong> in <code>https://</code>. This is what tells Evey a proxy terminates
   TLS: cookies get the <code>Secure</code> flag, HSTS is sent and the <code>X-Forwarded-Proto</code>
   header of a trusted proxy is believed.</li>
 <li><strong>Trusted proxies</strong>, when the proxy is not on the same machine as Evey. A
   proxy in another container needs its network here, for example
-  <code>172.16.0.0/12</code> for Docker's default networks. A range covering every
-  address (<code>0.0.0.0/0</code>, <code>::/0</code>) is refused: any client could then choose the
-  address it is seen with.</li>
+  <code>172.16.0.0/12</code> for Docker's default networks.</li>
 </ul>
-<p>With no proxy yet, Evey's repository provides a Caddy service that obtains a
-Let's Encrypt certificate on its own. Ready-made configurations for Caddy,
-Nginx, Traefik and Nginx Proxy Manager, and what a proxy's defaults do to
-streaming: <a href="../../reverse-proxy/">Reverse proxy configurations</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">A range covering every address is refused</p>
+<p><code>0.0.0.0/0</code> or <code>::/0</code> in <strong>Trusted proxies</strong> would let any client choose
+the address it is seen with. The panel and <code>evey admin doctor</code> both refuse
+it: list the proxy's own address or network.</p>
+</div>
 <h3 id="setting-it-in-the-environment-instead">Setting it in the environment instead<a class="headerlink" href="#setting-it-in-the-environment-instead" title="Permanent link">¶</a></h3>
 <p><code>EVEY_SERVER_BASE_URL</code> and <code>EVEY_TRUSTED_PROXIES</code> give the same answers from
 the compose file, which suits an installation described entirely as code or a
@@ -3196,30 +3210,32 @@ server that must be reachable over HTTPS from its very first start. The panel
 wins when both are set: an <code>https://</code> External URL enables HTTPS mode even if
 the base URL is plain HTTP, and a saved proxy list replaces the variable.
 Emptying the field hands the answer back to the variable. See
-<a href="../../environment/server/">Server and network</a>.</p>
-<h2 id="the-two-network-steps">The two network steps<a class="headerlink" href="#the-two-network-steps" title="Permanent link">¶</a></h2>
-<p>Trusted proxies and LAN networks are two successive steps, not two ways of
-saying the same thing. The trusted proxies decide whose forwarded address is
-believed, and so which address each client gets; the LAN networks then
-classify that address as local or remote.</p>
+<a href="../../environment/server/#remote-access">Server and network</a>.</p>
 <h2 id="the-real-client-address">The real client address<a class="headerlink" href="#the-real-client-address" title="Permanent link">¶</a></h2>
 <p>Remote access and <strong>Max Remote Bitrate</strong> both depend on Evey seeing each
-client's real address. A proxy that does not forward it, or that Evey does not
-trust, makes every request look like it comes from the proxy's private
-address: everyone counts as home, the remote-access setting has no effect and
-no remote cap applies.</p>
-<p>Fixing the proxy therefore changes who counts as remote. If remote access was
-off, remote clients are refused from that moment. Check
-<code>evey admin doctor</code> after changing proxy settings: it names the list in force
-and where it comes from, warns about a public range and fails on a range
-covering every address.</p>
+client's real address, in two successive steps: the trusted proxies decide
+whose forwarded address is believed, and so which address each client gets;
+the LAN networks then classify that address as local or remote.</p>
+<p>A proxy that does not forward the address, or that Evey does not trust, makes
+every request look like it comes from the proxy's private address: everyone
+counts as home, the remote-access setting has no effect and no remote cap
+applies.</p>
+<div class="admonition note">
+<p class="admonition-title">Fixing the proxy changes who counts as remote</p>
+<p>If remote access was off, remote clients are refused from the moment the
+proxy forwards their real address. Check <code>evey admin doctor</code> after
+changing proxy settings: it names the list in force and where it comes
+from, warns about a public range and fails on a range covering every
+address.</p>
+</div>
 <!-- sources
-inference and explicit choice: docs/adr/0026-remote-access-inferred-from-a-published-url.md ; internal/config/remote_access_resolve.go
+inference and explicit choice: docs/adr/0026-remote-access-inferred-from-a-published-url.md ; internal/config/remote_access_resolve.go - ResolveRemoteAccess, IsPubliclyReachableURL
 gate, live switch and LAN list: cmd/evey/gateway.go - networkMiddleware ; cmd/evey/network_middleware_test.go - TestNetworkMiddleware_LANListChangeAppliesWithoutRestart
 remote cap live: internal/adapters/driving/grpcapi/playback_remote_bitrate_test.go
-labels: i18n admin.remoteAccess.*
+labels: i18n admin.remoteAccess.* (enableRemoteAccess, externalUrl, trustedProxies, lanNetworks, maxRemoteBitrate, lockoutRiskTitle)
 proxy settings: docs/reverse-proxy.md
 https mode and trusted proxies live: internal/config/network_live.go - EffectiveHTTPS, EffectiveTrustedProxies ; internal/adapters/driving/http/access_handler_live_test.go
+catch-all range refused: internal/config/trusted_proxies.go - IsCatchAllProxyRange ; internal/config/network_live.go
 doctor check: cmd/evey/admin_ops.go - checkTrustedProxies
 -->
 

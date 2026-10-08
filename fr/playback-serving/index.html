@@ -2839,7 +2839,7 @@
   <a href="#the-two-engines-by-cost" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les deux moteurs, selon leur coût
+        Les deux moteurs, par coût
       
     </span>
   </a>
@@ -2850,7 +2850,7 @@
   <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
     <span class="md-ellipsis">
       
-        L'audio est décidé à part de la vidéo
+        L'audio est décidé séparément de la vidéo
       
     </span>
   </a>
@@ -2872,18 +2872,7 @@
   <a href="#design-patterns-in-play" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les patrons de conception à l'œuvre
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-decision-brain-the-app-layer-planresolver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Le cerveau de la décision : le PlanResolver de la couche applicative
+        Motifs de conception à l'œuvre
       
     </span>
   </a>
@@ -3042,7 +3031,7 @@
   <a href="#the-two-engines-by-cost" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les deux moteurs, selon leur coût
+        Les deux moteurs, par coût
       
     </span>
   </a>
@@ -3053,7 +3042,7 @@
   <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
     <span class="md-ellipsis">
       
-        L'audio est décidé à part de la vidéo
+        L'audio est décidé séparément de la vidéo
       
     </span>
   </a>
@@ -3075,18 +3064,7 @@
   <a href="#design-patterns-in-play" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les patrons de conception à l'œuvre
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-decision-brain-the-app-layer-planresolver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Le cerveau de la décision : le PlanResolver de la couche applicative
+        Motifs de conception à l'œuvre
       
     </span>
   </a>
@@ -3117,89 +3095,139 @@
 
 
 <h1 id="serving-a-video---the-hls-playback-path">Servir une vidéo : le chemin de lecture HLS<a class="headerlink" href="#serving-a-video---the-hls-playback-path" title="Permanent link">¶</a></h1>
-<p>C'est le <strong>chemin de lecture</strong> : ce qui se passe quand un lecteur demande une
-vidéo, de la première requête <code>master.m3u8</code> jusqu'aux octets d'un segment. C'est
-le pendant du pipeline de scan décrit dans <a href="../ARCHITECTURE/">ARCHITECTURE.md</a> (le
-chemin d'écriture, qui prépare le modèle de lecture), et l'explication détaillée
-derrière le « Golden path 4 » de <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">CODEBASE_MAP.md</a>.</p>
-<p>Le chemin de lecture est <strong>VITAL</strong> et réparti sur environ 8 fichiers de
-l'adaptateur <code>http</code>. Aucune fonction unique ne déroule tout le flux : ce document
-en est la carte.</p>
+<p>Ce qui se passe quand un lecteur demande une vidéo, de la première requête
+<code>master.m3u8</code> jusqu'aux octets d'un segment : le chemin de lecture. Le code
+est réparti entre l'adaptateur entrant <code>http</code>
+(<code>internal/adapters/driving/http/transcode_*</code>), les services
+<code>app/transcoding</code> et les adaptateurs sortants <code>ffmpeg</code> / <code>mkvgo</code> / <code>prober</code> ;
+aucune fonction unique ne déroule tout le flux, cette page en est donc la
+carte. Il est décidé par <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a> (un
+plan, une décision), <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a> (le
+résolveur de plan) et
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a> (des
+capacités mesurées). C'est le pendant du pipeline de scan décrit dans
+<a href="../ARCHITECTURE/">Architecture</a> et l'explication détaillée derrière le
+« Golden path 4 » de la <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Carte du code</a>. Pour la vue côté
+utilisateur de la même négociation, lisez
+<a href="../playback/how-playback-is-decided/">Comment la lecture est décidée</a>.</p>
 <h2 id="the-mental-model-3-questions-2-engines-1-key">Le modèle mental : 3 questions, 2 moteurs, 1 clé<a class="headerlink" href="#the-mental-model-3-questions-2-engines-1-key" title="Permanent link">¶</a></h2>
 <p>Servir une vidéo revient à répondre à trois questions, puis à empaqueter la
-réponse, le tout adressé par un seul hachage :</p>
+réponse, le tout adressé par un seul hachage.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Répondue par</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q1 : puis-je lire le fichier à bas coût ?</strong></td>
+<td>la répartition des sondes par <strong>extension de fichier</strong> : <code>.mkv/.webm</code> et <code>.mp4/.mov</code> vont à <a href="../playback/mkvgo/">mkvgo</a> (en-tête seulement, aucun processus) ; tout le reste, et tout échec de la voie rapide, va à ffprobe, l'autorité</td>
+<td><code>adapters/driven/prober/dispatcher.go</code></td>
+</tr>
+<tr>
+<td><strong>Q2 : le client peut-il le lire tel quel ?</strong></td>
+<td>la <strong>décision</strong> de lecture, prise par piste : vidéo <code>copy</code> ou <code>transcode</code>, audio <code>copy</code>, <code>transcode</code> ou la voie wasm AC-3 ; vidéo et audio sont décidés indépendamment, et le cas courant est « copier la vidéo, ré-encoder l'audio en AAC »</td>
+<td><code>app/transcoding/decision.go</code></td>
+</tr>
+<tr>
+<td><strong>Q3 : combien cet hôte peut-il encoder ?</strong></td>
+<td>la <strong>capacité</strong> calibrée (mesurée au premier moment calme) plus l'<strong>admission</strong> (quel barreau de l'échelle convient, reste-t-il une place)</td>
+<td><code>app/transcoding/calibration_service.go</code>, <code>admission_shaper.go</code></td>
+</tr>
+</tbody>
+</table>
+<p>Deux moteurs traversent tout cela :</p>
 <ul>
-<li><strong>Q1 : puis-je lire le fichier à peu de frais ?</strong> L'aiguillage de l'analyse,
-  selon <strong>l'extension du fichier</strong> : <code>.mkv/.webm</code> et <code>.mp4/.mov</code> vont à <strong><a href="../playback/mkvgo/">mkvgo</a></strong>
-  (lecture de l'en-tête seulement, sans processus) ; tout le reste, et tout échec
-  de ce chemin rapide, va à <strong>ffprobe</strong> (qui fait autorité).</li>
-<li><strong>Q2 : le client peut-il le lire tel quel ?</strong> La <strong>décision</strong> de lecture, prise
-  <em>piste par piste</em> : vidéo <code>copy</code> ou <code>transcode</code>, audio <code>copy</code>, <code>transcode</code> ou
-  le chemin AC-3 en wasm. Vidéo et audio sont décidés <strong>indépendamment</strong> : le cas
-  courant est « copier la vidéo, réencoder l'audio en AAC ».</li>
-<li><strong>Q3 : combien cette machine peut-elle encoder ?</strong> La <strong>capacité</strong> calibrée (issue
-  de la mesure prise au premier moment calme) et <strong>l'admission</strong> (quel barreau de l'échelle
-  convient, reste-t-il une place).</li>
+<li><strong>mkvgo</strong> lit et ré-empaquette (remux, à la demande) sans lancer de processus. Gratuit.</li>
+<li><strong>ffmpeg / ffprobe</strong> décodent, ré-encodent et sondent en lançant un processus. Coûteux.</li>
 </ul>
-<p>Deux moteurs traversent l'ensemble :</p>
-<ul>
-<li><strong>mkvgo</strong> : lit et réempaquette (remux, à la demande) sans lancer de processus.
-  <strong>Gratuit.</strong></li>
-<li><strong>ffmpeg / ffprobe</strong> : décode, réencode et analyse en lançant un processus.
-  <strong>Coûteux.</strong></li>
-</ul>
-<p>Une clé : tout (répertoire du cache, session ffmpeg, URL des segments) est adressé
-par <strong>l'empreinte de décision</strong>, un hachage de la décision. Mêmes octets ⇒ même
-hachage ⇒ un seul encodage partagé. La justesse de tout le système repose sur la
-<strong>stabilité</strong> de ce hachage entre le manifeste que tient un lecteur et chaque
-segment qu'il ira chercher ensuite.</p>
+<p>Une clé : tout (dossier de cache, session ffmpeg, URL des segments) est
+adressé par l'<strong>empreinte de décision</strong>, un hachage de la décision. Mêmes
+octets, même hachage, un seul encodage partagé. La justesse de tout le
+système repose sur la <strong>stabilité</strong> de ce hachage entre le manifeste que
+détient un lecteur et chaque segment qu'il récupère ensuite.</p>
+<pre class="mermaid"><code>flowchart LR
+    req[Requête du lecteur&lt;br/&gt;master / variante / segment / audio]
+    h[adaptateur http&lt;br/&gt;transcode_handler_vod.go&lt;br/&gt;auth, répartition]
+    plan[PlanResolver&lt;br/&gt;app/transcoding&lt;br/&gt;décision + capacité + échelle&lt;br/&gt;+ route + empreinte]
+    mkv[mkvgo&lt;br/&gt;barreau copy, sans processus]
+    ff[ffmpeg&lt;br/&gt;transcodage, tonemap]
+    pack[Manifestes&lt;br/&gt;master.m3u8, stream_N.m3u8,&lt;br/&gt;manifest.mpd]
+    seg[(cache/transcode/segments/hash)]
+    req --&gt; h --&gt; plan
+    plan --&gt;|copy| mkv
+    plan --&gt;|transcode| ff
+    plan --&gt; pack
+    mkv --&gt; seg
+    ff --&gt; seg</code></pre>
 <h2 id="reading-order---follow-one-request-through-the-code">Ordre de lecture : suivre une requête dans le code<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
-<p>Ouvrez ces fichiers dans l'ordre pour suivre une requête de lecture de bout en
-bout :</p>
+<p>Ouvrez ces fichiers dans l'ordre pour suivre une requête de lecture de bout en bout :</p>
 <ol>
-<li><strong>Entrée</strong> · <code>internal/adapters/driving/http/transcode_handler_vod.go</code> :
-   <code>serveHTTP</code> authentifie, puis aiguille vers master / variante / segment /
+<li><strong>Entrée</strong> : <code>internal/adapters/driving/http/transcode_handler_vod.go</code> :
+   <code>serveHTTP</code> authentifie, puis répartit vers master / variante / segment /
    audio.</li>
-<li><strong>Le plan</strong> · <code>http/transcode_vod_plan.go</code> traduit la requête en
-   <code>PlaybackRequest</code> ; <code>app/transcoding/playback_plan_resolver.go</code> :
-   <code>PlanResolver.Resolve</code> renvoie un seul <code>PlaybackPlan</code> immuable : la décision
-   (Q2), la classe d'échelle, l'échelle mise en forme, la route matérielle,
-   l'empaqueteur et l'empreinte. Chaque manifeste et chaque segment de la
-   session est servi à partir de lui (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>).
-   <code>makeDecision</code> et <code>buildFingerprint</code> dans <code>http/transcode_vod_fingerprint.go</code>
-   sont de minces enveloppes pour les appels sans plan (préchargement, master à
-   la demande).</li>
-<li><strong>Q2 · Décision</strong> · <code>internal/app/transcoding/decision.go</code> :
-   <code>MakePlaybackDecisionWithPrefs</code> (pure), le cerveau copie/transcodage piste par
-   piste. Le résolveur y ajoute les épinglages de la requête (<code>vd=</code> / <code>ad=</code>), le
-   forçage de la resynchronisation audio, etc.</li>
-<li><strong>Q3 · Capacité</strong> · <code>internal/app/transcoding/calibration_service.go</code> :
-   <code>Current()</code> renvoie <code>domain/transcoding.Derive(report, policy)</code> (<code>derive.go</code>),
-   les plafonds de la machine, déduits de la dernière calibration.</li>
-<li><strong>Échelle et admission</strong> · le résolveur met l'échelle en forme (classe de
-   complexité → profils des producteurs → plafonds de la source et de la
-   capacité → plafonds CMCD/AV1 → route et plafond d'admission), puis <strong>la
-   fige</strong> sur l'épinglage d'admission (<code>admission_shaper.go</code>, <code>FreezeLadder</code>),
-   relue telle quelle à chaque appel suivant : l'invariant du hachage de cache
-   rendu structurel. <code>video_session_limiter.go</code> tient la place de capacité ; la
-   route bascule du matériel vers le logiciel quand il est plein.</li>
-<li><strong>Empreinte</strong> · une <code>DecisionFingerprint</code> (type et <code>Hash()</code> dans
-   <code>app/transcoding/segment_cache.go</code>), assemblée par le résolveur. Le hachage
-   est la clé du cache.</li>
-<li><strong>Produire les octets</strong> · copie → <strong>mkvgo</strong> <code>app/transcoding/ondemand.go</code>
-   (port) / <code>adapters/driven/mkvgo/ondemand.go</code> ; transcodage → <strong>ffmpeg</strong>
-   <code>adapters/driven/ffmpeg/hls_transcoder.go</code> (<code>BuildFFmpegArgs</code> est pure ; les
-   segments arrivent dans <code>/cache/transcode/segments/&lt;hash&gt;/</code>).</li>
-<li><strong>Empaquetage</strong> · <code>app/transcoding/manifest_generator.go</code> : <code>master.m3u8</code> /
-   <code>stream_N.m3u8</code> ; <code>manifest_generator_dash.go</code> : <code>manifest.mpd</code>.</li>
+<li><strong>Le plan</strong> : <code>http/transcode_vod_plan.go</code> transforme la <code>*http.Request</code>
+   en une <code>PlaybackRequest</code> sans transport ;
+   <code>app/transcoding/playback_plan_resolver.go</code> (<code>PlanResolver.Resolve</code>, le
+   <code>PlaybackPlanResolver</code> concret dans <code>playback_plan.go</code>) renvoie un
+   <code>PlaybackPlan</code> immuable : la décision (Q2), la classe d'échelle, l'échelle
+   mise en forme, la route matérielle, l'empaqueteur et l'empreinte. Chaque
+   manifeste et chaque segment de la session en sont servis : entrée des
+   manifestes, sonde de délestage, scellé anti-URL périmée, choix du
+   producteur et clé de segment lisent tous cette résolution unique, si bien
+   qu'à l'intérieur d'une requête l'invariant du hachage de cache tient par
+   construction (le chemin chaud des segments est passé d'environ 5 lectures
+   des préférences de profil à 1). Les assistants de faits sur la source
+   (codec, HDR, SAR, dix bits...) vivent à côté dans <code>source_facts.go</code>.
+   <code>makeDecision</code> et <code>buildFingerprint</code> dans
+   <code>http/transcode_vod_fingerprint.go</code> sont de fines enveloppes pour les
+   appelants sans plan (préchauffage, master à la demande).</li>
+<li><strong>Q2 : décision</strong> : <code>internal/app/transcoding/decision.go</code> :
+   <code>MakePlaybackDecisionWithPrefs</code> (pure) est le cerveau copy/transcode par
+   piste. Le résolveur y superpose les épingles de la requête (<code>vd=</code> /
+   <code>ad=</code>), la surcharge de resynchronisation audio, etc.</li>
+<li><strong>Q3 : capacité</strong> : <code>internal/app/transcoding/calibration_service.go</code> :
+   <code>Current()</code> renvoie <code>domain/transcoding.Derive(report, policy)</code>
+   (<code>derive.go</code>), les plafonds de l'hôte dérivés de la dernière calibration.</li>
+<li><strong>Échelle et admission</strong> : le résolveur met l'échelle en forme (classe de
+   complexité, profils de producteur, plafonds de la source et de la
+   capacité, plafonds CMCD/AV1, route et plafond d'admission), puis la
+   <strong>fige</strong> sur l'épingle d'admission (<code>admission_shaper.go</code>,
+   <code>FreezeLadder</code>), relue telle quelle à chaque appel suivant : l'invariant
+   du hachage de cache rendu structurel. <code>video_session_limiter.go</code> tient la
+   place de capacité ; la route déborde du matériel vers le logiciel quand
+   c'est plein.</li>
+<li><strong>Empreinte</strong> : une <code>DecisionFingerprint</code> (type et <code>Hash()</code> dans
+   <code>app/transcoding/segment_cache.go</code>), assemblée par le résolveur. Le
+   hachage est la clé du cache.</li>
+<li><strong>Production des octets</strong> : copie : <strong>mkvgo</strong>,
+   <code>app/transcoding/ondemand.go</code> (port) et
+   <code>adapters/driven/mkvgo/ondemand.go</code> ; transcodage : <strong>ffmpeg</strong>,
+   <code>adapters/driven/ffmpeg/hls_transcoder.go</code> (<code>BuildFFmpegArgs</code> est pure ;
+   les segments atterrissent dans <code>/cache/transcode/segments/&lt;hash&gt;/</code>).</li>
+<li><strong>Empaquetage</strong> : <code>app/transcoding/manifest_generator.go</code> écrit
+   <code>master.m3u8</code> / <code>stream_N.m3u8</code> ; <code>manifest_generator_dash.go</code> écrit
+   <code>manifest.mpd</code>.</li>
 </ol>
-<h2 id="the-two-engines-by-cost">Les deux moteurs, selon leur coût<a class="headerlink" href="#the-two-engines-by-cost" title="Permanent link">¶</a></h2>
-<p><strong>L'aiguilleur d'analyse</strong> (<code>adapters/driven/prober/dispatcher.go</code>) est une chaîne
-de responsabilité fondée sur l'extension : il essaie mkvgo, et se rabat sur
-ffprobe au moindre doute (erreur d'analyse, panique, résultat impossible à
-convertir, piste média MP4 perdue, Dolby Vision profil 5, couleurs illisibles).
-Les deux chemins rapides sont toujours actifs (portes nil dans <code>wire.go</code>) ;
-ffprobe est le filet de sécurité, jamais contourné. Un second aiguilleur
+<div class="admonition warning">
+<p class="admonition-title">D'une requête à l'autre, l'invariant repose sur les URL</p>
+<p>Chaque entrée de la décision doit être inscrite dans les URL enfants
+(<code>querySuffix</code> dans <code>manifest_generator.go</code>), sinon une relecture du
+manifeste en cours de lecture peut faire basculer le plan sous le
+lecteur. Les URL par session sont réécrites
+(<code>transcode_vod_manifest_rebake.go</code>) pour porter le jeton de flux, en
+HLS comme en DASH, y compris pour le Chromecast sans cookie.</p>
+</div>
+<h2 id="the-two-engines-by-cost">Les deux moteurs, par coût<a class="headerlink" href="#the-two-engines-by-cost" title="Permanent link">¶</a></h2>
+<p>Le <strong>répartiteur de sondes</strong> (<code>adapters/driven/prober/dispatcher.go</code>) est une
+chaîne de responsabilité indexée sur l'extension : il essaie mkvgo et se
+replie sur ffprobe au moindre doute (erreur d'analyse, panique, résultat
+inexploitable, piste média MP4 abandonnée, DoVi profil 5, couleur illisible).
+Les deux voies rapides sont toujours actives (portes à nil dans <code>wire.go</code>) ;
+ffprobe est le filet de sécurité, jamais contourné. Un second répartiteur
 identique (<code>keyframe_dispatcher.go</code>) gère l'index de lecture.</p>
 <table>
 <thead>
@@ -3211,123 +3239,146 @@ identique (<code>keyframe_dispatcher.go</code>) gère l'index de lecture.</p>
 </thead>
 <tbody>
 <tr>
-<td>Analyse des métadonnées (codec, dimensions, HDR, débit, durée)</td>
-<td><code>.mkv/.webm/.mp4/.mov</code>, en-tête seulement</td>
-<td>tout le reste, ou en repli</td>
+<td>Sonde de métadonnées (codec, dimensions, HDR, débit, durée)</td>
+<td><code>.mkv/.webm/.mp4/.mov</code> en-tête seulement</td>
+<td>tout le reste, ou repli</td>
 </tr>
 <tr>
 <td>Mode de cadence (cfr/vfr)</td>
 <td><code>AnalyzeFrameRateMode</code></td>
-<td>- (migré)</td>
+<td>-</td>
 </tr>
 <tr>
-<td>Remux MKV→MP4 (sans réencodage)</td>
+<td>Remux MKV vers MP4 (sans ré-encodage)</td>
 <td><code>RemuxToMP4</code></td>
 <td>-</td>
 </tr>
 <tr>
-<td>HLS/DASH à la demande (barreau de copie)</td>
+<td>HLS/DASH à la demande (barreau copy)</td>
 <td><code>OnDemandPackager</code></td>
 <td>-</td>
 </tr>
 <tr>
-<td>Réencodage vidéo / tone mapping HDR</td>
+<td>Ré-encodage vidéo / tonemap HDR</td>
 <td>-</td>
 <td><code>hls_transcoder.go</code></td>
 </tr>
 <tr>
-<td>Détection d'entrelacement (idet), atterrissage des déplacements, chromaprint, DoVi P5</td>
-<td>- (demande un décodage ou des données annexes)</td>
+<td>Détection d'entrelacement (idet), point de seek, chromaprint, DoVi P5</td>
+<td>- (demande un décodage / des données annexes)</td>
 <td>ffmpeg / ffprobe</td>
 </tr>
 </tbody>
 </table>
-<p>Trois appels ffprobe tournent encore sur des sources MKV/MP4 dont mkvgo expose
-déjà les données (durée dans <code>trickplay.go</code>, débit et dimensions dans
-<code>complexity_classifier.go</code>, décalage audio de lecture dans <code>audio_delay.go</code>) :
-des candidats à la migration, pour un petit gain de processeur, surtout du
-câblage.</p>
-<h2 id="audio-is-decided-separately-from-video">L'audio est décidé à part de la vidéo<a class="headerlink" href="#audio-is-decided-separately-from-video" title="Permanent link">¶</a></h2>
+<p>Trois lancements de ffprobe subsistent sur des sources MKV/MP4 dont mkvgo
+expose déjà les données, tous dans l'adaptateur sortant <code>ffmpeg</code> : la durée
+dans <code>trickplay.go</code>, le débit et les dimensions dans
+<code>complexity_classifier.go</code>, le retard audio de lecture dans
+<code>audio_delay.go</code>.</p>
+<h2 id="audio-is-decided-separately-from-video">L'audio est décidé séparément de la vidéo<a class="headerlink" href="#audio-is-decided-separately-from-video" title="Permanent link">¶</a></h2>
 <p><code>makeDecision</code> produit <code>VideoDecision</code> et <code>AudioDecision</code> indépendamment. Le
-« barreau de copie » (<code>isCopyRequest</code>) ne dépend que de la <strong>vidéo</strong> ; même une
-vidéo copiée s'accompagne le plus souvent d'une piste AAC réencodée. La décision
-audio a trois issues : copie, transcodage en AAC (ffmpeg, léger), ou, pour
-<strong>l'AC-3 / E-AC-3</strong> sur un navigateur qui ne le décode pas nativement, le
-<strong>chemin wasm</strong> : le master est fait en vidéo seule avec une balise
-<code>#EVEY-AUDIO-URI</code>, l'AC-3 est <strong>copié</strong> (mkvgo <code>od_audio</code> si le plan se construit,
-sinon ffmpeg <code>-c:a copy</code>), et <code>ac3go.wasm</code> le décode en PCM dans le navigateur
-(<code>WasmAudioEngine.ts</code>), calé sur l'horloge de la vidéo. Safari est exclu par
-capacité, pas par son nom : <code>canWasmDecodeAC3()</code> ne renvoie vrai que si le
-navigateur déclare <em>ne pas</em> savoir lire l'AC-3 nativement, et Safari déclare le
-savoir.</p>
+« barreau copy » (<code>isCopyRequest</code>) ne dépend que de la <strong>vidéo</strong> ; même une
+vidéo copiée s'accompagne le plus souvent d'une piste AAC ré-encodée. La
+décision audio a trois issues :</p>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Ce qui est servi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>copie</td>
+<td>la piste source telle quelle</td>
+</tr>
+<tr>
+<td>transcodage en AAC</td>
+<td>ffmpeg, léger</td>
+</tr>
+<tr>
+<td>la <strong>voie wasm</strong>, pour l'AC-3 / E-AC-3 sur un navigateur qui ne sait pas le décoder nativement</td>
+<td>le master devient vidéo seule avec une balise <code>#EVEY-AUDIO-URI</code>, l'AC-3 est <strong>copié</strong> (mkvgo <code>od_audio</code> si le plan se construit, sinon ffmpeg <code>-c:a copy</code>), et <code>ac3go.wasm</code> le décode en PCM dans le navigateur (<code>WasmAudioEngine.ts</code>), calé sur l'horloge de la vidéo</td>
+</tr>
+</tbody>
+</table>
+<p>Safari est exclu de la voie wasm par capacité, pas par nom :
+<code>canWasmDecodeAC3()</code> (<code>frontend/packages/client/src/web/codec.ts</code>) ne renvoie
+vrai que si le navigateur déclare qu'il <em>ne peut pas</em> lire l'AC-3
+nativement, et Safari déclare qu'il le peut.</p>
 <h2 id="packaging-cmaf-hls-dash">Empaquetage : CMAF, HLS, DASH<a class="headerlink" href="#packaging-cmaf-hls-dash" title="Permanent link">¶</a></h2>
-<p>Le conteneur est toujours du <strong>CMAF</strong> (fMP4) : un <code>init.mp4</code> par variante, plus
-des segments <code>.m4s</code>. (La branche MPEG-TS de <code>hls_transcoder.go</code> est morte :
-<code>needsFMP4Segments</code> renvoie toujours vrai.) Sur <em>les mêmes</em> segments :</p>
+<p>Le conteneur est toujours <strong>CMAF</strong> (fMP4) : un <code>init.mp4</code> par variante plus
+des segments <code>.m4s</code> (la branche MPEG-TS de <code>hls_transcoder.go</code> est morte :
+<code>needsFMP4Segments</code> renvoie toujours vrai). Sur les <em>mêmes</em> segments :</p>
 <ul>
-<li><strong>HLS</strong> (<code>master.m3u8</code> → <code>stream_N.m3u8</code> → init <code>EXT-X-MAP</code> + <code>.m4s</code>) : les deux
-  moteurs.</li>
-<li><strong>DASH</strong> (<code>manifest.mpd</code>) : sur le chemin de copie mkvgo, le manifeste propre à
-  l'empaqueteur (<code>OnDemandPlan.HasDASH</code>, identique à l'octet près, aucun
-  stockage, désactivé sous AES-128) ; sur le chemin ffmpeg, un manifeste
-  <strong>déclaré à partir du plan</strong> sur les mêmes fragments que ceux des playlists HLS
-  (<code>ManifestGenerator.MPD</code>), écrit avant même qu'un fragment existe. Ce qui le
-  rend fiable, c'est la <strong>grille de segments</strong> (<code>domain/transcoding.SegmentGrid</code>) :
-  chaque barreau transcodé est découpé sur le même nombre entier d'images (72 à
-  23,976 i/s, 75 à 25, 90 à 29,97), si bien qu'un segment est exact dans les tics
-  de la piste vidéo et identique dans tout l'ensemble de bascule ; le repli en
-  copie déclare son plan d'images clés. Une source dont la cadence est inconnue
-  ou variable reste sur l'ancienne horloge de 3 s, garde le HLS, et répond 404 sur
-  <code>manifest.mpd</code>. Aucun client n'est basculé en DASH : le HLS reste la valeur par
-  défaut partout. <code>DASHFromCMAF</code> de mkvgo, appliqué aux fragments produits, sert
-  d'oracle de parité (<code>internal/pkg/cmafparity</code>, <code>TestDASHGridIntegration</code> à
-  23,976/25/29,97 i/s : à froid, déplacement, bascule entre deux barreaux, audio
-  séparé à une trame AAC près).</li>
+<li><strong>HLS</strong> (<code>master.m3u8</code>, <code>stream_N.m3u8</code>, init <code>EXT-X-MAP</code> + <code>.m4s</code>), les deux moteurs.</li>
+<li><strong>DASH</strong> (<code>manifest.mpd</code>) : sur la voie copy de mkvgo, le manifeste de
+  l'empaqueteur lui-même (<code>OnDemandPlan.HasDASH</code>, identique à l'octet, zéro
+  stockage, désactivé sous AES-128) ; sur la voie ffmpeg, un manifeste
+  <strong>déclaré à partir du plan</strong> sur les mêmes fragments que ceux qu'adressent
+  les listes HLS (<code>ManifestGenerator.MPD</code>), écrit avant qu'aucun fragment
+  n'existe.</li>
 </ul>
-<p>Les URL de chaque session sont recalculées (<code>transcode_vod_manifest_rebake.go</code>)
-pour porter le jeton de flux, en HLS comme en DASH, y compris pour un Chromecast
-sans cookie.</p>
-<h2 id="design-patterns-in-play">Les patrons de conception à l'œuvre<a class="headerlink" href="#design-patterns-in-play" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>Ports et adaptateurs (hexagonal)</strong> : la couche applicative parle à des
-  interfaces (<code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>,
-  <code>StreamProducer</code>) ; ffmpeg et mkvgo les implémentent. Un nouveau moteur est un
-  nouvel adaptateur.</li>
-<li><strong>Stratégie</strong> : <code>StreamProducer</code> (logiciel / matériel / copie), choisi par un
-  <code>ProducerSelector</code>.</li>
-<li><strong>Chaîne de responsabilité avec repli</strong> : les aiguilleurs d'analyse et d'images
-  clés (mkvgo → ffprobe qui fait autorité).</li>
-<li><strong>Cache adressé par le contenu</strong> : le hachage <code>DecisionFingerprint</code> sert de clé
-  au cache et à la session ffmpeg.</li>
-<li><strong>Cœur pur, enveloppe impérative</strong> : <code>Derive</code>, <code>MakePlaybackDecision</code> et le
-  modèle de coût sont purs et testés unitairement sans ffmpeg ni base de données.</li>
-<li><strong>Objet valeur immuable</strong> : <code>StreamPlan</code>, la décision d'admission, émise une
-  fois et jamais modifiée, si bien que l'invariant URL↔octets tient par
-  construction.</li>
-<li><strong>Dégradation en douceur</strong> : un repli sûr à chaque étape : capacité 720p par
-  défaut, bascule du matériel vers le logiciel, de la copie vers le transcodage,
-  de mkvgo vers ffprobe.</li>
-</ul>
-<h2 id="the-decision-brain-the-app-layer-planresolver">Le cerveau de la décision : le PlanResolver de la couche applicative<a class="headerlink" href="#the-decision-brain-the-app-layer-planresolver" title="Permanent link">¶</a></h2>
-<p>Le cerveau du traitement des requêtes (épinglages de décision, mise en forme de
-l'échelle, routage matériel, assemblage de l'empreinte, routage du barreau de
-copie, choix du producteur) vit dans la couche applicative : <code>PlanResolver</code>
-(<code>app/transcoding/playback_plan_resolver.go</code>), le <code>PlaybackPlanResolver</code> concret
-(<a href="https://github.com/Evey-project/evey/blob/master/internal/app/transcoding/playback_plan.go"><code>playback_plan.go</code></a>). Chaque
-requête est résolue <strong>une seule fois</strong> : l'adaptateur http convertit le
-<code>*http.Request</code> en un <code>PlaybackRequest</code> indépendant du transport
-(<code>http/transcode_vod_plan.go</code>) et sert à partir du <code>PlaybackPlan</code> immuable
-renvoyé. Chaque consommateur (entrée du manifeste, sonde de délestage, scellement
-des URL périmées, choix du producteur, clé de segment) lit cette résolution
-unique, si bien que <em>dans une requête</em> l'invariant du hachage de cache tient par
-construction (et le chemin chaud des segments est passé d'environ 5 lectures des
-préférences de profil à 1). Les aides sur les caractéristiques de la source
-(codec, HDR, SAR, 10 bits…) vivent à côté, dans
-<code>app/transcoding/source_facts.go</code> ; l'adaptateur garde de simples alias. D'une
-requête à l'autre, l'invariant repose toujours sur l'inscription dans les URL :
-<strong>chaque entrée de la décision doit être inscrite dans les URL enfants</strong>, sinon
-une interrogation en cours de lecture peut changer le plan sous les pieds du
-lecteur (<code>querySuffix</code> dans <code>manifest_generator.go</code>).</p>
+<p>Ce qui rend le manifeste DASH honnête, c'est la <strong>grille de segments</strong>
+(<code>domain/transcoding.SegmentGrid</code>) : chaque barreau transcodé est découpé
+sur le même nombre entier d'images, <code>arrondi(3 s x fps)</code> (72 à 23,976 fps,
+75 à 25, 90 à 29,97), donc un segment est exact dans les ticks de la piste
+vidéo et identique dans tout le jeu de bascule ; le repli copy déclare son
+plan d'images clés. Une source dont la cadence est inconnue ou variable
+reste sur l'ancienne horloge de 3 s, garde HLS, et répond 404 sur
+<code>manifest.mpd</code>. Aucun client n'est basculé en DASH : HLS reste le défaut
+partout. Le <code>DASHFromCMAF</code> de mkvgo sur les fragments produits est l'oracle
+de parité (<code>internal/pkg/cmafparity</code>, <code>TestDASHGridIntegration</code> à
+23,976/25/29,97 fps : démarrage à froid, seek, jeu de bascule à deux
+barreaux, audio séparé à une trame AAC près).</p>
+<h2 id="design-patterns-in-play">Motifs de conception à l'œuvre<a class="headerlink" href="#design-patterns-in-play" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Motif</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ports et adaptateurs (hexagonal)</td>
+<td>la couche applicative parle à <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code> ; ffmpeg et mkvgo les implémentent, et un nouveau moteur est un nouvel adaptateur</td>
+</tr>
+<tr>
+<td>Stratégie</td>
+<td><code>StreamProducer</code> (logiciel / matériel / copie), choisi par un <code>ProducerSelector</code></td>
+</tr>
+<tr>
+<td>Chaîne de responsabilité avec repli</td>
+<td>les répartiteurs de sondes et d'images clés (mkvgo, puis ffprobe comme autorité)</td>
+</tr>
+<tr>
+<td>Cache adressé par contenu</td>
+<td>le hachage de la <code>DecisionFingerprint</code> indexe le cache et la session ffmpeg</td>
+</tr>
+<tr>
+<td>Cœur pur, coquille impérative</td>
+<td><code>Derive</code>, <code>MakePlaybackDecision</code> et le modèle de coût sont purs, testés unitairement sans ffmpeg ni base de données</td>
+</tr>
+<tr>
+<td>Objet-valeur immuable</td>
+<td><code>StreamPlan</code>, la décision d'admission, émise une fois et jamais modifiée, pour que l'invariant URL-octets tienne par construction</td>
+</tr>
+<tr>
+<td>Dégradation gracieuse</td>
+<td>un repli sûr à chaque étape : capacité 720p par défaut, débordement du matériel vers le logiciel, de la copie vers le transcodage, de mkvgo vers ffprobe</td>
+</tr>
+</tbody>
+</table>
+<!-- sources
+entry and plan: internal/adapters/driving/http/transcode_handler_vod.go - serveHTTP ; internal/adapters/driving/http/transcode_vod_plan.go ; internal/adapters/driving/http/transcode_vod_fingerprint.go - makeDecision, buildFingerprint ; internal/adapters/driving/http/transcode_vod_manifest_rebake.go
+resolver: internal/app/transcoding/playback_plan_resolver.go - PlanResolver.Resolve ; internal/app/transcoding/playback_plan.go - PlaybackRequest, PlaybackPlan ; internal/app/transcoding/source_facts.go
+decision and capability: internal/app/transcoding/decision.go - MakePlaybackDecisionWithPrefs ; internal/app/transcoding/calibration_service.go - Current ; internal/domain/transcoding/derive.go - Derive
+ladder, admission, fingerprint: internal/app/transcoding/admission_shaper.go - StreamPlan, FreezeLadder ; internal/app/transcoding/video_session_limiter.go ; internal/app/transcoding/segment_cache.go - DecisionFingerprint ; internal/app/transcoding/stream_producer.go - StreamProducer, ProducerSelector
+engines: internal/adapters/driven/prober/dispatcher.go ; internal/adapters/driven/prober/keyframe_dispatcher.go ; internal/app/transcoding/ondemand.go - OnDemandPackager ; internal/adapters/driven/mkvgo/ondemand.go ; internal/adapters/driven/ffmpeg/hls_transcoder.go - BuildFFmpegArgs, needsFMP4Segments ; internal/adapters/driven/ffmpeg/trickplay.go, complexity_classifier.go, audio_delay.go
+packaging: internal/app/transcoding/manifest_generator.go - querySuffix, EVEY-AUDIO-URI ; internal/app/transcoding/manifest_generator_dash.go ; internal/domain/transcoding/segment_grid.go - SegmentTargetSeconds, gridFor ; internal/pkg/cmafparity ; internal/adapters/driven/ffmpeg/dash_grid_integration_test.go - TestDASHGridIntegration
+wasm: frontend/packages/client/src/web/codec.ts - canWasmDecodeAC3
+-->
 
 
 

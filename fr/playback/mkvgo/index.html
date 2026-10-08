@@ -3052,11 +3052,13 @@
 
 <h1 id="mkvgo-in-evey">MKVGo dans Evey<a class="headerlink" href="#mkvgo-in-evey" title="Permanent link">¶</a></h1>
 <p>MKVGo est la bibliothèque multimédia qu'Evey exécute dans son propre processus
-pour lire et réempaqueter les fichiers MKV/WebM et MP4/MOV. Elle travaille sur
-la structure d'un fichier : ses en-têtes, son index, ses pistes et leurs
-paquets. Elle ne décode ni n'encode jamais une image ou un son ; tout ce qui
-demande un décodage côté serveur passe par FFmpeg.</p>
-<p>MKVGo est développée comme une bibliothèque Go à part :
+pour lire et réempaqueter les fichiers MKV/WebM et MP4/MOV. Cette page
+s'adresse à qui veut savoir ce que le serveur fait sans lancer FFmpeg, et où
+FFmpeg prend encore le relais.</p>
+<p>MKVGo travaille sur la structure d'un fichier : ses en-têtes, son index, ses
+pistes et leurs paquets. Elle ne décode ni n'encode jamais une image ou un
+son ; tout ce qui demande un décodage côté serveur passe par FFmpeg. Elle est
+développée comme une bibliothèque Go à part :
 <a href="https://github.com/gravity-zero/mkvgo">github.com/gravity-zero/mkvgo</a>.</p>
 <h2 id="three-levels-of-work">Trois niveaux de travail<a class="headerlink" href="#three-levels-of-work" title="Permanent link">¶</a></h2>
 <table>
@@ -3088,11 +3090,13 @@ demande un décodage côté serveur passe par FFmpeg.</p>
 <p>Une copie FFmpeg (<code>-c copy</code>) ne réencode rien non plus et reste peu coûteuse ;
 ce que MKVGo économise en plus, c'est le processus lancé pour chaque session et
 les segments écrits dans le cache de transcodage. Le réencodage est le cas
-coûteux, et un réencodage vidéo est le seul travail qui occupe un emplacement
-de transcodage : voir <a href="../transcoding/">Transcodage et capacité du serveur</a>.</p>
+coûteux, et un réencodage vidéo est le seul travail qui occupe un créneau de
+transcodage : voir <a href="../transcoding/">Transcodage et capacité du serveur</a>.</p>
 <p>Avec des clients capables, environ 80 % des chemins de lecture vidéo peuvent
-se passer entièrement de FFmpeg : ce que le lecteur sait décoder décide de la fréquence à
-laquelle le fichier peut être servi tel quel ou seulement réempaqueté.</p>
+se passer entièrement de FFmpeg : ce que le lecteur sait décoder décide de la
+fréquence à laquelle le fichier peut être servi tel quel ou seulement
+réempaqueté. Comment cela se décide :
+<a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</p>
 <h2 id="what-mkvgo-does">Ce que fait MKVGo<a class="headerlink" href="#what-mkvgo-does" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3106,7 +3110,7 @@ laquelle le fichier peut être servi tel quel ou seulement réempaqueté.</p>
 <tr>
 <td><strong>Lecture des fichiers</strong></td>
 <td>Pendant l'analyse d'une bibliothèque, codecs, résolution, HDR, débit et durée sont lus dans l'en-tête du fichier.</td>
-<td>ffprobe le lit. Il prend aussi le relais au moindre doute : erreur d'analyse, Dolby Vision profil 5, informations de couleur illisibles.</td>
+<td>ffprobe le lit. Il prend aussi le relais au moindre doute : une erreur d'analyse, ou des informations de couleur que MKVGo n'a pas pu lire sur un codec capable de HDR.</td>
 </tr>
 <tr>
 <td><strong>Index des images clés</strong></td>
@@ -3150,8 +3154,7 @@ laquelle le fichier peut être servi tel quel ou seulement réempaqueté.</p>
 <li>Tout réencodage, tone mapping HDR compris.</li>
 <li>Le décodage d'images : les miniatures de navigation, l'image d'un aperçu.</li>
 <li>Les analyses qui demandent des données décodées : détection de
-  l'entrelacement, empreintes audio pour la détection des génériques, Dolby
-  Vision profil 5.</li>
+  l'entrelacement, empreintes audio pour la détection des génériques.</li>
 <li>Les conteneurs autres que MKV/WebM et MP4/MOV, comme l'AVI ou le MPEG-TS.</li>
 </ul>
 <h2 id="seeing-which-engine-served-a-stream">Voir quel moteur sert un flux<a class="headerlink" href="#seeing-which-engine-served-a-stream" title="Permanent link">¶</a></h2>

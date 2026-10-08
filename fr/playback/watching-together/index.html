@@ -1411,10 +1411,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#guests-without-an-account" class="md-nav__link">
+  <a href="#what-each-member-controls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Invités sans compte
+        Ce que chaque membre contrôle
       
     </span>
   </a>
@@ -1422,10 +1422,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-stays-in-sync" class="md-nav__link">
+  <a href="#guests-without-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui reste synchronisé
+        Invités sans compte
       
     </span>
   </a>
@@ -2995,10 +2995,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#guests-without-an-account" class="md-nav__link">
+  <a href="#what-each-member-controls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Invités sans compte
+        Ce que chaque membre contrôle
       
     </span>
   </a>
@@ -3006,10 +3006,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-stays-in-sync" class="md-nav__link">
+  <a href="#guests-without-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui reste synchronisé
+        Invités sans compte
       
     </span>
   </a>
@@ -3051,11 +3051,13 @@
 
 
 <h1 id="watching-together">Regarder ensemble<a class="headerlink" href="#watching-together" title="Permanent link">¶</a></h1>
-<p><strong>Regarder ensemble</strong> garde plusieurs personnes sur le même titre, au même
-instant, chacune sur son propre appareil : une salle tient la position, et
-chaque lecteur la suit. Le flux de chacun reste décidé pour son propre
-appareil, comme dans <a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a> :
-une personne peut être en lecture directe pendant qu'une autre est transcodée.</p>
+<p>Comment regarder le même titre au même instant que d'autres personnes,
+chacune sur son propre appareil, et ce que chacun peut s'attendre à contrôler.
+Pour les spectateurs ; rien à configurer sur le serveur. <strong>Regarder
+ensemble</strong> ouvre une salle qui tient la position, et chaque lecteur la suit.
+Le flux de chacun reste décidé pour son propre appareil, comme dans
+<a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a> : une
+personne peut être en lecture directe pendant qu'une autre est transcodée.</p>
 <h2 id="starting-and-joining-a-room">Créer et rejoindre une salle<a class="headerlink" href="#starting-and-joining-a-room" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3095,6 +3097,45 @@ majuscules, des espaces, ni de la confusion entre <code>O</code> et <code>0</cod
 être partagée avec ce compte, et le contrôle parental du profil doit autoriser
 le titre. Un profil restreint ne peut pas non plus créer de salle sur un titre
 qu'il n'a pas le droit de regarder.</p>
+<h2 id="what-each-member-controls">Ce que chaque membre contrôle<a class="headerlink" href="#what-each-member-controls" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Hôte</th>
+<th>Autres membres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android</td>
+<td>Lecture, pause et déplacement entraînent toute la salle.</td>
+<td>Lecture, pause et déplacement restent sur votre écran.</td>
+</tr>
+<tr>
+<td>Android TV</td>
+<td>Lecture et pause entraînent toute la salle ; un déplacement reste sur la TV.</td>
+<td>Comme sur Android.</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Lecture, pause et déplacement restent sur votre écran, hôte compris.</td>
+<td>Pareil.</td>
+</tr>
+</tbody>
+</table>
+<p>Dans le lecteur web, des boutons explicites remplacent le contrôle de l'hôte.
+<strong>Tout le monde me rejoint</strong> amène toute la salle à votre position et relance
+la lecture ; n'importe quel membre peut s'en servir, pas seulement l'hôte.
+<strong>Me resynchroniser</strong> vous ramène là où en est la salle, sans déplacer
+personne ; il est proposé sur la page invité (rejointe avec un code, sans
+compte), pas dans le lecteur d'un compte connecté.</p>
+<p>Une personne qui arrive en cours de route démarre là où en est la salle
+maintenant, pas là où elle en était lors de la dernière commande.</p>
+<p>Si l'hôte s'en va, le membre présent depuis le plus longtemps devient l'hôte.
+Quand le dernier membre part, la salle se ferme, et l'accès invité que son
+code avait ouvert est retiré. Une salle où personne n'est jamais entré est
+supprimée au bout d'une heure.</p>
 <h2 id="guests-without-an-account">Invités sans compte<a class="headerlink" href="#guests-without-an-account" title="Permanent link">¶</a></h2>
 <p>Un invité qui saisit un code sur la page de connexion regarde ce seul titre,
 et rien d'autre :</p>
@@ -3104,25 +3145,13 @@ et rien d'autre :</p>
 <li>l'accès dure tant qu'il sert, expire après trois heures sans lecture et
   après 24 heures dans tous les cas, et prend fin dès que la salle se ferme.</li>
 </ul>
-<p>Le code est la seule protection d'une salle : ne le donnez qu'aux personnes
-que vous voulez y voir. Les codes erronés sont limités par adresse et sur
-l'ensemble du serveur, ce qui met leur devinette hors de portée.</p>
-<h2 id="what-stays-in-sync">Ce qui reste synchronisé<a class="headerlink" href="#what-stays-in-sync" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>Sur Android et Android TV</strong>, la lecture, la pause et les déplacements de
-  l'hôte entraînent toute la salle. Les commandes des autres membres
-  n'affectent personne d'autre.</li>
-<li><strong>Dans le lecteur web</strong>, la pause et les déplacements restent sur votre
-  écran. <strong>Me resynchroniser</strong> vous ramène là où en est la salle, sans déplacer
-  personne. <strong>Tout le monde me rejoint</strong> amène toute la salle à votre position ;
-  n'importe quel membre peut s'en servir, pas seulement l'hôte.</li>
-</ul>
-<p>Une personne qui arrive en cours de route démarre là où en est la salle
-maintenant, pas là où elle en était lors de la dernière commande.</p>
-<p>Si l'hôte s'en va, le membre présent depuis le plus longtemps devient l'hôte.
-Quand le dernier membre part, la salle se ferme, et l'accès invité que son
-code avait ouvert est retiré. Une salle où personne n'est jamais entré est
-supprimée au bout d'une heure.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Le code est la seule protection d'une salle : ne le donnez qu'aux
+personnes que vous voulez y voir. Les codes erronés sont limités par
+adresse et sur l'ensemble du serveur, ce qui met leur devinette hors de
+portée.</p>
+</div>
 <h2 id="listening-together">Écouter ensemble<a class="headerlink" href="#listening-together" title="Permanent link">¶</a></h2>
 <p>Une salle de musique se crée depuis <strong>Écoute partagée</strong>, avec une file
 d'albums, de morceaux et de playlists. L'hôte lance, met en pause et avance

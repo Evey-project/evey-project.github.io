@@ -3081,15 +3081,18 @@
 
 
 <h1 id="backups-logs-and-monitoring">Backups, logs and monitoring<a class="headerlink" href="#backups-logs-and-monitoring" title="Permanent link">¶</a></h1>
-<p>Backups, the server log, how long history is kept, and metrics for an external
-monitoring stack.</p>
+<p>The variables behind database backups, the server log, how long history is
+kept, and the endpoints for an external monitoring stack. The day-to-day
+side is in <a href="../../backups/">Backups and updates</a> and
+<a href="../../operations/monitoring/">Monitoring and logs</a>.</p>
 <h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3097,61 +3100,69 @@ monitoring stack.</p>
 <td><code>EVEY_BACKUP_DIR</code></td>
 <td><code>/data/backups</code></td>
 <td>Where database backups are written.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_BACKUP_INTERVAL_HOURS</code></td>
 <td><code>0</code> (off)</td>
-<td>A backup every N hours. Used only when no schedule is set in <strong>Admin → Database Backup → Schedule</strong>, which is the usual way.</td>
+<td>A backup every N hours, independent of the panel schedule, which is the usual way.</td>
+<td>Database Backup → <strong>Schedule</strong> (cron expression), live</td>
 </tr>
 <tr>
 <td><code>EVEY_BACKUP_RETENTION_DAYS</code></td>
 <td><code>30</code></td>
-<td>Backups older than this are deleted at startup and by the schedule above. A schedule set in the panel has its own retention.</td>
+<td>Backups older than this are deleted when the interval above is set, at startup and after each of its runs. The panel schedule has its own <strong>Retention</strong>.</td>
+<td>Database Backup → Schedule → <strong>Retention</strong>, live</td>
 </tr>
 </tbody>
 </table>
-<p>See <a href="../../backups/">Backups and updates</a>.</p>
 <h2 id="log">Log<a class="headerlink" href="#log" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_LOG_LEVEL</code></td>
 <td><code>info</code></td>
-<td><code>debug</code>, <code>info</code>, <code>warn</code> or <code>error</code>. <strong>Admin → Server Config → Server Settings</strong> overrides it.</td>
+<td><code>debug</code>, <code>info</code>, <code>warn</code> or <code>error</code>.</td>
+<td>Server Config → Server Settings → <strong>Log Level</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_DIR</code></td>
 <td><code>/data/logs</code></td>
 <td>Where the daily log file <code>evey-YYYY-MM-DD.log</code> is written. Set by the image. This file is the reference: <code>docker logs</code> shows the same stream, but Docker rotates it.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_MAX_SIZE_MB</code></td>
 <td><code>50</code></td>
 <td>Size of a log file before it rotates.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_RETENTION_DAYS</code></td>
 <td><code>90</code></td>
 <td>Days log files are kept.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <h2 id="history-retention">History retention<a class="headerlink" href="#history-retention" title="Permanent link">¶</a></h2>
-<p>Each is overridden by the matching field of <strong>Admin → Server Config → Server
-Settings</strong>, applied at the next daily cleanup.</p>
+<p>The retention windows are read again by each daily cleanup, so a value saved
+in <strong>Admin → Server Config → Server Settings</strong> applies at the next sweep.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3159,26 +3170,31 @@ Settings</strong>, applied at the next daily cleanup.</p>
 <td><code>EVEY_PLAY_SESSION_RETENTION_DAYS</code></td>
 <td><code>0</code> (forever)</td>
 <td>Finished playback sessions in the history.</td>
+<td>Server Settings → <strong>Play session history retention</strong>, next sweep</td>
 </tr>
 <tr>
 <td><code>EVEY_AUDIT_LOG_RETENTION_DAYS</code></td>
 <td><code>0</code> (forever)</td>
 <td>The audit log of administrative actions.</td>
+<td>Server Settings → <strong>Audit log retention</strong>, next sweep</td>
 </tr>
 <tr>
 <td><code>EVEY_METRICS_RETENTION_DAYS</code></td>
 <td><code>90</code></td>
 <td>The server's resource samples (processor, memory, bandwidth).</td>
+<td>Server Settings → <strong>Server metrics retention</strong>, next sweep</td>
 </tr>
 <tr>
 <td><code>EVEY_QOE_RETENTION_DAYS</code></td>
 <td><code>30</code></td>
 <td>The streaming quality reports of the players.</td>
+<td>Server Settings → <strong>Playback quality (QoE) retention</strong>, next sweep</td>
 </tr>
 <tr>
 <td><code>EVEY_METRICS_SAMPLE_INTERVAL_SEC</code></td>
 <td><code>60</code></td>
 <td>How often those resource samples are taken.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3188,7 +3204,8 @@ Settings</strong>, applied at the next daily cleanup.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3196,21 +3213,25 @@ Settings</strong>, applied at the next daily cleanup.</p>
 <td><code>EVEY_METRICS_SCRAPE_TOKEN</code></td>
 <td>empty</td>
 <td>A static token accepted on <code>GET /metrics</code> besides an administrator session, so Prometheus or Grafana can scrape without renewing a login. Empty: only an administrator session is accepted.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_OTLP_ENDPOINT</code></td>
 <td>empty</td>
 <td>An OpenTelemetry endpoint to send traces to. Empty: no tracing.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_TRACING_SERVICE_NAME</code></td>
 <td><code>evey</code></td>
 <td>The service name in the traces.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_TRACING_SAMPLE_RATIO</code></td>
 <td><code>0</code></td>
-<td>The share of requests traced, 0 to 1.</td>
+<td>The share of requests traced, 0 to 1 (a ratio, not a percentage).</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3220,7 +3241,8 @@ Settings</strong>, applied at the next daily cleanup.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3228,13 +3250,14 @@ Settings</strong>, applied at the next daily cleanup.</p>
 <td><code>EVEY_LOG_DEV_MODE</code></td>
 <td><code>false</code></td>
 <td>Developer mode: security checks at startup only warn, and plugins may run without the sandbox library. Never on a real server; with <code>EVEY_ENV=production</code> the server refuses to start.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
-internal/config/config.go - EVEY_BACKUP_*, EVEY_LOG_*, EVEY_*_RETENTION_DAYS, EVEY_METRICS_*, EVEY_OTLP_ENDPOINT, EVEY_TRACING_* ; ScrapeToken comment ; WarnValidate (DevMode)
-overrides: cmd/evey/main.go - loadOverride (log.level, *_retention_days)
-backup schedule precedence: cmd/evey/main.go (env fallback scheduler)
+internal/config/config.go - EVEY_BACKUP_*, EVEY_LOG_*, EVEY_*_RETENTION_DAYS, EVEY_METRICS_*, EVEY_OTLP_ENDPOINT, EVEY_TRACING_* ; ScrapeToken comment ; WarnValidate (DevMode, sample ratio)
+overrides: cmd/evey/main.go - loadOverride (log.level, *_retention_days) ; internal/adapters/driving/http/settings_handler.go (log.level live via logger.SetLevel ; retention keys) ; i18n admin.serverSettings.logLevel, *RetentionDays, retentionSweepHint
+backup: cmd/evey/main.go (StartScheduler env interval + DB cron scheduler both started) ; internal/app/backup/service.go - StartScheduler (returns when interval <= 0 ; CleanupOldBackups first, then each tick) ; i18n admin.backup.schedule.*
 dev mode: internal/adapters/driven/pluginrunner/runner.go ; cmd/evey/wire_infra.go - refuseDevModeInProd
 log dir: Dockerfile
 -->

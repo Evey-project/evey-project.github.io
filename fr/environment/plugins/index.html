@@ -3059,8 +3059,12 @@
 
 
 <h1 id="plugins-and-sandbox">Plugins et sandbox<a class="headerlink" href="#plugins-and-sandbox" title="Permanent link">¶</a></h1>
-<p>Le confinement et les limites des plugins. Le fonctionnement des couches de
-protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plugins</a>.</p>
+<p>Les variables derrière le confinement et les limites des plugins. Les
+valeurs par défaut conviennent à une machine Docker standard ; quelle
+configuration pour quelle machine est expliqué dans
+<a href="../../plugins/sandbox-deployment/">Sandbox des plugins : quel réglage pour votre serveur</a>,
+et le fonctionnement des couches de protection dans
+<a href="../../SECURITY/">Sandbox des plugins et modèle de menace</a>.</p>
 <h2 id="sandbox">Sandbox<a class="headerlink" href="#sandbox" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3068,6 +3072,7 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3075,29 +3080,32 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <td><code>EVEY_PLUGINS_ENABLED</code></td>
 <td><code>true</code></td>
 <td>Le sous-système des plugins. <code>false</code> le désactive entièrement.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
 <td><code>auto</code></td>
-<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> ou <code>basic</code>. <code>auto</code> choisit le plus robuste que permet la machine ; un <code>landlock</code> explicite refuse un plugin qu'il ne peut pas confiner. Modifiable dans <strong>Admin → Plugins</strong>.</td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> ou <code>basic</code>. <code>auto</code> choisit le plus robuste que permet la machine ; un <code>landlock</code> explicite refuse un plugin qu'il ne peut pas confiner.</td>
+<td>Plugins → Limites de ressources → <strong>Mode sandbox</strong>, pour les plugins lancés ensuite</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_UID_SEPARATION</code></td>
 <td><code>auto</code></td>
 <td><code>auto</code>, <code>on</code> ou <code>off</code> : fait tourner les plugins sous un utilisateur séparé. <code>auto</code> ne le fait que lorsque la sandbox se résout en <code>basic</code>. Incompatible avec <code>no_new_privs</code> sur le conteneur.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
-<p>Quelle configuration pour quelle machine : <a href="../../plugins/sandbox-deployment/">Mise en place de la sandbox des plugins</a>.</p>
 <h2 id="resource-limits">Limites de ressources<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h2>
-<p>Valeurs de départ ; les limites de chaque plugin se modifient ensuite dans
-<strong>Admin → Plugins</strong>.</p>
+<p>Ce sont les valeurs de départ ; celles enregistrées dans <strong>Admin → Plugins →
+Limites de ressources</strong> s'appliquent à tous les plugins et l'emportent.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3105,21 +3113,25 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <td><code>EVEY_PLUGINS_MEMORY_MB</code></td>
 <td><code>256</code></td>
 <td>Mémoire par plugin, en Mio.</td>
+<td>Plugins → Limites de ressources → <strong>Mémoire max</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_PIDS_MAX</code></td>
 <td><code>64</code></td>
 <td>Processus et threads par plugin.</td>
+<td>Plugins → Limites de ressources → <strong>Processus max</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_DISK_MAX_MB</code></td>
 <td><code>100</code></td>
 <td>Taille du dossier d'un plugin, en Mio ; <code>0</code> = sans limite.</td>
+<td>Plugins → Limites de ressources → <strong>Disque max</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_CPU_NICE</code></td>
 <td><code>10</code></td>
 <td>Priorité CPU, de 0 à 19 ; plus la valeur est haute, plus la priorité est basse.</td>
+<td>Plugins → Limites de ressources → <strong>Nice CPU</strong>, pour les plugins lancés ensuite</td>
 </tr>
 </tbody>
 </table>
@@ -3130,18 +3142,21 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_PLUGINS_COSIGN_POLICY</code></td>
 <td><code>warn</code></td>
-<td><code>off</code>, <code>warn</code> ou <code>enforce</code> : l'effet d'une vérification de signature qui échoue.</td>
+<td><code>off</code>, <code>warn</code> ou <code>enforce</code> : l'effet d'une vérification de signature qui échoue. <code>enforce</code> sans clé refuse de démarrer.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code></td>
 <td>vide</td>
-<td>Chemin de la clé publique PEM avec laquelle les signatures sont vérifiées. Avec une politique autre que <code>off</code> et sans clé, rien n'est vérifié et le serveur l'indique au démarrage.</td>
+<td>Chemin de la clé publique PEM avec laquelle les signatures sont vérifiées. Avec <code>warn</code> et sans clé, rien n'est vérifié et le serveur l'indique au démarrage.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3152,6 +3167,7 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3159,6 +3175,7 @@ protection : <a href="../../SECURITY/">Modèle de sécurité et sandbox des plug
 <td><code>EVEY_LOG_PLUGIN_RETENTION_DAYS</code></td>
 <td><code>10</code></td>
 <td>Nombre de jours pendant lesquels le log propre d'un plugin est conservé.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

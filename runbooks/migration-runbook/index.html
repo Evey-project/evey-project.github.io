@@ -1688,10 +1688,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#before-an-update" class="md-nav__link">
+  <a href="#update-safely" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Before an update
+        Update safely
       
     </span>
   </a>
@@ -1699,21 +1699,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-the-migrations" class="md-nav__link">
+  <a href="#go-back-to-the-previous-version" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running the migrations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#going-back" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Going back
+        Go back to the previous version
       
     </span>
   </a>
@@ -1736,17 +1725,6 @@
     <span class="md-ellipsis">
       
         Writing a migration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#after-an-update" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        After an update
       
     </span>
   </a>
@@ -3034,10 +3012,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#before-an-update" class="md-nav__link">
+  <a href="#update-safely" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Before an update
+        Update safely
       
     </span>
   </a>
@@ -3045,21 +3023,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-the-migrations" class="md-nav__link">
+  <a href="#go-back-to-the-previous-version" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running the migrations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#going-back" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Going back
+        Go back to the previous version
       
     </span>
   </a>
@@ -3082,17 +3049,6 @@
     <span class="md-ellipsis">
       
         Writing a migration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#after-an-update" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        After an update
       
     </span>
   </a>
@@ -3123,41 +3079,47 @@
 
 
 <h1 id="database-migrations">Database migrations<a class="headerlink" href="#database-migrations" title="Permanent link">¶</a></h1>
-<p>How Evey changes its database schema during an update, and what to do when it
-goes wrong. The commands target the standard installation, where the database
-runs inside the <code>evey-server</code> container.</p>
+<p>How Evey changes its database schema during an update, what to check before
+and after, and the way out when a migration stops halfway. For operators of
+the standard install, where the database runs inside the <code>evey-server</code>
+container; contributors writing a migration will find the rules at the end.</p>
 <h2 id="how-migrations-run">How migrations run<a class="headerlink" href="#how-migrations-run" title="Permanent link">¶</a></h2>
-<p>The migrations are embedded in the binary (<code>go:embed</code>) and applied by
-<code>golang-migrate</code> when the server starts
-(<code>internal/adapters/driven/postgres/migrate.go</code>, files
-<code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code>).
-The state is the <code>schema_migrations</code> table: <code>{version, dirty}</code>.</p>
-<p>Before applying anything, the server writes a full dump to
-<code>/data/backups/pre-migration-&lt;version&gt;-&lt;time&gt;.sql.gz</code> (<code>EVEY_BACKUP_DIR</code>). The
-newest dump of each of the 3 most recent schema versions is kept.</p>
-<p>The same operations are available by hand:</p>
+<p>The migrations are embedded in the binary and applied by <code>golang-migrate</code>
+when the server starts. The state is the <code>schema_migrations</code> table, one row
+<code>{version, dirty}</code>. Before applying anything, the server writes a full dump
+to <code>EVEY_BACKUP_DIR</code> (<code>/data/backups</code>, so <code>./evey-data/backups</code> on the host)
+named <code>pre-migration-&lt;version&gt;-&lt;UTC timestamp&gt;.sql.gz</code>, and keeps the newest
+dump of each of the 3 most recent schema versions.</p>
+<p>The same operations exist by hand:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version<span class="w">   </span><span class="c1"># exit 1 when the schema is dirty</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>up
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>down<span class="w">      </span><span class="c1"># exactly one step</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>up<span class="w">        </span><span class="c1"># apply every pending migration</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>down<span class="w">      </span><span class="c1"># roll back exactly one step</span>
 </span></code></pre></div>
-<p><code>up</code> and <code>down</code> also take a dump first; <code>--no-backup</code> skips it.</p>
-<p>To run SQL against the embedded database:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+<p><code>up</code> and <code>down</code> take a dump first; <code>--no-backup</code> skips it. To open a SQL
+shell on the embedded database:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
 </span></code></pre></div>
-<h2 id="before-an-update">Before an update<a class="headerlink" href="#before-an-update" title="Permanent link">¶</a></h2>
+<h2 id="update-safely">Update safely<a class="headerlink" href="#update-safely" title="Permanent link">¶</a></h2>
 <ol>
 <li>
-<p><strong>Take a backup</strong> in <strong>Admin → Database Backup</strong> (<strong>Run now</strong>), or from a
-   script:
+<p><strong>Take a backup</strong> in <strong>Admin -&gt; Database Backup</strong> (<strong>Run now</strong>), or from
+   a script:
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer &lt;admin-token&gt;"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>http://localhost:9091/api/v1/admin/backups
 </span></code></pre></div>
    The automatic pre-migration dump is a second copy, not a replacement.<p></p>
 </li>
 <li>
-<p><strong>For a large catalogue</strong>, look at the size of the biggest tables: a
-   migration that rewrites one of them takes longer.
+<p><strong>Check the current version</strong>: <code>docker exec evey-server evey admin migrate
+   version</code> prints <code>schema version: N</code>. If it prints <code>DIRTY</code>, go to
+   <a href="#a-migration-that-stopped-halfway">A migration that stopped halfway</a>
+   before updating.</p>
+</li>
+<li>
+<p><strong>On a large catalogue</strong>, look at the biggest tables: a migration that
+   rewrites one of them takes longer, and the container healthcheck allows
+   300 seconds of boot for that.
    </p><div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="p">,</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">       </span><span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">       </span><span class="n">n_live_tup</span>
@@ -3167,37 +3129,42 @@ newest dump of each of the 3 most recent schema versions is kept.</p>
 </span></code></pre></div><p></p>
 </li>
 <li>
-<p><strong>Check the current version</strong>: <code>evey admin migrate version</code>. If it reports
-   a dirty schema, see <a href="#a-migration-that-stopped-halfway">A migration that stopped halfway</a>
-   first.</p>
-</li>
-</ol>
-<h2 id="running-the-migrations">Running the migrations<a class="headerlink" href="#running-the-migrations" title="Permanent link">¶</a></h2>
-<p>They run when the new image starts:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<p><strong>Start the new image</strong> and watch the log until the migrations are
+   applied and the server answers:
+   </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey-server
 </span></code></pre></div>
-<p>The container reports healthy once the migrations are applied and the server
-answers:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>OK
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version
+   A good result: a <code>migrations: pre-migration backup written</code> line when
+   there was something to apply, then the server banner, then
+   <code>curl -sf http://localhost:9091/healthz</code> answers.<p></p>
+</li>
+<li>
+<p><strong>Afterwards</strong>, confirm the version and look for errors:
+   </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'migrat|error'</span>
 </span></code></pre></div>
-<h2 id="going-back">Going back<a class="headerlink" href="#going-back" title="Permanent link">¶</a></h2>
-<p><code>evey admin rollback</code> prints the running version, the schema version, the
-newest pre-migration dump and the exact commands to run on the host. It
-changes nothing: the container has no access to Docker.</p>
-<p>The usual way back is the previous image with the dump taken before the
-update: see <a href="../../backups/#going-back">Going back</a> in Backups and updates.
-<code>evey admin migrate down</code> rolls back one step at a time instead, when the
-<code>.down.sql</code> of that step is enough.</p>
-<p>Do not edit <code>schema_migrations</code> by hand, except to clear a dirty state (below),
-and take a dump first.</p>
-<p>Restore the pre-migration dump rather than migrating down when the update
-dropped data (a removed column, a type change).</p>
+   Clear the transcoding cache (<strong>Admin -&gt; Transcode Cache -&gt; Clear All</strong>)
+   if the release changed how videos are encoded.<p></p>
+</li>
+</ol>
+<h2 id="go-back-to-the-previous-version">Go back to the previous version<a class="headerlink" href="#go-back-to-the-previous-version" title="Permanent link">¶</a></h2>
+<p><code>docker exec evey-server evey admin rollback</code> prints the running version,
+the schema version, the newest pre-migration dump and the exact commands to
+run on the host. It changes nothing: the container has no access to Docker.</p>
+<p>The usual way back is the previous image plus the dump taken before the
+update: see <a href="../../backups/#going-back">Going back</a>. Restore the dump rather
+than migrating down when the update dropped data (a removed column, a type
+change). <code>evey admin migrate down</code> steps back one migration at a time
+instead, when that step's <code>.down.sql</code> is enough.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not edit <code>schema_migrations</code> by hand except to clear a dirty state
+(below), and take a dump first.</p>
+</div>
 <h2 id="a-migration-that-stopped-halfway">A migration that stopped halfway<a class="headerlink" href="#a-migration-that-stopped-halfway" title="Permanent link">¶</a></h2>
-<p>If the log shows <code>Dirty database version N. Fix and force version.</code>, a
-migration crashed partway. Bring the schema to the state you want, then clear
-the flag:</p>
+<p>When the log shows <code>Dirty database version N. Fix and force version.</code>, a
+migration crashed partway and <code>golang-migrate</code> refuses to continue. Bring the
+schema to the state you want, then clear the flag:</p>
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">version</span><span class="p">,</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">schema_migrations</span><span class="p">;</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">-- Re-apply the rest of the up.sql by hand, or revert with the down.sql,</span>
@@ -3205,40 +3172,58 @@ the flag:</p>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">schema_migrations</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
 </span></code></pre></div>
 <p>Restart the container; the migrations continue from there. Restoring the
-pre-migration dump is the other way out.</p>
+pre-migration dump (<a href="../recovery/#restore-a-pre-migration-dump">Recovery</a>) is
+the other way out.</p>
 <h2 id="writing-a-migration">Writing a migration<a class="headerlink" href="#writing-a-migration" title="Permanent link">¶</a></h2>
-<p>For contributors. Examples in <code>internal/adapters/driven/postgres/migrations/</code>:</p>
+<p>For contributors. The files live in
+<code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code>.
+Examples already shipped:</p>
 <ul>
-<li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>. Takes <code>ACCESS EXCLUSIVE</code> on both tables for the duration of the ADD. Cheap on small tables, painful on <code>media_items</code> / <code>watch_progress</code>. Pattern for large tables: add with <code>NOT VALID</code>, then <code>VALIDATE CONSTRAINT</code> in a second statement (validate only takes <code>SHARE UPDATE EXCLUSIVE</code>).</li>
-<li><strong><code>000067_sort_title_index.up.sql</code>, <code>000068_watch_progress_composite_index.up.sql</code>, <code>000069_quick_connect_shortcode_index.up.sql</code></strong> - plain <code>CREATE INDEX</code>. On large tables this locks writes. <code>CREATE INDEX CONCURRENTLY</code> cannot run inside a migrate transaction.</li>
-<li><strong><code>000072_syncplay_queue.up.sql</code></strong> - <code>ALTER TABLE ... ADD COLUMN ... NOT NULL DEFAULT '[]'</code>. On PG 11+ this is metadata-only and fast. Still holds <code>ACCESS EXCLUSIVE</code> briefly.</li>
+<li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP
+  CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>. Takes <code>ACCESS EXCLUSIVE</code> on
+  both tables for the duration of the ADD. Cheap on small tables, painful on
+  <code>media_items</code> / <code>watch_progress</code>.</li>
+<li><strong><code>000067_sort_title_index.up.sql</code></strong>,
+  <strong><code>000068_watch_progress_composite_index.up.sql</code></strong>,
+  <strong><code>000069_quick_connect_shortcode_index.up.sql</code></strong> - plain <code>CREATE INDEX</code>,
+  which locks writes on large tables. <code>CREATE INDEX CONCURRENTLY</code> cannot run
+  inside a migrate transaction.</li>
+<li><strong><code>000072_syncplay_queue.up.sql</code></strong> - <code>ALTER TABLE ... ADD COLUMN ... NOT
+  NULL DEFAULT '[]'</code>. Metadata-only on PG 11+, but still holds <code>ACCESS
+  EXCLUSIVE</code> briefly.</li>
 </ul>
 <p>Guidelines:</p>
 <ul>
-<li><strong>Long ALTER</strong> that rewrites the table (type change, adding a non-constant default on old PG) → expect downtime on a large catalogue.</li>
-<li><strong>DROP COLUMN</strong> → only metadata, but the column cannot be restored without a backup. Never drop it in the same release as the code that stops reading it - prefer a two-step: stop reading the column, deploy, then drop in the next release.</li>
-<li><strong>FK on big tables</strong> → <code>ADD CONSTRAINT ... NOT VALID</code> then <code>VALIDATE CONSTRAINT</code> in a follow-up migration. Avoid a single blocking <code>ADD CONSTRAINT ... FOREIGN KEY ...</code>.</li>
-<li><strong>Batch UPDATE / backfill</strong> → never in a single migration on a big table. Ship a no-op schema migration + a background job.</li>
-<li><strong>Column replacement (expand → migrate → contract)</strong> → do not fold <code>ADD COLUMN</code> + backfill + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> of the old one into a single migration. That shape only works because Evey runs single-instance today, with migrations applied synchronously at boot: during the window, old code reading the dropped column and new code reading the new one cannot coexist, so a rolling or multi-replica deploy would serve errors from whichever half is behind.
-  Known migrations written this way, kept as-is because they have already shipped: <code>000077</code> and <code>000098_playlists_profile_id.up.sql</code> (adds <code>profile_id</code>, backfills, sets <code>NOT NULL</code>, drops <code>user_id</code>).
-  For a new one, split across three releases:</li>
-<li><strong>expand</strong> - add the new column nullable, write to <em>both</em> columns, keep reading the old one;</li>
-<li><strong>migrate</strong> - backfill the new column (background job, not the migration), then switch reads to it;</li>
-<li><strong>contract</strong> - once no deployed code touches the old column, <code>SET NOT NULL</code> and drop it.
-  Each step is independently deployable and reversible, which the one-file version is not.</li>
+<li><strong>Long ALTER</strong> that rewrites the table (type change, non-constant default on
+  an old PG) means downtime on a large catalogue.</li>
+<li><strong>DROP COLUMN</strong> is metadata-only, but the column cannot come back without
+  a backup. Never drop it in the release that stops reading it: stop
+  reading, deploy, drop in the next release.</li>
+<li><strong>FK on big tables</strong>: <code>ADD CONSTRAINT ... NOT VALID</code>, then <code>VALIDATE
+  CONSTRAINT</code> in a follow-up migration (validate only takes <code>SHARE UPDATE
+  EXCLUSIVE</code>).</li>
+<li><strong>Batch UPDATE / backfill</strong>: never in a single migration on a big table.
+  Ship a no-op schema migration plus a background job.</li>
+<li><strong>Column replacement (expand, migrate, contract)</strong>: do not fold <code>ADD
+  COLUMN</code> + backfill + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> into one file. That
+  shape only works because Evey runs single-instance, with migrations applied
+  synchronously at boot; a rolling deploy would serve errors from whichever
+  half is behind. <code>000077</code> and <code>000098_playlists_profile_id.up.sql</code> were
+  written this way and stay as they are because they have shipped. For a new
+  one, split across three releases:</li>
+<li><strong>expand</strong> - add the new column nullable, write both columns, keep
+     reading the old one;</li>
+<li><strong>migrate</strong> - backfill the new column (background job, not the
+     migration), then switch reads to it;</li>
+<li><strong>contract</strong> - once no deployed code touches the old column, <code>SET NOT
+     NULL</code> and drop it.</li>
 </ul>
-<h2 id="after-an-update">After an update<a class="headerlink" href="#after-an-update" title="Permanent link">¶</a></h2>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'migrat|error'</span>
-</span></code></pre></div>
-<p>Then clear the transcoding cache if the release changed how videos are encoded
-(<strong>Admin → Transcode Cache</strong>).</p>
 <!-- sources
-migrations: internal/adapters/driven/postgres/migrate.go ; internal/adapters/driven/postgres/migrate_backup.go - backupFilePrefix, pruneOldBackups
-cli: cmd/evey/admin_commands.go (migrate, rollback) ; cmd/evey/admin_ops.go - adminRollback
-embedded database: docker/entrypoint.sh (pg_user, pg_db, postgres.password, EVEY_DB_PASSWORD_FILE)
+migrations: internal/adapters/driven/postgres/migrate.go - RunMigrations, RollbackLastMigration, CurrentMigrationVersion ; internal/adapters/driven/postgres/migrate_backup.go - dumpDatabase, backupFilePrefix, pruneOldBackups, defaultBackupRetention
+cli: cmd/evey/admin.go - adminMigrate, adminMigrateUsage ; cmd/evey/admin_ops.go - adminRollback
+embedded database and healthcheck start period: docker/entrypoint.sh (postgres.password, EVEY_DB_PASSWORD_FILE) ; Dockerfile - HEALTHCHECK --start-period
 backup route: internal/adapters/driving/http/backup_handler.go (POST /api/v1/admin/backups)
+labels: i18n/en/admin.yaml - sidebar.backupRestore, backup.schedule.runNow, transcodeCache.clearAll
 -->
 
 

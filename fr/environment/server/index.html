@@ -3103,8 +3103,11 @@
 
 
 <h1 id="server-and-network">Serveur et réseau<a class="headerlink" href="#server-and-network" title="Permanent link">¶</a></h1>
-<p>L'adresse à laquelle le serveur est publié, les proxys auxquels il fait
-confiance, qui peut le joindre de l'extérieur, et ses limites de requêtes.</p>
+<p>Les variables qui disent où le serveur est publié, quels proxys il croit, qui
+peut le joindre de l'extérieur et combien de requêtes il accepte. La plupart
+se définissent une fois dans le fichier compose ; ce que <strong>Admin → Accès
+distant</strong> enregistre ensuite l'emporte sur elles, comme l'explique la
+<a href="../../configuration/">Référence de configuration</a>.</p>
 <h2 id="address-and-ports">Adresse et ports<a class="headerlink" href="#address-and-ports" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3112,28 +3115,33 @@ confiance, qui peut le joindre de l'extérieur, et ses limites de requêtes.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_SERVER_BASE_URL</code></td>
 <td><code>http://localhost:9091</code></td>
-<td>L'adresse publique. Une adresse en <code>https://</code> active les cookies <code>Secure</code>, HSTS et la confiance dans <code>X-Forwarded-Proto</code>. Les liens des e-mails, les redirections d'authentification unique et les URL de diffusion en sont dérivés, sauf si <strong>Administration → Accès distant → URL externe</strong> est renseignée : c'est elle qui l'emporte. Une URL externe en <code>https://</code> active aussi le HTTPS quand celle-ci est en HTTP simple.</td>
+<td>L'adresse publique. Une adresse en <code>https://</code> active les cookies <code>Secure</code>, HSTS et la confiance dans <code>X-Forwarded-Proto</code>. Les liens des e-mails, les redirections d'authentification unique et les URL de diffusion en sont dérivés.</td>
+<td>Accès distant → <strong>URL externe</strong> l'emporte quand elle est renseignée, immédiat ; une URL externe en <code>https://</code> active aussi le HTTPS</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_PORT</code></td>
 <td><code>9090</code></td>
 <td>Le port gRPC interne. L'API HTTP et l'interface web écoutent sur ce port plus un (<code>9091</code>).</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_GRPC_BIND</code></td>
 <td><code>127.0.0.1</code></td>
 <td>L'adresse d'écoute du port gRPC. Le contrôle d'accès distant ne couvre pas gRPC : l'élargir (<code>0.0.0.0</code>) affiche un avertissement, et le filtrer devient votre responsabilité.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_NAME</code></td>
 <td><code>Evey</code></td>
-<td>Le nom affiché sur la page de connexion, dans la liste des serveurs des applications et dans les e-mails. <strong>Admin → Configuration du serveur</strong> le remplace.</td>
+<td>Le nom affiché sur la page de connexion, dans la liste des serveurs des applications et dans les e-mails.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Nom du serveur</strong>, immédiat</td>
 </tr>
 </tbody>
 </table>
@@ -3144,35 +3152,43 @@ confiance, qui peut le joindre de l'extérieur, et ses limites de requêtes.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_TRUSTED_PROXIES</code></td>
 <td>boucle locale seulement</td>
-<td>Les réseaux dont l'adresse client transmise est crue, séparés par des virgules (pour un proxy en conteneur : <code>172.16.0.0/12</code>, à resserrer une fois connu). S'ajoutent à la boucle locale, sans jamais la remplacer. Une liste enregistrée dans <strong>Administration → Accès distant → Proxys de confiance</strong> remplace celle-ci à chaud ; vider le champ la rétablit.</td>
+<td>Les réseaux dont l'adresse client transmise est crue, séparés par des virgules (pour un proxy en conteneur : <code>172.16.0.0/12</code>, à resserrer une fois connu). S'ajoutent à la boucle locale, sans jamais la remplacer ; une entrée mal formée empêche le démarrage.</td>
+<td>Accès distant → <strong>Proxys de confiance</strong> remplace cette liste, immédiat ; vider le champ rétablit la variable</td>
 </tr>
 <tr>
 <td><code>EVEY_REAL_IP_HEADER</code></td>
 <td><code>X-Forwarded-For</code></td>
 <td>L'en-tête dans lequel un proxy de confiance place l'adresse du client.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_FORWARDED_PROTO</code></td>
 <td>déduite</td>
 <td>Obsolète : le HTTPS se déduit du schéma de <code>EVEY_SERVER_BASE_URL</code>. Encore acceptée pour forcer la valeur, avec un avertissement.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
+<p>Les réglages du proxy qui comptent pour la diffusion : <a href="../../reverse-proxy/">Configurations de reverse proxy</a>.</p>
 <h2 id="remote-access">Accès distant<a class="headerlink" href="#remote-access" title="Permanent link">¶</a></h2>
 <p>Ces variables servent au premier démarrage ; <strong>Admin → Accès distant</strong>
-enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
+enregistre ensuite ses propres valeurs et les applique sans redémarrage. La
+façon dont le contrôle décide :
+<a href="../../administration/remote-access/">Accès distant et HTTPS</a>.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3180,25 +3196,28 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <td><code>EVEY_REMOTE_ACCESS_ENABLED</code></td>
 <td>non définie</td>
 <td>Non définie : déduite au démarrage, activée quand <code>EVEY_SERVER_BASE_URL</code> ou <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code> est publique. <code>true</code> ou <code>false</code> : votre choix explicite, jamais remplacé.</td>
+<td>Accès distant → <strong>Activer l'accès distant</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code></td>
 <td>vide</td>
 <td>L'adresse publique, quand elle diffère de <code>EVEY_SERVER_BASE_URL</code>. Une adresse en <code>https://</code> active le mode HTTPS, comme l'URL de base.</td>
+<td>Accès distant → <strong>URL externe</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_LAN_NETWORKS</code></td>
 <td><code>10.0.0.0/8,172.16.0.0/12,192.168.0.0/16</code></td>
 <td>Les réseaux considérés comme la maison. Ajoutez une plage de VPN ou de CGNAT (<code>100.64.0.0/10</code>) dont les clients doivent compter comme locaux.</td>
+<td>Accès distant → <strong>Réseaux LAN</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_MAX_BITRATE_KBPS</code></td>
 <td><code>0</code></td>
 <td>Un plafond de débit pour les clients hors de la maison, en kbit/s ; <code>0</code> = aucun. Une adresse privée n'est jamais plafonnée.</td>
+<td>Accès distant → <strong>Débit distant maximal</strong>, immédiat</td>
 </tr>
 </tbody>
 </table>
-<p>Le fonctionnement du contrôle d'accès : <a href="../../administration/remote-access/">Accès distant et HTTPS</a>.</p>
 <h2 id="request-limits">Limites de requêtes<a class="headerlink" href="#request-limits" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3206,18 +3225,21 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_RATELIMIT_LOGIN_MAX</code></td>
 <td><code>10</code></td>
-<td>Tentatives de connexion par adresse et par minute. <strong>Admin → Configuration du serveur → Paramètres du serveur</strong> la remplace.</td>
+<td>Tentatives de connexion par adresse et par minute.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Limite connexion</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_RATELIMIT_GLOBAL_MAX</code></td>
 <td><code>300</code></td>
-<td>Requêtes par adresse et par minute sur l'API. Remplaçable au même endroit.</td>
+<td>Requêtes par adresse et par minute sur l'API.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Limite globale</strong>, immédiat</td>
 </tr>
 </tbody>
 </table>
@@ -3229,6 +3251,7 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3236,6 +3259,7 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <td><code>PUID</code>, <code>PGID</code></td>
 <td>propriétaire des montages <code>/media</code></td>
 <td>L'utilisateur et le groupe sous lesquels tourne le serveur. <code>1001</code> est refusé (réservé aux plugins). Détails dans la <a href="../../configuration/#file-ownership-puid-and-pgid">Référence de configuration</a>.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3246,6 +3270,7 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3253,6 +3278,7 @@ enregistre ensuite ses propres valeurs et les applique sans redémarrage.</p>
 <td><code>EVEY_DEMO</code></td>
 <td><code>false</code></td>
 <td>Fait tourner le serveur comme démo publique : écritures d'administration verrouillées, ni e-mail, ni push, ni webhooks sortants. Pas pour une vraie installation.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

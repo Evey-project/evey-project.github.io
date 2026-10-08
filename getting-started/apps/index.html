@@ -706,6 +706,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#the-server-address-to-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The server address to enter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The server address to enter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan-local-network-what-it-finds-and-what-it-does-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scan local network: what it finds and what it does not
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-the-connection-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the connection fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-or-adding-a-server-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing or adding a server later
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-connect-signing-in-a-tv-without-typing-a-password" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2973,6 +3023,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#the-server-address-to-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The server address to enter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The server address to enter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan-local-network-what-it-finds-and-what-it-does-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scan local network: what it finds and what it does not
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-the-connection-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the connection fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-or-adding-a-server-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing or adding a server later
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-connect-signing-in-a-tv-without-typing-a-password" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3030,8 +3130,10 @@
 
 <h1 id="apps-and-devices">Apps and devices<a class="headerlink" href="#apps-and-devices" title="Permanent link">¶</a></h1>
 <p>Every app talks to your own server. You give it the server's address once,
-sign in, and choose a profile. Resume points, watch history and favourites are
-the server's, so they follow you from one device to the other.</p>
+sign in, and choose a profile; resume points, watch history and favourites
+are the server's, so they follow you from one device to the other. This page
+is for the person installing the apps on the household's phones and TVs: the
+address to type is the first section.</p>
 <table>
 <thead>
 <tr>
@@ -3064,11 +3166,169 @@ the server's, so they follow you from one device to the other.</p>
 </tbody>
 </table>
 <p>The administration panel is part of the web app, for administrator accounts.</p>
+<h2 id="the-server-address-to-enter">The server address to enter<a class="headerlink" href="#the-server-address-to-enter" title="Permanent link">¶</a></h2>
+<p>The Android and Android TV apps open on a screen titled <strong>Connect to Server</strong>
+(<strong>Connect to your server</strong> on the TV):
+one field (<strong>Server URL</strong>, placeholder <code>https://your-server.com</code>), a
+<strong>Connect</strong> button and a <strong>Scan local network</strong> link. Type the <strong>same address
+you open in a browser on the same network</strong>, with the scheme and the port:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>http://192.168.1.20:9091
+</span></code></pre></div>
+<div class="evey-shot-pair">
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="connect"><img alt="The Android app asking for the server address" data-gallery="connect" loading="lazy" src="../../images/app-android-connect.webp"></a>
+<br>
+<figcaption>The Android app: the address of the server at home, with http:// and the port.</figcaption>
+</figure>
+<figure class="evey-shot">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="connect"><img alt="The Android TV app asking for the server address" data-gallery="connect" loading="lazy" src="../../images/app-tv-connect.webp"></a>
+<br>
+<figcaption>The Android TV app: the same address, typed with the remote or found by the scan.</figcaption>
+</figure>
+</div>
+<table>
+<thead>
+<tr>
+<th>Where the device is</th>
+<th>What to type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>At home, same Wi-Fi as the server</td>
+<td><code>http://</code> + the IP of the machine running Evey + <code>:9091</code>, for example <code>http://192.168.1.20:9091</code>. Its name works too (<code>http://nas:9091</code>) when your router resolves names.</td>
+</tr>
+<tr>
+<td>Away from home</td>
+<td>The public HTTPS address set in <strong>Admin → Remote Access → External URL</strong>, for example <code>https://evey.example.org</code>, without the port (the reverse proxy listens on 443). See <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Where the pieces come from:</p>
+<ul>
+<li><strong>The IP</strong> is the one of the computer or NAS running Docker on your home
+  network: in your router's list of devices, or on the machine itself (<code>ip a</code>
+  on Linux, <code>ipconfig</code> on Windows, <code>ifconfig</code> on macOS). It is never the
+  phone's own IP.</li>
+<li><strong>The port</strong> is the left-hand number of the <code>ports:</code> line of your compose
+  file (<code>"9091:9091"</code>, see <a href="../../installation/#the-compose-file">Install</a>).
+  With the file from the installation page it is <code>9091</code>.</li>
+<li><strong>The scheme</strong> is <code>http://</code> at home. Plain HTTP on the home network is the
+  normal setup; <code>https://</code> is for the public address only.</li>
+</ul>
+<p>Nothing comes after the port: no <code>/api</code>, no path. A trailing <code>/</code> is removed.
+Once you press <strong>Connect</strong>, the app contacts the server, keeps the address,
+and moves on to the sign-in screen.</p>
+<h3 id="scan-local-network-what-it-finds-and-what-it-does-not">Scan local network: what it finds and what it does not<a class="headerlink" href="#scan-local-network-what-it-finds-and-what-it-does-not" title="Permanent link">¶</a></h3>
+<p><strong>Scan local network</strong> tries <code>http://</code> on every address of four common home
+subnets (<code>192.168.1.x</code>, <code>192.168.0.x</code>, <code>10.0.0.x</code> and <code>172.16.0.x</code>, hosts 1
+to 254) on ports <code>9091</code>, <code>8096</code> and <code>8920</code>, fifty at a time with a 2-second
+timeout each, so a full sweep takes up to a couple of minutes. Every server
+found is listed with its name (the <strong>Server name</strong> chosen at setup), its
+address and its version; tapping one only fills the field, you still press
+<strong>Connect</strong>. When nothing answers, the screen says <strong>No server found on this
+network - enter the address below</strong>.</p>
+<p>The scan does not find a server:</p>
+<ul>
+<li>on another subnet (<code>192.168.2.x</code>, <code>10.1.x.x</code>...) or on another port;</li>
+<li>when the phone is on mobile data, on a guest Wi-Fi, or on a different
+  network from the server;</li>
+<li>reachable only over HTTPS.</li>
+</ul>
+<p>Type the address in those cases. The apps do not use mDNS or Bonjour and do
+not read the phone's own network range: the four subnets above are fixed.</p>
+<h3 id="when-the-connection-fails">When the connection fails<a class="headerlink" href="#when-the-connection-fails" title="Permanent link">¶</a></h3>
+<p>Every failure is a dialog titled <strong>Connection failed</strong>. What the message
+means and what to do:</p>
+<table>
+<thead>
+<tr>
+<th>Message (Android)</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Start the address with http:// or https://.</strong></td>
+<td>No scheme.</td>
+<td>Type <code>http://</code> before the IP.</td>
+</tr>
+<tr>
+<td><strong>This connection is not encrypted</strong></td>
+<td><code>http://</code> towards an address outside the home network. The password and the video would cross the internet in the clear.</td>
+<td><strong>Cancel</strong> and use the <code>https://</code> public address, or <strong>Connect anyway</strong> if you know what you are doing.</td>
+</tr>
+<tr>
+<td><strong>No response from ... within 8s.</strong></td>
+<td>Nothing answers at that address.</td>
+<td>Check the server is running (<code>docker compose ps</code>), the IP and the port, and that the phone is on the same Wi-Fi.</td>
+</tr>
+<tr>
+<td><strong>Couldn't reach ...</strong></td>
+<td>Host or port wrong, <code>http</code>/<code>https</code> mismatch, or a different network.</td>
+<td>Same checks; try <code>http://</code> instead of <code>https://</code> at home, and the other way round for a public address.</td>
+</tr>
+<tr>
+<td><strong>TLS/certificate problem reaching ...</strong></td>
+<td>A self-signed certificate.</td>
+<td>Use <code>http://</code> at home, or a certificate issued by a public authority for the public address.</td>
+</tr>
+<tr>
+<td><strong>... answered "HTTP 404 ..." instead of a healthy Evey server.</strong></td>
+<td>Something answers, but not Evey: a path after the port, or another service on that port.</td>
+<td>Remove everything after the port and check the port number.</td>
+</tr>
+<tr>
+<td><strong>... answered, but it is not an Evey server.</strong></td>
+<td>A captive portal, the ISP's page or another service answered with a page of its own.</td>
+<td>Check the address; on a public Wi-Fi, sign in to the portal first.</td>
+</tr>
+<tr>
+<td><strong>Remote access disabled</strong></td>
+<td>The server is reached from outside the home while its remote access is off.</td>
+<td>An administrator turns it on in <strong>Admin → Remote Access</strong>: <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>On Android TV the dialogs are shorter: <strong>Server returned 404</strong> for an answer
+that is not Evey's, and the raw network error when nothing answers; the causes
+and the checks are the same. The TV does not warn about <code>http://</code> towards a
+public address, and the scheme is required there too: a bare
+<code>192.168.1.20:9091</code> fails.</p>
+<p>When an app that already knows a server cannot reach it at launch, it comes
+back to this screen with the saved server listed; the TV adds <strong>Your server
+did not answer. It may be asleep or off the network.</strong> Choose the server
+again once it is up.</p>
+<h3 id="changing-or-adding-a-server-later">Changing or adding a server later<a class="headerlink" href="#changing-or-adding-a-server-later" title="Permanent link">¶</a></h3>
+<p>Both apps keep a list of servers. The connect screen shows it above the field,
+with the one in use marked <strong>Current</strong> (Android) or <strong>Active</strong> (Android TV),
+and <strong>Add another server</strong> underneath. Each server keeps its own sign-in.</p>
+<ul>
+<li><strong>Android.</strong> The sign-in screen has <strong>Change server</strong>. Once signed in,
+  <strong>Settings → Servers</strong> opens <strong>Manage Servers</strong>: tap a server to switch to
+  it, <strong>Rename</strong> it, or <strong>Delete</strong> it (its sign-in is cleared; the only saved
+  server cannot be deleted).</li>
+<li><strong>Android TV.</strong> <strong>Settings → Change server</strong> signs the television out and
+  returns to the connect screen; the sign-in screen has the same button. On
+  the connect screen, <strong>Manage Servers</strong> renames or deletes a saved server.</li>
+</ul>
 <h2 id="quick-connect-signing-in-a-tv-without-typing-a-password">Quick Connect: signing in a TV without typing a password<a class="headerlink" href="#quick-connect-signing-in-a-tv-without-typing-a-password" title="Permanent link">¶</a></h2>
-<p>On the TV, choose <strong>Quick Connect</strong>. It shows a code and a QR code. On a phone
-or a computer where you are already signed in, open <strong>Settings → Quick
-Connect</strong>, and type the code or scan the QR code with the Android app. The TV
-is signed in to the same account.</p>
+<p>On the TV's sign-in screen, choose <strong>Quick Connect</strong> (marked <strong>Recommended for
+TV</strong>). The screen shows a 6-character code, a QR code and how long the code
+stays valid. Approve it from a device where you are already signed in:</p>
+<ul>
+<li><strong>Web</strong>: <strong>Settings → Quick Connect</strong>, type the code in <strong>Device Code</strong> and
+  press <strong>Authorize Device</strong>.</li>
+<li><strong>Android app</strong>: <strong>Settings → Quick Connect</strong>, then <strong>Scan QR Code</strong> with
+  the camera, or type the code and press <strong>Authorize Device</strong>.</li>
+<li><strong>Phone camera</strong>: scanning the QR code opens the server's Quick Connect page
+  in the browser. Signed in there, the code is already filled in; otherwise
+  sign in first and type it.</li>
+</ul>
+<p>The TV notices the approval within seconds and is signed in to the same
+account. The Android app's sign-in screen offers Quick Connect in the same
+way, for a phone you would rather not type a password on.</p>
 <h2 id="what-each-app-adds">What each app adds<a class="headerlink" href="#what-each-app-adds" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Web.</strong> Keyboard shortcuts in the player (<code>?</code> lists them), browser push
@@ -3097,7 +3357,14 @@ sent untouched to a TV and re-encoded for an older phone. The player's
 <a href="../../playback/how-playback-is-decided/">How playback is decided</a>. Casting has
 rules of its own: see <a href="../../playback/casting/">Casting</a>.</p>
 <!-- sources
-quick connect: i18n auth.quickConnect.*, auth.settings.quickConnect
+connect screen, checks and messages (Android): frontend/apps/mobile/app/server-connect.tsx - handleConnect, describeConnectError, handleSelectServer ; frontend/apps/mobile/src/lib/privateHost.ts - isPrivateHost, isCleartextToPublicHost, confirmInsecureServer ; frontend/packages/api/src/remoteAccessError.ts - remoteAccessDisabledMessage ; i18n mobile.serverConnect.*, auth.remoteAccess.*
+connect screen (TV): frontend/apps/tv/app/server-connect.tsx - handleConnect (no scheme check, no cleartext warning, "Server returned N") ; unreachable banner: frontend/apps/tv/app/index.tsx
+boot back to the screen: frontend/apps/mobile/app/index.tsx ; frontend/apps/tv/app/index.tsx
+probe and identity: frontend/packages/client/src/native/server-config.ts - probeServerHealth ; frontend/packages/client/src/lib/serverIdentity.ts - parseEveyHealth ; internal/adapters/driving/http/health_handler.go (name, version)
+scan: frontend/packages/client/src/lib/network-scan.ts - scanLocalNetwork (subnets, COMMON_PORTS, TIMEOUT_MS, BATCH) ; no mDNS anywhere in frontend/apps/mobile, frontend/apps/tv, frontend/packages/client
+server list: @evey/store useServerListStore ; frontend/apps/mobile/app/(auth)/manage-servers.tsx ; frontend/apps/mobile/app/(auth)/(tabs)/settings.tsx - handleManageServers ; frontend/apps/mobile/app/login.tsx (Change server) ; frontend/apps/tv/app/(auth)/(tabs)/settings.tsx - handleChangeServer ; frontend/apps/tv/app/login.tsx ; i18n mobile.servers.*, mobile.settings.changeServer
+port: docs/installation.md compose ports line ; cmd/evey/main.go - httpPort
+quick connect: frontend/apps/tv/app/quick-connect.tsx (displayCode last 6 chars, qrValue /quickconnect?code=, polling) ; frontend/apps/tv/app/login.tsx (recommendedForTV) ; frontend/apps/web/src/routes/_auth/quickconnect.lazy.tsx ; frontend/apps/web/src/routes/_auth/profile/settings.lazy.tsx (quick-connect tab) ; frontend/apps/mobile/app/(auth)/(tabs)/settings.tsx (scanQr, authorize) ; frontend/apps/mobile/app/(auth)/qr-scan.tsx ; frontend/apps/mobile/app/quick-connect.tsx ; i18n auth.settings.quickConnect.*
 offline window and profile check: frontend/apps/mobile/src/lib/offlineAccess.ts - OFFLINE_DOWNLOAD_TTL_MS
 reduced copy (off by default): cmd/evey/http.go (downloads.quality_choice) ; i18n downloads.reduced.*
 play on: i18n player.playOn.* (used by frontend/apps/web and frontend/apps/mobile, not frontend/apps/tv)

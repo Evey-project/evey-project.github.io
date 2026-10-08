@@ -3139,9 +3139,57 @@
 
 
 <h1 id="design-principles">Design principles<a class="headerlink" href="#design-principles" title="Permanent link">¶</a></h1>
-<p>The principles below explain why Evey behaves as it does. Each is a
-constraint the code follows, with the pages and decision records where it
-shows. When two of them conflict, the earlier one in this list wins.</p>
+<p>Seven constraints the code follows, each with the pages and decision records
+where it shows. Read this page to understand why Evey behaves as it does
+before reading how it is built (<a href="../ARCHITECTURE/">Architecture</a>) or why a
+structural choice was made (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/README.md">decision records</a>). When two
+principles conflict, the earlier one in this list wins.</p>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Where it shows</th>
+<th>Decided by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Access is refused when it cannot be checked</td>
+<td>parental control, plugin install, remote access</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a></td>
+</tr>
+<tr>
+<td>2. Third-party code is contained, not trusted</td>
+<td>plugin sandbox</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>, <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a></td>
+</tr>
+<tr>
+<td>3. The original is delivered whenever it can be</td>
+<td>playback decision</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a></td>
+</tr>
+<tr>
+<td>4. Decisions rest on what was proved, not on names</td>
+<td>casting, hardware acceleration</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a></td>
+</tr>
+<tr>
+<td>5. One playback, one decision</td>
+<td>playback plan, Stream info</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>, <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a></td>
+</tr>
+<tr>
+<td>6. The server sizes itself to the machine</td>
+<td>calibration, background work</td>
+<td>-</td>
+</tr>
+<tr>
+<td>7. Few settings, each in one place</td>
+<td>install, admin panel</td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0028-install-is-one-compose-file.md">ADR-0028</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="1-access-is-refused-when-it-cannot-be-checked">1. Access is refused when it cannot be checked<a class="headerlink" href="#1-access-is-refused-when-it-cannot-be-checked" title="Permanent link">¶</a></h2>
 <p>Where a decision grants access, an error resolves to the most restrictive
 answer. A profile whose parental settings cannot be read gets no content; a
@@ -3157,7 +3205,7 @@ deployment choice, the second is what protects the library.</p>
 analysed before installation, runs in a sandbox with no direct network access,
 and holds a token that is denied by default. What the sandbox still cannot
 prevent is written down rather than implied.</p>
-<p>See <a href="../SECURITY/">Security model and plugin sandbox</a>,
+<p>See <a href="../SECURITY/">Plugin sandbox and threat model</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>.</p>
 <h2 id="3-the-original-is-delivered-whenever-it-can-be">3. The original is delivered whenever it can be<a class="headerlink" href="#3-the-original-is-delivered-whenever-it-can-be" title="Permanent link">¶</a></h2>
@@ -3182,7 +3230,8 @@ wrong colours; assuming too little costs a transcode.</p>
 the session is served from that decision. The player never receives segments
 from two encodings, and what Stream info reports is derived from the same
 serving plan the playback pipeline uses, checked by tests in both directions.</p>
-<p>See <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>,
+<p>See <a href="../playback-serving/">Playback pipeline</a>,
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a>.</p>
 <h2 id="6-the-server-sizes-itself-to-the-machine">6. The server sizes itself to the machine<a class="headerlink" href="#6-the-server-sizes-itself-to-the-machine" title="Permanent link">¶</a></h2>
 <p>The server measures how much it can transcode and admits no more: a small

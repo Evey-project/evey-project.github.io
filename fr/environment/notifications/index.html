@@ -3015,16 +3015,22 @@
 
 
 <h1 id="e-mail-and-notifications">E-mail et notifications<a class="headerlink" href="#e-mail-and-notifications" title="Permanent link">¶</a></h1>
-<p>Le courrier sortant (notifications, réinitialisations de mot de passe) et les
-notifications push du navigateur. Voir
-<a href="../../notifications/">E-mail et notifications</a>.</p>
+<p>Les variables derrière le courrier sortant (notifications, réinitialisations
+de mot de passe) et les notifications push du navigateur. L'e-mail se
+configure normalement dans le panneau, comme décrit dans
+<a href="../../notifications/">E-mail et notifications</a> ; les variables en sont le repli.</p>
 <h2 id="e-mail-smtp">E-mail (SMTP)<a class="headerlink" href="#e-mail-smtp" title="Permanent link">¶</a></h2>
+<p>Les variables sont lues au démarrage et utilisées tant que la carte
+<strong>E-mail / SMTP</strong> de <strong>Admin → Configuration du serveur</strong> n'a pas d'hôte. Dès
+qu'un hôte y est enregistré, la carte fournit tous les champs et s'applique
+sans redémarrage.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3032,38 +3038,40 @@ notifications push du navigateur. Voir
 <td><code>EVEY_SMTP_HOST</code></td>
 <td>vide</td>
 <td>Le serveur de courrier. Vide : aucun e-mail n'est envoyé.</td>
+<td>Configuration du serveur → E-mail / SMTP → <strong>Hôte SMTP</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_SMTP_PORT</code></td>
 <td><code>587</code></td>
 <td>Son port.</td>
+<td>même carte → <strong>Port</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_SMTP_USERNAME</code></td>
 <td>vide</td>
 <td>Le compte avec lequel se connecter.</td>
+<td>même carte → <strong>Nom d'utilisateur</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_SMTP_PASSWORD</code></td>
 <td>vide</td>
 <td>Son mot de passe.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_SMTP_FROM</code></td>
 <td>vide</td>
 <td>L'adresse d'expédition, par exemple <code>noreply@example.com</code>.</td>
+<td>même carte, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_SMTP_TLS</code></td>
 <td><code>starttls</code></td>
 <td><code>starttls</code>, <code>ssl</code> ou <code>none</code>.</td>
+<td>même carte, immédiat</td>
 </tr>
 </tbody>
 </table>
-<p>Elles sont lues au démarrage du serveur et utilisées tant que la carte <strong>E-mail /
-SMTP</strong> de <strong>Admin → Configuration du serveur</strong> n'a pas d'hôte. Dès qu'un hôte y
-est enregistré, la carte fournit tous les champs et s'applique sans
-redémarrage.</p>
 <h2 id="browser-push">Notifications push<a class="headerlink" href="#browser-push" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3071,18 +3079,21 @@ redémarrage.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>VAPID_PUBLIC_KEY</code>, <code>VAPID_PRIVATE_KEY</code></td>
 <td>générées</td>
-<td>La paire de clés qui signe les notifications push. En leur absence, le serveur en génère une au premier démarrage et la stocke en base ; ne les définissez que pour conserver une paire déjà utilisée.</td>
+<td>La paire de clés qui signe les notifications push. En leur absence, le serveur en génère une au premier démarrage et la stocke en base ; ne les définissez que pour conserver une paire déjà utilisée, et toujours les deux : une seule désactive le push avec un avertissement.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>VAPID_SUBJECT</code></td>
 <td><code>mailto:admin@localhost</code></td>
 <td>L'adresse de contact que voient les services de push.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

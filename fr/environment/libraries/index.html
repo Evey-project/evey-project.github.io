@@ -3037,9 +3037,10 @@
 
 
 <h1 id="libraries-and-metadata">Bibliothèques et métadonnées<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p>Scan, sources de métadonnées et détection des intros. La plupart de ces
-variables ont un équivalent dans le panneau d'administration, qui l'emporte dès
-qu'une valeur y est enregistrée.</p>
+<p>Les variables derrière le scan, les sources de métadonnées et la détection
+des intros. La plupart ont un champ dans le panneau d'administration, qui
+l'emporte dès qu'une valeur y est enregistrée ; le côté panneau est décrit
+dans <a href="../../administration/libraries/">Bibliothèques et métadonnées</a>.</p>
 <h2 id="scanning">Scan<a class="headerlink" href="#scanning" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3047,6 +3048,7 @@ qu'une valeur y est enregistrée.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3054,21 +3056,25 @@ qu'une valeur y est enregistrée.</p>
 <td><code>EVEY_LIBRARY_WATCHER_ENABLED</code></td>
 <td><code>true</code></td>
 <td>La surveillance des fichiers en temps réel.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Surveillance des fichiers de la bibliothèque</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_LIBRARY_PERIODIC_SCAN_INTERVAL</code></td>
 <td><code>2m</code></td>
-<td>La fréquence à laquelle les dossiers sont revérifiés pour rattraper ce que la surveillance a manqué (partages réseau). <strong>Admin → Configuration du serveur → Paramètres du serveur</strong> la remplace.</td>
+<td>La fréquence à laquelle les dossiers sont revérifiés pour rattraper ce que la surveillance a manqué (partages réseau).</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Intervalle d'analyse périodique</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_LIBRARY_SCAN_WORKERS</code></td>
 <td>selon la part CPU</td>
 <td>Fichiers analysés en parallèle pendant un scan. Définie à la main, elle court-circuite la <strong>Puissance allouée</strong> pour les scans.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_SEEKINDEX_STATE_DIR</code></td>
 <td><code>/data/seek-index</code></td>
 <td>L'emplacement où l'analyse de Santé des médias garde ses résultats et sa tâche en cours d'un redémarrage à l'autre. Vide : rien n'est conservé.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3079,33 +3085,39 @@ qu'une valeur y est enregistrée.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_METADATA_LANGUAGE</code></td>
 <td><code>en</code></td>
-<td>La langue des titres et des résumés. La langue choisie dans l'assistant de configuration ou dans <strong>Admin → Configuration du serveur → Langue et région</strong> l'emporte.</td>
+<td>La langue des titres et des résumés. La langue choisie dans l'assistant de configuration l'emporte sur elle.</td>
+<td>Configuration du serveur → Langue et région → <strong>Langue des métadonnées</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_TMDB_API_KEY</code></td>
 <td>clé intégrée</td>
-<td>Votre propre clé TMDB, pour votre propre quota. La clé saisie dans <strong>Admin → Configuration du serveur → Clés API</strong> l'emporte.</td>
+<td>Votre propre clé TMDB, pour votre propre quota.</td>
+<td>Configuration du serveur → Clés API → <strong>Clé API TMDB</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_OMDB_API_KEY</code></td>
 <td>vide</td>
-<td>Une clé OMDb, seconde source pour les films. Même priorité.</td>
+<td>Une clé OMDb, seconde source pour les films.</td>
+<td>Configuration du serveur → Clés API → <strong>Clé API OMDB</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_OPENSUBTITLES_API_KEY</code></td>
 <td>vide</td>
-<td>Une clé OpenSubtitles, pour la recherche de sous-titres par l'API. Même priorité.</td>
+<td>Une clé OpenSubtitles, pour la recherche de sous-titres par l'API.</td>
+<td>Configuration du serveur → Clés API → <strong>Clé API OpenSubtitles</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_OPENSUBTITLES_USERNAME</code>, <code>EVEY_OPENSUBTITLES_PASSWORD</code></td>
 <td>vide</td>
 <td>Un compte OpenSubtitles, utilisé pour se connecter à son API.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3116,38 +3128,45 @@ qu'une valeur y est enregistrée.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_INTRO_PROVIDERS_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Interroge les bases communautaires (TheIntroDB, puis IntroDB) avant la détection du serveur. <strong>Admin → Configuration du serveur → Sources de détection des intros</strong> l'emporte ; redémarrez après l'avoir modifiée.</td>
+<td>Interroge les bases communautaires (TheIntroDB, puis IntroDB) avant la détection du serveur.</td>
+<td>Configuration du serveur → Sources de détection des intros → <strong>Activer les sources externes de skip intro</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_TIDB_API_KEY</code></td>
 <td>vide</td>
 <td>Une clé TheIntroDB : 500 requêtes par jour au lieu de 100.</td>
+<td>Configuration du serveur → Clés API → <strong>Clé API TheIntroDB</strong>, redémarrage</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_AUTO_SKIP_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Tous les lecteurs passent d'eux-mêmes les intros détectées. S'applique immédiatement depuis le panneau.</td>
+<td>Tous les lecteurs passent d'eux-mêmes les intros détectées.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Saut automatique des intros</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_SKIP_PREVIEW_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Propose aussi de passer l'aperçu de l'épisode suivant. S'applique immédiatement depuis le panneau.</td>
+<td>Propose aussi de passer l'aperçu de l'épisode suivant.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Passer les segments d'aperçu</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_DETECTION_MAX_PARALLEL</code></td>
 <td>selon la part CPU</td>
 <td>Titres analysés en même temps. Définie à la main, elle court-circuite la <strong>Puissance allouée</strong> pour cette tâche.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_FFMPEG_THREADS</code></td>
 <td><code>1</code></td>
 <td>Threads par processus ffmpeg pendant la détection (1 à 16).</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

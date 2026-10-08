@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#oidc--sso-setup" class="md-skip">
+        <a href="#single-sign-on-oidc" class="md-skip">
           Aller au contenu
         </a>
       
@@ -3053,11 +3053,13 @@
   </a>
 
 
-<h1 id="oidc--sso-setup">Authentification unique (OIDC)<a class="headerlink" href="#oidc--sso-setup" title="Permanent link">¶</a></h1>
-<p>Evey prend en charge l'authentification unique via OpenID Connect : Keycloak,
-Authentik, Authelia, Google ou tout autre fournisseur OIDC. La page de connexion
-des applications web et Android affiche alors <strong>Se connecter avec SSO</strong> à côté
-du formulaire de mot de passe.</p>
+<h1 id="single-sign-on-oidc">Authentification unique (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
+<p>Laissez les gens se connecter avec le fournisseur d'identité que vous avez
+déjà (Keycloak, Authentik, Authelia, Google ou tout autre fournisseur OpenID
+Connect) : la page de connexion des applications web et Android affiche alors
+<strong>Se connecter avec SSO</strong> à côté du formulaire de mot de passe. Deux étapes
+pour l'administrateur : déclarer Evey chez le fournisseur, puis remplir une
+carte du panneau d'administration.</p>
 <h2 id="1-register-evey-with-the-provider">1. Déclarer Evey chez le fournisseur<a class="headerlink" href="#1-register-evey-with-the-provider" title="Permanent link">¶</a></h2>
 <p>Créez chez le fournisseur un client (ou une application) avec le type
 d'autorisation Authorization Code, les scopes <code>openid email profile</code>, un secret
@@ -3072,11 +3074,11 @@ affiche sous <strong>Adresses à déclarer chez votre fournisseur</strong> :</p>
 </thead>
 <tbody>
 <tr>
-<td>URI de redirection</td>
+<td><strong>URI de redirection</strong></td>
 <td><code>https://&lt;votre adresse&gt;/api/v1/auth/oidc/callback</code></td>
 </tr>
 <tr>
-<td>URI de redirection après déconnexion</td>
+<td><strong>URI de redirection après déconnexion</strong></td>
 <td><code>https://&lt;votre adresse&gt;/login</code></td>
 </tr>
 </tbody>
@@ -3100,7 +3102,7 @@ adresse.</p>
 </tr>
 <tr>
 <td><strong>URL de l'émetteur (issuer)</strong></td>
-<td>L'adresse du fournisseur, sans <code>/.well-known/openid-configuration</code>.</td>
+<td>L'adresse du fournisseur ; Evey y lit <code>/.well-known/openid-configuration</code>.</td>
 </tr>
 <tr>
 <td><strong>ID client</strong>, <strong>Secret client</strong></td>
@@ -3116,11 +3118,11 @@ adresse.</p>
 </tr>
 <tr>
 <td><strong>Relier aux comptes existants par e-mail vérifié</strong></td>
-<td>Activé par défaut. Voir plus bas.</td>
+<td>Activé par défaut. Voir <a href="#who-can-sign-in">Qui peut se connecter</a>.</td>
 </tr>
 <tr>
 <td><strong>Créer un compte pour les nouveaux utilisateurs SSO</strong></td>
-<td>Désactivé sauf si des domaines e-mail sont autorisés. Voir plus bas.</td>
+<td>Désactivé sauf si des domaines e-mail sont autorisés. Voir <a href="#who-can-sign-in">Qui peut se connecter</a>.</td>
 </tr>
 <tr>
 <td><strong>Accès aux bibliothèques des nouveaux comptes SSO</strong></td>
@@ -3131,13 +3133,17 @@ adresse.</p>
 <p><strong>Tester la connexion</strong> vérifie que l'émetteur répond. <strong>Enregistrer les
 réglages SSO</strong> s'applique aussitôt, sans redémarrage. La ligne <strong>État</strong> indique
 si le fournisseur est joignable, avec la dernière erreur s'il ne l'est pas.</p>
-<p>Les variables <code>EVEY_OIDC_*</code> de <a href="../environment/accounts/">Comptes et connexion</a>
-servent de repli : la carte signale quand ses valeurs en viennent, et
-l'enregistrer prend le relais.</p>
-<p>Le serveur n'attend jamais le fournisseur : il démarre même quand le fournisseur
-est arrêté, le bouton SSO reste masqué tant que le fournisseur est injoignable,
-et la connexion par mot de passe continue de fonctionner. Le fournisseur est
-recontacté à la tentative de connexion suivante, au plus toutes les 30 secondes.</p>
+<p>Les variables <code>EVEY_OIDC_*</code> de
+<a href="../environment/accounts/#single-sign-on-oidc">Comptes et connexion</a> servent de
+repli : la carte signale quand ses valeurs en viennent, et l'enregistrer prend
+le relais.</p>
+<div class="admonition note">
+<p class="admonition-title">Le fournisseur n'est jamais sur le chemin critique du serveur</p>
+<p>Le serveur démarre même quand le fournisseur est arrêté, le bouton SSO
+reste masqué tant que le fournisseur est injoignable, et la connexion par
+mot de passe continue de fonctionner. Le fournisseur est recontacté à la
+tentative de connexion suivante, au plus toutes les 30 secondes.</p>
+</div>
 <h2 id="who-can-sign-in">Qui peut se connecter<a class="headerlink" href="#who-can-sign-in" title="Permanent link">¶</a></h2>
 <ol>
 <li>Un compte qui s'est déjà connecté avec ce fournisseur se reconnecte, sauf
@@ -3152,10 +3158,14 @@ recontacté à la tentative de connexion suivante, au plus toutes les 30 seconde
    fournisseur, à défaut la partie de l'e-mail avant <code>@</code> ; un nom déjà pris
    reçoit un court suffixe.</li>
 </ol>
-<p><strong>Créer un compte pour les nouveaux utilisateurs SSO</strong> est désactivé par défaut
-quand aucun domaine e-mail n'est autorisé : avec un fournisseur public comme
-Google, quiconque y possède un compte pourrait sinon en obtenir un sur votre
-serveur. Désactivé, seuls les comptes existants peuvent se connecter par SSO.</p>
+<div class="admonition warning">
+<p class="admonition-title">Pourquoi la création de compte est désactivée par défaut</p>
+<p>Avec un fournisseur public comme Google, quiconque y possède un compte
+pourrait sinon en obtenir un sur votre serveur. La création n'est activée
+par défaut que lorsque <strong>Domaines e-mail autorisés</strong> restreint qui y a
+droit. Désactivée, seuls les comptes existants peuvent se connecter par
+SSO.</p>
+</div>
 <p>Quand une connexion est refusée, la page de connexion en donne la raison : le
 domaine de l'e-mail n'est pas autorisé, aucun compte ne correspond et la
 création est désactivée, le compte est désactivé, le compte existe mais n'a pas
@@ -3164,6 +3174,16 @@ pu être relié, ou le fournisseur est indisponible.</p>
 <p>Quand le fournisseur publie un point de déconnexion, se déconnecter d'Evey après
 une connexion SSO ferme aussi la session chez le fournisseur, puis revient à la
 page de connexion d'Evey. La carte indique si le fournisseur le permet.</p>
+<!-- sources
+settings and precedence (panel keys oidc.* win over EVEY_OIDC_*): internal/app/user/oidc_settings.go - ResolveOIDCConfig, AllowSignup default from AllowedEmailDomains
+lazy discovery, 30 s backoff, never at boot: internal/app/user/oidc_service.go - oidcRetryBackoff ; cmd/evey/wire.go
+account resolution (identity, verified-email link, sign-up, suffix, default libraries, admin never linked): oidc_service.go findOrCreateUser ; tests oidc_policy_test.go
+admin routes GET/PUT /api/v1/admin/sso, POST /api/v1/admin/sso/test: internal/adapters/driving/http/sso_admin_handler.go
+login error reasons: internal/adapters/driving/http/auth_handler.go (oidc_error=<reason>) ; i18n auth.login.ssoError.*
+logout endSessionUrl: internal/adapters/driving/http/server.go
+mobile flow: internal/adapters/driving/http/oidc_app_flow.go ; frontend/apps/mobile/app/oidc-callback.tsx
+UI: frontend/apps/web/src/features/admin/serverConfig/SsoSettingsCard.tsx ; i18n admin.sso.* ; auth.login.signInWithSSO
+-->
 
 
 

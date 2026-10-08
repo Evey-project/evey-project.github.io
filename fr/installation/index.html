@@ -683,6 +683,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-address-to-open-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L'adresse à ouvrir ensuite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-the-data-lives" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3039,6 +3050,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-address-to-open-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L'adresse à ouvrir ensuite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-the-data-lives" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3095,12 +3117,13 @@
 
 
 <h1 id="install">Installation<a class="headerlink" href="#install" title="Permanent link">¶</a></h1>
-<p>Evey tient dans un seul conteneur. L'image sert l'API et l'interface web sur
+<p>Evey tient dans un seul conteneur : l'image sert l'API et l'interface web sur
 un même port, et fait tourner sa propre base de données (Postgres) et son
-moteur de recherche (Meilisearch), dont les mots de passe sont générés au
-premier démarrage. Le fichier compose ci-dessous constitue toute
-l'installation : pas de <code>.env</code>, pas de mode privilégié, aucun réglage de
-mémoire ou de CPU.</p>
+moteur de recherche (Meilisearch). Cette page s'adresse à la personne qui
+fait tourner Docker chez elle ou sur un NAS : copiez le fichier compose,
+démarrez-le, ouvrez <strong><code>http://&lt;adresse-du-serveur&gt;:9091</code></strong> dans un
+navigateur, puis suivez l'assistant de configuration. Pas de <code>.env</code>, pas de
+mode privilégié, aucun réglage de mémoire ou de CPU.</p>
 <div class="admonition warning">
 <p class="admonition-title">Pas le docker-compose.yml du dépôt</p>
 <p>Le <code>docker-compose.yml</code> à la racine du dépôt Git correspond à une autre
@@ -3144,7 +3167,9 @@ médias sur la dernière ligne de <code>volumes</code>.</p>
    modification. Pour exécuter le même code d'un <code>pull</code> à l'autre, mettez ici
    un tag immuable <code>sha-&lt;commit&gt;</code> : voir
    <a href="../backups/#updating-evey">Sauvegardes et mises à jour</a>.</li>
-<li>L'API et l'interface web, sur un seul port, en HTTP simple.</li>
+<li>L'API et l'interface web, sur un seul port, en HTTP simple. Le nombre de
+   gauche est le port que vous taperez dans le navigateur et dans les
+   applications ; gardez <code>9091</code> sauf s'il est déjà pris sur la machine.</li>
 <li>Tout ce qui appartient à Evey : base de données, clé de signature, mots de
    passe générés, index de recherche, miniatures de navigation, visuels, logs,
    sauvegardes, plugins. C'est le dossier à sauvegarder.</li>
@@ -3166,9 +3191,47 @@ médias sur la dernière ligne de <code>volumes</code>.</p>
 <p>Au premier démarrage, le serveur génère sa clé de signature et ses mots de
 passe dans <code>./evey-data</code>, crée la base de données et applique ses migrations.
 Rien n'est à préparer à la main.</p>
-<p>Ouvrez ensuite <code>http://&lt;adresse-du-serveur&gt;:9091</code>. Un serveur sans
-administrateur s'ouvre sur l'assistant de configuration : poursuivez avec la
-<a href="../getting-started/first-setup/">Première configuration</a>.</p>
+<h2 id="the-address-to-open-next">L'adresse à ouvrir ensuite<a class="headerlink" href="#the-address-to-open-next" title="Permanent link">¶</a></h2>
+<p>Ouvrez <strong><code>http://&lt;adresse-du-serveur&gt;:9091</code></strong> dans un navigateur sur le même
+réseau :</p>
+<table>
+<thead>
+<tr>
+<th>Où se trouve le navigateur</th>
+<th>Adresse à taper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sur la machine qui fait tourner Docker</td>
+<td><code>http://localhost:9091</code></td>
+</tr>
+<tr>
+<td>Un autre ordinateur ou un téléphone de la maison</td>
+<td><code>http://</code> + l'IP de la machine Docker sur votre réseau domestique + <code>:9091</code>, par exemple <code>http://192.168.1.20:9091</code></td>
+</tr>
+<tr>
+<td>Hors de chez vous</td>
+<td>Pas encore : il faut du HTTPS et une adresse publique, voir <a href="../administration/remote-access/">Accès distant et HTTPS</a></td>
+</tr>
+</tbody>
+</table>
+<p>L'IP de la machine Docker se lit dans la liste des appareils de votre box ou
+routeur, ou sur la machine elle-même (<code>ip a</code> sous Linux, <code>ipconfig</code> sous
+Windows, <code>ifconfig</code> sous macOS). Le port est le nombre de gauche de la ligne
+<code>ports:</code> du fichier compose.</p>
+<p>Un serveur sans administrateur s'ouvre sur l'assistant de configuration :
+poursuivez avec la
+<a href="../getting-started/first-setup/#1-the-setup-wizard">Première configuration</a>.
+Une fois l'administrateur créé, la même adresse s'ouvre sur la page de
+connexion.</p>
+<div class="admonition tip">
+<p class="admonition-title">Les applications demandent la même adresse</p>
+<p>Les applications Android et Android TV demandent l'adresse du serveur sur
+leur premier écran. C'est exactement cette adresse, avec <code>http://</code> et le
+port :
+<a href="../getting-started/apps/#the-server-address-to-enter">L'adresse du serveur à saisir</a>.</p>
+</div>
 <h2 id="where-the-data-lives">Où sont les données<a class="headerlink" href="#where-the-data-lives" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3200,6 +3263,9 @@ administrateur s'ouvre sur l'assistant de configuration : poursuivez avec la
 <p>Chacune tient en quelques lignes ajoutées au même fichier.</p>
 <p><strong>Un second dossier de médias.</strong> Ajoutez <code>- /autre/chemin:/media2</code> sous
 <code>volumes:</code>.</p>
+<p><strong>Un autre port sur la machine.</strong> Changez uniquement le nombre de gauche, par
+exemple <code>"8080:9091"</code>, et tapez <code>:8080</code> dans le navigateur et les
+applications.</p>
 <p><strong>Propriétaire des fichiers.</strong> Par défaut, le conteneur adopte le
 propriétaire de votre montage <code>/media</code>, pour que les réparations puissent
 écrire. Pour le fixer vous-même, renseignez <code>PUID</code> et <code>PGID</code> sous

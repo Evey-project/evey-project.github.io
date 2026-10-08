@@ -2836,32 +2836,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#composition-root" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Composition root
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#architecture-guards" class="md-nav__link">
     <span class="md-ellipsis">
       
         Architecture guards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further reading
       
     </span>
   </a>
@@ -2926,6 +2904,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further reading
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3134,32 +3123,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#composition-root" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Composition root
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#architecture-guards" class="md-nav__link">
     <span class="md-ellipsis">
       
         Architecture guards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further reading
       
     </span>
   </a>
@@ -3227,6 +3194,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further reading
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3251,19 +3229,83 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
-<p>Evey is a self-hosted media server. Backend is Go (hexagonal / DDD), frontend is a TypeScript/React monorepo, mobile is React Native / Expo. See <a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> for setup and deeper internals.</p>
+<p>How the server is put together: the hexagonal layering under <code>internal/</code>,
+the bounded contexts, the events that connect them, and the static guards
+that keep the code on those rails. The code lives in <code>internal/domain</code>,
+<code>internal/app</code>, <code>internal/adapters/{driving,driven}</code> and is wired in
+<code>cmd/evey/wire*.go</code>; the layout is decided by <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>,
+the repository split by <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a> and the event
+bus by <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>. For building and running, read
+<a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a>; for which files to touch for a given change, read the
+<a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Codebase map</a>.</p>
+<p>Backend is Go; the web, mobile and TV clients are a TypeScript/React monorepo
+under <code>frontend/</code> (React Native / Expo for mobile and TV).</p>
 <h2 id="layering">Layering<a class="headerlink" href="#layering" title="Permanent link">¶</a></h2>
-<p>Strict ports-and-adapters layout under <code>internal/</code>:</p>
-<ul>
-<li><code>internal/domain/&lt;context&gt;/</code> - pure domain: models, value objects, <strong>ports</strong> (interfaces). No framework imports.</li>
-<li><code>internal/app/&lt;context&gt;/</code> - application services. Orchestrate ports. IO normally goes through a port; two contexts are deliberate exceptions and reach the network directly: <code>dlna</code> (SSDP / UPnP AVTransport) and <code>loadtest</code> (its own HTTP client).</li>
-<li><code>internal/adapters/driven/</code> - outbound adapters implementing domain ports: <code>postgres</code>, <code>meilisearch</code>, <code>ffmpeg</code>, <code>mkvgo</code>, <code>filesystem</code>, <code>prober</code>, <code>opensubtitles</code>, <code>email</code>, <code>webpush</code>, <code>webhooksender</code>, <code>pluginrunner</code>, <code>metadata</code>, <code>introproviders</code>, <code>search</code>. Two more live here but satisfy an app-layer interface rather than a domain port: <code>itunes</code> and <code>musicbrainz</code>, both <code>app/music.AlbumArtFetcher</code>.</li>
-<li><code>internal/adapters/driving/</code> - inbound adapters: <code>grpcapi</code> (+ grpc-gateway HTTP), <code>http</code> (static, auth middleware, SSE, HLS, plugin iframe assets), <code>pluginhost</code> (gRPC server on a Unix socket, authenticated by peer credentials - the host API that sandboxed plugin subprocesses call back into).</li>
-<li><code>internal/pkg/</code> - shared technical kernel reused across contexts (auth, logger, eventbus, i18n, metrics, tracing, ratelimit, procfork, ssrf, cache, ...). Server configuration lives in <code>internal/config/</code>; generated proto code lives in <code>gen/</code>.</li>
-</ul>
-<p>Dependency rule: <code>adapters -&gt; app -&gt; domain</code>. Domain never imports app or adapters. Composition happens in <code>cmd/evey/wire*.go</code> - hand-written wiring, not google/wire: <code>wire.go</code>, <code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>, <code>wire_helpers.go</code>.</p>
+<pre class="mermaid"><code>flowchart LR
+    driving[Driving adapters&lt;br/&gt;internal/adapters/driving&lt;br/&gt;grpcapi, http, pluginhost]
+    app[Application services&lt;br/&gt;internal/app/context]
+    domain[Domain&lt;br/&gt;internal/domain/context&lt;br/&gt;models, value objects, ports]
+    driven[Driven adapters&lt;br/&gt;internal/adapters/driven&lt;br/&gt;postgres, ffmpeg, mkvgo, ...]
+    driving --&gt; app --&gt; domain
+    driven -. implement the ports .-&gt; domain</code></pre>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Holds</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>internal/domain/&lt;context&gt;/</code></td>
+<td>models, value objects and the <strong>ports</strong> (interfaces)</td>
+<td>no framework import, no import of another context</td>
+</tr>
+<tr>
+<td><code>internal/app/&lt;context&gt;/</code></td>
+<td>application services that orchestrate the ports</td>
+<td>IO goes through a port; <code>dlna</code> (SSDP / UPnP AVTransport) and <code>loadtest</code> (its own HTTP client) are the two deliberate exceptions that reach the network directly</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driven/</code></td>
+<td>outbound adapters implementing the ports: <code>postgres</code>, <code>meilisearch</code>, <code>ffmpeg</code>, <code>mkvgo</code>, <code>filesystem</code>, <code>prober</code>, <code>opensubtitles</code>, <code>email</code>, <code>webpush</code>, <code>webhooksender</code>, <code>pluginrunner</code>, <code>metadata</code>, <code>introproviders</code>, <code>search</code></td>
+<td>three more satisfy an app-layer interface rather than a domain port: <code>itunes</code> and <code>musicbrainz</code> (<code>app/music.AlbumArtFetcher</code>), <code>ociregistry</code> (<code>app/updatecheck</code>)</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driving/</code></td>
+<td>inbound adapters: <code>grpcapi</code> (+ grpc-gateway HTTP), <code>http</code> (static, auth middleware, SSE, HLS, plugin iframe assets), <code>pluginhost</code> (gRPC server on a Unix socket, authenticated by peer credentials, the host API sandboxed plugins call back into)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/pkg/</code></td>
+<td>the shared technical kernel: auth, logger, eventbus, i18n, metrics, tracing, ratelimit, procfork, ssrf, cache, ...</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/config/</code></td>
+<td>server configuration</td>
+<td></td>
+</tr>
+<tr>
+<td><code>gen/</code></td>
+<td>generated proto code</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Dependency rule: <code>adapters -&gt; app -&gt; domain</code>. The domain never imports the
+app or the adapters. Composition is hand-written (not google/wire) in
+<code>cmd/evey/wire.go</code> and its siblings <code>wire_infra.go</code>, <code>wire_services.go</code>,
+<code>wire_adapters.go</code>, <code>wire_events.go</code>, <code>wire_helpers.go</code>. Tests bypass the
+adapters by injecting fakes that implement the same domain ports: 20 of the
+21 domain packages ship a <code>fakes/</code> subpackage.</p>
 <h2 id="bounded-contexts">Bounded contexts<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
-<p>Thirty-two context packages live under <code>internal/domain/</code> and <code>internal/app/</code>: 19 exist in both layers, 2 are domain-only (<code>ratings</code>, <code>shared</code>), 11 are app-only. Collaboration happens partly via domain events published through a shared bus; the app layer also reads a neighbouring context's domain package directly (see <a href="#relations">Relations</a>).</p>
+<p>Thirty-two context packages live under <code>internal/domain/</code> and <code>internal/app/</code>:
+19 exist in both layers, 2 are domain-only (<code>ratings</code>, <code>shared</code>), 11 are
+app-only. They collaborate partly through domain events on a shared bus; the
+app layer also reads a neighbouring context's domain package directly (see
+<a href="#relations">Relations</a>).</p>
 <table>
 <thead>
 <tr>
@@ -3403,54 +3445,142 @@
 </tbody>
 </table>
 <h3 id="relations">Relations<a class="headerlink" href="#relations" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Emitter</th>
+<th>Events</th>
+<th>Consumed by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>library</code></td>
+<td><code>LibraryCreated</code> / <code>LibraryDeleted</code>, <code>LibraryScanStarted</code> / <code>LibraryScanCompleted</code>, <code>MediaItemAdded</code>, <code>MediaItemRemoved</code>, <code>TrickplayGenerated</code></td>
+<td><code>media.item.added</code>: <code>notification</code>, <code>metadata</code> (auto-enrich), <code>library</code> itself (trickplay worker + intro detection), <code>feed</code> (genre-cache invalidation)</td>
+</tr>
+<tr>
+<td><code>playback</code></td>
+<td><code>PlaybackStarted</code> / <code>PlaybackStopped</code></td>
+<td>no dedicated subscriber today; only <code>webhook</code>'s <code>"*"</code> catch-all receives them</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td><code>UserCreated</code>, <code>user.password.reset_requested</code></td>
+<td>the first has no subscriber; the second is consumed by the <code>email</code> driven adapter</td>
+</tr>
+<tr>
+<td><code>pluginrunner</code></td>
+<td><code>plugin.error</code> / <code>plugin.started</code></td>
+<td><code>app/plugin</code> for its security dashboard, <code>notification</code> for the administrator</td>
+</tr>
+<tr>
+<td><code>shared</code></td>
+<td><code>ServerConfigChanged</code></td>
+<td>the services that apply a setting saved in the admin panel without a restart (SMTP, timezone, CPU budget, ...)</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><code>library</code> → emits <code>LibraryCreated</code> / <code>LibraryDeleted</code>, <code>LibraryScanStarted</code> / <code>LibraryScanCompleted</code>, <code>MediaItemAdded</code>, <code>MediaItemRemoved</code>, <code>TrickplayGenerated</code>. <code>media.item.added</code> is consumed by <code>notification</code>, <code>metadata</code> (auto-enrich), <code>library</code> itself (trickplay worker + intro detection) and <code>feed</code> (genre-cache invalidation).</li>
-<li>Search indexing is <strong>not</strong> event-driven: <code>library.ScanService</code> calls the <code>library.SearchIndex</code> port directly.</li>
-<li><code>playback</code> → emits <code>PlaybackStarted</code> / <code>PlaybackStopped</code>. Neither has a dedicated subscriber today; only <code>webhook</code>'s <code>"*"</code> catch-all receives them.</li>
-<li><code>user</code> → emits <code>UserCreated</code>, which has no subscriber, and <code>user.password.reset_requested</code>, consumed by the <code>email</code> driven adapter.</li>
-<li><code>plugin</code> → <code>pluginrunner</code> publishes <code>plugin.error</code> / <code>plugin.started</code>, and <code>app/plugin</code> consumes them for its security dashboard. There is no bridge feeding domain events into plugins: plugins reach the API with scoped JWTs (see ADR-0003). The bus itself is ADR-0010.</li>
-<li><code>shared.TransactionalUnit</code> wraps multi-aggregate writes (see ADR-0002).</li>
+<li>Search indexing is <strong>not</strong> event-driven: <code>library.ScanService</code> calls the
+  <code>library.SearchIndex</code> port directly.</li>
+<li>There is no bridge feeding domain events into plugins: plugins reach the API
+  with scoped JWTs (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>). The bus
+  itself is <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>.</li>
+<li><code>shared.TransactionalUnit</code> wraps multi-aggregate writes (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0002-transactional-unit-port.md">ADR-0002</a>).</li>
 </ul>
-<p>No package under <code>internal/domain</code> imports another context's domain package - a rule enforced by <code>internal/contractguard/domain_imports_test.go</code> (see <a href="#architecture-guards">Architecture guards</a>). The app layer is not bound by it: 15 app packages import a neighbouring context's domain package today.</p>
+<p>No package under <code>internal/domain</code> imports another context's domain package,
+a rule enforced by <code>internal/contractguard/domain_imports_test.go</code> (see
+<a href="#architecture-guards">Architecture guards</a>). The app layer is not bound by
+it: 15 app packages import a neighbouring context's domain package today.</p>
 <h2 id="typical-data-flow---user-plays-a-media">Typical data flow - "user plays a media"<a class="headerlink" href="#typical-data-flow---user-plays-a-media" title="Permanent link">¶</a></h2>
 <ol>
 <li>Mobile/web client calls <code>POST /api/v1/playback/start</code> (grpc-gateway route).</li>
 <li><code>internal/adapters/driving/http</code> runs its auth middleware (<code>auth_middleware.go</code>, <code>httpAuthMiddleware</code>), extracts session.</li>
-<li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) validates proto, calls <code>app/playback.CommandService.StartStream</code> (command/query split, see ADR-0009).</li>
+<li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) validates proto, calls <code>app/playback.CommandService.StartStream</code> (command/query split, see <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a>).</li>
 <li><code>app/playback.CommandService</code> calls domain ports: <code>user.UserRepository</code>, <code>playback.SessionQueryRepo</code> (idempotency + device cap), <code>playback.SessionCommandRepo</code>, then <code>shared.EventBus.Publish(PlaybackStarted)</code>.</li>
 <li>Driven adapters execute: <code>postgres</code> persists the session inside a <code>shared.TransactionalUnit.Do</code> scope; the in-process bus (<code>internal/pkg/eventbus</code>) dispatches asynchronously.</li>
 <li><code>PlaybackStarted</code> has no dedicated subscriber today: only the <code>webhook</code> <code>"*"</code> catch-all receives it.</li>
 <li>Response streams back through grpc-gateway as JSON; progress updates flow over SSE / gRPC streams.</li>
 </ol>
-<h2 id="composition-root">Composition root<a class="headerlink" href="#composition-root" title="Permanent link">¶</a></h2>
-<p>Wire graphs live in <code>cmd/evey/wire.go</code> and its siblings (<code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>, <code>wire_helpers.go</code>). Tests bypass adapters by injecting fakes that implement the same domain ports - 20 of the 21 domain packages ship a <code>fakes/</code> subpackage. See <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>.</p>
+<p>What happens once the player asks for the manifest and the segments is the
+subject of <a href="../playback-serving/">Playback pipeline</a>.</p>
 <h2 id="architecture-guards">Architecture guards<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
-<p>The rules above are not documentation-only. <code>internal/contractguard/</code> holds 54 static tests across 29 files that fail the build when the codebase drifts from them.</p>
-<p>The hexagonal rule itself is <code>TestDomainContextsDoNotImportEachOther</code> (ADR-0001), in <code>domain_imports_test.go</code>. It walks <code>internal/domain</code> and enforces exactly this: a context may import <code>internal/domain/shared</code> and its own package tree, nothing else from <code>internal/domain</code>, and never <code>internal/app</code> or <code>internal/adapters</code>. Its scope stops at <code>internal/domain</code> - it says nothing about the app layer.</p>
+<p>The rules above are not documentation-only. <code>internal/contractguard/</code> holds
+58 static tests across 30 files that fail the build when the codebase drifts
+from them.</p>
+<p>The hexagonal rule itself is <code>TestDomainContextsDoNotImportEachOther</code>
+(ADR-0001), in <code>domain_imports_test.go</code>. It walks <code>internal/domain</code> and
+enforces exactly this: a context may import <code>internal/domain/shared</code> and its
+own package tree, nothing else from <code>internal/domain</code>, and never
+<code>internal/app</code> or <code>internal/adapters</code>. Its scope stops at <code>internal/domain</code>:
+it says nothing about the app layer.</p>
 <p>The rest guard contracts that cross a language or a process boundary, among them:</p>
-<ul>
-<li><code>TestNoClientReadOfAFieldTheServerNeverWrites</code> - every proto response field a client reads must be written somewhere on the server.</li>
-<li><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code> and <code>TestBootInstallsItsSilentWirings</code> - wiring that would otherwise fail silently.</li>
-<li><code>TestPostgresRepositoriesBoundTheirQueries</code> - every Postgres repository bounds its queries with a timeout.</li>
-<li><code>TestProcfork_EveryForkGoesThroughCommand</code> - every subprocess fork goes through <code>internal/pkg/procfork</code>.</li>
-<li><code>TestEverySortFieldTheAPIAcceptsHasASQLColumn</code> and <code>...CanBuildACursorValue</code> - sort fields exist both in the SQL column map and in the cursor encoder.</li>
-<li><code>TestEveryWebSurfaceReachingAnAdminRPCIsClassified</code>, plus its native counterpart for mobile and TV - any UI surface calling an admin-only RPC decides who sees it.</li>
-<li><code>TestEveryAllowedSlotIsMountedOnWebAndMobile</code> and <code>TestPluginBridgeParityWebMobile</code> - plugin UI slot parity across clients.</li>
-<li><code>TestImageSubtitleCodecsAgreeAcrossServerAndClients</code> - one list of bitmap subtitle codecs, server and players.</li>
-<li><code>TestHandWrittenClientTypesMatchTheEndpointTheyCall</code> - the hand-written mobile/TV response types match the endpoint they call.</li>
-<li><code>TestRestartExitCodeAgreesWithTheEntrypoint</code> - the Go exit code and <code>docker/entrypoint.sh</code> agree on what a restart means.</li>
-<li>i18n guards - server-emitted keys exist in the catalogue, placeholders agree across locales.</li>
-</ul>
-<h2 id="further-reading">Further reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
-<ul>
-<li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> - build, run, migrations, proto generation</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">docs/CODEBASE_MAP.md</a> - which files to touch for common changes</li>
-<li><a href="../playback-serving/">docs/playback-serving.md</a> - the HLS video-serving read path, in depth (decision, ladder, fingerprint, CMAF/HLS/DASH, mkvgo vs ffmpeg)</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">docs/api/</a> - generated API reference</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">docs/adr/</a> - architectural decision records</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Guard</th>
+<th>What it refuses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TestNoClientReadOfAFieldTheServerNeverWrites</code></td>
+<td>a proto response field a client reads that no server code writes</td>
+</tr>
+<tr>
+<td><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code>, <code>TestBootInstallsItsSilentWirings</code></td>
+<td>wiring that would otherwise fail silently</td>
+</tr>
+<tr>
+<td><code>TestPostgresRepositoriesBoundTheirQueries</code></td>
+<td>a Postgres repository query without a timeout</td>
+</tr>
+<tr>
+<td><code>TestProcfork_EveryForkGoesThroughCommand</code></td>
+<td>a subprocess fork that bypasses <code>internal/pkg/procfork</code></td>
+</tr>
+<tr>
+<td><code>TestEverySortFieldTheAPIAcceptsHasASQLColumn</code>, <code>...CanBuildACursorValue</code></td>
+<td>a sort field missing from the SQL column map or the cursor encoder</td>
+</tr>
+<tr>
+<td><code>TestEveryWebSurfaceReachingAnAdminRPCIsClassified</code>, plus its native counterpart for mobile and TV</td>
+<td>a UI surface calling an admin-only RPC without deciding who sees it</td>
+</tr>
+<tr>
+<td><code>TestEveryAllowedSlotIsMountedOnWebAndMobile</code>, <code>TestPluginBridgeParityWebMobile</code></td>
+<td>a plugin UI slot or bridge message present on one client only</td>
+</tr>
+<tr>
+<td><code>TestImageSubtitleCodecsAgreeAcrossServerAndClients</code></td>
+<td>a second list of bitmap subtitle codecs on a player</td>
+</tr>
+<tr>
+<td><code>TestHandWrittenClientTypesMatchTheEndpointTheyCall</code></td>
+<td>a hand-written mobile/TV response type that drifts from its endpoint</td>
+</tr>
+<tr>
+<td><code>TestOnlyThePlanDecidesPlayback</code>, <code>TestNoCallerDerivesDownstreamOfThePlaybackPlan</code></td>
+<td>a playback decision taken outside the plan resolver (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>)</td>
+</tr>
+<tr>
+<td><code>TestRestartExitCodeAgreesWithTheEntrypoint</code></td>
+<td>a Go exit code and <code>docker/entrypoint.sh</code> disagreeing on what a restart means</td>
+</tr>
+<tr>
+<td><code>TestServerEmittedI18nKeysExistInCatalogue</code>, <code>TestI18nPlaceholdersAgreeAcrossLocales</code></td>
+<td>a server-emitted key missing from the catalogue, placeholders that differ between locales</td>
+</tr>
+</tbody>
+</table>
 <h2 id="c4-diagrams">C4 diagrams<a class="headerlink" href="#c4-diagrams" title="Permanent link">¶</a></h2>
-<p>These four diagrams document Evey at decreasing zoom levels following the <a href="https://c4model.com/">C4 model</a>. All diagrams render with Mermaid; no binary assets. Node names are the actual Go package names under <code>internal/</code>. Container names come from <code>docker-compose.yml</code> for <code>evey-server</code>, <code>evey-postgres</code> and <code>evey-caddy</code>; <code>evey-web</code>, <code>evey-meilisearch</code>, <code>evey-mobile</code> and <code>evey-mailcatcher</code> are declared in <code>docker-compose.override.yml</code> and exist in the dev topology only.</p>
+<p>Four diagrams document Evey at decreasing zoom levels following the
+<a href="https://c4model.com/">C4 model</a>. Node names are the actual Go package names
+under <code>internal/</code>. Container names come from <code>docker-compose.yml</code> for
+<code>evey-server</code>, <code>evey-postgres</code> and <code>evey-caddy</code>; <code>evey-web</code>,
+<code>evey-meilisearch</code>, <code>evey-mobile</code> and <code>evey-mailcatcher</code> are declared in
+<code>docker-compose.override.yml</code> and exist in the dev topology only.</p>
 <h3 id="level-1---system-context">Level 1 - System Context<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
 <p>Who talks to Evey, and which third parties Evey reaches out to.</p>
 <pre class="mermaid"><code>flowchart LR
@@ -3464,6 +3594,7 @@
     introdb[IntroDB / TIDB&lt;br/&gt;intro + credits timestamps]
     opensubs[OpenSubtitles&lt;br/&gt;subtitle search]
     webpush[Web Push gateway&lt;br/&gt;FCM / APNs / VAPID]
+    registry[OCI registry&lt;br/&gt;published image tags]
 
     subgraph evey[Evey Media Server]
         core((Self-hosted media platform&lt;br/&gt;library, playback, transcoding,&lt;br/&gt;music, photo, plugins))
@@ -3478,9 +3609,11 @@
     evey -.-&gt;|HTTPS artwork fetch| art
     evey -.-&gt;|HTTPS intro lookup| introdb
     evey -.-&gt;|HTTPS subtitle fetch| opensubs
-    evey -.-&gt;|HTTPS push delivery| webpush</code></pre>
+    evey -.-&gt;|HTTPS push delivery| webpush
+    evey -.-&gt;|HTTPS update check| registry</code></pre>
 <h3 id="level-2---container">Level 2 - Container<a class="headerlink" href="#level-2---container" title="Permanent link">¶</a></h3>
-<p>The deployable units brought up by <code>docker compose --env-file .env.dev up</code>. Solid arrows are runtime traffic; dashed arrows are outbound to third parties.</p>
+<p>The deployable units brought up by <code>docker compose --env-file .env.dev up</code>.
+Solid arrows are runtime traffic; dashed arrows are outbound to third parties.</p>
 <pre class="mermaid"><code>flowchart TB
     user([User browser / mobile])
     admin([Admin browser])
@@ -3514,21 +3647,25 @@
     server --&gt;|read FS| fs
     server --&gt;|read/write FS| cache
     server --&gt;|read/write FS| data</code></pre>
-<blockquote>
-<p><strong>Production differs from this dev topology.</strong> The install compose declares
-one service, <code>evey</code>. There is no separate <code>evey-web</code> container (nor the
-dev-only mailcatcher and Metro bundler): the binary serves the built web UI
-from <code>/srv</code>, so a reverse proxy forwards <em>everything</em> - UI and API - to it on
-<code>:9091</code>. Postgres and Meilisearch run inside the same container, supervised
-by <code>docker/entrypoint.sh</code>: PostgreSQL 17 with its data under <code>/data/postgres</code>,
-and the Meilisearch binary (<code>Dockerfile</code>, <code>meili-download</code> stage, pinned to
-1.12.8) with its index under <code>/data/meili</code>. The repository's own
-<code>docker-compose.yml</code> keeps separate <code>postgres</code> and <code>caddy</code> services, described
-in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
+<div class="admonition note">
+<p class="admonition-title">Production differs from this dev topology</p>
+<p>The install compose declares one service, <code>evey</code>. There is no separate
+<code>evey-web</code> container (nor the dev-only mailcatcher and Metro bundler):
+the binary serves the built web UI from <code>/srv</code>, so a reverse proxy
+forwards <em>everything</em>, UI and API, to it on <code>:9091</code>. Postgres and
+Meilisearch run inside the same container, supervised by
+<code>docker/entrypoint.sh</code>: PostgreSQL 17 with its data under
+<code>/data/postgres</code>, and the Meilisearch binary (<code>Dockerfile</code>,
+<code>meili-download</code> stage, pinned to 1.12.8) with its index under
+<code>/data/meili</code>. The repository's own <code>docker-compose.yml</code> keeps separate
+<code>postgres</code> and <code>caddy</code> services, described in
+<a href="../operations/advanced-deployments/">Advanced deployments</a>. See
 <a href="../installation/">Install</a> and <a href="../reverse-proxy/">Reverse proxy</a>.</p>
-</blockquote>
+</div>
 <h3 id="level-3---component-zoom-on-evey-server">Level 3 - Component (zoom on <code>evey-server</code>)<a class="headerlink" href="#level-3---component-zoom-on-evey-server" title="Permanent link">¶</a></h3>
-<p>Hexagonal layering inside the Go binary. Driving adapters call application services through their interfaces; application services depend only on domain ports; driven adapters implement those ports.</p>
+<p>Hexagonal layering inside the Go binary. Driving adapters call application
+services through their interfaces; application services depend only on domain
+ports; driven adapters implement those ports.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph driving[Driving adapters - inbound]
         grpc[grpcapi&lt;br/&gt;internal/adapters/driving/grpcapi&lt;br/&gt;handlers per context]
@@ -3549,7 +3686,8 @@ in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
         a_music[music]
         a_photo[photo]
         a_user[user]
-        a_misc[favorite, playlist, collection,&lt;br/&gt;feed, activity,&lt;br/&gt;chromecast, syncplay,&lt;br/&gt;plugin, notification, webhook,&lt;br/&gt;backup, dlna, config, mediarequest,&lt;br/&gt;maintenance, presence, qoe, loadtest,&lt;br/&gt;demo, updatecheck]
+        a_upd[updatecheck]
+        a_misc[favorite, playlist, collection,&lt;br/&gt;feed, activity,&lt;br/&gt;chromecast, syncplay,&lt;br/&gt;plugin, notification, webhook,&lt;br/&gt;backup, dlna, config, mediarequest,&lt;br/&gt;maintenance, presence, qoe, loadtest,&lt;br/&gt;demo]
     end
 
     subgraph domain[Domain core - internal/domain]
@@ -3567,6 +3705,7 @@ in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
         introad[introproviders&lt;br/&gt;IntroDB + TIDB chain]
         itunad[itunes&lt;br/&gt;album artwork]
         mbad[musicbrainz&lt;br/&gt;album artwork]
+        ociad[ociregistry&lt;br/&gt;published tags]
         probead[prober&lt;br/&gt;mkvgo fast path,&lt;br/&gt;ffprobe fallback]
         searchad[search&lt;br/&gt;resilient facade over meili]
         osad[opensubtitles]
@@ -3593,6 +3732,7 @@ in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
     d_ports -.implements.- probead
     a_music -.app-layer iface.- itunad
     a_music -.app-layer iface.- mbad
+    a_upd -.app-layer iface.- ociad
     d_ports -.implements.- searchad
     d_ports -.implements.- osad
     d_ports -.implements.- emad
@@ -3607,15 +3747,20 @@ in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
     metaad -.-&gt; ext2[[TMDB / OMDb / IMDbAPI / TVmaze]]
     introad -.-&gt; ext3[[IntroDB / TIDB]]
     itunad -.-&gt; ext4[[iTunes Search / MusicBrainz]]
-    mbad -.-&gt; ext4</code></pre>
-<p>Goroutine notes:
-- gRPC server (<code>grpc.Server.Serve</code>) and HTTP server (gateway + static) each run in their own goroutines off the main wire-up in <code>cmd/evey</code>.
-- <code>app/library</code> scan jobs run on a worker pool (one goroutine per active library scan, see <code>library.ScanService</code>).
-- ffmpeg jobs are forked through <code>internal/pkg/procfork</code> by the driven <code>ffmpeg</code> adapter (<code>ffmpeg.Transcoder.Start</code>), one supervising goroutine per job draining the process stderr.
-- <code>shared.EventBus</code> dispatches subscribers asynchronously: each subscriber runs in its own goroutine so a slow consumer never blocks publishers. The bus opens no transaction of its own - that is the handler's job.
-- <code>pluginrunner</code> spawns one subprocess per plugin; iframe plugins live inside the user browser and talk back via signed tokens issued by <code>app/plugin</code>.</p>
+    mbad -.-&gt; ext4
+    ociad -.-&gt; ext5[[OCI registry]]</code></pre>
+<p>Goroutine notes:</p>
+<ul>
+<li>gRPC server (<code>grpc.Server.Serve</code>) and HTTP server (gateway + static) each run in their own goroutines off the main wire-up in <code>cmd/evey</code>.</li>
+<li><code>app/library</code> scan jobs run on a worker pool (one goroutine per active library scan, see <code>library.ScanService</code>).</li>
+<li>ffmpeg jobs are forked through <code>internal/pkg/procfork</code> by the driven <code>ffmpeg</code> adapter (<code>ffmpeg.Transcoder.Start</code>), one supervising goroutine per job draining the process stderr.</li>
+<li><code>shared.EventBus</code> dispatches subscribers asynchronously: each subscriber runs in its own goroutine so a slow consumer never blocks publishers. The bus opens no transaction of its own; that is the handler's job.</li>
+<li><code>pluginrunner</code> spawns one subprocess per plugin; iframe plugins live inside the user browser and talk back via signed tokens issued by <code>app/plugin</code>.</li>
+</ul>
 <h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Level 3 (bonus) - Component zoom on the scan pipeline<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
-<p>The hot path that turns files on disk into searchable, enriched media. Solid arrows are direct calls; dashed arrows are domain events on the bus. Note that search indexing is a direct port call from <code>ScanService</code>, not an event.</p>
+<p>The hot path that turns files on disk into searchable, enriched media. Solid
+arrows are direct calls; dashed arrows are domain events on the bus. Search
+indexing is a direct port call from <code>ScanService</code>, not an event.</p>
 <pre class="mermaid"><code>flowchart LR
     user([Admin triggers&lt;br/&gt;POST /api/v1/libraries/:id/scan])
 
@@ -3668,7 +3813,25 @@ in <a href="../operations/advanced-deployments/">Advanced deployments</a>. See
     trick -. TrickplayGenerated .-&gt; intro
     meta --&gt; repo
     trick --&gt; ffstore[(evey-cache&lt;br/&gt;trickplay sprites)]</code></pre>
-<p>Read this with the "Typical data flow" section above: the playback path is the symmetric read path; the scan pipeline is the write path that primes the media index the read path serves from.</p>
+<p>Read this with the "Typical data flow" section above: the playback path is the
+symmetric read path; the scan pipeline is the write path that primes the media
+index the read path serves from.</p>
+<h2 id="further-reading">Further reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> - build, run, migrations, proto generation</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Codebase map</a> - which files to touch for common changes</li>
+<li><a href="../playback-serving/">Playback pipeline</a> - the HLS video-serving read path, in depth</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">API reference</a> - generated API reference</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">Decision records</a> - architectural decision records</li>
+</ul>
+<!-- sources
+layering: internal/domain ; internal/app ; internal/adapters/driven ; internal/adapters/driving ; internal/pkg ; internal/config ; gen ; cmd/evey/wire.go, wire_infra.go, wire_services.go, wire_adapters.go, wire_events.go, wire_helpers.go
+app-layer interfaces: internal/app/music/album_art_chain.go - AlbumArtFetcher ; internal/adapters/driven/ociregistry (app/updatecheck)
+network exceptions: internal/app/dlna/service.go ; internal/app/loadtest/runner.go
+events and subscribers: internal/app/notification/command_service.go ; internal/app/metadata/command_service_enrich.go ; internal/app/library/trickplay_service.go ; internal/app/library/intro_detection_service.go ; internal/app/feed/genre_cache.go ; internal/app/webhook/service.go ; internal/adapters/driven/email/password_reset_emailer.go ; internal/app/plugin/security_dashboard_service.go ; internal/app/config/smtp.go, timezone.go, cpu_budget.go
+guards: internal/contractguard/*_test.go - TestDomainContextsDoNotImportEachOther, TestOnlyThePlanDecidesPlayback, TestNoCallerDerivesDownstreamOfThePlaybackPlan, TestServerEmittedI18nKeysExistInCatalogue, TestI18nPlaceholdersAgreeAcrossLocales
+topology: docker-compose.yml ; docker-compose.override.yml ; Dockerfile - MEILI_VERSION, postgresql-17 ; docker/entrypoint.sh - PG_MAJOR
+-->
 
 
 

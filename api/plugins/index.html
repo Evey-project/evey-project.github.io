@@ -2654,21 +2654,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Specs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugin-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plugin Development
+        Authentication
       
     </span>
   </a>
@@ -2967,21 +2956,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Specs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugin-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plugin Development
+        Authentication
       
     </span>
   </a>
@@ -3012,8 +2990,11 @@
 
 
 <h1 id="plugin-api">Plugin API<a class="headerlink" href="#plugin-api" title="Permanent link">¶</a></h1>
-<p>Endpoints for managing plugins and webhook integrations.</p>
-<h2 id="specs">Specs<a class="headerlink" href="#specs" title="Permanent link">¶</a></h2>
+<p>The endpoints around plugins: installing and managing them (administrator),
+webhooks (administrator), and the preferences a plugin's interface keeps per
+user. Writing a plugin is a different contract, over gRPC on a local socket:
+see <a href="../../plugins/dev-setup/">Writing a plugin</a> and the
+<a href="../../plugins/api-reference/">Plugin API reference</a>.</p>
 <table>
 <thead>
 <tr>
@@ -3024,11 +3005,11 @@
 <tbody>
 <tr>
 <td><a href="admin_plugin.swagger.json">admin_plugin.swagger.json</a></td>
-<td>Install, enable, disable, uninstall plugins. Plugin config and logs. Plugin runtimes.</td>
+<td>Install, enable, disable, uninstall plugins; config, logs, resource limits, runtimes; update preview and apply; <code>IssuePluginToken</code></td>
 </tr>
 <tr>
 <td><a href="webhook.swagger.json">webhook.swagger.json</a></td>
-<td>CRUD webhooks, delivery history</td>
+<td>Create, list, update and delete webhooks; delivery history</td>
 </tr>
 <tr>
 <td><a href="plugin_prefs.swagger.json">plugin_prefs.swagger.json</a></td>
@@ -3036,12 +3017,20 @@
 </tr>
 </tbody>
 </table>
-<h2 id="plugin-development">Plugin Development<a class="headerlink" href="#plugin-development" title="Permanent link">¶</a></h2>
-<p>Plugins communicate with the Evey server via gRPC. See <a href="../../plugins/">Plugin Documentation</a> for the full development guide including:
-- Plugin lifecycle (install, enable, configure, disable, uninstall)
-- Available event hooks
-- Configuration schema
-- Security sandboxing (seccomp, process isolation)</p>
+<p>Uploading a package is a multipart <code>POST /api/v1/admin/plugins/upload</code>
+(fields <code>plugin</code>, optional <code>sig</code>, <code>accept_permission_changes</code>); <code>POST
+/api/v1/admin/plugins/preview</code> analyses without installing. Both are
+administrator routes.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
+<p>Plugin management and webhooks need an administrator, like the
+<a href="../admin/">Admin API</a>. <code>plugin_prefs</code> is the one service made for a
+plugin token: the host page mints it for one plugin and one user, and the
+service answers only that pair's rows (<a href="../#authentication">Server API</a>).</p>
+<!-- sources
+methods: proto/evey/v1/admin_plugin.proto, webhook.proto, plugin_prefs.proto
+upload and preview routes: internal/adapters/driving/http/plugin_asset_handler.go
+plugin token on prefs: internal/adapters/driving/grpcapi/interceptors/rbac.go - PluginMethodScopes ; internal/adapters/driving/grpcapi/plugin_prefs_handler.go
+-->
 
 
 

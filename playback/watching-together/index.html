@@ -1411,10 +1411,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#guests-without-an-account" class="md-nav__link">
+  <a href="#what-each-member-controls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Guests without an account
+        What each member controls
       
     </span>
   </a>
@@ -1422,10 +1422,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-stays-in-sync" class="md-nav__link">
+  <a href="#guests-without-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What stays in sync
+        Guests without an account
       
     </span>
   </a>
@@ -2995,10 +2995,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#guests-without-an-account" class="md-nav__link">
+  <a href="#what-each-member-controls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Guests without an account
+        What each member controls
       
     </span>
   </a>
@@ -3006,10 +3006,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-stays-in-sync" class="md-nav__link">
+  <a href="#guests-without-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What stays in sync
+        Guests without an account
       
     </span>
   </a>
@@ -3051,11 +3051,12 @@
 
 
 <h1 id="watching-together">Watching together<a class="headerlink" href="#watching-together" title="Permanent link">¶</a></h1>
-<p><strong>Watch Together</strong> keeps several people on the same title at the same moment,
-each on their own device: a room holds the position, and every player follows
-it. Each viewer's stream is still decided for their own device, as in
-<a href="../how-playback-is-decided/">How playback is decided</a>: one person can be in
-Direct Play while another is transcoded.</p>
+<p>How to watch the same title at the same moment as other people, each on their
+own device, and what each of you can expect to control. For viewers; nothing
+to configure on the server. <strong>Watch Together</strong> opens a room that holds the
+position, and every player follows it. Each viewer's stream is still decided
+for their own device, as in <a href="../how-playback-is-decided/">How playback is decided</a>:
+one person can be in Direct Play while another is transcoded.</p>
 <h2 id="starting-and-joining-a-room">Starting and joining a room<a class="headerlink" href="#starting-and-joining-a-room" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3087,12 +3088,49 @@ Direct Play while another is transcoded.</p>
 </tr>
 </tbody>
 </table>
-<p>The person who starts the room is its host and sees its code: six characters,
-letters and digits. Codes are typed without worrying about case, spaces, or
-confusing <code>O</code> with <code>0</code> and <code>I</code> or <code>L</code> with <code>1</code>.</p>
+<p>The person who starts the room is its host and sees its code: six
+characters, letters and digits. Codes are typed without worrying about case,
+spaces, or confusing <code>O</code> with <code>0</code> and <code>I</code> or <code>L</code> with <code>1</code>.</p>
 <p>Joining with an account follows the usual rules: the library must be shared
 with that account, and the profile's parental settings must allow the title. A
 restricted profile cannot open a room on a title it may not watch either.</p>
+<h2 id="what-each-member-controls">What each member controls<a class="headerlink" href="#what-each-member-controls" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Host</th>
+<th>Other members</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android</td>
+<td>Play, pause and seek move the whole room.</td>
+<td>Play, pause and seek stay on your own screen.</td>
+</tr>
+<tr>
+<td>Android TV</td>
+<td>Play and pause move the whole room; a seek stays on the TV.</td>
+<td>Same as Android.</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Play, pause and seek stay on your own screen, for the host too.</td>
+<td>Same.</td>
+</tr>
+</tbody>
+</table>
+<p>In the web player, explicit buttons replace the host's control. <strong>Sync
+everyone</strong> brings the whole room to your position and resumes playback; any
+member can use it, not only the host. <strong>Catch up</strong> brings you back to where
+the room is, without moving anyone else; it is offered on the guest page
+(joined with a code, without an account), not in the signed-in player.</p>
+<p>Someone who joins late starts where the room is now, not where it was when the
+last command was sent.</p>
+<p>If the host leaves, the member who has been in the room longest becomes the
+host. When the last member leaves, the room closes, and the guest access its
+code gave is withdrawn. A room nobody ever entered is removed after an hour.</p>
 <h2 id="guests-without-an-account">Guests without an account<a class="headerlink" href="#guests-without-an-account" title="Permanent link">¶</a></h2>
 <p>A guest who enters a code on the sign-in page watches that one title and
 nothing else:</p>
@@ -3103,37 +3141,26 @@ nothing else:</p>
   playback and after 24 hours in any case, and ends as soon as the room
   closes.</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>The code is the only thing that protects a room, so share it only with the
 people you want in it. Wrong codes are limited per address and across the
 whole server, which keeps guessing them out of reach.</p>
-<h2 id="what-stays-in-sync">What stays in sync<a class="headerlink" href="#what-stays-in-sync" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>On Android and Android TV</strong>, the host's play, pause and seek move the whole
-  room. Other members' controls do not affect anyone else.</li>
-<li><strong>In the web player</strong>, pausing and seeking stay on your own screen.
-  <strong>Catch up</strong> brings you back to where the room is, without moving anyone
-  else. <strong>Sync everyone</strong> brings the whole room to your position; any member
-  can use it, not only the host.</li>
-</ul>
-<p>Someone who joins late starts where the room is now, not where it was when the
-last command was sent.</p>
-<p>If the host leaves, the member who has been in the room longest becomes the
-host. When the last member leaves, the room closes, and the guest access its
-code gave is withdrawn. A room nobody ever entered is removed after an hour.</p>
+</div>
 <h2 id="listening-together">Listening together<a class="headerlink" href="#listening-together" title="Permanent link">¶</a></h2>
 <p>A music room is started from <strong>Listen Together</strong> with a queue of albums,
 tracks and playlists. The host plays, pauses, and moves through the queue;
 every member follows. Guests without an account cannot join music rooms.</p>
 <!-- sources
-room, code, normalisation: internal/domain/syncplay/model.go - GenerateCode, NormalizeCode, OldestMember
+room, code, normalisation: internal/domain/syncplay/model.go - GenerateCode (Crockford base32), NormalizeCode, OldestMember
 host-only play/pause/seek, resync, catch_up: internal/app/syncplay/hub.go - HandleCommand, liveStateOf
 room cap, janitor: internal/app/syncplay/hub.go - defaultMaxRoomsPerHost, StartJanitor ; cmd/evey/main.go (StartJanitor 10 min, 1 h)
-guest token: internal/adapters/driving/http/syncplay_handler.go - syncplayJoinByCodeHandler, guestTokenTTL, joinCodeFailureThreshold ; internal/adapters/driving/http/media_handler.go (guest cannot download)
+guest token: internal/adapters/driving/http/syncplay_handler.go - syncplayJoinByCodeHandler, guestTokenTTL (sliding 3 h, 24 h cap), joinCodeFailureThreshold ; internal/adapters/driving/http/media_handler.go (guest cannot download)
 guest revoked with the room: internal/app/syncplay/hub.go - revokeGuestTokens
 access and parental: internal/adapters/driving/grpcapi/syncplay_handler.go - requireMediaAccess
-web controls: frontend/apps/web/src/features/syncplay/SyncPlayBar.tsx - onResync, onCatchUp ; frontend/apps/web/src/features/syncplay/useSyncPlay.ts - sendResync, sendCatchUp
-mobile and TV controls: frontend/apps/mobile/app/(auth)/player/[id].tsx (sendPlay, sendPause, sendSeek) ; frontend/apps/tv/app/(auth)/syncplay/index.tsx (join only)
-labels: i18n media.syncplay.* ; auth.login.guestJoin* ; common.nav.syncplay
+web controls: frontend/apps/web/src/features/syncplay/SyncPlayBar.tsx - onResync, onCatchUp ; frontend/apps/web/src/features/syncplay/useSyncPlay.ts - sendResync, sendCatchUp ; frontend/apps/web/src/routes/_auth/player/$mediaId.lazy.tsx (no sendPlay/sendPause/sendSeek from the video player)
+mobile and TV controls: frontend/apps/mobile/app/(auth)/player/[id].tsx (sendPlay, sendPause, sendSeek) ; frontend/apps/tv/app/(auth)/player/[id].tsx (sendPlay, sendPause only) ; frontend/apps/tv/app/(auth)/syncplay/index.tsx (join only) ; frontend/apps/tv/app/(auth)/(tabs)/settings.tsx (Watch together section)
+labels: i18n media.syncplay.title, join, joinByCode, resyncAll, catchUp ; auth.login.guestJoinTrigger ; common.nav.syncplay
 -->
 
 

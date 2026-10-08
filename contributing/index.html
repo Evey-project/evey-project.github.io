@@ -3027,9 +3027,9 @@
 
 
 <h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">¶</a></h1>
-<p>Evey is developed in the open, and the documents written for the people who
-work on its code live with the code, on GitHub, rather than on this site. This
-page points at them.</p>
+<p>Where to start when you want to work on Evey's code, and what a pull request
+is expected to pass. The documents written for contributors live with the
+code, on GitHub, rather than on this site; this page points at them.</p>
 <h2 id="where-to-start">Where to start<a class="headerlink" href="#where-to-start" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3081,19 +3081,32 @@ the options that were weighed, what was chosen and what it costs. They are
 kept in the repository, next to the code they explain, and are the place to
 start before proposing to change one of those choices.</p>
 <h2 id="before-you-open-a-pull-request">Before you open a pull request<a class="headerlink" href="#before-you-open-a-pull-request" title="Permanent link">¶</a></h2>
-<ul>
-<li><code>make pre-push</code> is the gate: it runs the CI's checks locally (vet,
-  vulnerability scan, build, unit tests with <code>-race</code>, frontend, lint,
-  architecture guards). It does not build the Docker image or the Android
-  apps: after touching the <code>Dockerfile</code> or Kotlin code, build them yourself.</li>
-<li>Tests are expected for new behaviour and for every bug fix.</li>
-<li>External contributions need a one-time acceptance of the
-  <a href="https://github.com/Evey-project/evey/blob/master/CLA.md">contributor licence agreement</a>: Evey is AGPL-3.0-or-later and
-  is also offered under a commercial licence. You keep the copyright on your
-  work.</li>
-</ul>
+<ol>
+<li>Run <code>make pre-push</code>: it is the gate, and runs the CI's checks locally in
+   this order: vet, vulnerability scan, build, unit tests with <code>-race</code>,
+   frontend (typecheck, lint, unit tests), security scan, lint,
+   <a href="../ARCHITECTURE/#architecture-guards">architecture guards</a>, commit
+   hygiene, secret scan, proto breaking-change check, a build from a clean
+   checkout, the repository and transcoding integration gates, and the TV
+   audit.</li>
+<li>Add tests for new behaviour and for every bug fix.</li>
+<li>For an external contribution, accept the
+   <a href="https://github.com/Evey-project/evey/blob/master/CLA.md">contributor licence agreement</a> once: Evey is AGPL-3.0-or-later
+   and is also offered under a commercial licence. You keep the copyright on
+   your work.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">The gate does not build the Docker image or the Android apps</p>
+<p>After touching the <code>Dockerfile</code> or Kotlin code, build them yourself
+(<code>docker build --target runtime</code>, the Gradle release task) before
+pushing.</p>
+</div>
 <p>Security issues are not reported in public: write to
 <code>security@eveyproject.org</code> (see <a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">SECURITY.md</a>).</p>
+<!-- sources
+gate: Makefile - pre-push, ci-fast-vet, ci-fast-vuln, ci-fast-build, ci-fast-unit, ci-fast-frontend, ci-fast-sec, ci-local-lint, ci-arch, ci-hygiene, ci-secrets, ci-proto-breaking, ci-clean-checkout, repo-itest-gate, transcode-itest-gate, tv-audit
+documents: DEV.md ; CONTRIBUTING.md ; CLA.md ; SECURITY.md ; docs/CODEBASE_MAP.md ; docs/code-conventions.md ; docs/frontend-design-system.md ; docs/adr/README.md ; docs/runbooks/release.md
+-->
 
 
 

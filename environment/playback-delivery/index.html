@@ -3037,77 +3037,80 @@
 
 
 <h1 id="playback-delivery-and-downloads">Playback delivery and downloads<a class="headerlink" href="#playback-delivery-and-downloads" title="Permanent link">¶</a></h1>
-<p>How streams are packaged, and what the server prepares for downloads. The
-defaults are the recommended behaviour; these switches exist to turn a path
-off while investigating a problem, or to opt into one that is off.</p>
-<p>A variable with a key can also be set as a row with that key in <strong>Admin →
-Server Config → Config entries</strong>; the row wins over the environment. The panel
-suggests the download keys; the others are typed in as they appear here. All
-are read at startup.</p>
+<p>The switches behind how streams are packaged and what the server prepares
+for downloads. The defaults are the recommended behaviour: these exist to
+turn a path off while investigating a problem, or to opt into one that is
+off. How a stream is chosen in the first place:
+<a href="../../playback/how-playback-is-decided/">How playback is decided</a>.</p>
+<p>A variable with a panel key can also be set as a row with that key in
+<strong>Admin → Server Config → Config entries</strong>; the row wins over the
+environment. The panel suggests the download keys; the others are typed in
+as they appear here. All of them are read at startup, so a change applies at
+the next restart whichever way it is made.</p>
 <h2 id="packaging">Packaging<a class="headerlink" href="#packaging" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Panel key</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND</code></td>
-<td><code>transcoding.hls_ondemand</code></td>
 <td>on</td>
-<td>Serves a file whose tracks can be copied by repackaging it on the fly, without ffmpeg and without writing to the cache. Off: such files go through the ffmpeg copy path instead.</td>
+<td>Serves a file whose tracks can be copied by repackaging it on the fly, without ffmpeg and without writing to the cache. <code>off</code>: such files go through the ffmpeg copy path instead.</td>
+<td>Config entries <code>transcoding.hls_ondemand</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_REMUX_COPY</code></td>
-<td><code>transcoding.remux_copy</code></td>
 <td>on</td>
-<td>The ffmpeg copy path: the video is copied without re-encoding when the file allows it. Off: those files are transcoded.</td>
+<td>The ffmpeg copy path: the video is copied without re-encoding when the file allows it. <code>off</code>: those files are transcoded.</td>
+<td>Config entries <code>transcoding.remux_copy</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_AUDIO_RENDITION_ENABLED</code></td>
-<td></td>
 <td><code>true</code></td>
 <td>Offers the audio tracks as separate renditions, so a player changes language without fetching the video again. Also lets a copied video play with an audio track re-encoded on the side.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_COPY_FALLBACK_RUNG</code></td>
-<td></td>
 <td><code>true</code></td>
 <td>Adds one low transcoded quality next to a copied stream, so a player whose connection collapses can step down instead of freezing. Costs nothing until a player uses it.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_CONCAT</code></td>
-<td><code>transcoding.hls_ondemand_concat</code></td>
 <td>on</td>
 <td>Gapless playback across episodes, when the web player asks for it. An episode that cannot be copied falls back to the normal stream.</td>
+<td>Config entries <code>transcoding.hls_ondemand_concat</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_TRACK_TRIM</code></td>
-<td><code>transcoding.hls_ondemand_track_trim</code></td>
 <td>off</td>
 <td>Puts only the selected audio track in each stream instead of all of them.</td>
+<td>Config entries <code>transcoding.hls_ondemand_track_trim</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_ENCRYPT</code></td>
-<td><code>transcoding.hls_ondemand_encrypt</code></td>
 <td>off</td>
 <td>Encrypts repackaged streams with AES-128 (HLS only: no DASH manifest is offered then).</td>
+<td>Config entries <code>transcoding.hls_ondemand_encrypt</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_KEY_ROTATION_SEGMENTS</code></td>
-<td><code>transcoding.hls_key_rotation_segments</code></td>
 <td><code>0</code></td>
 <td>With encryption on, changes the key every N segments; <code>0</code> = one key per title.</td>
+<td>Config entries <code>transcoding.hls_key_rotation_segments</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_CAST_WASM_AUDIO_ENABLED</code></td>
-<td></td>
 <td><code>false</code></td>
 <td>Lets a Chromecast decode Dolby Digital itself instead of receiving AAC. Off because it overloaded low-end receivers without saving anything. Browsers are not affected.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3116,29 +3119,29 @@ are read at startup.</p>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Panel key</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_COMPAT_DOWNLOAD</code></td>
-<td><code>transcoding.compat_download</code></td>
 <td>on</td>
 <td>Prepares a download whose audio a phone can play (AAC), video untouched. Only the audio is re-encoded, which takes minutes.</td>
+<td>Config entries <code>transcoding.compat_download</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_DOWNLOAD_QUALITY_CHOICE</code></td>
-<td><code>downloads.quality_choice</code></td>
 <td>off</td>
 <td>Offers a smaller 720p copy for downloads. It re-encodes the video, at about real time on a weak machine, which is why it is off until you turn it on.</td>
+<td>Config entries <code>downloads.quality_choice</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_DOWNLOAD_REDUCE_ABOVE_BYTES</code></td>
-<td><code>downloads.reduce_above_bytes</code></td>
 <td><code>4294967296</code> (4 GiB)</td>
 <td>The size above which the app offers the smaller copy; the phone also offers it when the film does not fit.</td>
+<td>Config entries <code>downloads.reduce_above_bytes</code>, restart</td>
 </tr>
 </tbody>
 </table>
@@ -3148,7 +3151,8 @@ are read at startup.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3156,19 +3160,21 @@ are read at startup.</p>
 <td><code>EVEY_PLAYBACK_SKIP_FORWARD</code></td>
 <td><code>30</code></td>
 <td>Seconds skipped by the forward button.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_PLAYBACK_SKIP_BACKWARD</code></td>
 <td><code>30</code></td>
 <td>Seconds skipped by the back button.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
-packaging flags: internal/adapters/driving/http/transcode_vod_wire.go (serverFlagEnabled: hls_ondemand, remux_copy, hls_ondemand_concat, hls_ondemand_track_trim, hls_ondemand_encrypt, hls_key_rotation_segments)
+packaging flags: internal/adapters/driving/http/transcode_vod_wire.go (serverFlagEnabled, resolveServerFlag: hls_ondemand, remux_copy, hls_ondemand_concat, hls_ondemand_track_trim, hls_ondemand_encrypt, hls_key_rotation_segments)
 renditions, fallback rung, cast wasm: internal/config/config.go - AudioRenditionEnabled, CopyFallbackRungEnabled, CastWasmAudioEnabled
-downloads: cmd/evey/http.go (compat_download, quality_choice, reduce_above_bytes)
-config entries: frontend/apps/web/src/features/admin/operatorFlags.ts
+downloads: cmd/evey/http.go (compat_download, quality_choice, reduce_above_bytes via resolveFlag)
+config entries catalogue: frontend/apps/web/src/features/admin/operatorFlags.ts ; i18n admin.serverConfig.entriesTitle, appliedOnRestart
 skip: internal/config/config.go - EVEY_PLAYBACK_SKIP_*
 -->
 

@@ -2800,12 +2800,12 @@
   <a href="#bounded-contexts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contextes métier
+        Contextes bornés
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Contextes métier">
+    <nav class="md-nav" aria-label="Contextes bornés">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2828,18 +2828,7 @@
   <a href="#typical-data-flow---user-plays-a-media" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Un flux typique : « un utilisateur lance un média »
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#composition-root" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Racine de composition
+        Flux de données typique : « un utilisateur lance un média »
       
     </span>
   </a>
@@ -2851,17 +2840,6 @@
     <span class="md-ellipsis">
       
         Gardes d'architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pour aller plus loin
       
     </span>
   </a>
@@ -2926,6 +2904,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pour aller plus loin
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3098,12 +3087,12 @@
   <a href="#bounded-contexts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contextes métier
+        Contextes bornés
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Contextes métier">
+    <nav class="md-nav" aria-label="Contextes bornés">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3126,18 +3115,7 @@
   <a href="#typical-data-flow---user-plays-a-media" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Un flux typique : « un utilisateur lance un média »
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#composition-root" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Racine de composition
+        Flux de données typique : « un utilisateur lance un média »
       
     </span>
   </a>
@@ -3149,17 +3127,6 @@
     <span class="md-ellipsis">
       
         Gardes d'architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pour aller plus loin
       
     </span>
   </a>
@@ -3227,6 +3194,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pour aller plus loin
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3251,47 +3229,86 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
-<p>Evey est un serveur multimédia auto-hébergé. Le serveur est en Go (hexagonal /
-DDD), le frontend est un monorepo TypeScript/React, le mobile est en React Native
-/ Expo. Voir <a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> pour l'installation et les détails internes.</p>
+<p>Comment le serveur est assemblé : les couches hexagonales sous <code>internal/</code>,
+les contextes bornés, les événements qui les relient, et les gardes statiques
+qui maintiennent le code sur ces rails. Le code vit dans <code>internal/domain</code>,
+<code>internal/app</code>, <code>internal/adapters/{driving,driven}</code> et est câblé dans
+<code>cmd/evey/wire*.go</code> ; la disposition est décidée par
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>, la séparation des dépôts par
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a> et le bus d'événements par
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>. Pour construire et lancer le serveur, lisez
+<a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> ; pour savoir quels fichiers toucher pour une modification
+donnée, lisez la <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Carte du code</a>.</p>
+<p>Le serveur est en Go ; les clients web, mobile et TV forment un monorepo
+TypeScript/React sous <code>frontend/</code> (React Native / Expo pour le mobile et la TV).</p>
 <h2 id="layering">Couches<a class="headerlink" href="#layering" title="Permanent link">¶</a></h2>
-<p>Une disposition ports et adaptateurs stricte sous <code>internal/</code> :</p>
-<ul>
-<li><code>internal/domain/&lt;contexte&gt;/</code> : le domaine pur : modèles, objets valeur,
-  <strong>ports</strong> (interfaces). Aucun import de framework.</li>
-<li><code>internal/app/&lt;contexte&gt;/</code> : les services applicatifs. Ils orchestrent les
-  ports. Les entrées-sorties passent normalement par un port ; deux contextes
-  sont des exceptions délibérées et accèdent directement au réseau : <code>dlna</code>
-  (SSDP / UPnP AVTransport) et <code>loadtest</code> (son propre client HTTP).</li>
-<li><code>internal/adapters/driven/</code> : les adaptateurs sortants, qui implémentent les
-  ports du domaine : <code>postgres</code>, <code>meilisearch</code>, <code>ffmpeg</code>, <code>mkvgo</code>, <code>filesystem</code>,
-  <code>prober</code>, <code>opensubtitles</code>, <code>email</code>, <code>webpush</code>, <code>webhooksender</code>, <code>pluginrunner</code>,
-  <code>metadata</code>, <code>introproviders</code>, <code>search</code>. Deux autres vivent ici mais
-  satisfont une interface de la couche applicative plutôt qu'un port du
-  domaine : <code>itunes</code> et <code>musicbrainz</code>, tous deux des
-  <code>app/music.AlbumArtFetcher</code>.</li>
-<li><code>internal/adapters/driving/</code> : les adaptateurs entrants : <code>grpcapi</code> (+ la
-  passerelle HTTP grpc-gateway), <code>http</code> (fichiers statiques, middleware
-  d'authentification, SSE, HLS, fichiers des iframes de plugins), <code>pluginhost</code>
-  (serveur gRPC sur une socket Unix, authentifié par les identifiants du pair :
-  l'API de l'hôte que rappellent les sous-processus de plugins isolés).</li>
-<li><code>internal/pkg/</code> : le noyau technique partagé entre les contextes (auth,
-  journalisation, bus d'événements, i18n, métriques, traçage, limitation de
-  débit, procfork, ssrf, cache, ...). La configuration du serveur vit dans
-  <code>internal/config/</code> ; le code généré depuis les protos vit dans <code>gen/</code>.</li>
-</ul>
+<pre class="mermaid"><code>flowchart LR
+    driving[Adaptateurs entrants&lt;br/&gt;internal/adapters/driving&lt;br/&gt;grpcapi, http, pluginhost]
+    app[Services applicatifs&lt;br/&gt;internal/app/contexte]
+    domain[Domaine&lt;br/&gt;internal/domain/contexte&lt;br/&gt;modèles, objets-valeurs, ports]
+    driven[Adaptateurs sortants&lt;br/&gt;internal/adapters/driven&lt;br/&gt;postgres, ffmpeg, mkvgo, ...]
+    driving --&gt; app --&gt; domain
+    driven -. implémentent les ports .-&gt; domain</code></pre>
+<table>
+<thead>
+<tr>
+<th>Dossier</th>
+<th>Contient</th>
+<th>Règle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>internal/domain/&lt;contexte&gt;/</code></td>
+<td>les modèles, les objets-valeurs et les <strong>ports</strong> (interfaces)</td>
+<td>aucun import de framework, aucun import d'un autre contexte</td>
+</tr>
+<tr>
+<td><code>internal/app/&lt;contexte&gt;/</code></td>
+<td>les services applicatifs qui orchestrent les ports</td>
+<td>les entrées-sorties passent par un port ; <code>dlna</code> (SSDP / UPnP AVTransport) et <code>loadtest</code> (son propre client HTTP) sont les deux exceptions délibérées qui atteignent le réseau directement</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driven/</code></td>
+<td>les adaptateurs sortants qui implémentent les ports : <code>postgres</code>, <code>meilisearch</code>, <code>ffmpeg</code>, <code>mkvgo</code>, <code>filesystem</code>, <code>prober</code>, <code>opensubtitles</code>, <code>email</code>, <code>webpush</code>, <code>webhooksender</code>, <code>pluginrunner</code>, <code>metadata</code>, <code>introproviders</code>, <code>search</code></td>
+<td>trois autres satisfont une interface de la couche applicative plutôt qu'un port du domaine : <code>itunes</code> et <code>musicbrainz</code> (<code>app/music.AlbumArtFetcher</code>), <code>ociregistry</code> (<code>app/updatecheck</code>)</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driving/</code></td>
+<td>les adaptateurs entrants : <code>grpcapi</code> (+ HTTP via grpc-gateway), <code>http</code> (statique, middleware d'authentification, SSE, HLS, ressources des iframes de plugins), <code>pluginhost</code> (serveur gRPC sur une socket Unix, authentifié par les identifiants du pair, l'API hôte que rappellent les plugins en sandbox)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/pkg/</code></td>
+<td>le noyau technique partagé : auth, logger, eventbus, i18n, metrics, tracing, ratelimit, procfork, ssrf, cache, ...</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/config/</code></td>
+<td>la configuration du serveur</td>
+<td></td>
+</tr>
+<tr>
+<td><code>gen/</code></td>
+<td>le code proto généré</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>Règle de dépendance : <code>adapters -&gt; app -&gt; domain</code>. Le domaine n'importe jamais
-l'application ni les adaptateurs. L'assemblage se fait dans
-<code>cmd/evey/wire*.go</code>, un câblage écrit à la main, pas google/wire : <code>wire.go</code>,
-<code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>,
-<code>wire_helpers.go</code>.</p>
-<h2 id="bounded-contexts">Contextes métier<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
-<p>Trente-deux paquets de contexte vivent sous <code>internal/domain/</code> et <code>internal/app/</code> :
-19 existent dans les deux couches, 2 seulement dans le domaine (<code>ratings</code>,
-<code>shared</code>), 11 seulement dans l'application. La collaboration passe en partie par
-des événements du domaine publiés sur un bus partagé ; la couche applicative lit
-aussi directement le paquet de domaine d'un contexte voisin (voir
-<a href="#relations">Relations</a>).</p>
+la couche applicative ni les adaptateurs. La composition est écrite à la main
+(pas google/wire) dans <code>cmd/evey/wire.go</code> et ses voisins <code>wire_infra.go</code>,
+<code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>, <code>wire_helpers.go</code>.
+Les tests contournent les adaptateurs en injectant des doublures qui
+implémentent les mêmes ports du domaine : 20 des 21 paquets du domaine
+livrent un sous-paquet <code>fakes/</code>.</p>
+<h2 id="bounded-contexts">Contextes bornés<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
+<p>Trente-deux paquets de contexte vivent sous <code>internal/domain/</code> et
+<code>internal/app/</code> : 19 existent dans les deux couches, 2 n'existent que dans le
+domaine (<code>ratings</code>, <code>shared</code>), 11 n'existent que dans la couche applicative.
+Ils collaborent en partie par des événements de domaine sur un bus partagé ;
+la couche applicative lit aussi directement le paquet de domaine d'un
+contexte voisin (voir <a href="#relations">Relations</a>).</p>
 <table>
 <thead>
 <tr>
@@ -3306,10 +3323,10 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tr>
 <tr>
 <td><code>library</code></td>
-<td>bibliothèques, dossiers, tâches de scan, index des médias, personnes, collections, favoris et pouces d'un profil (les pouces n'ont pas de service applicatif : le RPC de notation stocke et lit <code>UserRatingRepository</code> tel quel), miniatures de navigation, détection des génériques</td>
+<td>bibliothèques, dossiers, tâches de scan, index des médias, personnes, collections, favoris et pouces d'un profil (les pouces n'ont pas de service applicatif : le RPC de notation stocke et lit <code>UserRatingRepository</code> tel quel), trickplay, détection des intros et génériques</td>
 </tr>
 <tr>
-<td><code>media</code> (application seulement)</td>
+<td><code>media</code> (app seulement)</td>
 <td>liens de partage et jetons de flux</td>
 </tr>
 <tr>
@@ -3318,11 +3335,11 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tr>
 <tr>
 <td><code>metadata</code></td>
-<td>enrichissement TMDB / OMDb, visuels</td>
+<td>enrichissement TMDB / OMDb, illustrations</td>
 </tr>
 <tr>
 <td><code>playback</code></td>
-<td>flux, progression, contrôle à distance, lectures en cours</td>
+<td>flux, progression, télécommande, lecture en cours</td>
 </tr>
 <tr>
 <td><code>transcoding</code></td>
@@ -3330,7 +3347,7 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tr>
 <tr>
 <td><code>subtitle</code></td>
-<td>sous-titres intégrés, externes et OpenSubtitles</td>
+<td>sous-titres intégrés + externes + opensubtitles</td>
 </tr>
 <tr>
 <td><code>mkv</code></td>
@@ -3345,20 +3362,20 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 <td>bibliothèques de photos</td>
 </tr>
 <tr>
-<td><code>favorite</code> (application seulement)</td>
+<td><code>favorite</code> (app seulement)</td>
 <td>favoris par profil ; le modèle et <code>FavoriteRepository</code> vivent dans <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>playlist</code></td>
-<td>playlists des utilisateurs, playlists intelligentes</td>
+<td>listes de lecture des utilisateurs, listes intelligentes</td>
 </tr>
 <tr>
-<td><code>collection</code> (application seulement)</td>
-<td>collections composées par l'administrateur ; ses ports vivent dans <code>domain/library</code></td>
+<td><code>collection</code> (app seulement)</td>
+<td>collections constituées par l'administrateur ; ses ports vivent dans <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>ratings</code> (domaine seulement)</td>
-<td>ramène les classifications nationales (CSA, FSK, MPAA, BBFC, ACB) sur un axe unique d'âge minimal</td>
+<td>projette les classifications nationales (CSA, FSK, MPAA, BBFC, ACB) sur un seul axe d'âge minimum</td>
 </tr>
 <tr>
 <td><code>feed</code></td>
@@ -3366,15 +3383,15 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tr>
 <tr>
 <td><code>activity</code></td>
-<td>chronologie d'activité de l'utilisateur</td>
+<td>chronologie d'activité des utilisateurs</td>
 </tr>
 <tr>
 <td><code>chromecast</code></td>
-<td>cycle de vie des sessions de diffusion</td>
+<td>cycle de vie des sessions de cast</td>
 </tr>
 <tr>
 <td><code>syncplay</code></td>
-<td>sessions synchronisées sur plusieurs appareils</td>
+<td>sessions synchronisées entre appareils</td>
 </tr>
 <tr>
 <td><code>plugin</code></td>
@@ -3382,7 +3399,7 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tr>
 <tr>
 <td><code>notification</code></td>
-<td>notifications dans l'application et push web</td>
+<td>notifications dans l'application + webpush</td>
 </tr>
 <tr>
 <td><code>webhook</code></td>
@@ -3393,36 +3410,36 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 <td>sauvegarde et restauration de la base et de la configuration</td>
 </tr>
 <tr>
-<td><code>config</code> (application seulement)</td>
-<td>réglages persistants du serveur, écrits à la fois par les points d'entrée REST et gRPC</td>
+<td><code>config</code> (app seulement)</td>
+<td>réglages persistants du serveur, écrits par les points d'entrée REST et gRPC</td>
 </tr>
 <tr>
-<td><code>dlna</code> (application seulement)</td>
-<td>découverte SSDP et contrôle UPnP AVTransport</td>
+<td><code>dlna</code> (app seulement)</td>
+<td>découverte SSDP et pilotage UPnP AVTransport</td>
 </tr>
 <tr>
-<td><code>loadtest</code> (application seulement)</td>
+<td><code>loadtest</code> (app seulement)</td>
 <td>simule des spectateurs HLS contre la propre pile HTTP du serveur</td>
 </tr>
 <tr>
-<td><code>maintenance</code> (application seulement)</td>
-<td>maintenance des médias déclenchée par l'administrateur : reconstruction de l'index de lecture, journal des réparations, annulation, intégrité de l'audio</td>
+<td><code>maintenance</code> (app seulement)</td>
+<td>maintenance des médias déclenchée par l'administrateur : reconstruction de l'index de lecture, journal de réparation, annulation, intégrité audio</td>
 </tr>
 <tr>
-<td><code>presence</code> (application seulement)</td>
-<td>registre en mémoire, non persistant, de qui est connecté en ce moment</td>
+<td><code>presence</code> (app seulement)</td>
+<td>registre en mémoire, non persisté, de qui est connecté en ce moment</td>
 </tr>
 <tr>
-<td><code>qoe</code> (application seulement)</td>
-<td>réception et agrégation de la télémétrie de lecture CMCD (CTA-5004)</td>
+<td><code>qoe</code> (app seulement)</td>
+<td>ingestion et agrégation de la télémétrie de lecture CMCD (CTA-5004)</td>
 </tr>
 <tr>
-<td><code>demo</code> (application seulement)</td>
-<td>l'instance de démonstration publique (<code>EVEY_DEMO=1</code>) : crée ses comptes, ses bibliothèques et ses médias sous licence libre par les services du produit lui-même, et se réinitialise seule</td>
+<td><code>demo</code> (app seulement)</td>
+<td>l'instance de démonstration publique (<code>EVEY_DEMO=1</code>) : alimente ses comptes, ses bibliothèques et ses médias sous licence libre via les services du produit, et se réinitialise</td>
 </tr>
 <tr>
-<td><code>updatecheck</code> (application seulement)</td>
-<td>compare la version en service à ce que publie le registre et prévient l'administrateur ; ne met jamais rien à jour</td>
+<td><code>updatecheck</code> (app seulement)</td>
+<td>compare le build en cours avec ce que publie le registre et prévient l'administrateur ; ne met jamais rien à jour</td>
 </tr>
 <tr>
 <td><code>shared</code> (domaine seulement)</td>
@@ -3431,131 +3448,161 @@ aussi directement le paquet de domaine d'un contexte voisin (voir
 </tbody>
 </table>
 <h3 id="relations">Relations<a class="headerlink" href="#relations" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Émetteur</th>
+<th>Événements</th>
+<th>Consommés par</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>library</code></td>
+<td><code>LibraryCreated</code> / <code>LibraryDeleted</code>, <code>LibraryScanStarted</code> / <code>LibraryScanCompleted</code>, <code>MediaItemAdded</code>, <code>MediaItemRemoved</code>, <code>TrickplayGenerated</code></td>
+<td><code>media.item.added</code> : <code>notification</code>, <code>metadata</code> (enrichissement automatique), <code>library</code> lui-même (worker trickplay + détection des intros), <code>feed</code> (invalidation du cache des genres)</td>
+</tr>
+<tr>
+<td><code>playback</code></td>
+<td><code>PlaybackStarted</code> / <code>PlaybackStopped</code></td>
+<td>aucun abonné dédié aujourd'hui ; seul le fourre-tout <code>"*"</code> de <code>webhook</code> les reçoit</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td><code>UserCreated</code>, <code>user.password.reset_requested</code></td>
+<td>le premier n'a pas d'abonné ; le second est consommé par l'adaptateur sortant <code>email</code></td>
+</tr>
+<tr>
+<td><code>pluginrunner</code></td>
+<td><code>plugin.error</code> / <code>plugin.started</code></td>
+<td><code>app/plugin</code> pour son tableau de bord sécurité, <code>notification</code> pour l'administrateur</td>
+</tr>
+<tr>
+<td><code>shared</code></td>
+<td><code>ServerConfigChanged</code></td>
+<td>les services qui appliquent sans redémarrage un réglage enregistré dans le panneau d'administration (SMTP, fuseau horaire, budget CPU, ...)</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><code>library</code> → émet <code>LibraryCreated</code> / <code>LibraryDeleted</code>, <code>LibraryScanStarted</code> /
-  <code>LibraryScanCompleted</code>, <code>MediaItemAdded</code>, <code>MediaItemRemoved</code>,
-  <code>TrickplayGenerated</code>. <code>media.item.added</code> est consommé par <code>notification</code>,
-  <code>metadata</code> (enrichissement automatique), <code>library</code> lui-même (travail des
-  miniatures de navigation et détection des génériques) et <code>feed</code> (invalidation
-  du cache des genres).</li>
 <li>L'indexation de recherche n'est <strong>pas</strong> pilotée par événement :
   <code>library.ScanService</code> appelle directement le port <code>library.SearchIndex</code>.</li>
-<li><code>playback</code> → émet <code>PlaybackStarted</code> / <code>PlaybackStopped</code>. Aucun n'a d'abonné
-  dédié aujourd'hui ; seul l'abonnement universel <code>"*"</code> de <code>webhook</code> les reçoit.</li>
-<li><code>user</code> → émet <code>UserCreated</code>, qui n'a pas d'abonné, et
-  <code>user.password.reset_requested</code>, consommé par l'adaptateur sortant <code>email</code>.</li>
-<li><code>plugin</code> → <code>pluginrunner</code> publie <code>plugin.error</code> / <code>plugin.started</code>, et
-  <code>app/plugin</code> les consomme pour son tableau de bord de sécurité. Aucun pont ne
-  transmet les événements du domaine aux plugins : les plugins atteignent l'API
-  avec des JWT à portée limitée (voir ADR-0003). Le bus lui-même est l'ADR-0010.</li>
-<li><code>shared.TransactionalUnit</code> englobe les écritures sur plusieurs agrégats (voir
-  ADR-0002).</li>
+<li>Aucune passerelle ne transmet les événements de domaine aux plugins : les
+  plugins atteignent l'API avec des JWT à portée limitée
+  (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>). Le bus lui-même est
+  l'<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>.</li>
+<li><code>shared.TransactionalUnit</code> enveloppe les écritures multi-agrégats
+  (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0002-transactional-unit-port.md">ADR-0002</a>).</li>
 </ul>
 <p>Aucun paquet sous <code>internal/domain</code> n'importe le paquet de domaine d'un autre
 contexte, règle imposée par <code>internal/contractguard/domain_imports_test.go</code>
-(voir <a href="#architecture-guards">Gardes d'architecture</a>). La couche applicative n'y
-est pas tenue : 15 paquets applicatifs importent aujourd'hui le paquet de
+(voir <a href="#architecture-guards">Gardes d'architecture</a>). La couche applicative
+n'y est pas tenue : 15 paquets applicatifs importent aujourd'hui le paquet de
 domaine d'un contexte voisin.</p>
-<h2 id="typical-data-flow---user-plays-a-media">Un flux typique : « un utilisateur lance un média »<a class="headerlink" href="#typical-data-flow---user-plays-a-media" title="Permanent link">¶</a></h2>
+<h2 id="typical-data-flow---user-plays-a-media">Flux de données typique : « un utilisateur lance un média »<a class="headerlink" href="#typical-data-flow---user-plays-a-media" title="Permanent link">¶</a></h2>
 <ol>
-<li>Le client mobile ou web appelle <code>POST /api/v1/playback/start</code> (route
-   grpc-gateway).</li>
-<li><code>internal/adapters/driving/http</code> passe par son middleware d'authentification
-   (<code>auth_middleware.go</code>, <code>httpAuthMiddleware</code>) et en extrait la session.</li>
-<li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) valide le proto et
-   appelle <code>app/playback.CommandService.StartStream</code> (séparation commande /
-   requête, voir ADR-0009).</li>
-<li><code>app/playback.CommandService</code> appelle les ports du domaine :
-   <code>user.UserRepository</code>, <code>playback.SessionQueryRepo</code> (idempotence et limite
-   d'appareils), <code>playback.SessionCommandRepo</code>, puis
-   <code>shared.EventBus.Publish(PlaybackStarted)</code>.</li>
-<li>Les adaptateurs sortants s'exécutent : <code>postgres</code> enregistre la session dans
-   une portée <code>shared.TransactionalUnit.Do</code> ; le bus interne au processus
-   (<code>internal/pkg/eventbus</code>) distribue de façon asynchrone.</li>
-<li><code>PlaybackStarted</code> n'a pas d'abonné dédié aujourd'hui : seul l'abonnement
-   universel <code>"*"</code> de <code>webhook</code> le reçoit.</li>
-<li>La réponse revient en JSON par grpc-gateway ; les mises à jour de progression
-   passent par SSE ou par des flux gRPC.</li>
+<li>Le client mobile ou web appelle <code>POST /api/v1/playback/start</code> (route grpc-gateway).</li>
+<li><code>internal/adapters/driving/http</code> exécute son middleware d'authentification (<code>auth_middleware.go</code>, <code>httpAuthMiddleware</code>) et extrait la session.</li>
+<li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) valide le proto et appelle <code>app/playback.CommandService.StartStream</code> (séparation commande/requête, voir <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a>).</li>
+<li><code>app/playback.CommandService</code> appelle les ports du domaine : <code>user.UserRepository</code>, <code>playback.SessionQueryRepo</code> (idempotence + plafond d'appareils), <code>playback.SessionCommandRepo</code>, puis <code>shared.EventBus.Publish(PlaybackStarted)</code>.</li>
+<li>Les adaptateurs sortants s'exécutent : <code>postgres</code> persiste la session dans une portée <code>shared.TransactionalUnit.Do</code> ; le bus en mémoire (<code>internal/pkg/eventbus</code>) distribue de façon asynchrone.</li>
+<li><code>PlaybackStarted</code> n'a pas d'abonné dédié aujourd'hui : seul le fourre-tout <code>"*"</code> de <code>webhook</code> le reçoit.</li>
+<li>La réponse revient en JSON via grpc-gateway ; les mises à jour de progression passent par SSE / flux gRPC.</li>
 </ol>
-<h2 id="composition-root">Racine de composition<a class="headerlink" href="#composition-root" title="Permanent link">¶</a></h2>
-<p>Les graphes de câblage vivent dans <code>cmd/evey/wire.go</code> et ses voisins
-(<code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>,
-<code>wire_helpers.go</code>). Les tests contournent les adaptateurs en injectant des
-doublures qui implémentent les mêmes ports du domaine : 20 des 21 paquets de
-domaine fournissent un sous-paquet <code>fakes/</code>. Voir
-<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>.</p>
+<p>Ce qui se passe ensuite, quand le lecteur demande le manifeste et les
+segments, fait l'objet de <a href="../playback-serving/">Pipeline de lecture</a>.</p>
 <h2 id="architecture-guards">Gardes d'architecture<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
-<p>Les règles ci-dessus ne sont pas que de la documentation. <code>internal/contractguard/</code>
-contient 54 tests statiques, répartis dans 29 fichiers, qui font échouer la
-compilation dès que le code s'en écarte.</p>
+<p>Les règles ci-dessus ne sont pas que de la documentation.
+<code>internal/contractguard/</code> contient 58 tests statiques répartis sur 30
+fichiers qui font échouer le build dès que le code s'en écarte.</p>
 <p>La règle hexagonale elle-même est <code>TestDomainContextsDoNotImportEachOther</code>
-(ADR-0001), dans <code>domain_imports_test.go</code>. Il parcourt <code>internal/domain</code> et impose
-exactement ceci : un contexte peut importer <code>internal/domain/shared</code> et sa propre
-arborescence, rien d'autre de <code>internal/domain</code>, et jamais <code>internal/app</code> ni
-<code>internal/adapters</code>. Sa portée s'arrête à <code>internal/domain</code> : il ne dit rien de la
-couche applicative.</p>
-<p>Les autres gardent des contrats qui franchissent une frontière de langage ou de
-processus, parmi lesquels :</p>
-<ul>
-<li><code>TestNoClientReadOfAFieldTheServerNeverWrites</code> : chaque champ de réponse proto
-  lu par un client doit être écrit quelque part côté serveur.</li>
-<li><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code> et
-  <code>TestBootInstallsItsSilentWirings</code> : du câblage qui, sinon, échouerait en
-  silence.</li>
-<li><code>TestPostgresRepositoriesBoundTheirQueries</code> : chaque dépôt PostgreSQL borne ses
-  requêtes par un délai.</li>
-<li><code>TestProcfork_EveryForkGoesThroughCommand</code> : chaque lancement de sous-processus
-  passe par <code>internal/pkg/procfork</code>.</li>
-<li><code>TestEverySortFieldTheAPIAcceptsHasASQLColumn</code> et <code>...CanBuildACursorValue</code> :
-  les champs de tri existent à la fois dans la table des colonnes SQL et dans
-  l'encodeur de curseurs.</li>
-<li><code>TestEveryWebSurfaceReachingAnAdminRPCIsClassified</code>, et son pendant natif pour
-  le mobile et la TV : toute surface d'interface qui appelle un RPC réservé aux
-  administrateurs décide de qui la voit.</li>
-<li><code>TestEveryAllowedSlotIsMountedOnWebAndMobile</code> et
-  <code>TestPluginBridgeParityWebMobile</code> : la parité des emplacements d'interface des
-  plugins entre les clients.</li>
-<li><code>TestImageSubtitleCodecsAgreeAcrossServerAndClients</code> : une seule liste des
-  codecs de sous-titres en image, pour le serveur et les lecteurs.</li>
-<li><code>TestHandWrittenClientTypesMatchTheEndpointTheyCall</code> : les types de réponse
-  écrits à la main du mobile et de la TV correspondent au point d'accès qu'ils
-  appellent.</li>
-<li><code>TestRestartExitCodeAgreesWithTheEntrypoint</code> : le code de sortie Go et
-  <code>docker/entrypoint.sh</code> s'accordent sur ce que signifie un redémarrage.</li>
-<li>Les gardes i18n : les clés émises par le serveur existent dans le catalogue, et
-  les paramètres concordent entre les langues.</li>
-</ul>
-<h2 id="further-reading">Pour aller plus loin<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
-<ul>
-<li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> : compilation, exécution, migrations, génération des protos</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">docs/CODEBASE_MAP.md</a> : quels fichiers toucher pour les
-  changements courants</li>
-<li><a href="../playback-serving/">docs/playback-serving.md</a> : le chemin de lecture vidéo HLS
-  en détail (décision, échelle, empreinte, CMAF/HLS/DASH, mkvgo ou ffmpeg)</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">docs/api/</a> : la référence de l'API, générée</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">docs/adr/</a> : les fiches de décision d'architecture</li>
-</ul>
+(ADR-0001), dans <code>domain_imports_test.go</code>. Elle parcourt <code>internal/domain</code> et
+impose exactement ceci : un contexte peut importer <code>internal/domain/shared</code> et
+sa propre arborescence, rien d'autre dans <code>internal/domain</code>, et jamais
+<code>internal/app</code> ni <code>internal/adapters</code>. Sa portée s'arrête à
+<code>internal/domain</code> : elle ne dit rien de la couche applicative.</p>
+<p>Les autres gardent des contrats qui franchissent une frontière de langage ou
+de processus, parmi lesquels :</p>
+<table>
+<thead>
+<tr>
+<th>Garde</th>
+<th>Ce qu'elle refuse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TestNoClientReadOfAFieldTheServerNeverWrites</code></td>
+<td>un champ de réponse proto lu par un client que le serveur n'écrit nulle part</td>
+</tr>
+<tr>
+<td><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code>, <code>TestBootInstallsItsSilentWirings</code></td>
+<td>un câblage qui échouerait en silence</td>
+</tr>
+<tr>
+<td><code>TestPostgresRepositoriesBoundTheirQueries</code></td>
+<td>une requête d'un dépôt Postgres sans délai limite</td>
+</tr>
+<tr>
+<td><code>TestProcfork_EveryForkGoesThroughCommand</code></td>
+<td>un lancement de sous-processus qui contourne <code>internal/pkg/procfork</code></td>
+</tr>
+<tr>
+<td><code>TestEverySortFieldTheAPIAcceptsHasASQLColumn</code>, <code>...CanBuildACursorValue</code></td>
+<td>un champ de tri absent de la table des colonnes SQL ou de l'encodeur de curseur</td>
+</tr>
+<tr>
+<td><code>TestEveryWebSurfaceReachingAnAdminRPCIsClassified</code>, et son pendant natif pour mobile et TV</td>
+<td>une surface d'interface appelant un RPC réservé à l'administrateur sans décider qui la voit</td>
+</tr>
+<tr>
+<td><code>TestEveryAllowedSlotIsMountedOnWebAndMobile</code>, <code>TestPluginBridgeParityWebMobile</code></td>
+<td>un slot d'interface de plugin ou un message du pont présent sur un seul client</td>
+</tr>
+<tr>
+<td><code>TestImageSubtitleCodecsAgreeAcrossServerAndClients</code></td>
+<td>une seconde liste de codecs de sous-titres bitmap sur un lecteur</td>
+</tr>
+<tr>
+<td><code>TestHandWrittenClientTypesMatchTheEndpointTheyCall</code></td>
+<td>un type de réponse écrit à la main pour mobile/TV qui dérive de son point d'entrée</td>
+</tr>
+<tr>
+<td><code>TestOnlyThePlanDecidesPlayback</code>, <code>TestNoCallerDerivesDownstreamOfThePlaybackPlan</code></td>
+<td>une décision de lecture prise hors du résolveur de plan (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>)</td>
+</tr>
+<tr>
+<td><code>TestRestartExitCodeAgreesWithTheEntrypoint</code></td>
+<td>un code de sortie Go et <code>docker/entrypoint.sh</code> en désaccord sur ce que signifie un redémarrage</td>
+</tr>
+<tr>
+<td><code>TestServerEmittedI18nKeysExistInCatalogue</code>, <code>TestI18nPlaceholdersAgreeAcrossLocales</code></td>
+<td>une clé émise par le serveur absente du catalogue, des espaces réservés qui diffèrent entre langues</td>
+</tr>
+</tbody>
+</table>
 <h2 id="c4-diagrams">Diagrammes C4<a class="headerlink" href="#c4-diagrams" title="Permanent link">¶</a></h2>
-<p>Ces quatre diagrammes décrivent Evey à des niveaux de zoom décroissants, selon le
-<a href="https://c4model.com/">modèle C4</a>. Tous s'affichent avec Mermaid, sans aucune image
-binaire. Les noms des nœuds sont les vrais noms des paquets Go sous <code>internal/</code>.
-Les noms des conteneurs viennent de <code>docker-compose.yml</code> pour <code>evey-server</code>,
-<code>evey-postgres</code> et <code>evey-caddy</code> ; <code>evey-web</code>, <code>evey-meilisearch</code>, <code>evey-mobile</code> et
-<code>evey-mailcatcher</code> sont déclarés dans <code>docker-compose.override.yml</code> et n'existent
-que dans la topologie de développement.</p>
+<p>Quatre diagrammes documentent Evey à des niveaux de zoom décroissants selon
+le <a href="https://c4model.com/">modèle C4</a>. Les noms des nœuds sont les vrais noms
+des paquets Go sous <code>internal/</code>. Les noms des conteneurs viennent de
+<code>docker-compose.yml</code> pour <code>evey-server</code>, <code>evey-postgres</code> et <code>evey-caddy</code> ;
+<code>evey-web</code>, <code>evey-meilisearch</code>, <code>evey-mobile</code> et <code>evey-mailcatcher</code> sont
+déclarés dans <code>docker-compose.override.yml</code> et n'existent que dans la
+topologie de développement.</p>
 <h3 id="level-1---system-context">Niveau 1 : contexte du système<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
 <p>Qui parle à Evey, et quels tiers Evey contacte.</p>
 <pre class="mermaid"><code>flowchart LR
     user[Utilisateur&lt;br/&gt;client web / mobile / TV]
     admin[Administrateur&lt;br/&gt;interface web /admin]
-    oidc[Fournisseur d'identité OIDC&lt;br/&gt;SSO facultatif]
-    tmdb[API TMDB&lt;br/&gt;métadonnées films / séries]
-    omdb[API OMDb&lt;br/&gt;métadonnées de repli + notes]
+    oidc[Fournisseur d'identité OIDC&lt;br/&gt;SSO optionnel]
+    tmdb[API TMDB&lt;br/&gt;métadonnées films/séries]
+    omdb[API OMDb&lt;br/&gt;métadonnées et notes de repli]
     imdb[IMDbAPI / TVmaze&lt;br/&gt;métadonnées de séries de repli]
     art[MusicBrainz / iTunes Search&lt;br/&gt;pochettes d'albums]
-    introdb[IntroDB / TIDB&lt;br/&gt;horodatages des génériques]
+    introdb[IntroDB / TIDB&lt;br/&gt;horodatages intro + générique]
     opensubs[OpenSubtitles&lt;br/&gt;recherche de sous-titres]
     webpush[Passerelle Web Push&lt;br/&gt;FCM / APNs / VAPID]
+    registry[Registre OCI&lt;br/&gt;tags d'image publiés]
 
     subgraph evey[Serveur multimédia Evey]
         core((Plateforme multimédia auto-hébergée&lt;br/&gt;bibliothèque, lecture, transcodage,&lt;br/&gt;musique, photo, plugins))
@@ -3563,18 +3610,19 @@ que dans la topologie de développement.</p>
 
     user --&gt;|HTTPS&lt;br/&gt;HLS / SSE / gRPC-Web| evey
     admin --&gt;|HTTPS&lt;br/&gt;/admin| evey
-    evey -.-&gt;|flux OIDC par code| oidc
-    evey -.-&gt;|HTTPS, métadonnées| tmdb
-    evey -.-&gt;|HTTPS, métadonnées| omdb
-    evey -.-&gt;|HTTPS, métadonnées| imdb
-    evey -.-&gt;|HTTPS, pochettes| art
-    evey -.-&gt;|HTTPS, génériques| introdb
-    evey -.-&gt;|HTTPS, sous-titres| opensubs
-    evey -.-&gt;|HTTPS, envoi push| webpush</code></pre>
+    evey -.-&gt;|flux de code OIDC| oidc
+    evey -.-&gt;|récupération de métadonnées HTTPS| tmdb
+    evey -.-&gt;|récupération de métadonnées HTTPS| omdb
+    evey -.-&gt;|récupération de métadonnées HTTPS| imdb
+    evey -.-&gt;|récupération de pochettes HTTPS| art
+    evey -.-&gt;|recherche d'intro HTTPS| introdb
+    evey -.-&gt;|récupération de sous-titres HTTPS| opensubs
+    evey -.-&gt;|envoi de push HTTPS| webpush
+    evey -.-&gt;|vérification de mise à jour HTTPS| registry</code></pre>
 <h3 id="level-2---container">Niveau 2 : conteneurs<a class="headerlink" href="#level-2---container" title="Permanent link">¶</a></h3>
-<p>Les unités déployables lancées par <code>docker compose --env-file .env.dev up</code>. Les
-flèches pleines sont le trafic à l'exécution ; les flèches pointillées, les
-sorties vers des tiers.</p>
+<p>Les unités déployables lancées par <code>docker compose --env-file .env.dev up</code>.
+Les flèches pleines sont le trafic à l'exécution ; les flèches pointillées
+sont le trafic sortant vers des tiers.</p>
 <pre class="mermaid"><code>flowchart TB
     user([Navigateur / mobile de l'utilisateur])
     admin([Navigateur de l'administrateur])
@@ -3582,24 +3630,24 @@ sorties vers des tiers.</p>
     subgraph compose[Réseau Docker Compose]
         caddy[evey-caddy&lt;br/&gt;Caddy 2.9&lt;br/&gt;:80 / :443&lt;br/&gt;TLS, reverse proxy]
         web[evey-web&lt;br/&gt;Vite en dev / nginx en prod&lt;br/&gt;:5173 en dev&lt;br/&gt;SPA React + RN web]
-        server[evey-server&lt;br/&gt;binaire Go&lt;br/&gt;:9091 HTTP + gRPC-gateway&lt;br/&gt;:9090 gRPC interne]
+        server[evey-server&lt;br/&gt;binaire Go&lt;br/&gt;:9091 HTTP+gRPC-gateway&lt;br/&gt;:9090 gRPC interne]
         pg[(evey-postgres&lt;br/&gt;PostgreSQL 16&lt;br/&gt;:5432)]
         meili[(evey-meilisearch&lt;br/&gt;Meilisearch 1.12&lt;br/&gt;:7700)]
         mobile[evey-mobile&lt;br/&gt;dev seulement&lt;br/&gt;:8081 Expo / bundler Metro]
-        mail[evey-mailcatcher&lt;br/&gt;dev seulement&lt;br/&gt;:1025 SMTP / :1080 interface]
+        mail[evey-mailcatcher&lt;br/&gt;dev seulement&lt;br/&gt;:1025 SMTP / :1080 UI]
     end
 
     tmdb[[TMDB / OMDb / OpenSubtitles]]
     fs[(volumes /media&lt;br/&gt;montages en lecture seule)]
-    cache[(volume evey-cache&lt;br/&gt;transcodage + miniatures)]
-    data[(volume evey-data&lt;br/&gt;clés, journaux, sauvegardes,&lt;br/&gt;plugins, avatars)]
+    cache[(volume evey-cache&lt;br/&gt;transcodage + trickplay)]
+    data[(volume evey-data&lt;br/&gt;clés, logs, sauvegardes,&lt;br/&gt;plugins, avatars)]
 
     user --&gt;|HTTPS| caddy
     admin --&gt;|HTTPS /admin| caddy
     caddy --&gt;|HTTP /| web
     caddy --&gt;|HTTP /v1, /api, SSE, HLS| server
     web --&gt;|gRPC-Web via /v1| server
-    user -.-&gt;|bundle de dev Metro| mobile
+    user -.-&gt;|bundle Metro de dev| mobile
 
     server --&gt;|SQL/TCP 5432| pg
     server --&gt;|HTTP 7700&lt;br/&gt;indexation + recherche| meili
@@ -3608,31 +3656,32 @@ sorties vers des tiers.</p>
     server --&gt;|lecture FS| fs
     server --&gt;|lecture/écriture FS| cache
     server --&gt;|lecture/écriture FS| data</code></pre>
-<blockquote>
-<p><strong>La production diffère de cette topologie de développement.</strong> Le compose
-d'installation ne déclare qu'un service, <code>evey</code>. Il n'y a pas de conteneur
-<code>evey-web</code> séparé (ni le mailcatcher ni le bundler Metro, propres au
-développement) : le binaire sert l'interface web compilée depuis <code>/srv</code>, si
-bien qu'un reverse proxy lui renvoie <em>tout</em>, interface et API, sur <code>:9091</code>.
-Postgres et Meilisearch tournent dans le même conteneur, supervisés par
-<code>docker/entrypoint.sh</code> : PostgreSQL 17 avec ses données sous <code>/data/postgres</code>,
-et le binaire Meilisearch (<code>Dockerfile</code>, étape <code>meili-download</code>, figé en
-1.12.8) avec son index sous <code>/data/meili</code>. Le <code>docker-compose.yml</code> du dépôt
-garde des services <code>postgres</code> et <code>caddy</code> séparés, décrits dans
+<div class="admonition note">
+<p class="admonition-title">La production diffère de cette topologie de développement</p>
+<p>Le compose d'installation déclare un seul service, <code>evey</code>. Il n'y a pas
+de conteneur <code>evey-web</code> séparé (ni le mailcatcher et le bundler Metro,
+réservés au dev) : le binaire sert l'interface web construite depuis
+<code>/srv</code>, donc un reverse proxy lui transmet <em>tout</em>, interface et API, sur
+<code>:9091</code>. Postgres et Meilisearch tournent dans le même conteneur,
+supervisés par <code>docker/entrypoint.sh</code> : PostgreSQL 17 avec ses données
+sous <code>/data/postgres</code>, et le binaire Meilisearch (<code>Dockerfile</code>, étape
+<code>meili-download</code>, figé en 1.12.8) avec son index sous <code>/data/meili</code>. Le
+<code>docker-compose.yml</code> du dépôt garde des services <code>postgres</code> et <code>caddy</code>
+séparés, décrits dans
 <a href="../operations/advanced-deployments/">Déploiements avancés</a>. Voir
-<a href="../installation/">Installer</a> et <a href="../reverse-proxy/">Reverse proxy</a>.</p>
-</blockquote>
+<a href="../installation/">Installation</a> et <a href="../reverse-proxy/">Reverse proxy</a>.</p>
+</div>
 <h3 id="level-3---component-zoom-on-evey-server">Niveau 3 : composants (zoom sur <code>evey-server</code>)<a class="headerlink" href="#level-3---component-zoom-on-evey-server" title="Permanent link">¶</a></h3>
-<p>La disposition hexagonale à l'intérieur du binaire Go. Les adaptateurs entrants
+<p>Les couches hexagonales à l'intérieur du binaire Go. Les adaptateurs entrants
 appellent les services applicatifs par leurs interfaces ; les services
 applicatifs ne dépendent que des ports du domaine ; les adaptateurs sortants
 implémentent ces ports.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph driving[Adaptateurs entrants]
         grpc[grpcapi&lt;br/&gt;internal/adapters/driving/grpcapi&lt;br/&gt;handlers par contexte]
-        gw[grpc-gateway&lt;br/&gt;JSON/HTTP &lt;-&gt; gRPC&lt;br/&gt;généré depuis les protos]
+        gw[grpc-gateway&lt;br/&gt;JSON/HTTP &lt;-&gt; gRPC&lt;br/&gt;généré depuis les proto]
         http[http&lt;br/&gt;internal/adapters/driving/http&lt;br/&gt;statique, SSE, HLS,&lt;br/&gt;auth_middleware.go]
-        plug[pluginhost&lt;br/&gt;internal/adapters/driving/pluginhost&lt;br/&gt;gRPC sur socket Unix&lt;br/&gt;authentification par le pair]
+        plug[pluginhost&lt;br/&gt;internal/adapters/driving/pluginhost&lt;br/&gt;gRPC sur socket Unix&lt;br/&gt;auth par identifiants du pair]
     end
 
     subgraph app[Couche applicative - internal/app]
@@ -3647,26 +3696,28 @@ implémentent ces ports.</p>
         a_music[music]
         a_photo[photo]
         a_user[user]
-        a_misc[favorite, playlist, collection,&lt;br/&gt;feed, activity,&lt;br/&gt;chromecast, syncplay,&lt;br/&gt;plugin, notification, webhook,&lt;br/&gt;backup, dlna, config, mediarequest,&lt;br/&gt;maintenance, presence, qoe, loadtest,&lt;br/&gt;demo, updatecheck]
+        a_upd[updatecheck]
+        a_misc[favorite, playlist, collection,&lt;br/&gt;feed, activity,&lt;br/&gt;chromecast, syncplay,&lt;br/&gt;plugin, notification, webhook,&lt;br/&gt;backup, dlna, config, mediarequest,&lt;br/&gt;maintenance, presence, qoe, loadtest,&lt;br/&gt;demo]
     end
 
     subgraph domain[Cœur du domaine - internal/domain]
-        d_models[Agrégats + objets valeur&lt;br/&gt;par contexte métier]
+        d_models[Agrégats + objets-valeurs&lt;br/&gt;par contexte borné]
         d_ports[Ports sortants&lt;br/&gt;dépôts - séparation commande/requête,&lt;br/&gt;EventBus, TransactionalUnit,&lt;br/&gt;ServerConfigRepository]
     end
 
     subgraph driven[Adaptateurs sortants]
         pgad[postgres&lt;br/&gt;dépôts + migrations&lt;br/&gt;shared.TransactionalUnit]
         meiad[meilisearch&lt;br/&gt;index de recherche]
-        fsad[filesystem&lt;br/&gt;scanner, analyseur, surveillance]
-        ffad[ffmpeg&lt;br/&gt;transcodeur, miniatures]
+        fsad[filesystem&lt;br/&gt;scanner, parser, watcher]
+        ffad[ffmpeg&lt;br/&gt;transcodeur, trickplay]
         mkvad[mkvgo&lt;br/&gt;opérations MKV]
         metaad[metadata&lt;br/&gt;clients TMDB, OMDb,&lt;br/&gt;IMDbAPI, TVmaze]
         introad[introproviders&lt;br/&gt;chaîne IntroDB + TIDB]
         itunad[itunes&lt;br/&gt;pochettes d'albums]
         mbad[musicbrainz&lt;br/&gt;pochettes d'albums]
-        probead[prober&lt;br/&gt;chemin rapide mkvgo,&lt;br/&gt;repli ffprobe]
-        searchad[search&lt;br/&gt;façade résiliente devant meili]
+        ociad[ociregistry&lt;br/&gt;tags publiés]
+        probead[prober&lt;br/&gt;voie rapide mkvgo,&lt;br/&gt;repli ffprobe]
+        searchad[search&lt;br/&gt;façade résiliente sur meili]
         osad[opensubtitles]
         emad[email]
         wpad[webpush]
@@ -3691,6 +3742,7 @@ implémentent ces ports.</p>
     d_ports -.implémente.- probead
     a_music -.interface applicative.- itunad
     a_music -.interface applicative.- mbad
+    a_upd -.interface applicative.- ociad
     d_ports -.implémente.- searchad
     d_ports -.implémente.- osad
     d_ports -.implémente.- emad
@@ -3705,30 +3757,21 @@ implémentent ces ports.</p>
     metaad -.-&gt; ext2[[TMDB / OMDb / IMDbAPI / TVmaze]]
     introad -.-&gt; ext3[[IntroDB / TIDB]]
     itunad -.-&gt; ext4[[iTunes Search / MusicBrainz]]
-    mbad -.-&gt; ext4</code></pre>
+    mbad -.-&gt; ext4
+    ociad -.-&gt; ext5[[Registre OCI]]</code></pre>
 <p>Notes sur les goroutines :</p>
 <ul>
-<li>Le serveur gRPC (<code>grpc.Server.Serve</code>) et le serveur HTTP (passerelle et
-  statique) tournent chacun dans leur propre goroutine, lancée depuis l'assemblage
-  principal de <code>cmd/evey</code>.</li>
-<li>Les scans de <code>app/library</code> tournent sur un pool de travailleurs (une goroutine
-  par scan de bibliothèque actif, voir <code>library.ScanService</code>).</li>
-<li>Les tâches ffmpeg sont lancées via <code>internal/pkg/procfork</code> par l'adaptateur
-  sortant <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>), avec une goroutine de supervision
-  par tâche, qui vide la sortie d'erreur du processus.</li>
-<li><code>shared.EventBus</code> distribue les abonnés de façon asynchrone : chaque abonné
-  tourne dans sa propre goroutine, si bien qu'un consommateur lent ne bloque
-  jamais les éditeurs. Le bus n'ouvre aucune transaction lui-même : c'est le rôle
-  du handler.</li>
-<li><code>pluginrunner</code> lance un sous-processus par plugin ; les plugins en iframe vivent
-  dans le navigateur de l'utilisateur et rappellent le serveur avec des jetons
-  signés émis par <code>app/plugin</code>.</li>
+<li>Le serveur gRPC (<code>grpc.Server.Serve</code>) et le serveur HTTP (gateway + statique) tournent chacun dans leur propre goroutine, lancée depuis le câblage principal de <code>cmd/evey</code>.</li>
+<li>Les tâches de scan de <code>app/library</code> tournent sur un pool de workers (une goroutine par scan de bibliothèque actif, voir <code>library.ScanService</code>).</li>
+<li>Les tâches ffmpeg sont lancées via <code>internal/pkg/procfork</code> par l'adaptateur sortant <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>), avec une goroutine de supervision par tâche qui vide la sortie d'erreur du processus.</li>
+<li><code>shared.EventBus</code> distribue aux abonnés de façon asynchrone : chaque abonné tourne dans sa propre goroutine, pour qu'un consommateur lent ne bloque jamais les émetteurs. Le bus n'ouvre aucune transaction de son propre chef ; c'est le travail du handler.</li>
+<li><code>pluginrunner</code> lance un sous-processus par plugin ; les plugins en iframe vivent dans le navigateur de l'utilisateur et répondent via des jetons signés émis par <code>app/plugin</code>.</li>
 </ul>
 <h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Niveau 3 (bonus) : zoom sur le pipeline de scan<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
-<p>Le chemin chaud qui transforme des fichiers sur le disque en médias enrichis et
+<p>Le chemin chaud qui transforme des fichiers sur disque en médias enrichis et
 cherchables. Les flèches pleines sont des appels directs ; les flèches
-pointillées, des événements du domaine sur le bus. L'indexation de recherche est
-un appel direct au port depuis <code>ScanService</code>, pas un événement.</p>
+pointillées sont des événements de domaine sur le bus. L'indexation de
+recherche est un appel direct de port depuis <code>ScanService</code>, pas un événement.</p>
 <pre class="mermaid"><code>flowchart LR
     user([L'administrateur déclenche&lt;br/&gt;POST /api/v1/libraries/:id/scan])
 
@@ -3737,11 +3780,11 @@ un appel direct au port depuis <code>ScanService</code>, pas un événement.</p>
     end
 
     subgraph appLayer[internal/app/library]
-        svc[ScanService&lt;br/&gt;pool de travailleurs,&lt;br/&gt;1 goroutine par bibliothèque]
+        svc[ScanService&lt;br/&gt;pool de workers,&lt;br/&gt;1 goroutine par bibliothèque]
     end
 
     subgraph drivenScan[sortant]
-        scanner[filesystem.Scanner&lt;br/&gt;parcours + analyse des noms]
+        scanner[filesystem.Scanner&lt;br/&gt;parcours + parser]
         watcher[filesystem.FSWatcher&lt;br/&gt;fsnotify, incrémental]
     end
 
@@ -3751,17 +3794,17 @@ un appel direct au port depuis <code>ScanService</code>, pas un événement.</p>
     end
 
     subgraph persist[persistance sortante]
-        pgrepo[postgres.MediaItemRepository&lt;br/&gt;dans TransactionalUnit]
+        pgrepo[postgres.MediaItemRepository&lt;br/&gt;dans un TransactionalUnit]
         searchidx[meilisearch.SearchAdapter&lt;br/&gt;implémente library.SearchIndex]
     end
 
     subgraph consumers[Consommateurs d'événements - chacun dans sa goroutine]
         meta[app/metadata&lt;br/&gt;enrichissement TMDB/OMDb]
-        trick[app/library&lt;br/&gt;travail des miniatures]
-        intro[app/library&lt;br/&gt;détection des génériques]
+        trick[app/library&lt;br/&gt;worker trickplay]
+        intro[app/library&lt;br/&gt;détection des intros]
         feed[app/feed&lt;br/&gt;invalidation du cache des genres]
         notif[app/notification&lt;br/&gt;alertes de nouveaux médias]
-        wh[app/webhook&lt;br/&gt;abonnement universel, POST sortant]
+        wh[app/webhook&lt;br/&gt;fourre-tout, POST sortant]
     end
 
     user --&gt; h --&gt; svc
@@ -3780,10 +3823,27 @@ un appel direct au port depuis <code>ScanService</code>, pas un événement.</p>
     bus -. MediaItemAdded .-&gt; wh
     trick -. TrickplayGenerated .-&gt; intro
     meta --&gt; repo
-    trick --&gt; ffstore[(evey-cache&lt;br/&gt;planches de miniatures)]</code></pre>
-<p>À lire avec la section « Un flux typique » plus haut : le chemin de lecture en est
-le symétrique ; le pipeline de scan est le chemin d'écriture qui prépare l'index
-des médias sur lequel s'appuie le chemin de lecture.</p>
+    trick --&gt; ffstore[(evey-cache&lt;br/&gt;sprites de trickplay)]</code></pre>
+<p>À lire avec la section « Flux de données typique » ci-dessus : le chemin de
+lecture est le chemin de lecture symétrique ; le pipeline de scan est le
+chemin d'écriture qui prépare l'index des médias que le chemin de lecture
+sert.</p>
+<h2 id="further-reading">Pour aller plus loin<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> : construction, lancement, migrations, génération des proto</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Carte du code</a> : quels fichiers toucher pour les modifications courantes</li>
+<li><a href="../playback-serving/">Pipeline de lecture</a> : le chemin de lecture vidéo HLS, en détail</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">Référence de l'API</a> : référence générée de l'API</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">Décisions d'architecture</a> : les ADR</li>
+</ul>
+<!-- sources
+layering: internal/domain ; internal/app ; internal/adapters/driven ; internal/adapters/driving ; internal/pkg ; internal/config ; gen ; cmd/evey/wire.go, wire_infra.go, wire_services.go, wire_adapters.go, wire_events.go, wire_helpers.go
+app-layer interfaces: internal/app/music/album_art_chain.go - AlbumArtFetcher ; internal/adapters/driven/ociregistry (app/updatecheck)
+network exceptions: internal/app/dlna/service.go ; internal/app/loadtest/runner.go
+events and subscribers: internal/app/notification/command_service.go ; internal/app/metadata/command_service_enrich.go ; internal/app/library/trickplay_service.go ; internal/app/library/intro_detection_service.go ; internal/app/feed/genre_cache.go ; internal/app/webhook/service.go ; internal/adapters/driven/email/password_reset_emailer.go ; internal/app/plugin/security_dashboard_service.go ; internal/app/config/smtp.go, timezone.go, cpu_budget.go
+guards: internal/contractguard/*_test.go - TestDomainContextsDoNotImportEachOther, TestOnlyThePlanDecidesPlayback, TestNoCallerDerivesDownstreamOfThePlaybackPlan, TestServerEmittedI18nKeysExistInCatalogue, TestI18nPlaceholdersAgreeAcrossLocales
+topology: docker-compose.yml ; docker-compose.override.yml ; Dockerfile - MEILI_VERSION, postgresql-17 ; docker/entrypoint.sh - PG_MAJOR
+-->
 
 
 

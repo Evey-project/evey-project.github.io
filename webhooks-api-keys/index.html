@@ -2492,10 +2492,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#webhooks" class="md-nav__link">
+  <a href="#send-events-to-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks
+        Send events to a URL
       
     </span>
   </a>
@@ -2503,10 +2503,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-keys" class="md-nav__link">
+  <a href="#call-the-server-from-a-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API keys
+        Call the server from a script
       
     </span>
   </a>
@@ -2965,10 +2965,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#webhooks" class="md-nav__link">
+  <a href="#send-events-to-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks
+        Send events to a URL
       
     </span>
   </a>
@@ -2976,10 +2976,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-keys" class="md-nav__link">
+  <a href="#call-the-server-from-a-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API keys
+        Call the server from a script
       
     </span>
   </a>
@@ -3010,18 +3010,22 @@
 
 
 <h1 id="webhooks-and-api-keys">Webhooks and API keys<a class="headerlink" href="#webhooks-and-api-keys" title="Permanent link">¶</a></h1>
-<p>Two ways to connect Evey to other tools without writing a plugin: webhooks
-send Evey's events to a URL of yours, API keys let your scripts call Evey.</p>
-<h2 id="webhooks">Webhooks<a class="headerlink" href="#webhooks" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Webhooks → Create Webhook</strong>: a name, a URL, the events to send, and
-an optional secret. <strong>Test</strong> sends a ping and reports the answer.</p>
+<p>Two ways to connect Evey to other tools without writing a plugin: a webhook
+sends the server's events to a URL of yours, an API key lets a script call
+the server as you. Both are created by an administrator in the admin panel;
+this page is for the person who sets them up and for the person who writes
+the receiver or the script.</p>
+<h2 id="send-events-to-a-url">Send events to a URL<a class="headerlink" href="#send-events-to-a-url" title="Permanent link">¶</a></h2>
+<p><strong>Admin → Webhooks → Create Webhook</strong>: a <strong>Name</strong>, a <strong>URL</strong>, the <strong>Events</strong>
+to send, and an optional <strong>Secret</strong> for signing. <strong>Test</strong> sends a ping and
+reports the answer.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A webhook in Admin → Webhooks" loading="lazy" src="../images/admin-webhooks.webp"></a>
 <br>
 <figcaption>A webhook sending the start and the end of each playback.</figcaption>
 </figure>
-<p><strong>Events.</strong> A webhook subscribes to all events or to a chosen list. The events
-are those of the server itself, for example:</p>
+<p><strong>Events.</strong> A webhook subscribes to <strong>All events</strong> or to a chosen list. The
+form offers every event the server publishes; among them:</p>
 <table>
 <thead>
 <tr>
@@ -3032,7 +3036,7 @@ are those of the server itself, for example:</p>
 <tbody>
 <tr>
 <td>Library</td>
-<td><code>library.scan.started</code>, <code>library.scan.completed</code>, <code>media.item.added</code>, <code>media.item.updated</code>, <code>media.item.removed</code></td>
+<td><code>library.scan.started</code>, <code>library.scan.completed</code>, <code>media.item.added</code>, <code>media.item.updated</code>, <code>media.item.removed</code>, <code>metadata.refreshed</code></td>
 </tr>
 <tr>
 <td>Playback</td>
@@ -3040,7 +3044,7 @@ are those of the server itself, for example:</p>
 </tr>
 <tr>
 <td>Accounts</td>
-<td><code>user.created</code>, <code>user.login.succeeded</code>, <code>user.login.failed</code>, <code>user.profile.created</code></td>
+<td><code>user.created</code>, <code>user.login.succeeded</code>, <code>user.login.failed</code>, <code>user.profile.created</code>, <code>user.apikey.created</code></td>
 </tr>
 <tr>
 <td>Requests</td>
@@ -3052,7 +3056,9 @@ are those of the server itself, for example:</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Delivery.</strong> Each event is a JSON <code>POST</code>. Two headers come with it:</p>
+<p>A plugin that calls <code>EmitEvent</code> publishes <code>plugin.event.&lt;type&gt;</code>, which a
+webhook on <strong>All events</strong> receives too.</p>
+<p><strong>Delivery.</strong> Each event is a JSON <code>POST</code>, with two headers:</p>
 <ul>
 <li><code>X-Evey-Delivery</code>: an identifier that stays the same across the retries of
   one delivery, so your receiver can ignore a duplicate;</li>
@@ -3061,21 +3067,26 @@ are those of the server itself, for example:</p>
   the request comes from your server. Without a secret, the signature proves
   nothing.</li>
 </ul>
-<p>A delivery that fails is retried after 1, 5 and 30 seconds. Each attempt is
-recorded in the webhook's delivery log.</p>
-<p><strong>Only public addresses.</strong> A webhook URL must be <code>http</code> or <code>https</code> and point
-to a public address. Private and local addresses (<code>192.168.x.x</code>, <code>10.x.x.x</code>,
-<code>localhost</code>, a container name that resolves to one) are refused, when the
-webhook is saved and again when the server connects. This protects the server
-against being used to reach your internal network; a receiver on your local
-network needs a public address or a relay.</p>
-<h2 id="api-keys">API keys<a class="headerlink" href="#api-keys" title="Permanent link">¶</a></h2>
+<p>Each attempt waits up to 30 seconds for an answer. A delivery that fails is
+retried after 1, 5 and 30 seconds. Every attempt is recorded; the history is
+read through the API (<code>ListWebhookDeliveries</code> in the
+<a href="../api/plugins/">Plugin API</a>), not in the panel.</p>
+<div class="admonition warning">
+<p class="admonition-title">Only public addresses</p>
+<p>A webhook URL must be <code>http</code> or <code>https</code> and point to a public address.
+<code>localhost</code>, private and link-local addresses (<code>192.168.x.x</code>, <code>10.x.x.x</code>,
+<code>172.16.x.x</code>...), and a name that resolves to one, are refused when the
+webhook is saved and again when the server connects. This keeps the
+server from being used to reach your internal network; a receiver on your
+local network needs a public address or a relay.</p>
+</div>
+<h2 id="call-the-server-from-a-script">Call the server from a script<a class="headerlink" href="#call-the-server-from-a-script" title="Permanent link">¶</a></h2>
 <p>An API key lets a script call the server API without a password. Keys are
-created in <strong>Admin → API Keys</strong>, by an administrator, and belong to that
-administrator.</p>
+created in <strong>Admin → API Keys → New API Key</strong> by an administrator, and belong
+to that administrator.</p>
 <ul>
 <li><strong>The key is shown once</strong>, when it is created. Store it then; it cannot be
-  displayed again, only revoked.</li>
+  displayed again, only revoked with <strong>Revoke</strong>.</li>
 <li><strong>It acts as its owner</strong>, with administrator rights, within its scopes.</li>
 <li><strong>Scopes</strong> restrict what the key can do:</li>
 </ul>
@@ -3121,18 +3132,22 @@ administrator.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>A key created without any scope has full access</strong>, like its owner: this is
-the legacy behaviour, kept for existing keys. Select the scopes a script needs.</p>
+<p>A key created without any scope (<strong>All (legacy)</strong>) has full access on the
+non-administrative methods, like its owner, but administration methods always
+require their scope: a legacy key cannot reach them. Select the scopes a
+script needs.</p>
 <p>The key goes in the <code>Authorization</code> header, with or without <code>Bearer</code>:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer evey_..."</span><span class="w"> </span>https://media.example.com/api/v1/...
 </span></code></pre></div>
-<p>A key stops working at once when it is revoked, or when its owner is disabled.
-The endpoints themselves are listed in the <a href="../api/">Server API</a>.</p>
+<p>A key stops working at once when it is revoked, or when its owner is
+disabled. The endpoints themselves are listed in the
+<a href="../api/">Server API</a>, with the other ways to authenticate.</p>
 <!-- sources
-webhook delivery, headers, retries, signature: internal/app/webhook/service.go - attemptDeliver, sign, defaultRetryDelays
-all events: internal/app/webhook/service.go - handleAny ; internal/domain/webhook/model.go - MatchesEvent ; EventName() in internal/domain
-public addresses only: internal/pkg/urlvalidator/validator.go - ValidateWebhookURL ; internal/pkg/ssrf/dialer.go ; internal/adapters/driven/webhooksender/sender.go
-api keys: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticateAPIKey ; internal/pkg/auth/rbac.go (scopes) ; i18n auth.apiKeys.* ; frontend/apps/web/src/routes/_auth/admin/api-keys.lazy.tsx (only UI)
+form labels: i18n admin.webhooks.form.* (name, url, secret, events, allEvents), admin.webhooks.createWebhook, common.test, admin.webhooks.testPingSent
+event list: frontend/packages/client/src/lib/webhookEvents.ts - WEBHOOK_EVENT_TYPES ; EventName() in internal/domain ; plugin events: internal/adapters/driving/pluginhost/host_server.go - pluginEmittedEvent.EventName
+delivery, headers, timeout, retries, signature: internal/app/webhook/service.go - handleAny, attemptDeliver, sign, defaultRetryDelays, deliveryTimeout ; internal/domain/webhook/model.go - MatchesEvent ; history: proto/evey/v1/webhook.proto - ListWebhookDeliveries
+public addresses only: internal/pkg/urlvalidator/validator.go - ValidateWebhookURL, isPrivateIP ; internal/pkg/ssrf/dialer.go
+api keys: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticateAPIKey (Bearer optional, evey_ prefix), authorize (admin methods always enforce the scope) ; internal/pkg/auth/rbac.go (scopes) ; rbac.go - CreateAPIKey RoleAdmin ; i18n auth.apiKeys.* (newKeyTitle, scopesAll, saveWarning, revoke)
 -->
 
 
@@ -3191,13 +3206,13 @@ api keys: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticateA
         
         
           
-          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Next: Evey API Documentation">
+          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Next: Server API">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Evey API Documentation
+                Server API
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -2492,10 +2492,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#webhooks" class="md-nav__link">
+  <a href="#send-events-to-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks
+        Envoyer les événements vers une URL
       
     </span>
   </a>
@@ -2503,10 +2503,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-keys" class="md-nav__link">
+  <a href="#call-the-server-from-a-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Clés d'API
+        Appeler le serveur depuis un script
       
     </span>
   </a>
@@ -2965,10 +2965,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#webhooks" class="md-nav__link">
+  <a href="#send-events-to-a-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks
+        Envoyer les événements vers une URL
       
     </span>
   </a>
@@ -2976,10 +2976,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-keys" class="md-nav__link">
+  <a href="#call-the-server-from-a-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Clés d'API
+        Appeler le serveur depuis un script
       
     </span>
   </a>
@@ -3010,20 +3010,24 @@
 
 
 <h1 id="webhooks-and-api-keys">Webhooks et clés d'API<a class="headerlink" href="#webhooks-and-api-keys" title="Permanent link">¶</a></h1>
-<p>Deux façons de relier Evey à d'autres outils sans écrire de plugin : les
-webhooks envoient les événements d'Evey vers une URL qui vous appartient, les
-clés d'API permettent à vos scripts d'appeler Evey.</p>
-<h2 id="webhooks">Webhooks<a class="headerlink" href="#webhooks" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Webhooks → Créer un webhook</strong> : un nom, une URL, les événements à
-envoyer, et un secret facultatif. <strong>Tester</strong> envoie un ping et affiche la
-réponse.</p>
+<p>Deux façons de relier Evey à d'autres outils sans écrire de plugin : un
+webhook envoie les événements du serveur vers une URL qui vous appartient,
+une clé d'API permet à un script d'appeler le serveur en votre nom. Les deux
+se créent par un administrateur dans le panneau d'administration ; cette
+page s'adresse à la personne qui les met en place et à celle qui écrit le
+récepteur ou le script.</p>
+<h2 id="send-events-to-a-url">Envoyer les événements vers une URL<a class="headerlink" href="#send-events-to-a-url" title="Permanent link">¶</a></h2>
+<p><strong>Admin → Webhooks → Créer un webhook</strong> : un <strong>Nom</strong>, une <strong>URL</strong>, les
+<strong>Événements</strong> à envoyer, et un <strong>Secret</strong> facultatif pour la signature.
+<strong>Tester</strong> envoie un ping et affiche la réponse.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Un webhook dans Admin → Webhooks" loading="lazy" src="../../images/admin-webhooks.webp"></a>
 <br>
 <figcaption>Un webhook qui envoie le début et la fin de chaque lecture.</figcaption>
 </figure>
 <p><strong>Événements.</strong> Un webhook s'abonne à <strong>Tous les événements</strong> ou à une liste
-choisie. Ce sont les événements du serveur lui-même, par exemple :</p>
+choisie. Le formulaire propose tous les événements que publie le serveur ;
+parmi eux :</p>
 <table>
 <thead>
 <tr>
@@ -3034,7 +3038,7 @@ choisie. Ce sont les événements du serveur lui-même, par exemple :</p>
 <tbody>
 <tr>
 <td>Bibliothèque</td>
-<td><code>library.scan.started</code>, <code>library.scan.completed</code>, <code>media.item.added</code>, <code>media.item.updated</code>, <code>media.item.removed</code></td>
+<td><code>library.scan.started</code>, <code>library.scan.completed</code>, <code>media.item.added</code>, <code>media.item.updated</code>, <code>media.item.removed</code>, <code>metadata.refreshed</code></td>
 </tr>
 <tr>
 <td>Lecture</td>
@@ -3042,7 +3046,7 @@ choisie. Ce sont les événements du serveur lui-même, par exemple :</p>
 </tr>
 <tr>
 <td>Comptes</td>
-<td><code>user.created</code>, <code>user.login.succeeded</code>, <code>user.login.failed</code>, <code>user.profile.created</code></td>
+<td><code>user.created</code>, <code>user.login.succeeded</code>, <code>user.login.failed</code>, <code>user.profile.created</code>, <code>user.apikey.created</code></td>
 </tr>
 <tr>
 <td>Demandes</td>
@@ -3054,39 +3058,47 @@ choisie. Ce sont les événements du serveur lui-même, par exemple :</p>
 </tr>
 </tbody>
 </table>
+<p>Un plugin qui appelle <code>EmitEvent</code> publie <code>plugin.event.&lt;type&gt;</code>, qu'un
+webhook abonné à <strong>Tous les événements</strong> reçoit aussi.</p>
 <p><strong>Envoi.</strong> Chaque événement est un <code>POST</code> JSON, accompagné de deux en-têtes :</p>
 <ul>
-<li><code>X-Evey-Delivery</code> : un identifiant identique pour toutes les tentatives d'un
-  même envoi, qui permet à votre récepteur d'ignorer un doublon ;</li>
+<li><code>X-Evey-Delivery</code> : un identifiant identique pour toutes les tentatives
+  d'un même envoi, qui permet à votre récepteur d'ignorer un doublon ;</li>
 <li><code>X-Evey-Signature</code> : <code>sha256=</code> suivi du HMAC-SHA256 du corps, calculé avec
   le secret du webhook. Vérifiez-le avec le même secret pour savoir que la
   requête vient bien de votre serveur. Sans secret, la signature ne prouve
   rien.</li>
 </ul>
-<p>Un envoi qui échoue est retenté après 1, 5 et 30 secondes. Chaque tentative
-est consignée dans le journal d'envoi du webhook.</p>
-<p><strong>Adresses publiques uniquement.</strong> L'URL d'un webhook doit être en <code>http</code> ou
-<code>https</code> et pointer vers une adresse publique. Les adresses privées et locales
-(<code>192.168.x.x</code>, <code>10.x.x.x</code>, <code>localhost</code>, un nom de conteneur qui se résout vers
-l'une d'elles) sont refusées, à l'enregistrement du webhook puis de nouveau au
-moment de la connexion. Cela empêche de se servir du serveur pour atteindre
-votre réseau interne ; un récepteur situé sur votre réseau local a besoin
-d'une adresse publique ou d'un relais.</p>
-<h2 id="api-keys">Clés d'API<a class="headerlink" href="#api-keys" title="Permanent link">¶</a></h2>
-<p>Une clé d'API permet à un script d'appeler l'API du serveur sans mot de passe.
-Les clés se créent dans <strong>Admin → Clés API</strong>, par un administrateur, et lui
-appartiennent.</p>
+<p>Chaque tentative attend une réponse pendant 30 secondes au plus. Un envoi qui
+échoue est retenté après 1, 5 et 30 secondes. Chaque tentative est
+consignée ; l'historique se lit par l'API (<code>ListWebhookDeliveries</code> dans
+l'<a href="../api/plugins/">API des plugins</a>), pas dans le panneau.</p>
+<div class="admonition warning">
+<p class="admonition-title">Adresses publiques uniquement</p>
+<p>L'URL d'un webhook doit être en <code>http</code> ou <code>https</code> et pointer vers une
+adresse publique. <code>localhost</code>, les adresses privées et de lien local
+(<code>192.168.x.x</code>, <code>10.x.x.x</code>, <code>172.16.x.x</code>...), et un nom qui se résout
+vers l'une d'elles, sont refusés à l'enregistrement du webhook puis de
+nouveau au moment de la connexion. Cela empêche de se servir du serveur
+pour atteindre votre réseau interne ; un récepteur situé sur votre réseau
+local a besoin d'une adresse publique ou d'un relais.</p>
+</div>
+<h2 id="call-the-server-from-a-script">Appeler le serveur depuis un script<a class="headerlink" href="#call-the-server-from-a-script" title="Permanent link">¶</a></h2>
+<p>Une clé d'API permet à un script d'appeler l'API du serveur sans mot de
+passe. Les clés se créent dans <strong>Admin → Clés API → Nouvelle clé API</strong>, par
+un administrateur, et lui appartiennent.</p>
 <ul>
 <li><strong>La clé n'est affichée qu'une fois</strong>, à sa création. Conservez-la à ce
-  moment-là : elle ne peut plus être affichée, seulement révoquée.</li>
-<li><strong>Elle agit au nom de son propriétaire</strong>, avec des droits
-  d'administrateur, dans la limite de ses portées.</li>
-<li><strong>Les portées</strong> restreignent ce que la clé peut faire :</li>
+  moment-là : elle ne peut plus être affichée, seulement révoquée avec
+  <strong>Révoquer</strong>.</li>
+<li><strong>Elle agit au nom de son propriétaire</strong>, avec des droits d'administrateur,
+  dans la limite de ses permissions.</li>
+<li><strong>Les permissions</strong> restreignent ce que la clé peut faire :</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th>Portée</th>
+<th>Permission</th>
 <th>Autorise</th>
 </tr>
 </thead>
@@ -3125,15 +3137,23 @@ appartiennent.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Une clé créée sans aucune portée a un accès complet</strong>, comme son
-propriétaire : c'est l'ancien comportement, conservé pour les clés existantes.
-Sélectionnez les portées dont le script a besoin.</p>
+<p>Une clé créée sans aucune permission (<strong>Toutes (legacy)</strong>) a un accès complet
+aux méthodes non administratives, comme son propriétaire, mais les méthodes
+d'administration exigent toujours leur permission : une clé legacy ne les
+atteint pas. Sélectionnez les permissions dont le script a besoin.</p>
 <p>La clé se place dans l'en-tête <code>Authorization</code>, avec ou sans <code>Bearer</code> :</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer evey_..."</span><span class="w"> </span>https://media.example.com/api/v1/...
 </span></code></pre></div>
 <p>Une clé cesse de fonctionner dès qu'elle est révoquée, ou dès que son
 propriétaire est désactivé. Les points d'accès eux-mêmes sont listés dans
-l'<a href="../api/">API du serveur</a>.</p>
+l'<a href="../api/">API du serveur</a>, avec les autres façons de s'authentifier.</p>
+<!-- sources
+form labels: i18n admin.webhooks.form.* (name, url, secret, events, allEvents), admin.webhooks.createWebhook, common.test, admin.webhooks.testPingSent
+event list: frontend/packages/client/src/lib/webhookEvents.ts - WEBHOOK_EVENT_TYPES ; EventName() in internal/domain ; plugin events: internal/adapters/driving/pluginhost/host_server.go - pluginEmittedEvent.EventName
+delivery, headers, timeout, retries, signature: internal/app/webhook/service.go - handleAny, attemptDeliver, sign, defaultRetryDelays, deliveryTimeout ; internal/domain/webhook/model.go - MatchesEvent ; history: proto/evey/v1/webhook.proto - ListWebhookDeliveries
+public addresses only: internal/pkg/urlvalidator/validator.go - ValidateWebhookURL, isPrivateIP ; internal/pkg/ssrf/dialer.go
+api keys: internal/adapters/driving/grpcapi/interceptors/auth.go - authenticateAPIKey (Bearer optional, evey_ prefix), authorize (admin methods always enforce the scope) ; internal/pkg/auth/rbac.go (scopes) ; rbac.go - CreateAPIKey RoleAdmin ; i18n auth.apiKeys.* (newKeyTitle, scopesAll, saveWarning, revoke)
+-->
 
 
 
@@ -3191,13 +3211,13 @@ l'<a href="../api/">API du serveur</a>.</p>
         
         
           
-          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Documentation de l'API d'Evey">
+          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Suivant: API du serveur">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Suivant
               </span>
               <div class="md-ellipsis">
-                Documentation de l'API d'Evey
+                API du serveur
               </div>
             </div>
             <div class="md-footer__button md-icon">

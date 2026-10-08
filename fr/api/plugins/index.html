@@ -2654,21 +2654,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spécifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugin-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Développer un plugin
+        Authentification
       
     </span>
   </a>
@@ -2967,21 +2956,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
+  <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spécifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugin-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Développer un plugin
+        Authentification
       
     </span>
   </a>
@@ -3012,8 +2990,12 @@
 
 
 <h1 id="plugin-api">API des plugins<a class="headerlink" href="#plugin-api" title="Permanent link">¶</a></h1>
-<p>Les points d'accès de gestion des plugins et des intégrations par webhook.</p>
-<h2 id="specs">Spécifications<a class="headerlink" href="#specs" title="Permanent link">¶</a></h2>
+<p>Les points d'accès autour des plugins : les installer et les gérer
+(administrateur), les webhooks (administrateur), et les préférences que
+l'interface d'un plugin garde par utilisateur. Écrire un plugin relève d'un
+autre contrat, en gRPC sur un socket local : voir
+<a href="../../plugins/dev-setup/">Écrire un plugin</a> et la
+<a href="../../plugins/api-reference/">Référence de l'API des plugins</a>.</p>
 <table>
 <thead>
 <tr>
@@ -3024,11 +3006,11 @@
 <tbody>
 <tr>
 <td><a href="../../../api/plugins/admin_plugin.swagger.json">admin_plugin.swagger.json</a></td>
-<td>Installer, activer, désactiver, désinstaller des plugins. Configuration et journaux des plugins. Environnements d'exécution.</td>
+<td>Installer, activer, désactiver, désinstaller des plugins ; configuration, journaux, limites de ressources, environnements d'exécution ; aperçu et application d'une mise à jour ; <code>IssuePluginToken</code></td>
 </tr>
 <tr>
 <td><a href="../../../api/plugins/webhook.swagger.json">webhook.swagger.json</a></td>
-<td>Création, lecture, modification et suppression des webhooks, historique des envois</td>
+<td>Créer, lister, modifier et supprimer des webhooks ; historique des envois</td>
 </tr>
 <tr>
 <td><a href="../../../api/plugins/plugin_prefs.swagger.json">plugin_prefs.swagger.json</a></td>
@@ -3036,16 +3018,21 @@
 </tr>
 </tbody>
 </table>
-<h2 id="plugin-development">Développer un plugin<a class="headerlink" href="#plugin-development" title="Permanent link">¶</a></h2>
-<p>Les plugins dialoguent avec le serveur Evey en gRPC. Le guide complet est dans la
-<a href="../../plugins/">documentation des plugins</a>, notamment :</p>
-<ul>
-<li>le cycle de vie d'un plugin (installation, activation, configuration,
-  désactivation, désinstallation) ;</li>
-<li>les événements disponibles ;</li>
-<li>le schéma de configuration ;</li>
-<li>l'isolation de sécurité (seccomp, isolation des processus).</li>
-</ul>
+<p>L'envoi d'un paquet est un <code>POST /api/v1/admin/plugins/upload</code> multipart
+(champs <code>plugin</code>, <code>sig</code> facultatif, <code>accept_permission_changes</code>) ;
+<code>POST /api/v1/admin/plugins/preview</code> analyse sans installer. Les deux sont
+des routes d'administrateur.</p>
+<h2 id="authentication">Authentification<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
+<p>La gestion des plugins et les webhooks exigent un administrateur, comme
+l'<a href="../admin/">API d'administration</a>. <code>plugin_prefs</code> est le seul
+service conçu pour un jeton de plugin : la page hôte l'émet pour un plugin et
+un utilisateur, et le service ne répond que les lignes de ce couple
+(<a href="../#authentication">API du serveur</a>).</p>
+<!-- sources
+methods: proto/evey/v1/admin_plugin.proto, webhook.proto, plugin_prefs.proto
+upload and preview routes: internal/adapters/driving/http/plugin_asset_handler.go
+plugin token on prefs: internal/adapters/driving/grpcapi/interceptors/rbac.go - PluginMethodScopes ; internal/adapters/driving/grpcapi/plugin_prefs_handler.go
+-->
 
 
 

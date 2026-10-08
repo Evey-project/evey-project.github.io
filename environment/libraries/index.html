@@ -3037,15 +3037,18 @@
 
 
 <h1 id="libraries-and-metadata">Libraries and metadata<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p>Scanning, metadata sources and intro detection. Most of these have a
-counterpart in the admin panel, which wins once a value is saved there.</p>
+<p>The variables behind scanning, metadata sources and intro detection. Most of
+them have a field in the admin panel, which wins once a value is saved
+there; the panel side is described in
+<a href="../../administration/libraries/">Libraries and metadata</a>.</p>
 <h2 id="scanning">Scanning<a class="headerlink" href="#scanning" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3053,21 +3056,25 @@ counterpart in the admin panel, which wins once a value is saved there.</p>
 <td><code>EVEY_LIBRARY_WATCHER_ENABLED</code></td>
 <td><code>true</code></td>
 <td>Realtime file watching.</td>
+<td>Server Config → Server Settings → <strong>Library file watcher</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_LIBRARY_PERIODIC_SCAN_INTERVAL</code></td>
 <td><code>2m</code></td>
-<td>How often the folders are checked for what the watcher missed (network shares). <strong>Admin → Server Config → Server Settings</strong> overrides it.</td>
+<td>How often the folders are checked for what the watcher missed (network shares).</td>
+<td>Server Config → Server Settings → <strong>Periodic scan interval</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_LIBRARY_SCAN_WORKERS</code></td>
 <td>from the CPU share</td>
 <td>Files analysed in parallel during a scan. Set by hand, it bypasses the <strong>Processing power</strong> share for scans.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_SEEKINDEX_STATE_DIR</code></td>
 <td><code>/data/seek-index</code></td>
-<td>Where the Media health scan keeps its results and its running job across restarts. Empty: not kept.</td>
+<td>Where the Media Health scan keeps its results and its running job across restarts. Empty: not kept.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3077,34 +3084,40 @@ counterpart in the admin panel, which wins once a value is saved there.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_METADATA_LANGUAGE</code></td>
 <td><code>en</code></td>
-<td>The language of titles and summaries. The language chosen in the setup wizard or in <strong>Admin → Server Config → Language &amp; Region</strong> wins.</td>
+<td>The language of titles and summaries. The language chosen in the setup wizard wins over it.</td>
+<td>Server Config → Language &amp; Region → <strong>Metadata language</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_TMDB_API_KEY</code></td>
 <td>built-in key</td>
-<td>Your own TMDB key, for your own quota. The key set in <strong>Admin → Server Config → API Keys</strong> wins.</td>
+<td>Your own TMDB key, for your own quota.</td>
+<td>Server Config → API Keys → <strong>TMDB API Key</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_OMDB_API_KEY</code></td>
 <td>empty</td>
-<td>An OMDb key, a second source for films. Same override.</td>
+<td>An OMDb key, a second source for films.</td>
+<td>Server Config → API Keys → <strong>OMDB API Key</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_OPENSUBTITLES_API_KEY</code></td>
 <td>empty</td>
-<td>An OpenSubtitles key, for subtitle search through the API. Same override.</td>
+<td>An OpenSubtitles key, for subtitle search through the API.</td>
+<td>Server Config → API Keys → <strong>OpenSubtitles API Key</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_OPENSUBTITLES_USERNAME</code>, <code>EVEY_OPENSUBTITLES_PASSWORD</code></td>
 <td>empty</td>
 <td>An OpenSubtitles account, used to sign in to its API.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3114,48 +3127,56 @@ counterpart in the admin panel, which wins once a value is saved there.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_INTRO_PROVIDERS_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Uses the community databases (TheIntroDB, then IntroDB) before the server's own detection. <strong>Admin → Server Config → Intro Skip Providers</strong> wins; restart after changing it.</td>
+<td>Uses the community databases (TheIntroDB, then IntroDB) before the server's own detection.</td>
+<td>Server Config → Intro Skip Providers → <strong>Enable external intro skip providers</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_TIDB_API_KEY</code></td>
 <td>empty</td>
 <td>A TheIntroDB key: 500 lookups a day instead of 100.</td>
+<td>Server Config → API Keys → <strong>TheIntroDB API Key</strong>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_AUTO_SKIP_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Every player skips detected intros on its own. Applies live from the panel.</td>
+<td>Every player skips detected intros on its own.</td>
+<td>Server Config → Server Settings → <strong>Auto-skip intros</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_SKIP_PREVIEW_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Also offers to skip the preview of the next episode. Applies live from the panel.</td>
+<td>Also offers to skip the preview of the next episode.</td>
+<td>Server Config → Server Settings → <strong>Skip preview segments</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_DETECTION_MAX_PARALLEL</code></td>
 <td>from the CPU share</td>
 <td>Titles analysed at once. Set by hand, it bypasses the <strong>Processing power</strong> share for this task.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_FFMPEG_THREADS</code></td>
 <td><code>1</code></td>
 <td>Threads per ffmpeg process during detection (1 to 16).</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
 internal/config/config.go - EVEY_LIBRARY_*, EVEY_SEEKINDEX_STATE_DIR, EVEY_METADATA_LANGUAGE, EVEY_INTRO_*
+watcher / scan interval: cmd/evey/wire_events.go (loadOverride library.watcher_enabled, library.periodic_scan_interval) ; internal/adapters/driving/http/settings_handler.go (requiresRestart)
 scan workers: internal/app/library/scan_service.go - scanWorkersFromEnv
-api keys: cmd/evey/wire_infra.go - resolveAPIKeyWithBuiltin ; cmd/evey/wire_services.go (opensubtitles)
-language: cmd/evey/wire_infra.go (metadata.language wins)
-intro: cmd/evey/wire.go (EVEY_INTRO_DETECTION_MAX_PARALLEL) ; internal/adapters/driven/ffmpeg/intro_threads.go
+api keys: cmd/evey/wire_infra.go - resolveAPIKeyWithBuiltin, resolveAPIKey ; cmd/evey/wire_services.go (opensubtitles) ; i18n admin.serverConfig.apiKeys.*
+language: cmd/evey/wire_infra.go (metadata.language wins) ; internal/app/config/locale_defaults.go
+intro: cmd/evey/wire.go (intro_providers.enabled, api.tidb_key, EVEY_INTRO_DETECTION_MAX_PARALLEL) ; internal/adapters/driven/ffmpeg/intro_threads.go ; i18n admin.serverConfig.introProvidersRestart ; admin.serverSettings.introAutoSkip, skipPreview
 -->
 
 

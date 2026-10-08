@@ -683,6 +683,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-address-to-open-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The address to open next
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-the-data-lives" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3039,6 +3050,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-address-to-open-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The address to open next
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-the-data-lives" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3095,11 +3117,12 @@
 
 
 <h1 id="install">Install<a class="headerlink" href="#install" title="Permanent link">¶</a></h1>
-<p>Evey runs as one container. The image serves the API and the web interface on
+<p>Evey runs as one container: the image serves the API and the web interface on
 one port, and runs its own database (Postgres) and search engine (Meilisearch)
-inside it, with their passwords generated on the first start. The compose file
-below is the whole installation: no <code>.env</code>, no privileged mode, no memory or
-CPU setting.</p>
+inside it. This page is for the person who runs Docker at home or on a NAS:
+copy the compose file, start it, open <strong><code>http://&lt;server-address&gt;:9091</code></strong> in a
+browser, and continue with the setup wizard. No <code>.env</code>, no privileged mode,
+no memory or CPU setting.</p>
 <div class="admonition warning">
 <p class="admonition-title">Not the repository's docker-compose.yml</p>
 <p>The <code>docker-compose.yml</code> at the root of the Git repository is a different
@@ -3143,9 +3166,12 @@ line.</p>
    change. To run the same code from one pull to the next, put an immutable
    <code>sha-&lt;commit&gt;</code> tag here instead: see
    <a href="../backups/#updating-evey">Backups and updates</a>.</li>
-<li>The API and the web interface, on one port, in plain HTTP.</li>
+<li>The API and the web interface, on one port, in plain HTTP. The number on
+   the left is the port you will type in the browser and in the apps; keep
+   <code>9091</code> unless it is already taken on the host.</li>
 <li>Everything Evey owns: database, signing key, generated passwords, search
-   index, timeline thumbnails, artwork, logs, backups, plugins. This is the folder to back up.</li>
+   index, timeline thumbnails, artwork, logs, backups, plugins. This is the
+   folder to back up.</li>
 <li>Transcoding cache: segments, resized photos and covers. It can be deleted
    at any time and refills on demand.</li>
 <li>Your media. Mounted read-write on purpose: the repairs of
@@ -3162,8 +3188,42 @@ line.</p>
 <p>On the first start the server generates its signing key and passwords in
 <code>./evey-data</code>, creates the database and applies its migrations. Nothing has to
 be prepared by hand.</p>
-<p>Then open <code>http://&lt;server-address&gt;:9091</code>. A server with no administrator opens
-on the setup wizard: continue with <a href="../getting-started/first-setup/">First setup</a>.</p>
+<h2 id="the-address-to-open-next">The address to open next<a class="headerlink" href="#the-address-to-open-next" title="Permanent link">¶</a></h2>
+<p>Open <strong><code>http://&lt;server-address&gt;:9091</code></strong> in a browser on the same network:</p>
+<table>
+<thead>
+<tr>
+<th>Where the browser is</th>
+<th>Address to type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>On the machine running Docker</td>
+<td><code>http://localhost:9091</code></td>
+</tr>
+<tr>
+<td>Another computer or a phone at home</td>
+<td><code>http://</code> + the IP of the Docker host on your home network + <code>:9091</code>, for example <code>http://192.168.1.20:9091</code></td>
+</tr>
+<tr>
+<td>Outside your home</td>
+<td>Not yet: this needs HTTPS and a public address, see <a href="../administration/remote-access/">Remote access and HTTPS</a></td>
+</tr>
+</tbody>
+</table>
+<p>The IP of the Docker host is in your router's list of devices, or on the host
+itself (<code>ip a</code> on Linux, <code>ipconfig</code> on Windows, <code>ifconfig</code> on macOS). The
+port is the left-hand number of the <code>ports:</code> line in the compose file.</p>
+<p>A server with no administrator opens on the setup wizard: continue with
+<a href="../getting-started/first-setup/#1-the-setup-wizard">First setup</a>. Once the
+administrator exists, the same address opens on the sign-in page.</p>
+<div class="admonition tip">
+<p class="admonition-title">The apps ask for the same address</p>
+<p>The Android and Android TV apps ask for the server address on their first
+screen. It is exactly this address, with <code>http://</code> and the port:
+<a href="../getting-started/apps/#the-server-address-to-enter">The server address to enter</a>.</p>
+</div>
 <h2 id="where-the-data-lives">Where the data lives<a class="headerlink" href="#where-the-data-lives" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3194,6 +3254,8 @@ on the setup wizard: continue with <a href="../getting-started/first-setup/">Fir
 <h2 id="common-variations">Common variations<a class="headerlink" href="#common-variations" title="Permanent link">¶</a></h2>
 <p>Each of these is a few lines added to the same file.</p>
 <p><strong>A second media folder.</strong> Add <code>- /other/path:/media2</code> under <code>volumes:</code>.</p>
+<p><strong>Another port on the host.</strong> Change the left-hand number only, for example
+<code>"8080:9091"</code>, and type <code>:8080</code> in the browser and the apps instead.</p>
 <p><strong>File ownership.</strong> By default the container adopts the owner of your <code>/media</code>
 mount, so that repairs can write. To choose it yourself, set <code>PUID</code> and <code>PGID</code>
 under <code>environment:</code> (the output of <code>id -u</code> and <code>id -g</code>). The container starts
@@ -3224,8 +3286,12 @@ name, schedules, limits, API keys) are in the admin panel, not in the compose
 file. The environment variables that do exist are listed in the
 <a href="../configuration/">Configuration reference</a>.</p>
 <!-- sources
+image name and tags: .github/workflows/ci.yml (docker.io/eveyproject/evey, latest gated on semver tags)
+http port = grpc port + 1: cmd/evey/main.go - httpPort ; internal/config/config.go - EVEY_SERVER_PORT default 9090
+repository compose is another layout: docker-compose.yml (EVEY_DB_HOST postgres, env_file .env, caddy service)
 first boot: docker/entrypoint.sh ; internal/config/config.go
-wizard: frontend/apps/web/src/routes/setup.tsx
+wizard or sign-in on the root address: frontend/apps/web/src/routes/index.tsx ; frontend/apps/web/src/routes/setup.tsx
+apps ask for the same address: frontend/apps/mobile/app/server-connect.tsx ; frontend/apps/tv/app/server-connect.tsx
 volumes: docs/backups.md ; cmd/evey (evey admin reindex-search)
 writes into media folders: internal/app/subtitle/service.go (.subtitles) ; internal/app/library/watcher_probe.go - probeOnce ; runbooks/media-health.md
 delete = library only: internal/app/library/command_service.go - DeleteMediaItem ; internal/app/music/command_service.go - DeleteTrack

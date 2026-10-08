@@ -1215,6 +1215,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reading-stream-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lire les Infos du flux
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-each-side-brings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1237,17 +1248,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constraints-the-server-applies-itself" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Les contraintes que le serveur applique lui-même
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#limits-on-the-session" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1259,10 +1259,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reading-stream-info" class="md-nav__link">
+  <a href="#constraints-the-server-applies-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lire les Infos du flux
+        Les contraintes que le serveur applique lui-même
       
     </span>
   </a>
@@ -3050,6 +3050,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reading-stream-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lire les Infos du flux
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-each-side-brings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3072,17 +3083,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constraints-the-server-applies-itself" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Les contraintes que le serveur applique lui-même
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#limits-on-the-session" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3094,10 +3094,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reading-stream-info" class="md-nav__link">
+  <a href="#constraints-the-server-applies-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lire les Infos du flux
+        Les contraintes que le serveur applique lui-même
       
     </span>
   </a>
@@ -3161,49 +3161,101 @@
 
 
 <h1 id="how-playback-is-decided">Comment Evey choisit le mode de lecture<a class="headerlink" href="#how-playback-is-decided" title="Permanent link">¶</a></h1>
-<p>Evey ne vous demande jamais de choisir une qualité avant de lancer un film. À
-chaque lecture, le serveur détermine lui-même comment livrer le titre, en
-croisant trois éléments : le contenu du fichier, ce que le lecteur sait
-décoder, et ce que le serveur peut encoder à cet instant. Un même film peut
-ainsi partir intact vers un appareil et être réencodé pour un autre, ou être lu
-différemment sur le même appareil selon la charge du serveur.</p>
+<p>Pourquoi ce film est-il lu tel quel sur la TV et réencodé sur le téléphone ?
+Cette page répond à quiconque appuie sur lecture : les trois modes et la
+lecture des <strong>Infos du flux</strong> viennent d'abord ; les règles exactes que le
+serveur applique suivent, pour qui veut comprendre ou les ajuster.</p>
+<p>Evey ne vous demande jamais de choisir une qualité avant de lancer un titre.
+Chaque lancement est une négociation entre trois parties : le contenu du
+fichier, ce que ce lecteur sait décoder, et ce que ce serveur peut encoder à
+cet instant. Un même film peut donc partir intact vers un appareil et être
+réencodé pour un autre, ou être lu différemment sur le même appareil quand le
+serveur est chargé.</p>
 <h2 id="the-three-outcomes">Les trois modes de lecture<a class="headerlink" href="#the-three-outcomes" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Dans les Infos du flux</th>
 <th>Ce que reçoit le lecteur</th>
+<th>Ce que cela coûte au serveur</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Lecture directe</strong></td>
 <td>Le fichier d'origine, tel quel.</td>
+<td>Une lecture de fichier.</td>
 </tr>
 <tr>
 <td><strong>Remux</strong></td>
 <td>La vidéo et l'audio d'origine, placés dans un autre conteneur. Rien n'est réencodé.</td>
+<td>Un réempaquetage, fait par <a href="../mkvgo/">MKVGo</a> dans le serveur quand c'est possible, par une copie FFmpeg sinon.</td>
 </tr>
 <tr>
 <td><strong>Transcodage</strong></td>
 <td>Au moins une piste réencodée. Souvent l'audio seul, la vidéo restant celle d'origine.</td>
+<td>Un encodage. Seul un réencodage vidéo occupe un <a href="../transcoding/#sharing-the-capacity">créneau de transcodage</a>.</td>
 </tr>
 </tbody>
 </table>
-<p>Le serveur privilégie ces modes dans cet ordre et, quand il transcode, ne
-réencode que les pistes qui l'exigent.</p>
+<p>Le serveur les essaie dans cet ordre et, quand il transcode, ne réencode que
+les pistes qui l'exigent.</p>
+<h2 id="reading-stream-info">Lire les Infos du flux<a class="headerlink" href="#reading-stream-info" title="Permanent link">¶</a></h2>
+<p>Les <strong>Infos du flux</strong> (le bouton d'information, (i), des contrôles du
+lecteur ; sur la TV, dans le menu d'options du lecteur) affichent la
+<strong>Méthode</strong>, puis chaque piste avec sa décision (<em>copié</em>, <em>transcodé</em>, ou
+<em>décodé client</em> pour un audio que le lecteur web décode lui-même) et, sous
+<strong>Pourquoi pas de lecture directe</strong>, les raisons.</p>
+<figure class="evey-shot evey-shot--narrow">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les Infos du flux dans le lecteur web, pour un remux" loading="lazy" src="../../../images/player-stream-info.webp"></a>
+<br>
+<figcaption>Remux : l'emballage change, les pistes vidéo et audio restent intactes, et la seule raison pour laquelle le fichier n'est pas lu tel quel. « Copié » décrit les pistes, pas le mode de lecture (interface en anglais).</figcaption>
+</figure>
+<p>Les raisons se répartissent en quatre catégories :</p>
+<table>
+<thead>
+<tr>
+<th>Origine</th>
+<th>Exemples, tels qu'affichés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Le lecteur ne peut pas exploiter la piste telle quelle</td>
+<td>Codec vidéo non lisible par ce lecteur · Codec audio non lisible par ce lecteur · Résolution au-dessus de la limite du lecteur · Trop de canaux audio pour ce lecteur · Format de pixels que le lecteur ne décode pas (H.264 10 bits, 4:2:2) · Conteneur non lisible en l'état (remis en HLS)</td>
+</tr>
+<tr>
+<td>Une limite propre à la session</td>
+<td>Débit au-dessus de la limite autorisée · Le débit mesuré par le client ne peut pas porter la copie</td>
+</tr>
+<tr>
+<td>Une conséquence sur l'image ou le son</td>
+<td>HDR converti en SDR (tone-mapping) · Sous-titres incrustés dans l'image · Resynchronisation audio demandée</td>
+</tr>
+<tr>
+<td>Un réglage, ou une décision déjà prise</td>
+<td>Lecture directe désactivée dans le profil · Remux désactivé dans le profil · Codec vidéo préféré (réglage du profil) · Choix figé pour cette session</td>
+</tr>
+</tbody>
+</table>
+<p>Seule la piste audio écoutée est prise en compte : un fichier dont la piste de
+commentaire, non sélectionnée, est en DTS ne sera pas transcodé pour autant.</p>
+<p>Les Infos du flux sont calculées au lancement de la lecture. Un seul cas leur
+échappe : une carte graphique saturée au moment précis où le flux démarre. Le
+flux bascule alors sur le processeur, et <strong>Admin → En cours de lecture</strong>
+indique le backend réellement utilisé.</p>
 <h2 id="what-each-side-brings">Ce qui entre dans la décision<a class="headerlink" href="#what-each-side-brings" title="Permanent link">¶</a></h2>
 <p><strong>Le fichier.</strong> Codec, résolution, profondeur de couleur, format HDR, débit,
 pistes audio et sous-titres, relevés au moment du scan.</p>
 <p><strong>Le lecteur.</strong> Au lancement, l'application indique ce que son appareil sait
 décoder : les familles de codecs prises en charge, les conteneurs qu'il sait
 ouvrir, sa résolution maximale, si son écran affiche le HDR, le nombre de
-canaux audio qu'il restitue et, pour certains appareils, un plafond plus bas en
-H.264. L'application web interroge le navigateur ; les applications Android et
-Android TV interrogent les décodeurs et l'écran de l'appareil. Evey ne tient
-aucune liste d'appareils compatibles : il s'appuie sur ce que le lecteur
-déclare. En diffusion, c'est le récepteur qui se décrit lui-même quand il le
-peut, et un profil prudent est utilisé sinon : voir
+canaux audio qu'il restitue et, pour certains appareils, un plafond ou un
+niveau plus bas en H.264. L'application web interroge le navigateur ; les
+applications Android et Android TV interrogent les décodeurs et l'écran de
+l'appareil. Evey ne tient aucune liste d'appareils compatibles : il s'appuie
+sur ce que le lecteur déclare. En diffusion, c'est le récepteur qui se décrit
+lui-même quand il le peut, et un profil prudent est utilisé sinon : voir
 <a href="../casting/">Diffusion (Chromecast)</a>.</p>
 <p><strong>La session.</strong> Les préférences du profil (débit maximal, nombre maximal de
 canaux audio, traitement des sous-titres) et les limites qui s'appliquent à ce
@@ -3227,18 +3279,11 @@ HDR :</p>
   carte en sont capables.</li>
 <li><strong>Même limite, mais carte graphique saturée ou indisponible pour ce titre.</strong>
   Le processeur prend le relais. Il encode en H.264, qui ne transporte pas de
-  HDR ici : l'image est convertie en SDR par tone mapping.</li>
+  HDR ici : l'image est convertie en SDR par tone mapping, à la qualité que le
+  processeur tient.</li>
 </ul>
 <p>Ni le fichier ni la TV n'ont changé : seules la limite de la session et l'état
 du serveur ont varié.</p>
-<h2 id="constraints-the-server-applies-itself">Les contraintes que le serveur applique lui-même<a class="headerlink" href="#constraints-the-server-applies-itself" title="Permanent link">¶</a></h2>
-<p>Certaines limites ne sont pas encore déclarées par les lecteurs. Le serveur les
-applique alors comme une règle de compatibilité prudente, identique pour tous :
-le H.264 en 10 bits, et toute vidéo en 4:2:2, en 4:4:4 ou en 12 bits, sont
-réencodés, alors que le
-HEVC, le VP9 et l'AV1 jusqu'à 10 bits en 4:2:0 dépendent de la prise en charge
-du codec par le lecteur. Le Dolby Vision n'est conservé que sous une forme que
-le lecteur affiche correctement : voir <a href="../hdr/">HDR et Dolby Vision</a>.</p>
 <h2 id="limits-on-the-session">Les limites de la session<a class="headerlink" href="#limits-on-the-session" title="Permanent link">¶</a></h2>
 <p>Un titre dont le débit (vidéo et piste audio écoutée) dépasse la plus basse de
 ces limites est transcodé pour s'y conformer :</p>
@@ -3247,55 +3292,22 @@ ces limites est transcodé pour s'y conformer :</p>
 <li>le <strong>Débit maximal</strong> du compte, fixé par un administrateur ;</li>
 <li>le <strong>Débit maximum en streaming</strong> du profil, et son <strong>Débit maximum en
   mobile</strong> quand un téléphone est sur le réseau cellulaire ;</li>
-<li>le <strong>Débit distant maximal</strong> (<strong>Admin → Accès distant</strong>) et le plafond des
-  spectateurs distants de <strong>Admin → Transcodage</strong>, le plus bas des deux, quand
-  l'adresse du spectateur est publique et hors des <strong>Réseaux LAN</strong>. Une adresse
-  privée n'est jamais plafonnée.</li>
+<li>le <strong>Débit distant maximal</strong> (<strong>Admin → Accès distant</strong>) et le <strong>Plafond de
+  débit vidéo, spectateurs distants</strong> (<strong>Admin → Configuration transcodage</strong>),
+  le plus bas des deux, quand l'adresse du spectateur est publique et hors des
+  <strong>Réseaux LAN</strong>. Une adresse privée n'est jamais plafonnée.</li>
 </ul>
-<h2 id="reading-stream-info">Lire les Infos du flux<a class="headerlink" href="#reading-stream-info" title="Permanent link">¶</a></h2>
-<p>Les <strong>Infos du flux</strong> (le bouton d'information, (i), des contrôles du lecteur ; sur la TV, dans
-le menu d'options du lecteur) affichent la <strong>Méthode</strong>, puis chaque piste avec
-sa décision (<em>copié</em>, <em>transcodé</em>, ou <em>décodé client</em> pour un audio que le
-lecteur web décode lui-même) et, sous <strong>Pourquoi pas de lecture directe</strong>, les
-raisons.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les Infos du flux dans le lecteur web, pour un remux" loading="lazy" src="../../../images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux : l'emballage change, les pistes vidéo et audio restent intactes, et la seule raison pour laquelle le fichier n'est pas lu tel quel. « Copié » décrit les pistes, pas le mode de lecture (interface en anglais).</figcaption>
-</figure>
-<p>Les raisons se répartissent en quatre catégories :</p>
-<table>
-<thead>
-<tr>
-<th>Origine</th>
-<th>Exemples, tels qu'affichés</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Le lecteur ne peut pas exploiter la piste telle quelle</td>
-<td>Codec vidéo non lisible par ce lecteur · Codec audio non lisible par ce lecteur · Résolution au-dessus de la limite du lecteur · Trop de canaux audio pour ce lecteur · Conteneur non lisible en l'état (remis en HLS)</td>
-</tr>
-<tr>
-<td>Une limite propre à la session</td>
-<td>Débit au-dessus de la limite autorisée · Le débit mesuré par le client ne peut pas porter la copie</td>
-</tr>
-<tr>
-<td>Une conséquence sur l'image ou le son</td>
-<td>HDR converti en SDR (tone-mapping) · Sous-titres incrustés dans l'image · Resynchronisation audio demandée</td>
-</tr>
-<tr>
-<td>Un réglage, ou une décision déjà prise</td>
-<td>Lecture directe désactivée dans le profil · Remux désactivé dans le profil · Codec vidéo préféré (réglage du profil) · Choix figé pour cette session</td>
-</tr>
-</tbody>
-</table>
-<p>Seule la piste audio écoutée est prise en compte : un fichier dont la piste de
-commentaire, non sélectionnée, est en DTS ne sera pas transcodé pour autant.</p>
-<p>Les Infos du flux sont calculées au lancement de la lecture. Un seul cas leur
-échappe : une carte graphique saturée au moment précis où le flux démarre. Le
-flux bascule alors sur le processeur, et <strong>Admin → En cours de lecture</strong>
-indique le backend réellement utilisé.</p>
+<p>La piste audio écoutée est réencodée quand elle compte plus de canaux que le
+lecteur n'en déclare ou que les <strong>Canaux audio maximum</strong> du profil. Une piste
+réencodée garde au plus 5.1 canaux, jamais davantage : voir <a href="../audio/">Audio</a>.</p>
+<h2 id="constraints-the-server-applies-itself">Les contraintes que le serveur applique lui-même<a class="headerlink" href="#constraints-the-server-applies-itself" title="Permanent link">¶</a></h2>
+<p>Certaines limites ne sont pas encore déclarées par les lecteurs. Le serveur
+les applique alors comme une règle de compatibilité prudente, identique pour
+tous : le H.264 en 10 bits, et toute vidéo en 4:2:2, en 4:4:4 ou en 12 bits,
+sont réencodés, alors que le HEVC, le VP9 et l'AV1 jusqu'à 10 bits en 4:2:0
+dépendent de la prise en charge du codec par le lecteur. Le Dolby Vision n'est
+conservé que sous une forme que le lecteur affiche correctement : voir
+<a href="../hdr/">HDR et Dolby Vision</a>.</p>
 <h2 id="why-the-method-rarely-changes-mid-film">Pourquoi le mode change rarement en cours de film<a class="headerlink" href="#why-the-method-rarely-changes-mid-film" title="Permanent link">¶</a></h2>
 <p>La décision est prise au lancement et conservée pendant toute la session, pour
 que le lecteur ne reçoive jamais des segments issus de deux encodages
@@ -3305,8 +3317,12 @@ audio ou de sous-titres d'une façon qui l'exige, ou si vous relancez le titre.<
 <p><strong>Paramètres → Lecture</strong> propose, pour chaque profil, <strong>Autoriser la lecture
 directe</strong>, <strong>Autoriser le remux</strong> et <strong>Autoriser le transcodage</strong>. Désactiver
 l'une de ces options interdit ce mode au serveur, et les Infos du flux
-indiquent pourquoi. C'est un outil de diagnostic, pas un réglage de qualité :
-un transcodage imposé n'est jamais meilleur que l'original.</p>
+indiquent pourquoi.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>C'est un outil de diagnostic, pas un réglage de qualité : un transcodage
+imposé n'est jamais meilleur que l'original.</p>
+</div>
 <p>La <strong>Qualité</strong>, dans les réglages du lecteur, joue un autre rôle : elle choisit
 parmi les qualités d'un flux transcodé. <strong>Auto</strong> s'adapte à la connexion ; une
 résolution (1080p, 720p...) fixe cette qualité ; <strong>Original</strong> lève le plafond
@@ -3317,6 +3333,7 @@ de résolution que le lecteur demanderait sinon.</p>
   <a href="../subtitles/">Sous-titres</a> · <a href="../casting/">Diffusion (Chromecast)</a></li>
 <li>La répartition de la capacité du serveur :
   <a href="../transcoding/">Transcodage et capacité du serveur</a></li>
+<li>Ce qui tourne dans le serveur sans FFmpeg : <a href="../mkvgo/">MKVGo dans Evey</a></li>
 <li>L'implémentation : <a href="../../playback-serving/">Chaîne de lecture</a></li>
 </ul>
 

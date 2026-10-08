@@ -1113,10 +1113,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#scheduled-backups" class="md-nav__link">
+  <a href="#schedule-backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sauvegardes planifiées
+        Planifier les sauvegardes
       
     </span>
   </a>
@@ -1124,10 +1124,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restoring" class="md-nav__link">
+  <a href="#restore-a-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Restaurer
+        Restaurer une sauvegarde
       
     </span>
   </a>
@@ -3015,10 +3015,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#scheduled-backups" class="md-nav__link">
+  <a href="#schedule-backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sauvegardes planifiées
+        Planifier les sauvegardes
       
     </span>
   </a>
@@ -3026,10 +3026,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restoring" class="md-nav__link">
+  <a href="#restore-a-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Restaurer
+        Restaurer une sauvegarde
       
     </span>
   </a>
@@ -3088,12 +3088,18 @@
 
 
 <h1 id="backups-and-updates">Sauvegardes et mises à jour<a class="headerlink" href="#backups-and-updates" title="Permanent link">¶</a></h1>
+<p>Une sauvegarde planifiée de la base de données, conservée aussi longtemps que
+vous le décidez, et une mise à jour qui tient en un <code>docker compose pull</code>.
+Cette page s'adresse à l'administrateur : ce qu'une sauvegarde contient et ce
+qu'elle ne contient pas, comment en restaurer une, et comment mettre à jour ou
+revenir en arrière sans perdre de données.</p>
 <h2 id="what-a-backup-contains">Ce que contient une sauvegarde<a class="headerlink" href="#what-a-backup-contains" title="Permanent link">¶</a></h2>
 <p>Une sauvegarde est une copie de la <strong>base de données</strong> : comptes, profils,
-bibliothèques et leurs métadonnées, historique de lecture et points de
-reprise, collections et playlists, réglages, enregistrements des plugins,
-webhooks et journaux d'audit. C'est une archive <code>.tar.gz</code> qui contient le
-dump SQL et un manifeste avec son empreinte SHA256.</p>
+bibliothèques et leur catalogue, historique de lecture et points de reprise,
+collections, playlists et favoris, réglages, enregistrements des plugins,
+webhooks, clés API, notifications et journaux d'audit. C'est une archive
+<code>.tar.gz</code> qui contient le dump SQL et un manifeste avec l'empreinte SHA256 du
+dump et la version du schéma.</p>
 <p>Elle ne contient <strong>pas</strong> :</p>
 <ul>
 <li>vos fichiers de médias ;</li>
@@ -3104,31 +3110,34 @@ dump SQL et un manifeste avec son empreinte SHA256.</p>
 <li>les fichiers des plugins installés.</li>
 </ul>
 <p>Une sauvegarde de la base restaure donc l'état d'Evey sur la même
-installation. Pour pouvoir reconstruire une machine, gardez aussi une copie
-de tout le dossier <code>./evey-data</code> : les sauvegardes de la base s'y trouvent,
-dans <code>./evey-data/backups</code>.</p>
-<h2 id="scheduled-backups">Sauvegardes planifiées<a class="headerlink" href="#scheduled-backups" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Sauvegarde BDD et restauration → Planification</strong> : une expression
-cron (par exemple <code>0 3 * * *</code>, tous les jours à 3 h) et une durée de
-conservation en jours. Les sauvegardes plus anciennes sont supprimées après
-chaque exécution planifiée. <strong>Lancer maintenant</strong> en crée une
-immédiatement.</p>
+installation. Pour pouvoir reconstruire une machine, gardez aussi une copie de
+tout le dossier <code>./evey-data</code> : les sauvegardes de la base s'y trouvent, dans
+<code>./evey-data/backups</code>.</p>
+<h2 id="schedule-backups">Planifier les sauvegardes<a class="headerlink" href="#schedule-backups" title="Permanent link">¶</a></h2>
+<p><strong>Admin → Sauvegarde BDD et restauration → Planification</strong> : une <strong>Expression
+cron</strong> (par exemple <code>0 3 * * *</code>, tous les jours à 3 h) et une <strong>Rétention
+(jours)</strong>. Les sauvegardes plus anciennes que la rétention sont supprimées
+après chaque exécution planifiée. <strong>Lancer maintenant</strong> en crée une
+immédiatement, tout comme <strong>Créer une sauvegarde</strong> en haut de la page.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Sauvegarde BDD et restauration avec une planification quotidienne" loading="lazy" src="../../images/admin-backup.webp"></a>
 <br>
 <figcaption>Une sauvegarde chaque jour à 3 h, conservée 30 jours.</figcaption>
 </figure>
 <p>Indépendamment de la planification, le serveur sauvegarde aussi la base avant
-d'appliquer une migration lors d'une mise à jour (voir plus bas).</p>
-<h2 id="restoring">Restaurer<a class="headerlink" href="#restoring" title="Permanent link">¶</a></h2>
+d'appliquer une migration lors d'une mise à jour (voir
+<a href="#updating-evey">Mettre à jour Evey</a>).</p>
+<h2 id="restore-a-backup">Restaurer une sauvegarde<a class="headerlink" href="#restore-a-backup" title="Permanent link">¶</a></h2>
 <p><strong>Admin → Sauvegarde BDD et restauration</strong> liste les sauvegardes et en
-restaure une, ou restaure un fichier que vous téléversez. La restauration
-remplace la base actuelle.</p>
-<p>Une sauvegarde ne se restaure que sur un serveur dont le schéma de base est
-identique : le serveur vérifie d'abord l'empreinte et la version du schéma,
-et refuse une sauvegarde prise par une version dont le schéma diffère plutôt
-que de la charger. Pour revenir à une version plus ancienne avec ses données,
+restaure une, ou restaure un fichier que vous téléversez (<strong>Restaurer depuis
+un fichier</strong>). La restauration remplace la base actuelle.</p>
+<div class="admonition warning">
+<p class="admonition-title">Même schéma uniquement</p>
+<p>Le serveur vérifie d'abord l'empreinte et la version du schéma, et refuse
+une sauvegarde prise par une version dont le schéma diffère plutôt que de
+la charger. Pour revenir à une version plus ancienne avec ses données,
 voir <a href="#going-back">Revenir en arrière</a>.</p>
+</div>
 <p>Quand le serveur ne démarre plus, la ligne de commande restaure les dumps pris
 avant une migration (<code>pre-migration-*.sql.gz</code>), pas les sauvegardes <code>.tar.gz</code>
 de ce panneau : voir <a href="../runbooks/recovery/">Restauration</a>.</p>
@@ -3137,12 +3146,13 @@ de ce panneau : voir <a href="../runbooks/recovery/">Restauration</a>.</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey
 </span></code></pre></div>
 <p>C'est toute la mise à jour. Quand la nouvelle version doit modifier la base,
-elle écrit d'abord un dump dans <code>./evey-data/backups/pre-migration-*</code>, puis
-applique les migrations au démarrage ; sur un gros catalogue, cela peut
-prendre quelques minutes, et le conteneur est de nouveau signalé en bonne
-santé dès que le serveur répond. Evey vérifie toutes les 6 heures si une image plus récente
-est publiée et le signale dans le panneau d'administration ; il ne se met
-jamais à jour tout seul.</p>
+elle écrit d'abord un dump dans <code>./evey-data/backups/pre-migration-*.sql.gz</code>
+(les trois plus récents sont conservés), puis applique les migrations au
+démarrage ; sur un gros catalogue, cela peut prendre quelques minutes, et le
+conteneur est de nouveau signalé en bonne santé dès que le serveur répond.
+Evey demande toutes les heures au registre si une image plus récente est
+publiée et le signale dans le panneau d'administration ; il ne se met jamais à
+jour tout seul.</p>
 <p><strong>Figez ce que vous exécutez.</strong> Pendant la bêta, il n'y a ni version
 numérotée ni tag <code>latest</code> ; le tag de branche <code>beta-0.0.1</code> bouge à chaque
 modification. Pour un serveur sur lequel vous comptez, mettez un tag immuable
@@ -3158,7 +3168,15 @@ restaurez d'abord son dump d'avant migration :
 <code>docker exec evey-server evey admin rollback</code> affiche les étapes exactes avec
 le chemin du dump.</p>
 <p>Les tags d'image, les variantes de runtime et les familles de GPU sont
-décrits dans <a href="../operations/advanced-deployments/#image-tags">Déploiements avancés</a>.</p>
+décrits dans <a href="../operations/advanced-deployments/#image-tags-and-variants">Déploiements avancés</a>.</p>
+<!-- sources
+contents: internal/app/backup/service.go - BackupTables, CreateBackup (sha256 + schema version in manifest), RestoreBackup (checksum + schema guard), CleanupOldBackups ; internal/adapters/driven/filesystem/backup_store.go
+schedule: i18n admin.backup.schedule.* (cronLabel, retentionLabel, runNow) ; admin.backup.createBackup, restoreFromFile ; cmd/evey/main.go (DB cron scheduler, env fallback)
+keys outside the dump: internal/config/config.go (EVEY_JWT_PRIVATE_KEY_PATH /data/jwt.key, /data/keys)
+pre-migration dump at boot, 3 kept: cmd/evey/database.go - RunMigrations BackupOpts Retention 3 ; internal/adapters/driven/postgres/migrate_backup.go (pre-migration-<stamp>.sql.gz, EVEY_BACKUP_DIR default /data/backups)
+update check hourly, never self-updates: internal/app/updatecheck/service.go - checkInterval, firstCheck
+rollback advisor: cmd/evey/admin_commands.go - adminRollback ; image tags: .github/workflows/ci.yml (beta-0.0.1 + sha-<short>, latest gated on vX.Y.Z)
+-->
 
 
 

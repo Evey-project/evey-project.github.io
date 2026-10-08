@@ -837,10 +837,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
+  <a href="#add-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Types
+        Add a library
       
     </span>
   </a>
@@ -848,10 +848,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#folders-are-paths-inside-the-container" class="md-nav__link">
+  <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Folders are paths inside the container
+        Name files so they are recognised
       
     </span>
   </a>
@@ -859,10 +859,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#naming-files" class="md-nav__link">
+  <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Naming files
+        Fix a wrong or missing title
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-new-files-are-picked-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How new files are picked up
       
     </span>
   </a>
@@ -885,28 +896,6 @@
     <span class="md-ellipsis">
       
         Photo libraries
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-new-files-are-picked-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How new files are picked up
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-a-title-is-wrong-or-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When a title is wrong or missing
       
     </span>
   </a>
@@ -3053,10 +3042,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
+  <a href="#add-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Types
+        Add a library
       
     </span>
   </a>
@@ -3064,10 +3053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#folders-are-paths-inside-the-container" class="md-nav__link">
+  <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Folders are paths inside the container
+        Name files so they are recognised
       
     </span>
   </a>
@@ -3075,10 +3064,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#naming-files" class="md-nav__link">
+  <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Naming files
+        Fix a wrong or missing title
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-new-files-are-picked-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How new files are picked up
       
     </span>
   </a>
@@ -3101,28 +3101,6 @@
     <span class="md-ellipsis">
       
         Photo libraries
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-new-files-are-picked-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How new files are picked up
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-a-title-is-wrong-or-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When a title is wrong or missing
       
     </span>
   </a>
@@ -3186,15 +3164,28 @@
 
 
 <h1 id="libraries-and-metadata">Libraries and metadata<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p>A library is a type and a set of folders. Evey scans the folders, recognises
-each file from its name, and fetches its metadata: titles, summaries, posters,
-cast, ratings. Libraries are managed in <strong>Admin → Libraries</strong>.</p>
+<p>A library is a type and a set of folders: Evey walks the folders, recognises
+each file from its name and fetches its details (titles, summaries, posters,
+cast, ratings). This page is for the administrator who adds one: the three
+things you will do first (add a library, name the files, fix a wrong match)
+come first; how scans run, music and photo specifics, collections and the
+metadata sources follow.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Libraries on the demo server" loading="lazy" src="../../images/admin-libraries.webp"></a>
 <br>
 <figcaption><strong>Admin → Libraries</strong>: one row per library, with its folders, its item count and its last scan.</figcaption>
 </figure>
-<h2 id="types">Types<a class="headerlink" href="#types" title="Permanent link">¶</a></h2>
+<h2 id="add-a-library">Add a library<a class="headerlink" href="#add-a-library" title="Permanent link">¶</a></h2>
+<ol>
+<li><strong>Admin → Libraries → Add Library</strong>.</li>
+<li>Give it a <strong>Name</strong> and a <strong>Type</strong>. Keep films and series in separate
+   libraries: the type tells the scanner what to look for.</li>
+<li>Under <strong>Paths</strong>, pick a folder from the list, or <strong>Enter custom path...</strong>
+   to type one; <strong>+ Add Path</strong> adds a second folder to the same library.</li>
+<li><strong>Create Library</strong>. The first walk of the folders follows within a couple
+   of minutes; <strong>Scan</strong> on the row starts it right away. Posters and summaries
+   arrive in the background, so a large library fills in over a few minutes.</li>
+</ol>
 <table>
 <thead>
 <tr>
@@ -3210,7 +3201,7 @@ cast, ratings. Libraries are managed in <strong>Admin → Libraries</strong>.</p
 <td>TMDB, completed by OMDb when a key is set</td>
 </tr>
 <tr>
-<td><strong>Shows</strong></td>
+<td><strong>TV Shows</strong></td>
 <td>Series, seasons, episodes</td>
 <td>TMDB</td>
 </tr>
@@ -3226,14 +3217,14 @@ cast, ratings. Libraries are managed in <strong>Admin → Libraries</strong>.</p
 </tr>
 </tbody>
 </table>
-<p>Keep films and series in separate libraries: the type tells the scanner what to
-look for.</p>
-<h2 id="folders-are-paths-inside-the-container">Folders are paths inside the container<a class="headerlink" href="#folders-are-paths-inside-the-container" title="Permanent link">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Paths are the container's</p>
 <p>The folder picker lists what the container sees. With the installation's
-compose file, your media folder is <code>/media</code>, so a folder <code>/srv/media/films</code> on
-the host is <code>/media/films</code> for Evey. A second mounted folder (<code>/media2</code>) is
-added the same way.</p>
-<h2 id="naming-files">Naming files<a class="headerlink" href="#naming-files" title="Permanent link">¶</a></h2>
+compose file, your media folder is <code>/media</code>, so a folder <code>/srv/media/films</code>
+on the host is <code>/media/films</code> for Evey. A second mounted folder (<code>/media2</code>)
+is added the same way.</p>
+</div>
+<h2 id="name-files-so-they-are-recognised">Name files so they are recognised<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
 <p>The scanner recognises names like these:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/media/films/The Mirror (1999)/The Mirror (1999) 1080p.mkv
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/media/films/Lantern.2010.1080p.BluRay.x264.mkv
@@ -3242,9 +3233,69 @@ added the same way.</p>
 </span></code></pre></div>
 <p>For a film, the year matters most. For an episode, <code>S01E05</code> or <code>1x05</code>. Release
 tags (resolution, source, codec, audio, language tags such as <code>VOSTFR</code> or
-<code>MULTI</code>, editions such as "Director's Cut") are removed before the search. If
-your files carry a tag the parser does not know, add it in <strong>Admin → Server
-Config → Parser tokens</strong>; it applies from the next scan.</p>
+<code>MULTI</code>, editions such as "Director's Cut") are removed before the search.</p>
+<p>If your files carry a tag the parser does not know, add it in <strong>Admin → Server
+Config → Parser tokens</strong>: <strong>Extra quality tokens</strong> for single words (<code>HDRIP</code>),
+<strong>Extra edition suffixes</strong> for phrases. It applies from the next scan.</p>
+<h2 id="fix-a-wrong-or-missing-title">Fix a wrong or missing title<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
+<p>For one title, open it and choose <strong>Edit Metadata</strong>:</p>
+<ul>
+<li><strong>Identify on TMDB</strong> searches TMDB by title; <strong>Use this match</strong> applies the
+  result. This is the quickest fix for a film matched to a namesake.</li>
+<li>The fields change the details by hand. A value you edit is kept: later
+  refreshes do not overwrite it. Changing <strong>TMDB ID</strong> or <strong>IMDB ID</strong> fetches
+  the details of that id when you save.</li>
+<li><strong>Refresh metadata</strong> fetches the details again for the current match.
+  <strong>Reset metadata</strong> and <strong>Re-match metadata</strong> start over from the file name,
+  dropping your edits; Reset also wipes artwork and cast, and the seasons and
+  episodes of a series.</li>
+</ul>
+<p>For a whole library, the row in <strong>Admin → Libraries</strong> offers:</p>
+<ul>
+<li><strong>Match orphans only</strong> retries the files that were never recognised. It is
+  fast.</li>
+<li><strong>Re-match all from TMDB</strong> redoes the search for every title. It is slow,
+  and corrects old mistakes after a large renaming.</li>
+<li><strong>Repair sagas</strong> joins films that belong to no collection back to their
+  saga, when the other films of the saga are already in the library.</li>
+</ul>
+<h2 id="how-new-files-are-picked-up">How new files are picked up<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
+<p>The server walks every library at each start, then every 2 minutes
+(<strong>Admin → Server Config → Server Settings → Periodic scan interval</strong>, applied
+on restart). While something is playing, the walks are spaced out to 15
+minutes so they do not compete with playback for the disk. A new, renamed or
+deleted file is therefore seen within minutes without any setting.</p>
+<p>Two more ways to scan, on the library's row:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scan</strong></td>
+<td>A walk now. The row shows <strong>Scanning...</strong> then the result; a folder that could not be read is named.</td>
+</tr>
+<tr>
+<td><strong>Schedule</strong></td>
+<td>A full scan <strong>Every 6 hours</strong>, <strong>Every 12 hours</strong>, <strong>Daily (3 AM)</strong>, <strong>Weekly (Sunday 3 AM)</strong>, or on a <strong>Cron expression</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>The server also watches folders for file system events (<strong>Admin → Server
+Config → Server Settings → Library file watcher</strong>), on the libraries whose
+realtime monitoring is on. It checks that the watch still answers by writing a
+probe file into the folder for a few seconds; a library whose watch is proven
+alive is walked once an hour instead of every 2 minutes, the others keep the
+periodic walk. Libraries created from the panel are not watched: the periodic
+walk is what picks their files up.</p>
+<div class="admonition note">
+<p class="admonition-title">Network shares</p>
+<p>On an NFS or SMB share, a file written by another machine raises no event
+on the server. The periodic walk is what finds it.</p>
+</div>
 <h2 id="music-libraries">Music libraries<a class="headerlink" href="#music-libraries" title="Permanent link">¶</a></h2>
 <p>The scanner reads MP3, FLAC, M4A, OGG, Opus, WAV and AAC files, and takes each
 track from its tags: title (the file name when it is missing), artist, album
@@ -3265,46 +3316,6 @@ has none, and moving a file to another folder moves it to that album at the
 next scan. The date taken and the camera model come from the EXIF data of JPEG
 files; the other formats are listed without them. Thumbnails are resized on the
 server and kept in the transcoding cache.</p>
-<h2 id="how-new-files-are-picked-up">How new files are picked up<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
-<p>Each library has three options:</p>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Realtime monitoring</strong></td>
-<td>New, renamed and deleted files are picked up as they appear. A periodic check (every 2 minutes by default) catches what the file system did not report, which happens on network shares.</td>
-</tr>
-<tr>
-<td><strong>Scan on startup</strong></td>
-<td>A scan each time the server starts.</td>
-</tr>
-<tr>
-<td><strong>Schedule</strong></td>
-<td>A full scan every 6 or 12 hours, daily, weekly, or on a cron expression.</td>
-</tr>
-</tbody>
-</table>
-<p>The server also checks that its folder watcher still receives events, by
-writing a probe file into the library folder for a few seconds. A library
-where events stop arriving is walked more often until the watcher recovers.</p>
-<h2 id="when-a-title-is-wrong-or-missing">When a title is wrong or missing<a class="headerlink" href="#when-a-title-is-wrong-or-missing" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>Match orphans only</strong> (per library) retries the files that were never
-  recognised. It is fast.</li>
-<li><strong>Re-match all from TMDB</strong> redoes the search for every title in the library.
-  It is slow, and corrects old mistakes after a large renaming.</li>
-<li><strong>Edit Metadata</strong> on a title changes its details by hand, or pastes the right
-  TMDB or IMDb id. A value you edit is kept: later refreshes do not overwrite
-  it. <strong>Re-match metadata</strong> on the title discards your edits and searches again
-  from the file name.</li>
-<li><strong>Repair sagas</strong> joins films that belong to no collection back to their saga,
-  when the other films of the saga are already in the library.</li>
-</ul>
 <h2 id="collections">Collections<a class="headerlink" href="#collections" title="Permanent link">¶</a></h2>
 <p><strong>Collections</strong> gathers titles under one name, for every account. There are
 three kinds:</p>
@@ -3312,7 +3323,7 @@ three kinds:</p>
 <li><strong>TMDB Collections</strong>: the sagas, filled in on their own when TMDB places a
   film in one. <strong>Repair sagas</strong> (above) catches films that missed theirs.</li>
 <li><strong>New collection</strong>: a list an administrator fills by hand, with <strong>Add to
-  Collection</strong> on a title or on a selection, and puts in order.</li>
+  collection</strong> on a title or on a selection, and puts in order.</li>
 <li><strong>New smart collection</strong>: rules on <strong>Genre</strong>, <strong>Year</strong>, <strong>Type</strong>, <strong>Rating ≥</strong>
   and <strong>Library</strong>, which a title must all meet. Its content is worked out each
   time it is opened, so new titles appear without doing anything.</li>
@@ -3323,7 +3334,8 @@ three kinds:</p>
 <h2 id="metadata-keys">Metadata keys<a class="headerlink" href="#metadata-keys" title="Permanent link">¶</a></h2>
 <p>Evey ships with a TMDB key, so metadata works without configuration. Other
 sources are optional; their keys go in <strong>Admin → Server Config → API Keys</strong>,
-and a key set there wins over the same key given in the environment.</p>
+and a key set there wins over the same key given in the environment (see
+<a href="../../environment/libraries/">Environment: libraries and metadata</a>).</p>
 <table>
 <thead>
 <tr>
@@ -3356,21 +3368,24 @@ players can offer to skip them. The timings come from community databases
 (TheIntroDB, then IntroDB) when they know the title, and from the server's own
 analysis of the files otherwise. An administrator can adjust the segments of a
 title by hand, or run the detection again.</p>
-<p>Players show <strong>Skip Intro</strong>, <strong>Skip Recap</strong> and <strong>Skip Credits</strong> buttons by default. <strong>Auto-skip intros</strong> (<strong>Admin →
-Server Config → Server Settings</strong>, off by default) makes every player skip them
-on its own.</p>
+<p>Players show <strong>Skip Intro</strong>, <strong>Skip Recap</strong> and <strong>Skip Credits</strong> buttons by
+default. <strong>Auto-skip intros</strong> (<strong>Admin → Server Config → Server Settings</strong>, off
+by default) makes every player skip them on its own.</p>
 <!-- sources
-collections: internal/domain/library/model.go Collection (TmdbID, Rules), MaxCollectionItems 1000 ; rules: internal/adapters/driven/postgres/collection_repo.go (genre, type, year eq/gt/lt/gte/lte, library_id, rating_gte, AND) ; smart evaluated per read: internal/app/collection/query_service.go GetItems ; admin-only writes: interceptors/rbac.go CollectionService ; ZIP: internal/adapters/driving/http/collection_handler.go (library access + parental filter) ; i18n media.collections.*, media.playlist.field*
+add library: frontend/apps/web/src/features/admin/LibraryForm.tsx (name, type, paths only - no realtime/scan-on-startup toggles) ; i18n admin.libraries.addLibrary, tvShows, paths, enterCustomPath, addPath, createLibrary ; internal/domain/library/model.go NewLibrary (RealtimeMonitoring false by default) ; grpcapi/library_handler.go CreateLibrary (no scan trigger ; only watcher + feed subscribe library.created)
+types: i18n admin.libraries.types.* ; internal/adapters/driven/metadata/musicbrainz_provider.go ; internal/app/music/album_art_chain.go
+parser: internal/adapters/driven/filesystem/parser.go (reEditionSuffix, knownQualities, SetExtraParserTokens) ; internal/app/library/parser_config.go ApplyParserConfig ; i18n admin.serverConfig.parserTokens*
+fix a title: frontend/apps/web/src/features/library/MediaDetailEdit.tsx (save, refresh, reset, rematch, identify) ; IdentifyMetadataModal.tsx ; http/admin_handler_media.go (identify search) ; internal/app/metadata/command_service_overrides.go SetOverride, ResetItemMetadata (overrides, artwork, persons, Catalog=nil, children) ; command_service_refresh.go RefreshItemMetadata ; i18n media.detail.editMetadata, identify.*, tmdbId, imdbId, idChangedWarning, refreshMetadata, resetMetadata, rematchMetadata, rematchConfirm
+per library: i18n admin.libraries.matchOrphans, refreshMetadata, relinkCollections (+Tooltip) ; internal/app/metadata/relink_collections.go
+scans: internal/app/library/command_service.go StartPeriodicScan (startup pass, ticker, runScanPass) ; scan_service.go playbackScanBackoff 15m, watchedScanInterval 1h, shouldScanNow ; cmd/evey/wire_events.go (library.periodic_scan_interval, all libraries) ; internal/config/config.go EVEY_LIBRARY_PERIODIC_SCAN_INTERVAL 2m ; i18n admin.serverSettings.periodicScanInterval, restartHint, libraryWatcher ; admin.libraries.scan, scanning, scanPartial, schedule, presets.* ; routes/_auth/admin/libraries.lazy.tsx PRESET_SCHEDULES ; internal/app/library/scheduler.go
+watcher: internal/app/library/watcher.go Start (RealtimeMonitoring && Enabled) ; watcher_probe.go probeOnce, UnhealthyLibraries (network share blind spot) ; cmd/evey/wire_helpers.go (WatcherEnabled) ; command_service.go WithWatchHealth
 music: internal/adapters/driven/filesystem/music_scanner.go (audioExts) ; internal/app/music/command_service.go - parseTrack (AlbumFolder = parent dir, title fallback) ; postgres/music_track_repo.go - GetAlbums GROUP BY album_folder, mode() display_album, ORDER BY disk_number, track_number ; GetArtists COALESCE(album_artist, artist)
 album art order: internal/app/music/album_art_folder.go (folderCoverNames, embedded wins) ; cmd/evey/wire_services.go (musicbrainz then itunes)
 photos: internal/adapters/driven/filesystem/photo_scanner.go (imageExts) ; internal/app/photo/command_service.go - albumOf, processOnePhoto (EXIF JPEG only) ; http/photo_handler.go - serveTranscoded (cache photos/)
-types: i18n admin.libraries.types.* ; internal/adapters/driven/metadata/musicbrainz_provider.go ; internal/app/music/album_art_chain.go
-options, schedules: i18n admin.libraries.realtimeMonitoring, scanOnStartup, schedule options ; internal/config/config.go - EVEY_LIBRARY_PERIODIC_SCAN_INTERVAL
-watcher probe: internal/app/library/watcher_probe.go - probeOnce, UnhealthyLibraries
-rematch: i18n admin.libraries.matchOrphans, refreshMetadata, relinkCollectionsTooltip ; media.detail.rematchConfirm
-keys: i18n admin.serverConfig.apiKeys.* ; admin introProvidersTidbAuthed
-opensubtitles folder: internal/app/subtitle/service.go
-intro providers: docs/adr/0011-intro-detection-providers.md
+collections: internal/domain/library/model.go Collection (TmdbID, Rules), MaxCollectionItems 1000 ; internal/adapters/driven/postgres/collection_repo.go (genre, type, year, library_id, rating_gte, AND) ; internal/app/collection/query_service.go GetItems ; interceptors/rbac.go CollectionService ; http/collection_handler.go (library access + parental filter) ; i18n media.collections.*, media.library.addToCollection, media.playlist.field*
+keys: i18n admin.serverConfig.apiKeys.* ; admin.serverConfig.introProvidersTidbAuthed ; cmd/evey/wire_infra.go resolveAPIKeyWithBuiltin
+opensubtitles: internal/app/subtitle/service.go
+intro providers: docs/adr/0011-intro-detection-providers.md ; i18n admin.serverSettings.introAutoSkip
 -->
 
 

@@ -3076,9 +3076,10 @@
 <p>Le transcodage est l'issue coûteuse de
 <a href="../how-playback-is-decided/">la décision de lecture</a> : la lecture directe et
 le remux ne coûtent presque rien au serveur et n'occupent jamais de créneau
-de transcodage. Cette page explique comment le serveur sait ce qu'il peut
-encoder, comment il répartit cette capacité entre les spectateurs, et ce qui
-se passe quand elle est épuisée.</p>
+de transcodage. Cette page s'adresse à l'administrateur qui veut savoir
+combien de spectateurs le serveur peut servir à la fois : comment il mesure
+ce qu'il sait encoder, comment il répartit cette capacité, et ce que voit un
+spectateur quand elle est épuisée.</p>
 <h2 id="the-server-measures-itself">Le serveur se mesure lui-même<a class="headerlink" href="#the-server-measures-itself" title="Permanent link">¶</a></h2>
 <p>La capacité n'est pas un réglage à estimer. Le serveur la mesure :</p>
 <ul>
@@ -3093,11 +3094,12 @@ se passe quand elle est épuisée.</p>
   vraie lecture. Le résultat est la résolution la plus haute que chacun tient
   en temps réel, et le coût de chaque type de flux.</li>
 <li><strong>De nouveau.</strong> Après un changement de matériel, ou avec <strong>Recalibrer</strong>
-  dans <strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong>.</li>
+  dans <strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong>. Le
+  bouton attend que plus personne ne regarde.</li>
 </ul>
 <p>Pendant la mesure, une lecture qui a besoin d'un transcodage affiche <strong>Le
 serveur se calibre</strong> et demande de réessayer un peu plus tard. La lecture
-directe n'est pas concernée.</p>
+directe et le remux ne sont pas concernés.</p>
 <p>Sur un processeur qui ne tient aucune des résolutions, le serveur propose
 malgré tout du 720p (SDR) et du 480p (HDR), un flux à la fois.</p>
 <p>La mesure utilise, dans cet ordre, un extrait que vous fournissez, un extrait
@@ -3123,13 +3125,27 @@ flux vidéo simultanés</strong> permet de l'abaisser, jamais de la relever.</p>
 <li>Seule la qualité effectivement regardée est encodée, pas toute l'échelle
   des qualités.</li>
 </ul>
-<p>Chaque flux part vers la route la moins coûteuse capable de le servir : un
-accélérateur qui a prouvé ce dont ce flux a besoin (du tone mapping HDR ou
-une sortie HEVC, par exemple), ou le processeur. Le processeur et les
-accélérateurs forment deux réserves distinctes. Quand les accélérateurs sont
-saturés, un nouveau flux peut passer sur le processeur s'il a de la place ;
-quand aucun n'en a, le lecteur affiche <strong>Le serveur est occupé par d'autres
-transcodages</strong> et peut réessayer.</p>
+<p>Chaque flux part vers la route la moins coûteuse qui a prouvé qu'elle peut le
+servir : un accélérateur mesuré sur ce dont ce flux a besoin (du tone mapping
+HDR ou une sortie HEVC, par exemple), ou le processeur. Le processeur et les
+accélérateurs forment deux réserves distinctes, et un flux sur la carte
+graphique consomme encore un peu de processeur pour son audio et son
+empaquetage.</p>
+<p>Quand la place vient à manquer, le serveur répond dans cet ordre :</p>
+<ol>
+<li><strong>Une qualité plus basse.</strong> Un nouveau flux dont la qualité la plus haute
+   ne tient pas est admis à la plus haute qui tient, et ce plafond vaut pour
+   toute la durée du flux.</li>
+<li><strong>Le processeur.</strong> Quand les accélérateurs sont saturés, un nouveau flux
+   passe sur le processeur s'il a de la place.</li>
+<li><strong>Un refus.</strong> Quand aucun n'en a, le lecteur affiche <strong>Le serveur est
+   occupé par d'autres transcodages</strong> et peut réessayer.</li>
+</ol>
+<p>Un encodage sur carte graphique qui échoue sur un titre envoie ce titre sur
+le processeur pendant un moment, pour tous les spectateurs. La carte
+elle-même n'est écartée qu'après l'échec d'un encodage de test indépendant du
+média, et elle est réessayée plus tard : voir
+<a href="../../administration/hardware-acceleration/">Accélération matérielle</a>.</p>
 <p>Pendant qu'une personne regarde, les tâches de fond du serveur (miniatures,
 détection des intros, analyse des médias) se mettent en pause pour laisser la
 machine à la lecture : voir
@@ -3149,7 +3165,7 @@ cette limite de lui-même. Voir
 <tbody>
 <tr>
 <td>Codec vidéo</td>
-<td>H.264. HEVC quand le lecteur le décode et que la carte graphique l'encode ; AV1 quand il est activé (<strong>Sortie AV1</strong>, matériel uniquement) et que le lecteur le décode.</td>
+<td>H.264. HEVC quand le lecteur le décode et qu'une carte graphique l'encode, ou quand le <strong>Codec vidéo préféré</strong> du profil le demande ; AV1 quand il est activé (<strong>Sortie AV1</strong>, matériel uniquement) et que le lecteur le décode.</td>
 </tr>
 <tr>
 <td>Résolution</td>
@@ -3157,7 +3173,7 @@ cette limite de lui-même. Voir
 </tr>
 <tr>
 <td>Débit</td>
-<td>Suit la source, proportionnellement à la résolution. <strong>Plafond de débit vidéo</strong> le limite.</td>
+<td>Suit la source, proportionnellement à la résolution. <strong>Plafond de débit vidéo</strong> le limite ; <strong>Plafond de débit vidéo, spectateurs distants</strong> le limite plus bas hors des réseaux locaux.</td>
 </tr>
 <tr>
 <td>Audio</td>
@@ -3170,29 +3186,34 @@ cette limite de lui-même. Voir
 </tbody>
 </table>
 <figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les deux plafonds de débit vidéo dans Admin → Transcodage" loading="lazy" src="../../../images/admin-transcoding-bitrate.webp"></a>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les deux plafonds de débit vidéo dans Admin → Configuration transcodage" loading="lazy" src="../../../images/admin-transcoding-bitrate.webp"></a>
 <br>
-<figcaption>Les deux plafonds de <strong>Admin → Transcodage</strong> : pour tous les spectateurs, et pour ceux hors des réseaux locaux.</figcaption>
+<figcaption>Les deux plafonds de <strong>Admin → Configuration transcodage</strong> : pour tous les spectateurs, et pour ceux hors des réseaux locaux.</figcaption>
 </figure>
 <h2 id="the-transcoding-cache">Le cache de transcodage<a class="headerlink" href="#the-transcoding-cache" title="Permanent link">¶</a></h2>
 <p>Les segments encodés sont gardés sur disque dans le volume <code>evey-cache</code> et
 réutilisés quand un autre spectateur, ou le même plus tard, lit le même titre
 avec la même décision. <strong>Admin → Cache de transcodage</strong> affiche sa taille et
 permet de le vider ; le <strong>Budget du cache de transcodage</strong> (<strong>Admin →
-Configuration du serveur → Paramètres du serveur</strong>) le plafonne. Videz-le après une mise à jour qui modifie la façon dont
-les vidéos sont encodées, pour que personne ne reçoive de segments de la
-version précédente.</p>
+Configuration du serveur → Paramètres du serveur</strong>) le plafonne.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Videz le cache après une mise à jour qui modifie la façon dont les vidéos
+sont encodées, pour que personne ne reçoive de segments de la version
+précédente. Le vider pendant qu'une personne regarde fait remettre son
+flux en mémoire tampon une fois, puis la lecture reprend.</p>
+</div>
 <h2 id="checking-what-happens">Vérifier ce qui se passe<a class="headerlink" href="#checking-what-happens" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Admin → En cours de lecture</strong> : chaque flux, son mode de lecture piste par piste,
-  et le backend qui l'encode.</li>
+<li><strong>Admin → En cours de lecture</strong> : chaque flux, son mode de lecture piste par
+  piste, et le backend qui l'encode.</li>
 <li><strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong> : les
   plafonds mesurés et les accélérateurs utilisés.</li>
 <li><strong>Admin → Qualité streaming</strong> : le déroulement des lectures pour les vrais
   spectateurs.</li>
 <li><strong>Test de charge</strong> (<strong>Admin → Configuration transcodage</strong>) : simule des
-  spectateurs pour mesurer ce que le serveur tient. À lancer uniquement quand
-  personne ne regarde.</li>
+  spectateurs pour mesurer ce que le serveur tient. Il refuse de démarrer tant
+  que quelqu'un regarde.</li>
 </ul>
 
 

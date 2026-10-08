@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#oidc--sso-setup" class="md-skip">
+        <a href="#single-sign-on-oidc" class="md-skip">
           Skip to content
         </a>
       
@@ -3053,15 +3053,17 @@
   </a>
 
 
-<h1 id="oidc--sso-setup">OIDC / SSO Setup<a class="headerlink" href="#oidc--sso-setup" title="Permanent link">¶</a></h1>
-<p>Evey supports Single Sign-On via OpenID Connect: Keycloak, Authentik, Authelia,
-Google or any other OIDC provider. The sign-in page of the web and Android apps
-then shows <strong>Sign in with SSO</strong> next to the password form.</p>
+<h1 id="single-sign-on-oidc">Single sign-on (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
+<p>Let people sign in with the identity provider you already run (Keycloak,
+Authentik, Authelia, Google or any other OpenID Connect provider): the sign-in
+page of the web and Android apps then shows <strong>Sign in with SSO</strong> next to the
+password form. Two steps for the administrator: register Evey at the provider,
+then fill one card in the admin panel.</p>
 <h2 id="1-register-evey-with-the-provider">1. Register Evey with the provider<a class="headerlink" href="#1-register-evey-with-the-provider" title="Permanent link">¶</a></h2>
 <p>Create a client (or application) in the provider with the Authorization Code
-grant, the scopes <code>openid email profile</code>, a client secret, and the two addresses
-the <strong>Single sign-on (SSO)</strong> card shows under <strong>Register these addresses at your
-provider</strong>:</p>
+grant, the scopes <code>openid email profile</code>, a client secret, and the two
+addresses the <strong>Single sign-on (SSO)</strong> card shows under <strong>Register these
+addresses at your provider</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -3071,11 +3073,11 @@ provider</strong>:</p>
 </thead>
 <tbody>
 <tr>
-<td>Redirect URI</td>
+<td><strong>Redirect URI</strong></td>
 <td><code>https://&lt;your address&gt;/api/v1/auth/oidc/callback</code></td>
 </tr>
 <tr>
-<td>Post-logout redirect URI</td>
+<td><strong>Post-logout redirect URI</strong></td>
 <td><code>https://&lt;your address&gt;/login</code></td>
 </tr>
 </tbody>
@@ -3098,7 +3100,7 @@ set that first if people reach Evey under another address.</p>
 </tr>
 <tr>
 <td><strong>Issuer URL</strong></td>
-<td>The provider's address, without <code>/.well-known/openid-configuration</code>.</td>
+<td>The provider's address; Evey reads <code>/.well-known/openid-configuration</code> under it.</td>
 </tr>
 <tr>
 <td><strong>Client ID</strong>, <strong>Client secret</strong></td>
@@ -3114,11 +3116,11 @@ set that first if people reach Evey under another address.</p>
 </tr>
 <tr>
 <td><strong>Link to existing accounts by verified e-mail</strong></td>
-<td>On by default. See below.</td>
+<td>On by default. See <a href="#who-can-sign-in">Who can sign in</a>.</td>
 </tr>
 <tr>
 <td><strong>Create accounts for new SSO users</strong></td>
-<td>Off unless e-mail domains are allowed. See below.</td>
+<td>Off unless e-mail domains are allowed. See <a href="#who-can-sign-in">Who can sign in</a>.</td>
 </tr>
 <tr>
 <td><strong>Library access for new SSO accounts</strong></td>
@@ -3129,16 +3131,20 @@ set that first if people reach Evey under another address.</p>
 <p><strong>Test connection</strong> checks that the issuer answers. <strong>Save SSO settings</strong>
 applies at once, without a restart. The <strong>Status</strong> line says whether the
 provider is reachable, with the last error if it is not.</p>
-<p>The <code>EVEY_OIDC_*</code> variables of <a href="../environment/accounts/">Accounts and sign-in</a>
-are the fallback: the card says when its values come from them, and saving the
-card takes over.</p>
-<p>The server never waits for the provider: it starts even when the provider is
-down, the SSO button stays hidden while the provider cannot be reached, and
-password sign-in keeps working. The provider is contacted again on the next
-sign-in attempt, at most every 30 seconds.</p>
+<p>The <code>EVEY_OIDC_*</code> variables of
+<a href="../environment/accounts/#single-sign-on-oidc">Accounts and sign-in</a> are the
+fallback: the card says when its values come from them, and saving the card
+takes over.</p>
+<div class="admonition note">
+<p class="admonition-title">The provider is never on the server's critical path</p>
+<p>The server starts even when the provider is down, the SSO button stays
+hidden while the provider cannot be reached, and password sign-in keeps
+working. The provider is contacted again on the next sign-in attempt, at
+most every 30 seconds.</p>
+</div>
 <h2 id="who-can-sign-in">Who can sign in<a class="headerlink" href="#who-can-sign-in" title="Permanent link">¶</a></h2>
 <ol>
-<li>An account already signed in with this provider before signs in again,
+<li>An account that already signed in with this provider signs in again,
    unless it is disabled.</li>
 <li>Otherwise, with <strong>Link to existing accounts by verified e-mail</strong> on, an
    existing account with the same e-mail is linked to the provider and signed
@@ -3149,10 +3155,13 @@ sign-in attempt, at most every 30 seconds.</p>
    username is the provider's <code>preferred_username</code>, otherwise the part of the
    e-mail before <code>@</code>; a name already taken gets a short suffix.</li>
 </ol>
-<p><strong>Create accounts for new SSO users</strong> is off by default when no e-mail domain is
-allowed: with a public provider such as Google, anyone holding an account there
-could otherwise get one on your server. When it is off, only existing accounts
-can sign in with SSO.</p>
+<div class="admonition warning">
+<p class="admonition-title">Why account creation is off by default</p>
+<p>With a public provider such as Google, anyone holding an account there
+could otherwise get one on your server. Creation is on by default only
+when <strong>Allowed e-mail domains</strong> restricts who qualifies. When it is off,
+only existing accounts can sign in with SSO.</p>
+</div>
 <p>When a sign-in is refused, the sign-in page says why: the e-mail domain is not
 allowed, no account matches and sign-up is off, the account is disabled, the
 account exists but could not be linked, or the provider is unavailable.</p>
@@ -3161,15 +3170,14 @@ account exists but could not be linked, or the provider is unavailable.</p>
 sign-in also ends the session at the provider, then returns to the Evey sign-in
 page. The card says whether the provider supports it.</p>
 <!-- sources
-settings and precedence (panel keys oidc.* win over EVEY_OIDC_*): internal/app/user/oidc_settings.go
-lazy discovery, 30 s backoff, never at boot: internal/app/user/oidc_service.go ; cmd/evey/wire.go
-account resolution (identity, verified-email link, sign-up, suffix, default libraries): oidc_service.go findOrCreateUser ; tests oidc_policy_test.go
+settings and precedence (panel keys oidc.* win over EVEY_OIDC_*): internal/app/user/oidc_settings.go - ResolveOIDCConfig, AllowSignup default from AllowedEmailDomains
+lazy discovery, 30 s backoff, never at boot: internal/app/user/oidc_service.go - oidcRetryBackoff ; cmd/evey/wire.go
+account resolution (identity, verified-email link, sign-up, suffix, default libraries, admin never linked): oidc_service.go findOrCreateUser ; tests oidc_policy_test.go
 admin routes GET/PUT /api/v1/admin/sso, POST /api/v1/admin/sso/test: internal/adapters/driving/http/sso_admin_handler.go
 login error reasons: internal/adapters/driving/http/auth_handler.go (oidc_error=<reason>) ; i18n auth.login.ssoError.*
 logout endSessionUrl: internal/adapters/driving/http/server.go
 mobile flow: internal/adapters/driving/http/oidc_app_flow.go ; frontend/apps/mobile/app/oidc-callback.tsx
-UI: frontend/apps/web/src/features/admin/serverConfig/SsoSettingsCard.tsx ; i18n admin.sso.*
-end-to-end proof 01-10: Dex static connector, throwaway Postgres (agent report)
+UI: frontend/apps/web/src/features/admin/serverConfig/SsoSettingsCard.tsx ; i18n admin.sso.* ; auth.login.signInWithSSO
 -->
 
 

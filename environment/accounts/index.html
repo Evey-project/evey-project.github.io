@@ -3015,14 +3015,18 @@
 
 
 <h1 id="accounts-and-sign-in">Accounts and sign-in<a class="headerlink" href="#accounts-and-sign-in" title="Permanent link">¶</a></h1>
-<p>Session lifetimes, the signing key, and single sign-on.</p>
+<p>The variables behind sessions and single sign-on: how long a sign-in lasts,
+where the signing key lives, and the OIDC provider. Single sign-on is
+normally set up in the panel, as described in
+<a href="../../oidc/">Single sign-on (OIDC)</a>; the variables here are its fallback.</p>
 <h2 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3030,31 +3034,38 @@
 <td><code>EVEY_JWT_PRIVATE_KEY_PATH</code></td>
 <td><code>/data/jwt.key</code></td>
 <td>The key that signs access tokens, generated on the first start. If it is lost, the next start generates a new one and the apps renew their tokens: nobody is signed out.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_ACCESS_TTL</code></td>
 <td><code>15m</code></td>
 <td>Lifetime of an access token. Apps renew it silently.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_REFRESH_TTL</code></td>
 <td><code>168h</code> (7 days)</td>
 <td>Lifetime of a sign-in session: without using an app for that long, you sign in again.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_REFRESH_LONG_TTL</code></td>
 <td><code>4320h</code> (180 days)</td>
 <td>Lifetime of a session an app asks to keep, such as a TV signed in with Quick Connect.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <h2 id="single-sign-on-oidc">Single sign-on (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h2>
+<p>Each field saved in the <strong>Single sign-on (SSO)</strong> card of <strong>Admin → Server
+Config</strong> replaces its variable, without a restart.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3062,46 +3073,52 @@
 <td><code>EVEY_OIDC_ENABLED</code></td>
 <td><code>false</code></td>
 <td>Turns single sign-on on.</td>
+<td>Server Config → Single sign-on (SSO), live</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ISSUER</code></td>
 <td>empty</td>
 <td>The provider's issuer URL, for example <code>https://auth.example.com/realms/main</code>.</td>
+<td>same card, live</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_CLIENT_ID</code></td>
 <td>empty</td>
 <td>The client registered for Evey at the provider.</td>
+<td>same card, live</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_CLIENT_SECRET</code></td>
 <td>empty</td>
-<td>Its secret.</td>
+<td>Its secret. Enabled without it, the server warns at startup.</td>
+<td>same card, live</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_REDIRECT_URL</code></td>
 <td>empty</td>
 <td>The callback address sent to the provider: <code>https://&lt;your address&gt;/api/v1/auth/oidc/callback</code>. Empty: built from the server's public address (<strong>Admin → Remote Access</strong>).</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ALLOWED_EMAIL_DOMAINS</code></td>
 <td>empty (all)</td>
 <td>E-mail domains allowed to sign in, comma-separated. The provider must have verified the address.</td>
+<td>same card, live</td>
 </tr>
 <tr>
 <td><code>EVEY_OIDC_ALLOW_SIGNUP</code></td>
 <td>empty</td>
 <td><code>true</code> or <code>false</code>: create accounts for new SSO users. Empty: on only when e-mail domains are set.</td>
+<td>same card, live</td>
 </tr>
 </tbody>
 </table>
-<p>These are the fallback: each setting saved in the <strong>Single sign-on (SSO)</strong> card
-of <strong>Admin → Server Config</strong> replaces its variable, without a restart. Setting
-up a provider: <a href="../../oidc/">Single sign-on (OIDC)</a>.</p>
 <!-- sources
-internal/config/config.go - EVEY_JWT_*, EVEY_OIDC_*
+internal/config/config.go - EVEY_JWT_*, EVEY_OIDC_* ; WarnValidate (OIDC enabled without secret)
+key regeneration: cmd/evey/wire_infra.go - auth.LoadOrGenerateRSAKey ; refresh tokens in DB: internal/adapters/driven/postgres/refresh_token_repo.go
 long ttl: internal/adapters/driving/grpcapi/user_handler.go - refreshTTLOverride ; internal/adapters/driving/grpcapi/interceptors/client_info.go (x-persistent-session)
-redirect: internal/app/user/oidc_service.go (oauth2 RedirectURL as given) ; panel over env: internal/app/user/oidc_settings.go ResolveOIDCConfig ; EVEY_OIDC_ALLOW_SIGNUP: internal/config/config.go
+redirect: internal/app/user/oidc_service.go (oauth2 RedirectURL as given) ; panel over env: internal/app/user/oidc_settings.go ResolveOIDCConfig (OIDCKey*)
+panel: i18n admin.sso.title
 -->
 
 

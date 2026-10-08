@@ -1316,6 +1316,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-you-will-hear-by-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que vous entendrez, selon l'appareil
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#which-track-plays" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2984,6 +2995,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-you-will-hear-by-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que vous entendrez, selon l'appareil
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#which-track-plays" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3051,9 +3073,42 @@
 
 
 <h1 id="audio">Audio<a class="headerlink" href="#audio" title="Permanent link">¶</a></h1>
-<p>La piste audio est évaluée indépendamment de la vidéo. Dans la plupart des
-transcodages, c'est la seule chose réencodée : la vidéo est copiée et le son
-converti dans un format que le lecteur sait lire.</p>
+<p>Quelle piste vous entendrez, si elle arrive telle quelle ou réencodée sur
+votre appareil, et avec combien de canaux. Pour les spectateurs ; les réglages
+de profil cités ici se trouvent dans <strong>Paramètres → Lecture</strong>. La piste audio
+est évaluée indépendamment de la vidéo : dans la plupart des transcodages,
+c'est la seule chose réencodée, la vidéo est copiée et le son converti dans un
+format que le lecteur sait lire.</p>
+<h2 id="what-you-will-hear-by-device">Ce que vous entendrez, selon l'appareil<a class="headerlink" href="#what-you-will-hear-by-device" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Votre appareil</th>
+<th>Ce qui arrive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Un navigateur</td>
+<td>La piste telle quelle quand le navigateur la décode ; l'AC-3 et l'E-AC-3 décodés dans la page (ci-dessous) ; sinon de l'AAC. Une piste AAC surround est ramenée sur votre sortie par le navigateur.</td>
+</tr>
+<tr>
+<td>Un téléphone Android sur son haut-parleur, un casque ou le Bluetooth</td>
+<td>De la stéréo. L'application déclare une sortie stéréo, donc une piste surround est réencodée en stéréo par le serveur, avec un mélange normalisé. Le Dolby Digital que l'application décode elle-même est envoyé tel quel et ramené en stéréo par l'application.</td>
+</tr>
+<tr>
+<td>Un téléphone Android ou une Android TV en HDMI</td>
+<td>Autant de canaux que la sortie HDMI déclare en accepter : une piste 5.1 reste en 5.1 sur un ampli 5.1.</td>
+</tr>
+<tr>
+<td>Un récepteur de diffusion</td>
+<td>Ce que le récepteur a déclaré sur sa sortie : voir <a href="../casting/">Diffusion</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Les applications Android sondent la sortie à chaque début de lecture :
+brancher un casque prend effet au titre suivant, au changement de piste ou de
+qualité, pas au milieu d'une scène.</p>
 <h2 id="which-track-plays">Quelle piste est jouée<a class="headerlink" href="#which-track-plays" title="Permanent link">¶</a></h2>
 <p>Une piste choisie à la main, sur la fiche du titre ou dans le lecteur, prime
 toujours. Sinon, les lecteurs suivent la <strong>Langue audio par défaut</strong> du
@@ -3063,11 +3118,12 @@ quand le fichier contient les deux.</p>
 <p>Seule la piste écoutée est évaluée : une piste DTS que vous n'écoutez pas ne
 provoque jamais de transcodage.</p>
 <h2 id="copied-or-re-encoded">Copiée ou réencodée<a class="headerlink" href="#copied-or-re-encoded" title="Permanent link">¶</a></h2>
-<p>La piste est copiée quand le lecteur décode son codec et restitue assez de
-canaux, dans la limite des <strong>Canaux audio maximum</strong> du profil (Stéréo, 5.1 ou
-7.1). Sinon, elle est réencodée en AAC :</p>
+<p>La piste est copiée quand le lecteur décode son codec et que sa sortie
+restitue assez de canaux, dans la limite des <strong>Canaux audio maximum</strong> du
+profil (<strong>Stéréo (2.0)</strong>, <strong>Surround (5.1)</strong> ou <strong>Surround (7.1)</strong>). Sinon,
+elle est réencodée en AAC :</p>
 <ul>
-<li>avec autant de canaux que la source, le lecteur et le profil le
+<li>avec autant de canaux que la source, l'appareil et le profil le
   permettent, jusqu'à 5.1 (une source 7.1 est ramenée en 5.1, que tous les
   lecteurs décodent ; une source stéréo reste en stéréo) ;</li>
 <li>quelle que soit la fréquence d'échantillonnage, qui n'est jamais à elle
@@ -3076,9 +3132,10 @@ canaux, dans la limite des <strong>Canaux audio maximum</strong> du profil (Sté
 <p>Une piste copiée à l'intérieur d'un flux transcodé ou remuxé doit aussi être
 dans un format que le lecteur accepte au sein des segments du flux. L'AAC,
 l'AC-3 et l'E-AC-3 le sont toujours ; les autres codecs seulement si le
-lecteur l'indique. Sinon, la piste est réencodée et les Infos du flux le
-signalent : un lecteur peut décoder du MP3 dans un fichier et le refuser
-malgré tout dans un flux.</p>
+lecteur l'indique. Sinon, la piste est réencodée et les Infos du flux
+affichent <strong>Piste audio non transmissible telle quelle dans le flux</strong> : un
+lecteur peut décoder du MP3 dans un fichier et le refuser malgré tout dans un
+flux.</p>
 <h2 id="dolby-digital-in-a-browser">Dolby Digital dans un navigateur<a class="headerlink" href="#dolby-digital-in-a-browser" title="Permanent link">¶</a></h2>
 <p>La plupart des navigateurs ne savent pas décoder l'AC-3 ni l'E-AC-3. Plutôt
 que de réencoder la piste sur le serveur, le lecteur web la décode lui-même,
@@ -3086,22 +3143,32 @@ avec un décodeur qui s'exécute dans la page : la piste est envoyée telle
 quelle et les Infos du flux l'indiquent comme <em>décodé client</em>. Les
 navigateurs qui décodent nativement le Dolby Digital, comme Safari, la
 reçoivent comme une piste ordinaire ; le choix se fait en testant le
-navigateur, pas en le reconnaissant.</p>
-<p>Un reverse proxy qui impose sa propre Content-Security-Policy doit autoriser
-<code>'wasm-unsafe-eval'</code> dans <code>script-src</code>, faute de quoi le décodeur ne peut pas
-démarrer et le film se lit sans le son. Voir
+navigateur, pas en le reconnaissant. Une piste surround n'est décodée dans la
+page que si les <strong>Canaux audio maximum</strong> du profil l'autorisent : un profil
+réglé en stéréo reçoit le réencodage AAC à la place, qui sait ramener les
+canaux.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Un reverse proxy qui impose sa propre Content-Security-Policy doit
+autoriser <code>'wasm-unsafe-eval'</code> dans <code>script-src</code>, faute de quoi le
+décodeur ne peut pas démarrer et le film se lit sans le son. Voir
 <a href="../../reverse-proxy/#security-headers--csp---read-this-if-your-proxy-sets-its-own">Configurations de reverse proxy</a>.</p>
+</div>
 <h2 id="sound-out-of-sync">Son désynchronisé<a class="headerlink" href="#sound-out-of-sync" title="Permanent link">¶</a></h2>
-<p><strong>Synchro audio</strong>, dans le lecteur, décale le son du titre en cours. Une piste
-copiée ne peut pas être décalée : le serveur la réencode, et les Infos du
-flux affichent <strong>Resynchronisation audio demandée</strong>.</p>
+<p><strong>Synchro audio</strong>, dans le lecteur, décale le son du titre en cours (une
+valeur positive le joue plus tard). Le réglage est proposé quand le flux vient
+du serveur en remux ou en transcodage ; en lecture directe, il affiche
+<strong>Disponible uniquement en lecture transcodée</strong>. Appliquer un décalage
+redémarre le flux à la position courante. Une piste copiée ne peut pas être
+décalée : le serveur la réencode, et les Infos du flux affichent
+<strong>Resynchronisation audio demandée</strong>.</p>
 <p>Quand le décalage vient du fichier lui-même (une piste audio qui démarre
 après l'image, ou des pistes en désaccord entre elles), <strong>Admin → Santé des
 médias</strong> le signale mais ne le réécrit jamais de lui-même : une piste qui
 démarre en retard est le plus souvent un doublage calé volontairement.
 <strong>Vérifier la synchro</strong>, sur la ligne du fichier, permet d'en juger à l'œil et
 d'appliquer un décalage, que son historique peut annuler. Voir
-<a href="../../runbooks/media-health/">Santé des médias</a>.</p>
+<a href="../../runbooks/media-health/#checking-the-sync-by-eye">Santé des médias</a>.</p>
 
 
 

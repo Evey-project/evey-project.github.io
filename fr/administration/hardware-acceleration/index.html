@@ -1018,7 +1018,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#expose-the-device" class="md-nav__link">
+  <a href="#turn-it-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L'activer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#give-the-device-to-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
         Donner le périphérique au conteneur
@@ -1029,10 +1040,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-auto-does" class="md-nav__link">
+  <a href="#what-proved-by-a-real-encode-means" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce que fait Auto
+        Ce que veut dire « prouvé par un encodage réel »
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forcing-a-backend-or-turning-it-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Imposer un backend ou tout désactiver
       
     </span>
   </a>
@@ -2976,7 +2998,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#expose-the-device" class="md-nav__link">
+  <a href="#turn-it-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L'activer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#give-the-device-to-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
         Donner le périphérique au conteneur
@@ -2987,10 +3020,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-auto-does" class="md-nav__link">
+  <a href="#what-proved-by-a-real-encode-means" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce que fait Auto
+        Ce que veut dire « prouvé par un encodage réel »
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forcing-a-backend-or-turning-it-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Imposer un backend ou tout désactiver
       
     </span>
   </a>
@@ -3033,14 +3077,27 @@
 
 <h1 id="hardware-acceleration">Accélération matérielle<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h1>
 <p>Une carte graphique ou un GPU intégré permet au serveur de transcoder plus de
-flux à la fois, et en plus haute résolution, que le processeur seul. Il n'y a
-qu'une image pour tous les cas : aucun pilote propre à une carte n'y est figé,
-et le même conteneur fonctionne sur le processeur seul, avec un GPU Intel ou
-AMD, ou avec une carte NVIDIA, selon les périphériques que vous lui donnez.</p>
-<p>Deux étapes : donner le périphérique au conteneur, puis laisser
-<strong>Accélération matérielle</strong> sur <strong>Auto</strong> dans <strong>Admin → Configuration
-transcodage → Calibrage de l'encodage</strong>.</p>
-<h2 id="expose-the-device">Donner le périphérique au conteneur<a class="headerlink" href="#expose-the-device" title="Permanent link">¶</a></h2>
+flux à la fois, et en plus haute résolution, que le processeur seul. Cette
+page s'adresse à l'administrateur : donnez le périphérique au conteneur,
+laissez le panneau sur <strong>Auto</strong>, et le serveur prouve lui-même ce que la carte
+sait faire avant de lui confier la moindre lecture.</p>
+<h2 id="turn-it-on">L'activer<a class="headerlink" href="#turn-it-on" title="Permanent link">¶</a></h2>
+<ol>
+<li>Ouvrez <strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong>.
+   <strong>Accélération matérielle</strong> est sur <strong>Auto (meilleur disponible)</strong> par
+   défaut, et la ligne <strong>Détecté :</strong> nomme les accélérateurs que la machine
+   annonce.</li>
+<li>Si elle affiche <strong>Aucun accélérateur GPU détecté</strong>, donnez le périphérique
+   au conteneur (section suivante) et recréez-le.</li>
+<li>Cliquez sur <strong>Recalibrer</strong>, ou patientez : le serveur se mesure à son
+   premier moment de calme. La carte affiche alors le backend utilisé et les
+   résolutions certifiées pour le GPU et pour le processeur.</li>
+</ol>
+<p>Il n'y a qu'une image pour tous les cas : aucun pilote propre à une carte n'y
+est figé, et le même conteneur fonctionne sur le processeur seul, avec un GPU
+Intel ou AMD, ou avec une carte NVIDIA, selon les périphériques que vous lui
+donnez.</p>
+<h2 id="give-the-device-to-the-container">Donner le périphérique au conteneur<a class="headerlink" href="#give-the-device-to-the-container" title="Permanent link">¶</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Intel / AMD (VAAPI, Quick Sync)</label><label for="__tabbed_1_2">NVIDIA (NVENC)</label><label for="__tabbed_1_3">Rockchip (RKMPP)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3080,18 +3137,20 @@ d'encodage n'est pas injectée :</p>
 </div>
 </div>
 <p>Une réservation NVIDIA et <code>/dev/dri</code> peuvent être montés en même temps.</p>
-<h2 id="what-auto-does">Ce que fait Auto<a class="headerlink" href="#what-auto-does" title="Permanent link">¶</a></h2>
+<h2 id="what-proved-by-a-real-encode-means">Ce que veut dire « prouvé par un encodage réel »<a class="headerlink" href="#what-proved-by-a-real-encode-means" title="Permanent link">¶</a></h2>
 <p>En <strong>Auto</strong>, le serveur ne se fonde que sur des mesures, jamais sur le nom de
 la carte :</p>
 <ol>
 <li><strong>Détection.</strong> Chaque nœud de rendu est testé en VAAPI et, sur Intel, en
-   Quick Sync ; chaque GPU NVIDIA et l'encodeur Rockchip de même. Un
-   encodeur ne compte que si un encodage réel réussit.</li>
+   Quick Sync ; chaque GPU NVIDIA et l'encodeur Rockchip de même. Un encodeur
+   ne compte que si un court encodage réel réussit en passant par lui.</li>
 <li><strong>Certification.</strong> Chaque accélérateur encode l'échelle des résolutions
-   (de 720p à 2160p) selon le même schéma que la lecture réelle, garde la
-   résolution la plus haute qu'il tient à 1,2 fois le temps réel, et passe
-   un contrôle visuel. Un accélérateur incapable de tenir le 720p n'est pas
-   utilisé.</li>
+   (de 720p à 2160p) selon le même schéma que la lecture réelle et garde la
+   résolution la plus haute qu'il tient à 1,2 fois le temps réel. Quelques
+   images de chaque essai sont redécodées et comparées à la source, parce
+   qu'un pilote défaillant peut se terminer proprement tout en produisant des
+   images vertes ou brouillées. Un accélérateur incapable de tenir le 720p
+   n'est pas utilisé.</li>
 <li><strong>Mesure des routes.</strong> Pour chaque capacité que l'accélérateur a prouvée
    (SDR, HEVC, AV1, tone mapping sur le GPU, HDR conservé), le coût d'une
    vraie session est mesuré.</li>
@@ -3099,10 +3158,21 @@ la carte :</p>
    coûteux qui a prouvé ce dont ce flux a besoin, ou vers le processeur. Voir
    <a href="../../playback/transcoding/">Transcodage et capacité du serveur</a>.</li>
 </ol>
-<p>La mesure s'exécute dès que le serveur est au repos, puis de nouveau après un
-changement de matériel. <strong>Recalibrer</strong> la lance immédiatement : à utiliser
-après l'ajout d'une carte ou le déplacement du conteneur sur une autre
-machine.</p>
+<p>La mesure attend un moment de calme : aucun flux actif et le processeur de la
+machine sous 20 % pendant cinq relevés d'affilée, espacés de quatre secondes,
+pour qu'un démarrage chargé ou un scan de bibliothèque ne fixe pas les
+plafonds trop bas. Elle se relance quand le matériel change. <strong>Recalibrer</strong> la
+lance immédiatement : à utiliser après l'ajout d'une carte ou le déplacement
+du conteneur sur une autre machine.</p>
+<div class="admonition note">
+<p class="admonition-title">Un démarrage à froid n'est pas un verdict</p>
+<p>Un GPU qui échoue à s'initialiser dans les premières secondes après le
+démarrage du conteneur est retesté à intervalles courts avant que quoi
+que ce soit soit enregistré. Seul un échec qui persiste, ou d'un type
+déterministe (encodeur absent, format non pris en charge), marque
+l'accélérateur comme inutilisable.</p>
+</div>
+<h2 id="forcing-a-backend-or-turning-it-off">Imposer un backend ou tout désactiver<a class="headerlink" href="#forcing-a-backend-or-turning-it-off" title="Permanent link">¶</a></h2>
 <p><strong>Désactivée (processeur uniquement)</strong> garde tous les transcodages sur le
 processeur : c'est la porte de sortie en cas de pilote défaillant. Choisir un
 <strong>Backend</strong> à la main (NVENC, VAAPI, QSV, RKMPP) l'impose ; s'il s'avère
@@ -3117,11 +3187,24 @@ encodage HEVC sur une autre.</p>
 <h2 id="checking-that-it-is-used">Vérifier qu'elle est utilisée<a class="headerlink" href="#checking-that-it-is-used" title="Permanent link">¶</a></h2>
 <p><strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong> affiche les
 accélérateurs détectés, le backend utilisé, les résolutions certifiées pour
-le GPU et pour le processeur, et les éventuels replis sur le processeur.
-Pendant une lecture, <strong>Admin → En cours de lecture</strong> indique le backend qui
-encode chaque flux.</p>
+le GPU et pour le processeur, et sous <strong>Replis matériels</strong> les encodages
+récents qui se sont repliés sur le processeur, avec leur cause. Pendant une
+lecture, <strong>Admin → En cours de lecture</strong> indique le backend qui encode chaque
+flux.</p>
 <p>Sous WSL2, NVENC fonctionne ; VAAPI et Quick Sync non (le pilote graphique de
-WSL échoue sur ces encodages), et le panneau d'administration les grise.</p>
+WSL échoue sur ces encodages), et le panneau les marque <strong>non supporté en
+WSL</strong>.</p>
+<!-- sources
+auto, certify, routes, recalibrate: docs/adr/0015-hardware-acceleration.md ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md
+detection by real encode: internal/adapters/driven/ffmpeg/hwdetect.go - probeHWEncode
+ladder, 1.2x realtime margin, 720p floor: internal/adapters/driven/ffmpeg/benchmark.go - hwBenchLadder, Margin
+visual check: internal/adapters/driven/ffmpeg/hw_output_validation.go
+cold-boot init retry: internal/adapters/driven/ffmpeg/hw_readiness.go - runHWReadinessProbe, hwReadinessRetryDelays
+quiet moment: internal/app/transcoding/calibration_service.go - idleProbes, idleProbeEvery, idleCPUPercent
+render group: docker-compose.gpu.yml ; nvidia: docker-compose.gpu-nvidia.yml
+panel: frontend/apps/web/src/features/admin/EncodeCalibrationCard.tsx (hw_mode, detected_backends, is_wsl)
+labels: i18n admin.calibration.cardTitle, hwModeLabel, hwModeAuto, hwModeOff, hwBackendLabel, detected, detectedNone, recalibrate, hwFallbacks, wslUnsupported ; admin.nav.transcodingConfig, nowPlaying
+-->
 
 
 

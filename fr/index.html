@@ -556,10 +556,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#for-everyone-at-home" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gérer vos médias, pas l'infrastructure
+        Pour toute la maison
       
     </span>
   </a>
@@ -567,10 +567,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-file-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment il fonctionne
+        Comment un fichier arrive à l'écran
       
     </span>
   </a>
@@ -578,10 +578,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#one-container-and-the-server-measures-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Voir ce qu'Evey a décidé, et pourquoi
+        Un seul conteneur, et le serveur se mesure lui-même
       
     </span>
   </a>
@@ -589,10 +589,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#what-evey-does-with-your-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Applications et extensions
+        Ce qu'Evey fait de vos fichiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-are-contained-not-trusted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les plugins sont confinés, pas crus sur parole
       
     </span>
   </a>
@@ -2992,10 +3003,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#run-your-media-server-not-its-infrastructure" class="md-nav__link">
+  <a href="#for-everyone-at-home" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gérer vos médias, pas l'infrastructure
+        Pour toute la maison
       
     </span>
   </a>
@@ -3003,10 +3014,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-file-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment il fonctionne
+        Comment un fichier arrive à l'écran
       
     </span>
   </a>
@@ -3014,10 +3025,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-what-evey-decided-and-why" class="md-nav__link">
+  <a href="#one-container-and-the-server-measures-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Voir ce qu'Evey a décidé, et pourquoi
+        Un seul conteneur, et le serveur se mesure lui-même
       
     </span>
   </a>
@@ -3025,10 +3036,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#apps-and-extensions" class="md-nav__link">
+  <a href="#what-evey-does-with-your-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Applications et extensions
+        Ce qu'Evey fait de vos fichiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-are-contained-not-trusted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les plugins sont confinés, pas crus sur parole
       
     </span>
   </a>
@@ -3072,144 +3094,181 @@
 
 
 <h1 id="evey">Evey<a class="headerlink" href="#evey" title="Permanent link">¶</a></h1>
-<p>Evey est un serveur auto-hébergé pour vos films, séries, musique et photos.
-Vous ajoutez vos médias et vos utilisateurs ; Evey adapte automatiquement la
-lecture à votre serveur et à vos appareils.</p>
+<p>Evey est un serveur que vous faites tourner chez vous pour vos films, séries,
+musique et photos. Vous ajoutez vos médias et les personnes qui les
+regarderont. À chaque lecture, le fichier, le lecteur et le serveur négocient
+la façon dont l'image est livrée, sans rien à choisir avant d'appuyer sur
+lecture.</p>
 <p><a class="md-button md-button--primary" href="installation/">Installer Evey</a>
 <a class="md-button" href="https://demo.eveyproject.org">Essayer la démo</a></p>
 <p class="evey-status">
 <span>Bêta, pas encore de version numérotée</span>
 <span>Logiciel libre, AGPL-3.0</span>
-<span>Démo : <code>demo</code> / <code>demo</code></span>
+<span>Démo : connexion automatique (<code>demo</code> / <code>demo</code>)</span>
 </p>
 
 <p class="evey-platforms">
-<strong>Regarder</strong> dans n'importe quel navigateur web, sur un Chromecast,
+<strong>Ce qu'il vous faut :</strong> un ordinateur ou un NAS x86-64 avec
+Docker, un dossier contenant vos médias, et un port libre. Un conteneur, un
+fichier compose, une commande.<br>
+<strong>Regardez</strong> dans n'importe quel navigateur, sur un Chromecast,
 sur les téléphones et tablettes Android, et sur Android TV. Les applications
-Android et Android TV sont en test et ne sont pas encore sur Google Play.<br>
-<strong>Serveur :</strong> un conteneur Docker sur un ordinateur ou un NAS
-x86-64.
+Android et Android TV sont en phase de test et pas encore sur Google Play.
 </p>
 
 <div class="evey-showcase">
 <figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="L'accueil" data-gallery="showcase" loading="lazy" src="../images/showcase-home.webp"></a>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="La page d'accueil" data-gallery="showcase" loading="lazy" src="../images/showcase-home.webp"></a>
 <br>
-<figcaption>L'accueil : reprendre la lecture, puis chaque bibliothèque.</figcaption>
+<figcaption>L'accueil : les titres à reprendre, puis vos bibliothèques ligne par ligne.</figcaption>
 </figure>
 <figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="La page d'un film" data-gallery="showcase" loading="lazy" src="../images/showcase-media.webp"></a>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="Une fiche de film" data-gallery="showcase" loading="lazy" src="../images/showcase-media.webp"></a>
 <br>
-<figcaption>La page d'un film, avec ses visuels, ses notes et sa distribution.</figcaption>
+<figcaption>Une fiche de film : visuels, classification d'âge, notes, synopsis et distribution.</figcaption>
 </figure>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="Le lecteur web" data-gallery="showcase" loading="lazy" src="../images/showcase-player.webp"></a>
 <br>
-<figcaption>Le lecteur web.</figcaption>
+<figcaption>Le lecteur web. Dans la barre : Regarder ensemble, Caster, et le (i) qui ouvre les Infos du flux.</figcaption>
 </figure>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="showcase"><img alt="Le tableau de bord d'administration pendant deux lectures" data-gallery="showcase" loading="lazy" src="../images/showcase-dashboard.webp"></a>
 <br>
-<figcaption>Le tableau de bord pendant que deux personnes regardent : l'image que voit chacune, et la façon dont elle lui est envoyée.</figcaption>
+<figcaption>Le tableau de bord pendant que deux personnes regardent : l'image, l'appareil, Lecture directe ou Remux.</figcaption>
 </figure>
 </div>
-<h2 id="run-your-media-server-not-its-infrastructure">Gérer vos médias, pas l'infrastructure<a class="headerlink" href="#run-your-media-server-not-its-infrastructure" title="Permanent link">¶</a></h2>
-<p>Un conteneur, un fichier compose, aucun <code>.env</code> à écrire.</p>
+<h2 id="for-everyone-at-home">Pour toute la maison<a class="headerlink" href="#for-everyone-at-home" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Base de données et moteur de recherche inclus.</strong> Ils ne sont joignables
-  que depuis le conteneur, avec des mots de passe générés au premier
-  démarrage.</li>
-<li><strong>Permissions des fichiers adaptées automatiquement</strong>, quand c'est possible,
-  pour que les réparations puissent écrire. Le serveur lui-même ne tourne
-  jamais en root.</li>
-<li><strong>Moins de réglages à faire à la main.</strong> La carte graphique est détectée, la
-  capacité de transcodage est mesurée, et le mode de lecture dépend de ce que
-  chaque appareil sait lire.</li>
+<li><strong>Un profil par personne.</strong> Chaque profil garde son historique, ses points
+  de reprise, ses favoris et ses langues ; un foyer partage en général un seul
+  compte.</li>
+<li><strong>Des profils enfant.</strong> Un profil enfant s'ouvre sans code ; en sortir vers
+  un profil adulte demande un code PIN à quatre chiffres. Un profil peut avoir
+  un âge maximum, appliqué par le serveur : un titre au-dessus n'est jamais
+  envoyé, même en téléchargement.</li>
+<li><strong>Reprendre là où vous en étiez</strong>, sur n'importe quel appareil : les points
+  de reprise sont sur le serveur, pas sur le téléphone.</li>
+<li><strong>En déplacement.</strong> L'application Android télécharge un titre pour le
+  regarder hors connexion, pendant 30 jours.</li>
+<li><strong>Sur la TV.</strong> Android TV se connecte avec la <strong>Connexion rapide</strong> : un code
+  affiché à l'écran, tapé ou scanné depuis un téléphone ou un ordinateur déjà
+  connecté. Aucun mot de passe à taper à la télécommande.</li>
+<li><strong>Ensemble.</strong> Plusieurs personnes regardent le même titre au même instant,
+  chacune sur son appareil.</li>
 </ul>
-<p>Vous pouvez toujours utiliser votre propre base de données ou votre propre
-moteur de recherche : <a href="operations/advanced-deployments/">Déploiements avancés</a>.</p>
-<h2 id="how-it-works">Comment il fonctionne<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
-<div class="evey-points">
-<div>
-<p><strong>En faire le moins possible</strong></p>
-<p>La <strong>Lecture directe</strong> envoie le fichier tel quel. Quand l'appareil sait lire
-les pistes mais pas le conteneur du fichier, <strong>MKVGo</strong> change le conteneur sans
-réencoder les pistes audio et vidéo, et sans lancer un programme supplémentaire pour chaque lecture ; là où
-MKVGo ne peut pas, FFmpeg copie les pistes. <strong>FFmpeg</strong> se charge des vraies
-conversions.
-<a href="playback/mkvgo/">MKVGo dans Evey</a></p>
-</div>
-<div>
-<p><strong>Savoir ce dont la machine est vraiment capable</strong></p>
-<p>Un accélérateur ne compte qu'une fois qu'un vrai encodage y a réussi. Dans un
-moment calme, le serveur chronomètre des encodages d'essai, puis confie chaque
-flux au matériel le moins coûteux qui a prouvé qu'il pouvait le transcoder.
-Quand la capacité manque, un nouveau flux reçoit une qualité plus basse, ou
-passe d'une carte graphique saturée au processeur ; il n'est refusé, avec un
-message clair, que s'il ne reste plus aucune capacité.
-<a href="playback/transcoding/">Transcodage et capacité du serveur</a></p>
-</div>
-<div>
-<p><strong>Du code tiers confiné, pas cru sur parole</strong></p>
-<p>Un plugin est analysé avant l'installation, ne reçoit que les permissions
-acceptées par l'administrateur, et tourne dans son propre processus, sans
-accès direct au réseau et avec des ressources plafonnées. La rigueur de la
-sandbox dépend de l'hôte, et le panneau d'administration indique laquelle est
-active.
-<a href="SECURITY/#sandbox-modes">Sandbox des plugins et modèle de menace</a></p>
-</div>
-<div>
-<p><strong>Repérer les médias abîmés avant la lecture</strong></p>
-<p>La <strong>Santé des médias</strong> analyse vos fichiers MKV et WebM et explique ce
-qu'elle trouve. Une réparation se lance à la demande, est vérifiée avant de
-remplacer le fichier, garde l'original par défaut et est consignée au journal.
-Le reste est signalé, jamais réécrit dans votre dos.
-<a href="runbooks/media-health/">Santé des médias</a></p>
-</div>
-</div>
-<h2 id="see-what-evey-decided-and-why">Voir ce qu'Evey a décidé, et pourquoi<a class="headerlink" href="#see-what-evey-decided-and-why" title="Permanent link">¶</a></h2>
-<p>Le tableau de bord liste chaque lecture : qui regarde, sur quel appareil, en
-<strong>Lecture directe</strong>, <strong>Remux</strong> ou <strong>Transcodage</strong>, et ce qui est copié ou
-réencodé. Dans le lecteur, les <strong>Infos du flux</strong> montrent ce qui est
-réellement envoyé, et pourquoi le fichier n'a pas été lu tel quel.</p>
-<figure class="evey-shot evey-shot--narrow">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les Infos du flux dans le lecteur web" loading="lazy" src="../images/player-stream-info.webp"></a>
-<br>
-<figcaption>Remux : le conteneur change, sans réencoder la vidéo ni l'audio. « Copié » décrit les pistes, pas le mode de lecture.</figcaption>
-</figure>
-<p><a href="playback/how-playback-is-decided/#reading-stream-info">Lire les Infos du flux</a></p>
-<h2 id="apps-and-extensions">Applications et extensions<a class="headerlink" href="#apps-and-extensions" title="Permanent link">¶</a></h2>
-<p>Une TV se connecte depuis un téléphone ou un ordinateur grâce à la
-<strong>Connexion rapide</strong>, sans saisir de mot de passe. Plugins et thèmes étendent
-l'interface, et un même plugin fonctionne sur le web, sur Android et sur la
-TV.
+<p>Les bibliothèques de musique et de photos sont traitées comme les films et
+les séries, sur le web, sur Android et sur la TV.
 <a href="getting-started/apps/">Applications et appareils</a> ·
-<a href="plugins/">Plugins</a></p>
+<a href="administration/users/">Utilisateurs, profils et contrôle parental</a></p>
+<h2 id="how-a-file-reaches-the-screen">Comment un fichier arrive à l'écran<a class="headerlink" href="#how-a-file-reaches-the-screen" title="Permanent link">¶</a></h2>
+<p>Evey ne vous demande jamais de choisir une qualité. À chaque lancement d'un
+titre, le serveur tranche à partir de trois choses : ce que contient le
+fichier, ce que ce lecteur sait décoder, et ce que ce serveur peut encoder à
+cet instant. Il préfère, dans cet ordre :</p>
+<ul>
+<li><strong>Lecture directe</strong> : le fichier tel quel.</li>
+<li><strong>Remux</strong> : la même image et le même son dans un autre format de fichier,
+  rien n'est réencodé. <strong>MKVGo</strong> le fait à l'intérieur du serveur quand il le
+  peut, sans lancer un programme de plus à chaque lecture ; sinon FFmpeg copie
+  les pistes.</li>
+<li><strong>Transcodage</strong> : seules les pistes que l'appareil ne sait pas lire sont
+  réencodées par FFmpeg, souvent juste le son.</li>
+</ul>
+<p>Le même film peut partir intact vers une TV et être réencodé pour un vieux
+téléphone. Dans le lecteur, les <strong>Infos du flux</strong> montrent le plan réellement
+servi et pourquoi le fichier n'a pas été envoyé tel quel. <strong>Admin → Tableau
+de bord</strong> montre la même chose pour chaque spectateur.</p>
+<figure class="evey-shot evey-shot--narrow">
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Infos du flux dans le lecteur web" loading="lazy" src="../images/player-stream-info.webp"></a>
+<br>
+<figcaption>La première lecture du tableau de bord ci-dessus, vue depuis le lecteur. Remux : le format de fichier change, image et son sont copiés, et la dernière ligne dit pourquoi le fichier ne pouvait pas être envoyé tel quel (interface en anglais).</figcaption>
+</figure>
+<p><a href="playback/how-playback-is-decided/">Comment Evey choisit le mode de lecture</a> ·
+<a href="playback/mkvgo/">MKVGo dans Evey</a></p>
+<h2 id="one-container-and-the-server-measures-itself">Un seul conteneur, et le serveur se mesure lui-même<a class="headerlink" href="#one-container-and-the-server-measures-itself" title="Permanent link">¶</a></h2>
+<p>Un fichier compose est toute l'installation : aucun <code>.env</code> à écrire, aucun
+réglage de mémoire ou de processeur.</p>
+<ul>
+<li><strong>La base de données et le moteur de recherche tournent dans le
+  conteneur</strong>, joignables uniquement depuis lui, avec des mots de passe
+  générés au premier démarrage.</li>
+<li><strong>Le serveur ne tourne jamais en root.</strong> Il tourne sous le propriétaire de
+  votre dossier de médias quand il peut le détecter, pour que les réparations
+  puissent écrire.</li>
+<li><strong>La capacité de transcodage est mesurée, pas devinée.</strong> Dans un moment
+  calme, le serveur chronomètre de vrais encodages sur le processeur et sur
+  chaque carte graphique confiée au conteneur ; une carte ne compte que pour
+  ce qui a réussi. Quand la place manque, une nouvelle lecture reçoit une
+  qualité plus basse, ou passe d'une carte occupée au processeur. Un démarrage
+  qui ne peut pas être servi est refusé avec un message qui nomme la raison :
+  le serveur est plein, il est encore en train de se mesurer, ou le fichier
+  n'est pas prêt.</li>
+<li><strong>L'accès distant s'ouvre quand vous donnez une adresse publique au
+  serveur</strong>, et reste fermé sinon.</li>
+</ul>
+<p>Utiliser votre propre base de données ou moteur de recherche reste possible :
+<a href="operations/advanced-deployments/">Déploiements avancés</a>.
+<a href="playback/transcoding/">Transcodage et capacité du serveur</a></p>
+<h2 id="what-evey-does-with-your-files">Ce qu'Evey fait de vos fichiers<a class="headerlink" href="#what-evey-does-with-your-files" title="Permanent link">¶</a></h2>
+<p><strong>Vos fichiers.</strong> Retirer un titre ou une bibliothèque le retire d'Evey, pas
+du disque. Evey n'écrit dans vos dossiers de médias que pour une réparation
+que vous avez demandée, pour un sous-titre récupéré par l'API, et pour un
+petit fichier de sonde qui vérifie que la surveillance du dossier fonctionne
+encore ; montez une bibliothèque en lecture seule et rien de tout cela ne se
+produit. <strong>Santé des médias</strong> lit vos fichiers MKV et WebM et liste ce qu'il
+trouve ; une réparation ne réécrit un fichier que sur demande, dans une copie
+vérifiée en entier avant de remplacer le fichier, garde l'original par défaut,
+et chaque changement est consigné. Ce qui ne peut pas être réparé est signalé
+et laissé tel quel.
+<a href="runbooks/media-health/">Santé des médias</a></p>
+<p><strong>Vos données.</strong> Le projet ne fait tourner aucun service qui les reçoit :
+aucun compte chez nous, aucune mesure d'audience, aucun rapport de plantage.
+Les applications parlent à votre serveur et à rien d'autre que nous
+exploiterions. Ce qui sort de votre réseau : le serveur demande à des services
+extérieurs les visuels et les descriptions (The Movie Database, et des sources
+de pochettes pour la musique), et de temps en temps demande au registre
+d'images s'il existe une version plus récente, ce que vous pouvez désactiver.
+La base de données est sauvegardée avant chaque mise à jour qui la modifie.
+<a href="privacy/">Règles de confidentialité</a> · <a href="backups/">Sauvegardes et mises à jour</a></p>
+<h2 id="plugins-are-contained-not-trusted">Les plugins sont confinés, pas crus sur parole<a class="headerlink" href="#plugins-are-contained-not-trusted" title="Permanent link">¶</a></h2>
+<p>Un plugin est analysé avant l'installation ; l'administrateur voit ce que
+l'analyse a trouvé et les permissions demandées, et une nouvelle permission
+exige un accord explicite. Il tourne comme un processus à part, sous un
+utilisateur distinct, sans accès direct au réseau, et il est arrêté dès qu'il
+dépasse sa limite de mémoire, de processus ou de disque. La rigueur du
+confinement du système de fichiers dépend de la machine, et le <strong>Tableau de
+bord sécurité</strong> indique le mode de sandbox réellement utilisé. Les plugins
+ajoutent des sources de métadonnées, des canaux de notification, des sections
+d'accueil et des surcouches du lecteur ; les thèmes changent l'apparence. Le
+widget d'un plugin s'affiche sur le web, sur Android et sur la TV ; sur la
+TV, il est affiché, pas manipulé.
+<a href="plugins/">Plugins</a> ·
+<a href="SECURITY/#sandbox-modes">Sandbox des plugins et modèle de menace</a></p>
 <h2 id="find-your-way">Par où commencer<a class="headerlink" href="#find-your-way" title="Permanent link">¶</a></h2>
 <div class="grid cards">
 <ul>
 <li>
 <p><strong><a href="installation/">Installer Evey</a></strong></p>
-<p>Un conteneur, un fichier compose. Prérequis et premier démarrage.</p>
+<p>Prérequis, le fichier compose, le premier lancement, l'adresse à ouvrir.</p>
 </li>
 <li>
 <p><strong><a href="getting-started/first-setup/">Première configuration</a></strong></p>
-<p>L'assistant de configuration, vos bibliothèques, les personnes qui
-utiliseront le serveur.</p>
+<p>L'assistant, vos bibliothèques, les personnes qui regarderont, les
+applications.</p>
 </li>
 <li>
 <p><strong><a href="administration/libraries/">Administration</a></strong></p>
-<p>Bibliothèques, utilisateurs et profils, accès distant, accélération
-matérielle, sauvegardes.</p>
+<p>Bibliothèques, utilisateurs, profils et contrôle parental, accès distant,
+carte graphique, sauvegardes.</p>
 </li>
 <li>
 <p><strong><a href="playback/how-playback-is-decided/">Comment Evey choisit le mode de lecture</a></strong></p>
-<p>Lecture directe, remux ou transcodage, et comment lire les Infos du flux.</p>
+<p>Lecture directe, Remux, Transcodage, et comment lire les Infos du flux.</p>
 </li>
 <li>
 <p><strong><a href="operations/troubleshooting/">Dépannage</a></strong></p>
-<p>Où regarder quand quelque chose ne marche pas : symptômes, logs,
-restauration.</p>
+<p>Un tableau par symptôme : où regarder, quoi vérifier, comment récupérer.</p>
 </li>
 <li>
 <p><strong><a href="plugins/">Plugins et API</a></strong></p>
@@ -3220,7 +3279,8 @@ restauration.</p>
 <p class="evey-meta">
 Cette documentation suit la branche de développement. ·
 <a href="https://github.com/Evey-project/evey">Code source sur GitHub</a> ·
-Signalement de failles : security@eveyproject.org
+Signalements de sécurité : security@eveyproject.org ·
+<a href="privacy/">Règles de confidentialité</a>
 </p>
 
 

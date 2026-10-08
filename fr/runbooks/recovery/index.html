@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#recovery-runbook" class="md-skip">
+        <a href="#recovery" class="md-skip">
           Aller au contenu
         </a>
       
@@ -1649,10 +1649,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#reset-password" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        reset-password
+        Avant de commencer
       
     </span>
   </a>
@@ -1660,10 +1660,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rotate-jwt-key" class="md-nav__link">
+  <a href="#give-a-user-a-new-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        rotate-jwt-key
+        Donner un nouveau mot de passe à un utilisateur
       
     </span>
   </a>
@@ -1671,10 +1671,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restore-backup" class="md-nav__link">
+  <a href="#rotate-the-key-that-signs-access-tokens" class="md-nav__link">
     <span class="md-ellipsis">
       
-        restore-backup
+        Renouveler la clé qui signe les jetons d'accès
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-a-pre-migration-dump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restaurer un dump pris avant une migration
       
     </span>
   </a>
@@ -2979,10 +2990,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#reset-password" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        reset-password
+        Avant de commencer
       
     </span>
   </a>
@@ -2990,10 +3001,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rotate-jwt-key" class="md-nav__link">
+  <a href="#give-a-user-a-new-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        rotate-jwt-key
+        Donner un nouveau mot de passe à un utilisateur
       
     </span>
   </a>
@@ -3001,10 +3012,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restore-backup" class="md-nav__link">
+  <a href="#rotate-the-key-that-signs-access-tokens" class="md-nav__link">
     <span class="md-ellipsis">
       
-        restore-backup
+        Renouveler la clé qui signe les jetons d'accès
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-a-pre-migration-dump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restaurer un dump pris avant une migration
       
     </span>
   </a>
@@ -3034,87 +3056,105 @@
   </a>
 
 
-<h1 id="recovery-runbook">Récupération<a class="headerlink" href="#recovery-runbook" title="Permanent link">¶</a></h1>
-<p>Les procédures en ligne de commande pour les cas où l'on ne peut plus se
-connecter, où la clé JWT est peut-être compromise, ou quand la base de données
-doit revenir à une sauvegarde d'avant migration.</p>
-<p>Toutes les commandes s'exécutent sous la forme <code>evey admin &lt;sous-commande&gt;</code> et
-lisent leur configuration dans les mêmes variables <code>EVEY_*</code> que le serveur. Elles
-ne démarrent <strong>pas</strong> le serveur, et la plupart peuvent tourner sans risque
-pendant qu'il est arrêté.</p>
-<h2 id="reset-password">reset-password<a class="headerlink" href="#reset-password" title="Permanent link">¶</a></h2>
-<p>Génère un nouveau mot de passe pour un utilisateur existant. Il est affiché une
-seule fois sur la sortie standard : notez-le immédiatement.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
+<h1 id="recovery">Récupération<a class="headerlink" href="#recovery" title="Permanent link">¶</a></h1>
+<p>Ouvrez cette page quand plus personne ne peut se connecter, quand la clé qui
+signe les jetons d'accès a pu fuiter, ou quand la base doit revenir à un dump
+pris avant une migration. Chaque procédure tient en une commande <code>evey admin</code>
+lancée dans le conteneur ; la page <a href="../cli/">Ligne de commande</a> liste les
+autres sous-commandes.</p>
+<h2 id="before-you-start">Avant de commencer<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<p>Les commandes lisent la même configuration <code>EVEY_*</code> que le serveur : les
+lancer dans le conteneur du serveur ne demande rien de plus.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>&lt;sous-commande&gt;<span class="w">        </span><span class="c1"># serveur en marche</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>&lt;sous-commande&gt;<span class="w">        </span><span class="c1"># conteneur arrêté</span>
 </span></code></pre></div>
-<p>Sortie :
-</p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>user:     admin@example.com
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>user_id:  usr-xxxxxxxx
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>password: &lt;random 24-byte base64url&gt;
-</span></code></pre></div><p></p>
-<p>Remarques :</p>
-<ul>
-<li>Toutes les sessions de l'utilisateur prennent fin : ses jetons de
-  rafraîchissement sont supprimés et ses jetons d'accès révoqués. Une
-  application ouverte s'en aperçoit en 30 secondes environ et redemande la
-  connexion.</li>
-<li>Le mot de passe en clair n'est jamais journalisé. Si vous perdez la sortie, il
-  faut relancer la commande.</li>
-</ul>
-<h2 id="rotate-jwt-key">rotate-jwt-key<a class="headerlink" href="#rotate-jwt-key" title="Permanent link">¶</a></h2>
-<p>Remplace la clé RSA qui signe les jetons d'accès.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
+<p>La seconde forme démarre d'abord la base embarquée, exécute la commande et
+sort. Aucune de ces commandes ne démarre le serveur.</p>
+<h2 id="give-a-user-a-new-password">Donner un nouveau mot de passe à un utilisateur<a class="headerlink" href="#give-a-user-a-new-password" title="Permanent link">¶</a></h2>
+<p>À utiliser quand un utilisateur est bloqué dehors, ou juste après une
+compromission supposée de son compte. Le nouveau mot de passe est affiché une
+seule fois et jamais journalisé : copiez-le avant de fermer le terminal.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
 </span></code></pre></div>
-<p>Comportement :</p>
-<ul>
-<li>Le fichier de clé actuel (chemin : <code>EVEY_JWT_PRIVATE_KEY_PATH</code>, par défaut
-  <code>/data/jwt.key</code>) est renommé en <code>&lt;chemin&gt;.rotated-&lt;horodatage UTC&gt;</code>.</li>
-<li>Au démarrage suivant du serveur, <code>LoadOrGenerateRSAKey</code> génère une nouvelle
-  clé RSA de 2048 bits.</li>
-<li>Toutes les sessions prennent fin immédiatement, sans attendre le
-  redémarrage : la commande supprime tous les jetons de rafraîchissement et
-  révoque tous les jetons d'accès en base. Les applications ouvertes s'en
-  aperçoivent en 30 secondes environ et tout le monde se reconnecte.</li>
-<li>Si la base est injoignable, la clé est quand même mise de côté et la
-  commande le signale : relancez-la quand la base répond.</li>
-</ul>
-<p>Quand l'utiliser :</p>
-<ul>
-<li>Fuite de clé soupçonnée : plus personne ne peut fabriquer de jeton d'accès
-  valide avec l'ancienne clé.</li>
-<li>Coupure de toutes les sessions. Pour un seul compte, le désactiver dans
-  <strong>Admin → Utilisateurs</strong>, ou <code>reset-password</code>, suffit.</li>
-</ul>
-<h2 id="restore-backup">restore-backup<a class="headerlink" href="#restore-backup" title="Permanent link">¶</a></h2>
-<p>Applique un <code>pg_dump.gz</code> produit par la sauvegarde d'avant migration (ou par
-toute autre source) sur la base de données configurée. <strong>Écrase les données
-existantes.</strong> Le fichier doit se terminer par <code>.sql.gz</code> : les sauvegardes
-<code>.tar.gz</code> de <strong>Admin → Sauvegarde BDD et restauration</strong> se restaurent depuis le panneau,
-pas par cette commande.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>evey<span class="w"> </span>admin<span class="w"> </span>restore-backup<span class="w"> </span>/data/backups/pre-migration-15-20260418T220130Z.sql.gz
+<p>Un bon résultat ressemble à ceci :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>user:     admin@example.com
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>user_id:  usr-xxxxxxxx
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>password: &lt;24 octets aléatoires en base64url&gt;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Save this - it is the only time the new password is shown.
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Every session of this user has been ended.
 </span></code></pre></div>
-<p>Déroulement :</p>
+<p>Toutes les sessions de cet utilisateur se terminent immédiatement : ses
+jetons de rafraîchissement sont supprimés et ses jetons d'accès révoqués. Une
+application ouverte s'en aperçoit sous une trentaine de secondes et redemande
+une connexion. Si vous perdez la sortie, relancez la commande.</p>
+<h2 id="rotate-the-key-that-signs-access-tokens">Renouveler la clé qui signe les jetons d'accès<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
+<p>À utiliser quand le fichier de clé a pu fuiter, ou pour déconnecter tout le
+monde d'un coup. Pour un seul compte, <strong>Admin -&gt; Utilisateurs -&gt; Désactiver</strong>
+ou la réinitialisation de mot de passe ci-dessus suffit.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
+</span></code></pre></div>
+<p>Ce qui se passe :</p>
 <ol>
-<li>La commande attend 5 secondes avant de faire quoi que ce soit : Ctrl+C
-   l'interrompt.</li>
-<li>Le fichier passe par <code>gunzip | psql</code> vers la base configurée, avec
-   <code>--single-transaction</code> et <code>ON_ERROR_STOP=1</code>.</li>
-<li>À la moindre erreur, psql annule la transaction : la base reste dans son état
-   précédent.</li>
+<li>Le fichier de clé (<code>EVEY_JWT_PRIVATE_KEY_PATH</code>, <code>/data/jwt.key</code> par défaut)
+   est renommé en <code>&lt;chemin&gt;.rotated-&lt;horodatage UTC&gt;</code>.</li>
+<li>Tous les jetons de rafraîchissement sont supprimés et tous les jetons
+   d'accès révoqués, en une seule transaction. Les applications ouvertes s'en
+   aperçoivent sous une trentaine de secondes ; tout le monde se reconnecte.</li>
+<li>Au démarrage suivant, le serveur génère une nouvelle clé RSA de 2048 bits.</li>
+</ol>
+<p>Redémarrez ensuite le conteneur (<code>docker compose restart evey</code>) pour que la
+nouvelle clé serve. Si la base n'a pas pu être jointe, la clé est quand même
+mise de côté et la commande l'annonce : <code>key rotated, but sessions could not
+be ended (restart the server, then run this again)</code>. Faites exactement cela.</p>
+<h2 id="restore-a-pre-migration-dump">Restaurer un dump pris avant une migration<a class="headerlink" href="#restore-a-pre-migration-dump" title="Permanent link">¶</a></h2>
+<p>À utiliser quand une mise à jour doit être annulée et que les données écrites
+depuis peuvent être perdues. La commande passe un dump <code>.sql.gz</code> par
+<code>gunzip | psql</code> dans la base configurée.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>La restauration écrase les lignes actuelles. Prenez d'abord une
+sauvegarde de l'état courant (<strong>Admin -&gt; Sauvegarde BDD et restauration -&gt;
+Lancer maintenant</strong>) s'il y a la moindre chance d'en avoir besoin.</p>
+</div>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>evey
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>restore-backup<span class="w"> </span>/data/backups/pre-migration-152-20260418T220130Z.sql.gz
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+<p>Ce qui se passe :</p>
+<ol>
+<li>La commande attend 5 secondes avant de toucher à quoi que ce soit :
+   Ctrl+C annule.</li>
+<li><code>psql</code> applique le dump avec <code>--single-transaction</code> et <code>ON_ERROR_STOP=1</code>.
+   À la moindre erreur la transaction est annulée et la base reste telle
+   qu'elle était.</li>
+<li>En cas de succès, la dernière ligne est <code>[admin] restored backup &lt;chemin&gt;</code>.</li>
 </ol>
 <p>Prérequis :</p>
 <ul>
-<li><code>psql</code> et <code>gunzip</code> doivent être dans le PATH (tous deux sont livrés dans
-  l'image de production, avec <code>pg_dump</code>).</li>
-<li>La base cible doit exister ; le dump ne contient que les DROP/CREATE des
-  tables, pas la base elle-même.</li>
-<li>L'utilisateur <code>EVEY_DB_USER</code> configuré doit être propriétaire de la base
-  cible.</li>
+<li>Le nom du fichier doit finir par <code>.sql.gz</code>. Les archives <code>.tar.gz</code> de
+  <strong>Admin -&gt; Sauvegarde BDD et restauration</strong> se restaurent depuis le
+  panneau, pas avec cette commande.</li>
+<li>La base cible doit exister ; le dump supprime et recrée les tables, pas la
+  base.</li>
+<li><code>psql</code> et <code>gunzip</code> doivent être dans le PATH, ce que l'image garantit.</li>
 </ul>
-<p>Les sauvegardes d'avant migration sont produites automatiquement avant chaque
-<code>migrate.Up()</code> et rangées dans <code>EVEY_BACKUP_DIR</code> (par défaut <code>/data/backups</code>).
-Le dump le plus récent de chacune des 3 dernières versions du schéma est
-conservé ; les autres sont supprimés.</p>
+<p>Les dumps de pré-migration sont écrits automatiquement avant chaque
+changement de schéma, sous <code>EVEY_BACKUP_DIR</code> (<code>/data/backups</code>, donc
+<code>./evey-data/backups</code> sur l'hôte), nommés
+<code>pre-migration-&lt;version du schéma&gt;-&lt;horodatage UTC&gt;.sql.gz</code>. Le dump le plus
+récent de chacune des 3 dernières versions du schéma est conservé, les autres
+sont élagués. <a href="../migration-runbook/">Migrations de la base</a> explique quand
+restaurer un dump plutôt que revenir d'un cran sur le schéma.</p>
+<!-- sources
+reset-password / rotate-jwt-key: cmd/evey/admin.go - adminResetPassword (DeleteByUserID + BumpTokenEpoch), adminRotateJWTKey, endAllSessions ; epoch cache TTL: internal/app/user/token_epoch.go - epochCacheTTL
+restore-backup: cmd/evey/admin.go - adminRestoreBackup (5 s pause, --single-transaction, ON_ERROR_STOP=1, .sql.gz suffix)
+admin commands boot the embedded database: docker/entrypoint.sh
+refresh validation by stored hash: internal/app/user/auth.go - validateRefreshToken
+disable signs out: internal/app/user/user_service.go - DisableUser
+dump naming and retention: internal/adapters/driven/postgres/migrate_backup.go - dumpDatabase, backupFilePrefix, pruneOldBackups, defaultBackupRetention
+defaults: internal/config/config.go (EVEY_JWT_PRIVATE_KEY_PATH, EVEY_BACKUP_DIR)
+-->
 
 
 

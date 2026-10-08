@@ -2626,18 +2626,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spécifications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spécifications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#system" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2647,9 +2635,9 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#media--transcoding" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#media-and-transcoding" class="md-nav__link">
     <span class="md-ellipsis">
       
         Médias et transcodage
@@ -2658,20 +2646,15 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#users--policies" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#users-and-policies" class="md-nav__link">
     <span class="md-ellipsis">
       
         Utilisateurs et règles
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3006,18 +2989,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spécifications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spécifications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#system" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3027,9 +2998,9 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#media--transcoding" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#media-and-transcoding" class="md-nav__link">
     <span class="md-ellipsis">
       
         Médias et transcodage
@@ -3038,20 +3009,15 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#users--policies" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#users-and-policies" class="md-nav__link">
     <span class="md-ellipsis">
       
         Utilisateurs et règles
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3090,8 +3056,8 @@
 
 
 <h1 id="admin-api">API d'administration<a class="headerlink" href="#admin-api" title="Permanent link">¶</a></h1>
-<p>Les points d'accès réservés aux utilisateurs ayant les droits d'administrateur.</p>
-<h2 id="specs">Spécifications<a class="headerlink" href="#specs" title="Permanent link">¶</a></h2>
+<p>Les points d'accès réservés aux administrateurs : ce qu'appelle <strong>Admin</strong>
+dans l'application web. Un fichier par service, groupés par domaine.</p>
 <h3 id="system">Système<a class="headerlink" href="#system" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -3139,7 +3105,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="media--transcoding">Médias et transcodage<a class="headerlink" href="#media--transcoding" title="Permanent link">¶</a></h3>
+<h3 id="media-and-transcoding">Médias et transcodage<a class="headerlink" href="#media-and-transcoding" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -3174,7 +3140,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="users--policies">Utilisateurs et règles<a class="headerlink" href="#users--policies" title="Permanent link">¶</a></h3>
+<h3 id="users-and-policies">Utilisateurs et règles<a class="headerlink" href="#users-and-policies" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -3198,9 +3164,15 @@
 </tbody>
 </table>
 <h2 id="authentication">Authentification<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
-<p>Chaque point d'accès exige un administrateur : le jeton de session d'un compte
-administrateur, ou une clé d'API, qui appartient toujours à l'un d'eux (ses
-scopes peuvent la restreindre).</p>
+<p>Chaque point d'accès exige un administrateur : le jeton de session d'un
+compte administrateur, ou une clé d'API, qui appartient toujours à l'un d'eux
+et doit porter la permission que la méthode demande (une clé sans permission
+n'atteint aucune méthode d'administration). Un jeton de plugin est refusé
+ici quelles que soient ses portées
+(<a href="../#authentication">API du serveur</a>).</p>
+<!-- sources
+admin methods: internal/adapters/driving/grpcapi/interceptors/rbac.go - MethodRoles ; api key scope on admin methods: interceptors/auth.go - authorize ; plugin token floor: auth.go - authorizePluginToken
+-->
 
 
 

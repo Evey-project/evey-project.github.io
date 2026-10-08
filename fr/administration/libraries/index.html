@@ -837,10 +837,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
+  <a href="#add-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Types
+        Ajouter une bibliothèque
       
     </span>
   </a>
@@ -848,10 +848,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#folders-are-paths-inside-the-container" class="md-nav__link">
+  <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les dossiers sont des chemins du conteneur
+        Nommer les fichiers pour qu'ils soient reconnus
       
     </span>
   </a>
@@ -859,10 +859,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#naming-files" class="md-nav__link">
+  <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Nommer les fichiers
+        Corriger un titre faux ou manquant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-new-files-are-picked-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prise en compte des nouveaux fichiers
       
     </span>
   </a>
@@ -885,28 +896,6 @@
     <span class="md-ellipsis">
       
         Bibliothèques de photos
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-new-files-are-picked-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prise en compte des nouveaux fichiers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-a-title-is-wrong-or-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quand un titre est faux ou manquant
       
     </span>
   </a>
@@ -3053,10 +3042,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
+  <a href="#add-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Types
+        Ajouter une bibliothèque
       
     </span>
   </a>
@@ -3064,10 +3053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#folders-are-paths-inside-the-container" class="md-nav__link">
+  <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les dossiers sont des chemins du conteneur
+        Nommer les fichiers pour qu'ils soient reconnus
       
     </span>
   </a>
@@ -3075,10 +3064,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#naming-files" class="md-nav__link">
+  <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Nommer les fichiers
+        Corriger un titre faux ou manquant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-new-files-are-picked-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prise en compte des nouveaux fichiers
       
     </span>
   </a>
@@ -3101,28 +3101,6 @@
     <span class="md-ellipsis">
       
         Bibliothèques de photos
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-new-files-are-picked-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prise en compte des nouveaux fichiers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-a-title-is-wrong-or-missing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quand un titre est faux ou manquant
       
     </span>
   </a>
@@ -3186,16 +3164,33 @@
 
 
 <h1 id="libraries-and-metadata">Bibliothèques et métadonnées<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p>Une bibliothèque, c'est un type et un ensemble de dossiers. Evey parcourt ces
+<p>Une bibliothèque, c'est un type et un ensemble de dossiers : Evey parcourt ces
 dossiers, reconnaît chaque fichier d'après son nom et récupère ses
-métadonnées : titres, résumés, affiches, distribution, notes. Les
-bibliothèques se gèrent dans <strong>Admin → Bibliothèques</strong>.</p>
+informations (titres, résumés, affiches, distribution, notes). Cette page
+s'adresse à l'administrateur qui en ajoute une : les trois gestes du début
+(ajouter une bibliothèque, nommer les fichiers, corriger une mauvaise
+identification) viennent en premier ; le déroulement des scans, les
+particularités de la musique et des photos, les collections et les sources de
+métadonnées suivent.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Bibliothèques sur le serveur de démo" loading="lazy" src="../../../images/admin-libraries.webp"></a>
 <br>
 <figcaption><strong>Admin → Bibliothèques</strong> : une ligne par bibliothèque, avec ses dossiers, son nombre d'éléments et son dernier scan.</figcaption>
 </figure>
-<h2 id="types">Types<a class="headerlink" href="#types" title="Permanent link">¶</a></h2>
+<h2 id="add-a-library">Ajouter une bibliothèque<a class="headerlink" href="#add-a-library" title="Permanent link">¶</a></h2>
+<ol>
+<li><strong>Admin → Bibliothèques → Ajouter une bibliothèque</strong>.</li>
+<li>Donnez-lui un <strong>Nom</strong> et un <strong>Type</strong>. Gardez films et séries dans des
+   bibliothèques distinctes : le type indique au scanner ce qu'il doit
+   chercher.</li>
+<li>Sous <strong>Chemins</strong>, choisissez un dossier dans la liste, ou <strong>Entrer un
+   chemin personnalisé...</strong> pour le saisir ; <strong>+ Ajouter un chemin</strong> ajoute
+   un second dossier à la même bibliothèque.</li>
+<li><strong>Créer une bibliothèque</strong>. Le premier parcours des dossiers suit dans les
+   deux minutes ; <strong>Scanner</strong> sur la ligne le lance tout de suite. Affiches et
+   résumés arrivent en tâche de fond : une grande bibliothèque se remplit en
+   quelques minutes.</li>
+</ol>
 <table>
 <thead>
 <tr>
@@ -3211,7 +3206,7 @@ bibliothèques se gèrent dans <strong>Admin → Bibliothèques</strong>.</p>
 <td>TMDB, complété par OMDb si une clé est renseignée</td>
 </tr>
 <tr>
-<td><strong>Séries</strong></td>
+<td><strong>Séries TV</strong></td>
 <td>Séries, saisons, épisodes</td>
 <td>TMDB</td>
 </tr>
@@ -3227,14 +3222,14 @@ bibliothèques se gèrent dans <strong>Admin → Bibliothèques</strong>.</p>
 </tr>
 </tbody>
 </table>
-<p>Gardez films et séries dans des bibliothèques distinctes : le type indique au
-scanner ce qu'il doit chercher.</p>
-<h2 id="folders-are-paths-inside-the-container">Les dossiers sont des chemins du conteneur<a class="headerlink" href="#folders-are-paths-inside-the-container" title="Permanent link">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Les chemins sont ceux du conteneur</p>
 <p>Le sélecteur de dossiers affiche ce que voit le conteneur. Avec le fichier
-compose de l'installation, votre dossier de médias est <code>/media</code> : un dossier
-<code>/srv/media/films</code> sur la machine devient <code>/media/films</code> pour Evey. Un second
-dossier monté (<code>/media2</code>) s'ajoute de la même façon.</p>
-<h2 id="naming-files">Nommer les fichiers<a class="headerlink" href="#naming-files" title="Permanent link">¶</a></h2>
+compose de l'installation, votre dossier de médias est <code>/media</code> : un
+dossier <code>/srv/media/films</code> sur la machine devient <code>/media/films</code> pour
+Evey. Un second dossier monté (<code>/media2</code>) s'ajoute de la même façon.</p>
+</div>
+<h2 id="name-files-so-they-are-recognised">Nommer les fichiers pour qu'ils soient reconnus<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
 <p>Le scanner reconnaît des noms comme ceux-ci :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/media/films/The Mirror (1999)/The Mirror (1999) 1080p.mkv
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/media/films/Lantern.2010.1080p.BluRay.x264.mkv
@@ -3244,9 +3239,80 @@ dossier monté (<code>/media2</code>) s'ajoute de la même façon.</p>
 <p>Pour un film, c'est l'année qui compte le plus. Pour un épisode, <code>S01E05</code> ou
 <code>1x05</code>. Les étiquettes de release (résolution, source, codec, audio, mentions
 de langue comme <code>VOSTFR</code> ou <code>MULTI</code>, éditions comme « Director's Cut ») sont
-retirées avant la recherche. Si vos fichiers portent une étiquette que
-l'analyseur ne connaît pas, ajoutez-la dans <strong>Admin → Configuration du
-serveur → Jetons d'analyse</strong> ; elle s'applique dès le scan suivant.</p>
+retirées avant la recherche.</p>
+<p>Si vos fichiers portent une étiquette que l'analyseur ne connaît pas,
+ajoutez-la dans <strong>Admin → Configuration du serveur → Jetons d'analyse</strong> :
+<strong>Jetons de qualité supplémentaires</strong> pour un mot seul (<code>HDRIP</code>), <strong>Suffixes
+d'édition supplémentaires</strong> pour une expression. Elle s'applique dès le scan
+suivant.</p>
+<h2 id="fix-a-wrong-or-missing-title">Corriger un titre faux ou manquant<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
+<p>Pour un seul titre, ouvrez-le et choisissez <strong>Modifier les métadonnées</strong> :</p>
+<ul>
+<li><strong>Identifier sur TMDB</strong> cherche le titre sur TMDB ; <strong>Choisir ce résultat</strong>
+  l'applique. C'est la correction la plus rapide pour un film confondu avec
+  un homonyme.</li>
+<li>Les champs modifient les informations à la main. Une valeur modifiée est
+  conservée : les actualisations suivantes ne l'écrasent pas. Changer l'<strong>ID
+  TMDB</strong> ou l'<strong>ID IMDB</strong> récupère les informations de cet identifiant à
+  l'enregistrement.</li>
+<li><strong>Actualiser les métadonnées</strong> récupère à nouveau les informations de
+  l'identification en cours. <strong>Réinitialiser les métadonnées</strong> et
+  <strong>Réidentifier</strong> repartent du nom de fichier, en abandonnant vos
+  modifications ; la réinitialisation efface aussi les images et la
+  distribution, ainsi que les saisons et les épisodes d'une série.</li>
+</ul>
+<p>Pour toute une bibliothèque, sa ligne dans <strong>Admin → Bibliothèques</strong> propose :</p>
+<ul>
+<li><strong>Identifier les orphelins</strong> relance la recherche pour les fichiers jamais
+  reconnus. C'est rapide.</li>
+<li><strong>Tout réidentifier avec TMDB</strong> refait la recherche pour tous les titres.
+  C'est lent, et corrige les anciennes erreurs après un gros renommage.</li>
+<li><strong>Réparer les sagas</strong> rattache à leur saga les films qui n'appartiennent à
+  aucune collection, quand les autres films de la saga sont déjà dans la
+  bibliothèque.</li>
+</ul>
+<h2 id="how-new-files-are-picked-up">Prise en compte des nouveaux fichiers<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
+<p>Le serveur parcourt chaque bibliothèque à chaque démarrage, puis toutes les
+2 minutes (<strong>Admin → Configuration du serveur → Paramètres du serveur →
+Intervalle d'analyse périodique</strong>, appliqué au redémarrage). Pendant une
+lecture, les parcours sont espacés à 15 minutes pour ne pas disputer le
+disque au lecteur. Un fichier ajouté, renommé ou supprimé est donc vu en
+quelques minutes, sans aucun réglage.</p>
+<p>Deux autres façons de scanner, sur la ligne de la bibliothèque :</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scanner</strong></td>
+<td>Un parcours immédiat. La ligne affiche <strong>Scan en cours...</strong> puis le résultat ; un dossier illisible est nommé.</td>
+</tr>
+<tr>
+<td><strong>Planifier</strong></td>
+<td>Un scan complet <strong>Toutes les 6 heures</strong>, <strong>Toutes les 12 heures</strong>, <strong>Quotidien (3h du matin)</strong>, <strong>Hebdomadaire (dimanche 3h du matin)</strong>, ou selon une <strong>Expression cron</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>Le serveur surveille aussi les dossiers par les événements du système de
+fichiers (<strong>Admin → Configuration du serveur → Paramètres du serveur →
+Surveillance des fichiers de la bibliothèque</strong>), sur les bibliothèques dont
+la surveillance en temps réel est active. Il vérifie que cette surveillance
+répond toujours en écrivant pendant quelques secondes un fichier de test dans
+le dossier ; une bibliothèque dont la surveillance est prouvée vivante n'est
+parcourue qu'une fois par heure au lieu de toutes les 2 minutes, les autres
+gardent le parcours périodique. Les bibliothèques créées depuis le panneau ne
+sont pas surveillées : c'est le parcours périodique qui prend leurs fichiers
+en compte.</p>
+<div class="admonition note">
+<p class="admonition-title">Partages réseau</p>
+<p>Sur un partage NFS ou SMB, un fichier écrit par une autre machine ne
+déclenche aucun événement sur le serveur. C'est le parcours périodique
+qui le trouve.</p>
+</div>
 <h2 id="music-libraries">Bibliothèques de musique<a class="headerlink" href="#music-libraries" title="Permanent link">¶</a></h2>
 <p>Le scanner lit les fichiers MP3, FLAC, M4A, OGG, Opus, WAV et AAC, et prend
 chaque titre dans ses tags : titre (le nom du fichier s'il manque), artiste,
@@ -3270,50 +3336,6 @@ passer dans cet album au scan suivant. La date de prise de vue et le modèle
 d'appareil viennent des données EXIF des fichiers JPEG ; les autres formats
 sont listés sans. Les miniatures sont redimensionnées sur le serveur et gardées
 dans le cache de transcodage.</p>
-<h2 id="how-new-files-are-picked-up">Prise en compte des nouveaux fichiers<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
-<p>Chaque bibliothèque a trois options :</p>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Effet</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Surveillance en temps réel</strong></td>
-<td>Les fichiers ajoutés, renommés ou supprimés sont pris en compte dès leur apparition. Une vérification périodique (toutes les 2 minutes par défaut) rattrape ce que le système de fichiers n'a pas signalé, ce qui arrive sur les partages réseau.</td>
-</tr>
-<tr>
-<td><strong>Scanner au démarrage</strong></td>
-<td>Un scan à chaque démarrage du serveur.</td>
-</tr>
-<tr>
-<td><strong>Planification</strong></td>
-<td>Un scan complet toutes les 6 ou 12 heures, chaque jour, chaque semaine, ou selon une expression cron.</td>
-</tr>
-</tbody>
-</table>
-<p>Le serveur vérifie aussi que la surveillance des dossiers reçoit toujours les
-événements, en écrivant pendant quelques secondes un fichier de test dans le
-dossier de la bibliothèque. Une bibliothèque dont les événements n'arrivent
-plus est parcourue plus souvent, jusqu'à ce que la surveillance reprenne.</p>
-<h2 id="when-a-title-is-wrong-or-missing">Quand un titre est faux ou manquant<a class="headerlink" href="#when-a-title-is-wrong-or-missing" title="Permanent link">¶</a></h2>
-<ul>
-<li><strong>Identifier les orphelins</strong> (par bibliothèque) relance la recherche pour
-  les fichiers jamais reconnus. C'est rapide.</li>
-<li><strong>Tout réidentifier avec TMDB</strong> refait la recherche pour tous les titres de
-  la bibliothèque. C'est lent, et corrige les anciennes erreurs après un gros
-  renommage.</li>
-<li><strong>Modifier les métadonnées</strong>, sur un titre, change ses informations à la
-  main ou permet de coller le bon identifiant TMDB ou IMDb. Une valeur
-  modifiée est conservée : les actualisations suivantes ne l'écrasent pas.
-  <strong>Réidentifier</strong>, sur le titre, abandonne vos modifications et relance la
-  recherche à partir du nom de fichier.</li>
-<li><strong>Réparer les sagas</strong> rattache à leur saga les films qui n'appartiennent à
-  aucune collection, quand les autres films de la saga sont déjà dans la
-  bibliothèque.</li>
-</ul>
 <h2 id="collections">Collections<a class="headerlink" href="#collections" title="Permanent link">¶</a></h2>
 <p><strong>Collections</strong> regroupe des titres sous un même nom, pour tous les comptes. Il
 en existe trois sortes :</p>
@@ -3337,7 +3359,8 @@ ce que masquent l'accès aux bibliothèques ou la limite d'âge du compte.</p>
 <p>Evey embarque une clé TMDB : les métadonnées fonctionnent sans aucune
 configuration. Les autres sources sont facultatives ; leurs clés se
 renseignent dans <strong>Admin → Configuration du serveur → Clés API</strong>, et une clé
-saisie là prime sur la même clé fournie par l'environnement.</p>
+saisie là prime sur la même clé fournie par l'environnement (voir
+<a href="../../environment/libraries/">Environnement : bibliothèques et métadonnées</a>).</p>
 <table>
 <thead>
 <tr>
@@ -3372,10 +3395,9 @@ elles connaissent le titre, et sinon de l'analyse des fichiers par le serveur.
 Un administrateur peut ajuster à la main les segments d'un titre, ou relancer
 la détection.</p>
 <p>Les lecteurs affichent par défaut les boutons <strong>Passer l'intro</strong>, <strong>Passer le
-résumé</strong> et <strong>Passer le générique</strong>. <strong>Saut automatique
-des intros</strong> (<strong>Admin → Configuration du serveur → Paramètres du serveur</strong>,
-désactivé par défaut) fait passer les intros automatiquement dans tous les
-lecteurs.</p>
+résumé</strong> et <strong>Passer le générique</strong>. <strong>Saut automatique des intros</strong>
+(<strong>Admin → Configuration du serveur → Paramètres du serveur</strong>, désactivé par
+défaut) fait passer les intros automatiquement dans tous les lecteurs.</p>
 
 
 

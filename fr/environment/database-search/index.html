@@ -3015,11 +3015,13 @@
 
 
 <h1 id="database-and-search">Base de données et recherche<a class="headerlink" href="#database-and-search" title="Permanent link">¶</a></h1>
-<p>Par défaut, l'image fait tourner son propre Postgres et son propre
-Meilisearch, et génère leurs mots de passe : aucune de ces variables n'est
-nécessaire. Elles servent à une installation qui apporte sa propre base ou son
-propre moteur de recherche, ou qui ajuste ceux qui sont intégrés. Voir
-<a href="../../operations/advanced-deployments/">Déploiements avancés</a>.</p>
+<p>Les variables de la base Postgres et de l'index Meilisearch. Par défaut,
+l'image fait tourner les deux elle-même et génère leurs mots de passe : une
+installation standard n'en définit aucune. Elles servent à une installation
+qui apporte sa propre base ou son propre moteur de recherche, ou qui ajuste
+ceux qui sont intégrés ; les procédures sont dans
+<a href="../../operations/advanced-deployments/">Déploiements avancés</a>. Aucune n'a
+d'équivalent dans le panneau.</p>
 <h2 id="database">Base de données<a class="headerlink" href="#database" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3027,6 +3029,7 @@ propre moteur de recherche, ou qui ajuste ceux qui sont intégrés. Voir
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3034,66 +3037,85 @@ propre moteur de recherche, ou qui ajuste ceux qui sont intégrés. Voir
 <td><code>EVEY_EMBEDDED_POSTGRES</code></td>
 <td>non définie</td>
 <td>Non définie : base intégrée si <code>EVEY_DB_HOST</code> n'est pas définie, externe sinon. <code>true</code> ou <code>false</code> pour décider explicitement. Lue par l'entrypoint.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_POSTGRES_DATA_DIR</code></td>
 <td><code>/data/postgres</code></td>
-<td>L'emplacement de la base intégrée. Il doit se trouver sur un système de fichiers local, pas sur un partage réseau.</td>
+<td>L'emplacement de la base intégrée. Il doit se trouver sur un système de fichiers local, pas sur un partage réseau. Lue par l'entrypoint.</td>
+<td>aucun</td>
+</tr>
+<tr>
+<td><code>EVEY_POSTGRES_IMPORT</code></td>
+<td><code>/data/postgres-import.sql.gz</code></td>
+<td>Un <code>pg_dump</code> compressé restauré dans la base intégrée à sa première création, puis renommé <code>*.imported-&lt;date&gt;</code>. Ignoré, avec un message, quand la base existe déjà. Lue par l'entrypoint.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_HOST</code></td>
 <td><code>localhost</code></td>
 <td>L'hôte de la base. <strong>La définir désactive la base intégrée.</strong></td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PORT</code></td>
 <td><code>5432</code></td>
 <td>Le port de la base.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_USER</code></td>
 <td><code>evey</code></td>
 <td>Le compte de connexion à la base. Quand c'est un superutilisateur (base intégrée et compose fourni), le serveur ne le garde que pour la restauration et tourne sous <code>EVEY_DB_APP_USER</code>.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_APP_USER</code></td>
 <td><code>evey_app</code></td>
 <td>Le rôle sans privilège sous lequel tournent le serveur et ses migrations quand <code>EVEY_DB_USER</code> est un superutilisateur. Créé au démarrage, il reçoit la base et ses objets, et un nouveau mot de passe aléatoire à chaque démarrage (jamais écrit nulle part). Une injection SQL ne peut alors ni lancer de programme ni lire de fichier sur l'hôte.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PRIVILEGE_SPLIT</code></td>
 <td><code>true</code></td>
 <td><code>false</code> fait tout tourner sous <code>EVEY_DB_USER</code>, superutilisateur compris. Une porte de sortie si une base refuse la séparation ; sinon le démarrage s'arrête en nommant cette variable.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_NAME</code></td>
 <td><code>evey</code></td>
 <td>Le nom de la base.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PASSWORD</code></td>
 <td>générée</td>
-<td>Le mot de passe. Avec une base externe, le serveur refuse de démarrer sur la valeur <code>evey</code>.</td>
+<td>Le mot de passe. Avec une base externe, le serveur refuse de démarrer sur la valeur <code>evey</code>, et avertit sur <code>changeme</code>.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PASSWORD_FILE</code></td>
 <td><code>/data/keys/postgres.password</code></td>
 <td>Un fichier contenant le mot de passe, lu quand <code>EVEY_DB_PASSWORD</code> n'est pas définie. Définie par l'image.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_SSLMODE</code></td>
 <td><code>disable</code> en local, <code>prefer</code> sinon</td>
-<td><code>disable</code>, <code>prefer</code>, <code>require</code> ou <code>verify-full</code>.</td>
+<td><code>disable</code>, <code>prefer</code>, <code>require</code> ou <code>verify-full</code>. <code>prefer</code> vers un hôte distant produit un avertissement : utilisez <code>require</code> ou <code>verify-full</code>.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_MAX_OPEN_CONNS</code></td>
 <td><code>25</code></td>
 <td>Connexions ouvertes vers la base. Chacune coûte de la mémoire côté Postgres ; ne l'augmentez que pour un gros déploiement.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_MAX_IDLE_CONNS</code></td>
 <td><code>10</code></td>
-<td>Connexions gardées inactives dans le pool.</td>
+<td>Connexions gardées inactives dans le pool. Plafonnée au nombre de connexions ouvertes.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3104,6 +3126,7 @@ propre moteur de recherche, ou qui ajuste ceux qui sont intégrés. Voir
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3111,26 +3134,37 @@ propre moteur de recherche, ou qui ajuste ceux qui sont intégrés. Voir
 <td><code>EVEY_EMBEDDED_MEILI</code></td>
 <td><code>true</code></td>
 <td><code>false</code> utilise le Meilisearch de <code>EVEY_MEILI_URL</code> à la place de celui qui est intégré. Lue par l'entrypoint.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_MEILI_URL</code></td>
 <td><code>http://localhost:7700</code></td>
 <td>L'adresse de Meilisearch.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>MEILI_MASTER_KEY</code></td>
 <td>générée</td>
-<td>La clé de Meilisearch. Avec une instance externe, une clé vide ou factice empêche le démarrage.</td>
+<td>La clé de Meilisearch. Avec une instance externe, une clé vide ou factice empêche le démarrage ; une clé de moins de 16 caractères produit un avertissement.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>MEILI_MASTER_KEY_FILE</code></td>
 <td><code>/data/keys/meili.key</code></td>
 <td>Un fichier contenant la clé, lu quand <code>MEILI_MASTER_KEY</code> n'est pas définie. Définie par l'image.</td>
+<td>aucun</td>
+</tr>
+<tr>
+<td><code>MEILI_DATA_DIR</code></td>
+<td><code>/data/meili</code></td>
+<td>L'emplacement de l'index intégré. Lue par l'entrypoint.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>MEILI_MAX_INDEXING_MEMORY</code></td>
 <td>environ 20 % de la mémoire du conteneur, au moins 128 Mio</td>
 <td>La mémoire que le Meilisearch intégré peut utiliser pour l'indexation. Calculée d'après la limite du conteneur, pas d'après la mémoire de la machine, pour qu'un scan n'épuise pas un petit conteneur. Une valeur explicite est transmise telle quelle.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

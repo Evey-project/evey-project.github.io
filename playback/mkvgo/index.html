@@ -3052,11 +3052,13 @@
 
 <h1 id="mkvgo-in-evey">MKVGo in Evey<a class="headerlink" href="#mkvgo-in-evey" title="Permanent link">¶</a></h1>
 <p>MKVGo is the media library Evey runs inside its own process to read and
-repackage MKV/WebM and MP4/MOV files. It works on the structure of a file:
-its headers, its index, its tracks and their packets. It never decodes or
-encodes a picture or a sound; everything that needs server-side decoding goes to FFmpeg.</p>
-<p>MKVGo is developed as a separate Go library:
-<a href="https://github.com/gravity-zero/mkvgo">github.com/gravity-zero/mkvgo</a>.</p>
+repackage MKV/WebM and MP4/MOV files. This page is for the reader who wants to
+know what the server does without starting FFmpeg, and where FFmpeg still
+takes over.</p>
+<p>MKVGo works on the structure of a file: its headers, its index, its tracks and
+their packets. It never decodes or encodes a picture or a sound; everything
+that needs server-side decoding goes to FFmpeg. It is developed as a separate
+Go library: <a href="https://github.com/gravity-zero/mkvgo">github.com/gravity-zero/mkvgo</a>.</p>
 <h2 id="three-levels-of-work">Three levels of work<a class="headerlink" href="#three-levels-of-work" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3090,8 +3092,8 @@ written to the transcoding cache. A re-encode is the expensive case, and a
 video re-encode is the only work that takes a transcoding slot: see
 <a href="../transcoding/">Transcoding and server capacity</a>.</p>
 <p>On capable clients, around 80% of video playback paths can avoid FFmpeg
-entirely: what the player decodes decides how often the file
-can be served as it is or only repackaged.</p>
+entirely: what the player decodes decides how often the file can be served as
+it is or only repackaged. How that is decided: <a href="../how-playback-is-decided/">How playback is decided</a>.</p>
 <h2 id="what-mkvgo-does">What MKVGo does<a class="headerlink" href="#what-mkvgo-does" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3105,7 +3107,7 @@ can be served as it is or only repackaged.</p>
 <tr>
 <td><strong>Reading files</strong></td>
 <td>During a library scan, codecs, resolution, HDR, bitrate and duration are read from the head of the file.</td>
-<td>ffprobe reads it. It also takes over on any doubt: a parse error, Dolby Vision profile 5, unreadable colour information.</td>
+<td>ffprobe reads it. It also takes over on any doubt: a parse error, or colour information MKVGo could not read on an HDR-capable codec.</td>
 </tr>
 <tr>
 <td><strong>Keyframe index</strong></td>
@@ -3149,7 +3151,7 @@ can be served as it is or only repackaged.</p>
 <li>Every re-encode, including HDR tone mapping.</li>
 <li>Decoding pictures: the seek bar thumbnails, the frame of a preview image.</li>
 <li>Analysis that needs decoded data: interlace detection, audio fingerprints
-  for intro detection, Dolby Vision profile 5.</li>
+  for intro detection.</li>
 <li>Containers other than MKV/WebM and MP4/MOV, such as AVI or MPEG-TS.</li>
 </ul>
 <h2 id="seeing-which-engine-served-a-stream">Seeing which engine served a stream<a class="headerlink" href="#seeing-which-engine-served-a-stream" title="Permanent link">¶</a></h2>
@@ -3158,16 +3160,16 @@ track: <code>mkvgo</code> or <code>ffmpeg</code>. A Remux can show both, for exa
 packaged by MKVGo and the audio copied by FFmpeg.</p>
 <!-- sources
 in-process, no ffmpeg, no session state, no on-disk segments: internal/adapters/driven/mkvgo/ondemand.go - OnDemandPackager
-probe + fallback reasons: internal/adapters/driven/prober/dispatcher.go ; docs/adr/0016-mkv-fastpath-prober.md
+probe + fallback reasons: internal/adapters/driven/prober/dispatcher.go (container gate, ReadMeta error, panic) ; internal/adapters/driven/prober/mapper.go (ColourDetermined, VP9 feature metadata) ; docs/adr/0016-mkv-fastpath-prober.md
 keyframe index: internal/adapters/driven/prober/keyframe_dispatcher.go
 DASH, CMAF, HLS default: docs/playback-serving.md (Delivery) ; OnDemandPlan.HasDASH
-progressive MP4: internal/adapters/driving/http/remux_handler.go - RemuxToMP4
+progressive MP4: internal/adapters/driving/http/remux_handler.go - RemuxToMP4, remuxCacheName
 subtitles: internal/adapters/driven/mkvgo/subtitle_extractor.go - ExtractSubtitle
 preview images: internal/adapters/driving/http/frame_extractor_fastpath.go - maxSnapshotDriftMs ; cmd/evey/wire_helpers.go (transcoding.snapshot_fastpath)
-episode chains: internal/adapters/driving/http/transcode_concat.go ; internal/adapters/driven/mkvgo/concat.go - ConcatPackager
-media health: internal/adapters/driven/mkvgo/diagnose.go ; internal/adapters/driven/mkvgo/reindex.go ; internal/adapters/driven/mkvgo/track_retimer.go ; internal/app/maintenance/seek_index_reinterleave.go (ffmpeg adapter)
+episode chains: internal/adapters/driving/http/transcode_concat.go ; internal/adapters/driven/mkvgo/concat.go - ConcatPackager ; frontend/apps/web/src/hooks/usePlaybackPrefs.ts - SeriesTrackPrefs.gapless (read by HLSPlayer, no UI sets it)
+media health: internal/adapters/driven/mkvgo/diagnose.go ; internal/adapters/driven/mkvgo/reindex.go ; internal/adapters/driven/mkvgo/track_retimer.go ; internal/app/maintenance/seek_index_reinterleave.go (Reinterleaver, ffmpeg adapter)
 ffmpeg only: docs/playback-serving.md (mkvgo vs ffmpeg table) ; internal/app/library/trickplay_service.go
-engine per track: i18n admin.sessions.track (dashboard)
+engine per track: i18n admin.sessions.track.engine (dashboard, now playing)
 -->
 
 

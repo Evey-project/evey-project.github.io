@@ -3107,17 +3107,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3542,17 +3531,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3637,28 +3615,48 @@
 
 
 <h1 id="plugin-sandbox-and-threat-model">Plugin sandbox and threat model<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
-<p>This page describes what the server does to contain a plugin: the checks at
-install, the layers at run time, the sandbox modes, and what each still cannot
-stop. If you are writing a plugin and want to know what you may declare and
-what will be refused, read <a href="../plugins/security-model/">Permissions and slots</a>.</p>
+<p>What the server does to contain a plugin: the checks at install, the layers
+at run time, the sandbox modes, and what each still cannot stop. The code
+lives in <code>internal/adapters/driven/pluginrunner</code> (install analysis, sandbox),
+<code>cmd/evey-plugin-launcher</code> (Landlock and the kernel seccomp filter),
+<code>sandbox/sandbox.c</code> (the <code>LD_PRELOAD</code> filter) and
+<code>internal/adapters/driving/pluginhost</code> (the host API plugins call); the
+design is decided by <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>,
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a> and
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>. If you are writing a plugin
+and want to know what you may declare and what will be refused, read
+<a href="../plugins/security-model/">Permissions and slots</a>; to know which sandbox
+your machine gets, read <a href="../plugins/sandbox-deployment/">Plugin sandbox setup</a>.</p>
 <h2 id="threat-model">Threat model<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
 <p>Plugins run as separate processes that talk to the server over gRPC on Unix
 sockets. The server trusts no plugin code by default. The risks it defends
 against, from the most to the least severe:</p>
 <ol>
-<li><strong>Impersonation</strong> - a plugin pretends to be another plugin to use its
-   permissions.</li>
-<li><strong>Privilege escalation</strong> - a plugin escapes its sandbox and runs commands
-   as the server.</li>
-<li><strong>Filesystem access</strong> - a plugin reads or writes outside its own
-   directory, in particular the server's secrets.</li>
+<li><strong>Impersonation</strong> - a plugin pretends to be another plugin to use its permissions.</li>
+<li><strong>Privilege escalation</strong> - a plugin escapes its sandbox and runs commands as the server.</li>
+<li><strong>Filesystem access</strong> - a plugin reads or writes outside its own directory, in particular the server's secrets.</li>
 <li><strong>Network exfiltration</strong> - a plugin sends data to a host of its choosing.</li>
 <li><strong>Resource abuse</strong> - mining, fork bombs, memory or disk exhaustion.</li>
 <li><strong>Supply chain</strong> - obfuscated or compiled code the analysis cannot read.</li>
 </ol>
+<pre class="mermaid"><code>flowchart LR
+    zip[Package] --&gt; ex[ZIP extraction&lt;br/&gt;limits, no symlink, no setuid]
+    ex --&gt; man[Manifest&lt;br/&gt;permissions]
+    man --&gt; an[Static analysis&lt;br/&gt;CRITICAL refuses]
+    an --&gt; sig[Signature&lt;br/&gt;cosign policy]
+    sig --&gt; prev[Administrator preview&lt;br/&gt;accepts or refuses]
+    prev --&gt; run[Run time]
+    subgraph run[Run time - every mode]
+        fs[Filesystem&lt;br/&gt;own directory only]
+        net[Network&lt;br/&gt;no IP socket, Fetch broker]
+        sys[System calls&lt;br/&gt;seccomp denylist]
+        uid[Separate user&lt;br/&gt;or user namespace]
+        sock[Host socket&lt;br/&gt;SO_PEERCRED identity]
+        res[Resource monitor&lt;br/&gt;memory, PIDs, disk, nice]
+    end</code></pre>
 <h2 id="at-install">At install<a class="headerlink" href="#at-install" title="Permanent link">¶</a></h2>
 <h3 id="zip-extraction">ZIP extraction<a class="headerlink" href="#zip-extraction" title="Permanent link">¶</a></h3>
-<p>Before any file is written:</p>
+<p>Before any file is written (<code>pluginrunner/zip.go</code>):</p>
 <ul>
 <li>at most 5,000 entries, 100 MB per file, 500 MB uncompressed in total, and a
   compression ratio of 100:1 above 1 MB uncompressed (decompression bombs);</li>
@@ -3666,7 +3664,6 @@ against, from the most to the least severe:</p>
 <li>symbolic links are refused;</li>
 <li>setuid, setgid and sticky bits are removed.</li>
 </ul>
-<p>Source: <code>internal/adapters/driven/pluginrunner/zip.go</code>.</p>
 <h3 id="manifest-and-permissions">Manifest and permissions<a class="headerlink" href="#manifest-and-permissions" title="Permanent link">¶</a></h3>
 <p>The manifest declares the permissions a plugin requests. An unknown permission
 refuses the install. They are then enforced:</p>
@@ -3681,7 +3678,7 @@ refuses the install. They are then enforced:</p>
   call to the host by
   <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driving/grpcapi/plugin_interceptor.go"><code>PluginPermissionInterceptor</code></a>.</li>
 </ul>
-<p>The full list of permissions is in <a href="../plugins/security-model/#permissions-catalog">Permissions and slots</a>.</p>
+<p>The full list is in <a href="../plugins/security-model/#permissions-catalog">Permissions and slots</a>.</p>
 <h3 id="static-analysis">Static analysis<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h3>
 <p>Every file of the package is scanned by
 <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/analyzer.go"><code>pluginrunner.AnalyzePlugin</code></a>,
@@ -3780,19 +3777,22 @@ concatenation, f-strings):</p>
 </table>
 <p>A CRITICAL finding or a <code>mime_mismatch</code> refuses the install. <code>compiled_binary</code>
 and <code>embedded_archive</code> refuse it unless the manifest declares <code>native-binary</code>.</p>
-<p><strong>What the analysis cannot guarantee.</strong> It works on patterns. It resolves known
-obfuscation classes (string concatenation into a callable over several steps,
-builtin lookup by name, <code>Function.constructor</code> escapes), each with a regression
-fixture in <code>tests/fixtures/plugins/malicious/</code>, but it cannot follow every
-transformation done at run time (<code>strrev("metsys")</code>, decoding a payload read
-from a file). It also matches inside comments: a <code># pip install foo</code> comment
-triggers <code>runtime_install</code>. <strong>The enforcement boundary is the run-time sandbox,
-not the analysis</strong>: a plugin that slips a pattern past it still cannot read the
-server's data, call a denied system call, exceed its resource limits, or call
-a host method it has no permission for.</p>
+<div class="admonition note">
+<p class="admonition-title">What the analysis cannot guarantee</p>
+<p>It works on patterns. It resolves known obfuscation classes (string
+concatenation into a callable over several steps, builtin lookup by name,
+<code>Function.constructor</code> escapes), each with a regression fixture in
+<code>tests/fixtures/plugins/malicious/</code>, but it cannot follow every
+transformation done at run time (<code>strrev("metsys")</code>, decoding a payload
+read from a file). It also matches inside comments: a <code># pip install foo</code>
+comment triggers <code>runtime_install</code>. <strong>The enforcement boundary is the
+run-time sandbox, not the analysis</strong>: a plugin that slips a pattern past
+it still cannot read the server's data, call a denied system call, exceed
+its resource limits, or call a host method it has no permission for.</p>
+</div>
 <h3 id="signature">Signature<a class="headerlink" href="#signature" title="Permanent link">¶</a></h3>
 <p>A package can be signed with cosign. <code>EVEY_PLUGINS_COSIGN_POLICY</code> sets what a
-failed verification does:</p>
+failed verification does (<code>pluginrunner/cosign.go</code>):</p>
 <table>
 <thead>
 <tr>
@@ -3815,8 +3815,7 @@ failed verification does:</p>
 </tr>
 </tbody>
 </table>
-<p>The public key is given by <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code>. Source:
-<code>internal/adapters/driven/pluginrunner/cosign.go</code>.</p>
+<p>The public key is given by <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code>.</p>
 <h3 id="administrator-preview">Administrator preview<a class="headerlink" href="#administrator-preview" title="Permanent link">¶</a></h3>
 <p><code>POST /api/v1/admin/plugins/preview</code> runs the analysis without installing.
 The administrator sees the requested permissions, every finding with its
@@ -3828,34 +3827,40 @@ acknowledgement.</p>
 <p>The administrator is the trust boundary for elevated permissions: Evey shows
 the surface, the administrator accepts or refuses.</p>
 <h2 id="at-run-time">At run time<a class="headerlink" href="#at-run-time" title="Permanent link">¶</a></h2>
+<p>Six layers hold in every <a href="#sandbox-modes">sandbox mode</a>; how the first two
+are enforced depends on the mode.</p>
 <h3 id="filesystem">Filesystem<a class="headerlink" href="#filesystem" title="Permanent link">¶</a></h3>
 <p>A plugin sees its own directory and its socket directory, and not the server's
-data. How this is enforced depends on the <a href="#sandbox-modes">sandbox mode</a>:
-a Landlock allowlist, or a bubblewrap mount whitelist. In <code>basic</code> mode on a
-kernel without Landlock, there is no per-path confinement: the separate user
-and file permissions are then what protect the server's secrets (below).</p>
+data, through a Landlock allowlist (<code>landlock</code>) or a bubblewrap mount
+whitelist (<code>bubblewrap</code>, <code>strict</code>). In <code>basic</code> mode on a kernel without
+Landlock there is no per-path confinement: the separate user and file
+permissions are then what protect the server's secrets.</p>
 <h3 id="network">Network<a class="headerlink" href="#network" title="Permanent link">¶</a></h3>
 <p>A plugin has <strong>no direct network access</strong>, whatever it declares: every IP
-socket is refused (<code>-deny-inet</code> in <code>landlock</code> and <code>basic</code>, a network namespace
-in <code>bubblewrap</code> and <code>strict</code>). A plugin with the <code>network</code> permission calls the
-host's <code>Fetch</code> method over its Unix socket. The host, in
+socket is refused (<code>-deny-inet</code> in <code>landlock</code> and <code>basic</code>, a network
+namespace in <code>bubblewrap</code> and <code>strict</code>). A plugin with the <code>network</code>
+permission calls the host's <code>Fetch</code> method over its Unix socket. The host, in
 <code>internal/adapters/driving/pluginhost/fetch.go</code>:</p>
 <ul>
-<li>checks the target against the plugin's <code>external_fetch</code> list (exact hosts,
-  case-insensitive);</li>
+<li>checks the target against the plugin's <code>external_fetch</code> list (exact hosts, case-insensitive);</li>
 <li>allows only <code>http</code> and <code>https</code>, and only <code>GET</code> and <code>HEAD</code>;</li>
 <li>connects through an SSRF-safe client (<code>internal/pkg/ssrf</code>) that refuses
   private, reserved and link-local addresses after DNS resolution, so DNS
-  rebinding and redirects are checked again;</li>
-<li>adds none of the server's credentials, and caps the response size.</li>
+  rebinding and redirects are checked again (a redirect to a host off the
+  list is refused);</li>
+<li>adds none of the server's credentials, caps the response body at 8 MiB and
+  the request headers at 8 KiB, and gives up after 20 s.</li>
 </ul>
 <p>This closes the paths direct egress left open (IP literals such as
 <code>169.254.169.254</code>, a plugin's own resolver). What remains: the broker controls
 <em>where</em> a call goes, not <em>what</em> it carries. See <a href="#known-limits">Known limits</a>.</p>
-<p><strong>Recommended for operators.</strong> The broker moves the SSRF surface to the host.
-An egress rule on the <code>evey-server</code> container, independent of the code, adds a
-second wall: drop <code>169.254.0.0/16</code> and restrict the internal network to the
-database and search endpoints.</p>
+<div class="admonition tip">
+<p class="admonition-title">Recommended for operators</p>
+<p>The broker moves the SSRF surface to the host. An egress rule on the
+<code>evey-server</code> container, independent of the code, adds a second wall:
+drop <code>169.254.0.0/16</code> and restrict the internal network to the database
+and search endpoints.</p>
+</div>
 <h3 id="system-calls">System calls<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
 <p>Two seccomp filters refuse the same dangerous system calls:</p>
 <ol>
@@ -3894,7 +3899,7 @@ database and search endpoints.</p>
 </tr>
 <tr>
 <td>Namespaces</td>
-<td><code>unshare</code>, <code>setns</code></td>
+<td><code>unshare</code>, <code>setns</code>, and <code>clone</code> carrying a <code>CLONE_NEW*</code> flag (unshare by another name), for every plugin</td>
 </tr>
 <tr>
 <td>Kernel modules</td>
@@ -3935,159 +3940,126 @@ database and search endpoints.</p>
 </tbody>
 </table>
 <p>For a plugin without <code>subprocess</code>, the kernel also refuses process creation
-(<code>fork</code>, <code>vfork</code>, <code>clone</code> without <code>CLONE_THREAD</code>); threads keep working.</p>
+(<code>fork</code>, <code>vfork</code>, <code>clone</code> without <code>CLONE_THREAD</code>; <code>clone3</code> answers <code>ENOSYS</code>
+so the C library falls back to <code>clone</code>); threads keep working.</p>
 <p>This is a <strong>denylist</strong>: <code>open</code>, <code>read</code>, <code>write</code>, <code>mmap</code>, Unix <code>socket</code> and
 <code>connect</code> stay allowed. Paths are confined by the filesystem layer, not by
 seccomp. In <code>bubblewrap</code> the launcher is not used: a static binary gets no
 seccomp filter there, and is contained by the namespaces and the mount
 whitelist.</p>
 <h3 id="a-separate-user">A separate user<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
-<p>A plugin can run as user 1001 (<code>evey-plugin</code>), distinct from the server (1000),
-so the server's secrets are unreadable to it by file permissions alone.
-<code>EVEY_PLUGINS_UID_SEPARATION</code> controls it:</p>
-<ul>
-<li><code>auto</code> (default): only when the sandbox resolves to <code>basic</code>, the one case
-  where file permissions are the only wall around the secrets;</li>
-<li><code>on</code>: always, as an extra layer;</li>
-<li><code>off</code>: never.</li>
-</ul>
-<p>The switch is made by the launcher, which holds <code>cap_setuid</code>; the server itself
-runs without privileges or capabilities. The launcher refuses any target below
-1000. If it cannot switch, a plugin in <code>basic</code> is refused (the user is the only
-wall there), while in <code>landlock</code> it runs as the server's user with a warning.
-In <code>bubblewrap</code> and <code>strict</code>, the user namespace plays this role.</p>
-<p>When active, the signing key (<code>0600</code>) and the backups (<code>0700</code> directory,
-<code>0600</code> files) are owner-only at run time, which holds even on a bind-mounted
-<code>/data</code>. All plugins share user 1001: they are isolated from each other by the
-filesystem layer, not by the user.</p>
-<h3 id="host-socket-authentication">Host socket authentication<a class="headerlink" href="#host-socket-authentication" title="Permanent link">¶</a></h3>
-<p>Each plugin has its own socket, <code>/tmp/evey/plugins/&lt;plugin_id&gt;/host.sock</code>,
-served by its own gRPC server. On every call, the server reads the caller's
-PID from the kernel (<code>SO_PEERCRED</code>, which user space cannot forge) and compares
-it with the PID recorded when the plugin started. The plugin's identity comes
-from the socket, never from a header. A plugin therefore cannot impersonate
-another, call another plugin's socket, or route calls through a child process.</p>
-<h3 id="resource-limits">Resource limits<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
-<p>A monitor in user space (cgroups are unavailable in an unprivileged container)
-reads <code>/proc/&lt;pid&gt;</code> every 2 seconds or so and stops a plugin that exceeds a
-limit:</p>
-<ul>
-<li>memory (RSS), 256 MiB by default;</li>
-<li>processes and threads, 64 by default;</li>
-<li>disk used by its directory, 100 MiB by default, checked every 30 seconds;</li>
-<li>CPU priority, <code>nice</code> 10 by default, applied at start.</li>
-</ul>
-<p>The limits are set per plugin in <strong>Admin → Plugins</strong>. See
-<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>.</p>
-<h3 id="interface-isolation">Interface isolation<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
-<p>A plugin's interface runs in an <code>&lt;iframe sandbox="allow-scripts"&gt;</code>, without
-same-origin access, forms or popups, under a Content-Security-Policy that
-allows connections only to its <code>external_fetch</code> hosts. The bridge limits what
-it can ask of the page: <code>toast</code> at most 3 per second, 200 characters, no HTML;
-<code>navigate</code> accepts only <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> and <code>/search</code>;
-<code>resize</code> between 50 and 800 px. Slots are checked at install and again at
-render.</p>
-<h3 id="server-hardening">Server hardening<a class="headerlink" href="#server-hardening" title="Permanent link">¶</a></h3>
-<p>At startup the server marks itself non-dumpable (<code>PR_SET_DUMPABLE=0</code>,
-<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey/hardening_linux.go"><code>hardening_linux.go</code></a>): a process running as
-the same user cannot read its memory or environment through <code>/proc</code>, which
-protects the signing key in memory and the database and search passwords,
-even on a kernel without Landlock.</p>
-<h3 id="crash-notification">Crash notification<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
-<p>The runner publishes a <code>plugin.error</code> event when the sandbox library is
-missing for a plugin that needs it, or when a plugin exits with an error. The
-notification service forwards it to the administrator through the configured
-channels. A PID mismatch on a host socket is logged as a warning.</p>
-<h2 id="sandbox-modes">Sandbox modes<a class="headerlink" href="#sandbox-modes" title="Permanent link">¶</a></h2>
-<p>The mode selects how the filesystem and the network are confined.
-<code>EVEY_PLUGINS_SANDBOX_MODE</code> sets the initial value (default <code>auto</code>); it can be
-changed in <strong>Admin → Plugins</strong>. The runner applies it in
-<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/runner_sandbox.go"><code>applySandbox</code></a>. In every
-mode: no direct IP egress, the resource monitor, and the host socket
-authentication.</p>
-<h3 id="auto-default"><code>auto</code> (default)<a class="headerlink" href="#auto-default" title="Permanent link">¶</a></h3>
-<p>Resolves, once at the first plugin start, to the strongest mode the host
-supports: <strong>landlock</strong>, then <strong>bubblewrap</strong>, then <strong>basic</strong>. Landlock comes
-first because it needs no privilege and runs under Docker's default security
-profile. bubblewrap is chosen only when Landlock is absent and a test sandbox
-actually builds
-(<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/sandbox_probe.go"><code>ProbeSandbox</code></a>),
-which in practice means bare metal or a privileged container. The resolved
-mode is logged, and shown on the <strong>Host sandbox</strong> line of <strong>Admin → Plugins →
-Security Dashboard</strong>.</p>
-<h3 id="landlock"><code>landlock</code><a class="headerlink" href="#landlock" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Filesystem:</strong> a Landlock allowlist applied by the launcher. System
-  directories (<code>/usr</code>, <code>/lib</code>, <code>/lib64</code>, <code>/bin</code>, <code>/sbin</code>, <code>/etc</code>, <code>/app</code>)
-  read-only; of <code>/dev</code>, only <code>null</code>, <code>zero</code>, <code>full</code>, <code>random</code> and <code>urandom</code>, so
-  graphics card nodes and the server's terminal stay out of reach; the
-  plugin's directory and socket directory read-write; everything else,
-  including <code>/data</code> and other plugins, denied. A plugin granted <code>hardware.gpu</code>
-  gets its render node as the one exception.</li>
-<li><strong>Network:</strong> <code>-restrict-net</code> and <code>-deny-inet</code>; egress only through <code>Fetch</code>.</li>
-<li><strong>System calls:</strong> the kernel filter and the <code>LD_PRELOAD</code> filter.</li>
-<li><strong>Requires:</strong> a kernel 5.13 or newer with Landlock in the active LSM list,
-  and the launcher (both are the case on the official image with a recent
-  host). An explicit <code>landlock</code> refuses to start a plugin it cannot confine.</li>
-</ul>
-<h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Filesystem and processes:</strong> six unshared namespaces (<code>user</code>, <code>pid</code>, <code>uts</code>,
-  <code>ipc</code>, <code>cgroup</code>, <code>net</code>) and a mount whitelist; nothing else exists inside.</li>
-</ul>
+<p>A plugin can run as user 1001 (<code>evey-plugin</code>), distinct from the server
+(1000), so the server's secrets are unreadable to it by file permissions
+alone. <code>EVEY_PLUGINS_UID_SEPARATION</code> controls it:</p>
 <table>
 <thead>
 <tr>
-<th>Path</th>
-<th>Access</th>
+<th>Value</th>
+<th>When the switch happens</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>/usr</code>, <code>/bin</code>, <code>/sbin</code>, <code>/lib</code>, <code>/lib64</code></td>
-<td>read-only</td>
+<td><code>auto</code> (default)</td>
+<td>only when the sandbox resolves to <code>basic</code>, the one case where file permissions are the only wall around the secrets</td>
 </tr>
 <tr>
-<td><code>/etc/ssl</code>, <code>/etc/ca-certificates</code>, <code>/etc/resolv.conf</code>, <code>/etc/nsswitch.conf</code>, <code>/etc/{alpine,os}-release</code></td>
-<td>read-only (never <code>/etc</code> as a whole: no <code>passwd</code>, <code>shadow</code>, <code>ssh</code>)</td>
+<td><code>on</code></td>
+<td>always, as an extra layer</td>
 </tr>
 <tr>
-<td>the plugin's directory, its socket directory</td>
-<td>read-write</td>
-</tr>
-<tr>
-<td><code>/proc</code></td>
-<td>its own mount</td>
-</tr>
-<tr>
-<td><code>/dev</code></td>
-<td>a minimal synthetic set (null, zero, random, urandom, tty, pts)</td>
-</tr>
-<tr>
-<td><code>/tmp</code></td>
-<td>an empty tmpfs</td>
+<td><code>off</code></td>
+<td>never</td>
 </tr>
 </tbody>
 </table>
-<p><code>/data</code>, <code>/var</code>, <code>/home</code>, <code>/root</code>, <code>/run</code> and other plugins' directories do
-  not exist inside. A canary plugin (<code>tests/fixtures/plugins/canary-sandbox-runtime/</code>)
-  checks this layout against a running stack. Source: <code>buildBwrapCmd</code> in
-  <code>internal/adapters/driven/pluginrunner/runner_bwrap.go</code>.
-- <strong>Network:</strong> the network namespace, for every plugin.
-- <strong>System calls:</strong> no seccomp filter; the namespaces provide the isolation.
-- <strong>Requires:</strong> the <code>bwrap</code> binary and the <code>mount</code>/<code>unshare</code> system calls. In
-  Docker that needs a relaxed security profile, so this is effectively a
-  bare-metal mode.</p>
-<h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
-<p><code>bubblewrap</code> plus the <code>LD_PRELOAD</code> filter (interpreted plugins only).</p>
-<h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
-<p>The last resort of <code>auto</code>: the separate user, the kernel filter, the
-<code>LD_PRELOAD</code> filter, <code>-deny-inet</code>, and Landlock if the kernel has it. On a
-kernel without Landlock there is no per-path confinement: a plugin can read
-non-sensitive world-readable files and see the process list. The server's
-secrets stay protected by the separate user and <code>PR_SET_DUMPABLE</code>, the network
-is cut, and dangerous system calls are refused, compiled binaries included.</p>
-<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h3>
+<p>The switch is made by the launcher, which holds <code>cap_setuid</code>; the server
+itself runs without privileges or capabilities. The launcher refuses any
+target below 1000. If it cannot switch, a plugin in <code>basic</code> is refused (the
+user is the only wall there), while in <code>landlock</code> it runs as the server's
+user with a warning. In <code>bubblewrap</code> and <code>strict</code>, the user namespace plays
+this role.</p>
+<p>When active, the signing key (<code>0600</code>) and the backups (<code>0700</code> directory,
+<code>0600</code> files) are owner-only at run time, which holds even on a bind-mounted
+<code>/data</code>. All plugins share user 1001: they are isolated from each other by
+the filesystem layer, not by the user.</p>
+<h3 id="host-socket-authentication">Host socket authentication<a class="headerlink" href="#host-socket-authentication" title="Permanent link">¶</a></h3>
+<p>Each plugin has its own socket, <code>/tmp/evey/plugins/&lt;plugin_id&gt;/host.sock</code>,
+served by its own gRPC server. On every call, the server reads the caller's
+PID from the kernel (<code>SO_PEERCRED</code>, which user space cannot forge) and
+compares it with the PID recorded when the plugin started. The plugin's
+identity comes from the socket, never from a header. A plugin therefore
+cannot impersonate another, call another plugin's socket, or route calls
+through a child process. A PID mismatch is logged as a warning.</p>
+<h3 id="resource-limits">Resource limits<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
+<p>A monitor in user space (cgroups are unavailable in an unprivileged
+container) reads <code>/proc/&lt;pid&gt;</code> every 2 seconds and stops a plugin that
+exceeds a limit (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>):</p>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Default</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>memory (RSS)</td>
+<td>256 MiB</td>
+<td>every sweep</td>
+</tr>
+<tr>
+<td>processes and threads</td>
+<td>64</td>
+<td>every sweep</td>
+</tr>
+<tr>
+<td>disk used by its directory</td>
+<td>100 MiB</td>
+<td>every 15th sweep, about 30 s</td>
+</tr>
+<tr>
+<td>CPU priority</td>
+<td><code>nice</code> 10, applied at start</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>The same sweep flags a plugin that keeps a CPU pegged above 90% for about
+30 s, and stops a plugin granted <code>hardware.gpu</code> that keeps a graphics engine
+pegged the same way. The limits are set per plugin in <strong>Admin → Plugins →
+Resource limits</strong>; the environment variables <code>EVEY_PLUGINS_MEMORY_MB</code>,
+<code>EVEY_PLUGINS_PIDS_MAX</code>, <code>EVEY_PLUGINS_DISK_MAX_MB</code> and
+<code>EVEY_PLUGINS_CPU_NICE</code> set the boot defaults.</p>
+<h3 id="interface-isolation">Interface isolation<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
+<p>A plugin's interface runs in an <code>&lt;iframe sandbox="allow-scripts"&gt;</code>, without
+same-origin access, forms or popups, under a Content-Security-Policy that
+allows connections only to its <code>external_fetch</code> hosts. The bridge
+(<code>frontend/packages/client/src/plugins/hostProtocol.ts</code>) limits what it can
+ask of the page: <code>toast</code> at most 3 per second, 200 characters, no HTML;
+<code>navigate</code> accepts only <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>,
+<code>/settings</code> and <code>/search</code>; <code>resize</code> between 50 px (60 on mobile and TV) and
+800 px. Slots are checked at install and again at render.</p>
+<h3 id="server-hardening">Server hardening<a class="headerlink" href="#server-hardening" title="Permanent link">¶</a></h3>
+<p>At startup the server marks itself non-dumpable (<code>PR_SET_DUMPABLE=0</code>,
+<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey/hardening_linux.go"><code>hardening_linux.go</code></a>): a process running
+as the same user cannot read its memory or environment through <code>/proc</code>,
+which protects the signing key in memory and the database and search
+passwords, even on a kernel without Landlock.</p>
+<h3 id="crash-notification">Crash notification<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
+<p>The runner publishes a <code>plugin.error</code> event when the sandbox library is
+missing for a plugin that needs it, or when a plugin exits with an error.
+The notification service forwards it to the administrator through the
+configured channels, and the <strong>Security Dashboard</strong> records it.</p>
+<h2 id="sandbox-modes">Sandbox modes<a class="headerlink" href="#sandbox-modes" title="Permanent link">¶</a></h2>
+<p>The mode selects how the filesystem and the network are confined.
+<code>EVEY_PLUGINS_SANDBOX_MODE</code> sets the initial value (default <code>auto</code>); it can
+be changed in <strong>Admin → Plugins → Resource limits → Sandbox mode</strong>. The
+runner applies it in
+<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/runner_sandbox.go"><code>applySandbox</code></a>.
+In every mode: no direct IP egress, the resource monitor, and the host
+socket authentication.</p>
 <table>
 <thead>
 <tr>
@@ -4143,28 +4115,113 @@ is cut, and dangerous system calls are refused, compiled binaries included.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="auto-default"><code>auto</code> (default)<a class="headerlink" href="#auto-default" title="Permanent link">¶</a></h3>
+<p>Resolves, once at the first plugin start, to the strongest mode the host
+supports: <strong>landlock</strong> when the kernel enforces Landlock <em>and</em> the
+<code>evey-plugin-launcher</code> binary is found (next to the server binary, on
+<code>$PATH</code>, or at <code>EVEY_PLUGIN_LAUNCHER</code>); otherwise <strong>bubblewrap</strong> when a test
+sandbox actually builds
+(<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/sandbox_probe.go"><code>ProbeSandbox</code></a>),
+which in practice means bare metal or a privileged container; otherwise
+<strong>basic</strong>. Landlock comes first because it needs no privilege and runs under
+Docker's default security profile. The resolved mode is logged, and shown on
+the <strong>Host sandbox</strong> line of <strong>Admin → Plugins → Security Dashboard</strong>.</p>
 <table>
 <thead>
 <tr>
 <th>Deployment</th>
-<th>What you get</th>
+<th>What <code>auto</code> gives</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Docker on a recent kernel (<code>auto</code> gives <code>landlock</code>)</td>
-<td>Per-path confinement, no direct egress, dangerous system calls refused including static binaries. The normal case.</td>
+<td>Docker on a recent kernel</td>
+<td><code>landlock</code>: per-path confinement, no direct egress, dangerous system calls refused including static binaries. The normal case.</td>
 </tr>
 <tr>
-<td>Docker on an old kernel without Landlock, e.g. an old NAS (<code>auto</code> gives <code>basic</code>)</td>
-<td>Secrets protected and network cut, but world-readable files visible. See <a href="../plugins/sandbox-deployment/">Plugin sandbox setup</a>.</td>
+<td>Docker on an old kernel without Landlock, e.g. an old NAS</td>
+<td><code>basic</code>: secrets protected and network cut, but world-readable files visible. See <a href="../plugins/sandbox-deployment/">Plugin sandbox setup</a>.</td>
 </tr>
 <tr>
-<td>Bare metal (<code>auto</code> gives <code>bubblewrap</code>)</td>
-<td>The strongest filesystem and process isolation, without a seccomp filter for static binaries.</td>
+<td>Bare metal</td>
+<td><code>bubblewrap</code>: the strongest filesystem and process isolation, without a seccomp filter for static binaries.</td>
 </tr>
 </tbody>
 </table>
+<h3 id="landlock"><code>landlock</code><a class="headerlink" href="#landlock" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Filesystem:</strong> a Landlock allowlist applied by the launcher. System
+  directories (<code>/usr</code>, <code>/lib</code>, <code>/lib64</code>, <code>/bin</code>, <code>/sbin</code>, <code>/etc</code>, <code>/app</code>)
+  read-only; of <code>/dev</code>, only <code>null</code>, <code>zero</code>, <code>full</code>, <code>random</code> and <code>urandom</code>,
+  so graphics card nodes and the server's terminal stay out of reach; the
+  plugin's directory and socket directory read-write; everything else,
+  including <code>/data</code> and other plugins, denied. A plugin granted
+  <code>hardware.gpu</code> gets its render node as the one exception.</li>
+<li><strong>Network:</strong> <code>-restrict-net</code> and <code>-deny-inet</code>; egress only through <code>Fetch</code>.</li>
+<li><strong>System calls:</strong> the kernel filter and the <code>LD_PRELOAD</code> filter.</li>
+<li><strong>Requires:</strong> a kernel 5.13 or newer with Landlock in the active LSM list,
+  and the launcher (both are the case on the official image with a recent
+  host). An explicit <code>landlock</code> refuses to start a plugin it cannot confine.</li>
+</ul>
+<h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Filesystem and processes:</strong> six unshared namespaces (<code>user</code>, <code>pid</code>,
+  <code>uts</code>, <code>ipc</code>, <code>cgroup</code>, <code>net</code>) and a mount whitelist; nothing else exists
+  inside (<code>buildBwrapCmd</code> in <code>pluginrunner/runner_bwrap.go</code>).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/usr</code>, <code>/bin</code>, <code>/sbin</code>, <code>/lib</code>, <code>/lib64</code></td>
+<td>read-only</td>
+</tr>
+<tr>
+<td><code>/etc/ssl</code>, <code>/etc/ca-certificates</code>, <code>/etc/resolv.conf</code>, <code>/etc/nsswitch.conf</code>, <code>/etc/{alpine,os}-release</code></td>
+<td>read-only (never <code>/etc</code> as a whole: no <code>passwd</code>, <code>shadow</code>, <code>ssh</code>)</td>
+</tr>
+<tr>
+<td>the plugin's directory, its socket directory</td>
+<td>read-write</td>
+</tr>
+<tr>
+<td><code>/proc</code></td>
+<td>its own mount</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>a minimal synthetic set (null, zero, random, urandom, tty, pts)</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>an empty tmpfs</td>
+</tr>
+</tbody>
+</table>
+<p><code>/data</code>, <code>/var</code>, <code>/home</code>, <code>/root</code>, <code>/run</code> and other plugins' directories do
+  not exist inside. A canary plugin
+  (<code>tests/fixtures/plugins/canary-sandbox-runtime/</code>) checks this layout
+  against a running stack.
+- <strong>Network:</strong> the network namespace, for every plugin.
+- <strong>System calls:</strong> no seccomp filter; the namespaces provide the isolation.
+- <strong>Requires:</strong> the <code>bwrap</code> binary and the <code>mount</code>/<code>unshare</code> system calls.
+  In Docker that needs a relaxed security profile, so this is effectively a
+  bare-metal mode.</p>
+<h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
+<p><code>bubblewrap</code> plus the <code>LD_PRELOAD</code> filter (interpreted plugins only).</p>
+<h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
+<p>The last resort of <code>auto</code>: the separate user, the kernel filter, the
+<code>LD_PRELOAD</code> filter, <code>-deny-inet</code>, and Landlock if the kernel has it. On a
+kernel without Landlock there is no per-path confinement: a plugin can read
+non-sensitive world-readable files and see the process list. The server's
+secrets stay protected by the separate user and <code>PR_SET_DUMPABLE</code>, the
+network is cut, and dangerous system calls are refused, compiled binaries
+included.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -4195,11 +4252,16 @@ is cut, and dangerous system calls are refused, compiled binaries included.</p>
 <td>none</td>
 <td>The key signatures are checked against.</td>
 </tr>
+<tr>
+<td><code>EVEY_PLUGINS_MEMORY_MB</code>, <code>EVEY_PLUGINS_PIDS_MAX</code>, <code>EVEY_PLUGINS_DISK_MAX_MB</code>, <code>EVEY_PLUGINS_CPU_NICE</code></td>
+<td>256, 64, 100, 10</td>
+<td>Boot defaults of the resource limits; the panel overrides them per plugin.</td>
+</tr>
 </tbody>
 </table>
 <p>The official image ships <code>evey-plugin-launcher</code> (Landlock and the kernel
-filter) and <code>bubblewrap</code>. bubblewrap also needs unprivileged user namespaces on
-the host. Which setup fits which machine, in plain terms:
+filter) and <code>bubblewrap</code>. bubblewrap also needs unprivileged user namespaces
+on the host. Which setup fits which machine, in plain terms:
 <a href="../plugins/sandbox-deployment/">Plugin sandbox setup</a>.</p>
 <h2 id="known-limits">Known limits<a class="headerlink" href="#known-limits" title="Permanent link">¶</a></h2>
 <table>
@@ -4252,37 +4314,42 @@ the host. Which setup fits which machine, in plain terms:
 <p>Two invariants govern who can reach the server at all:</p>
 <ul>
 <li><strong>Only the HTTP port is meant to be published.</strong> The gRPC port
-  (<code>EVEY_SERVER_PORT</code>, default 9090) is an internal transport whose only client
-  is the HTTP gateway in the same process; the HTTP API is that port plus one.
-  gRPC binds to loopback by default (<code>EVEY_GRPC_BIND=127.0.0.1</code>) because the
-  remote-access gate is HTTP middleware and does not cover it. Widening the bind
-  logs a warning; firewalling it is then the operator's job.</li>
+  (<code>EVEY_SERVER_PORT</code>, default 9090) is an internal transport whose only
+  client is the HTTP gateway in the same process; the HTTP API is that port
+  plus one. gRPC binds to loopback by default (<code>EVEY_GRPC_BIND=127.0.0.1</code>)
+  because the remote-access gate is HTTP middleware and does not cover it.
+  Widening the bind logs a warning; firewalling it is then the operator's job.</li>
 <li><strong>The remote-access gate decides from the one client address validated at
   the trusted proxy boundary</strong>, never from a request header. A client cannot
-  claim <code>127.0.0.1</code> through <code>X-Forwarded-For</code>, and a request that never crossed
-  that boundary counts as remote. This is a deployment control, not
+  claim <code>127.0.0.1</code> through <code>X-Forwarded-For</code>, and a request that never
+  crossed that boundary counts as remote. This is a deployment control, not
   authentication.</li>
 </ul>
 <p>See <a href="../administration/remote-access/">Remote access and HTTPS</a> and the
 <a href="../environment/server/#remote-access">Configuration reference</a>.</p>
 <h2 id="what-the-logs-may-contain">What the logs may contain<a class="headerlink" href="#what-the-logs-may-contain" title="Permanent link">¶</a></h2>
-<p>The server log feeds <strong>Logs &amp; Debug</strong>, bug reports and backups, so credentials
-are scrubbed when a line is written (<code>internal/pkg/logger/redact.go</code>): an
-attribute whose key names a secret (<code>authorization</code>, <code>token</code>, <code>api_key</code>,
-<code>password</code>, <code>pin</code>, <code>secret</code>...) is replaced whole, and any string carrying a
-bearer token, a JWT or a <code>secret=value</code> pair is scrubbed. The log routes apply
-the same rule to older lines on the way out. For code: never log a non-secret
-value under a secret key name (it will be masked), and add a new kind of
-credential to that list before it is ever logged.</p>
+<p>The server log feeds <strong>Logs &amp; Debug</strong>, bug reports and backups, so
+credentials are scrubbed when a line is written
+(<code>internal/pkg/logger/redact.go</code>): an attribute whose key names a secret
+(<code>authorization</code>, <code>token</code>, <code>api_key</code>, <code>password</code>, <code>pin</code>, <code>secret</code>...) is
+replaced whole, and any string carrying a bearer token, a JWT or a
+<code>secret=value</code> pair is scrubbed. The log routes apply the same rule to older
+lines on the way out. For code: never log a non-secret value under a secret
+key name (it will be masked), and add a new kind of credential to that list
+before it is ever logged.</p>
 <h2 id="reporting-a-vulnerability">Reporting a vulnerability<a class="headerlink" href="#reporting-a-vulnerability" title="Permanent link">¶</a></h2>
 <p>Report privately, never in a public issue: <code>security@eveyproject.org</code>, the
-address of the repository's <a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">security policy</a>. It covers plugin
-authentication, permissions and sandbox escapes like anything else. Do not
-test against Evey instances that are not yours.</p>
+address of the repository's <a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">security policy</a>. It covers
+plugin authentication, permissions and sandbox escapes like anything else.
+Do not test against Evey instances that are not yours.</p>
 <!-- sources
-install checks: internal/adapters/driven/pluginrunner/zip.go ; internal/adapters/driven/pluginrunner/analyzer.go ; internal/adapters/driven/pluginrunner/cosign.go ; internal/app/plugin/install.go
-runtime: internal/adapters/driven/pluginrunner/runner_sandbox.go - applySandbox ; internal/adapters/driven/pluginrunner/runner_landlock.go - systemReadOnlyDirs, safeDevNodes ; cmd/evey-plugin-launcher/seccomp_linux.go - deniedSyscalls ; internal/adapters/driven/pluginrunner/runner_landlock.go (LD_PRELOAD layered in landlock) ; internal/adapters/driven/pluginrunner/runner_bwrap.go - buildBwrapCmd ; internal/adapters/driving/pluginhost/fetch.go - Fetch
-config: internal/config/config.go - EVEY_PLUGINS_SANDBOX_MODE, EVEY_PLUGINS_COSIGN_POLICY, EVEY_PLUGINS_COSIGN_PUBLIC_KEY, EVEY_GRPC_BIND
+install checks: internal/adapters/driven/pluginrunner/zip.go ; internal/adapters/driven/pluginrunner/analyzer.go ; internal/adapters/driven/pluginrunner/cosign.go ; internal/app/plugin/install.go ; internal/adapters/driving/grpcapi/plugin_interceptor.go - PluginPermissionInterceptor
+runtime: internal/adapters/driven/pluginrunner/runner_sandbox.go - applySandbox ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode, launcherPath, systemReadOnlyDirs, safeDevNodes ; cmd/evey-plugin-launcher/seccomp_linux.go - deniedSyscalls, selfSignalSyscalls, cloneNamespaceFlags, appendDenyForkRules ; cmd/evey-plugin-launcher/droppriv_linux.go ; sandbox/sandbox.c ; internal/adapters/driven/pluginrunner/runner_bwrap.go - buildBwrapCmd ; internal/adapters/driven/pluginrunner/sandbox_probe.go - ProbeSandbox ; internal/adapters/driving/pluginhost/fetch.go - Fetch, maxFetchBytes, maxFetchHeaderBytes, fetchTimeout ; cmd/evey/hardening_linux.go
+resource monitor: internal/adapters/driven/pluginrunner/runner_resmon.go - defaultMemBytes, defaultPIDsMax, resMonInterval, resMonDiskEveryN, resMonCPUPegPct, resMonGPUPegPct ; internal/app/plugin/resource_config.go - ResolveResourceConfig
+bridge: frontend/packages/client/src/plugins/hostProtocol.ts - ALLOWED_NAV_PREFIXES, SLOT_MAX_HEIGHT, TOAST_MAX, TOAST_WINDOW_MS, TOAST_MAX_LENGTH ; frontend/packages/client/src/web/PluginIframe.tsx - MIN_SLOT_HEIGHT ; frontend/packages/client/src/native/PluginWebView.tsx
+config: internal/config/config.go - EVEY_PLUGINS_SANDBOX_MODE, EVEY_PLUGINS_UID_SEPARATION, EVEY_PLUGINS_COSIGN_POLICY, EVEY_PLUGINS_COSIGN_PUBLIC_KEY, EVEY_PLUGINS_MEMORY_MB, EVEY_PLUGINS_PIDS_MAX, EVEY_PLUGINS_DISK_MAX_MB, EVEY_PLUGINS_CPU_NICE, EVEY_SERVER_PORT, EVEY_GRPC_BIND
+logs: internal/pkg/logger/redact.go
+i18n: admin.nav.plugins ; admin.plugins.resourceLimits.title, sandboxMode ; admin.plugins.security.title, sandboxHost ; admin.nav.logs
 -->
 
 

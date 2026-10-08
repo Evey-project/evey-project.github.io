@@ -1969,6 +1969,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#two-places-one-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deux endroits, une règle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-needs-a-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce qui demande un redémarrage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-values-are-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comment les valeurs sont lues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#secrets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2992,6 +3025,39 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#two-places-one-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deux endroits, une règle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-needs-a-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce qui demande un redémarrage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-values-are-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comment les valeurs sont lues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#secrets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3059,16 +3125,59 @@
 
 
 <h1 id="configuration-reference">Référence de configuration<a class="headerlink" href="#configuration-reference" title="Permanent link">¶</a></h1>
-<p>Deux endroits, une règle. <strong>Ce qui doit exister avant le démarrage du
-serveur</strong> (secrets, stockage, adresse publique, informations sur le reverse
-proxy) va dans le fichier compose. <strong>Ce qu'un administrateur ajuste ensuite</strong>
-(langues, limites de transcodage, accélération matérielle, planifications,
-limites des plugins) se trouve dans le panneau d'administration, est stocké en
-base, survit à la mise à jour du conteneur et s'applique le plus souvent sans
-redémarrage. Pour un réglage qui existe aux deux endroits, la variable
-d'environnement ne sert qu'au premier démarrage : la valeur enregistrée dans le
-panneau l'emporte.</p>
-<p>Les variables, par thème :</p>
+<p>Où vit chaque réglage d'un serveur Evey, quelle valeur l'emporte quand un
+réglage existe à la fois dans le panneau d'administration et dans
+l'environnement, et ce qui demande un redémarrage. Les variables elles-mêmes
+sont listées par thème dans les dix pages liées plus bas ; cette page
+s'adresse à l'administrateur qui édite le fichier compose ou se demande
+pourquoi une variable semble ignorée.</p>
+<h2 id="two-places-one-rule">Deux endroits, une règle<a class="headerlink" href="#two-places-one-rule" title="Permanent link">¶</a></h2>
+<p><strong>Ce qui doit exister avant le démarrage du serveur</strong> - secrets, chemins de
+stockage, adresse publique, informations sur le reverse proxy - va dans le
+fichier compose, sous forme de variables d'environnement. <strong>Ce qu'un
+administrateur ajuste ensuite</strong> - langues, limites de transcodage,
+accélération matérielle, planifications, limites des plugins - se trouve
+dans le panneau d'administration, est stocké en base, survit à la mise à
+jour du conteneur et s'applique le plus souvent sans redémarrage.</p>
+<p>Pour un réglage qui existe aux deux endroits, la priorité est toujours la
+même :</p>
+<ol>
+<li><strong>La valeur enregistrée dans le panneau l'emporte.</strong> À chaque démarrage,
+   le serveur lit d'abord l'environnement, puis remplace chaque champ par la
+   valeur stockée en base quand il y en a une. Une variable ne remplace
+   jamais une valeur enregistrée.</li>
+<li><strong>La variable s'applique tant que rien n'est enregistré.</strong> Le panneau
+   l'affiche comme valeur par défaut courante ; <strong>Réinitialiser</strong> supprime
+   la valeur enregistrée, et la variable s'applique de nouveau à partir du
+   démarrage suivant.</li>
+<li><strong>La valeur par défaut intégrée</strong> s'applique quand ni l'un ni l'autre
+   n'est défini.</li>
+</ol>
+<p>Les secrets font exception : le panneau n'affiche jamais un mot de passe ou
+une clé qu'il a stockés, et une variable comme <code>EVEY_TMDB_API_KEY</code> est
+copiée en base à la première utilisation, pour que le panneau puisse
+indiquer qu'une clé personnalisée est en service.</p>
+<h2 id="what-needs-a-restart">Ce qui demande un redémarrage<a class="headerlink" href="#what-needs-a-restart" title="Permanent link">¶</a></h2>
+<ul>
+<li>Une modification d'une <strong>variable d'environnement</strong> demande toujours de
+  recréer le conteneur (<code>docker compose up -d</code>) : le processus lit son
+  environnement une seule fois.</li>
+<li>Une modification dans le <strong>panneau</strong> s'applique immédiatement pour la
+  plupart des réglages (nom du serveur, niveau de journalisation, limites de
+  requêtes, accélération matérielle, SMTP, authentification unique, accès
+  distant, limites des plugins, durées de conservation au prochain nettoyage
+  quotidien).</li>
+<li>Le panneau signale par <em>appliqué au redémarrage</em> les réglages <strong>lus au
+  démarrage</strong> : la surveillance des fichiers et l'intervalle d'analyse, le
+  budget du cache de transcodage, la carte <strong>Limites avancées</strong> du
+  transcodage, les sources de détection des intros, et chaque ligne des
+  <strong>Entrées de configuration</strong>. Enregistrer conserve le choix, redémarrer
+  l'applique.</li>
+</ul>
+<p>Chaque tableau des pages par thème a une colonne <strong>Panneau</strong> : le chemin du
+champ (à partir de <strong>Admin</strong>) et s'il s'applique immédiatement ou au
+redémarrage, ou <code>aucun</code> quand la variable n'a pas d'équivalent dans le
+panneau.</p>
 <table>
 <thead>
 <tr>
@@ -3119,6 +3228,19 @@ panneau l'emporte.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-values-are-read">Comment les valeurs sont lues<a class="headerlink" href="#how-values-are-read" title="Permanent link">¶</a></h2>
+<ul>
+<li>Les booléens acceptent <code>1</code>, <code>t</code>, <code>true</code>, <code>0</code>, <code>f</code>, <code>false</code>. Les durées
+  exigent une unité : <code>30s</code>, <code>5m</code>, <code>2h</code> (un <code>30</code> nu est ignoré). Les listes
+  sont séparées par des virgules.</li>
+<li>Une valeur que le serveur ne sait pas lire est <strong>ignorée avec un
+  avertissement</strong> dans le log (<code>environment variable ignored, value could
+  not be parsed</code>) et la valeur par défaut s'applique. Relisez les premières
+  lignes du log après avoir modifié le fichier compose.</li>
+<li><code>EVEY_DB_PASSWORD</code> et <code>MEILI_MASTER_KEY</code> peuvent aussi venir d'un fichier
+  nommé par la même variable suffixée <code>_FILE</code> ; une valeur explicite prime
+  sur le fichier.</li>
+</ul>
 <h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">¶</a></h2>
 <p>Le Postgres et le Meilisearch intégrés génèrent leurs secrets au premier
 démarrage, dans <code>./evey-data/keys</code> (<code>postgres.password</code>, <code>meili.key</code>, mode
@@ -3126,10 +3248,9 @@ démarrage, dans <code>./evey-data/keys</code> (<code>postgres.password</code>, 
 <code>MEILI_MASTER_KEY_FILE</code>, définies dans l'image ; c'est aussi pourquoi les
 commandes <code>evey admin</code> n'ont pas besoin de mot de passe. Ne renseignez
 <code>EVEY_DB_PASSWORD</code> ou <code>MEILI_MASTER_KEY</code> que pour une base ou un moteur de
-recherche externe ; une valeur explicite prime sur le fichier.</p>
-<p>Une clé TMDB est intégrée. <code>EVEY_TMDB_API_KEY</code> fournit la vôtre au premier
-démarrage ; la clé saisie dans <strong>Admin → Configuration du serveur → Clés API</strong>
-l'emporte.</p>
+recherche externe.</p>
+<p>Une clé TMDB est intégrée. <code>EVEY_TMDB_API_KEY</code> fournit la vôtre ; la clé
+saisie dans <strong>Admin → Configuration du serveur → Clés API</strong> l'emporte.</p>
 <h2 id="variables-you-do-not-need">Variables inutiles<a class="headerlink" href="#variables-you-do-not-need" title="Permanent link">¶</a></h2>
 <p>Des lignes souvent reprises d'anciennes installations, et pourquoi elles ne
 changent rien :</p>
@@ -3171,7 +3292,7 @@ changent rien :</p>
 <p><strong>Par défaut : automatique.</strong> Quand <code>PUID</code>/<code>PGID</code> ne sont pas définis,
 l'entrypoint regarde au démarrage le propriétaire de vos montages <code>/media*</code> et
 lance le serveur sous cet utilisateur, pour que les fonctions qui <em>écrivent</em>
-dans votre bibliothèque (la réparation de l'index de navigation reconstruit
+dans votre bibliothèque (la réparation de l'index de lecture reconstruit
 les fichiers sur place) fonctionnent d'emblée, sans <code>chown</code> ni configuration.
 Le log de démarrage indique le choix fait :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>evey: media mounts owned by 1026:100 (detected on /media) - running the
@@ -3201,15 +3322,15 @@ pour vous, définissez <code>user: "UID:GID"</code> sur le service dans votre fi
 compose. L'entrypoint détecte le démarrage sans root et saute le remappage (y
 compris la détection du propriétaire des médias) : c'est alors à vous de
 garder <code>./evey-data</code> modifiable par cet uid.</p>
-<p>Remarques :</p>
-<ul>
-<li><code>PUID=1001</code> est refusé : c'est l'utilisateur interne <code>evey-plugin</code>, séparé
-  pour que les plugins ne partagent jamais l'identité du serveur.</li>
-<li>Les médias sont montés en lecture-écriture par défaut pour que les
-  réparations fonctionnent ; ajoutez <code>:ro</code> au volume si vous préférez une
-  bibliothèque en lecture seule (les réparations échoueront alors avec une
-  erreur explicite).</li>
-</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>PUID=1001</code> est refusé : c'est l'utilisateur interne <code>evey-plugin</code>,
+séparé pour que les plugins ne partagent jamais l'identité du serveur.
+Les médias sont montés en lecture-écriture par défaut pour que les
+réparations fonctionnent ; ajoutez <code>:ro</code> au volume si vous préférez une
+bibliothèque en lecture seule (les réparations échouent alors avec une
+erreur explicite).</p>
+</div>
 <h2 id="variables-the-server-does-not-read">Variables que le serveur ne lit pas<a class="headerlink" href="#variables-the-server-does-not-read" title="Permanent link">¶</a></h2>
 <p>Certaines variables figurent dans des fichiers compose sans être lues par le
 serveur :</p>
@@ -3226,6 +3347,8 @@ serveur :</p>
 <li><code>EVEY_SUPERVISED</code>, <code>EVEY_COMPANION_PIDS</code>, <code>EVEY_RESTART_EXIT_CODE</code>,
   <code>EVEY_LAUNCHER_BIN</code>, <code>EVEY_PLUGIN_LAUNCHER</code> : définies par l'entrypoint et le
   lanceur de plugins pour leur propre usage.</li>
+<li><code>EVEY_BANNER=off</code> masque seulement la bannière de démarrage dans le log ;
+  <code>NO_COLOR</code> en retire les couleurs.</li>
 </ul>
 
 

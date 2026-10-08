@@ -3081,8 +3081,11 @@
 
 
 <h1 id="backups-logs-and-monitoring">Sauvegardes, logs et supervision<a class="headerlink" href="#backups-logs-and-monitoring" title="Permanent link">¶</a></h1>
-<p>Les sauvegardes, le log du serveur, la durée de conservation des historiques,
-et les métriques pour une supervision externe.</p>
+<p>Les variables derrière les sauvegardes de la base, le log du serveur, la
+durée de conservation des historiques et les points d'accès pour une
+supervision externe. Le quotidien est décrit dans
+<a href="../../backups/">Sauvegardes et mises à jour</a> et
+<a href="../../operations/monitoring/">Supervision et logs</a>.</p>
 <h2 id="backups">Sauvegardes<a class="headerlink" href="#backups" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3090,6 +3093,7 @@ et les métriques pour une supervision externe.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3097,20 +3101,22 @@ et les métriques pour une supervision externe.</p>
 <td><code>EVEY_BACKUP_DIR</code></td>
 <td><code>/data/backups</code></td>
 <td>L'emplacement des sauvegardes de la base.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_BACKUP_INTERVAL_HOURS</code></td>
 <td><code>0</code> (désactivé)</td>
-<td>Une sauvegarde toutes les N heures. Utilisée seulement si aucune planification n'est définie dans <strong>Admin → Sauvegarde BDD et restauration → Planification</strong>, qui est la méthode habituelle.</td>
+<td>Une sauvegarde toutes les N heures, indépendante de la planification du panneau, qui est la méthode habituelle.</td>
+<td>Sauvegarde BDD et restauration → <strong>Planification</strong> (expression cron), immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_BACKUP_RETENTION_DAYS</code></td>
 <td><code>30</code></td>
-<td>Les sauvegardes plus anciennes sont supprimées au démarrage et par la planification ci-dessus. Une planification définie dans le panneau a sa propre durée de conservation.</td>
+<td>Les sauvegardes plus anciennes sont supprimées quand l'intervalle ci-dessus est défini, au démarrage puis après chacune de ses exécutions. La planification du panneau a sa propre <strong>Rétention</strong>.</td>
+<td>Sauvegarde BDD et restauration → Planification → <strong>Rétention</strong>, immédiat</td>
 </tr>
 </tbody>
 </table>
-<p>Voir <a href="../../backups/">Sauvegardes et mises à jour</a>.</p>
 <h2 id="log">Log<a class="headerlink" href="#log" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3118,40 +3124,47 @@ et les métriques pour une supervision externe.</p>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_LOG_LEVEL</code></td>
 <td><code>info</code></td>
-<td><code>debug</code>, <code>info</code>, <code>warn</code> ou <code>error</code>. <strong>Admin → Configuration du serveur → Paramètres du serveur</strong> le remplace.</td>
+<td><code>debug</code>, <code>info</code>, <code>warn</code> ou <code>error</code>.</td>
+<td>Configuration du serveur → Paramètres du serveur → <strong>Niveau de journalisation</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_DIR</code></td>
 <td><code>/data/logs</code></td>
 <td>L'emplacement du fichier de log quotidien <code>evey-AAAA-MM-JJ.log</code>. Définie par l'image. Ce fichier fait référence : <code>docker logs</code> montre le même flux, mais Docker le fait tourner.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_MAX_SIZE_MB</code></td>
 <td><code>50</code></td>
 <td>Taille d'un fichier de log avant rotation.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_LOG_RETENTION_DAYS</code></td>
 <td><code>90</code></td>
 <td>Nombre de jours de conservation des fichiers de log.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
 <h2 id="history-retention">Conservation des historiques<a class="headerlink" href="#history-retention" title="Permanent link">¶</a></h2>
-<p>Chacune est remplacée par le champ correspondant de <strong>Admin → Configuration du
-serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien suivant.</p>
+<p>Les durées de conservation sont relues à chaque nettoyage quotidien : une
+valeur enregistrée dans <strong>Admin → Configuration du serveur → Paramètres du
+serveur</strong> s'applique au balayage suivant.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3159,26 +3172,31 @@ serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien su
 <td><code>EVEY_PLAY_SESSION_RETENTION_DAYS</code></td>
 <td><code>0</code> (toujours)</td>
 <td>Les sessions de lecture terminées de l'historique.</td>
+<td>Paramètres du serveur → <strong>Rétention de l'historique des sessions de lecture</strong>, balayage suivant</td>
 </tr>
 <tr>
 <td><code>EVEY_AUDIT_LOG_RETENTION_DAYS</code></td>
 <td><code>0</code> (toujours)</td>
 <td>Le journal d'audit des actions d'administration.</td>
+<td>Paramètres du serveur → <strong>Rétention du journal d'audit</strong>, balayage suivant</td>
 </tr>
 <tr>
 <td><code>EVEY_METRICS_RETENTION_DAYS</code></td>
 <td><code>90</code></td>
 <td>Les échantillons de ressources du serveur (processeur, mémoire, bande passante).</td>
+<td>Paramètres du serveur → <strong>Rétention des métriques serveur</strong>, balayage suivant</td>
 </tr>
 <tr>
 <td><code>EVEY_QOE_RETENTION_DAYS</code></td>
 <td><code>30</code></td>
 <td>Les rapports de qualité de lecture des lecteurs.</td>
+<td>Paramètres du serveur → <strong>Rétention qualité de lecture (QoE)</strong>, balayage suivant</td>
 </tr>
 <tr>
 <td><code>EVEY_METRICS_SAMPLE_INTERVAL_SEC</code></td>
 <td><code>60</code></td>
 <td>La fréquence de ces échantillons de ressources.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3189,6 +3207,7 @@ serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien su
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3196,21 +3215,25 @@ serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien su
 <td><code>EVEY_METRICS_SCRAPE_TOKEN</code></td>
 <td>vide</td>
 <td>Un jeton fixe accepté sur <code>GET /metrics</code> en plus d'une session d'administrateur, pour que Prometheus ou Grafana puissent collecter sans renouveler une connexion. Vide : seule une session d'administrateur est acceptée.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_OTLP_ENDPOINT</code></td>
 <td>vide</td>
 <td>Un point d'accès OpenTelemetry vers lequel envoyer les traces. Vide : aucune trace.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_TRACING_SERVICE_NAME</code></td>
 <td><code>evey</code></td>
 <td>Le nom du service dans les traces.</td>
+<td>aucun</td>
 </tr>
 <tr>
 <td><code>EVEY_TRACING_SAMPLE_RATIO</code></td>
 <td><code>0</code></td>
-<td>La part des requêtes tracées, de 0 à 1.</td>
+<td>La part des requêtes tracées, de 0 à 1 (un ratio, pas un pourcentage).</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>
@@ -3221,6 +3244,7 @@ serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien su
 <th>Variable</th>
 <th>Défaut</th>
 <th>Effet</th>
+<th>Panneau</th>
 </tr>
 </thead>
 <tbody>
@@ -3228,6 +3252,7 @@ serveur → Paramètres du serveur</strong>, appliqué au nettoyage quotidien su
 <td><code>EVEY_LOG_DEV_MODE</code></td>
 <td><code>false</code></td>
 <td>Mode développeur : les contrôles de sécurité du démarrage ne font qu'avertir, et les plugins peuvent tourner sans la bibliothèque de sandbox. Jamais sur un vrai serveur ; avec <code>EVEY_ENV=production</code>, le serveur refuse de démarrer.</td>
+<td>aucun</td>
 </tr>
 </tbody>
 </table>

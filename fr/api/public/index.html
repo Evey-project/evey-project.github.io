@@ -2598,17 +2598,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spécifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2967,17 +2956,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#specs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spécifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3012,8 +2990,9 @@
 
 
 <h1 id="public-api">API publique<a class="headerlink" href="#public-api" title="Permanent link">¶</a></h1>
-<p>Les points d'accès ouverts à tous les utilisateurs authentifiés.</p>
-<h2 id="specs">Spécifications<a class="headerlink" href="#specs" title="Permanent link">¶</a></h2>
+<p>Les points d'accès que tout utilisateur connecté peut appeler : ceux que les
+applications utilisent pour parcourir une bibliothèque, lire un titre, tenir
+des favoris et des playlists, et demander un média. Un fichier par service.</p>
 <table>
 <thead>
 <tr>
@@ -3024,7 +3003,7 @@
 <tbody>
 <tr>
 <td><a href="../../../api/public/library.swagger.json">library.swagger.json</a></td>
-<td>Bibliothèques, médias, recherche, personnes</td>
+<td>Bibliothèques, médias, recherche, personnes ; la projection <code>public</code> que l'interface d'un plugin peut lire</td>
 </tr>
 <tr>
 <td><a href="../../../api/public/playback.swagger.json">playback.swagger.json</a></td>
@@ -3044,7 +3023,7 @@
 </tr>
 <tr>
 <td><a href="../../../api/public/feed.swagger.json">feed.swagger.json</a></td>
-<td>Sections de l'accueil (reprendre la lecture, ajouts récents, etc.)</td>
+<td>Sections de l'accueil (reprendre la lecture, ajouts récents...)</td>
 </tr>
 <tr>
 <td><a href="../../../api/public/playlist.swagger.json">playlist.swagger.json</a></td>
@@ -3086,11 +3065,15 @@
 </table>
 <h2 id="authentication">Authentification<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
 <p>Les points d'accès prennent <code>Authorization: Bearer &lt;jeton&gt;</code> : un jeton de
-session obtenu à la connexion, ou une clé d'API (voir
-<a href="../../webhooks-api-keys/">Webhooks et clés d'API</a>). Accessibles sans : la
-connexion et le renouvellement de session, l'inscription par invitation, Quick
-Connect, la réinitialisation du mot de passe, l'assistant d'installation et son
-état, et les liens de téléchargement publics.</p>
+session obtenu à la connexion, ou une clé d'API dans la limite de ses
+permissions (<a href="../#authentication">API du serveur</a>). Accessibles
+sans : la connexion et le renouvellement de session, l'inscription par
+invitation, Quick Connect, la réinitialisation du mot de passe, l'assistant
+d'installation et son état, et les liens de téléchargement publics.</p>
+<!-- sources
+auth: internal/adapters/driving/grpcapi/interceptors/auth.go ; public methods: internal/adapters/driving/grpcapi/interceptors/rbac.go
+public projection: proto/evey/v1/library.proto - GetPublicMediaItem, ListPublicMediaItems
+-->
 
 
 
@@ -3131,7 +3114,7 @@ Connect, la réinitialisation du mot de passe, l'assistant d'installation et son
       <nav class="md-footer__inner md-grid" aria-label="Pied de page">
         
           
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Documentation de l'API d'Evey">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Précédent: API du serveur">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -3141,7 +3124,7 @@ Connect, la réinitialisation du mot de passe, l'assistant d'installation et son
                 Précédent
               </span>
               <div class="md-ellipsis">
-                Documentation de l'API d'Evey
+                API du serveur
               </div>
             </div>
           </a>

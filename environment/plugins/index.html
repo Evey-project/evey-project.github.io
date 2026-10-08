@@ -3059,15 +3059,18 @@
 
 
 <h1 id="plugins-and-sandbox">Plugins and sandbox<a class="headerlink" href="#plugins-and-sandbox" title="Permanent link">¶</a></h1>
-<p>How plugins are confined and limited. How the layers work:
-<a href="../../SECURITY/">Security model and plugin sandbox</a>.</p>
+<p>The variables behind how plugins are confined and limited. The defaults fit
+a standard Docker host; which setup fits which host is in
+<a href="../../plugins/sandbox-deployment/">Plugin sandbox setup</a>, and how the layers
+work in <a href="../../SECURITY/">Plugin sandbox and threat model</a>.</p>
 <h2 id="sandbox">Sandbox<a class="headerlink" href="#sandbox" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3075,28 +3078,32 @@
 <td><code>EVEY_PLUGINS_ENABLED</code></td>
 <td><code>true</code></td>
 <td>The plugin subsystem. <code>false</code> turns it off entirely.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
 <td><code>auto</code></td>
-<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> or <code>basic</code>. <code>auto</code> picks the strongest the host supports; an explicit <code>landlock</code> refuses a plugin it cannot confine. Editable in <strong>Admin → Plugins</strong>.</td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> or <code>basic</code>. <code>auto</code> picks the strongest the host supports; an explicit <code>landlock</code> refuses a plugin it cannot confine.</td>
+<td>Plugins → Resource limits → <strong>Sandbox mode</strong>, applies to plugins started afterwards</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_UID_SEPARATION</code></td>
 <td><code>auto</code></td>
 <td><code>auto</code>, <code>on</code> or <code>off</code>: runs plugins under a separate user. <code>auto</code> does it only when the sandbox resolves to <code>basic</code>. Incompatible with <code>no_new_privs</code> on the container.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
-<p>Which setup fits which host: <a href="../../plugins/sandbox-deployment/">Plugin sandbox setup</a>.</p>
 <h2 id="resource-limits">Resource limits<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h2>
-<p>Starting values; each plugin's limits are then edited in <strong>Admin → Plugins</strong>.</p>
+<p>These are the starting values; the ones saved in <strong>Admin → Plugins →
+Resource limits</strong> apply to every plugin and win over them.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3104,21 +3111,25 @@
 <td><code>EVEY_PLUGINS_MEMORY_MB</code></td>
 <td><code>256</code></td>
 <td>Memory per plugin, in MiB.</td>
+<td>Plugins → Resource limits → <strong>Max memory</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_PIDS_MAX</code></td>
 <td><code>64</code></td>
 <td>Processes and threads per plugin.</td>
+<td>Plugins → Resource limits → <strong>Max processes</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_DISK_MAX_MB</code></td>
 <td><code>100</code></td>
 <td>Size of a plugin's directory, in MiB; <code>0</code> = no limit.</td>
+<td>Plugins → Resource limits → <strong>Max disk</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_CPU_NICE</code></td>
 <td><code>10</code></td>
 <td>CPU priority, 0 to 19; higher is lower priority.</td>
+<td>Plugins → Resource limits → <strong>CPU nice</strong>, applies to plugins started afterwards</td>
 </tr>
 </tbody>
 </table>
@@ -3128,19 +3139,22 @@
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_PLUGINS_COSIGN_POLICY</code></td>
 <td><code>warn</code></td>
-<td><code>off</code>, <code>warn</code> or <code>enforce</code>: what a failed signature check does.</td>
+<td><code>off</code>, <code>warn</code> or <code>enforce</code>: what a failed signature check does. <code>enforce</code> without a key refuses to start.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code></td>
 <td>empty</td>
-<td>Path to the PEM public key signatures are checked against. With a policy other than <code>off</code> and no key, nothing is verified and the server warns at startup.</td>
+<td>Path to the PEM public key signatures are checked against. With <code>warn</code> and no key, nothing is verified and the server warns at startup.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3150,7 +3164,8 @@
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3158,11 +3173,13 @@
 <td><code>EVEY_LOG_PLUGIN_RETENTION_DAYS</code></td>
 <td><code>10</code></td>
 <td>Days a plugin's own log is kept.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
-internal/config/config.go - EVEY_PLUGINS_*, EVEY_LOG_PLUGIN_RETENTION_DAYS ; cosign warning in WarnValidate
+internal/config/config.go - EVEY_PLUGINS_*, EVEY_LOG_PLUGIN_RETENTION_DAYS ; WarnValidate (enum values, cosign enforce without key, cosign warn without key)
+panel: internal/app/plugin/resource_config.go (plugins.memory_mb, pids_max, disk_max_mb, cpu_nice, sandbox_mode ; live on next sweep / next start) ; i18n admin.plugins.resourceLimits.*
 docs/SECURITY.md
 -->
 

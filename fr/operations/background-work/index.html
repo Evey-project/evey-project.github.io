@@ -3057,17 +3057,22 @@
 
 
 <h1 id="background-work-and-server-load">Tâches de fond et charge du serveur<a class="headerlink" href="#background-work-and-server-load" title="Permanent link">¶</a></h1>
-<p>En plus de la lecture, le serveur mène son propre travail : scanner les
-bibliothèques, récupérer les illustrations, générer les miniatures de la barre
-de navigation, détecter intros et génériques, analyser les fichiers (images
-clés, niveaux de codec, santé des médias). Cette page explique comment ce
-travail partage la machine avec les personnes qui regardent.</p>
+<p>Pourquoi le serveur est occupé quand personne ne regarde, et pourquoi les
+miniatures d'une nouvelle bibliothèque mettent des heures à arriver : en plus
+de la lecture, le serveur mène son propre travail (scanner les bibliothèques,
+récupérer les illustrations, générer les miniatures de la barre de lecture,
+détecter intros et génériques, analyser les fichiers). Cette page dit comment
+ce travail partage la machine avec les personnes qui regardent, et où régler
+sa part.</p>
 <h2 id="playback-comes-first">La lecture passe en premier<a class="headerlink" href="#playback-comes-first" title="Permanent link">¶</a></h2>
-<p>Les tâches de fond puisent dans une part du processeur, <strong>25 %</strong> par défaut
-(<strong>Admin → Configuration du serveur → Puissance allouée</strong>). <strong>50 %</strong> les
-accélère, pour les moments où personne n'utilise le serveur ; une tâche
-lourde (analyse des médias, miniatures, détection des intros, classification)
-peut recevoir sa propre part. Un changement s'applique à l'élément suivant.</p>
+<p>Les tâches de fond puisent dans une part du processeur, la <strong>Part globale</strong>
+de <strong>Admin → Configuration du serveur → Puissance allouée</strong> : <strong>25 %</strong> par
+défaut, <strong>50 %</strong> pour les accélérer quand personne n'utilise le serveur. Sous
+<strong>Tâches lourdes</strong>, l'une d'elles (analyse des nouveaux médias, miniatures de
+navigation, détection d'intro, classification de complexité) peut recevoir sa
+propre part, qui remplace la part globale pour cette tâche ; les parts ne se
+cumulent jamais. Un changement s'applique à l'élément suivant, sans
+redémarrage.</p>
 <p>Quelle que soit cette part, une tâche de fond se met en pause pendant qu'une
 personne regarde, et reprend ensuite. Sur une nouvelle bibliothèque, les
 miniatures et les repères d'intro arrivent donc en quelques heures plutôt
@@ -3095,7 +3100,7 @@ qu'en quelques minutes si le serveur est utilisé.</p>
 <tr>
 <td>Miniatures de navigation</td>
 <td>Les aperçus affichés en faisant glisser la barre de lecture (une image toutes les 7 secondes)</td>
-<td>À l'ajout d'un titre, et au démarrage pour ceux qui n'en ont pas. Peut être désactivé dans la <strong>Configuration du serveur</strong>.</td>
+<td>À l'ajout d'un titre, et au démarrage pour ceux qui n'en ont pas. <strong>Activer les miniatures de navigation</strong> dans la <strong>Configuration du serveur</strong> les désactive.</td>
 </tr>
 <tr>
 <td>Détection des intros et génériques</td>

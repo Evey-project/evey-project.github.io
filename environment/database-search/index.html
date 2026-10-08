@@ -3015,17 +3015,20 @@
 
 
 <h1 id="database-and-search">Database and search<a class="headerlink" href="#database-and-search" title="Permanent link">¶</a></h1>
-<p>By default the image runs its own Postgres and Meilisearch and generates their
-passwords: none of these variables is needed. They serve an installation that
-brings its own database or search engine, or tunes the embedded ones. See
-<a href="../../operations/advanced-deployments/">Advanced deployments</a>.</p>
+<p>The variables for the Postgres database and the Meilisearch index. By default
+the image runs both itself and generates their passwords: a standard
+installation sets none of these. They serve an installation that brings its
+own database or search engine, or tunes the embedded ones; the procedures
+are in <a href="../../operations/advanced-deployments/">Advanced deployments</a>. None of
+them has a panel equivalent.</p>
 <h2 id="database">Database<a class="headerlink" href="#database" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3033,66 +3036,85 @@ brings its own database or search engine, or tunes the embedded ones. See
 <td><code>EVEY_EMBEDDED_POSTGRES</code></td>
 <td>unset</td>
 <td>Unset: embedded when <code>EVEY_DB_HOST</code> is unset, external otherwise. <code>true</code> or <code>false</code> to decide explicitly. Read by the entrypoint.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_POSTGRES_DATA_DIR</code></td>
 <td><code>/data/postgres</code></td>
-<td>Where the embedded cluster lives. It must be on a local filesystem, not a network share.</td>
+<td>Where the embedded cluster lives. It must be on a local filesystem, not a network share. Read by the entrypoint.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>EVEY_POSTGRES_IMPORT</code></td>
+<td><code>/data/postgres-import.sql.gz</code></td>
+<td>A gzipped <code>pg_dump</code> restored into the embedded cluster the first time it is created, then renamed <code>*.imported-&lt;date&gt;</code>. Ignored, with a message, when the cluster already exists. Read by the entrypoint.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_HOST</code></td>
 <td><code>localhost</code></td>
 <td>The database host. <strong>Setting it turns the embedded database off.</strong></td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PORT</code></td>
 <td><code>5432</code></td>
 <td>The database port.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_USER</code></td>
 <td><code>evey</code></td>
 <td>The database login. When it is a superuser (the embedded cluster and the shipped compose), the server keeps it for the restore only and runs as <code>EVEY_DB_APP_USER</code>.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_APP_USER</code></td>
 <td><code>evey_app</code></td>
 <td>The unprivileged role the server and its migrations run as when <code>EVEY_DB_USER</code> is a superuser. Created at boot, handed the database and its objects, given a new random password on every boot (never written anywhere). An SQL injection then cannot run programs or read files on the host.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PRIVILEGE_SPLIT</code></td>
 <td><code>true</code></td>
 <td><code>false</code> runs everything as <code>EVEY_DB_USER</code>, superuser included. A way out if a database refuses the split; the boot otherwise stops and names this variable.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_NAME</code></td>
 <td><code>evey</code></td>
 <td>The database name.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PASSWORD</code></td>
 <td>generated</td>
-<td>The password. With an external database the server refuses to start on the value <code>evey</code>.</td>
+<td>The password. With an external database the server refuses to start on the value <code>evey</code>, and warns on <code>changeme</code>.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PASSWORD_FILE</code></td>
 <td><code>/data/keys/postgres.password</code></td>
 <td>A file holding the password, read when <code>EVEY_DB_PASSWORD</code> is unset. Set by the image.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_SSLMODE</code></td>
 <td><code>disable</code> on loopback, <code>prefer</code> otherwise</td>
-<td><code>disable</code>, <code>prefer</code>, <code>require</code> or <code>verify-full</code>.</td>
+<td><code>disable</code>, <code>prefer</code>, <code>require</code> or <code>verify-full</code>. <code>prefer</code> against a remote host logs a warning: use <code>require</code> or <code>verify-full</code>.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_MAX_OPEN_CONNS</code></td>
 <td><code>25</code></td>
 <td>Open connections to the database. Each costs memory on the Postgres side; raise it only for a large deployment.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_MAX_IDLE_CONNS</code></td>
 <td><code>10</code></td>
-<td>Connections kept idle in the pool.</td>
+<td>Connections kept idle in the pool. Capped at the open count.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3102,7 +3124,8 @@ brings its own database or search engine, or tunes the embedded ones. See
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3110,35 +3133,46 @@ brings its own database or search engine, or tunes the embedded ones. See
 <td><code>EVEY_EMBEDDED_MEILI</code></td>
 <td><code>true</code></td>
 <td><code>false</code> uses the Meilisearch at <code>EVEY_MEILI_URL</code> instead of the embedded one. Read by the entrypoint.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_MEILI_URL</code></td>
 <td><code>http://localhost:7700</code></td>
 <td>The Meilisearch address.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>MEILI_MASTER_KEY</code></td>
 <td>generated</td>
-<td>The Meilisearch key. With an external instance, an empty or placeholder key refuses the start.</td>
+<td>The Meilisearch key. With an external instance, an empty or placeholder key refuses the start; a key under 16 characters logs a warning.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>MEILI_MASTER_KEY_FILE</code></td>
 <td><code>/data/keys/meili.key</code></td>
 <td>A file holding the key, read when <code>MEILI_MASTER_KEY</code> is unset. Set by the image.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>MEILI_DATA_DIR</code></td>
+<td><code>/data/meili</code></td>
+<td>Where the embedded index lives. Read by the entrypoint.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>MEILI_MAX_INDEXING_MEMORY</code></td>
 <td>about 20 % of the container's memory, at least 128 MiB</td>
 <td>The memory the embedded Meilisearch may use for indexing. Computed from the container limit, not the machine's memory, so a scan does not exhaust a small container. An explicit value is passed through.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
 internal/adapters/driven/postgres/approle.go - EnsureAppRole, HandOverToAppRole (approle_test.go)
 cmd/evey/database.go - appLogin
-internal/config/config.go - EVEY_DB_*, defaultSSLMode, envSecret (_FILE), EVEY_MEILI_URL, MEILI_MASTER_KEY
-docker/entrypoint.sh - EVEY_EMBEDDED_POSTGRES, EVEY_EMBEDDED_MEILI, EVEY_POSTGRES_DATA_DIR, MEILI_MAX_INDEXING_MEMORY
-Dockerfile - EVEY_DB_PASSWORD_FILE
+internal/config/config.go - EVEY_DB_*, defaultSSLMode, envSecret (_FILE), EVEY_MEILI_URL, MEILI_MASTER_KEY ; WarnValidate (password 'evey' / 'changeme', sslmode prefer, idle > open, key length)
+docker/entrypoint.sh - EVEY_EMBEDDED_POSTGRES, EVEY_EMBEDDED_MEILI, EVEY_POSTGRES_DATA_DIR, EVEY_POSTGRES_IMPORT, MEILI_DATA_DIR, MEILI_MAX_INDEXING_MEMORY
+Dockerfile - EVEY_DB_PASSWORD_FILE, MEILI_MASTER_KEY_FILE
 -->
 
 

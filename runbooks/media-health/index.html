@@ -1593,22 +1593,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#three-verdicts" class="md-nav__link">
+  <a href="#two-verdicts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Three verdicts
+        Two verdicts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Three verdicts">
+    <nav class="md-nav" aria-label="Two verdicts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repairable-here" class="md-nav__link">
+  <a href="#repairable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Repairable here
+        Repairable
       
     </span>
   </a>
@@ -1616,10 +1616,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
+  <a href="#info" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Information
+        Info
       
     </span>
   </a>
@@ -3040,22 +3040,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#three-verdicts" class="md-nav__link">
+  <a href="#two-verdicts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Three verdicts
+        Two verdicts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Three verdicts">
+    <nav class="md-nav" aria-label="Two verdicts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repairable-here" class="md-nav__link">
+  <a href="#repairable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Repairable here
+        Repairable
       
     </span>
   </a>
@@ -3063,10 +3063,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#information" class="md-nav__link">
+  <a href="#info" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Information
+        Info
       
     </span>
   </a>
@@ -3157,15 +3157,18 @@
 
 
 <h1 id="media-health">Media health<a class="headerlink" href="#media-health" title="Permanent link">¶</a></h1>
-<p><strong>Admin → Media Health</strong> reads every MKV/WebM file of your libraries and gives
-each one a single answer. The aim is a page that empties out: what Evey can fix,
-it fixes; the rest is mentioned once and can be marked as seen.</p>
+<p>A title seeks slowly, stalls at one point, or its sound drifts: <strong>Admin →
+Media Health</strong> reads every MKV/WebM file of your libraries and gives each one a
+single answer. The aim is a page that empties out: what Evey can fix, it fixes
+(<strong>Repair all</strong>); the rest is mentioned once and can be marked as seen.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Media Health after a scan: one file to repair, one remark" loading="lazy" src="../../images/admin-media-health.webp"></a>
 <br>
 <figcaption>A scan with one file Evey can repair (its seek index is missing) and one remark (surplus bytes after the end of the file, harmless).</figcaption>
 </figure>
-<h2 id="three-verdicts">Three verdicts<a class="headerlink" href="#three-verdicts" title="Permanent link">¶</a></h2>
+<h2 id="two-verdicts">Two verdicts<a class="headerlink" href="#two-verdicts" title="Permanent link">¶</a></h2>
+<p>A file that is not <strong>Healthy</strong> (index, container, sizes and audio timing
+check out) gets one of two answers, and deliberately only two:</p>
 <table>
 <thead>
 <tr>
@@ -3176,26 +3179,20 @@ it fixes; the rest is mentioned once and can be marked as seen.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>Healthy</strong></td>
-<td>Index, container, sizes and audio timing check out.</td>
-<td>Nothing.</td>
-</tr>
-<tr>
-<td><strong>Repairable here</strong></td>
+<td><strong>Repairable</strong></td>
 <td>A defect Evey repairs on this server.</td>
-<td><strong>Repair all</strong> handles them in the background.</td>
+<td><strong>Repair all</strong> handles them in the background; its count is exactly their count.</td>
 </tr>
 <tr>
-<td><strong>Information</strong></td>
+<td><strong>Info</strong></td>
 <td>Something measured about the file that Evey does not rewrite on its own.</td>
 <td>Nothing. Mark it as seen.</td>
 </tr>
 </tbody>
 </table>
-<p>None of them hands you a chore. A measurement Evey cannot act on is a
-remark, and a measurement can be wrong: if the file plays fine, it is
-fine.</p>
-<h3 id="repairable-here">Repairable here<a class="headerlink" href="#repairable-here" title="Permanent link">¶</a></h3>
+<p>Neither hands you a chore. A measurement Evey cannot act on is a remark, and
+a measurement can be wrong: if the file plays fine, it is fine.</p>
+<h3 id="repairable">Repairable<a class="headerlink" href="#repairable" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Missing seek index</strong>, or one that cannot be used. The symptom is a slow
   seek or a slow resume. The index is rebuilt in a temporary copy, the copy is
@@ -3213,7 +3210,7 @@ fine.</p>
   rewrites them side by side without re-encoding and checks that every packet
   made it before replacing the file.</li>
 </ul>
-<h3 id="information">Information<a class="headerlink" href="#information" title="Permanent link">¶</a></h3>
+<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Incomplete download</strong>: the end of the file never arrived. It plays up to
   the cut. No tool recovers the missing part; only the source does.</li>
@@ -3246,7 +3243,7 @@ follows the picture; only watching settles it.</p>
 judgement, not as a measurement, and <strong>History</strong> can undo it.</p>
 <h2 id="marking-as-seen">Marking as seen<a class="headerlink" href="#marking-as-seen" title="Permanent link">¶</a></h2>
 <p><strong>Seen, stop flagging</strong> (one file) and <strong>Mark all as seen</strong> (a group) take an
-Information remark out of the <strong>Awaiting</strong> view. Only remarks can be marked:
+Info remark out of the <strong>Awaiting</strong> view. Only remarks can be marked:
 a repairable defect gets repaired. The mark belongs to the file as it is: if its
 size or date changes, the next scan diagnoses it again. <strong>Flag again</strong> undoes
 the mark.</p>
@@ -3310,7 +3307,8 @@ undone from there without any copy:</p>
 container (no <code>:ro</code> on the volume); after a run that met a read-only volume,
 the page says so. Scanning works either way.</p>
 <h2 id="from-the-command-line">From the command line<a class="headerlink" href="#from-the-command-line" title="Permanent link">¶</a></h2>
-<p>The same engine is available from the operator CLI (see <code>cli.md</code>):</p>
+<p>The same engine is available from the operator CLI, see
+<a href="../cli/#media-maintenance">Command line</a>:</p>
 <ul>
 <li><code>evey admin reindex-no-cue --root &lt;dir&gt; [--apply] [--resync]</code> rebuilds the
   missing indexes, as a dry run unless <code>--apply</code> is given;</li>
@@ -3318,7 +3316,7 @@ the page says so. Scanning works either way.</p>
   readiness report.</li>
 </ul>
 <!-- sources
-verdicts and the dropped third verdict: internal/app/maintenance/seek_index.go - SeekStatus.Verdict, Ackable
+verdicts (two non-healthy answers, the dropped third one): internal/app/maintenance/seek_index.go - Verdict, SeekStatus.Verdict, Ackable ; labels: i18n admin.seekIndex.verdictHealthy/verdictRepairable/verdictInformational
 labels and hints: i18n admin.seekIndex.*, admin.repairJournal.*, admin.repairHistory.*, admin.syncPreview.*
 what can be undone without a copy: internal/app/maintenance/repair_journal.go - RepairRecord.Reversible
 apply an audio offset: internal/adapters/driving/grpcapi/admin_media.go - ApplyAudioShift

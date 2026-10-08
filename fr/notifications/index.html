@@ -121,7 +121,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#notifications" class="md-skip">
+        <a href="#e-mail-and-notifications" class="md-skip">
           Aller au contenu
         </a>
       
@@ -1085,7 +1085,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-e-mail" class="md-nav__link">
+  <a href="#set-up-e-mail" class="md-nav__link">
     <span class="md-ellipsis">
       
         Configurer l'e-mail
@@ -1096,10 +1096,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-each-profile-receives" class="md-nav__link">
+  <a href="#choose-what-a-profile-receives" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce que reçoit chaque profil
+        Choisir ce qu'un profil reçoit
       
     </span>
   </a>
@@ -1107,10 +1107,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#password-recovery" class="md-nav__link">
+  <a href="#let-people-reset-their-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Récupération du mot de passe
+        Permettre la réinitialisation du mot de passe
       
     </span>
   </a>
@@ -2998,7 +2998,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-e-mail" class="md-nav__link">
+  <a href="#set-up-e-mail" class="md-nav__link">
     <span class="md-ellipsis">
       
         Configurer l'e-mail
@@ -3009,10 +3009,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-each-profile-receives" class="md-nav__link">
+  <a href="#choose-what-a-profile-receives" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce que reçoit chaque profil
+        Choisir ce qu'un profil reçoit
       
     </span>
   </a>
@@ -3020,10 +3020,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#password-recovery" class="md-nav__link">
+  <a href="#let-people-reset-their-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Récupération du mot de passe
+        Permettre la réinitialisation du mot de passe
       
     </span>
   </a>
@@ -3053,38 +3053,66 @@
   </a>
 
 
-<h1 id="notifications">Notifications<a class="headerlink" href="#notifications" title="Permanent link">¶</a></h1>
+<h1 id="e-mail-and-notifications">E-mail et notifications<a class="headerlink" href="#e-mail-and-notifications" title="Permanent link">¶</a></h1>
 <p>Evey prévient chaque profil quand arrivent de nouveaux films, séries, saisons,
-épisodes ou albums. Les administrateurs sont aussi avertis des sauvegardes en
-échec, des erreurs de plugins et des nouvelles demandes de médias, et l'auteur
-d'une demande est prévenu quand elle reçoit une réponse.</p>
+épisodes ou albums, dans les applications et, une fois l'e-mail configuré,
+par e-mail. Cette page s'adresse à l'administrateur qui configure le serveur
+de messagerie et à quiconque choisit ce que son profil reçoit. Les
+administrateurs sont aussi avertis des sauvegardes en échec, des erreurs de
+plugins et des nouvelles demandes de médias, et l'auteur d'une demande est
+prévenu quand elle reçoit une réponse.</p>
 <h2 id="where-notifications-appear">Où apparaissent les notifications<a class="headerlink" href="#where-notifications-appear" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Dans chaque application</strong> : la cloche, avec le nombre de notifications non
-  lues. Toujours là, rien à configurer. Une notification est conservée 30 jours. La liste
-  ne montre que les titres des bibliothèques auxquelles le compte a accès.</li>
+  lues. Toujours là, rien à configurer. Une notification est conservée
+  30 jours. La liste ne montre que les titres des bibliothèques auxquelles le
+  compte a accès.</li>
 <li><strong>Push du navigateur</strong> : sur le web, chaque profil active <strong>Notifications
   push</strong> dans <strong>Paramètres → Notifications</strong>, une fois par navigateur. Le
   serveur crée ses clés de push au premier démarrage ; voir
   <a href="../environment/notifications/#browser-push">E-mail et notifications</a> pour
   fournir les vôtres. Les navigateurs n'autorisent le push que sur une adresse
-  HTTPS (ou <code>localhost</code>) ; ailleurs, le réglage affiche <strong>Les notifications push exigent une adresse HTTPS : ouvrez ce serveur en HTTPS pour les activer.</strong> Les applications Android et TV ne reçoivent pas
-  de notifications push.</li>
+  HTTPS (ou <code>localhost</code>) ; ailleurs, le réglage affiche <strong>Les notifications
+  push exigent une adresse HTTPS : ouvrez ce serveur en HTTPS pour les
+  activer.</strong> Les applications Android et TV ne reçoivent pas de notifications
+  push.</li>
 <li><strong>E-mail</strong> : une fois l'e-mail configuré, chaque notification est aussi
   envoyée à l'adresse du compte, dans la langue du profil, avec un lien vers le
   serveur. Un compte à plusieurs profils reçoit un seul e-mail par événement. Il
   n'y a pas de désinscription par utilisateur.</li>
 </ul>
-<h2 id="setting-up-e-mail">Configurer l'e-mail<a class="headerlink" href="#setting-up-e-mail" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Configuration du serveur → E-mail / SMTP</strong> : le serveur de messagerie,
-son port, le compte de connexion, l'adresse d'expédition et le mode TLS.
-L'enregistrement s'applique aussitôt, sans redémarrage. <strong>Envoyer un e-mail de
-test</strong> envoie un court message à l'adresse de votre propre compte avec les
-réglages enregistrés, et affiche la réponse du serveur de messagerie en cas
-d'échec.</p>
-<p><code>starttls</code> passe une connexion en clair en TLS (généralement port 587), <code>ssl</code>
-utilise TLS dès le départ (généralement port 465), <code>none</code> envoie sans
-chiffrement.</p>
+<h2 id="set-up-e-mail">Configurer l'e-mail<a class="headerlink" href="#set-up-e-mail" title="Permanent link">¶</a></h2>
+<p><strong>Admin → Configuration du serveur → E-mail / SMTP</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hôte SMTP</strong>, <strong>Port</strong></td>
+<td>Le serveur de messagerie. <code>587</code> avec <code>starttls</code> ou <code>465</code> avec <code>ssl</code> sont les paires habituelles.</td>
+</tr>
+<tr>
+<td><strong>Nom d'utilisateur</strong>, <strong>Mot de passe</strong></td>
+<td>Le compte de connexion.</td>
+</tr>
+<tr>
+<td><strong>Adresse d'expédition</strong></td>
+<td>L'adresse d'expéditeur de chaque message.</td>
+</tr>
+<tr>
+<td><strong>Mode TLS</strong></td>
+<td><code>starttls</code> passe une connexion en clair en TLS, <code>ssl</code> utilise TLS dès le départ, <code>none</code> envoie sans chiffrement.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Enregistrer les paramètres SMTP</strong> s'applique aussitôt, sans redémarrage.
+<strong>Envoyer un e-mail de test</strong> envoie un court message à l'adresse de votre
+propre compte avec les réglages enregistrés, et affiche la réponse du serveur
+de messagerie en cas d'échec.</p>
 <p>Les variables <code>EVEY_SMTP_*</code> servent de repli, tant que la carte n'a pas d'hôte :</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SMTP_HOST=smtp.example.com
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_SMTP_PORT=587
@@ -3093,12 +3121,16 @@ chiffrement.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>EVEY_SMTP_FROM=noreply@example.com
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>EVEY_SMTP_TLS=starttls
 </span></code></pre></div>
-<p>Dès qu'un hôte est enregistré dans la carte, tous les champs viennent de la
-carte et les variables sont ignorées : le serveur n'envoie donc jamais les
-identifiants des variables à un serveur de messagerie saisi dans le panneau.</p>
+<div class="admonition note">
+<p class="admonition-title">Une seule source à la fois</p>
+<p>Dès qu'un hôte est enregistré dans la carte, tous les champs viennent de
+la carte et les variables sont ignorées : le serveur n'envoie donc jamais
+les identifiants des variables à un serveur de messagerie saisi dans le
+panneau. Videz l'hôte pour revenir aux variables.</p>
+</div>
 <p>L'e-mail sert aux notifications et aux réinitialisations de mot de passe ; les
 invitations sont des liens que vous partagez vous-même.</p>
-<h2 id="what-each-profile-receives">Ce que reçoit chaque profil<a class="headerlink" href="#what-each-profile-receives" title="Permanent link">¶</a></h2>
+<h2 id="choose-what-a-profile-receives">Choisir ce qu'un profil reçoit<a class="headerlink" href="#choose-what-a-profile-receives" title="Permanent link">¶</a></h2>
 <p>Dans <strong>Paramètres → Notifications</strong>, chaque profil choisit un niveau pour
 <strong>Films</strong>, <strong>Séries</strong> et <strong>Musique</strong> :</p>
 <table>
@@ -3133,15 +3165,29 @@ niveaux Pertinentes et Importantes uniquement.</p>
 <p>Plusieurs épisodes d'une même série arrivés en moins de 24 heures donnent une
 seule notification qui les compte, et aucune n'est envoyée quand la série ou la
 saison vient d'être annoncée.</p>
-<h2 id="password-recovery">Récupération du mot de passe<a class="headerlink" href="#password-recovery" title="Permanent link">¶</a></h2>
+<h2 id="let-people-reset-their-password">Permettre la réinitialisation du mot de passe<a class="headerlink" href="#let-people-reset-their-password" title="Permanent link">¶</a></h2>
 <ol>
-<li>Configurez l'e-mail (voir plus haut).</li>
+<li>Configurez l'e-mail (ci-dessus).</li>
 <li>Activez <strong>Récupération du mot de passe</strong> dans <strong>Admin → Configuration du
    serveur → Paramètres du serveur</strong>. Le réglage s'applique immédiatement.</li>
 <li>La page de connexion affiche alors <strong>Mot de passe oublié ?</strong>, qui envoie un
    lien de réinitialisation par e-mail.</li>
 </ol>
-<p>Sans SMTP, le lien reste masqué, même avec l'option activée.</p>
+<p>Sans serveur de messagerie, le lien reste masqué, même avec l'option activée.</p>
+<!-- sources
+web push support: frontend/apps/web/src/lib/webpush.ts isPushSupported (serviceWorker + PushManager, secure context only) ; NotificationSettings.tsx shows pushNeedsHttps when unsupported
+types: internal/domain/notification/model.go (Type*, IsAdminOnly: backup_failed, plugin_error, media_request) ; emitted: internal/app/notification/event_handlers.go, batching.go
+retention 30 d: internal/app/notification/service.go defaultRetentionDays ; grouping 24 h: batching.go episodeGroupWindow + shouldSkipEpisodeNotif
+list filtered by library access: internal/adapters/driving/grpcapi/notification_handler.go allowedLibraryIDs
+bell on TV and mobile: frontend/apps/tv/src/components/TopHeader.tsx ; frontend/apps/mobile/app/(auth)/settings/notifications.tsx
+levels: batching.go shouldNotify (relevant == highly_relevant) + fetchFavoriteGenres (GetFavoriteGenresBatch minCount 3, window 200 sessions: watch_history_analyzer.go)
+defaults all: migrations/000005_notifications.up.sql (notification_settings_global) ; UI: frontend/apps/web/src/features/user/NotificationSettings.tsx ; i18n notificationSettings.level*
+email: internal/adapters/driven/email/notification_emailer.go (push title key, recipient locale, one per account per FanoutID, base URL link)
+SMTP live from the card, env fallback, panel host = panel only, defaults 587/starttls: internal/app/config/smtp.go (ResolveSMTPSettings, LiveSMTP) ; test send: internal/adapters/driving/http/smtp_test_handler.go
+labels: i18n admin.serverConfig emailSmtp, smtpHost, port, smtpUsername, smtpPassword, fromAddress, tlsMode, saveSmtp, sendTestEmail
+no native push in the mobile/TV apps (no push client) ; VAPID generated: cmd/evey/wire_helpers.go
+password recovery: admin.serverSettings.passwordRecovery ; gated on smtpConfigured (cmd/evey/wire.go) ; auth.login.forgotPassword
+-->
 
 
 

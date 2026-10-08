@@ -3103,37 +3103,45 @@
 
 
 <h1 id="server-and-network">Server and network<a class="headerlink" href="#server-and-network" title="Permanent link">¶</a></h1>
-<p>The address the server is published at, who it trusts, who may reach it from
-outside, and its limits on requests.</p>
+<p>The variables that say where the server is published, which proxies it
+believes, who may reach it from outside and how many requests it accepts.
+Most of them are set once in the compose file; what <strong>Admin → Remote Access</strong>
+stores afterwards wins over them, as explained in the
+<a href="../../configuration/">Configuration reference</a>.</p>
 <h2 id="address-and-ports">Address and ports<a class="headerlink" href="#address-and-ports" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_SERVER_BASE_URL</code></td>
 <td><code>http://localhost:9091</code></td>
-<td>The public address. An <code>https://</code> address turns on <code>Secure</code> cookies, HSTS and trust in <code>X-Forwarded-Proto</code>. E-mail links, single sign-on redirects and cast URLs are built from it, unless <strong>Admin → Remote Access → External URL</strong> is set, which wins. An <code>https://</code> External URL also turns HTTPS on when this one is plain HTTP.</td>
+<td>The public address. An <code>https://</code> address turns on <code>Secure</code> cookies, HSTS and trust in <code>X-Forwarded-Proto</code>. E-mail links, single sign-on redirects and cast URLs are built from it.</td>
+<td>Remote Access → <strong>External URL</strong> wins when set, live; an <code>https://</code> External URL also turns HTTPS on</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_PORT</code></td>
 <td><code>9090</code></td>
 <td>The internal gRPC port. The HTTP API and the web interface listen on this port plus one (<code>9091</code>).</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_GRPC_BIND</code></td>
 <td><code>127.0.0.1</code></td>
 <td>The address the gRPC port listens on. The remote-access gate does not cover gRPC, so widening it (<code>0.0.0.0</code>) logs a warning and makes firewalling it your job.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_NAME</code></td>
 <td><code>Evey</code></td>
-<td>The name shown on the sign-in page, in the apps' server list and in e-mails. <strong>Admin → Server Config</strong> overrides it.</td>
+<td>The name shown on the sign-in page, in the apps' server list and in e-mails.</td>
+<td>Server Config → Server Settings → <strong>Server Name</strong>, live</td>
 </tr>
 </tbody>
 </table>
@@ -3143,36 +3151,43 @@ outside, and its limits on requests.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_TRUSTED_PROXIES</code></td>
 <td>loopback only</td>
-<td>Networks whose forwarded client address is believed, comma-separated (for a proxy in a container: <code>172.16.0.0/12</code>, narrowed once known). Added to loopback, never replacing it. A list saved in <strong>Admin → Remote Access → Trusted proxies</strong> replaces this one live; emptying the field brings it back.</td>
+<td>Networks whose forwarded client address is believed, comma-separated (for a proxy in a container: <code>172.16.0.0/12</code>, narrowed once known). Added to loopback, never replacing it; a malformed entry stops the start.</td>
+<td>Remote Access → <strong>Trusted proxies</strong> replaces this list, live; emptying the field brings the variable back</td>
 </tr>
 <tr>
 <td><code>EVEY_REAL_IP_HEADER</code></td>
 <td><code>X-Forwarded-For</code></td>
 <td>The header a trusted proxy puts the client address in.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_FORWARDED_PROTO</code></td>
 <td>derived</td>
 <td>Deprecated: HTTPS is derived from the scheme of <code>EVEY_SERVER_BASE_URL</code>. Still accepted as an override, with a warning.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
+<p>Which proxy settings matter for streaming: <a href="../../reverse-proxy/">Reverse proxy configurations</a>.</p>
 <h2 id="remote-access">Remote access<a class="headerlink" href="#remote-access" title="Permanent link">¶</a></h2>
-<p>These seed the first start; <strong>Admin → Remote Access</strong> then stores and applies
-its own values without a restart.</p>
+<p>These seed the first start; <strong>Admin → Remote Access</strong> then stores its own
+values and applies them without a restart. How the gate decides:
+<a href="../../administration/remote-access/">Remote access and HTTPS</a>.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3180,44 +3195,50 @@ its own values without a restart.</p>
 <td><code>EVEY_REMOTE_ACCESS_ENABLED</code></td>
 <td>unset</td>
 <td>Unset: inferred at startup, on when <code>EVEY_SERVER_BASE_URL</code> or <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code> is public. <code>true</code> or <code>false</code>: your explicit choice, never overridden.</td>
+<td>Remote Access → <strong>Enable Remote Access</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code></td>
 <td>empty</td>
 <td>The public address, when it differs from <code>EVEY_SERVER_BASE_URL</code>. An <code>https://</code> address turns HTTPS mode on, like the base URL.</td>
+<td>Remote Access → <strong>External URL</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_LAN_NETWORKS</code></td>
 <td><code>10.0.0.0/8,172.16.0.0/12,192.168.0.0/16</code></td>
 <td>Networks treated as home. Add a VPN or CGNAT range (<code>100.64.0.0/10</code>) whose clients should count as local.</td>
+<td>Remote Access → <strong>LAN Networks</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_MAX_BITRATE_KBPS</code></td>
 <td><code>0</code></td>
 <td>A bitrate ceiling for clients outside the home, in kbit/s; <code>0</code> = none. A private address is never capped.</td>
+<td>Remote Access → <strong>Max Remote Bitrate</strong>, live</td>
 </tr>
 </tbody>
 </table>
-<p>How the gate behaves: <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</p>
 <h2 id="request-limits">Request limits<a class="headerlink" href="#request-limits" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_RATELIMIT_LOGIN_MAX</code></td>
 <td><code>10</code></td>
-<td>Sign-in attempts per address per minute. <strong>Admin → Server Config → Server Settings</strong> overrides it.</td>
+<td>Sign-in attempts per address per minute.</td>
+<td>Server Config → Server Settings → <strong>Login Rate Limit</strong>, live</td>
 </tr>
 <tr>
 <td><code>EVEY_RATELIMIT_GLOBAL_MAX</code></td>
 <td><code>300</code></td>
-<td>Requests per address per minute on the API. Overridable in the same place.</td>
+<td>Requests per address per minute on the API.</td>
+<td>Server Config → Server Settings → <strong>Global Rate Limit</strong>, live</td>
 </tr>
 </tbody>
 </table>
@@ -3228,7 +3249,8 @@ its own values without a restart.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3236,6 +3258,7 @@ its own values without a restart.</p>
 <td><code>PUID</code>, <code>PGID</code></td>
 <td>owner of the <code>/media</code> mounts</td>
 <td>The user and group the server runs as. <code>1001</code> is refused (reserved for plugins). Details in the <a href="../../configuration/#file-ownership-puid-and-pgid">Configuration reference</a>.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
@@ -3245,7 +3268,8 @@ its own values without a restart.</p>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3253,13 +3277,15 @@ its own values without a restart.</p>
 <td><code>EVEY_DEMO</code></td>
 <td><code>false</code></td>
 <td>Runs the server as the public demo: administration writes are locked, no e-mail, push or outgoing webhooks. Not for a real installation.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <!-- sources
-internal/config/config.go - EVEY_SERVER_BASE_URL, EVEY_SERVER_PORT, EVEY_GRPC_BIND, EVEY_SERVER_NAME, EVEY_REAL_IP_HEADER, EVEY_RATELIMIT_LOGIN_MAX, EVEY_RATELIMIT_GLOBAL_MAX, EVEY_REMOTE_ACCESS_*, EVEY_DEMO
-trusted proxies: internal/config/trusted_proxies.go
-remote access inference: internal/config/remote_access_resolve.go
+internal/config/config.go - EVEY_SERVER_BASE_URL, EVEY_SERVER_PORT, EVEY_GRPC_BIND, EVEY_SERVER_NAME, EVEY_REAL_IP_HEADER, EVEY_RATELIMIT_LOGIN_MAX, EVEY_RATELIMIT_GLOBAL_MAX, EVEY_REMOTE_ACCESS_*, EVEY_DEMO, forwardedProtoFromEnv, EffectiveBaseURL
+trusted proxies: internal/config/trusted_proxies.go (loopback baseline, malformed entry is an error) ; cmd/evey/admin_ops.go
+remote access inference: internal/config/remote_access_resolve.go ; cmd/evey/main.go (RemoteAccessConfigKey loaded from DB)
+panel: internal/adapters/driving/http/settings_handler.go (server.name, ratelimit.* live via SetLimit) ; i18n admin.remoteAccess.*, admin.serverSettings.*
 puid/pgid: docker/entrypoint.sh
 -->
 

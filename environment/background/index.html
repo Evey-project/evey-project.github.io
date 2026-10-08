@@ -3015,19 +3015,21 @@
 
 
 <h1 id="background-work">Background work<a class="headerlink" href="#background-work" title="Permanent link">¶</a></h1>
-<p>The passes the server runs on its own, and how they share the processor. How
-they behave: <a href="../../operations/background-work/">Background work and server load</a>.</p>
+<p>The variables behind the passes the server runs on its own and how they
+share the processor. What each pass does and how playback is protected from
+it: <a href="../../operations/background-work/">Background work and server load</a>.</p>
 <h2 id="cpu-share">CPU share<a class="headerlink" href="#cpu-share" title="Permanent link">¶</a></h2>
 <p>The share of the processor background tasks may use is set in <strong>Admin →
-Server Config → Processing power</strong>, live, without a restart. It has no
-environment variable. The two below size a pool by hand and bypass that share
-for it:</p>
+Server Config → Processing power</strong>, live, without a restart; it has no
+environment variable. The two variables below size a pool by hand and bypass
+that share for it.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
@@ -3035,81 +3037,85 @@ for it:</p>
 <td><code>EVEY_LIBRARY_SCAN_WORKERS</code></td>
 <td>from the share</td>
 <td>Files analysed in parallel during a scan.</td>
+<td>none</td>
 </tr>
 <tr>
 <td><code>EVEY_INTRO_DETECTION_MAX_PARALLEL</code></td>
 <td>from the share</td>
 <td>Titles analysed at once for intros and credits.</td>
+<td>none</td>
 </tr>
 </tbody>
 </table>
 <h2 id="passes">Passes<a class="headerlink" href="#passes" title="Permanent link">¶</a></h2>
 <p>Each variable has a key, also accepted as a row in <strong>Admin → Server Config →
-Config entries</strong>, which suggests these keys; the row wins. All are read at
-startup, and <strong>Background work</strong> in the same screen sets the main ones.</p>
+Config entries</strong>, which suggests these keys; the row wins over the
+environment. The <strong>Background work</strong> card of the same screen sets the main
+ones. All are read at startup, so a change applies at the next restart
+whichever way it is made.</p>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Panel key</th>
 <th>Default</th>
-<th>Effect</th>
+<th>What it does</th>
+<th>Panel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>EVEY_TRANSCODING_PAUSE_BG_ON_PLAYBACK</code></td>
-<td><code>transcoding.pause_bg_on_playback</code></td>
 <td>on</td>
 <td>Pauses background work while a stream plays. <code>off</code> keeps it running.</td>
+<td>Config entries <code>transcoding.pause_bg_on_playback</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL</code></td>
-<td><code>transcoding.keyframe_backfill</code></td>
 <td>on</td>
 <td>Indexes the keyframes of scanned files and classifies their frame rate. Direct Play and copy depend on it. <code>off</code> disables it.</td>
+<td>Config entries <code>transcoding.keyframe_backfill</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_BATCH</code></td>
-<td><code>transcoding.keyframe_backfill_batch</code></td>
 <td>server default</td>
 <td>Files per pass (&gt; 0).</td>
+<td>Config entries <code>transcoding.keyframe_backfill_batch</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_PAUSE_MS</code></td>
-<td><code>transcoding.keyframe_backfill_pause_ms</code></td>
 <td>server default</td>
 <td>Milliseconds between files (&gt;= 0).</td>
+<td>Config entries <code>transcoding.keyframe_backfill_pause_ms</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_KEYFRAME_BACKFILL_IDLE_SEC</code></td>
-<td><code>transcoding.keyframe_backfill_idle_sec</code></td>
 <td>server default</td>
 <td>Seconds between passes when idle (&gt; 0).</td>
+<td>Config entries <code>transcoding.keyframe_backfill_idle_sec</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_LEVEL_BACKFILL</code></td>
-<td><code>transcoding.level_backfill</code></td>
 <td>on</td>
 <td>Reads the H.264/HEVC level of files scanned before it was collected. <code>off</code> disables it.</td>
+<td>Config entries <code>transcoding.level_backfill</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_LEVEL_BACKFILL_BATCH</code>, <code>_PAUSE_MS</code>, <code>_IDLE_SEC</code></td>
-<td><code>transcoding.level_backfill_batch</code>, <code>_pause_ms</code>, <code>_idle_sec</code></td>
 <td>server default</td>
 <td>Same pacing, for this pass.</td>
+<td>Config entries <code>transcoding.level_backfill_batch</code>, <code>_pause_ms</code>, <code>_idle_sec</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_SNAPSHOT_FASTPATH</code></td>
-<td><code>transcoding.snapshot_fastpath</code></td>
 <td>on</td>
 <td>Extracts thumbnails with the fast in-process decoder. <code>off</code> uses the exact ffmpeg extractor only, to rule it out when a thumbnail shows the wrong frame.</td>
+<td>Config entries <code>transcoding.snapshot_fastpath</code>, restart</td>
 </tr>
 <tr>
 <td><code>EVEY_TITLE_PROBE</code></td>
-<td><code>transcoding.title_probe</code></td>
 <td>on</td>
 <td>Probes titles in the background at low priority, paused during playback. <code>off</code> disables it.</td>
+<td>Config entries <code>transcoding.title_probe</code>, restart</td>
 </tr>
 </tbody>
 </table>

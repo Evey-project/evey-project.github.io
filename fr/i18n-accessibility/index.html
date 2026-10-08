@@ -2882,10 +2882,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#what-is-and-isnt-translated" class="md-nav__link">
+  <a href="#what-is-and-is-not-translated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui est traduit, et ce qui ne l'est pas
+        Ce qui est traduit et ce qui ne l'est pas
       
     </span>
   </a>
@@ -2896,7 +2896,7 @@
   <a href="#supported-ui-languages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Langues de l'interface
+        Langues d'interface prises en charge
       
     </span>
   </a>
@@ -2904,10 +2904,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-string-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment ça fonctionne
+        Comment une chaîne arrive à l'écran
       
     </span>
   </a>
@@ -2915,10 +2915,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-limitations" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Limites, en toute honnêteté
+        Ce qui n'est pas encore fait
       
     </span>
   </a>
@@ -2957,7 +2957,7 @@
   <a href="#where-this-stands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Où en est Evey
+        Où en est-on
       
     </span>
   </a>
@@ -2965,7 +2965,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#whats-in-place" class="md-nav__link">
+  <a href="#what-is-in-place" class="md-nav__link">
     <span class="md-ellipsis">
       
         Ce qui est en place
@@ -2976,10 +2976,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-gaps-not-done-yet" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui manque encore
+        Ce qui n'est pas encore fait
       
     </span>
   </a>
@@ -3085,10 +3085,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#what-is-and-isnt-translated" class="md-nav__link">
+  <a href="#what-is-and-is-not-translated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui est traduit, et ce qui ne l'est pas
+        Ce qui est traduit et ce qui ne l'est pas
       
     </span>
   </a>
@@ -3099,7 +3099,7 @@
   <a href="#supported-ui-languages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Langues de l'interface
+        Langues d'interface prises en charge
       
     </span>
   </a>
@@ -3107,10 +3107,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#how-a-string-reaches-the-screen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment ça fonctionne
+        Comment une chaîne arrive à l'écran
       
     </span>
   </a>
@@ -3118,10 +3118,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-limitations" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Limites, en toute honnêteté
+        Ce qui n'est pas encore fait
       
     </span>
   </a>
@@ -3160,7 +3160,7 @@
   <a href="#where-this-stands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Où en est Evey
+        Où en est-on
       
     </span>
   </a>
@@ -3168,7 +3168,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#whats-in-place" class="md-nav__link">
+  <a href="#what-is-in-place" class="md-nav__link">
     <span class="md-ellipsis">
       
         Ce qui est en place
@@ -3179,10 +3179,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#honest-gaps-not-done-yet" class="md-nav__link">
+  <a href="#what-is-not-done-yet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qui manque encore
+        Ce qui n'est pas encore fait
       
     </span>
   </a>
@@ -3229,133 +3229,175 @@
 
 
 <h1 id="languages--accessibility">Langues et accessibilité<a class="headerlink" href="#languages--accessibility" title="Permanent link">¶</a></h1>
-<p>Un état des lieux honnête d'Evey sur l'internationalisation (i18n) et
-l'accessibilité (a11y) : ce qui fonctionne, comment, et ce qui ne fonctionne pas
-encore. C'est un projet auto-hébergé construit et maintenu par une seule
-personne : considérez l'accessibilité en particulier comme <em>faite au mieux, pas
-certifiée</em>.</p>
-<hr>
+<p>Où en est Evey sur l'internationalisation (i18n) et l'accessibilité (a11y) :
+ce qui est traduit et comment le catalogue atteint chaque client, puis ce
+qui est en place pour les technologies d'assistance et ce qui ne l'est pas.
+Le catalogue vit dans <code>i18n/&lt;locale&gt;/*.yaml</code> à la racine du dépôt, servi
+par <code>internal/pkg/i18n</code> et chargé par le module i18n de chaque application.
+C'est un projet auto-hébergé maintenu par une seule personne : considérez
+l'accessibilité en particulier comme faite au mieux, pas certifiée.</p>
 <h2 id="internationalization-i18n">Internationalisation (i18n)<a class="headerlink" href="#internationalization-i18n" title="Permanent link">¶</a></h2>
-<h3 id="what-is-and-isnt-translated">Ce qui est traduit, et ce qui ne l'est pas<a class="headerlink" href="#what-is-and-isnt-translated" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Traduit :</strong> l'interface elle-même : boutons, menus, réglages, messages
-  d'erreur, textes des notifications push, e-mails de notification (dans la langue du
-  destinataire). Les e-mails de réinitialisation du mot de passe partent en
-  anglais.</li>
-<li><strong>Pas traduit par Evey :</strong> les métadonnées des médias (titres, résumés,
-  genres) viennent de votre source de métadonnées (TMDB/OMDb), dans la <strong>Langue
-  des métadonnées</strong> choisie dans l'assistant de configuration ou dans <strong>Admin →
-  Configuration du serveur → Langue et région</strong> (<code>EVEY_METADATA_LANGUAGE</code> n'est
-  que la valeur par défaut), indépendante de la langue de l'interface. Vos bibliothèques, vos noms de fichiers et tout ce
-  que vous saisissez sont conservés tels quels.</li>
-</ul>
-<p>L'interface peut donc être en français et le synopsis d'un film en anglais (ou
-l'inverse) : ce sont deux réglages distincts.</p>
-<h3 id="supported-ui-languages">Langues de l'interface<a class="headerlink" href="#supported-ui-languages" title="Permanent link">¶</a></h3>
+<h3 id="what-is-and-is-not-translated">Ce qui est traduit et ce qui ne l'est pas<a class="headerlink" href="#what-is-and-is-not-translated" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Traduit par Evey</th>
+<th>Non traduit par Evey</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>l'habillage de l'interface : boutons, menus, réglages, messages d'erreur, texte des notifications push, e-mails de notification (dans la langue du destinataire)</td>
+<td>les métadonnées des médias (titres, résumés, genres), qui viennent du fournisseur de métadonnées dans la <strong>Langue des métadonnées</strong> choisie dans l'assistant de configuration ou dans <strong>Admin → Configuration du serveur → Langue et région</strong> (<code>EVEY_METADATA_LANGUAGE</code> n'est que la valeur par défaut)</td>
+</tr>
+<tr>
+<td></td>
+<td>vos propres bibliothèques, les noms de fichiers et tout ce que vous saisissez, stockés tels quels</td>
+</tr>
+</tbody>
+</table>
+<p>Les e-mails de réinitialisation de mot de passe sont envoyés en anglais. La
+langue de l'interface et la langue des métadonnées sont deux réglages
+distincts : l'interface peut être en français pendant que le synopsis d'un
+film est en anglais, ou l'inverse.</p>
+<h3 id="supported-ui-languages">Langues d'interface prises en charge<a class="headerlink" href="#supported-ui-languages" title="Permanent link">¶</a></h3>
 <p>Six : <strong>anglais (en)</strong>, <strong>français (fr)</strong>, <strong>allemand (de)</strong>, <strong>espagnol
-(es)</strong>, <strong>chinois (zh)</strong>, <strong>hindi (hi)</strong>. L'anglais est la langue source et la
-langue de repli : un texte absent dans une autre langue s'affiche en anglais
-plutôt que vide ou sous forme de clé.</p>
-<h3 id="how-it-works">Comment ça fonctionne<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h3>
+(es)</strong>, <strong>chinois (zh)</strong>, <strong>hindi (hi)</strong>. L'anglais est la langue source et
+la langue de repli : toute chaîne manquante dans une autre langue retombe sur
+l'anglais plutôt que d'afficher un blanc ou une clé.</p>
+<h3 id="how-a-string-reaches-the-screen">Comment une chaîne arrive à l'écran<a class="headerlink" href="#how-a-string-reaches-the-screen" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Une seule source de vérité :</strong> <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a> à la racine
-  du dépôt, découpé en espaces de noms (<code>common</code>, <code>auth</code>, <code>media</code>, <code>player</code>,
-  <code>admin</code>, <code>errors</code>, <code>notifications</code>, <code>mobile</code>, <code>downloads</code>, <code>requests</code>). Le même
-  catalogue alimente toutes les surfaces.</li>
-<li>Le <strong>serveur</strong> le charge et le sert à <code>GET /api/v1/i18n/{locale}</code>, et s'en sert
-  directement pour traduire les messages d'erreur de l'API et le texte des
-  notifications.</li>
-<li>Les <strong>applications web, mobile et TV</strong> chargent les traductions depuis ce point
-  d'accès (i18next + http-backend), les gardent en cache localement, et tiennent
-  <code>&lt;html lang&gt;</code> à jour avec la langue active, pour que les aides techniques
-  annoncent la bonne langue.</li>
-<li>La langue vient de la préférence de votre compte, sinon de la langue du
-  navigateur ou de l'appareil (<code>Accept-Language</code> est lu, sans la région :
-  <code>fr-FR</code> → <code>fr</code>), sinon de la <strong>Langue du serveur</strong> de <strong>Admin → Configuration
-  du serveur → Langue et région</strong> (qui fixe aussi la langue des nouveaux
-  comptes), sinon de l'anglais.</li>
-<li>L'interpolation et les pluriels passent par i18next (<code>{{count}}</code>, etc.).</li>
+<li><strong>Une seule source de vérité :</strong> <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a> à la
+  racine du dépôt, découpé en espaces de noms (<code>common</code>, <code>auth</code>, <code>media</code>,
+  <code>player</code>, <code>admin</code>, <code>errors</code>, <code>notifications</code>, <code>mobile</code>, <code>downloads</code>,
+  <code>requests</code>). Le même catalogue alimente toutes les surfaces.</li>
+<li>Le <strong>serveur</strong> le charge et le sert sur <code>GET /api/v1/i18n/{locale}</code>, et
+  l'utilise directement pour les messages d'erreur traduits de l'API et le
+  texte des notifications.</li>
+<li>L'<strong>application web</strong> charge les traductions depuis ce point d'accès
+  (i18next avec le backend HTTP), en garde une copie dans le stockage local
+  du navigateur pour le prochain démarrage, et maintient <code>&lt;html lang&gt;</code> en
+  phase avec la langue active pour que les technologies d'assistance
+  annoncent la bonne langue. Les <strong>applications mobile et TV</strong> chargent
+  depuis le même point d'accès via le module i18n natif partagé et
+  embarquent un socle anglais (<code>fallback.en.json</code>, <code>offlineStrings.ts</code>) pour
+  les écrans affichés avant qu'un serveur ne réponde.</li>
+<li>La langue est choisie d'après la préférence du compte, puis la langue du
+  navigateur ou de l'appareil (<code>Accept-Language</code> est analysé, région
+  retirée : <code>fr-FR</code> devient <code>fr</code>), puis la <strong>Langue du serveur</strong> de <strong>Admin →
+  Configuration du serveur → Langue et région</strong> (qui fixe aussi la langue des
+  nouveaux comptes), puis l'anglais.</li>
+<li>L'interpolation et le pluriel passent par i18next (<code>{{count}}</code>, etc.).</li>
 </ul>
-<h3 id="honest-limitations">Limites, en toute honnêteté<a class="headerlink" href="#honest-limitations" title="Permanent link">¶</a></h3>
+<h3 id="what-is-not-done-yet">Ce qui n'est pas encore fait<a class="headerlink" href="#what-is-not-done-yet" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>La complétude varie.</strong> L'anglais fait foi et est toujours complet ; les cinq
-  autres langues sont tenues à parité à la main, avec un script de contrôle, mais
-  une toute nouvelle fonction peut arriver d'abord en anglais et s'afficher en
-  anglais en attendant sa traduction.</li>
-<li><strong>Pas encore de langue écrite de droite à gauche.</strong> Ni arabe, ni hébreu, ni
-  persan, et la mise en page n'a été ni construite ni testée pour ce sens
-  d'écriture : en ajouter une est un vrai chantier (propriétés CSS logiques,
-  gestion de <code>dir</code>), pas un simple fichier de traduction.</li>
-<li><strong>Les traductions ne sont pas relues par des professionnels.</strong> Elles sont de
-  qualité communautaire ou mainteneur. Les corrections sont les bienvenues.</li>
-<li><strong>La mise en forme selon la langue est partielle.</strong> Les dates et les nombres
-  s'appuient sur <code>Intl</code> et la langue du navigateur ou de la plateforme, et ne
-  sont pas branchés uniformément sur tous les écrans.</li>
+<li><strong>La complétude varie.</strong> L'anglais fait référence et est toujours complet ;
+  les cinq autres langues sont maintenues à parité à la main, avec un test
+  (<code>internal/pkg/i18n/parity_test.go</code>) qui échoue quand un jeu de clés
+  dérive, mais une toute nouvelle fonctionnalité peut arriver d'abord en
+  anglais et se replier dessus jusqu'à sa traduction.</li>
+<li><strong>Pas de langue de droite à gauche.</strong> Il n'y a ni arabe, ni hébreu, ni
+  persan, et la mise en page n'a été ni conçue ni testée pour le RTL : en
+  ajouter une est un vrai travail (propriétés CSS logiques, gestion de
+  <code>dir</code>), pas seulement un fichier de traduction.</li>
+<li><strong>Les traductions ne sont pas relues par des professionnels.</strong> Elles sont
+  de qualité mainteneur. Les corrections sont bienvenues.</li>
+<li><strong>Le formatage selon la locale est partiel.</strong> Les dates et les nombres
+  reposent sur <code>Intl</code> de la plateforme ou la locale du navigateur et ne sont
+  pas câblés uniformément sur chaque écran.</li>
 </ul>
 <h3 id="adding-or-fixing-a-language">Ajouter ou corriger une langue<a class="headerlink" href="#adding-or-fixing-a-language" title="Permanent link">¶</a></h3>
 <ol>
-<li>Copiez <code>i18n/en/</code> vers <code>i18n/&lt;votre-locale&gt;/</code> et traduisez les valeurs YAML
-   (gardez les clés).</li>
-<li>Ajoutez la locale à la liste autorisée dans
+<li>Copiez <code>i18n/en/</code> vers <code>i18n/&lt;votre-locale&gt;/</code> et traduisez les valeurs
+   YAML (gardez les clés).</li>
+<li>Ajoutez la locale à la liste d'autorisation dans
    <a href="https://github.com/Evey-project/evey/blob/master/internal/pkg/i18n/i18n.go"><code>internal/pkg/i18n/i18n.go</code></a>
    (<code>supportedLocales</code>).</li>
-<li>Gardez exactement le même jeu de clés dans toutes les langues : le contrôle de
-   parité échoue sinon.</li>
+<li>Gardez le jeu de clés identique entre les locales : le test de parité
+   échoue sinon, et <code>TestI18nPlaceholdersAgreeAcrossLocales</code> vérifie aussi
+   que les <code>{{espaces réservés}}</code> de chaque chaîne concordent.</li>
 </ol>
-<hr>
 <h2 id="accessibility-a11y">Accessibilité (a11y)<a class="headerlink" href="#accessibility-a11y" title="Permanent link">¶</a></h2>
-<h3 id="where-this-stands">Où en est Evey<a class="headerlink" href="#where-this-stands" title="Permanent link">¶</a></h3>
-<p>Evey est construit avec du HTML sémantique, des libellés ARIA et les propriétés
-d'accessibilité de React Native, et quelques points ci-dessous sont délibérés.
-Mais il <strong>n'a pas</strong> été audité formellement au regard des WCAG, la suite de tests
-ne contient <strong>aucun test d'accessibilité automatisé</strong>, et il <strong>n'a pas</strong> été
-testé systématiquement avec des lecteurs d'écran. Certaines parties sont
-probablement utilisables avec des aides techniques ; d'autres probablement pas.
-Si vous en dépendez, attendez-vous à des aspérités et signalez-les précisément.</p>
-<h3 id="whats-in-place">Ce qui est en place<a class="headerlink" href="#whats-in-place" title="Permanent link">¶</a></h3>
+<h3 id="where-this-stands">Où en est-on<a class="headerlink" href="#where-this-stands" title="Permanent link">¶</a></h3>
+<p>Evey est construit avec du HTML sémantique, des libellés ARIA et les
+propriétés d'accessibilité de React Native, et quelques points ci-dessous
+sont délibérés. Mais il n'a <strong>pas</strong> été formellement audité au regard des
+WCAG, il n'y a <strong>aucun test d'accessibilité automatisé</strong> dans la suite, et il
+n'a <strong>pas</strong> été testé systématiquement avec des lecteurs d'écran. Des parties
+sont probablement utilisables avec une technologie d'assistance ; d'autres
+probablement pas. Si vous en dépendez, attendez-vous à des aspérités et
+signalez des cas précis.</p>
+<h3 id="what-is-in-place">Ce qui est en place<a class="headerlink" href="#what-is-in-place" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Domaine</th>
+<th>Ce qui est fait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mouvement réduit</td>
+<td><code>prefers-reduced-motion: reduce</code> est respecté globalement (<code>frontend/apps/web/src/styles/main.css</code>) : les animations et transitions sont en pratique désactivées quand votre système le demande</td>
+</tr>
+<tr>
+<td>Langue pour les technologies d'assistance</td>
+<td><code>&lt;html lang&gt;</code> suit la langue active de l'interface</td>
+</tr>
+<tr>
+<td>Clavier (lecteur)</td>
+<td>commandes clavier complètes avec un aide-mémoire des raccourcis à l'écran (<code>?</code>, <code>KeyboardShortcutsOverlay.tsx</code>) ; les raccourcis sont suspendus pendant que vous saisissez dans un champ</td>
+</tr>
+<tr>
+<td>Commandes libellées</td>
+<td>les boutons à icône seule et les curseurs portent <code>aria-label</code> sur le web et <code>accessibilityLabel</code>/<code>accessibilityRole</code> sur mobile (la majeure partie des commandes interactives, pas toutes)</td>
+</tr>
+<tr>
+<td>Thèmes</td>
+<td>cinq thèmes livrés d'origine (sombre par défaut, AMOLED, dark-red, light-default, light-blue) ; d'autres via des plugins de thème</td>
+</tr>
+<tr>
+<td>Android TV</td>
+<td>gestion du focus au pavé directionnel pour la navigation à la télécommande</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-is-not-done-yet">Ce qui n'est pas encore fait<a class="headerlink" href="#what-is-not-done-yet" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Mouvements réduits :</strong> <code>prefers-reduced-motion: reduce</code> est respecté partout :
-  animations et transitions sont en pratique désactivées quand votre système le
-  demande.</li>
-<li><strong>Langue pour les aides techniques :</strong> <code>&lt;html lang&gt;</code> suit la langue active de
-  l'interface.</li>
-<li><strong>Clavier (lecteur) :</strong> des commandes clavier complètes, avec un aide-mémoire
-  des raccourcis à l'écran (<code>?</code>), et les raccourcis sont suspendus pendant la
-  saisie dans un champ.</li>
-<li><strong>Contrôles libellés :</strong> les boutons et curseurs réduits à une icône portent un
-  <code>aria-label</code> sur le web et un <code>accessibilityLabel</code>/<code>accessibilityRole</code> sur
-  mobile (pour la majeure partie des contrôles interactifs, pas tous).</li>
-<li><strong>Thèmes :</strong> cinq thèmes sont fournis (sombre par défaut, AMOLED, rouge sombre,
-  clair par défaut, bleu clair) ; d'autres via les plugins de thème.</li>
-<li><strong>Android TV :</strong> gestion du focus à la croix directionnelle pour la navigation
-  à la télécommande.</li>
-</ul>
-<h3 id="honest-gaps-not-done-yet">Ce qui manque encore<a class="headerlink" href="#honest-gaps-not-done-yet" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Pas de passage au lecteur d'écran.</strong> Les parcours NVDA, VoiceOver et
-  TalkBack ne sont pas vérifiés ; certains composants sur mesure (menus,
-  fenêtres, barre de progression, choix des pistes) peuvent ne pas annoncer
-  correctement leur état ou leur rôle.</li>
-<li><strong>La gestion du focus n'est pas auditée.</strong> Le style de focus visible et l'ordre
-  du focus dans les fenêtres et superpositions sont par endroits incohérents.</li>
-<li><strong>Le contraste n'est mesuré que pour les thèmes intégrés.</strong> Un test unitaire
-  (<code>frontend/packages/theme/src/contrast.test.ts</code>) impose à chaque thème fourni
-  le niveau WCAG AA 4,5:1 pour la couleur d'accent, les trois niveaux de texte
-  et les couleurs d'alerte, sur le fond et les deux surfaces ; l'application TV
-  revérifie ses propres couleurs dérivées. Les plugins de thème et les couleurs
-  qu'un plugin injecte en cours d'exécution ne sont pas vérifiés : un thème
-  personnalisé peut encore échouer par endroits. Le niveau AAA n'est pas visé.</li>
-<li><strong>Pas de réglage de taille du texte dans l'application</strong>, au-delà du zoom du
+<li><strong>Aucune passe au lecteur d'écran.</strong> Les parcours NVDA/VoiceOver/TalkBack
+  ne sont pas vérifiés ; certains composants personnalisés (menus, boîtes de
+  dialogue, barre de progression, sélecteurs de pistes) peuvent ne pas
+  annoncer correctement leur état ou leur rôle.</li>
+<li><strong>La gestion du focus n'est pas auditée.</strong> Le style du focus visible et
+  l'ordre de focus dans les boîtes de dialogue et les surcouches sont
+  incohérents par endroits.</li>
+<li><strong>Le contraste n'est mesuré que pour les thèmes intégrés.</strong> Un test
+  unitaire (<code>frontend/packages/theme/src/contrast.test.ts</code>) impose à chaque
+  thème livré le niveau WCAG AA 4,5:1 pour l'accent, les trois gammes de
+  texte et le jeu de danger contre le fond et les deux surfaces ; l'application
+  TV revérifie ses jetons dérivés (<code>ThemeProvider.contrast.test.ts</code>). Les
+  plugins de thème et les couleurs qu'un plugin injecte à l'exécution ne sont
+  pas vérifiés : un thème personnalisé peut encore échouer par endroits. Le
+  niveau AAA n'est pas visé.</li>
+<li><strong>Pas de mise à l'échelle du texte dans l'application</strong> au-delà du zoom du
   navigateur ou du système, et pas de mode contraste élevé dédié.</li>
-<li><strong>Le style des sous-titres sur mobile est limité</strong> (une contrainte du lecteur
-  <code>expo-video</code> sous-jacent), même si les pistes de sous-titres elles-mêmes sont
-  lues.</li>
+<li><strong>Le style des sous-titres sur mobile est limité</strong> (une contrainte du
+  lecteur <code>expo-video</code> sous-jacent), même si les pistes de sous-titres et de
+  légendes elles-mêmes sont lues.</li>
 </ul>
 <h3 id="reporting-an-issue">Signaler un problème<a class="headerlink" href="#reporting-an-issue" title="Permanent link">¶</a></h3>
-<p>Indiquez la page ou l'écran, le contrôle précis, ce que vous attendiez, et l'aide
-technique utilisée avec sa version. Un signalement concret se corrige ; « ce
-n'est pas accessible » ne permet pas d'agir. Les corrections d'accessibilité
-sont traitées au mieux.</p>
+<p>Indiquez la page ou l'écran, la commande précise, ce que vous attendiez, et
+la technologie d'assistance et sa version. Les signalements concrets sont
+corrigés ; « ce n'est pas accessible » ne permet pas d'agir. Les corrections
+d'accessibilité sont traitées au mieux.</p>
+<!-- sources
+catalogue: i18n/en, de, es, fr, hi, zh ; internal/pkg/i18n/i18n.go - supportedLocales, FallbackLocale, ParseLocale ; internal/pkg/i18n/parity_test.go ; internal/contractguard - TestI18nPlaceholdersAgreeAcrossLocales, TestServerEmittedI18nKeysExistInCatalogue
+endpoint: internal/adapters/driving/http/server.go - GET /api/v1/i18n/{locale}
+loaders: frontend/apps/web/src/i18n/index.ts - HttpBackend, getCached, documentElement.lang ; frontend/packages/client/src/native/i18n.ts ; frontend/apps/mobile/src/i18n/fallback.en.json ; frontend/apps/tv/src/i18n/offlineStrings.ts
+mails: internal/adapters/driven/email/password_reset_emailer.go ; internal/adapters/driven/email/notification_emailer.go - WithNotificationLocale
+labels: i18n admin.serverConfig.languageRegion, serverLanguage, metadataLanguage
+a11y: frontend/apps/web/src/styles/main.css - prefers-reduced-motion ; frontend/apps/web/src/features/playback/KeyboardShortcutsOverlay.tsx ; frontend/packages/theme/src/themeVars.ts ; frontend/packages/theme/src/contrast.test.ts ; frontend/apps/tv/src/providers/ThemeProvider.contrast.test.ts ; frontend/apps/mobile/package.json - expo-video
+-->
 
 
 

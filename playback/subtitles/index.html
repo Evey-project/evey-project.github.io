@@ -1344,6 +1344,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-each-format-does-to-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each format does to the video
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#subtitle-burn-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2962,6 +2973,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-each-format-does-to-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each format does to the video
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#subtitle-burn-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3007,7 +3029,12 @@
 
 
 <h1 id="subtitles">Subtitles<a class="headerlink" href="#subtitles" title="Permanent link">¶</a></h1>
-<p>What happens to a subtitle depends on its format: text, or pictures.</p>
+<p>How a subtitle is shown on your device, and whether choosing it changes how
+the video is delivered. For viewers; the only setting that matters is the
+profile's <strong>Subtitle Burn-in</strong>, in <strong>Settings → Playback</strong>. The short
+answer: text and Blu-ray subtitles never touch the video, DVD and broadcast
+subtitles are burned in and force a re-encode.</p>
+<h2 id="what-each-format-does-to-the-video">What each format does to the video<a class="headerlink" href="#what-each-format-does-to-the-video" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -3021,13 +3048,13 @@
 <tr>
 <td>Text</td>
 <td>SRT, ASS/SSA, WebVTT, subtitles inside the file</td>
-<td>Sent alongside the video and drawn by the player</td>
+<td>Sent alongside the video and drawn by the player, with your <strong>Subtitle Style</strong></td>
 <td>None</td>
 </tr>
 <tr>
 <td>PGS (Blu-ray)</td>
 <td><code>hdmv_pgs_subtitle</code></td>
-<td>Decoded into images once by the server, cached, and drawn by the player</td>
+<td>Decoded into images once by the server, cached, and drawn by the player as they are</td>
 <td>None</td>
 </tr>
 <tr>
@@ -3048,36 +3075,56 @@ merely carries one, or marks it as default, keeps its Direct Play.</p>
 <h2 id="subtitle-burn-in">Subtitle Burn-in<a class="headerlink" href="#subtitle-burn-in" title="Permanent link">¶</a></h2>
 <p>The profile setting <strong>Subtitle Burn-in</strong> (<strong>Settings → Playback</strong>) governs the
 formats of the last row:</p>
-<ul>
-<li><strong>Auto</strong> and <strong>Always burn in</strong>: a selected VobSub, DVB or XSUB track is
-  burned in. Text is never burned in, whatever the setting.</li>
-<li><strong>Never burn in</strong>: the video is never re-encoded for a subtitle. A VobSub,
-  DVB or XSUB track then cannot be shown.</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>A selected VobSub, DVB or XSUB track</th>
+<th>Text and PGS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Auto</strong></td>
+<td>Burned in, the video is re-encoded.</td>
+<td>Drawn by the player.</td>
+</tr>
+<tr>
+<td><strong>Always burn in</strong></td>
+<td>Same as Auto.</td>
+<td>Drawn by the player: text is never burned in, whatever the setting.</td>
+</tr>
+<tr>
+<td><strong>Never burn in</strong></td>
+<td>Cannot be shown: the video is never re-encoded for a subtitle.</td>
+<td>Drawn by the player.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="choosing-and-adjusting">Choosing and adjusting<a class="headerlink" href="#choosing-and-adjusting" title="Permanent link">¶</a></h2>
 <ul>
 <li>The players select the subtitle of the profile's <strong>Default Subtitle
   Language</strong>, then the track the file marks as default (a forced track, for
-  example).</li>
+  example). A track chosen by hand is never overridden, and a new title
+  starts the choice from scratch.</li>
 <li><strong>Subtitle sync</strong> in the player shifts the subtitles for the current title
   (positive values show them later). It applies at once.</li>
-<li><strong>Subtitle Style</strong> sets the size, colour, background, font and position of
-  text subtitles.</li>
+<li><strong>Subtitle Style</strong> sets the size, text colour, background, font, shadow and
+  position of text subtitles. PGS images are drawn as they are.</li>
 <li><strong>Upload subtitle…</strong> adds a file for the title.</li>
 <li>With an OpenSubtitles key (see <a href="../../administration/libraries/#metadata-keys">Libraries and metadata</a>),
   the server API can search for and download a subtitle the file does not carry
   (<code>GET /api/v1/media/{id}/subtitles/search</code>, then
   <code>POST /api/v1/media/{id}/subtitles/download</code>). The file is saved in a
-  <code>.subtitles</code> folder next to the film.
-  The apps do not offer this search yet.</li>
+  <code>.subtitles</code> folder next to the film. The apps do not offer this search.</li>
 </ul>
 <!-- sources
 decision: internal/app/transcoding/decision.go - evaluateSubtitle, forceBurnVideoTranscode
-client-drawn pgs, burn-in formats: frontend/packages/api/src/imageSubtitles.ts - isClientDrawableSubtitle, isBurnInSubtitle ; internal/adapters/driving/http/subtitle_pgs.go
-only when selected: frontend/packages/api/src/clientSubtitleTrack.ts - burnInSubtitleIndex
+client-drawn pgs, burn-in formats: frontend/packages/api/src/imageSubtitles.ts - isImageSubtitle, isClientDrawableSubtitle, isBurnInSubtitle ; internal/adapters/driving/http/subtitle_pgs.go
+only when selected: frontend/packages/api/src/clientSubtitleTrack.ts - burnInSubtitleIndex ; frontend/packages/client/src/hooks/usePlayerTrackSelection.ts (profile languages, then the file's default; hand pick never overridden)
 players: frontend/apps/mobile/src/components/player/SubtitleOverlay.tsx ; frontend/apps/tv/src/components/SubtitleOverlay.tsx ; frontend/apps/web/src/features/playback/PGSSubtitleOverlay.tsx
-opensubtitles: internal/app/subtitle/service.go ; internal/adapters/driving/http/subtitle_handler.go - registerSubtitleRoutes (no client calls it)
-labels: i18n auth.settings.playback.subtitleBurnIn*, subtitleLanguage ; player.subtitleSync, subtitleStyle, uploadSubtitle
+opensubtitles: internal/app/subtitle/service.go (.subtitles folder) ; internal/adapters/driving/http/subtitle_handler.go - registerSubtitleRoutes (no client calls search/download)
+labels: i18n auth.settings.playback.subtitleBurnIn, subtitleBurnAuto, subtitleBurnAlways, subtitleBurnNever, subtitleLanguage ; player.settings.subtitleSync, subtitleStyle, uploadSubtitle ; player.subtitleStyle.* ; player.streamInfo.reason.subtitle_burn_in
 -->
 
 

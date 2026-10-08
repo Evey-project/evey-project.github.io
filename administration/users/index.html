@@ -876,10 +876,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-accounts" class="md-nav__link">
+  <a href="#create-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating accounts
+        Create an account
       
     </span>
   </a>
@@ -887,21 +887,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-an-administrator-can-restrict-per-account" class="md-nav__link">
+  <a href="#profiles-kids-profiles-and-the-pin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What an administrator can restrict per account
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kids-profiles-and-the-pin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kids profiles and the PIN
+        Profiles, kids profiles and the PIN
       
     </span>
   </a>
@@ -913,6 +902,17 @@
     <span class="md-ellipsis">
       
         Age limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-an-administrator-can-restrict-per-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What an administrator can restrict per account
       
     </span>
   </a>
@@ -3053,10 +3053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-accounts" class="md-nav__link">
+  <a href="#create-an-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating accounts
+        Create an account
       
     </span>
   </a>
@@ -3064,21 +3064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-an-administrator-can-restrict-per-account" class="md-nav__link">
+  <a href="#profiles-kids-profiles-and-the-pin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What an administrator can restrict per account
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kids-profiles-and-the-pin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kids profiles and the PIN
+        Profiles, kids profiles and the PIN
       
     </span>
   </a>
@@ -3090,6 +3079,17 @@
     <span class="md-ellipsis">
       
         Age limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-an-administrator-can-restrict-per-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What an administrator can restrict per account
       
     </span>
   </a>
@@ -3164,27 +3164,71 @@
 
 
 <h1 id="users-profiles-and-parental-control">Users, profiles and parental control<a class="headerlink" href="#users-profiles-and-parental-control" title="Permanent link">¶</a></h1>
+<p>An <strong>account</strong> signs in; a <strong>profile</strong> watches. This page is for the
+administrator who adds the household: create the accounts, let each one
+create its profiles, mark the children's profiles as kids profiles and give
+them an age limit. What an account can be restricted to, opening hours,
+requests, public download links and the home page come after.</p>
 <h2 id="accounts-and-profiles">Accounts and profiles<a class="headerlink" href="#accounts-and-profiles" title="Permanent link">¶</a></h2>
-<p>An <strong>account</strong> signs in: it has a username and a password (or a single sign-on
-identity, see <a href="../../oidc/">OIDC</a>), and it is either an administrator or not.
-A <strong>profile</strong> watches: each account holds one or more profiles, each with its
-own watch history, resume points, favourites, languages and home page. A
-household typically shares one account, with a profile per person.</p>
-<h2 id="creating-accounts">Creating accounts<a class="headerlink" href="#creating-accounts" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Users</strong> offers two ways:</p>
+<p>An account has a username and a password (or a single sign-on identity, see
+<a href="../../oidc/">OIDC</a>), and it is either an administrator or not. Each account
+holds one or more profiles, each with its own watch history, resume points,
+favourites, languages and home page. A household typically shares one
+account, with a profile per person.</p>
+<h2 id="create-an-account">Create an account<a class="headerlink" href="#create-an-account" title="Permanent link">¶</a></h2>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Users on the demo server" loading="lazy" src="../../images/admin-users.webp"></a>
 <br>
 <figcaption><strong>Admin → Users</strong>: each account with its profiles, its role and its state.</figcaption>
 </figure>
+<p><strong>Admin → Users</strong> offers two ways:</p>
 <ul>
-<li><strong>Create User</strong>: you choose the username and the password.</li>
+<li><strong>Create User</strong>: you choose the <strong>Username</strong> and the <strong>Password</strong>, tick
+  <strong>Admin</strong> for an administrator, and can set the libraries, the number of
+  profiles and the number of devices right there (see below).</li>
 <li><strong>Create Invite Link</strong>: the person chooses their own. A link can have an
-  expiry date and a maximum number of uses, restrict the libraries the new
-  account sees, cap the number of profiles it may create, and create an
-  administrator. <strong>Invite Links</strong> lists them; a link can be revoked.</li>
+  expiry date (<strong>Expires at</strong>) and a maximum number of uses (<strong>Max uses</strong>),
+  restrict the libraries the new account sees (<strong>Accessible libraries</strong>), cap
+  the number of profiles it may create, and <strong>Create as administrator</strong>.
+  <strong>Invite Links</strong> lists them; <strong>Copy Link</strong> copies one, <strong>Revoke</strong> ends it.</li>
 </ul>
+<p><strong>Disable</strong> on an account's row refuses its sign-ins without deleting
+anything; <strong>Enable</strong> restores it. <strong>Delete</strong> removes the account and its
+profiles.</p>
+<h2 id="profiles-kids-profiles-and-the-pin">Profiles, kids profiles and the PIN<a class="headerlink" href="#profiles-kids-profiles-and-the-pin" title="Permanent link">¶</a></h2>
+<p>Each account creates its profiles in <strong>Settings → Profiles → Create Profile</strong>;
+an administrator can also add one from <strong>Edit User → New profile</strong>. A profile
+has a <strong>Name</strong>, a <strong>Language</strong> and a <strong>Region</strong>, and two settings that matter
+for children:</p>
+<ul>
+<li><strong>Kids profile</strong> marks the profile as a child's. It opens without a PIN,
+  and leaving it for another profile asks for that profile's <strong>PIN
+  (4 digits)</strong>. While a kids profile exists, every other profile of the
+  account must have a PIN: the server refuses to save a profile without one.
+  Setting a PIN the first time asks for the account password; changing it
+  asks for the current PIN. <strong>Settings → Parental</strong> sets the PIN of the
+  profile in use.</li>
+<li><strong>Max age rating</strong> appears on a kids profile only: titles rated above it are
+  never sent to the profile. Left on <strong>Default (12+)</strong>, the limit is 12.</li>
+</ul>
+<p>Managing profiles and parental settings is only possible from a profile that
+is not a kids profile. An administrator's account cannot have a kids profile:
+the limit would gate the administrator's own library.</p>
+<h2 id="age-limits">Age limits<a class="headerlink" href="#age-limits" title="Permanent link">¶</a></h2>
+<p>The age is read against the rating system of the profile's <strong>Region</strong>
+(<strong>Settings → Profiles → Edit</strong>; <strong>Automatic</strong> derives it from the profile's
+language, and falls back to the British system). A title whose rating that
+system cannot place is hidden from the kids profile rather than shown.</p>
+<p>The limit is applied by the server, not by the apps: a title above it is not
+hidden in the interface, it is never sent. That holds for browsing and search,
+for playback and for downloads. If the server cannot read a profile's settings
+(a database error, for example), it refuses the content rather than allowing
+it. Administrators are not subject to profile limits.</p>
+<p>A film downloaded to a phone stays subject to the limit offline: a kids profile
+cannot open a download made by another profile above its age limit.</p>
 <h2 id="what-an-administrator-can-restrict-per-account">What an administrator can restrict per account<a class="headerlink" href="#what-an-administrator-can-restrict-per-account" title="Permanent link">¶</a></h2>
+<p>These settings live in <strong>Create User</strong> and <strong>Edit User</strong>, and on the account's
+row in <strong>Admin → Users</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -3194,12 +3238,12 @@ household typically shares one account, with a profile per person.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>Library Access</strong></td>
-<td>The libraries the account sees. Everything else is absent from its searches, home page and API responses.</td>
+<td><strong>Library Access</strong> (the <strong>Libraries</strong> button on the row)</td>
+<td>The libraries the account sees. Everything else is absent from its searches, home page and API responses. An administrator always sees everything.</td>
 </tr>
 <tr>
-<td><strong>Max Bitrate</strong></td>
-<td>A ceiling on the bitrate the account's players receive (0 = unlimited). A title above it is transcoded down to it.</td>
+<td><strong>Max Bitrate</strong> (the <strong>Bitrate</strong> button)</td>
+<td>A ceiling, from 1 to 40 Mbps, on the bitrate the account's players receive (0 = unlimited). A title above it is transcoded down to it.</td>
 </tr>
 <tr>
 <td><strong>Max profiles</strong></td>
@@ -3214,30 +3258,11 @@ household typically shares one account, with a profile per person.</p>
 <p><strong>Connect as</strong> opens the server as that user sees it, to check a restriction
 or reproduce a problem. A banner stays visible, and <strong>Exit</strong> returns to your
 own account.</p>
-<h2 id="kids-profiles-and-the-pin">Kids profiles and the PIN<a class="headerlink" href="#kids-profiles-and-the-pin" title="Permanent link">¶</a></h2>
-<p>A profile marked <strong>Kids profile</strong> opens without a PIN. Leaving it for a profile
-that is not a kids profile asks for the <strong>4-digit PIN</strong>, set in <strong>Settings →
-Parental</strong>. Setting the PIN the first time asks for the account password, and
-while a kids profile exists the account must have a PIN.</p>
-<p>Managing profiles and parental settings is only possible from a profile that is
-not a kids profile.</p>
-<h2 id="age-limits">Age limits<a class="headerlink" href="#age-limits" title="Permanent link">¶</a></h2>
-<p>Each profile can have a <strong>Max age rating</strong> (<strong>Settings → Profiles → Edit</strong>).
-The rating system is the one of the country set in <strong>Admin → Server Config →
-Language &amp; Region</strong>.</p>
-<p>The limit is applied by the server, not by the apps: a title above it is not
-hidden in the interface, it is never sent. That holds for browsing and search,
-for playback and for downloads. If the server cannot read a profile's settings
-(a database error, for example), it refuses the content rather than allowing
-it. Administrators are not subject to profile limits.</p>
-<p>A film downloaded to a phone stays subject to the limit offline: a kids profile
-cannot open a download made by another profile above its age limit.</p>
 <h2 id="opening-hours">Opening hours<a class="headerlink" href="#opening-hours" title="Permanent link">¶</a></h2>
-<p>A kids profile can be limited to <strong>opening hours</strong>: the clock icon next to it in
-the profile list (<strong>Settings → Profiles</strong>, or the user's page in <strong>Admin →
-Users</strong>) opens the editor. Nothing is set until you turn it on; the editor then
-suggests weekdays 18:00 to 22:00, and Saturday and Sunday 9:00 to 12:00 and
-14:00 to 21:00.</p>
+<p>A kids profile can be limited to <strong>opening hours</strong>: the clock icon next to it
+in <strong>Settings → Profiles</strong> opens the editor. Nothing is set until you turn on
+<strong>Limit to opening hours</strong>; the editor then suggests weekdays 18:00 to 22:00,
+and Saturday and Sunday 9:00 to 12:00 and 14:00 to 21:00.</p>
 <p>The hours are a list of time ranges, edited two ways: <strong>Weekdays / weekend</strong>
 (one block for Monday to Friday, one for the weekend) or <strong>Day by day</strong>. A day
 can have several ranges, a range can run past midnight (20:00 to 0:30), and a
@@ -3250,17 +3275,19 @@ hours the profile is refused everywhere - browsing, every segment of a film in
 progress, music, downloads - and every app shows a lock screen saying when it
 opens again. Ten minutes before closing, the player shows a warning; at the
 time, playback stops.</p>
-<p>On the lock screen, the <strong>PIN of an adult profile</strong> of the same account opens
-the kids profile until its next opening; the child's own PIN, if it has one,
-does not. <strong>Switch profile</strong> leads to the profile picker. A schedule that the
-server cannot read keeps the profile closed rather than open.</p>
+<p>On the lock screen, the <strong>Parent PIN</strong> (the PIN of a profile of the same
+account that is not a kids profile) opens the kids profile until its next
+opening; the child's own PIN, if it has one, does not. <strong>Switch profile</strong> leads
+to the profile picker. A schedule that the server cannot read keeps the
+profile closed rather than open.</p>
 <p>A film downloaded to a phone and played without a connection does not reach the
 server, so the hours do not apply to it.</p>
 <h2 id="requests">Requests<a class="headerlink" href="#requests" title="Permanent link">¶</a></h2>
 <p>Users can search for a film, a series or an artist that is missing from the
 libraries and ask for it. Requests arrive in <strong>Admin → Media Requests</strong>, where
-an administrator approves, declines or postpones them, with a note. Who may
-request is set there: everyone by default, with per-user exceptions.</p>
+an administrator chooses <strong>Approve</strong>, <strong>Reject</strong> or <strong>Later</strong>, with a note.
+The <strong>Access</strong> tab sets who may request: <strong>Allow requests by default for all
+users</strong>, with <strong>Per-user overrides</strong>.</p>
 <h2 id="public-download-links">Public download links<a class="headerlink" href="#public-download-links" title="Permanent link">¶</a></h2>
 <p>On a film or episode page, an administrator can create a <strong>Public download
 link</strong> (web and Android apps). It is a URL anyone can open, without an account,
@@ -3322,15 +3349,20 @@ mobile apps, in the header of the TV app): show or hide a row, move it, or
 to every device. A profile can show a row the administrator has hidden, except
 a plugin's row: there the administrator's choice is final.</p>
 <!-- sources
+create user / edit user: frontend/apps/web/src/features/admin/CreateUserForm.tsx, EditUserModal.tsx (CreateProfileDialog), UserRow.tsx (edit, impersonate, libraries, bitrate, enable/disable, delete) ; i18n admin.users.createUser, username, password, admin, libraryAccessTitle, maxProfiles, maxDevicesPerProfile, impersonate, exitImpersonation ; common.enable, disable, delete
+invites: frontend/apps/web/src/features/admin/CreateInviteForm.tsx, InviteLinkRow.tsx ; i18n admin.users.maxUsesLabel, expiresAtLabel, inviteLibraries, inviteMaxProfilesLabel, inviteIsAdmin, inviteLinks, copyLink, revoke ; internal/app/user/access_service.go (RegisterWithInvite, RevokeInviteLink)
+bitrate: frontend/apps/web/src/features/admin/users-constants.ts BITRATE_OPTIONS (1-40 Mbps) ; internal/app/user/bitrate_limit.go
 max devices per profile = concurrent active playback sessions of the profile: internal/app/playback/command_service.go (DeviceQuotaExceeded, ErrMaxDevicesPerProfile)
-share links: internal/adapters/driving/grpcapi/interceptors/rbac.go (ShareService RoleAdmin) ; grpcapi/share_handler.go (48 h default) ; internal/app/media/share_service.go (max 72 h, maxViews) ; http/share_download_handler.go (no auth) ; cmd/evey/gateway.go - networkGateExempt (share not exempt) ; frontend/apps/web/src/features/library/ShareLinkButton.tsx, mobile media/[id].tsx (isAdmin) ; proto/evey/v1/share.proto
-invite options: i18n admin.users.maxUsesLabel, expiresAtLabel, inviteLibraries, inviteMaxProfilesLabel, inviteIsAdmin
-restrictions: i18n admin.users.libraryAccess, maxBitrateDesc, maxProfiles, maxDevicesPerProfile, impersonate
-kids and pin: i18n auth.profile.fields.isKidsHelp, auth.settings.parental.*, errors.auth.pin_required_for_non_kids, errors.auth.parental_needs_non_kids ; internal/app/user/service.go - ErrPINRequired
-server-side limit, fail closed, admins exempt: internal/adapters/driving/http/parental.go - BlockedByParental ; internal/adapters/driving/grpcapi/library_handler_parental.go
+profiles: frontend/apps/web/src/features/profile/EditProfileDialog.tsx (isKids, maxAge kids-only, pin, region, locale), CreateProfileDialog.tsx, ProfileManagerList.tsx (Clock on kids profiles) ; i18n auth.profile.manage.createProfile, fields.*, settings.parental.*, settings.parental.defaultMaxAge ; errors.auth.pin_required_for_non_kids, parental_needs_non_kids
+kids invariants: internal/app/user/user_service.go checkProfileInvariants (ErrKidsRequiresPIN, ErrAdminCannotBeKids, ErrMaxProfilesReached) ; service.go ErrPINRequired ; internal/domain/user/model.go EffectiveParental, DefaultKidsMaxAge = 12
+rating region: internal/pkg/region/region.go Resolve (profile region, then locale, then GB ; server region passed empty) ; internal/adapters/driving/http/parental.go BlockedByParental (WorstCaseMinAge, worst < 0 blocked) ; grpcapi/library_handler_parental.go
+server-side limit, fail closed, admins exempt: internal/adapters/driving/http/parental.go checkParental ; grpcapi/library_handler_parental.go
 downloads: internal/adapters/driving/http/compat_download_handler.go (checkParental) ; frontend/apps/mobile/src/lib/offlineAccess.ts
-requests: i18n admin.mediaRequests.*
+library access: internal/app/user/access_service.go (GrantMany, RevokeAllLibraryAccess) ; UserRow hides the Libraries button for admins
+requests: i18n admin.mediaRequests.* (approve, reject, later, tabAccess, accessDefaultLabel, accessOverridesTitle) ; requests.*
+share links: internal/adapters/driving/grpcapi/interceptors/rbac.go (ShareService RoleAdmin) ; grpcapi/share_handler.go (48 h default) ; internal/app/media/share_service.go (max 72 h, maxViews) ; http/share_download_handler.go (no auth) ; cmd/evey/gateway.go - networkGateExempt (share not exempt) ; frontend/apps/web/src/features/library/ShareLinkButton.tsx, mobile media/[id].tsx (isAdmin) ; proto/evey/v1/share.proto
 opening hours: internal/domain/user/schedule.go - AccessSchedule, DefaultKidsSchedule, Window, AccessAt, OverrideUntil ; internal/app/user/profile_schedule.go - Unlock (adult PIN only) ; internal/adapters/driving/http/profile_closed.go (httpAuthMiddleware, httpStreamAuthMiddleware) ; grpcapi/interceptors/profile_hours.go ; grpcapi/playback_closing_soon.go (closingWarnLead 10 min) ; internal/app/config/timezone.go - KeyServerTimezone ; postgres profile_repo.go - scheduleFromJSON (unreadable = closed) ; i18n auth.profile.schedule.*, auth.profile.locked.*, admin.serverConfig.timezone
+home: internal/app/feed/* ; i18n admin.serverConfig.feedConfig.*, media.home.*
 -->
 
 

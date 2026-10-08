@@ -956,6 +956,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#publish-the-server-in-three-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publier le serveur en trois étapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#remote-access-is-decided-from-the-public-address" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -978,15 +989,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#https-a-reverse-proxy-in-front-of-evey" class="md-nav__link">
+  <a href="#what-evey-needs-to-know-about-the-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HTTPS : un reverse proxy devant Evey
+        Ce qu'Evey doit savoir du proxy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="HTTPS : un reverse proxy devant Evey">
+    <nav class="md-nav" aria-label="Ce qu'Evey doit savoir du proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1002,17 +1013,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-two-network-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Les deux étapes réseau
-      
-    </span>
-  </a>
   
 </li>
       
@@ -3017,6 +3017,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#publish-the-server-in-three-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publier le serveur en trois étapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#remote-access-is-decided-from-the-public-address" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3039,15 +3050,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#https-a-reverse-proxy-in-front-of-evey" class="md-nav__link">
+  <a href="#what-evey-needs-to-know-about-the-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HTTPS : un reverse proxy devant Evey
+        Ce qu'Evey doit savoir du proxy
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="HTTPS : un reverse proxy devant Evey">
+    <nav class="md-nav" aria-label="Ce qu'Evey doit savoir du proxy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3063,17 +3074,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-two-network-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Les deux étapes réseau
-      
-    </span>
-  </a>
   
 </li>
       
@@ -3112,20 +3112,38 @@
 
 
 <h1 id="remote-access-and-https">Accès distant et HTTPS<a class="headerlink" href="#remote-access-and-https" title="Permanent link">¶</a></h1>
-<p>Joindre le serveur depuis l'extérieur met en jeu deux choses distinctes : une
-adresse publique en HTTPS devant Evey, et le réglage d'accès distant d'Evey,
-qui décide si les clients situés hors de votre réseau sont servis.</p>
+<p>Publiez le serveur à une adresse en <code>https://</code> et les membres du foyer
+l'utilisent de n'importe où. Cette page s'adresse à l'administrateur : elle
+couvre l'adresse publique, l'interrupteur d'accès distant que le serveur règle
+de lui-même, et ce qu'Evey doit savoir du reverse proxy placé devant lui.</p>
+<h2 id="publish-the-server-in-three-steps">Publier le serveur en trois étapes<a class="headerlink" href="#publish-the-server-in-three-steps" title="Permanent link">¶</a></h2>
+<ol>
+<li>Placez devant Evey un reverse proxy qui termine le HTTPS et transmet tout
+   au port <code>9091</code> : le Caddy fourni, ou un proxy que vous avez déjà. Les
+   configurations prêtes à l'emploi sont dans
+   <a href="../../reverse-proxy/">Configurations de reverse proxy</a>.</li>
+<li>Dans <strong>Admin → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
+   et, quand le proxy tourne dans un autre conteneur, son réseau dans
+   <strong>Proxys de confiance</strong> (<code>172.16.0.0/12</code> pour les réseaux Docker par
+   défaut).</li>
+<li>Rien d'autre : un serveur qui a reçu une adresse publique ouvre l'accès
+   distant tout seul. <code>evey admin doctor</code> confirme la liste de proxys en
+   vigueur et avertit quand un serveur publié refuse les clients distants.</li>
+</ol>
 <h2 id="remote-access-is-decided-from-the-public-address">L'accès distant se déduit de l'adresse publique<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
 <p>Tant que vous n'avez rien choisi, Evey décide de l'accès distant au démarrage :</p>
 <ul>
-<li>si le serveur a reçu une adresse publique (<code>EVEY_SERVER_BASE_URL</code> ou
-  <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>), l'accès distant est <strong>activé</strong> ;</li>
+<li>si le serveur a reçu une adresse publique (<strong>URL externe</strong>,
+  <code>EVEY_SERVER_BASE_URL</code> ou <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>), l'accès
+  distant est <strong>activé</strong> ;</li>
 <li>sinon il est <strong>désactivé</strong>, et seuls les clients de vos réseaux locaux sont
   servis.</li>
 </ul>
-<p>Dès que vous modifiez ce réglage dans <strong>Admin → Accès distant</strong>, votre choix
-est conservé et le serveur cesse de le déduire : un serveur publié peut
-rester limité au réseau local si c'est ce que vous voulez.</p>
+<p>Dès que vous modifiez vous-même <strong>Activer l'accès distant</strong>, votre choix est
+conservé et le serveur cesse de le déduire : un serveur publié peut rester
+limité au réseau local si c'est ce que vous voulez. L'accès distant est un
+choix sur qui peut joindre le serveur, pas une protection : chaque page exige
+toujours une connexion.</p>
 <p>Quand l'accès distant est désactivé, un client hors des réseaux locaux reçoit
 une erreur <code>403</code> sur toutes les pages, et les applications affichent un
 message indiquant que l'accès distant est désactivé plutôt qu'une erreur
@@ -3134,8 +3152,6 @@ distant est désactivé, la page d'administration affiche <strong>Tous les
 utilisateurs distants sont bloqués</strong>, le serveur le signale dans ses logs au
 démarrage et journalise chaque refus avec l'adresse du client, et
 <code>evey admin doctor</code> le compte comme un échec.</p>
-<p>L'accès distant est un choix sur qui peut joindre le serveur, pas une
-protection : chaque page exige toujours une connexion.</p>
 <h2 id="settings">Réglages<a class="headerlink" href="#settings" title="Permanent link">¶</a></h2>
 <p><strong>Admin → Accès distant</strong>. Tous les réglages s'appliquent sans redémarrage :
 ceux du réseau à la requête suivante, le débit à la lecture suivante.</p>
@@ -3174,26 +3190,25 @@ ceux du réseau à la requête suivante, le débit à la lecture suivante.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="https-a-reverse-proxy-in-front-of-evey">HTTPS : un reverse proxy devant Evey<a class="headerlink" href="#https-a-reverse-proxy-in-front-of-evey" title="Permanent link">¶</a></h2>
+<h2 id="what-evey-needs-to-know-about-the-proxy">Ce qu'Evey doit savoir du proxy<a class="headerlink" href="#what-evey-needs-to-know-about-the-proxy" title="Permanent link">¶</a></h2>
 <p>Evey sert du HTTP simple sur le port 9091, API et interface web ensemble. Le
-HTTPS est le rôle d'un reverse proxy, qui transmet tout à <code>evey-server:9091</code>.
-Evey a besoin de savoir deux choses à son sujet, toutes deux dans
-<strong>Admin → Accès distant</strong> :</p>
+HTTPS est le rôle du reverse proxy, et Evey a besoin de deux choses à son
+sujet, toutes deux dans <strong>Admin → Accès distant</strong> :</p>
 <ul>
-<li><strong>URL externe</strong> en <code>https://</code>. C'est ce qui indique à Evey qu'un proxy
+<li>l'<strong>URL externe</strong> en <code>https://</code>. C'est ce qui indique à Evey qu'un proxy
   assure le TLS : les cookies reçoivent l'attribut <code>Secure</code>, l'en-tête HSTS
-  est envoyé et l'en-tête <code>X-Forwarded-Proto</code> d'un proxy de confiance est cru.</li>
-<li><strong>Proxys de confiance</strong>, quand le proxy ne tourne pas sur la même machine
-  qu'Evey. Un proxy dans un autre conteneur a besoin de son réseau ici, par
-  exemple <code>172.16.0.0/12</code> pour les réseaux Docker par défaut. Une plage qui
-  couvre toutes les adresses (<code>0.0.0.0/0</code>, <code>::/0</code>) est refusée : n'importe
-  quel client pourrait alors choisir l'adresse sous laquelle il est vu.</li>
+  est envoyé et l'en-tête <code>X-Forwarded-Proto</code> d'un proxy de confiance est cru ;</li>
+<li>les <strong>Proxys de confiance</strong>, quand le proxy ne tourne pas sur la même
+  machine qu'Evey. Un proxy dans un autre conteneur a besoin de son réseau
+  ici, par exemple <code>172.16.0.0/12</code> pour les réseaux Docker par défaut.</li>
 </ul>
-<p>Sans proxy pour l'instant, le dépôt d'Evey fournit un service Caddy qui
-obtient seul un certificat Let's Encrypt. Configurations prêtes à l'emploi
-pour Caddy, Nginx, Traefik et Nginx Proxy Manager, et effet des réglages par
-défaut d'un proxy sur le streaming :
-<a href="../../reverse-proxy/">Configurations de reverse proxy</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Une plage qui couvre toutes les adresses est refusée</p>
+<p><code>0.0.0.0/0</code> ou <code>::/0</code> dans <strong>Proxys de confiance</strong> laisserait n'importe
+quel client choisir l'adresse sous laquelle il est vu. Le panneau comme
+<code>evey admin doctor</code> le refusent : indiquez l'adresse ou le réseau du proxy
+lui-même.</p>
+</div>
 <h3 id="setting-it-in-the-environment-instead">Le régler plutôt dans l'environnement<a class="headerlink" href="#setting-it-in-the-environment-instead" title="Permanent link">¶</a></h3>
 <p><code>EVEY_SERVER_BASE_URL</code> et <code>EVEY_TRUSTED_PROXIES</code> donnent les mêmes réponses
 depuis le fichier compose. C'est utile pour une installation entièrement
@@ -3202,24 +3217,35 @@ dès son premier démarrage. Quand les deux sont renseignés, le panneau
 l'emporte : une URL externe en <code>https://</code> active le mode HTTPS même si l'URL
 de base est en HTTP simple, et une liste de proxys enregistrée remplace la
 variable. Vider le champ rend la main à la variable. Voir
-<a href="../../environment/server/">Serveur et réseau</a>.</p>
-<h2 id="the-two-network-steps">Les deux étapes réseau<a class="headerlink" href="#the-two-network-steps" title="Permanent link">¶</a></h2>
-<p>Proxys de confiance et Réseaux LAN sont deux étapes successives, pas deux
-façons de dire la même chose. Les proxys de confiance déterminent quelle
-adresse transmise est crue, donc quelle adresse reçoit chaque client ; les
-Réseaux LAN classent ensuite cette adresse comme locale ou distante.</p>
+<a href="../../environment/server/#remote-access">Serveur et réseau</a>.</p>
 <h2 id="the-real-client-address">L'adresse réelle du client<a class="headerlink" href="#the-real-client-address" title="Permanent link">¶</a></h2>
 <p>L'accès distant et le <strong>Débit distant maximal</strong> dépendent tous deux de
-l'adresse réelle de chaque client. Un proxy qui ne la transmet pas, ou auquel
-Evey ne fait pas confiance, fait croire que toutes les requêtes viennent de
-l'adresse privée du proxy : tout le monde est considéré comme local, le
-réglage d'accès distant n'a aucun effet et aucun plafond distant ne
-s'applique.</p>
-<p>Corriger le proxy change donc qui est considéré comme distant. Si l'accès
-distant était désactivé, les clients distants sont refusés à partir de ce
-moment. Lancez <code>evey admin doctor</code> après avoir modifié la configuration du
-proxy : il indique la liste en vigueur et sa provenance, avertit si une plage
-est publique et échoue sur une plage qui couvre toutes les adresses.</p>
+l'adresse réelle de chaque client, établie en deux étapes successives : les
+proxys de confiance déterminent quelle adresse transmise est crue, donc quelle
+adresse reçoit chaque client ; les réseaux LAN classent ensuite cette adresse
+comme locale ou distante.</p>
+<p>Un proxy qui ne transmet pas l'adresse, ou auquel Evey ne fait pas confiance,
+fait croire que toutes les requêtes viennent de l'adresse privée du proxy :
+tout le monde est considéré comme local, le réglage d'accès distant n'a aucun
+effet et aucun plafond distant ne s'applique.</p>
+<div class="admonition note">
+<p class="admonition-title">Corriger le proxy change qui est considéré comme distant</p>
+<p>Si l'accès distant était désactivé, les clients distants sont refusés dès
+que le proxy transmet leur adresse réelle. Lancez <code>evey admin doctor</code>
+après avoir modifié la configuration du proxy : il indique la liste en
+vigueur et sa provenance, avertit si une plage est publique et échoue sur
+une plage qui couvre toutes les adresses.</p>
+</div>
+<!-- sources
+inference and explicit choice: docs/adr/0026-remote-access-inferred-from-a-published-url.md ; internal/config/remote_access_resolve.go - ResolveRemoteAccess, IsPubliclyReachableURL
+gate, live switch and LAN list: cmd/evey/gateway.go - networkMiddleware ; cmd/evey/network_middleware_test.go - TestNetworkMiddleware_LANListChangeAppliesWithoutRestart
+remote cap live: internal/adapters/driving/grpcapi/playback_remote_bitrate_test.go
+labels: i18n admin.remoteAccess.* (enableRemoteAccess, externalUrl, trustedProxies, lanNetworks, maxRemoteBitrate, lockoutRiskTitle)
+proxy settings: docs/reverse-proxy.md
+https mode and trusted proxies live: internal/config/network_live.go - EffectiveHTTPS, EffectiveTrustedProxies ; internal/adapters/driving/http/access_handler_live_test.go
+catch-all range refused: internal/config/trusted_proxies.go - IsCatchAllProxyRange ; internal/config/network_live.go
+doctor check: cmd/evey/admin_ops.go - checkTrustedProxies
+-->
 
 
 

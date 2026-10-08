@@ -1344,6 +1344,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-each-format-does-to-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que chaque format fait à la vidéo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#subtitle-burn-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2962,6 +2973,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#what-each-format-does-to-the-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ce que chaque format fait à la vidéo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#subtitle-burn-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3007,7 +3029,13 @@
 
 
 <h1 id="subtitles">Sous-titres<a class="headerlink" href="#subtitles" title="Permanent link">¶</a></h1>
-<p>Le sort d'un sous-titre dépend de son format : du texte, ou des images.</p>
+<p>Comment un sous-titre s'affiche sur votre appareil, et si le choisir change
+la façon dont la vidéo est livrée. Pour les spectateurs ; le seul réglage qui
+compte est l'<strong>Incrustation des sous-titres</strong> du profil, dans <strong>Paramètres →
+Lecture</strong>. En bref : les sous-titres texte et Blu-ray ne touchent jamais à la
+vidéo, les sous-titres DVD et de diffusion sont incrustés et imposent un
+réencodage.</p>
+<h2 id="what-each-format-does-to-the-video">Ce que chaque format fait à la vidéo<a class="headerlink" href="#what-each-format-does-to-the-video" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -3021,13 +3049,13 @@
 <tr>
 <td>Texte</td>
 <td>SRT, ASS/SSA, WebVTT, sous-titres intégrés au fichier</td>
-<td>Envoyé à côté de la vidéo et dessiné par le lecteur</td>
+<td>Envoyé à côté de la vidéo et dessiné par le lecteur, avec votre <strong>Style des sous-titres</strong></td>
 <td>Aucun</td>
 </tr>
 <tr>
 <td>PGS (Blu-ray)</td>
 <td><code>hdmv_pgs_subtitle</code></td>
-<td>Décodé en images une fois par le serveur, mis en cache, puis dessiné par le lecteur</td>
+<td>Décodé en images une fois par le serveur, mis en cache, puis dessiné tel quel par le lecteur</td>
 <td>Aucun</td>
 </tr>
 <tr>
@@ -3050,23 +3078,44 @@ sa lecture directe.</p>
 <h2 id="subtitle-burn-in">Incrustation des sous-titres<a class="headerlink" href="#subtitle-burn-in" title="Permanent link">¶</a></h2>
 <p>Le réglage de profil <strong>Incrustation des sous-titres</strong> (<strong>Paramètres →
 Lecture</strong>) s'applique aux formats de la dernière ligne :</p>
-<ul>
-<li><strong>Auto</strong> et <strong>Toujours incruster</strong> : une piste VobSub, DVB ou XSUB
-  sélectionnée est incrustée. Le texte n'est jamais incrusté, quel que soit
-  le réglage.</li>
-<li><strong>Jamais incruster</strong> : la vidéo n'est jamais réencodée pour un sous-titre.
-  Une piste VobSub, DVB ou XSUB ne peut alors pas s'afficher.</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Réglage</th>
+<th>Une piste VobSub, DVB ou XSUB sélectionnée</th>
+<th>Texte et PGS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Auto</strong></td>
+<td>Incrustée, la vidéo est réencodée.</td>
+<td>Dessinés par le lecteur.</td>
+</tr>
+<tr>
+<td><strong>Toujours incruster</strong></td>
+<td>Comme Auto.</td>
+<td>Dessinés par le lecteur : le texte n'est jamais incrusté, quel que soit le réglage.</td>
+</tr>
+<tr>
+<td><strong>Jamais incruster</strong></td>
+<td>Ne peut pas s'afficher : la vidéo n'est jamais réencodée pour un sous-titre.</td>
+<td>Dessinés par le lecteur.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="choosing-and-adjusting">Choisir et ajuster<a class="headerlink" href="#choosing-and-adjusting" title="Permanent link">¶</a></h2>
 <ul>
 <li>Les lecteurs sélectionnent le sous-titre de la <strong>Langue des sous-titres par
   défaut</strong> du profil, puis la piste que le fichier marque par défaut (une
-  piste forcée, par exemple).</li>
+  piste forcée, par exemple). Une piste choisie à la main n'est jamais
+  remplacée, et un nouveau titre repart de zéro.</li>
 <li><strong>Synchro sous-titres</strong>, dans le lecteur, décale les sous-titres du titre
   en cours (une valeur positive les affiche plus tard). L'effet est
   immédiat.</li>
-<li><strong>Style des sous-titres</strong> règle la taille, la couleur, le fond, la police
-  et la position des sous-titres texte.</li>
+<li><strong>Style des sous-titres</strong> règle la taille, la couleur du texte, le fond, la
+  police, l'ombre et la position des sous-titres texte. Les images PGS sont
+  dessinées telles quelles.</li>
 <li><strong>Téléverser un sous-titre…</strong> ajoute un fichier au titre.</li>
 <li>Avec une clé OpenSubtitles (voir
   <a href="../../administration/libraries/#metadata-keys">Bibliothèques et métadonnées</a>),
@@ -3074,7 +3123,7 @@ Lecture</strong>) s'applique aux formats de la dernière ligne :</p>
   fichier (<code>GET /api/v1/media/{id}/subtitles/search</code>, puis
   <code>POST /api/v1/media/{id}/subtitles/download</code>). Le fichier est enregistré
   dans un dossier <code>.subtitles</code> à côté du film. Les applications ne proposent
-  pas encore cette recherche.</li>
+  pas cette recherche.</li>
 </ul>
 
 

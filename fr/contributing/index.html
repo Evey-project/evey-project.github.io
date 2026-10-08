@@ -2910,7 +2910,7 @@
   <a href="#why-a-decision-record-and-where" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pourquoi des fiches de décision, et où
+        Pourquoi une décision d'architecture, et où
       
     </span>
   </a>
@@ -2985,7 +2985,7 @@
   <a href="#why-a-decision-record-and-where" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pourquoi des fiches de décision, et où
+        Pourquoi une décision d'architecture, et où
       
     </span>
   </a>
@@ -3027,9 +3027,10 @@
 
 
 <h1 id="contributing">Contribuer<a class="headerlink" href="#contributing" title="Permanent link">¶</a></h1>
-<p>Evey se développe au grand jour, et les documents écrits pour celles et ceux qui
-travaillent sur son code vivent avec le code, sur GitHub, plutôt que sur ce
-site. Cette page y renvoie. Ils sont en anglais.</p>
+<p>Par où commencer quand vous voulez travailler sur le code d'Evey, et ce
+qu'une pull request doit passer. Les documents écrits pour les contributeurs
+vivent avec le code, sur GitHub, plutôt que sur ce site ; cette page y
+renvoie. Ils sont en anglais.</p>
 <h2 id="where-to-start">Par où commencer<a class="headerlink" href="#where-to-start" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3040,11 +3041,11 @@ site. Cette page y renvoie. Ils sont en anglais.</p>
 </thead>
 <tbody>
 <tr>
-<td>Compiler et lancer Evey depuis les sources</td>
+<td>Construire et lancer Evey depuis les sources</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a></td>
 </tr>
 <tr>
-<td>Connaître les règles d'une contribution : branches, commits, tests, accord de licence</td>
+<td>Connaître les règles d'une contribution : branches, commits, tests, l'accord de licence</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></td>
 </tr>
 <tr>
@@ -3052,11 +3053,11 @@ site. Cette page y renvoie. Ils sont en anglais.</p>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Carte du code</a></td>
 </tr>
 <tr>
-<td>Comprendre les couches et les contextes métier</td>
+<td>Comprendre les couches et les contextes bornés</td>
 <td><a href="../ARCHITECTURE/">Architecture</a></td>
 </tr>
 <tr>
-<td>Suivre les conventions que le code applique déjà</td>
+<td>Suivre les conventions que le code utilise déjà</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/code-conventions.md">Conventions de code</a></td>
 </tr>
 <tr>
@@ -3069,33 +3070,47 @@ site. Cette page y renvoie. Ils sont en anglais.</p>
 </tr>
 <tr>
 <td>Publier une version</td>
-<td><a href="https://github.com/Evey-project/evey/blob/master/docs/runbooks/release.md">Runbook de publication</a></td>
+<td><a href="https://github.com/Evey-project/evey/blob/master/docs/runbooks/release.md">Procédure de release</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="why-a-decision-record-and-where">Pourquoi des fiches de décision, et où<a class="headerlink" href="#why-a-decision-record-and-where" title="Permanent link">¶</a></h2>
-<p>Chaque choix structurel (l'architecture hexagonale, la portée des jetons des
-plugins, une installation en un seul fichier compose, un plan de lecture unique
-qui décide pour tous les clients) a sa fiche de décision d'architecture : le
-contexte, les options pesées, ce qui a été retenu et ce que cela coûte. Elles
-sont rangées dans le dépôt, à côté du code qu'elles expliquent, et c'est par
-elles qu'il faut commencer avant de proposer de revenir sur l'un de ces choix.</p>
+<h2 id="why-a-decision-record-and-where">Pourquoi une décision d'architecture, et où<a class="headerlink" href="#why-a-decision-record-and-where" title="Permanent link">¶</a></h2>
+<p>Chaque choix structurel - la disposition hexagonale, la portée des jetons
+de plugin, pourquoi l'installation tient en un seul fichier compose,
+comment un seul plan de lecture décide pour tous les clients - a sa
+décision d'architecture (ADR) : le contexte, les options pesées, ce qui a
+été choisi et ce que cela coûte. Elles sont conservées dans le dépôt, à côté
+du code qu'elles expliquent, et sont le point de départ avant de proposer de
+changer l'un de ces choix.</p>
 <h2 id="before-you-open-a-pull-request">Avant d'ouvrir une pull request<a class="headerlink" href="#before-you-open-a-pull-request" title="Permanent link">¶</a></h2>
-<ul>
-<li><code>make pre-push</code> est le point de contrôle : il exécute en local les
-  vérifications de la CI (vet, recherche de vulnérabilités, build, tests
-  unitaires avec <code>-race</code>, frontend, lint, gardes d'architecture). Il ne
-  construit ni l'image Docker ni les applications Android : après avoir touché
-  au <code>Dockerfile</code> ou à du code Kotlin, construisez-les vous-même.</li>
-<li>Des tests sont attendus pour tout nouveau comportement et pour chaque
-  correction de bug.</li>
-<li>Une contribution externe demande d'accepter une fois
-  <a href="https://github.com/Evey-project/evey/blob/master/CLA.md">l'accord de licence des contributeurs</a> : Evey est sous
-  AGPL-3.0-or-later et est aussi proposé sous licence commerciale. Vous gardez
-  le droit d'auteur sur votre travail.</li>
-</ul>
+<ol>
+<li>Lancez <code>make pre-push</code> : c'est la barrière, et elle exécute en local les
+   vérifications de la CI dans cet ordre : vet, recherche de vulnérabilités,
+   build, tests unitaires avec <code>-race</code>, frontend (typage, lint, tests
+   unitaires), analyse de sécurité, lint,
+   <a href="../ARCHITECTURE/#architecture-guards">gardes d'architecture</a>, hygiène des
+   commits, recherche de secrets, détection de rupture des proto, build
+   depuis un checkout propre, les barrières d'intégration du dépôt et du
+   transcodage, et l'audit TV.</li>
+<li>Ajoutez des tests pour tout nouveau comportement et pour chaque
+   correction de bug.</li>
+<li>Pour une contribution externe, acceptez une fois
+   l'<a href="https://github.com/Evey-project/evey/blob/master/CLA.md">accord de licence de contribution</a> : Evey est sous
+   AGPL-3.0-or-later et est aussi proposé sous licence commerciale. Vous
+   gardez le droit d'auteur sur votre travail.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">La barrière ne construit ni l'image Docker ni les applications Android</p>
+<p>Après avoir touché le <code>Dockerfile</code> ou du code Kotlin, construisez-les
+vous-même (<code>docker build --target runtime</code>, la tâche Gradle de release)
+avant de pousser.</p>
+</div>
 <p>Les problèmes de sécurité ne se signalent pas en public : écrivez à
 <code>security@eveyproject.org</code> (voir <a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">SECURITY.md</a>).</p>
+<!-- sources
+gate: Makefile - pre-push, ci-fast-vet, ci-fast-vuln, ci-fast-build, ci-fast-unit, ci-fast-frontend, ci-fast-sec, ci-local-lint, ci-arch, ci-hygiene, ci-secrets, ci-proto-breaking, ci-clean-checkout, repo-itest-gate, transcode-itest-gate, tv-audit
+documents: DEV.md ; CONTRIBUTING.md ; CLA.md ; SECURITY.md ; docs/CODEBASE_MAP.md ; docs/code-conventions.md ; docs/frontend-design-system.md ; docs/adr/README.md ; docs/runbooks/release.md
+-->
 
 
 
