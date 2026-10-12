@@ -1,6 +1,6 @@
-# evey-project.github.io
+# eveyproject.github.io
 
-Site GitHub Pages de l'organisation Evey-project - la vitrine du projet,
+Site GitHub Pages de l'organisation eveyproject - la vitrine du projet,
 servie sur https://eveyproject.org/ (domaine custom, fichier CNAME).
 
 Le Web Receiver Google Cast vit dans son propre repo (`cast-receiver`,
