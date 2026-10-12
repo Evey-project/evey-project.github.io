@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/operations/troubleshooting/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/operations/troubleshooting/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/operations/troubleshooting/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/operations/troubleshooting/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/operations/troubleshooting/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/operations/troubleshooting/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/operations/troubleshooting/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/operations/troubleshooting/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/operations/troubleshooting/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/operations/troubleshooting/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -1607,6 +1669,17 @@
     <span class="md-ellipsis">
       
         Library and posters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reporting a problem
       
     </span>
   </a>
@@ -3155,6 +3228,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reporting-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reporting a problem
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3179,15 +3263,14 @@
 
 
 <h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h1>
-<p>Something is wrong and you want to know where to look first. Find your
-symptom in the table, open the page or the panel section it names, and
-come back here for the logs and the recovery procedures when that is not
-enough.</p>
+<p>Something does not work? Find what you see in the table below. The middle
+column says where to look first; the last one leads to the fix. If that is
+not enough, the logs and <code>evey admin doctor</code> (further down) say more.</p>
 <h2 id="where-to-look-by-symptom">Where to look, by symptom<a class="headerlink" href="#where-to-look-by-symptom" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
-<th>Symptom</th>
+<th>What you see</th>
 <th>Look first</th>
 <th>Then</th>
 </tr>
@@ -3195,32 +3278,32 @@ enough.</p>
 <tbody>
 <tr>
 <td>Nothing answers, not even at home</td>
-<td><code>docker compose ps</code>, then <code>docker compose logs --tail=200 evey</code></td>
-<td><a href="#the-server-does-not-start">The server does not start</a> below; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">Server not reachable</a></td>
+<td>Is Evey running? <code>docker compose ps</code>, then the last lines of its output: <code>docker compose logs --tail=200 evey</code></td>
+<td><a href="#the-server-does-not-start">The server does not start</a> below; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">The server does not answer</a></td>
 </tr>
 <tr>
 <td>The app says <strong>Unable to reach server</strong> or <strong>Connection failed</strong></td>
-<td>The address typed in the app: <a href="../../getting-started/apps/#the-server-address-to-enter">Apps and devices</a></td>
-<td>Away from home only: <a href="../../administration/remote-access/">Remote access and HTTPS</a></td>
+<td>The address typed in the app</td>
+<td><a href="../../getting-started/apps/#the-server-address-to-enter">Connect the apps</a>; away from home only: <a href="../../administration/remote-access/">Remote access and HTTPS</a></td>
 </tr>
 <tr>
-<td>Everyone is signed out, every sign-in fails</td>
-<td><strong>Admin → Remote Access → Trusted proxies</strong>, and the database in the logs</td>
+<td>Everyone is signed out, or nobody can sign in</td>
+<td><strong>Admin → Remote Access</strong>, the trusted proxies; then the logs</td>
 <td><a href="#nobody-can-sign-in">Nobody can sign in</a> below</td>
 </tr>
 <tr>
-<td>No picture, playback will not start, or it stops</td>
+<td>A film shows no picture, will not start, or stops</td>
 <td><strong>Stream info</strong> in the player, then <strong>Admin → Media Health</strong> for that title</td>
 <td><a href="#playback-problems">Playback problems</a> below</td>
 </tr>
 <tr>
-<td>It stutters or keeps buffering</td>
-<td><strong>Admin → Streaming Quality</strong> (which titles and devices wait) and <strong>Admin → System Health</strong> (is the server at capacity)</td>
+<td>It stutters or keeps loading</td>
+<td><strong>Admin → Streaming Quality</strong> (which titles and devices wait) and <strong>Admin → System Health</strong> (is the server too busy)</td>
 <td><a href="../../playback/transcoding/">Transcoding and server capacity</a></td>
 </tr>
 <tr>
-<td>Wrong poster, wrong title, a film that is not recognised</td>
-<td><strong>Edit Metadata</strong> or <strong>Re-match metadata</strong> on the title</td>
+<td>Wrong poster, wrong title, or a film is not recognised</td>
+<td><strong>Edit Metadata</strong> on the title</td>
 <td><a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Fix a wrong or missing title</a></td>
 </tr>
 <tr>
@@ -3229,46 +3312,66 @@ enough.</p>
 <td><a href="#library-and-posters">Library and posters</a> below</td>
 </tr>
 <tr>
+<td>New files do not show up</td>
+<td>The scan result on the library's row in <strong>Admin → Libraries</strong></td>
+<td><a href="#library-and-posters">Library and posters</a> below</td>
+</tr>
+<tr>
+<td>E-mails do not arrive</td>
+<td><strong>Send test email</strong> in <strong>Admin → Server Config → Email / SMTP</strong></td>
+<td><a href="#e-mails-do-not-arrive">E-mails do not arrive</a> below</td>
+</tr>
+<tr>
 <td>A plugin fails</td>
-<td>Its <strong>Logs</strong> on its card in <strong>Admin → Plugins</strong></td>
-<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">Plugin crashed</a></td>
+<td>Its <strong>Logs</strong>, on its card in <strong>Admin → Plugins</strong></td>
+<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">A plugin crashed</a></td>
 </tr>
 <tr>
 <td>A cast froze or went silent</td>
-<td><strong>Admin → Now Playing</strong> (is the session still there)</td>
+<td><strong>Admin → Now Playing</strong>: is the playback still listed?</td>
 <td><a href="../../runbooks/incident-runbook/#a-cast-froze-went-silent-or-the-phone-keeps-spinning">A cast froze, went silent, or the phone keeps spinning</a></td>
 </tr>
 <tr>
 <td>The disk fills up</td>
 <td><strong>Admin → Transcode Cache</strong></td>
-<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">Transcode cache disk full</a></td>
+<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">The cache disk is full</a></td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-logs">The logs<a class="headerlink" href="#the-logs" title="Permanent link">¶</a></h2>
-<p>The server writes its log to <code>/data/logs/evey-YYYY-MM-DD.log</code> inside the
-container, which is <code>./evey-data/logs/</code> next to your compose file. One file
-per day, in JSON, kept 90 days by default (<code>EVEY_LOG_RETENTION_DAYS</code>).</p>
-<p><strong>Admin → Logs &amp; Debug</strong> reads the same files: full-text search, a <strong>Live</strong>
-tail, and a <strong>Where</strong> filter that narrows to one area (player and transcode,
-seek index, subtitles, intro detection, Chromecast, auth, infrastructure...).
-When a viewer reports a problem, this is the first place to look.</p>
-<p><code>docker compose logs evey</code> shows what the container prints while it starts:
-the start-up script's <code>evey:</code> lines, the embedded database and the banner. It
-is the place to read when the server does not come up; once it runs, the
-application log is in the file and the panel.</p>
+<p>The log is Evey's diary: every error is written there, with the time.</p>
+<p><strong>The easy way: Admin → Logs &amp; Debug.</strong> It shows the log with a search box,
+a <strong>Live</strong> view that follows new lines, and a <strong>Where</strong> filter for one area
+(player and conversion, subtitles, intro detection, Chromecast, sign-in...).
+When someone reports a problem, look here first, around the time they give
+you.</p>
+<details class="info">
+<summary>Where the log files are</summary>
+<ul>
+<li>The files are in <code>./evey-data/logs/</code>, next to your compose file
+  (<code>/data/logs/evey-YYYY-MM-DD.log</code> inside the container). One file per
+  day, in JSON, kept 90 days by default (<code>EVEY_LOG_RETENTION_DAYS</code>).</li>
+<li><code>docker compose logs evey</code> shows something else: what the container
+  prints while it starts (the start-up script's <code>evey:</code> lines, the
+  database, the banner). Read it when the server does not come up. Once
+  it runs, the log is in the files and the panel.</li>
+</ul>
+</details>
 <h2 id="evey-admin-doctor"><code>evey admin doctor</code><a class="headerlink" href="#evey-admin-doctor" title="Permanent link">¶</a></h2>
-<p>One command checks the whole server and prints one line per check, <code>ok</code>,
-<code>WARN</code> or <code>FAIL</code>, with a remedy:</p>
+<p>One command checks the whole server. It prints one line per check, <code>ok</code>,
+<code>WARN</code> or <code>FAIL</code>, with what to do:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>doctor
 </span></code></pre></div>
-<p>It covers the database and its schema, the signing key, the search index and
-its drift against the database, the media mounts (including whether the server
-can write to each library), the cache and log directories, <code>ffmpeg</code> and
-<code>mkvgo</code>, the trusted proxies, remote access and free disk space. <code>--repair</code>
-applies only the safe fixes (creating and re-owning missing writable
-directories). It exits non-zero when a check fails. The other commands are in
-<a href="../../runbooks/cli/">Command line</a>.</p>
+<details class="info">
+<summary>What it checks</summary>
+<p>The database and its schema, the signing key, the search index (and
+whether it matches the database), the media folders (including whether
+Evey can write in each library), the cache and log folders, <code>ffmpeg</code> and
+<code>mkvgo</code>, the trusted proxies, remote access, and free disk space.
+<code>--repair</code> applies only the safe fixes (creating missing folders and
+giving them the right owner). It exits with an error code when a check
+fails. The other commands are in <a href="../../runbooks/cli/">Command line</a>.</p>
+</details>
 <h2 id="the-server-does-not-start">The server does not start<a class="headerlink" href="#the-server-does-not-start" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3295,11 +3398,16 @@ directories). It exits non-zero when a check fails. The other commands are in
 <p>A lost administrator password, a compromised signing key or a broken
 database: <a href="../../runbooks/recovery/">Recovery</a>.</p>
 <h2 id="nobody-can-sign-in">Nobody can sign in<a class="headerlink" href="#nobody-can-sign-in" title="Permanent link">¶</a></h2>
-<p>Every request checks the account against the database and is refused when it
-cannot answer; the log says so. The other usual cause is a reverse proxy
-missing from <strong>Admin → Remote Access → Trusted proxies</strong>: every visitor then
-shares the proxy's address and one sign-in rate limit. The procedure is
-<a href="../../runbooks/incident-runbook/#every-login-returns-401">All logins return 401</a>.</p>
+<p>Two usual causes:</p>
+<ul>
+<li><strong>The database does not answer.</strong> Evey checks every sign-in against it, and
+  refuses when it cannot. The log says so.</li>
+<li><strong>A reverse proxy is missing from the trusted proxies</strong> (<strong>Admin → Remote
+  Access</strong>). Every visitor then seems to come from the proxy's address, and
+  they all share one limit on sign-in attempts.</li>
+</ul>
+<p>The step-by-step procedure:
+<a href="../../runbooks/incident-runbook/#every-login-returns-401">Every login returns 401</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A lost or replaced signing key alone signs nobody out: the apps renew
@@ -3333,18 +3441,18 @@ when it fails. A TLS mode that does not match the port (<code>starttls</code> wi
 <code>EVEY_SMTP_*</code> variable. Notification sends that fail are logged as
 <code>email: send notification</code>. See <a href="../../notifications/">Notifications</a>.</p>
 <h2 id="playback-problems">Playback problems<a class="headerlink" href="#playback-problems" title="Permanent link">¶</a></h2>
-<p><strong>Stream info</strong> in the player names the playback method (sent as is, copied
-or re-encoded, track by track) and the reasons. A title that transcodes when
-you expected Direct Play is explained there: see
+<p>Start with <strong>Stream info</strong> in the player. It says how the film is sent (as
+it is, copied into another format, or converted), track by track, and why.
+A title that is converted when you expected it to play as it is: see
 <a href="../../playback/how-playback-is-decided/">How playback is decided</a>.</p>
 <ul>
-<li>One title stops, buffers or seeks slowly: open <strong>Admin → Media Health</strong>. A
-  file without a seek index, a damaged stretch or tracks stored in blocks
-  explains it, and most of these are repaired in place. See
-  <a href="../../runbooks/media-health/">Media health</a>.</li>
-<li>Several titles, when several people watch: the server may be at its
-  transcoding capacity. <strong>Admin → System Health</strong> shows how much of it is in
-  use. See <a href="../../playback/transcoding/">Transcoding and server capacity</a>.</li>
+<li><strong>One title</strong> stops, keeps loading, or is slow to jump to another moment:
+  open <strong>Admin → Media Health</strong>. The usual causes are a file without an
+  index for jumping, a damaged stretch, or tracks stored in large blocks.
+  Most of these can be repaired. See <a href="../../runbooks/media-health/">Media health</a>.</li>
+<li><strong>Several titles, when several people watch</strong>: the server may be at the
+  limit of what it can convert. <strong>Admin → System Health</strong> shows how busy it
+  is. See <a href="../../playback/transcoding/">Transcoding and server capacity</a>.</li>
 <li>Transcoded playback fails outright:
   <a href="../../runbooks/incident-runbook/#transcoded-playback-fails">Transcoding fails</a>.</li>
 <li>It buffers and the logs do not say why:
@@ -3357,6 +3465,13 @@ you expected Direct Play is explained there: see
 <li>Subtitles do not appear: <a href="../../playback/subtitles/">Subtitles</a> says which
   formats the players draw and which ones the server has to burn into the
   picture.</li>
+<li><strong>Subtitles are being prepared…</strong> stays for minutes: the file has no index
+  for that track and the server reads it through, once. See
+  <a href="../../playback/subtitles/#the-first-time-a-subtitle-is-shown">The first time a subtitle is shown</a>.</li>
+<li>Transcoded titles refuse to start or stall while titles already played
+  keep working, or administrators receive <strong>Subtitle cache full</strong>: the disk
+  is below its free-space margin. See
+  <a href="../../playback/transcoding/#the-transcoding-cache">The transcoding cache</a>.</li>
 </ul>
 <h2 id="library-and-posters">Library and posters<a class="headerlink" href="#library-and-posters" title="Permanent link">¶</a></h2>
 <p>Posters and backdrops are copied to the server during scans, into
@@ -3366,19 +3481,51 @@ artworks</strong> fetches them now, and <strong>Purge corrupt variants</strong> 
 posters a failed resize left empty, which are then rebuilt on demand.</p>
 <p>A poster or a title that belongs to another film is a metadata match, not an
 artwork problem: <a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Fix a wrong or missing title</a>.</p>
-<p>Search returns nothing: rebuild the index from the database with
-<code>docker exec evey-server evey admin reindex-search</code>. The index can always be
-rebuilt; nothing is lost.</p>
+<p>A new file normally shows up within a few minutes (see
+<a href="../../administration/libraries/#how-new-files-are-picked-up">How new files are picked up</a>).
+If it does not, press <strong>Scan</strong> on the library's row in <strong>Admin → Libraries</strong>
+and read the result.</p>
+<p>A scan ends with <strong>Partial scan - these folders could not be read:</strong>
+followed by paths: Evey cannot read those folders (permissions, a network
+share that dropped). The rest of the library is scanned, and the titles under
+an unreadable folder are kept rather than removed. Check the mount and the
+owner (<code>PUID</code>/<code>PGID</code>, see <a href="../../installation/#common-variations">Install</a>),
+then scan again.</p>
+<p>Search returns nothing: rebuild the search index from the database with
+<code>docker exec evey-server evey admin reindex-search</code>. Nothing is lost: the
+index can always be rebuilt.</p>
+<h2 id="reporting-a-problem">Reporting a problem<a class="headerlink" href="#reporting-a-problem" title="Permanent link">¶</a></h2>
+<p>Write to <strong>contact@eveyproject.org</strong>. A report that can be acted on says:</p>
+<ul>
+<li>what you did, what you expected, and what happened instead;</li>
+<li>when it happened, to the minute: the logs are searched by time;</li>
+<li>the device, and the app: <strong>Settings → About → App version</strong> in the Android
+  app, the browser and its version for the web app;</li>
+<li>the version of the server: <code>docker exec evey-server evey version</code>;</li>
+<li>for a playback problem, the title and a screenshot of <strong>Stream info</strong>
+  (see <a href="../../playback/how-playback-is-decided/#reading-stream-info">Reading Stream info</a>):
+  it names the method chosen and its reasons, which is most of the diagnosis.</li>
+</ul>
+<p>An administrator can add the log lines around that moment (<strong>Admin → Logs &amp;
+Debug</strong>, see <a href="#the-logs">The logs</a>) and the report of
+<a href="#evey-admin-doctor"><code>evey admin doctor</code></a>. Logs name accounts and network
+addresses: read them before sending.</p>
+<p>A security flaw is not reported in a public place: write to
+<strong>security@eveyproject.org</strong>, and give it time to be fixed before talking
+about it.</p>
 <!-- sources
 symptom table: i18n mobile.serverConnect.unreachable / connectionFailed ; i18n media.rematchMetadata, admin.library.refreshMetadataTooltip
 logs: internal/pkg/logger/logger.go - New (file handler only outside DevMode), rotatingWriter.rotate (evey-YYYY-MM-DD.log), StartCleanup (90 days) ; internal/adapters/driving/http/admin_handler_logs.go - currentLogPath ; docker-compose.yml EVEY_LOG_DIR=/data/logs, ./evey-data:/data ; i18n admin.logs.where.*, admin.logs.live
 docker compose logs: docker/entrypoint.sh (evey: lines), cmd/evey/banner.go
 doctor: cmd/evey/admin_commands.go - doctor ; cmd/evey/admin_ops.go - checkResult names (database, schema, jwt.key, meilisearch, search index, media <root>, trusted proxies, remote access, disk), checkTool ffmpeg/mkvgo
 sso: internal/adapters/driving/http/auth_handler.go /login?oidc_error=<reason>, i18n auth.login.ssoError.* ; smtp: internal/adapters/driving/http/smtp_test_handler.go (test send), internal/adapters/driven/email/notification_emailer.go (log)
+partial scan: internal/app/library/scan_service.go - scanDirectories (unreadable root = failed path, protected from pruning) ; i18n admin.libraries.scanPartial
 posters: internal/app/metadata/command_service_artwork.go (hourly retry) ; i18n admin.artworks.* (/data/artworks, purge variants)
 rotate-jwt-key ends sessions: cmd/evey/admin.go - endAllSessions
 startup failures: docker/entrypoint.sh ; cache ownership: docker/entrypoint.sh (re-own /cache)
 remote access warning: docs/adr/0026-remote-access-inferred-from-a-published-url.md
+reporting: docs/privacy.md (contact@eveyproject.org) ; docs/SECURITY.md (security@eveyproject.org) ; app version: frontend/apps/mobile/app/(auth)/(tabs)/settings.tsx, i18n mobile.settings.appVersion ; server version: cmd/evey/cli.go
+new files row: i18n admin.libraries.scan, scanPartial ; docs/administration/libraries.md (How new files are picked up) ; e-mail row: i18n admin.serverConfig.sendTestEmail
 -->
 
 

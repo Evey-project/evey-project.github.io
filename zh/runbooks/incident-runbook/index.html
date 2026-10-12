@@ -1,0 +1,3945 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/zh/runbooks/incident-runbook/">
+      
+      
+        <link rel="prev" href="../migration-runbook/">
+      
+      
+        <link rel="next" href="../../operations/advanced-deployments/">
+      
+      
+        
+          <link rel="alternate" href="../../../runbooks/incident-runbook/" hreflang="en">
+        
+          <link rel="alternate" href="../../../fr/runbooks/incident-runbook/" hreflang="fr">
+        
+          <link rel="alternate" href="../../../de/runbooks/incident-runbook/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/runbooks/incident-runbook/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/runbooks/incident-runbook/" hreflang="hi">
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>事故手册 - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#incident-runbook" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              事故手册
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../runbooks/incident-runbook/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../fr/runbooks/incident-runbook/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/runbooks/incident-runbook/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/runbooks/incident-runbook/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/runbooks/incident-runbook/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  入门
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  管理
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  播放
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  运维
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  插件与 API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  内部原理
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    入门
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首次设置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    连接应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用 Evey 观看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    隐私政策
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    管理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体库与元数据
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用户、个人资料与家长控制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    远程访问与 HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    远程访问与 HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    远程访问和 HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反向代理配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件加速
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    单点登录 (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    电子邮件与通知
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    备份与更新
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    播放
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey 如何选择播放方式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    转码与服务器容量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey 中的 MKVGo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR 与杜比视界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    字幕
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    投屏到 Chromecast
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一起看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    运维
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    运维
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    故障排除
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    监控与日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后台任务与服务器负载
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体健康
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    命令行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    恢复
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库迁移
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事故手册
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事故手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开始之前
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-server-does-not-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        服务器没有应答
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-login-returns-401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每次登录都返回 401
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transcoded-playback-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        转码播放失败
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="转码播放失败">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        播放缓冲或中断，日志却没说原因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stale_rendition 410，播放器在播放中途重新获取主播放列表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据库错误
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-is-degraded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        搜索功能降级
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-cache-disk-is-full" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        缓存磁盘满了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-plugin-crashed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        插件崩溃了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        投屏卡住、没有声音，或者手机一直在转圈
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-a-session-or-a-compromised-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        停止一个会话或一台被盗用的设备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-library-scan-is-stuck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体库扫描卡住了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheatsheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        速查表
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级部署
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级部署
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    不使用容器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件沙箱设置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    环境变量
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    环境变量
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配置参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    服务器与网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库与搜索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    账户与登录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体库与元数据
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    转码与硬件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放分发与下载
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后台任务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件与沙箱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    电子邮件与通知
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    备份、日志与监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件与 API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    插件与 API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编写插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    权限与插槽
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    主题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Webhook 与 API 密钥
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    服务器 API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    服务器 API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    公开 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内部原理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    内部原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计原则
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放链路
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全模型与插件沙箱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    语言与无障碍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参与贡献
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开始之前
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-server-does-not-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        服务器没有应答
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-login-returns-401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每次登录都返回 401
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transcoded-playback-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        转码播放失败
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="转码播放失败">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        播放缓冲或中断，日志却没说原因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stale_rendition 410，播放器在播放中途重新获取主播放列表
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据库错误
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-is-degraded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        搜索功能降级
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-cache-disk-is-full" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        缓存磁盘满了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-plugin-crashed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        插件崩溃了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        投屏卡住、没有声音，或者手机一直在转圈
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-a-session-or-a-compromised-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        停止一个会话或一台被盗用的设备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-library-scan-is-stuck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体库扫描卡住了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheatsheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        速查表
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/zh/runbooks/incident-runbook.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="incident-runbook">事故手册<a class="headerlink" href="#incident-runbook" title="Permanent link">¶</a></h1>
+<p>本页写给值班的运维人员，说明 Evey 常见故障的第一步处理。找到和症状相符的小节，按其中的方法检查，再根据检查结果采取对应的修复办法。每个小节的结构都一样：<strong>症状</strong>、<strong>诊断</strong>、<strong>修复</strong>。</p>
+<h2 id="before-you-start">开始之前<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<p>这些命令针对标准安装：只有一个容器 <code>evey-server</code>，Postgres 和 Meilisearch 都在里面运行。它们的日志行和服务器的日志出现在同一个日志里（数据库的日志行以 <code>postgres:</code> 开头）。代码仓库里的 <code>docker-compose.yml</code> 另外加了 <code>evey-postgres</code> 和 <code>evey-caddy</code> 两个容器；见<a href="../../operations/advanced-deployments/">高级部署</a>。</p>
+<p><strong>端口。</strong> HTTP API 监听 <code>EVEY_SERVER_PORT</code> + 1，默认是 <code>9091</code>；<code>/healthz</code> 也在这个端口上应答。compose 里的 <code>ports:</code> 那一行负责把它对外公开。</p>
+<p>在内置数据库上打开 <strong>SQL 命令行</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
+</span></code></pre></div>
+<p><strong>日志。</strong> 同样的日志流有两份：每天一个的文件 <code>./evey-data/logs/evey-YYYY-MM-DD.log</code>（<code>EVEY_LOG_DIR</code>，镜像内是 <code>/data/logs</code>），以及 <code>docker logs evey-server</code>。以文件为准：Docker 的 json-file 驱动会轮转 <code>docker logs</code> 的内容，轮转之后，这条命令显示的日志可能比容器实际停止的时间早好几个小时就断了。两者不一致时，请看文件。管理面板的<strong>日志与调试</strong>页面搜索的也是同一个日志流（<code>GET /api/v1/admin/logs/search?q=&lt;term&gt;&amp;limit=200</code>）；在那里，bearer 令牌、JWT 以及 <code>token=</code> / <code>password=</code> 的值都会显示为 <code>[redacted]</code>，所以请搜索媒体 ID，不要搜索令牌。</p>
+<h2 id="the-server-does-not-answer">服务器没有应答<a class="headerlink" href="#the-server-does-not-answer" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：客户端连不上；<code>curl http://localhost:9091/healthz</code> 超时或被拒绝。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>ps<span class="w"> </span>--filter<span class="w"> </span><span class="nv">name</span><span class="o">=</span>evey-server
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>inspect<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{.State.Health.Status}}'</span><span class="w"> </span>evey-server
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">200</span><span class="w"> </span>evey-server
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ss<span class="w"> </span>-ltnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">9091</span><span class="w">                </span><span class="c1"># 端口到底有没有在监听？</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>curl<span class="w"> </span>-v<span class="w"> </span>http://localhost:9091/healthz
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li>容器已经退出：panic 信息在 <code>docker logs evey-server</code> 的末尾。解决原因后，运行 <code>docker compose up -d evey</code>。</li>
+<li>健康检查变红，是因为数据库或搜索引擎停了：见<a href="#database-errors">数据库错误</a>和<a href="#search-is-degraded">搜索功能降级</a>。</li>
+<li>主机上端口冲突：修改 compose 里 <code>ports:</code> 那一行的主机端口，或者把这个端口腾出来。</li>
+<li>前面的 Caddy 不转发请求（代码仓库的部署方式）：查看 <code>docker logs evey-caddy</code>，检查 <code>EVEY_DOMAIN</code>，并确认 <code>evey</code> 的健康检查是绿色的，因为 Caddy 会等它。</li>
+</ul>
+<h2 id="every-login-returns-401">每次登录都返回 401<a class="headerlink" href="#every-login-returns-401" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：所有用户，包括管理员，从 <code>/api/v1/auth/*</code> 得到的都是 401。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'epoch|jwt|auth|signing|private key'</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/data/jwt.key
+</span></code></pre></div>
+<p>先找关于 epoch 的那一行。每个经过身份验证的请求，都会到数据库里重新检查用户的令牌 epoch，而这项检查在出问题时一律拒绝：只要数据库很慢、被锁住或者连不上，每个请求都会返回和令牌过期时一模一样的 401，看起来像是 JWT 的问题，其实不是。服务器会明确说出来：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>auth rejected: the token epoch could not be read, so every authenticated request is failing - check the database, not the JWT key
+</span></code></pre></div>
+<p>如果有这一行，请去看<a href="#database-errors">数据库错误</a>。这期间 <code>/healthz</code> 可能仍然是绿色的：它只测试连接，不执行 epoch 查询。对应的 Prometheus 计数器是 <code>evey_auth_failures_total{reason="epoch_lookup_failed"}</code>。</p>
+<p><strong>修复</strong>：</p>
+<ul>
+<li><strong>JWT 密钥丢失或改变，很少是原因。</strong> 密钥文件（<code>EVEY_JWT_PRIVATE_KEY_PATH</code>，<code>/data/jwt.key</code>）读不出来时，服务器根本无法启动；文件不存在时，会重新生成一个。这时旧密钥签发的访问令牌会被拒绝，但应用会用刷新令牌来续签，而刷新令牌是在数据库里检查的，和密钥无关：用户仍然保持登录。请确认 <code>./evey-data</code> 卷挂载在 <code>/data</code>；没有它，数据库也不在。</li>
+<li><strong>每个请求都触发了限流</strong>：<code>EVEY_RATELIMIT_LOGIN_MAX</code>（每个 IP 每分钟 <code>10</code> 次）和 <code>EVEY_RATELIMIT_GLOBAL_MAX</code>（<code>300</code>）。如果反向代理把所有请求都以同一个地址转发过来，很快就会触发限流：在<strong>管理 → 远程访问</strong>里把这个代理加到<strong>受信任的代理</strong>中（无需重启就会生效；<code>EVEY_TRUSTED_PROXIES</code> 是后备方式）。代码仓库里的 <code>docker-compose.override.yml</code> 在开发时把两者分别提高到 <code>1000</code> / <code>10000</code>。</li>
+<li><strong>服务器和客户端之间的时钟不一致</strong>：在主机上运行 <code>date -u</code> 查看。</li>
+</ul>
+<h2 id="transcoded-playback-fails">转码播放失败<a class="headerlink" href="#transcoded-playback-fails" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：直接播放正常，需要转码的播放失败；播放器报错，服务器日志里有 ffmpeg 的退出码。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>which<span class="w"> </span>ffmpeg<span class="w"> </span>ffprobe
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ffmpeg<span class="w"> </span>-version<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'ffmpeg|transcode|hls'</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-ld<span class="w"> </span>/cache/transcode<span class="w"> </span>/data/trickplay
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>touch<span class="w"> </span>/cache/transcode/.write-test<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>rm<span class="w"> </span>/cache/transcode/.write-test
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li><strong>没有 ffmpeg</strong>（自己定制的镜像）：用官方的 <code>Dockerfile</code> 重新构建。</li>
+<li><strong>缓存目录不可写</strong>：镜像设置了 <code>EVEY_TRANSCODING_CACHE_DIR=/cache/transcode</code>（<code>evey-cache</code> 卷）和 <code>EVEY_TRICKPLAY_CACHE_DIR=/data/trickplay</code>；compose 里 <code>environment:</code> 下的设置会覆盖它们。在镜像之外，Go 代码里的默认值是 <code>/data/transcode</code> 和 <code>/cache/trickplay</code>。</li>
+<li><strong>缓存满了</strong>：见<a href="#the-cache-disk-is-full">缓存磁盘满了</a>。</li>
+<li><strong>硬件加速工作不正常</strong>：在<strong>管理 → 转码 → 编码校准</strong>里把<strong>硬件加速</strong>设为<strong>关闭（仅软件）</strong>（立即生效，并重新校准），让所有转码都在处理器上进行；硬件修好后，再改回<strong>自动（最佳可用）</strong>。</li>
+<li><strong>“服务器正忙于转码其他流”</strong>：实时容量是测量出来的，不是设置出来的；见<a href="../../playback/transcoding/#sharing-the-capacity">分配这份能力</a>。<code>EVEY_TRANSCODING_MAX_CONCURRENT</code>（<strong>管理 → 转码缓存</strong>里的<strong>最大并发</strong>）只管实时播放以外的转码任务。</li>
+</ul>
+<h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">播放缓冲或中断，日志却没说原因<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
+<p><strong>症状</strong>：一位观众反映，某部转码播放的片子会卡住；日志里有 <code>hls-vod: segment timeout</code> 和 <code>err:"context canceled"</code>，意思是客户端挂断了连接，而不是服务器超时。</p>
+<p><strong>诊断</strong>：先看服务器已经记录下来的内容，这不花任何代价：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 某个片段请求为什么沿用了一个编码器、或者新启动了一个，以及这让播放器付出了什么代价。</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># 只有产生代价时才会记录。`over_client_patience: true` 就是确凿的证据。</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>grep<span class="w"> </span><span class="s1">'"software: reach decision"'</span><span class="w"> </span>/data/logs/evey-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-40
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># 编码器本身：启动、终止，以及终止的原因。</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'"software: session (started|killed)"|per-hash cap'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span>/data/logs/evey-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-40
+</span></code></pre></div>
+<p>这些日志行说明的是服务器做了什么决定。要想逐秒看到 ffmpeg 实际做到了什么，请打开每个编码器的进度日志（<code>$TOKEN</code> 是一个管理员 JWT）：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 打开。对下一个编码器生效，无需重启。</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>curl<span class="w"> </span>-sf<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://localhost:9091/api/v1/admin/server-config/transcode.ffmpeg_progress_log<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"value":"true"}'</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># 重现问题，然后读取一个会话：out_time = 到目前为止产出的内容，</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># speed = 编码器比实时快了多少。</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-t<span class="w"> </span>/data/logs/ffmpeg<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>tail<span class="w"> </span>-20<span class="w"> </span>/data/logs/ffmpeg/&lt;file&gt;.log
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># 用完后关闭。</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>curl<span class="w"> </span>-sf<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://localhost:9091/api/v1/admin/server-config/transcode.ffmpeg_progress_log<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"value":"false"}'</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>不在排查问题时，请让进度日志保持关闭：每个编码器一个文件，每个会话几 MB，这台机器上的每次播放都会产生。文件名里带有决策哈希、档位（<code>-vN-</code>）和起始片段（<code>-sN-</code>），所以能和 JSON 日志对应起来；在同一位置重新启动的编码器会有自己单独的文件，正是这一点让编码器的反复启动变得一目了然。</p>
+</div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li><strong>反复短距离向前跳转</strong>：每次跳转都可能启动一个新的编码器，而每个哈希的上限（<code>MaxSessionsPerHash</code>，默认 2，低内存配置下为 1）会终止最久没用的那个：日志里显示 <code>session killed reason:lru_cap</code>。适度出现属于正常。</li>
+<li><strong>客户端比服务器更没耐心</strong>：跳转可达窗口是按 <code>clientSegmentPatience</code>（6 秒）来定的，而服务器自己的等待预算（<code>WaitBudgetDur</code>）是 60 秒。如果一行 <code>reach decision</code> 带有 <code>over_client_patience: true</code>，说明服务器正准备让播放器等待一段没有任何播放器会等下去的时间。</li>
+</ul>
+<h3 id="stale_rendition-410s-the-player-refetches-its-master-mid-play"><code>stale_rendition</code> 410，播放器在播放中途重新获取主播放列表<a class="headerlink" href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" title="Permanent link">¶</a></h3>
+<p><strong>症状</strong>：播放器短暂卡住，然后恢复；日志里有 <code>hls-vod: stale rendition URL refused (the ladder moved under a live player)</code>，请求得到的回复是 <code>410 Gone</code>，带有 <code>X-Evey-Error: stale_rendition</code>。</p>
+<p>这是一项保护机制在起作用，本身并不是故障。每个清单 URI 都带有生成它时的决策哈希（<code>fp=</code>）。410 表示播放器出示的 URL 来自一个会话，而这个会话的 ABR 档位阶梯后来已经改变了；如果照样提供，就会把另一个版本的字节交给解码器。拒绝请求会迫使播放器干净地重新获取主播放列表。</p>
+<p><strong>诊断</strong>：这条 WARN 带有 <code>sealed_fp</code>、<code>current_fp</code> 和媒体 ID。</p>
+<ul>
+<li><strong>在部署、重启或重新校准之后立即出现一阵</strong>是正常的：正在进行的会话经历了一次能力变化。播放器在一次轮询之内就会重新同步。</li>
+<li><strong>在正常运行期间持续零星出现</strong>，说明有什么东西在不断改变正在播放的视频流的档位阶梯：检查能力是否反复变化（<code>docker logs evey-server | grep -iE 'calibrat|capability'</code>）、准入调节器是否在负载下频繁变动，或者 CMCD 上限覆盖是否在来回摆动。</li>
+<li><strong>在 410 上反复循环</strong>的播放器，持有的是缓存下来的主播放列表（旧版应用，或者缓存了 <code>.m3u8</code> 的代理）。代理必须把 <code>Cache-Control: no-cache</code> 原样传过去。</li>
+</ul>
+<h2 id="database-errors">数据库错误<a class="headerlink" href="#database-errors" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：日志里有 <code>dial tcp ... connect: connection refused</code>、<code>pq: ...</code>，或者查询超时。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">300</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'postgres|database'</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="s1">  SELECT count(*), state</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s1">    FROM pg_stat_activity</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s1">   WHERE datname = current_database()</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="s1">   GROUP BY state;"'</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>df<span class="w"> </span>-h<span class="w"> </span>./evey-data
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li><code>./evey-data</code> 下<strong>磁盘已满</strong>（数据库集群位于 <code>./evey-data/postgres</code>）：腾出空间，然后 <code>docker compose restart evey</code>。</li>
+<li><strong>连接池耗尽</strong>（<code>too many connections</code>，等待时间很长）：<code>EVEY_DB_MAX_OPEN_CONNS</code>（默认 <code>25</code>）。终止卡住的会话：
+  <div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'idle in transaction'</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">   </span><span class="k">AND</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">state_change</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">'5 minutes'</span><span class="p">;</span>
+</span></code></pre></div></li>
+<li><strong>独立的 Postgres 容器</strong>（代码仓库的部署方式）：<code>docker ps --filter name=evey-postgres</code>、<code>docker logs --tail=200 evey-postgres</code>；服务器的 <code>EVEY_DB_USER</code> / <code>EVEY_DB_PASSWORD</code> / <code>EVEY_DB_NAME</code> 必须和 <code>postgres</code> 服务一致。</li>
+</ul>
+<h2 id="search-is-degraded">搜索功能降级<a class="headerlink" href="#search-is-degraded" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：搜索结果变差了；日志里有 <code>meilisearch unavailable, using SQL search fallback</code>。</p>
+<p>Meilisearch 连不上时，搜索会通过 SQL 继续工作；只是排序质量下降，没有人会因此用不了。Meilisearch 运行在 <code>evey-server</code> 里面（<code>EVEY_EMBEDDED_MEILI</code>，默认开启），使用容器的回环地址，端口 7700。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>curl<span class="w"> </span>-sf<span class="w"> </span>http://127.0.0.1:7700/health
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">300</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>meili
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li>状态不健康：<code>docker compose restart evey</code>。</li>
+<li>索引损坏：停止容器，把 <code>./evey-data/meili</code> 移到别处，再启动，然后从数据库重建索引：
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reindex-search
+</span></code></pre></div>
+  重建是一条命令，不是面板里的操作。</li>
+</ul>
+<h2 id="the-cache-disk-is-full">缓存磁盘满了<a class="headerlink" href="#the-cache-disk-is-full" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：转码失败，提示 <code>no space left on device</code>；健康检查时好时坏。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/cache/transcode<span class="w"> </span>/data/trickplay<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>docker<span class="w"> </span>volume<span class="w"> </span>inspect<span class="w"> </span>evey_evey-cache<span class="w">   </span><span class="c1"># compose 加的前缀可能不同</span>
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ul>
+<li>清空转码缓存，它可以重新生成：
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /cache/transcode/*'</span>
+</span></code></pre></div>
+  这也会删除其中的 <code>photos/</code>（调整过大小的照片版本）和 <code>track-art/</code>（从音频标签中提取的封面）；两者都会在下次请求时重建。<strong>管理 → 转码缓存</strong>里的<strong>清除全部</strong>可以在面板里清空同一个缓存。</li>
+<li>trickplay 重新生成的代价更高；只在必要时才清空它：
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /data/trickplay/*'</span>
+</span></code></pre></div></li>
+<li>如果主机上的卷空间紧张，在<strong>管理 → 服务器配置 → 服务器设置</strong>里调低<strong>转码缓存预算（GB）</strong>（默认 <code>10</code>）。不管预算是多少，清理程序都会在缓存卷上保留 2 GiB 的空闲空间。</li>
+</ul>
+<h2 id="a-plugin-crashed">插件崩溃了<a class="headerlink" href="#a-plugin-crashed" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：某个插件不再响应；日志里有来自插件运行器的 panic。</p>
+<p><strong>诊断</strong>：</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>30m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'plugin|pluginrunner|panic'</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># 要找的是："panic in plugin runner"、"plugin process crashed"、"remove plugin sock on crash"</span>
+</span></code></pre></div>
+<p><strong>修复</strong>：</p>
+<ol>
+<li>不动服务器，重新启动插件：在<strong>管理 → 插件</strong>里再次<strong>启用</strong>它，或者 <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>。当插件处于启用状态、却卡在 <code>Error</code> 时，这样做有效：启动流程只会拒绝已经处于 <code>Running</code> 或 <code>Initializing</code> 状态的插件。</li>
+<li>如果这样还不行，在面板里<strong>禁用</strong>这个插件。</li>
+<li>如果服务器本身不稳定：<code>docker compose restart evey</code>。</li>
+<li>插件文件位于主机上的 <code>./evey-data/plugins/</code>（容器内是 <code>/data/plugins</code>）。删除出问题的插件的目录，然后重启。</li>
+<li>把 panic 堆栈和插件 ID 发给插件作者。</li>
+</ol>
+<h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">投屏卡住、没有声音，或者手机一直在转圈<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
+<p>这里的所有信息都可以在<strong>管理 → 日志与调试</strong>里看到；不需要登录到机器上的 shell。时间都是 UTC。每个信标都是一行 <code>player-client: playback event reported</code>，带有 <code>type=</code> 和一个 <code>details=</code> 字符串。</p>
+<ol>
+<li><strong>接收端当时还活着吗？活到什么时候？</strong> 搜索 <code>cast_receiver_alive</code>。接收端在播放时每 30 秒发送一次；<code>details</code> 里带有 <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code>（播放位置前后缓冲了多少秒）和 <code>pos_sec</code>。播放正常时，<code>ahead</code> 是几十秒。最后一个信标的时间，就是接收端停止运行或被终止的时间：在那之后什么都没有，就说明电视已经不再运行接收端了，不管手机上显示的是什么。</li>
+<li><strong>它为什么停了？</strong> 搜索 <code>cast_receiver_finished</code>：<code>reason=INTERRUPTED</code> 表示一个新的 LOAD 替换了正在播放的内容（往前几秒找找有没有 <code>StartStream</code>），<code>reason=ERROR</code> 带有播放器的错误。如果最后一个 <code>alive</code> 之后没有 <code>finished</code>，说明接收端进程消失了，最常见的情况是 Chromecast HD 在播放 20 Mbps 以上的直接复制主播放列表时，因内存不足被终止。</li>
+<li><strong>手机看到了什么？</strong> 搜索 <code>cast_sender_stall</code>：当 Cast SDK 仍然显示 PLAYING、但播放位置 20 秒都没有动时，发送端会发出 <code>state=playing frozen=&lt;n&gt;s pos=&lt;p&gt;</code>；当接收端报告了空闲原因时，会发出 <code>state=idle reason=&lt;r&gt;</code>。这些是 WARN 级别的日志行，所以页面的警告筛选会把它们显示出来。把它的 <code>pos</code> 和接收端最后一个 <code>pos_sec</code> 比较一下。</li>
+<li><strong>会话有没有引发连锁反应？</strong> 搜索 <code>refresh rejected</code>：刷新令牌 <code>not found</code> 会让应用退出登录再重新登录（用保存的凭据），从而重新发起视频流；这一行带有令牌的 <code>jti</code>、<code>issued</code> 和 <code>age</code>，可以据此分辨是一份过时的副本还是伪造的令牌。搜索 <code>StartStream</code> 可以看到重新发起的情况。</li>
+<li><strong>视频流对设备来说太大了吗？</strong> 搜索 <code>advertises a fallback rung</code>（直接复制主播放列表的峰值码率）和 <code>plan fitted to the client's line</code>（接收端测得的 <code>maxKbps</code>，或者它的 <code>abr=floor</code> 补救；随后的转码主播放列表会带有原因 <code>client_line_exceeded</code> 或 <code>abr_floor_requested</code>）。如果一个会话从 20 Mbps 以上的直接复制主播放列表开始，几秒钟后降到一个适配过的 1080p 档位，那是补救机制在正常工作；如果重新 LOAD 后又从直接复制主播放列表开始，这正是会让 Chromecast HD 崩溃的模式。</li>
+<li><strong>是服务器那边供不上数据吗？</strong> 搜索 <code>on-demand resource refused</code>：连续几个片段出现一连串 <code>context canceled</code> 拒绝，是在拖动进度条（每个请求都被下一个请求取消了），不是服务器的问题；持续时间很长的 <code>served</code> 日志行才是。</li>
+</ol>
+<p>如果第 1-3 步显示接收端还活着、发送端却没有动静，问题出在手机的投屏会话上（SDK，或者到电视的网络）。如果接收端的信标先停了，就去看电视：内存、编码、视频流的码率。</p>
+<h2 id="stop-a-session-or-a-compromised-device">停止一个会话或一台被盗用的设备<a class="headerlink" href="#stop-a-session-or-a-compromised-device" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：<strong>管理 → 正在播放</strong>里出现了一台意料之外的设备，或者有用户反映自己的会话列表里有一台不认识的设备。</p>
+<ol>
+<li>找出这个会话：
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s1">  SELECT id, profile_id, device_name, client_ip, started_at</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s1">    FROM play_sessions</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s1">   WHERE ended_at IS NULL</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s1">   ORDER BY started_at DESC LIMIT 20;"'</span>
+</span></code></pre></div></li>
+<li>在<strong>管理 → 正在播放</strong>里停止它：点击会话上的停止图标（<strong>停止会话</strong>），然后点击<strong>停止</strong>确认；或者通过 gRPC 用会话 ID 调用 <code>AdminSessionService/KillSession</code>。播放器会先收到一条停止命令，5 秒后视频流结束。这只会结束这次播放；用户仍然保持登录。</li>
+<li>如果视频流还是在继续，就重启容器：所有编码器都会随之停止。
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</span></code></pre></div></li>
+<li>如果账户本身已经被盗用，使用<strong>管理 → 用户 → 禁用</strong>：刷新令牌会被删除，访问令牌会立即被吊销，所以所有设备都会退出登录。设置一个新密码（<code>evey admin reset-password --user &lt;email&gt;</code>，见<a href="../recovery/#give-a-user-a-new-password">恢复</a>），然后再次<strong>启用</strong>这个账户。</li>
+</ol>
+<h2 id="a-library-scan-is-stuck">媒体库扫描卡住了<a class="headerlink" href="#a-library-scan-is-stuck" title="Permanent link">¶</a></h2>
+<p><strong>症状</strong>：扫描显示进行中已经好几个小时，日志里却没有任何文件进度。</p>
+<ol>
+<li>检查扫描是否还在写日志；卡住的扫描，CPU 是空闲的，最近也没有 <code>scan:</code> 日志行：
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">500</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'scan:'</span>
+</span></code></pre></div></li>
+<li>扫描锁保存在内存里，所以重启就能清除它：
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</span></code></pre></div></li>
+<li>如果某一个文件反复引起 panic（堆栈信息里会出现它的名字），把它移出媒体库路径，然后重新扫描。</li>
+<li>如果文件监视器记录了 <code>watcher: inotify failed for path, will use periodic scan</code>，说明内核的监视数量上限已经用完了：
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">echo</span><span class="w"> </span>fs.inotify.max_user_watches<span class="o">=</span><span class="m">524288</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>-p
+</span></code></pre></div></li>
+</ol>
+<h2 id="cheatsheet">速查表<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># 所有东西的状态</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>healthy
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># 跟踪所有容器的日志</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">100</span><span class="w"> </span>-f
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># 实际生效的配置</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>^EVEY_<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="c1"># 数据库大小</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="s1">  SELECT pg_size_pretty(pg_database_size(current_database()));"'</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1"># 主机磁盘</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>df<span class="w"> </span>-h<span class="w"> </span>./evey-data
+</span></code></pre></div>
+<!-- sources
+ports: internal/config/config.go (EVEY_SERVER_PORT, EVEY_GRPC_BIND) ; cmd/evey/main.go - httpPort = Port+1 ; Dockerfile - HEALTHCHECK
+logs: Dockerfile ENV EVEY_LOG_DIR ; internal/adapters/driving/http/admin_handler.go (GET /api/v1/admin/logs/search)
+epoch fail-closed: internal/adapters/driving/http/auth_middleware.go, internal/adapters/driving/grpcapi/interceptors/auth.go ; internal/pkg/metrics/metrics.go - AuthFailuresTotal
+rate limits: internal/config/config.go (EVEY_RATELIMIT_LOGIN_MAX, EVEY_RATELIMIT_GLOBAL_MAX, EVEY_TRUSTED_PROXIES) ; docker-compose.override.yml
+cache dirs: Dockerfile ENV EVEY_TRANSCODING_CACHE_DIR / EVEY_TRICKPLAY_CACHE_DIR ; docker-compose.yml ; internal/config/config.go defaults
+hardware mode and calibration labels: i18n/en/admin.yaml - transcodeCalibration.hwModeLabel, hwModeOff, hwModeAuto, cardTitle
+software producer: internal/app/transcoding/software_producer.go - clientSegmentPatience, WaitBudgetDur, MaxSessionsPerHash, "software: reach decision", over_client_patience ; internal/app/transcoding/software_producer_lifecycle.go - "software: session killed" ; cmd/evey/wire.go - low-memory profile, transcode.ffmpeg_progress_log, logs/ffmpeg
+server-config route: proto/evey/v1/server_config.proto - SetServerConfigEntry (PUT /api/v1/admin/server-config/{key})
+stale rendition: internal/adapters/driving/http/transcode_handler_vod.go - stale_rendition, sealed_fp
+db pool: internal/config/config.go (EVEY_DB_MAX_OPEN_CONNS)
+search fallback: cmd/evey/wire_infra.go ; cmd/evey/admin.go - adminReindexSearch ; docker/entrypoint.sh (EVEY_EMBEDDED_MEILI, MEILI_DATA_DIR)
+cache budget: internal/config/config.go (EVEY_TRANSCODING_CACHE_MAX_GB) ; internal/app/transcoding/segment_cache_evict.go - DefaultMinFreeBytes ; internal/adapters/driving/http/server.go - track-art under PhotoCacheDir ; cmd/evey/http.go - PhotoCacheDir
+plugins: internal/adapters/driven/pluginrunner/runner_start.go (panic/crash lines) ; internal/app/plugin/runtime_service.go - StartPlugin ; proto/evey/v1/admin_plugin.proto - EnablePlugin
+cast beacons: internal/adapters/driving/http/player_event_handler.go ; internal/app/user/auth.go - "refresh rejected" ; internal/adapters/driving/http/transcode_ondemand.go ; internal/app/transcoding/resolver_line.go
+sessions: internal/adapters/driven/postgres/migrations/000001_init.up.sql - play_sessions ; internal/adapters/driving/grpcapi/admin_audit.go - KillSession (5 s) ; internal/app/user/user_service.go - DisableUser
+scan: internal/app/library/scan_service.go - scanning map ; internal/app/library/watcher.go - inotify warning
+labels: i18n/en/admin.yaml - sidebar (logs, nowPlaying, remoteAccess, serverConfig, transcodeCache, users, plugins), nowPlaying.stopSession, transcodeCache.clearAll, transcodeCache.maxConcurrent, remoteAccess.trustedProxies, serverSettings.transcodeCacheMaxGB ; i18n/en/common.yaml - enable, disable
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚">
+        
+          
+          <a href="../migration-runbook/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 数据库迁移">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                数据库迁移
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../operations/advanced-deployments/" class="md-footer__link md-footer__link--next" aria-label="下一页: 高级部署">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                高级部署
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+  
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

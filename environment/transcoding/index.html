@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/environment/transcoding/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/environment/transcoding/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/environment/transcoding/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/environment/transcoding/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/environment/transcoding/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/environment/transcoding/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/environment/transcoding/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/environment/transcoding/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/environment/transcoding/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/environment/transcoding/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3202,6 +3264,12 @@ variable: they are set in <strong>Admin → Transcoding</strong> only.</p>
 <td>Server Config → Server Settings → <strong>Transcode cache budget</strong>, restart</td>
 </tr>
 <tr>
+<td><code>EVEY_TRANSCODE_CACHE_MIN_FREE_MB</code></td>
+<td><code>2048</code></td>
+<td>Free space kept on the disk of the cache. Below it, idle segments are evicted, then new segments are refused rather than written; extracted subtitles stop being stored and administrators are notified. <code>0</code> turns the margin off. See <a href="../../playback/transcoding/#the-transcoding-cache">The transcoding cache</a>.</td>
+<td>none</td>
+</tr>
+<tr>
 <td><code>EVEY_TRANSCODING_CACHE_DIR</code></td>
 <td><code>/cache/transcode</code></td>
 <td>Where it lives. Set by the image.</td>
@@ -3251,7 +3319,7 @@ equivalent.</p>
 </tbody>
 </table>
 <!-- sources
-internal/config/config.go - EVEY_TRANSCODING_*, EVEY_BENCH_*, EVEY_TRICKPLAY_CACHE_DIR ; struct comments HWBackend, HWDevice, MaxSessions, SingleVariant, SoftwareMaxHeightOverride, SoftwareAV1MaxHeightOverride (panel-only), AV1Enabled, AV1MaxHeight, HWLowPowerEnabled
+cmd/evey/wire.go - EVEY_TRANSCODE_CACHE_MIN_FREE_MB (read at boot, not in config.go) ; internal/config/config.go - EVEY_TRANSCODING_*, EVEY_BENCH_*, EVEY_TRICKPLAY_CACHE_DIR ; struct comments HWBackend, HWDevice, MaxSessions, SingleVariant, SoftwareMaxHeightOverride, SoftwareAV1MaxHeightOverride (panel-only), AV1Enabled, AV1MaxHeight, HWLowPowerEnabled
 panel overrides: cmd/evey/main.go - loadOverride (transcoding.*) ; cmd/evey/wire.go (transcoding.hw_mode read directly) ; internal/adapters/driving/http/settings_handler.go
 hw tonemap: internal/adapters/driving/http/transcode_vod_wire.go (EVEY_TRANSCODING_HW_TONEMAP)
 threads: internal/adapters/driven/ffmpeg/software_threads.go - parseSoftwareThreads

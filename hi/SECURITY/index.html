@@ -1,0 +1,4739 @@
+<!DOCTYPE html><html lang="hi" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/hi/SECURITY/">
+      
+      
+        <link rel="prev" href="../playback-serving/">
+      
+      
+        <link rel="next" href="../i18n-accessibility/">
+      
+      
+        
+          <link rel="alternate" href="../../SECURITY/" hreflang="en">
+        
+          <link rel="alternate" href="../../fr/SECURITY/" hreflang="fr">
+        
+          <link rel="alternate" href="../../de/SECURITY/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/SECURITY/" hreflang="es">
+        
+          <link rel="alternate" href="./" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/SECURITY/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>सुरक्षा मॉडल और प्लगइन सैंडबॉक्स - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plugin-sandbox-and-threat-model" class="md-skip">
+          विषय पर बढ़ें
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="शीर्षक">
+    <a href="../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="भाषा चुनें">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../SECURITY/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/SECURITY/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/SECURITY/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/SECURITY/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/SECURITY/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="खोज" placeholder="खोज" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="खोजें">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="शेयर करें" aria-label="शेयर करें" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="हटा दें" aria-label="हटा दें" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            खोज शुरू करें
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="टैब" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  होम
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  शुरुआत
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  एडमिन
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लेबैक
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  सर्वर चलाना
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लगइन और API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  अंदर की बनावट
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="नैविगेशन" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    होम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    शुरुआत
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    शुरुआत
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    इंस्टॉल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पहला सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऐप कनेक्ट करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey पर देखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्राइवेसी पॉलिसी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडमिन
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    यूज़र, प्रोफ़ाइल और पैरेंटल कंट्रोल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिवर्स प्रॉक्सी कॉन्फ़िगरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    हार्डवेयर एक्सेलेरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सिंगल साइन-ऑन (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप और अपडेट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लेबैक
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey प्लेबैक का तरीका कैसे चुनता है
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और सर्वर की क्षमता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey में MKVGo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR और Dolby Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऑडियो
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सबटाइटल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chromecast पर कास्ट करना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    साथ में देखें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर चलाना
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर चलाना
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    समस्या का हल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    निगरानी और लॉग
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम और सर्वर लोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    मीडिया स्वास्थ्य
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कमांड लाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिकवरी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस माइग्रेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    गड़बड़ी होने पर क्या करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कंटेनर के बिना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन सैंडबॉक्स सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कॉन्फ़िगरेशन रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर और नेटवर्क
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस और सर्च
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    खाते और साइन-इन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और हार्डवेयर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक डिलीवरी और डाउनलोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप, लॉग और निगरानी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लगइन और API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन लिखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    परमिशन और स्लॉट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    थीम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    वेबहुक और API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पब्लिक API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    अंदर की बनावट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    अंदर की बनावट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डिज़ाइन के सिद्धांत
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    आर्किटेक्चर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक पाइपलाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ख़तरा मॉडल
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इंस्टॉल के समय
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="इंस्टॉल के समय">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zip-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZIP extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifest-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifest और अनुमतियाँ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        स्थैतिक विश्लेषण
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सिग्नेचर
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrator-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        एडमिन का पूर्वावलोकन
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-run-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        चलते समय
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="चलते समय">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        फ़ाइल सिस्टम
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        नेटवर्क
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सिस्टम कॉल
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-separate-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        एक अलग उपयोगकर्ता
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-socket-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        होस्ट socket पर पहचान
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        संसाधनों की सीमाएँ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इंटरफ़ेस का अलगाव
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्वर को मज़बूत बनाना
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-notification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        गिरने की सूचना
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सैंडबॉक्स मोड
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="सैंडबॉक्स मोड">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto (डिफ़ॉल्ट)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#landlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        landlock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        strict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कॉन्फ़िगरेशन
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        जानी-पहचानी सीमाएँ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-exposure-outside-the-plugin-threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        नेटवर्क पर खुलापन (प्लगइन ख़तरा मॉडल से बाहर)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-logs-may-contain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        लॉग में क्या हो सकता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कमज़ोरी की रिपोर्ट करना
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    भाषाएँ और सुलभता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    योगदान करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ख़तरा मॉडल
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इंस्टॉल के समय
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="इंस्टॉल के समय">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zip-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZIP extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifest-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifest और अनुमतियाँ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        स्थैतिक विश्लेषण
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सिग्नेचर
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrator-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        एडमिन का पूर्वावलोकन
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#at-run-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        चलते समय
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="चलते समय">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        फ़ाइल सिस्टम
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        नेटवर्क
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सिस्टम कॉल
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-separate-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        एक अलग उपयोगकर्ता
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-socket-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        होस्ट socket पर पहचान
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        संसाधनों की सीमाएँ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इंटरफ़ेस का अलगाव
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्वर को मज़बूत बनाना
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-notification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        गिरने की सूचना
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sandbox-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सैंडबॉक्स मोड
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="सैंडबॉक्स मोड">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto (डिफ़ॉल्ट)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#landlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        landlock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bubblewrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        strict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        basic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कॉन्फ़िगरेशन
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        जानी-पहचानी सीमाएँ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-exposure-outside-the-plugin-threat-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        नेटवर्क पर खुलापन (प्लगइन ख़तरा मॉडल से बाहर)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-logs-may-contain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        लॉग में क्या हो सकता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-vulnerability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कमज़ोरी की रिपोर्ट करना
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/hi/SECURITY.md" title="इस पृष्ठ को संपादित करें" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="plugin-sandbox-and-threat-model">प्लगइन सैंडबॉक्स और ख़तरा मॉडल<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
+<p>सर्वर प्लगइन को बंद रखने के लिए क्या करता है: इंस्टॉल के समय की जाँचें, चलते समय की
+परतें, सैंडबॉक्स मोड, और हर एक अब भी क्या नहीं रोक सकता। कोड
+<code>internal/adapters/driven/pluginrunner</code> (इंस्टॉल का विश्लेषण, सैंडबॉक्स),
+<code>cmd/evey-plugin-launcher</code> (Landlock और kernel का seccomp फ़िल्टर), <code>sandbox/sandbox.c</code>
+(<code>LD_PRELOAD</code> फ़िल्टर) और <code>internal/adapters/driving/pluginhost</code> (वह होस्ट API जिसे
+प्लगइन कॉल करते हैं) में रहता है; डिज़ाइन
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>,
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a> और
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a> तय करते हैं। अगर आप प्लगइन लिख रहे
+हैं और जानना चाहते हैं कि आप क्या बता सकते हैं और क्या मना होगा, तो
+<a href="../plugins/security-model/">अनुमतियाँ और स्लॉट</a> पढ़ें; आपकी मशीन को कौन सा सैंडबॉक्स
+मिलता है, यह जानने के लिए <a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> पढ़ें।</p>
+<h2 id="threat-model">ख़तरा मॉडल<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
+<p>प्लगइन अलग प्रोसेस के रूप में चलते हैं, जो Unix socket पर gRPC से सर्वर से बात करते
+हैं। सर्वर डिफ़ॉल्ट रूप से किसी प्लगइन कोड पर भरोसा नहीं करता। जिन ख़तरों से वह बचाता
+है, सबसे गंभीर से सबसे कम गंभीर तक:</p>
+<ol>
+<li><strong>दूसरे की पहचान लेना</strong> - कोई प्लगइन दूसरे प्लगइन होने का दिखावा करता है ताकि उसकी अनुमतियाँ इस्तेमाल कर सके।</li>
+<li><strong>अधिकार बढ़ाना</strong> - कोई प्लगइन अपने सैंडबॉक्स से निकल जाता है और सर्वर बनकर command चलाता है।</li>
+<li><strong>फ़ाइल सिस्टम तक पहुँच</strong> - कोई प्लगइन अपने फ़ोल्डर के बाहर पढ़ता या लिखता है, ख़ासकर सर्वर के secret।</li>
+<li><strong>नेटवर्क से डेटा बाहर भेजना</strong> - कोई प्लगइन अपनी पसंद के होस्ट को डेटा भेजता है।</li>
+<li><strong>संसाधनों का दुरुपयोग</strong> - mining, fork bomb, मेमोरी या डिस्क ख़त्म कर देना।</li>
+<li><strong>सप्लाई चेन</strong> - छिपाया गया या compiled कोड, जिसे विश्लेषण पढ़ नहीं सकता।</li>
+</ol>
+<pre class="mermaid"><code>flowchart LR
+    zip[पैकेज] --&gt; ex[ZIP extraction&lt;br/&gt;सीमाएँ, symlink नहीं, setuid नहीं]
+    ex --&gt; man[Manifest&lt;br/&gt;अनुमतियाँ]
+    man --&gt; an[स्थैतिक विश्लेषण&lt;br/&gt;CRITICAL मना करता है]
+    an --&gt; sig[सिग्नेचर&lt;br/&gt;cosign नीति]
+    sig --&gt; prev[एडमिन का पूर्वावलोकन&lt;br/&gt;स्वीकार या मना]
+    prev --&gt; run[चलते समय]
+    subgraph run[चलते समय - हर मोड में]
+        fs[फ़ाइल सिस्टम&lt;br/&gt;सिर्फ़ अपना फ़ोल्डर]
+        net[नेटवर्क&lt;br/&gt;कोई IP socket नहीं, Fetch broker]
+        sys[सिस्टम कॉल&lt;br/&gt;seccomp मना-सूची]
+        uid[अलग उपयोगकर्ता&lt;br/&gt;या user namespace]
+        sock[होस्ट socket&lt;br/&gt;SO_PEERCRED से पहचान]
+        res[संसाधनों की निगरानी&lt;br/&gt;मेमोरी, PID, डिस्क, nice]
+    end</code></pre>
+<h2 id="at-install">इंस्टॉल के समय<a class="headerlink" href="#at-install" title="Permanent link">¶</a></h2>
+<h3 id="zip-extraction">ZIP extraction<a class="headerlink" href="#zip-extraction" title="Permanent link">¶</a></h3>
+<p>कोई भी फ़ाइल लिखे जाने से पहले (<code>pluginrunner/zip.go</code>):</p>
+<ul>
+<li>ज़्यादा से ज़्यादा 5,000 एंट्री, हर फ़ाइल 100 MB, कुल 500 MB बिना compression के, और
+  1 MB (बिना compression) से ऊपर 100:1 का compression ratio (decompression bomb से
+  बचाव);</li>
+<li>जिन एंट्री का रास्ता आर्काइव से बाहर जाता है (<code>..</code>), वे मना हैं;</li>
+<li>symbolic link मना हैं;</li>
+<li>setuid, setgid और sticky bit हटा दिए जाते हैं।</li>
+</ul>
+<h3 id="manifest-and-permissions">Manifest और अनुमतियाँ<a class="headerlink" href="#manifest-and-permissions" title="Permanent link">¶</a></h3>
+<p>manifest वे अनुमतियाँ बताता है जो प्लगइन माँगता है। कोई अनजानी अनुमति इंस्टॉल मना
+करवा देती है। फिर इन्हें लागू किया जाता है:</p>
+<ul>
+<li><strong><code>subprocess</code></strong> child process की अनुमति देती है। इसके बिना kernel प्रोसेस बनाना मना
+  करता है (<code>-deny-fork</code>), और interpreter वाले प्लगइन के लिए <code>LD_PRELOAD</code> फ़िल्टर भी
+  <code>execve</code> मना करता है।</li>
+<li><strong><code>native-binary</code></strong> compiled कोड या आर्काइव साथ लाने देती है, जिन्हें विश्लेषण पढ़ नहीं
+  सकता।</li>
+<li><strong>API अनुमतियाँ</strong> (<code>api.library</code>, <code>api.user</code>, <code>api.metadata</code>, <code>media.read</code>,
+  <code>media.write</code>, <code>notification.sender</code>...) होस्ट की हर कॉल पर
+  <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driving/grpcapi/plugin_interceptor.go"><code>PluginPermissionInterceptor</code></a>
+  जाँचता है।</li>
+</ul>
+<p>पूरी सूची <a href="../plugins/security-model/#permissions-catalog">अनुमतियाँ और स्लॉट</a> में है।</p>
+<h3 id="static-analysis">स्थैतिक विश्लेषण<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h3>
+<p>पैकेज की हर फ़ाइल को
+<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/analyzer.go"><code>pluginrunner.AnalyzePlugin</code></a>
+जाँचता है, एक सामान्य बनाने वाले दौर के बाद जो आम तरह से छिपाए गए कोड को खोल देता है
+(alias, string जोड़ना, f-string):</p>
+<table>
+<thead>
+<tr>
+<th>श्रेणी</th>
+<th>गंभीरता</th>
+<th>उदाहरण</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell_exec</code></td>
+<td>CRITICAL</td>
+<td><code>os.system</code>, <code>subprocess.run</code>, <code>child_process.exec</code>, PHP <code>system()</code>/<code>shell_exec()</code>/<code>proc_open()</code>, <code>preg_replace /e</code>, Ruby backticks, <code>open('\|cmd')</code></td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td>WARNING / CRITICAL</td>
+<td><code>requests.get</code>, <code>fetch</code>, reverse और bind shell</td>
+</tr>
+<tr>
+<td><code>filesystem</code></td>
+<td>WARNING / CRITICAL</td>
+<td><code>/etc/passwd</code>, <code>.ssh/</code>, <code>rm -rf</code>, symlink के काम</td>
+</tr>
+<tr>
+<td><code>obfuscation</code></td>
+<td>CRITICAL</td>
+<td><code>eval</code>, base64 decoding, hex sequence, <code>__builtins__</code>, <code>base64 -d \| bash</code></td>
+</tr>
+<tr>
+<td><code>privilege</code></td>
+<td>CRITICAL</td>
+<td><code>setuid</code>, <code>chmod 4777</code>, <code>sudo</code>, PID 1 को signal भेजना</td>
+</tr>
+<tr>
+<td><code>cryptomining</code></td>
+<td>CRITICAL</td>
+<td><code>stratum+tcp</code>, <code>xmrig</code>, <code>cryptonight</code></td>
+</tr>
+<tr>
+<td><code>runtime_install</code></td>
+<td>CRITICAL</td>
+<td><code>pip install</code>, <code>npm install</code>, <code>curl ... \| sh</code></td>
+</tr>
+<tr>
+<td><code>dynamic_import</code></td>
+<td>CRITICAL</td>
+<td><code>__import__()</code>, <code>importlib.import_module</code></td>
+</tr>
+<tr>
+<td><code>sandbox_escape</code></td>
+<td>CRITICAL</td>
+<td><code>vm.runIn*</code>, <code>process.binding</code>, <code>new Function</code>, <code>__subclasses__()</code>, <code>__mro__</code></td>
+</tr>
+<tr>
+<td><code>deserialization</code></td>
+<td>CRITICAL / WARNING</td>
+<td><code>pickle.loads</code>, <code>marshal.loads</code>, <code>__reduce__</code>; WARNING: Loader के बिना <code>yaml.load()</code></td>
+</tr>
+<tr>
+<td><code>native_code</code></td>
+<td>CRITICAL / WARNING</td>
+<td><code>ctypes.CDLL</code>, <code>ffi.Library</code>; WARNING: Go <code>unsafe</code></td>
+</tr>
+<tr>
+<td><code>compiled_binary</code></td>
+<td>WARNING, फिर BLOCK</td>
+<td><code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code></td>
+</tr>
+<tr>
+<td><code>embedded_archive</code></td>
+<td>WARNING, फिर BLOCK</td>
+<td><code>.zip</code>, <code>.tar.gz</code></td>
+</tr>
+<tr>
+<td><code>mime_mismatch</code></td>
+<td>CRITICAL माना जाता है</td>
+<td>ऐसा extension जो तस्वीर होने का दावा करे, पर अंदर कुछ और हो</td>
+</tr>
+<tr>
+<td><code>suspicious_url</code></td>
+<td>WARNING</td>
+<td>URL में HTTP के अलावा कोई scheme</td>
+</tr>
+<tr>
+<td><code>unvendored_deps</code></td>
+<td>WARNING</td>
+<td>साथ पैक किए modules के बिना <code>requirements.txt</code> या <code>package.json</code></td>
+</tr>
+</tbody>
+</table>
+<p>कोई CRITICAL बात या <code>mime_mismatch</code> इंस्टॉल मना करवा देती है। <code>compiled_binary</code> और
+<code>embedded_archive</code> इसे मना करवाते हैं, जब तक manifest <code>native-binary</code> न बताए।</p>
+<div class="admonition note">
+<p class="admonition-title">विश्लेषण क्या पक्का नहीं कर सकता</p>
+<p>यह पैटर्न पर काम करता है। यह छिपाने के जाने-पहचाने तरीके खोल देता है (कई कदमों
+में string जोड़कर कुछ कॉल करने लायक बनाना, नाम से builtin ढूँढना,
+<code>Function.constructor</code> से बच निकलना), हर एक के लिए
+<code>tests/fixtures/plugins/malicious/</code> में एक regression fixture के साथ, पर यह चलते
+समय होने वाले हर बदलाव के पीछे नहीं जा सकता (<code>strrev("metsys")</code>, किसी फ़ाइल से पढ़ा
+payload decode करना)। यह comment के अंदर भी मेल ढूँढता है: <code># pip install foo</code>
+वाला comment <code>runtime_install</code> चालू कर देता है। <strong>असली सीमा चलते समय का सैंडबॉक्स
+है, विश्लेषण नहीं</strong>: जो प्लगइन किसी पैटर्न को विश्लेषण से बचाकर निकाल ले, वह फिर भी
+सर्वर का डेटा नहीं पढ़ सकता, मना किया सिस्टम कॉल नहीं कर सकता, अपनी संसाधन सीमाएँ
+पार नहीं कर सकता, या ऐसा होस्ट method कॉल नहीं कर सकता जिसकी उसके पास अनुमति
+नहीं।</p>
+</div>
+<h3 id="signature">सिग्नेचर<a class="headerlink" href="#signature" title="Permanent link">¶</a></h3>
+<p>पैकेज पर cosign से सिग्नेचर किया जा सकता है। <code>EVEY_PLUGINS_COSIGN_POLICY</code> तय करता है
+कि जाँच फ़ेल होने पर क्या हो (<code>pluginrunner/cosign.go</code>):</p>
+<table>
+<thead>
+<tr>
+<th>नीति</th>
+<th>असर</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>off</code></td>
+<td>सिग्नेचर नहीं जाँचा जाता।</td>
+</tr>
+<tr>
+<td><code>warn</code> (डिफ़ॉल्ट)</td>
+<td>विफलता दर्ज होती है और एडमिन को दिखाई जाती है, बिना रोके। public key सेट न हो, तो कुछ नहीं जाँचा जाता।</td>
+</tr>
+<tr>
+<td><code>enforce</code></td>
+<td>विफलता इंस्टॉल या अपडेट मना करवा देती है।</td>
+</tr>
+</tbody>
+</table>
+<p>public key <code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code> से दी जाती है।</p>
+<h3 id="administrator-preview">एडमिन का पूर्वावलोकन<a class="headerlink" href="#administrator-preview" title="Permanent link">¶</a></h3>
+<p><code>POST /api/v1/admin/plugins/preview</code> बिना इंस्टॉल किए विश्लेषण चलाता है। एडमिन माँगी
+गई अनुमतियाँ, हर मिली बात उसकी फ़ाइल, लाइन और श्रेणी के साथ, कोड में मिले URL, और
+पैकेज का SHA256 देखता है; इंस्टॉल लागू करते समय वही hash जाँचा जाता है, इसलिए जिस
+पैकेज का विश्लेषण हुआ, वही इंस्टॉल होता है। अपडेट अनुमतियों, स्लॉट और होस्ट का फ़र्क
+दिखाता है, और नई अनुमति के लिए साफ़ स्वीकृति चाहिए।</p>
+<p>ऊँची अनुमतियों के लिए भरोसे की सीमा एडमिन है: Evey पूरी तस्वीर दिखाता है, एडमिन
+स्वीकार या मना करता है।</p>
+<h2 id="at-run-time">चलते समय<a class="headerlink" href="#at-run-time" title="Permanent link">¶</a></h2>
+<p>छह परतें हर <a href="#sandbox-modes">सैंडबॉक्स मोड</a> में लागू रहती हैं; पहली दो कैसे लागू होती
+हैं, यह मोड पर निर्भर है।</p>
+<h3 id="filesystem">फ़ाइल सिस्टम<a class="headerlink" href="#filesystem" title="Permanent link">¶</a></h3>
+<p>प्लगइन अपना फ़ोल्डर और अपने socket का फ़ोल्डर देखता है, सर्वर का डेटा नहीं; यह एक
+Landlock अनुमति सूची (<code>landlock</code>) या bubblewrap की mount अनुमति सूची (<code>bubblewrap</code>,
+<code>strict</code>) से होता है। Landlock के बिना वाले kernel पर <code>basic</code> मोड में हर रास्ते के
+हिसाब से कोई बंदिश नहीं होती: तब अलग उपयोगकर्ता और फ़ाइल की अनुमतियाँ ही सर्वर के
+secret की रक्षा करती हैं।</p>
+<h3 id="network">नेटवर्क<a class="headerlink" href="#network" title="Permanent link">¶</a></h3>
+<p>प्लगइन के पास <strong>सीधा नेटवर्क नहीं होता</strong>, वह कुछ भी बताए: हर IP socket मना होता है
+(<code>landlock</code> और <code>basic</code> में <code>-deny-inet</code>, <code>bubblewrap</code> और <code>strict</code> में एक network
+namespace)। <code>network</code> अनुमति वाला प्लगइन अपने Unix socket पर होस्ट का <code>Fetch</code> method
+कॉल करता है। होस्ट, <code>internal/adapters/driving/pluginhost/fetch.go</code> में:</p>
+<ul>
+<li>लक्ष्य को प्लगइन की <code>external_fetch</code> सूची से मिलाता है (पूरे होस्ट नाम, बड़े-छोटे
+  अक्षर का फ़र्क किए बिना);</li>
+<li>सिर्फ़ <code>http</code> और <code>https</code>, और सिर्फ़ <code>GET</code> और <code>HEAD</code> की अनुमति देता है;</li>
+<li>एक SSRF से सुरक्षित client (<code>internal/pkg/ssrf</code>) से जुड़ता है, जो DNS से पता निकालने
+  के बाद निजी, आरक्षित और link-local पते मना करता है, इसलिए DNS rebinding और redirect
+  फिर से जाँचे जाते हैं (सूची के बाहर के होस्ट पर redirect मना है);</li>
+<li>सर्वर का कोई credential नहीं जोड़ता, जवाब की body 8 MiB और request के header 8 KiB
+  तक सीमित रखता है, और 20 s के बाद छोड़ देता है।</li>
+</ul>
+<p>इससे वे रास्ते बंद होते हैं जो सीधे बाहर जाने पर खुले रहते (<code>169.254.169.254</code> जैसे IP,
+प्लगइन का अपना resolver)। जो बचता है: broker यह तय करता है कि कॉल <em>कहाँ</em> जाती है, यह
+नहीं कि उसमें <em>क्या</em> जाता है। देखें <a href="#known-limits">जानी-पहचानी सीमाएँ</a>।</p>
+<div class="admonition tip">
+<p class="admonition-title">सर्वर चलाने वालों के लिए सुझाव</p>
+<p>broker SSRF का ख़तरा होस्ट पर ले आता है। <code>evey-server</code> container पर बाहर जाने का
+एक नियम, जो कोड से अलग हो, दूसरी दीवार जोड़ता है: <code>169.254.0.0/16</code> बंद करें और
+अंदरूनी नेटवर्क को डेटाबेस और खोज के endpoint तक सीमित करें।</p>
+</div>
+<h3 id="system-calls">सिस्टम कॉल<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
+<p>दो seccomp फ़िल्टर उन्हीं ख़तरनाक सिस्टम कॉल को मना करते हैं:</p>
+<ol>
+<li><strong>kernel फ़िल्टर</strong>, जिसे <a href="https://github.com/Evey-project/evey/blob/master/cmd/evey-plugin-launcher"><code>evey-plugin-launcher</code></a>
+   प्लगइन शुरू करने से ठीक पहले लगाता है
+   (<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey-plugin-launcher/seccomp_linux.go"><code>seccomp_linux.go</code></a>)। यह प्लगइन और
+   उसके children को विरासत में मिलता है और <strong>compiled, static binary पर भी लागू होता
+   है</strong>। किसी सिस्टम कॉल में गलत architecture हो, तो प्रोसेस मार दिया जाता है।
+   <code>landlock</code> और <code>basic</code> में लागू।</li>
+<li><strong><code>LD_PRELOAD</code> फ़िल्टर</strong>, <a href="https://github.com/Evey-project/evey/blob/master/sandbox/sandbox.c"><code>sandbox/sandbox.c</code></a>, जो उन
+   interpreter वाले प्लगइन में लोड होता है जो <code>subprocess</code> नहीं बताते। यह
+   <code>execve</code>/<code>execveat</code> भी मना करता है, और प्लगइन को non-dumpable बनाता है। <code>landlock</code>,
+   <code>basic</code> और <code>strict</code> में लागू। अगर library नहीं मिलती, तो ऐसे प्लगइन को शुरू होने से
+   मना कर दिया जाता है (<code>plugin.error</code>)।</li>
+</ol>
+<p>मना किए गए सिस्टम कॉल:</p>
+<table>
+<thead>
+<tr>
+<th>श्रेणी</th>
+<th>सिस्टम कॉल</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debugging</td>
+<td><code>ptrace</code>, <code>process_vm_readv</code>, <code>process_vm_writev</code></td>
+</tr>
+<tr>
+<td>Signal</td>
+<td><code>tgkill</code>, <code>rt_sigqueueinfo</code>, <code>rt_tgsigqueueinfo</code>, प्लगइन को छोड़कर किसी भी प्रोसेस की ओर (दोनों फ़िल्टर); <code>kill</code> भी इसी तरह kernel फ़िल्टर में, और <code>LD_PRELOAD</code> फ़िल्टर में किसी भी लक्ष्य की ओर; <code>tkill</code> kernel फ़िल्टर में (<code>LD_PRELOAD</code> फ़िल्टर इसे प्लगइन की खुद की ओर जाने देता है); <code>pidfd_send_signal</code>, <code>pidfd_getfd</code> (file descriptor चुराता है)। जो runtime कोई signal फिर से भेजता है या अपने ही thread को रोकता है, वह काम करता रहता है। Landlock ABI 6+ पर प्लगइन अपने सैंडबॉक्स के बाहर किसी प्रोसेस को signal भी नहीं भेज सकता</td>
+</tr>
+<tr>
+<td>Mount</td>
+<td><code>mount</code>, <code>umount2</code>, <code>pivot_root</code>, <code>chroot</code></td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td><code>unshare</code>, <code>setns</code>, और <code>CLONE_NEW*</code> flag वाला <code>clone</code> (दूसरे नाम से unshare), हर प्लगइन के लिए</td>
+</tr>
+<tr>
+<td>Kernel module</td>
+<td><code>init_module</code>, <code>finit_module</code>, <code>delete_module</code></td>
+</tr>
+<tr>
+<td>BPF, perf</td>
+<td><code>bpf</code>, <code>perf_event_open</code></td>
+</tr>
+<tr>
+<td>हार्डवेयर I/O</td>
+<td><code>ioperm</code>, <code>iopl</code> (सिर्फ़ x86-64, जहाँ ये होते हैं)</td>
+</tr>
+<tr>
+<td>Swap</td>
+<td><code>swapon</code>, <code>swapoff</code></td>
+</tr>
+<tr>
+<td>सिस्टम नियंत्रण</td>
+<td><code>syslog</code>, <code>reboot</code>, <code>settimeofday</code>, <code>clock_settime</code>, <code>clock_adjtime</code>, <code>adjtimex</code></td>
+</tr>
+<tr>
+<td>Kexec</td>
+<td><code>kexec_load</code>, <code>kexec_file_load</code></td>
+</tr>
+<tr>
+<td>kernel exploit के औज़ार</td>
+<td><code>io_uring_setup</code>, <code>io_uring_enter</code>, <code>io_uring_register</code>, <code>userfaultfd</code></td>
+</tr>
+<tr>
+<td>पहचान</td>
+<td><code>setuid</code>, <code>setgid</code>, <code>setreuid</code>, <code>setregid</code>, <code>setresuid</code>, <code>setresgid</code>, <code>capset</code></td>
+</tr>
+<tr>
+<td>Keyring</td>
+<td><code>add_key</code>, <code>request_key</code>, <code>keyctl</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>subprocess</code> के बिना वाले प्लगइन के लिए kernel प्रोसेस बनाना भी मना करता है (<code>fork</code>,
+<code>vfork</code>, <code>CLONE_THREAD</code> के बिना <code>clone</code>; <code>clone3</code> <code>ENOSYS</code> लौटाता है ताकि C library
+<code>clone</code> पर लौट आए); thread काम करते रहते हैं।</p>
+<p>यह एक <strong>मना-सूची</strong> है: <code>open</code>, <code>read</code>, <code>write</code>, <code>mmap</code>, Unix <code>socket</code> और <code>connect</code> की
+अनुमति बनी रहती है। रास्तों को फ़ाइल सिस्टम वाली परत सीमित करती है, seccomp नहीं।
+<code>bubblewrap</code> में launcher इस्तेमाल नहीं होता: वहाँ static binary को कोई seccomp फ़िल्टर
+नहीं मिलता, और उसे namespace और mount अनुमति सूची बंद रखते हैं।</p>
+<h3 id="a-separate-user">एक अलग उपयोगकर्ता<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
+<p>प्लगइन उपयोगकर्ता 1001 (<code>evey-plugin</code>) के रूप में चल सकता है, जो सर्वर (1000) से अलग
+है, ताकि सर्वर के secret सिर्फ़ फ़ाइल की अनुमतियों से ही उसके लिए न पढ़े जा सकें।
+<code>EVEY_PLUGINS_UID_SEPARATION</code> इसे नियंत्रित करता है:</p>
+<table>
+<thead>
+<tr>
+<th>मान</th>
+<th>बदलाव कब होता है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auto</code> (डिफ़ॉल्ट)</td>
+<td>सिर्फ़ तब जब सैंडबॉक्स <code>basic</code> पर पहुँचता है, वह अकेली स्थिति जहाँ secret के चारों ओर फ़ाइल की अनुमतियाँ ही अकेली दीवार हैं</td>
+</tr>
+<tr>
+<td><code>on</code></td>
+<td>हमेशा, एक अतिरिक्त परत के रूप में</td>
+</tr>
+<tr>
+<td><code>off</code></td>
+<td>कभी नहीं</td>
+</tr>
+</tbody>
+</table>
+<p>बदलाव launcher करता है, जिसके पास <code>cap_setuid</code> है; सर्वर खुद बिना अधिकारों या
+capabilities के चलता है। launcher 1000 से नीचे का कोई लक्ष्य मना करता है। अगर वह बदल
+नहीं पाता, तो <code>basic</code> में प्लगइन मना होता है (वहाँ उपयोगकर्ता ही अकेली दीवार है), जबकि
+<code>landlock</code> में वह एक चेतावनी के साथ सर्वर के उपयोगकर्ता के रूप में चलता है।
+<code>bubblewrap</code> और <code>strict</code> में यह काम user namespace करता है।</p>
+<p>चालू होने पर, साइन करने वाली कुंजी (<code>0600</code>) और बैकअप (<code>0700</code> फ़ोल्डर, <code>0600</code> फ़ाइलें)
+चलते समय सिर्फ़ मालिक के लिए होते हैं, जो bind-mount किए गए <code>/data</code> पर भी बना रहता है।
+सभी प्लगइन उपयोगकर्ता 1001 साझा करते हैं: उन्हें एक-दूसरे से फ़ाइल सिस्टम वाली परत
+अलग रखती है, उपयोगकर्ता नहीं।</p>
+<h3 id="host-socket-authentication">होस्ट socket पर पहचान<a class="headerlink" href="#host-socket-authentication" title="Permanent link">¶</a></h3>
+<p>हर प्लगइन का अपना socket होता है, <code>/tmp/evey/plugins/&lt;plugin_id&gt;/host.sock</code>, जिसे उसका
+अपना gRPC सर्वर देता है। हर कॉल पर सर्वर kernel से कॉल करने वाले का PID पढ़ता है
+(<code>SO_PEERCRED</code>, जिसे user space नकली नहीं बना सकता) और उसे प्लगइन शुरू होते समय दर्ज
+किए PID से मिलाता है। प्लगइन की पहचान socket से आती है, कभी किसी header से नहीं।
+इसलिए प्लगइन किसी दूसरे की पहचान नहीं ले सकता, किसी दूसरे प्लगइन के socket को कॉल नहीं
+कर सकता, या किसी child process से कॉल नहीं भेज सकता। PID न मिलने पर एक चेतावनी लॉग
+होती है।</p>
+<h3 id="resource-limits">संसाधनों की सीमाएँ<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
+<p>user space में एक निगरानी करने वाला (बिना अधिकार वाले container में cgroups उपलब्ध
+नहीं होते) हर 2 सेकंड में <code>/proc/&lt;pid&gt;</code> पढ़ता है और सीमा पार करने वाले प्लगइन को रोक
+देता है (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>):</p>
+<table>
+<thead>
+<tr>
+<th>सीमा</th>
+<th>डिफ़ॉल्ट</th>
+<th>कब जाँची जाती है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>मेमोरी (RSS)</td>
+<td>256 MiB</td>
+<td>हर दौर में</td>
+</tr>
+<tr>
+<td>प्रोसेस और thread</td>
+<td>64</td>
+<td>हर दौर में</td>
+</tr>
+<tr>
+<td>उसके फ़ोल्डर की डिस्क</td>
+<td>100 MiB</td>
+<td>हर 15वें दौर में, लगभग 30 s</td>
+</tr>
+<tr>
+<td>CPU प्राथमिकता</td>
+<td><code>nice</code> 10, शुरू होते समय लागू</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>वही दौर उस प्लगइन को चिह्नित करता है जो लगभग 30 s तक एक CPU को 90% से ऊपर दबाए रखता
+है, और <code>hardware.gpu</code> वाले उस प्लगइन को रोक देता है जो किसी ग्राफ़िक्स इंजन को इसी तरह
+दबाए रखता है। सीमाएँ हर प्लगइन के लिए <strong>एडमिन → प्लगइन → संसाधन सीमाएँ</strong> में तय होती
+हैं; environment वेरिएबल <code>EVEY_PLUGINS_MEMORY_MB</code>, <code>EVEY_PLUGINS_PIDS_MAX</code>,
+<code>EVEY_PLUGINS_DISK_MAX_MB</code> और <code>EVEY_PLUGINS_CPU_NICE</code> शुरुआती डिफ़ॉल्ट तय करते हैं।</p>
+<h3 id="interface-isolation">इंटरफ़ेस का अलगाव<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
+<p>प्लगइन का इंटरफ़ेस एक <code>&lt;iframe sandbox="allow-scripts"&gt;</code> में चलता है, बिना same-origin
+पहुँच, फ़ॉर्म या popup के, एक ऐसी Content-Security-Policy के तहत जो सिर्फ़ उसके
+<code>external_fetch</code> होस्ट से कनेक्शन की अनुमति देती है। पुल
+(<code>frontend/packages/client/src/plugins/hostProtocol.ts</code>) सीमित करता है कि वह पेज से
+क्या माँग सकता है: <code>toast</code> एक सेकंड में ज़्यादा से ज़्यादा 3, 200 अक्षर, कोई HTML नहीं;
+<code>navigate</code> सिर्फ़ <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> और <code>/search</code>
+मानता है; <code>resize</code> 50 px (मोबाइल और टीवी पर 60) और 800 px के बीच। स्लॉट इंस्टॉल के
+समय और फिर दिखाते समय जाँचे जाते हैं।</p>
+<h3 id="server-hardening">सर्वर को मज़बूत बनाना<a class="headerlink" href="#server-hardening" title="Permanent link">¶</a></h3>
+<p>शुरू होते समय सर्वर खुद को non-dumpable बनाता है (<code>PR_SET_DUMPABLE=0</code>,
+<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey/hardening_linux.go"><code>hardening_linux.go</code></a>): उसी उपयोगकर्ता के रूप में चलने
+वाला कोई प्रोसेस <code>/proc</code> से उसकी मेमोरी या environment नहीं पढ़ सकता, जिससे मेमोरी में
+रखी साइन करने वाली कुंजी और डेटाबेस और खोज के पासवर्ड सुरक्षित रहते हैं, Landlock के
+बिना वाले kernel पर भी।</p>
+<h3 id="crash-notification">गिरने की सूचना<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
+<p>runner एक <code>plugin.error</code> event प्रकाशित करता है जब किसी प्लगइन को सैंडबॉक्स library
+चाहिए पर वह न मिले, या जब कोई प्लगइन त्रुटि के साथ बंद हो। सूचना सर्विस इसे सेट किए
+गए चैनलों से एडमिन तक भेजती है, और <strong>सुरक्षा डैशबोर्ड</strong> इसे दर्ज करता है।</p>
+<h2 id="sandbox-modes">सैंडबॉक्स मोड<a class="headerlink" href="#sandbox-modes" title="Permanent link">¶</a></h2>
+<p>मोड चुनता है कि फ़ाइल सिस्टम और नेटवर्क कैसे सीमित हों। <code>EVEY_PLUGINS_SANDBOX_MODE</code>
+शुरुआती मान तय करता है (डिफ़ॉल्ट <code>auto</code>); इसे <strong>एडमिन → प्लगइन → संसाधन सीमाएँ →
+सैंडबॉक्स मोड</strong> में बदला जा सकता है। runner इसे
+<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/runner_sandbox.go"><code>applySandbox</code></a> में लागू करता
+है। हर मोड में: कोई सीधा IP निकास नहीं, संसाधनों की निगरानी, और होस्ट socket पर पहचान।</p>
+<table>
+<thead>
+<tr>
+<th>परत</th>
+<th>landlock</th>
+<th>basic</th>
+<th>bubblewrap</th>
+<th>strict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>फ़ाइल सिस्टम</td>
+<td>Landlock अनुमति सूची</td>
+<td>Landlock के बिना कुछ नहीं (सिर्फ़ फ़ाइल की अनुमतियाँ)</td>
+<td>mount अनुमति सूची</td>
+<td>mount अनुमति सूची</td>
+</tr>
+<tr>
+<td>नेटवर्क</td>
+<td><code>-restrict-net</code> + <code>-deny-inet</code></td>
+<td><code>-deny-inet</code></td>
+<td>network namespace</td>
+<td>network namespace</td>
+</tr>
+<tr>
+<td>kernel seccomp (static binary भी)</td>
+<td>हाँ</td>
+<td>हाँ</td>
+<td>नहीं</td>
+<td>नहीं</td>
+</tr>
+<tr>
+<td><code>LD_PRELOAD</code> seccomp (<code>subprocess</code> के बिना interpreter वाले प्लगइन)</td>
+<td>हाँ</td>
+<td>हाँ</td>
+<td>नहीं</td>
+<td>हाँ</td>
+</tr>
+<tr>
+<td>अलग उपयोगकर्ता</td>
+<td><code>on</code> के साथ</td>
+<td>हाँ (<code>auto</code>)</td>
+<td>user namespace</td>
+<td>user namespace</td>
+</tr>
+<tr>
+<td>संसाधनों की सीमाएँ</td>
+<td>हाँ</td>
+<td>हाँ</td>
+<td>हाँ</td>
+<td>हाँ</td>
+</tr>
+</tbody>
+</table>
+<h3 id="auto-default"><code>auto</code> (डिफ़ॉल्ट)<a class="headerlink" href="#auto-default" title="Permanent link">¶</a></h3>
+<p>पहली बार कोई प्लगइन शुरू होने पर, एक बार, उस सबसे मज़बूत मोड पर पहुँचता है जो होस्ट
+सपोर्ट करता है: <strong>landlock</strong>, जब kernel Landlock लागू करता है <em>और</em>
+<code>evey-plugin-launcher</code> binary मिल जाती है (सर्वर binary के बगल में, <code>$PATH</code> पर, या
+<code>EVEY_PLUGIN_LAUNCHER</code> पर); वरना <strong>bubblewrap</strong>, जब एक टेस्ट सैंडबॉक्स सच में बन जाता
+है (<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/sandbox_probe.go"><code>ProbeSandbox</code></a>), जिसका
+व्यवहार में मतलब है bare metal या अधिकार वाला container; वरना <strong>basic</strong>। Landlock पहले
+आता है क्योंकि उसे किसी अधिकार की ज़रूरत नहीं और वह Docker की डिफ़ॉल्ट सुरक्षा प्रोफ़ाइल
+में चलता है। चुना गया मोड लॉग होता है, और <strong>एडमिन → प्लगइन → सुरक्षा डैशबोर्ड</strong> की
+<strong>होस्ट सैंडबॉक्स</strong> लाइन पर दिखता है।</p>
+<table>
+<thead>
+<tr>
+<th>डिप्लॉयमेंट</th>
+<th><code>auto</code> क्या देता है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>नए kernel पर Docker</td>
+<td><code>landlock</code>: हर रास्ते के हिसाब से बंदिश, कोई सीधा निकास नहीं, ख़तरनाक सिस्टम कॉल मना, static binary समेत। सामान्य स्थिति।</td>
+</tr>
+<tr>
+<td>Landlock के बिना पुराने kernel पर Docker, जैसे कोई पुराना NAS</td>
+<td><code>basic</code>: secret सुरक्षित और नेटवर्क कटा हुआ, पर सबके पढ़ने लायक फ़ाइलें दिखती हैं। देखें <a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a>।</td>
+</tr>
+<tr>
+<td>Bare metal</td>
+<td><code>bubblewrap</code>: फ़ाइल सिस्टम और प्रोसेस का सबसे मज़बूत अलगाव, static binary के लिए seccomp फ़िल्टर के बिना।</td>
+</tr>
+</tbody>
+</table>
+<h3 id="landlock"><code>landlock</code><a class="headerlink" href="#landlock" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>फ़ाइल सिस्टम:</strong> launcher की लगाई Landlock अनुमति सूची। सिस्टम फ़ोल्डर (<code>/usr</code>,
+  <code>/lib</code>, <code>/lib64</code>, <code>/bin</code>, <code>/sbin</code>, <code>/etc</code>, <code>/app</code>) सिर्फ़ पढ़ने के लिए; <code>/dev</code> में से
+  सिर्फ़ <code>null</code>, <code>zero</code>, <code>full</code>, <code>random</code> और <code>urandom</code>, ताकि ग्राफ़िक्स कार्ड के node और
+  सर्वर का terminal पहुँच से बाहर रहें; प्लगइन का फ़ोल्डर और socket का फ़ोल्डर पढ़ने और
+  लिखने के लिए; बाकी सब, <code>/data</code> और दूसरे प्लगइन समेत, मना। <code>hardware.gpu</code> वाले प्लगइन
+  को अकेले अपवाद के रूप में अपना render node मिलता है।</li>
+<li><strong>नेटवर्क:</strong> <code>-restrict-net</code> और <code>-deny-inet</code>; बाहर सिर्फ़ <code>Fetch</code> से।</li>
+<li><strong>सिस्टम कॉल:</strong> kernel फ़िल्टर और <code>LD_PRELOAD</code> फ़िल्टर।</li>
+<li><strong>ज़रूरत:</strong> kernel 5.13 या नया, जिसकी चालू LSM सूची में Landlock हो, और launcher (नए
+  होस्ट पर आधिकारिक इमेज में दोनों होते हैं)। साफ़ तौर पर चुना गया <code>landlock</code> ऐसा
+  प्लगइन शुरू करने से मना करता है जिसे वह सीमित न कर सके।</li>
+</ul>
+<h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>फ़ाइल सिस्टम और प्रोसेस:</strong> छह अलग namespace (<code>user</code>, <code>pid</code>, <code>uts</code>, <code>ipc</code>,
+  <code>cgroup</code>, <code>net</code>) और एक mount अनुमति सूची; अंदर और कुछ मौजूद नहीं होता
+  (<code>pluginrunner/runner_bwrap.go</code> में <code>buildBwrapCmd</code>)।</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>रास्ता</th>
+<th>पहुँच</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/usr</code>, <code>/bin</code>, <code>/sbin</code>, <code>/lib</code>, <code>/lib64</code></td>
+<td>सिर्फ़ पढ़ना</td>
+</tr>
+<tr>
+<td><code>/etc/ssl</code>, <code>/etc/ca-certificates</code>, <code>/etc/resolv.conf</code>, <code>/etc/nsswitch.conf</code>, <code>/etc/{alpine,os}-release</code></td>
+<td>सिर्फ़ पढ़ना (पूरा <code>/etc</code> कभी नहीं: न <code>passwd</code>, न <code>shadow</code>, न <code>ssh</code>)</td>
+</tr>
+<tr>
+<td>प्लगइन का फ़ोल्डर, उसके socket का फ़ोल्डर</td>
+<td>पढ़ना और लिखना</td>
+</tr>
+<tr>
+<td><code>/proc</code></td>
+<td>उसका अपना mount</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>एक छोटा बनाया हुआ समूह (null, zero, random, urandom, tty, pts)</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>एक खाली tmpfs</td>
+</tr>
+</tbody>
+</table>
+<p><code>/data</code>, <code>/var</code>, <code>/home</code>, <code>/root</code>, <code>/run</code> और दूसरे प्लगइन के फ़ोल्डर अंदर मौजूद ही नहीं
+  होते। एक canary प्लगइन (<code>tests/fixtures/plugins/canary-sandbox-runtime/</code>) चलते स्टैक
+  पर इस बनावट की जाँच करता है।
+- <strong>नेटवर्क:</strong> network namespace, हर प्लगइन के लिए।
+- <strong>सिस्टम कॉल:</strong> कोई seccomp फ़िल्टर नहीं; अलगाव namespace देते हैं।
+- <strong>ज़रूरत:</strong> <code>bwrap</code> binary और <code>mount</code>/<code>unshare</code> सिस्टम कॉल। Docker में इसके लिए ढीली
+  सुरक्षा प्रोफ़ाइल चाहिए, इसलिए व्यवहार में यह bare metal वाला मोड है।</p>
+<h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
+<p><code>bubblewrap</code> और साथ में <code>LD_PRELOAD</code> फ़िल्टर (सिर्फ़ interpreter वाले प्लगइन)।</p>
+<h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
+<p><code>auto</code> का आख़िरी सहारा: अलग उपयोगकर्ता, kernel फ़िल्टर, <code>LD_PRELOAD</code> फ़िल्टर,
+<code>-deny-inet</code>, और Landlock अगर kernel में हो। Landlock के बिना वाले kernel पर हर रास्ते
+के हिसाब से कोई बंदिश नहीं होती: प्लगइन सबके पढ़ने लायक गैर-संवेदनशील फ़ाइलें पढ़ सकता
+है और प्रोसेस की सूची देख सकता है। सर्वर के secret अलग उपयोगकर्ता और
+<code>PR_SET_DUMPABLE</code> से सुरक्षित रहते हैं, नेटवर्क कटा रहता है, और ख़तरनाक सिस्टम कॉल मना
+रहते हैं, compiled binary समेत।</p>
+<h2 id="configuration">कॉन्फ़िगरेशन<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>वेरिएबल</th>
+<th>डिफ़ॉल्ट</th>
+<th>असर</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
+<td><code>auto</code></td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> या <code>basic</code>। <strong>एडमिन → प्लगइन</strong> में भी बदला जा सकता है।</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_UID_SEPARATION</code></td>
+<td><code>auto</code></td>
+<td><code>auto</code>, <code>on</code> या <code>off</code>। container पर <code>no_new_privs</code> के साथ नहीं चलता।</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_COSIGN_POLICY</code></td>
+<td><code>warn</code></td>
+<td><code>off</code>, <code>warn</code> या <code>enforce</code>।</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_COSIGN_PUBLIC_KEY</code></td>
+<td>कोई नहीं</td>
+<td>वह कुंजी जिससे सिग्नेचर जाँचे जाते हैं।</td>
+</tr>
+<tr>
+<td><code>EVEY_PLUGINS_MEMORY_MB</code>, <code>EVEY_PLUGINS_PIDS_MAX</code>, <code>EVEY_PLUGINS_DISK_MAX_MB</code>, <code>EVEY_PLUGINS_CPU_NICE</code></td>
+<td>256, 64, 100, 10</td>
+<td>संसाधन सीमाओं के शुरुआती डिफ़ॉल्ट; पैनल इन्हें हर प्लगइन के लिए बदल देता है।</td>
+</tr>
+</tbody>
+</table>
+<p>आधिकारिक इमेज में <code>evey-plugin-launcher</code> (Landlock और kernel फ़िल्टर) और <code>bubblewrap</code>
+आते हैं। bubblewrap को होस्ट पर बिना अधिकार वाले user namespace भी चाहिए। कौन सा सेटअप
+किस मशीन के लिए ठीक है, आसान शब्दों में:
+<a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a>।</p>
+<h2 id="known-limits">जानी-पहचानी सीमाएँ<a class="headerlink" href="#known-limits" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>सीमा</th>
+<th>असर</th>
+<th>आज इसे क्या सीमित करता है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Landlock के बिना वाले kernel पर <code>basic</code> में हर रास्ते के हिसाब से कोई बंदिश नहीं</td>
+<td>प्लगइन सबके पढ़ने लायक गैर-संवेदनशील फ़ाइलें और दूसरे प्लगइन के फ़ोल्डर पढ़ सकता है</td>
+<td>secret अलग उपयोगकर्ता और <code>PR_SET_DUMPABLE</code> से सुरक्षित; <code>auto</code> Landlock या bubblewrap को पहले चुनता है</td>
+</tr>
+<tr>
+<td>सभी प्लगइन उपयोगकर्ता 1001 साझा करते हैं</td>
+<td>प्लगइन अपने साथियों को signal भेज सकता है (सर्वर को signal भेजना मना है)</td>
+<td><code>PR_SET_DUMPABLE</code> <code>/proc</code> से दूसरे प्रोसेस पढ़ना रोकता है; Landlock और bubblewrap प्लगइन के फ़ोल्डर अलग रखते हैं</td>
+</tr>
+<tr>
+<td>Seccomp एक मना-सूची है</td>
+<td>फ़ाइल और Unix socket वाली कॉल की अनुमति रहती है</td>
+<td>रास्ते Landlock या bubblewrap सीमित करते हैं; IP socket मना हैं</td>
+</tr>
+<tr>
+<td>broker SSRF का ख़तरा होस्ट पर ले आता है</td>
+<td>broker की जाँच में कोई कमी किसी अंदरूनी पते तक पहुँच सकती है</td>
+<td>Go में अनुमति सूची और SSRF से सुरक्षित client; container पर बाहर जाने का नियम, एक अलग परत के रूप में</td>
+</tr>
+<tr>
+<td>broker तय करता है कि कॉल कहाँ जाती है, यह नहीं कि उसमें क्या जाता है</td>
+<td>डेटा प्लगइन की सूची के किसी होस्ट की ओर बाहर जा सकता है</td>
+<td>सिर्फ़ उन होस्ट की अनुमति दें जिन पर आप उस डेटा के साथ भरोसा करते हैं</td>
+</tr>
+<tr>
+<td>विश्लेषण पैटर्न पर काम करता है</td>
+<td>जानबूझकर छिपाया गया कोड बच सकता है</td>
+<td>एडमिन का पूर्वावलोकन; सीमा सैंडबॉक्स है, विश्लेषण नहीं</td>
+</tr>
+<tr>
+<td><code>LD_PRELOAD</code> सिर्फ़ dynamic, interpreter वाले प्लगइन पर लागू होता है</td>
+<td>launcher के बिना <code>basic</code> में एक static binary इससे बच जाती है</td>
+<td>आधिकारिक इमेज में launcher हमेशा आता है, जिसका kernel फ़िल्टर static binary पर लागू होता है</td>
+</tr>
+</tbody>
+</table>
+<h2 id="network-exposure-outside-the-plugin-threat-model">नेटवर्क पर खुलापन (प्लगइन ख़तरा मॉडल से बाहर)<a class="headerlink" href="#network-exposure-outside-the-plugin-threat-model" title="Permanent link">¶</a></h2>
+<p>दो पक्के नियम तय करते हैं कि सर्वर तक कौन पहुँच सकता है:</p>
+<ul>
+<li><strong>सिर्फ़ HTTP port ही खोलने के लिए है।</strong> gRPC port (<code>EVEY_SERVER_PORT</code>, डिफ़ॉल्ट 9090)
+  एक अंदरूनी रास्ता है, जिसका अकेला client उसी प्रोसेस का HTTP gateway है; HTTP API
+  उस port से एक आगे वाला port है। gRPC डिफ़ॉल्ट रूप से loopback पर bind होता है
+  (<code>EVEY_GRPC_BIND=127.0.0.1</code>), क्योंकि रिमोट एक्सेस का दरवाज़ा HTTP middleware है और
+  इस पर लागू नहीं होता। bind को चौड़ा करने पर एक चेतावनी लॉग होती है; तब उसे firewall से
+  बंद करना सर्वर चलाने वाले का काम है।</li>
+<li><strong>रिमोट एक्सेस का दरवाज़ा उस एक client पते से तय करता है जो भरोसेमंद proxy की सीमा
+  पर जाँचा गया हो</strong>, कभी किसी request header से नहीं। कोई client <code>X-Forwarded-For</code> से
+  <code>127.0.0.1</code> होने का दावा नहीं कर सकता, और जो request उस सीमा से कभी नहीं गुज़रा, वह
+  रिमोट माना जाता है। यह डिप्लॉयमेंट का नियंत्रण है, पहचान नहीं।</li>
+</ul>
+<p>देखें <a href="../administration/remote-access/">रिमोट एक्सेस और HTTPS</a> और
+<a href="../environment/server/#remote-access">कॉन्फ़िगरेशन रेफ़रेंस</a>।</p>
+<h2 id="what-the-logs-may-contain">लॉग में क्या हो सकता है<a class="headerlink" href="#what-the-logs-may-contain" title="Permanent link">¶</a></h2>
+<p>सर्वर का लॉग <strong>लॉग और डीबग</strong>, bug रिपोर्ट और बैकअप में जाता है, इसलिए लाइन लिखते समय
+credentials साफ़ कर दिए जाते हैं (<code>internal/pkg/logger/redact.go</code>): जिस attribute की
+कुंजी किसी secret का नाम लेती है (<code>authorization</code>, <code>token</code>, <code>api_key</code>, <code>password</code>,
+<code>pin</code>, <code>secret</code>...), वह पूरा बदल दिया जाता है, और bearer token, JWT या <code>secret=value</code>
+जोड़ा रखने वाली हर string साफ़ की जाती है। लॉग वाले route पुरानी लाइनों पर भी बाहर
+जाते समय यही नियम लागू करते हैं। कोड के लिए: किसी गैर-secret मान को secret वाले कुंजी
+नाम के तहत कभी लॉग न करें (वह छिप जाएगा), और किसी नए तरह के credential को लॉग होने से
+पहले ही उस सूची में जोड़ दें।</p>
+<h2 id="reporting-a-vulnerability">कमज़ोरी की रिपोर्ट करना<a class="headerlink" href="#reporting-a-vulnerability" title="Permanent link">¶</a></h2>
+<p>निजी तौर पर रिपोर्ट करें, किसी सार्वजनिक issue में कभी नहीं: <code>security@eveyproject.org</code>,
+जो repository की <a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">सुरक्षा नीति</a> का पता है। इसमें प्लगइन की पहचान,
+अनुमतियाँ और सैंडबॉक्स से बच निकलना भी बाकी सब की तरह शामिल हैं। उन Evey सर्वरों पर
+टेस्ट न करें जो आपके नहीं हैं।</p>
+<!-- sources
+install checks: internal/adapters/driven/pluginrunner/zip.go ; internal/adapters/driven/pluginrunner/analyzer.go ; internal/adapters/driven/pluginrunner/cosign.go ; internal/app/plugin/install.go ; internal/adapters/driving/grpcapi/plugin_interceptor.go - PluginPermissionInterceptor
+runtime: internal/adapters/driven/pluginrunner/runner_sandbox.go - applySandbox ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode, launcherPath, systemReadOnlyDirs, safeDevNodes ; cmd/evey-plugin-launcher/seccomp_linux.go - deniedSyscalls, selfSignalSyscalls, cloneNamespaceFlags, appendDenyForkRules ; cmd/evey-plugin-launcher/droppriv_linux.go ; sandbox/sandbox.c ; internal/adapters/driven/pluginrunner/runner_bwrap.go - buildBwrapCmd ; internal/adapters/driven/pluginrunner/sandbox_probe.go - ProbeSandbox ; internal/adapters/driving/pluginhost/fetch.go - Fetch, maxFetchBytes, maxFetchHeaderBytes, fetchTimeout ; cmd/evey/hardening_linux.go
+resource monitor: internal/adapters/driven/pluginrunner/runner_resmon.go - defaultMemBytes, defaultPIDsMax, resMonInterval, resMonDiskEveryN, resMonCPUPegPct, resMonGPUPegPct ; internal/app/plugin/resource_config.go - ResolveResourceConfig
+bridge: frontend/packages/client/src/plugins/hostProtocol.ts - ALLOWED_NAV_PREFIXES, SLOT_MAX_HEIGHT, TOAST_MAX, TOAST_WINDOW_MS, TOAST_MAX_LENGTH ; frontend/packages/client/src/web/PluginIframe.tsx - MIN_SLOT_HEIGHT ; frontend/packages/client/src/native/PluginWebView.tsx
+config: internal/config/config.go - EVEY_PLUGINS_SANDBOX_MODE, EVEY_PLUGINS_UID_SEPARATION, EVEY_PLUGINS_COSIGN_POLICY, EVEY_PLUGINS_COSIGN_PUBLIC_KEY, EVEY_PLUGINS_MEMORY_MB, EVEY_PLUGINS_PIDS_MAX, EVEY_PLUGINS_DISK_MAX_MB, EVEY_PLUGINS_CPU_NICE, EVEY_SERVER_PORT, EVEY_GRPC_BIND
+logs: internal/pkg/logger/redact.go
+i18n: admin.nav.plugins ; admin.plugins.resourceLimits.title, sandboxMode ; admin.plugins.security.title, sandboxHost ; admin.nav.logs
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  शीर्षभाग पर लौटें
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="फुटर">
+        
+          
+          <a href="../playback-serving/" class="md-footer__link md-footer__link--prev" aria-label="पिछला: प्लेबैक पाइपलाइन">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                पिछला
+              </span>
+              <div class="md-ellipsis">
+                प्लेबैक पाइपलाइन
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../i18n-accessibility/" class="md-footer__link md-footer__link--next" aria-label="आगामी: भाषाएँ और सुलभता">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                आगामी
+              </span>
+              <div class="md-ellipsis">
+                भाषाएँ और सुलभता
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930 \u0926\u093f\u092f\u093e \u0917\u092f\u093e", "clipboard.copy": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930\u0947\u0902", "search.result.more.one": "1 \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.more.other": "# \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.none": "\u0915\u094b\u0908 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f \u0928\u0939\u0940\u0902", "search.result.one": "1 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f", "search.result.other": "# \u092e\u093f\u0932\u093e\u0928 \u0921\u093e\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f\u094d\u0938", "search.result.placeholder": "\u0916\u094b\u091c \u0936\u0941\u0930\u0942 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902", "search.result.term.missing": "\u095a\u093e\u092f\u092c", "select.version": "\u0935\u0930\u094d\u0936\u0928 \u091a\u0941\u0928\u0947\u0902"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

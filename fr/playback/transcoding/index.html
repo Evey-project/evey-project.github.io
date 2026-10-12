@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/transcoding/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/transcoding/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/transcoding/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/transcoding/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/transcoding/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/transcoding/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/transcoding/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/transcoding/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3073,13 +3135,28 @@
 
 
 <h1 id="transcoding-and-server-capacity">Transcodage et capacité du serveur<a class="headerlink" href="#transcoding-and-server-capacity" title="Permanent link">¶</a></h1>
-<p>Le transcodage est l'issue coûteuse de
-<a href="../how-playback-is-decided/">la décision de lecture</a> : la lecture directe et
-le remux ne coûtent presque rien au serveur et n'occupent jamais de créneau
-de transcodage. Cette page s'adresse à l'administrateur qui veut savoir
-combien de spectateurs le serveur peut servir à la fois : comment il mesure
-ce qu'il sait encoder, comment il répartit cette capacité, et ce que voit un
-spectateur quand elle est épuisée.</p>
+<p><strong>En bref :</strong></p>
+<ul>
+<li>Le <strong>transcodage</strong>, c'est convertir une vidéo dans une forme que
+  l'appareil sait lire. C'est le seul gros travail que fait le serveur : lire
+  un fichier tel quel (Lecture directe) ou le remettre dans un autre format
+  de fichier (Remux) ne coûte presque rien. Voir
+  <a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</li>
+<li>Vous ne réglez pas combien de personnes le serveur peut servir. Il se
+  mesure lui-même dès son premier moment calme, en quelques minutes, et n'en
+  accepte jamais plus.</li>
+<li>Quand la place manque, une nouvelle lecture reçoit une qualité plus basse,
+  ou passe d'une carte graphique occupée au processeur. Si aucun des deux n'a
+  de place, le lecteur affiche <strong>Le serveur est occupé par d'autres
+  transcodages. Réessayez dans un instant.</strong></li>
+<li>Ce que vous voudrez peut-être faire : donner une carte graphique au
+  serveur (<a href="../../administration/hardware-acceleration/">Accélération matérielle</a>),
+  et garder de la place libre sur le disque qui contient le cache
+  (<a href="#the-transcoding-cache">Le cache de transcodage</a>).</li>
+</ul>
+<p>Le reste de cette page s'adresse à l'administrateur qui veut les détails :
+comment le serveur mesure ce qu'il sait encoder, comment il partage cette
+capacité, et ce que voit un spectateur quand elle est épuisée.</p>
 <h2 id="the-server-measures-itself">Le serveur se mesure lui-même<a class="headerlink" href="#the-server-measures-itself" title="Permanent link">¶</a></h2>
 <p>La capacité n'est pas un réglage à estimer. Le serveur la mesure :</p>
 <ul>
@@ -3094,7 +3171,7 @@ spectateur quand elle est épuisée.</p>
   vraie lecture. Le résultat est la résolution la plus haute que chacun tient
   en temps réel, et le coût de chaque type de flux.</li>
 <li><strong>De nouveau.</strong> Après un changement de matériel, ou avec <strong>Recalibrer</strong>
-  dans <strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong>. Le
+  dans <strong>Administration → Configuration transcodage → Calibrage de l'encodage</strong>. Le
   bouton attend que plus personne ne regarde.</li>
 </ul>
 <p>Pendant la mesure, une lecture qui a besoin d'un transcodage affiche <strong>Le
@@ -3114,7 +3191,7 @@ machine plus bas qu'elle ne le mérite :</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">EVEY_BENCH_SDR_SAMPLE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/bench/mon-extrait-4k-sdr.hevc</span>
 </span></code></pre></div>
 <h2 id="sharing-the-capacity">Partage de la capacité<a class="headerlink" href="#sharing-the-capacity" title="Permanent link">¶</a></h2>
-<p>La <strong>Capacité de lecture en direct</strong> (<strong>Admin → Configuration transcodage</strong>)
+<p>La <strong>Capacité de lecture en direct</strong> (<strong>Administration → Configuration transcodage</strong>)
 est le nombre de flux vidéo qui peuvent être encodés en même temps. Elle
 découle de la mesure et s'ajuste seule quand le matériel change. <strong>Limiter les
 flux vidéo simultanés</strong> permet de l'abaisser, jamais de la relever.</p>
@@ -3186,16 +3263,30 @@ cette limite de lui-même. Voir
 </tbody>
 </table>
 <figure class="evey-shot">
-  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les deux plafonds de débit vidéo dans Admin → Configuration transcodage" loading="lazy" src="../../../images/admin-transcoding-bitrate.webp"></a>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Les deux plafonds de débit vidéo dans Administration → Configuration transcodage" loading="lazy" src="../../../images/admin-transcoding-bitrate.webp"></a>
 <br>
-<figcaption>Les deux plafonds de <strong>Admin → Configuration transcodage</strong> : pour tous les spectateurs, et pour ceux hors des réseaux locaux.</figcaption>
+<figcaption>Les deux plafonds de <strong>Administration → Configuration transcodage</strong> : pour tous les spectateurs, et pour ceux hors des réseaux locaux.</figcaption>
 </figure>
 <h2 id="the-transcoding-cache">Le cache de transcodage<a class="headerlink" href="#the-transcoding-cache" title="Permanent link">¶</a></h2>
 <p>Les segments encodés sont gardés sur disque dans le volume <code>evey-cache</code> et
 réutilisés quand un autre spectateur, ou le même plus tard, lit le même titre
-avec la même décision. <strong>Admin → Cache de transcodage</strong> affiche sa taille et
-permet de le vider ; le <strong>Budget du cache de transcodage</strong> (<strong>Admin →
-Configuration du serveur → Paramètres du serveur</strong>) le plafonne.</p>
+avec la même décision. <strong>Administration → Cache de transcodage</strong> affiche sa taille et
+permet de le vider ; le <strong>Budget du cache de transcodage</strong> (<strong>Administration →
+Configuration du serveur → Paramètres du serveur</strong>) le plafonne. <strong>Tout
+vider</strong> supprime aussi les sous-titres extraits de vos fichiers, gardés dans
+<code>./evey-data/subtitles</code> : ils sont extraits de nouveau à la demande.</p>
+<p><strong>Quand le disque se remplit.</strong> Le serveur garde une marge d'espace libre sur
+le disque qui contient le cache : 2 Gio par défaut, réglable avec
+<code>EVEY_TRANSCODE_CACHE_MIN_FREE_MB</code> (<code>0</code> désactive la marge). En dessous, les
+segments les plus anciens que personne ne regarde sont évincés d'abord. Si cela
+ne libère pas assez, un segment qui n'existe pas encore est refusé avec un
+délai au bout duquel le lecteur peut redemander, plutôt que de lancer un
+encodeur qui échouerait faute de place ; les segments déjà sur le disque
+restent servis. Les sous-titres extraits dans <code>./evey-data</code> suivent la même
+marge : en dessous, les nouveaux ne sont plus conservés, chaque demande les
+extrait de nouveau, et les administrateurs reçoivent <strong>Cache des sous-titres
+plein</strong> (au plus une fois par heure, envoyé aussi aux webhooks sous
+<code>transcoding.derived_cache_full</code>).</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Videz le cache après une mise à jour qui modifie la façon dont les vidéos
@@ -3205,13 +3296,13 @@ flux en mémoire tampon une fois, puis la lecture reprend.</p>
 </div>
 <h2 id="checking-what-happens">Vérifier ce qui se passe<a class="headerlink" href="#checking-what-happens" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Admin → En cours de lecture</strong> : chaque flux, son mode de lecture piste par
+<li><strong>Administration → En cours de lecture</strong> : chaque flux, son mode de lecture piste par
   piste, et le backend qui l'encode.</li>
-<li><strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong> : les
+<li><strong>Administration → Configuration transcodage → Calibrage de l'encodage</strong> : les
   plafonds mesurés et les accélérateurs utilisés.</li>
-<li><strong>Admin → Qualité streaming</strong> : le déroulement des lectures pour les vrais
+<li><strong>Administration → Qualité streaming</strong> : le déroulement des lectures pour les vrais
   spectateurs.</li>
-<li><strong>Test de charge</strong> (<strong>Admin → Configuration transcodage</strong>) : simule des
+<li><strong>Test de charge</strong> (<strong>Administration → Configuration transcodage</strong>) : simule des
   spectateurs pour mesurer ce que le serveur tient. Il refuse de démarrer tant
   que quelqu'un regarde.</li>
 </ul>

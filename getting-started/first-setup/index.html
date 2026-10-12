@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/getting-started/first-setup/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/getting-started/first-setup/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/getting-started/first-setup/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/getting-started/first-setup/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/getting-started/first-setup/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/getting-started/first-setup/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/getting-started/first-setup/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/getting-started/first-setup/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/getting-started/first-setup/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/getting-started/first-setup/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -535,6 +567,8 @@
       
         
       
+        
+      
     
     
     
@@ -750,10 +784,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-add-the-people" class="md-nav__link">
+  <a href="#3-invite-your-household" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Add the people
+        3. Invite your household
       
     </span>
   </a>
@@ -816,7 +850,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3128,10 +3190,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-add-the-people" class="md-nav__link">
+  <a href="#3-invite-your-household" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Add the people
+        3. Invite your household
       
     </span>
   </a>
@@ -3195,32 +3257,37 @@
 
 
 <h1 id="first-setup">First setup<a class="headerlink" href="#first-setup" title="Permanent link">¶</a></h1>
-<p>The server is running and you opened <code>http://&lt;server-address&gt;:9091</code> in a
-browser (which address: <a href="../../installation/#the-address-to-open-next">The address to open next</a>).
-Four steps remain before people can watch: the setup wizard, the libraries,
-the users, and the apps.</p>
+<p>Evey is running, and you opened its address in a browser, for example
+<code>http://192.168.1.20:9091</code> (not sure which address:
+<a href="../../installation/#the-address-to-open-next">Step 3 of Install</a>).</p>
+<p>Four steps remain before your household can watch:</p>
+<ol>
+<li><a href="#1-the-setup-wizard">The setup wizard</a>: about a minute.</li>
+<li><a href="#2-add-your-libraries">Add your libraries</a>: tell Evey where your media is.</li>
+<li><a href="#3-invite-your-household">Invite your household</a>: one account each, or
+   one shared account with a profile per person.</li>
+<li><a href="#4-connect-the-apps">Connect the apps</a>: phones, tablets and TVs.</li>
+</ol>
 <h2 id="1-the-setup-wizard">1. The setup wizard<a class="headerlink" href="#1-the-setup-wizard" title="Permanent link">¶</a></h2>
-<p>As long as the server has no administrator, every address on it opens on the
-wizard: a single card with the Evey logo, a line <strong>Step 1 of 4 - Language</strong>
-and four dots that fill in as you go. It only asks four things and takes a
-minute.</p>
+<p>Until the server has an administrator, its address always opens the wizard.
+It shows <strong>Step 1 of 4 - Language</strong> at the top, and four dots that fill in
+as you go.</p>
 <h3 id="step-1-of-4---language">Step 1 of 4 - Language<a class="headerlink" href="#step-1-of-4---language" title="Permanent link">¶</a></h3>
-<p>The card is titled <strong>Choose your server language</strong>. Two drop-downs:</p>
+<p>The card says <strong>Choose your server language</strong>. Pick:</p>
 <ul>
-<li><strong>Language</strong>: becomes the default language of new profiles and of the
-  metadata the server fetches (titles, summaries, genres). The wizard itself
-  switches to it at once.</li>
-<li><strong>Region</strong>: pre-filled from the language; it drives content ratings and
-  regional preferences. <strong>Automatic</strong> is available.</li>
+<li><strong>Language</strong>: the default language of new profiles, and of the titles and
+  summaries Evey fetches. The wizard switches to it at once.</li>
+<li><strong>Region</strong>: filled in from the language. It decides which age ratings are
+  shown. <strong>Automatic</strong> is available.</li>
 </ul>
-<p>Both can be changed later in the admin panel. Press <strong>Continue</strong>.</p>
+<p>You can change both later in the admin panel. Press <strong>Continue</strong>.</p>
 <h3 id="step-2-of-4---welcome">Step 2 of 4 - Welcome<a class="headerlink" href="#step-2-of-4---welcome" title="Permanent link">¶</a></h3>
-<p><strong>Welcome to Evey</strong> and one sentence. Press <strong>Get Started</strong> (or <strong>Back</strong>).</p>
+<p>Nothing to fill in. Press <strong>Get Started</strong>.</p>
 <div class="evey-shot-pair">
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Step 1 of the wizard: language and region" data-gallery="setup" loading="lazy" src="../../images/setup-wizard-1-language.webp"></a>
 <br>
-<figcaption>Step 1: the language of the server, and the region used for content ratings.</figcaption>
+<figcaption>Step 1: the language of the server, and the region used for age ratings.</figcaption>
 </figure>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Step 2 of the wizard: welcome" data-gallery="setup" loading="lazy" src="../../images/setup-wizard-2-welcome.webp"></a>
@@ -3229,12 +3296,13 @@ minute.</p>
 </figure>
 </div>
 <h3 id="step-3-of-4---admin-account">Step 3 of 4 - Admin account<a class="headerlink" href="#step-3-of-4---admin-account" title="Permanent link">¶</a></h3>
-<p>The card is titled <strong>Create admin account</strong>:</p>
+<p>The card says <strong>Create admin account</strong>. This is your own account, the one
+that manages the server.</p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Rule</th>
+<th>What to type</th>
 </tr>
 </thead>
 <tbody>
@@ -3248,29 +3316,28 @@ minute.</p>
 </tr>
 <tr>
 <td><strong>Confirm password</strong></td>
-<td>Must match.</td>
+<td>The same password again.</td>
 </tr>
 <tr>
 <td><strong>Server name</strong></td>
-<td>Optional. Shown on the sign-in page, in the browser tab, in the apps' server list and in e-mails, for example "Living room". Can be changed later in <strong>Admin → Server Config → Server Name</strong>.</td>
+<td>Optional. A name such as "Living room". People see it on the sign-in page, in the browser tab, in the apps' list of servers and in e-mails. You can change it later in <strong>Admin → Server Config → Server Name</strong>.</td>
 </tr>
 </tbody>
 </table>
-<p>Press <strong>Continue</strong>. This creates the account and signs you in: from this
-moment the server has an administrator and the wizard will not be offered
-again.</p>
+<p>Press <strong>Continue</strong>. Evey creates the account and signs you in. The wizard
+will not appear again.</p>
 <h3 id="step-4-of-4---first-library">Step 4 of 4 - First library<a class="headerlink" href="#step-4-of-4---first-library" title="Permanent link">¶</a></h3>
-<p>The card is titled <strong>Add your first library</strong>:</p>
+<p>The card says <strong>Add your first library</strong>. A library is one kind of media in
+one or more folders, for example "Films".</p>
 <ul>
-<li><strong>Library name</strong>, for example "Films".</li>
+<li><strong>Library name</strong>: for example "Films".</li>
 <li><strong>Library type</strong>: <strong>Movies</strong>, <strong>Shows</strong>, <strong>Music</strong> or <strong>Photos</strong>.</li>
-<li><strong>Paths</strong>: a drop-down listing the folders mounted into the container as
-  <code>/media</code>, <code>/media2</code>...; choose one, or <strong>Enter custom path...</strong> to type a
-  path such as <code>/media/movies</code>. When no <code>/media</code> folder is mounted, the
-  drop-down is replaced by a text field.</li>
+<li><strong>Paths</strong>: pick a folder from the list. It shows the folders Evey can see,
+  starting with <code>/media</code>. To type a path such as <code>/media/movies</code>, choose
+  <strong>Enter custom path...</strong>.</li>
 </ul>
-<p>Press <strong>Create</strong> to start the first scan, or <strong>Skip</strong>: both lead to the home
-page. Libraries can be added at any time from the admin panel (next section).</p>
+<p>Press <strong>Create</strong>: Evey starts reading the folder. Or press <strong>Skip</strong> and add
+libraries later. Both take you to the home page.</p>
 <div class="evey-shot-pair">
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Step 3 of the wizard: the administrator account" data-gallery="setup" loading="lazy" src="../../images/setup-wizard-3-admin.webp"></a>
@@ -3280,69 +3347,99 @@ page. Libraries can be added at any time from the admin panel (next section).</p
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Step 4 of the wizard: the first library" data-gallery="setup" loading="lazy" src="../../images/setup-wizard-4-library.webp"></a>
 <br>
-<figcaption>Step 4: a name, a type, and a folder seen from inside the container.</figcaption>
+<figcaption>Step 4: a name, a type, and a folder as Evey sees it.</figcaption>
 </figure>
 </div>
 <details class="note">
-<summary>Opening the address once an administrator exists</summary>
-<p>The same address opens on the sign-in page, and <code>/setup</code> sends you there
-too. If two people reach the wizard at the same time, the second one's
-account is refused and the browser moves to the sign-in page.</p>
+<summary>If the wizard does not appear, or appears twice</summary>
+<p>Once an administrator exists, the address opens the sign-in page, and
+<code>/setup</code> sends you there too. If two people open the wizard at the same
+time, only the first one gets the administrator account: the second is
+sent to the sign-in page.</p>
 </details>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The admin dashboard of the demo server" loading="lazy" src="../../images/admin-dashboard.webp"></a>
 <br>
-<figcaption>The administration once signed in: the dashboard, and every section in the side menu.</figcaption>
+<figcaption>The admin panel once signed in: the dashboard, and every section in the side menu.</figcaption>
 </figure>
 <h2 id="2-add-your-libraries">2. Add your libraries<a class="headerlink" href="#2-add-your-libraries" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Libraries → Add Library</strong>: a name, a type (Movies, Shows, Music or
-Photos) and one or more folders.</p>
-<p>The folders are paths <strong>inside the container</strong>. With the compose file from the
-installation, your media folder is <code>/media</code>: a film folder at
-<code>/srv/media/films</code> on the host is <code>/media/films</code> for Evey.</p>
-<p>The first scan starts on its own. New files are picked up as they appear, and
-posters, summaries and cast arrive in the background, so a large library fills
-in over a few minutes.</p>
-<p>How files should be named, how scans work and how to correct a wrong match:
-<a href="../../administration/libraries/">Libraries and metadata</a>.</p>
-<h2 id="3-add-the-people">3. Add the people<a class="headerlink" href="#3-add-the-people" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Users</strong> creates an account with a password you choose, or an
-invitation link with which the person sets their own. Each account then creates
-its profiles: one per person in the household, kids profiles included.</p>
-<p>What an administrator can restrict per account, and how profiles and parental
-control work: <a href="../../administration/users/">Users, profiles and parental control</a>.</p>
+<p>Go to <strong>Admin → Libraries → Add Library</strong>. Give a name, a type (Movies,
+Shows, Music or Photos) and one or more folders.</p>
+<p>The folders are named as Evey sees them, not as they are on your computer.
+With the compose file from <a href="../../installation/#the-compose-file">Install</a>,
+your media folder is <code>/media</code>. So a folder <code>/srv/media/films</code> on your
+computer is <code>/media/films</code> in Evey.</p>
+<p>Evey starts reading the folder by itself. Posters, summaries and cast arrive
+in the background, so a large library fills in over a few minutes. New files
+you add later appear on their own.</p>
+<p>Your titles do not show up, or show the wrong poster? See
+<a href="../../administration/libraries/">Libraries and metadata</a>: how to name files,
+and how to fix a wrong match.</p>
+<h2 id="3-invite-your-household">3. Invite your household<a class="headerlink" href="#3-invite-your-household" title="Permanent link">¶</a></h2>
+<p>There are two ways to give someone an account, both in <strong>Admin → Users</strong>.</p>
+<p><strong>Send an invitation link</strong> (the person picks their own password):</p>
+<ol>
+<li>Open the admin panel from the address the others will use, for example
+   <code>http://192.168.1.20:9091</code>, not <code>http://localhost:9091</code>. The link is built
+   from the address in your browser.</li>
+<li>Press <strong>Create Invite Link</strong>. You can limit how long it works
+   (<strong>Expires at (optional)</strong>), how many times it can be used
+   (<strong>Max uses (empty = unlimited)</strong>) and which libraries the new account
+   sees (<strong>Accessible libraries</strong>).</li>
+<li>In <strong>Invite Links</strong>, press <strong>Copy Link</strong> and send it by message or e-mail.</li>
+<li>The person opens the link, sees <strong>You've been invited! Fill in your details
+   below.</strong>, picks a username and a password (at least 8 characters), and is
+   signed in.</li>
+</ol>
+<p><strong>Or create the account yourself</strong>: press <strong>Create User</strong>, choose the
+<strong>Username</strong> and the <strong>Password</strong>, and give them to the person.</p>
+<p>Every account starts with one profile, named after the username. A household
+can share one account, with one profile per person: add them from
+<strong>Settings → Profiles → Create Profile</strong>. For a child, tick <strong>Kids profile</strong>
+and choose a <strong>Max age rating</strong>. Every other profile of that account then
+needs a <strong>PIN (4 digits)</strong>, so that the child cannot switch to it.</p>
+<p>Then send each person three things: the address, their username and
+password (or the invitation link), and the page written for them,
+<a href="../watching/">Watching with Evey</a>.</p>
+<p>More options (limits per account, opening hours, PINs, age limits):
+<a href="../../administration/users/">Users, profiles and parental control</a>.</p>
 <h2 id="4-connect-the-apps">4. Connect the apps<a class="headerlink" href="#4-connect-the-apps" title="Permanent link">¶</a></h2>
-<p>The web app is the address you already opened. The Android and Android TV
-apps open on a screen that asks for the server address: type the <strong>same
-address as in the browser</strong>, with <code>http://</code> and the port, for example
-<code>http://192.168.1.20:9091</code>, then sign in. A TV can be signed in with a code
-approved from a phone instead of a password.</p>
-<p>How to find the address, what the automatic scan does, and what each error
-message means: <a href="../apps/#the-server-address-to-enter">The server address to enter</a>.</p>
-<h2 id="what-the-server-does-by-itself">What the server does by itself<a class="headerlink" href="#what-the-server-does-by-itself" title="Permanent link">¶</a></h2>
-<p>None of this needs a setting:</p>
 <ul>
-<li><strong>Playback.</strong> Each device reports what it can decode, and the server chooses,
-  title by title, between sending the file as it is, repackaging it, or
-  re-encoding only what the device cannot play. See
+<li><strong>In a browser</strong>, there is nothing to install: it is the address you
+  already opened.</li>
+<li><strong>On an Android phone, tablet or TV</strong>, the app asks for the server address
+  first. Type the <strong>same address as in the browser</strong>, with <code>http://</code> and the
+  port, for example <code>http://192.168.1.20:9091</code>. Then sign in.</li>
+<li><strong>On a TV</strong>, you can sign in with a code approved from your phone, instead
+  of typing a password with the remote.</li>
+</ul>
+<p>Step by step, and what each error message means:
+<a href="../apps/#the-server-address-to-enter">Connect the apps</a>.</p>
+<h2 id="what-the-server-does-by-itself">What the server does by itself<a class="headerlink" href="#what-the-server-does-by-itself" title="Permanent link">¶</a></h2>
+<p>You do not need to set any of this:</p>
+<ul>
+<li><strong>How each device plays a file.</strong> Each device tells the server what it can
+  play. For each title, the server then sends the file as it is, repackages
+  it, or converts only what the device cannot play. See
   <a href="../../playback/how-playback-is-decided/">How playback is decided</a>.</li>
-<li><strong>Capacity.</strong> On its first quiet moment the server measures how many videos it
-  can transcode at once, with the processor and with any graphics card mapped
-  into the container, and never admits more. The measurement takes a few
-  minutes; a playback that needs a transcode meanwhile is asked to wait. See
+<li><strong>How many people it can serve.</strong> At its first quiet moment, the server
+  measures how much video it can convert at once, with the processor and any
+  graphics card, and never accepts more. This takes a few minutes. Meanwhile,
+  a playback that needs a conversion is asked to wait. See
   <a href="../../playback/transcoding/">Transcoding and server capacity</a>.</li>
-<li><strong>Remote access.</strong> It opens when the server was given a public address, and
-  stays closed otherwise. See
-  <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</li>
-<li><strong>Backups.</strong> The database is dumped before every update that changes it. A
-  regular schedule is one setting away: <a href="../../backups/">Backups and updates</a>.</li>
+<li><strong>Access from outside your home.</strong> Off until you give the server a public
+  address. See <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</li>
+<li><strong>A safety copy of the database</strong> before every update that changes it.
+  Regular backups are one setting away:
+  <a href="../../backups/">Backups and updates</a>.</li>
 </ul>
 <h2 id="before-you-share-the-address-outside-your-home">Before you share the address outside your home<a class="headerlink" href="#before-you-share-the-address-outside-your-home" title="Permanent link">¶</a></h2>
 <ol>
-<li>Put the server behind HTTPS: Evey serves plain HTTP.
+<li>Put the server behind HTTPS. Evey itself only speaks plain HTTP, which is
+   fine at home but not over the internet.
    <a href="../../administration/remote-access/">Remote access and HTTPS</a>.</li>
-<li>Set a backup schedule, and keep a copy of <code>./evey-data</code>: it holds the
-   database and the key that signs every session.
+<li>Set a backup schedule, and keep a copy of the <code>evey-data</code> folder. It holds
+   the database and the key that protects every sign-in.
    <a href="../../backups/">Backups and updates</a>.</li>
 </ol>
 <!-- sources
@@ -3354,6 +3451,11 @@ apps ask for the address: frontend/apps/mobile/app/server-connect.tsx ; frontend
 calibration at quiet moment, wait: internal/app/transcoding/calibration_service.go
 remote access inference: docs/adr/0026-remote-access-inferred-from-a-published-url.md
 pre-migration dump: internal/adapters/driven/postgres/migrate.go
+server name in admin: frontend/apps/web/src/features/admin/serverConfig/ServerSettingsCard.tsx ; i18n admin.nav.serverConfig, admin.serverSettings.serverName
+invite link built from the admin's browser address: frontend/apps/web/src/features/admin/InviteLinkRow.tsx - inviteUrl (window.location.origin) ; i18n admin.users.createInviteLink, expiresAtLabel, maxUsesLabel, inviteLibraries, inviteLinks, copyLink, createUser
+invite page, password 8 chars, signed in after: frontend/apps/web/src/routes/register.tsx - handleSubmit ; i18n auth.register.invitedMessage, passwordMin
+first profile named after the username: internal/app/user/user_service.go, internal/app/user/access_service.go - RegisterWithInvite (NewProfile with u.Username)
+kids profile forces a PIN on the others: frontend/apps/web/src/features/profile/CreateProfileDialog.tsx (pinRequired) ; i18n auth.profile.manage.createProfile, auth.profile.fields.isKids, maxAge, pin ; auth.settings.tabs.profiles
 -->
 
 
@@ -3412,13 +3514,13 @@ pre-migration dump: internal/adapters/driven/postgres/migrate.go
         
         
           
-          <a href="../apps/" class="md-footer__link md-footer__link--next" aria-label="Next: Apps and devices">
+          <a href="../apps/" class="md-footer__link md-footer__link--next" aria-label="Next: Connect the apps">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Apps and devices
+                Connect the apps
               </div>
             </div>
             <div class="md-footer__button md-icon">

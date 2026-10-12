@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../fr/backups/" hreflang="fr">
         
+          <link rel="alternate" href="../de/backups/" hreflang="de">
+        
+          <link rel="alternate" href="../es/backups/" hreflang="es">
+        
+          <link rel="alternate" href="../hi/backups/" hreflang="hi">
+        
+          <link rel="alternate" href="../zh/backups/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../fr/backups/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../de/backups/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../es/backups/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../hi/backups/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../zh/backups/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -1102,10 +1164,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#what-a-backup-contains" class="md-nav__link">
+  <a href="#schedule-backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What a backup contains
+        Schedule backups
       
     </span>
   </a>
@@ -1113,10 +1175,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#schedule-backups" class="md-nav__link">
+  <a href="#what-a-backup-contains" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Schedule backups
+        What a backup contains
       
     </span>
   </a>
@@ -3004,10 +3066,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#what-a-backup-contains" class="md-nav__link">
+  <a href="#schedule-backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What a backup contains
+        Schedule backups
       
     </span>
   </a>
@@ -3015,10 +3077,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#schedule-backups" class="md-nav__link">
+  <a href="#what-a-backup-contains" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Schedule backups
+        What a backup contains
       
     </span>
   </a>
@@ -3088,85 +3150,132 @@
 
 
 <h1 id="backups-and-updates">Backups and updates<a class="headerlink" href="#backups-and-updates" title="Permanent link">¶</a></h1>
-<p>A scheduled backup of the database, kept for as long as you choose, and an
-update that is a <code>docker compose pull</code> away. This page is for the
-administrator: what a backup holds and what it does not, how to restore one,
-and how to update or go back without losing data.</p>
-<h2 id="what-a-backup-contains">What a backup contains<a class="headerlink" href="#what-a-backup-contains" title="Permanent link">¶</a></h2>
-<p>A backup is a copy of the <strong>database</strong>: accounts, profiles, libraries and
-their catalogue, watch history and resume points, collections, playlists and
-favourites, settings, plugin records, webhooks, API keys, notifications and
-audit logs. It is a <code>.tar.gz</code> holding the SQL dump and a manifest with the
-dump's SHA256 and the schema version.</p>
-<p>It does <strong>not</strong> contain:</p>
+<p>Two habits keep your server safe:</p>
 <ul>
-<li>your media files;</li>
-<li>the transcoding cache (regenerated on demand);</li>
-<li>the search index (rebuilt from the database);</li>
-<li>the keys kept in <code>./evey-data</code>: <code>jwt.key</code>, which signs sessions, and the
-  <code>keys</code> folder (database password, search key);</li>
-<li>the installed plugin files.</li>
+<li><strong>Back up.</strong> Turn on a daily backup of the database, and keep a copy of
+  the <code>evey-data</code> folder somewhere else.</li>
+<li><strong>Update.</strong> One command fetches the new version. Evey saves the database
+  first, by itself, whenever an update changes it.</li>
 </ul>
-<p>A database backup therefore restores Evey's state on the same installation.
-To be able to rebuild a machine, keep a copy of the whole <code>./evey-data</code> folder
-as well: the database backups are inside it, in <code>./evey-data/backups</code>.</p>
+<p>This page shows both, then what a backup holds, how to restore one, and how
+to go back to an older version.</p>
 <h2 id="schedule-backups">Schedule backups<a class="headerlink" href="#schedule-backups" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Database Backup → Schedule</strong>: a <strong>Cron expression</strong> (for example
-<code>0 3 * * *</code>, every day at 3 AM) and a <strong>Retention (days)</strong>. Backups older than
-the retention are deleted after each scheduled run. <strong>Run now</strong> makes one
-immediately, as does <strong>Create Backup</strong> at the top of the page.</p>
+<ol>
+<li>Go to <strong>Admin → Database Backup</strong>, card <strong>Schedule</strong>.</li>
+<li>In <strong>Cron expression</strong>, say when to run. <code>0 3 * * *</code> means every day at
+   3 AM. (The format is minute, hour, day, month, day of the week.)</li>
+<li>In <strong>Retention (days)</strong>, say how long to keep each backup, for example
+   <code>30</code>. Older backups are deleted after each scheduled run.</li>
+<li>Tick <strong>Enabled</strong>, then press <strong>Save</strong>.</li>
+</ol>
+<p><strong>Run now</strong> makes a backup immediately, and so does <strong>Create Backup</strong> at the
+top of the page.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Database Backup with a daily schedule" loading="lazy" src="../images/admin-backup.webp"></a>
 <br>
 <figcaption>A backup every day at 3 AM, kept 30 days.</figcaption>
 </figure>
-<p>The server also dumps the database on its own before applying a migration
-during an update, whatever the schedule (see <a href="#updating-evey">Updating Evey</a>).</p>
+<p>Backups are saved in <code>./evey-data/backups</code>. That is inside the folder you
+should copy to another disk anyway (see
+<a href="#what-a-backup-contains">What a backup contains</a>).</p>
+<details class="info">
+<summary>From the command line</summary>
+<p>A script or a cron job on the host can make the same backup:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>backup
+</span></code></pre></div>
+<p>It follows the telemetry switch of the panel (below);
+<code>--include-telemetry</code> includes the telemetry for that run only.</p>
+</details>
+<p>The server also saves the database by itself before an update changes it,
+whatever the schedule (see <a href="#updating-evey">Updating Evey</a>).</p>
+<h2 id="what-a-backup-contains">What a backup contains<a class="headerlink" href="#what-a-backup-contains" title="Permanent link">¶</a></h2>
+<p>A backup is a copy of the <strong>database</strong>: accounts, profiles, libraries and
+their catalogue, watch history and resume points, collections, playlists and
+favourites, settings, plugin records, webhooks, API keys, notifications and
+audit logs.</p>
+<p>It does <strong>not</strong> contain:</p>
+<ul>
+<li>your media files;</li>
+<li>the video cache (it fills up again by itself);</li>
+<li>the search index (rebuilt from the database);</li>
+<li>the keys kept in <code>./evey-data</code>: <code>jwt.key</code>, which protects every sign-in,
+  and the <code>keys</code> folder (database password, search key);</li>
+<li>the installed plugin files.</li>
+</ul>
+<p><strong>So keep a copy of the whole <code>./evey-data</code> folder too.</strong> A database backup
+restores Evey on the same installation. To rebuild a machine from scratch,
+you need the folder.</p>
+<details class="info">
+<summary>Telemetry, and the file format</summary>
+<p>Playback and server measurements (behind the quality and load charts) are
+left out by default: they grow fastest and say nothing about your
+catalogue. <strong>Include telemetry in backups</strong> (<strong>Admin → Server Config</strong>)
+puts them back in, for manual, scheduled and command-line backups.
+Restoring a backup always empties those tables.</p>
+<p>A backup is a <code>.tar.gz</code> file holding the database dump and a short
+description with its checksum (SHA256) and its schema version.</p>
+</details>
 <h2 id="restore-a-backup">Restore a backup<a class="headerlink" href="#restore-a-backup" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Database Backup</strong> lists the backups and restores one, or restores
-from a file you upload (<strong>Restore from File</strong>). Restoring replaces the current
-database.</p>
+<p><strong>Admin → Database Backup</strong> lists the backups. Restore one from the list, or
+upload a file with <strong>Restore from File</strong>. Restoring replaces the current
+database: everything since that backup is lost.</p>
 <div class="admonition warning">
-<p class="admonition-title">Same schema only</p>
-<p>The server checks the checksum and the schema version first, and refuses
-a backup taken by a version with a different schema instead of loading it.
-To go back to an older version with its data, see
+<p class="admonition-title">Only a backup from a version with the same database layout</p>
+<p>The server first checks the file and the database layout (the schema
+version). It refuses a backup taken by a version with a different layout,
+instead of loading it. To go back to an older version with its data, see
 <a href="#going-back">Going back</a>.</p>
 </div>
-<p>When the server does not start any more, the command line restores the dumps
-taken before a migration (<code>pre-migration-*.sql.gz</code>), not the <code>.tar.gz</code> backups
-of this panel: see <a href="../runbooks/recovery/">Recovery</a>.</p>
+<p>If the server no longer starts, the command line can restore the safety
+copies taken before an update (<code>pre-migration-*.sql.gz</code>), not the <code>.tar.gz</code>
+backups of this panel: see <a href="../runbooks/recovery/">Recovery</a>.</p>
 <h2 id="updating-evey">Updating Evey<a class="headerlink" href="#updating-evey" title="Permanent link">¶</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey
+<p>In the folder that holds your compose file:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey
 </span></code></pre></div>
-<p>That is the whole update. When the new version needs to change the database,
-it first writes a dump to <code>./evey-data/backups/pre-migration-*.sql.gz</code> (the
-three most recent are kept), then applies the migrations while starting; a
-large catalogue can take a few minutes, and the container reports healthy once
-it serves again. Evey asks the registry every hour whether a newer image is
-published and says so in the admin panel; it never updates itself.</p>
-<p><strong>Pin what you run.</strong> During the beta there is no numbered release and no
-<code>latest</code> tag; the branch tag <code>beta-0.0.1</code> moves with every change. For a server
-you rely on, put an immutable <code>sha-&lt;commit&gt;</code> tag on the <code>image:</code> line, so that
-two pulls a day apart run the same code. Once releases exist, <code>latest</code> will
-follow the most recent stable one, and a release tag (<code>0.2.0</code>) will pin it.</p>
-<p><strong>Which version is running.</strong> <code>docker exec evey-server evey version</code> prints the
-version and the commit of the running binary.</p>
+<p>That is the whole update.</p>
+<ul>
+<li><strong>Your data is saved first.</strong> When the new version needs to change the
+  database, it first writes a copy to
+  <code>./evey-data/backups/pre-migration-*.sql.gz</code> (the three most recent are
+  kept), then makes the change while starting.</li>
+<li><strong>It can take a few minutes</strong> on a large catalogue. The container reports
+  healthy once it answers again.</li>
+<li><strong>Evey tells you when an update exists.</strong> It checks every hour whether a
+  newer image is published and says so in the admin panel. It never updates
+  itself.</li>
+<li><strong>Which version is running:</strong> <code>docker exec evey-server evey version</code> prints
+  the version and the commit.</li>
+</ul>
+<details class="info">
+<summary>Pin the exact version you run</summary>
+<p>During the beta there is no numbered release and no <code>latest</code> tag. The tag
+<code>beta-0.0.1</code> changes with every update. For a server you rely on, put a
+fixed <code>sha-&lt;commit&gt;</code> tag on the <code>image:</code> line, so that two pulls a day
+apart run the same code. Once releases exist, <code>latest</code> will follow the
+most recent stable one, and a release tag (<code>0.2.0</code>) will pin it.</p>
+</details>
 <h3 id="going-back">Going back<a class="headerlink" href="#going-back" title="Permanent link">¶</a></h3>
-<p>Put the previous tag on the <code>image:</code> line and run <code>docker compose up -d</code>. If
-the newer version had migrated the database, restore its pre-migration dump
-first: <code>docker exec evey-server evey admin rollback</code> prints the exact steps
-with the dump's path.</p>
-<p>Image tags, runtime variants and GPU flavours are described in
+<ol>
+<li>Put the previous tag on the <code>image:</code> line of your compose file.</li>
+<li>If the newer version changed the database, restore its pre-update copy
+   first: <code>docker exec evey-server evey admin rollback</code> prints the exact
+   steps, with the file's path.</li>
+<li>Run <code>docker compose up -d</code>.</li>
+</ol>
+<p>Image tags, other variants and graphics card builds are described in
 <a href="../operations/advanced-deployments/#image-tags-and-variants">Advanced deployments</a>.</p>
 <!-- sources
 contents: internal/app/backup/service.go - BackupTables, CreateBackup (sha256 + schema version in manifest), RestoreBackup (checksum + schema guard), CleanupOldBackups ; internal/adapters/driven/filesystem/backup_store.go
 schedule: i18n admin.backup.schedule.* (cronLabel, retentionLabel, runNow) ; admin.backup.createBackup, restoreFromFile ; cmd/evey/main.go (DB cron scheduler, env fallback)
+telemetry left out by default, emptied on restore: internal/adapters/driven/postgres/backup.go - DumpAll, telemetryTables ; internal/app/backup/service.go - WithIncludeTelemetry ; internal/adapters/driving/http/settings_handler.go - BackupIncludeTelemetryKey ; i18n admin.serverSettings.backupTelemetry, backupTelemetryHint
+command-line backup: cmd/evey/admin_backup.go - adminBackup (--include-telemetry, else the panel setting)
 keys outside the dump: internal/config/config.go (EVEY_JWT_PRIVATE_KEY_PATH /data/jwt.key, /data/keys)
 pre-migration dump at boot, 3 kept: cmd/evey/database.go - RunMigrations BackupOpts Retention 3 ; internal/adapters/driven/postgres/migrate_backup.go (pre-migration-<stamp>.sql.gz, EVEY_BACKUP_DIR default /data/backups)
 update check hourly, never self-updates: internal/app/updatecheck/service.go - checkInterval, firstCheck
 rollback advisor: cmd/evey/admin_commands.go - adminRollback ; image tags: .github/workflows/ci.yml (beta-0.0.1 + sha-<short>, latest gated on vX.Y.Z)
+schedule card controls (Enabled, Save, Run now): frontend/apps/web/src/routes/_auth/admin/backup.lazy.tsx ; i18n admin.backup.schedule.enabledLabel, save, cronHelp
 -->
 
 

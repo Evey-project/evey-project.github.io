@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/playback/watching-together/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback/watching-together/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback/watching-together/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback/watching-together/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback/watching-together/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/playback/watching-together/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback/watching-together/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback/watching-together/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback/watching-together/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback/watching-together/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3051,12 +3113,22 @@
 
 
 <h1 id="watching-together">Watching together<a class="headerlink" href="#watching-together" title="Permanent link">¶</a></h1>
-<p>How to watch the same title at the same moment as other people, each on their
-own device, and what each of you can expect to control. For viewers; nothing
-to configure on the server. <strong>Watch Together</strong> opens a room that holds the
-position, and every player follows it. Each viewer's stream is still decided
-for their own device, as in <a href="../how-playback-is-decided/">How playback is decided</a>:
-one person can be in Direct Play while another is transcoded.</p>
+<p>Watch the same film at the same moment as other people, each on your own
+screen. One person opens a room; the others join it with a code. There is
+nothing to set up on the server.</p>
+<p>In short:</p>
+<ol>
+<li>Start the film in the web player or the Android app, and press <strong>Watch
+   Together</strong>. You are the host of the room, and you see its code: six
+   letters and digits.</li>
+<li>Send the code to the people you want with you.</li>
+<li>They join with the code: from their own account (see the table below),
+   or, without an account, with <strong>Watch together</strong> on the sign-in page.</li>
+</ol>
+<p>Who can pause or move the film for everyone depends on the app: see
+<a href="#what-each-member-controls">What each member controls</a>.</p>
+<p>Each person still gets the version of the film that suits their own device,
+as explained in <a href="../how-playback-is-decided/">How playback is decided</a>.</p>
 <h2 id="starting-and-joining-a-room">Starting and joining a room<a class="headerlink" href="#starting-and-joining-a-room" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3088,9 +3160,8 @@ one person can be in Direct Play while another is transcoded.</p>
 </tr>
 </tbody>
 </table>
-<p>The person who starts the room is its host and sees its code: six
-characters, letters and digits. Codes are typed without worrying about case,
-spaces, or confusing <code>O</code> with <code>0</code> and <code>I</code> or <code>L</code> with <code>1</code>.</p>
+<p>Typing the code is forgiving: capitals or not, spaces, and <code>O</code> for <code>0</code> or
+<code>I</code> or <code>L</code> for <code>1</code> are all accepted.</p>
 <p>Joining with an account follows the usual rules: the library must be shared
 with that account, and the profile's parental settings must allow the title. A
 restricted profile cannot open a room on a title it may not watch either.</p>
@@ -3161,6 +3232,7 @@ access and parental: internal/adapters/driving/grpcapi/syncplay_handler.go - req
 web controls: frontend/apps/web/src/features/syncplay/SyncPlayBar.tsx - onResync, onCatchUp ; frontend/apps/web/src/features/syncplay/useSyncPlay.ts - sendResync, sendCatchUp ; frontend/apps/web/src/routes/_auth/player/$mediaId.lazy.tsx (no sendPlay/sendPause/sendSeek from the video player)
 mobile and TV controls: frontend/apps/mobile/app/(auth)/player/[id].tsx (sendPlay, sendPause, sendSeek) ; frontend/apps/tv/app/(auth)/player/[id].tsx (sendPlay, sendPause only) ; frontend/apps/tv/app/(auth)/syncplay/index.tsx (join only) ; frontend/apps/tv/app/(auth)/(tabs)/settings.tsx (Watch together section)
 labels: i18n media.syncplay.title, join, joinByCode, resyncAll, catchUp ; auth.login.guestJoinTrigger ; common.nav.syncplay
+viewer steps: i18n player.watchTogether, auth.login.guestJoinTrigger
 -->
 
 

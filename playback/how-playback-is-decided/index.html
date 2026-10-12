@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/playback/how-playback-is-decided/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback/how-playback-is-decided/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback/how-playback-is-decided/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback/how-playback-is-decided/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback/how-playback-is-decided/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/playback/how-playback-is-decided/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback/how-playback-is-decided/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback/how-playback-is-decided/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback/how-playback-is-decided/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback/how-playback-is-decided/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3161,15 +3223,23 @@
 
 
 <h1 id="how-playback-is-decided">How playback is decided<a class="headerlink" href="#how-playback-is-decided" title="Permanent link">¶</a></h1>
-<p>Why does this film play untouched on the TV and get re-encoded on the phone?
-This page answers that for anyone who presses play: the three outcomes and how
-to read <strong>Stream info</strong> come first; the exact rules the server applies follow,
-for the reader who wants to understand or tune them.</p>
-<p>Evey never asks you to pick a quality before playing. Each start of a title is
-a negotiation between three parties: what the file contains, what this player
-can decode, and what this server can encode right now. The same film can
-therefore be sent as it is to one device and re-encoded for another, or play
-differently on the same device when the server is busy.</p>
+<p>Why does a film play untouched on the TV but get converted on the phone?</p>
+<p><strong>In short:</strong></p>
+<ul>
+<li>You never choose a quality. When you press play, the server looks at the
+  file, at what your device can play, and at how busy it is. Then it picks
+  the lightest way that works.</li>
+<li>There are three ways: <strong>Direct Play</strong> (the file as it is), <strong>Remux</strong> (the
+  same picture and sound, repackaged in another file format), and
+  <strong>Transcode</strong> (part of the film converted, often only the sound).</li>
+<li>So the same film can go untouched to one device and be converted for
+  another, or play differently on the same device when the server is busy.</li>
+<li>You usually have nothing to do. To see which way you got, and why, open
+  <strong>Stream info</strong> in the player: see <a href="#reading-stream-info">Reading Stream info</a>.</li>
+</ul>
+<p>The three ways and how to read <strong>Stream info</strong> come first. The exact rules
+the server applies follow, for the reader who wants to understand or tune
+them.</p>
 <h2 id="the-three-outcomes">The three outcomes<a class="headerlink" href="#the-three-outcomes" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3335,6 +3405,7 @@ tone-map reported: internal/app/transcoding/route_tonemap_report_test.go
 labels: i18n player.streamInfo.* ; player.quality.* ; auth.settings.playback.* ; admin.yaml maxBitrate (user limit) ; admin.remoteAccess.maxRemoteBitrate, lanNetworks ; admin.calibration.maxBitrateRemoteLabel
 entry point: frontend/apps/web/src/features/playback/StreamInfoPanel.tsx ; frontend/apps/web/src/features/playback/PlayerSettingsPanel.tsx ; frontend/apps/mobile/src/components/player/PlayerControlsRow.tsx ; frontend/apps/tv/src/components/TrackOptionsMenu.tsx
 adr: 0024, 0029, 0030
+plain opening: docs/playback/transcoding.md ; i18n player.streamInfo.title
 -->
 
 

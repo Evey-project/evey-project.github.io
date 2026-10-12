@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/operations/troubleshooting/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/operations/troubleshooting/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/operations/troubleshooting/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/operations/troubleshooting/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/operations/troubleshooting/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/operations/troubleshooting/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/operations/troubleshooting/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/operations/troubleshooting/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -1512,7 +1574,7 @@
   <a href="#where-to-look-by-symptom" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Où regarder, selon le symptôme
+        Où regarder, selon ce que vous voyez
       
     </span>
   </a>
@@ -1607,6 +1669,17 @@
     <span class="md-ellipsis">
       
         Bibliothèque et affiches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signaler un problème
       
     </span>
   </a>
@@ -3054,7 +3127,7 @@
   <a href="#where-to-look-by-symptom" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Où regarder, selon le symptôme
+        Où regarder, selon ce que vous voyez
       
     </span>
   </a>
@@ -3155,6 +3228,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reporting-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signaler un problème
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3179,15 +3263,15 @@
 
 
 <h1 id="troubleshooting">Dépannage<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h1>
-<p>Quelque chose ne va pas et vous voulez savoir où regarder en premier.
-Trouvez votre symptôme dans le tableau, ouvrez la page ou la section du
-panneau qu'il indique, et revenez ici pour les logs et les procédures de
-restauration quand cela ne suffit pas.</p>
-<h2 id="where-to-look-by-symptom">Où regarder, selon le symptôme<a class="headerlink" href="#where-to-look-by-symptom" title="Permanent link">¶</a></h2>
+<p>Quelque chose ne marche pas ? Cherchez ce que vous voyez dans le tableau
+ci-dessous. La colonne du milieu dit où regarder en premier ; la dernière
+mène à la solution. Si cela ne suffit pas, les logs et <code>evey admin doctor</code>
+(plus bas) en disent plus.</p>
+<h2 id="where-to-look-by-symptom">Où regarder, selon ce que vous voyez<a class="headerlink" href="#where-to-look-by-symptom" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
-<th>Symptôme</th>
+<th>Ce que vous voyez</th>
 <th>Regarder d'abord</th>
 <th>Ensuite</th>
 </tr>
@@ -3195,84 +3279,106 @@ restauration quand cela ne suffit pas.</p>
 <tbody>
 <tr>
 <td>Rien ne répond, même à la maison</td>
-<td><code>docker compose ps</code>, puis <code>docker compose logs --tail=200 evey</code></td>
-<td><a href="#the-server-does-not-start">Le serveur ne démarre pas</a> ci-dessous ; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">Server not reachable</a></td>
+<td>Evey tourne-t-il ? <code>docker compose ps</code>, puis les dernières lignes qu'il affiche : <code>docker compose logs --tail=200 evey</code></td>
+<td><a href="#the-server-does-not-start">Le serveur ne démarre pas</a> ci-dessous ; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">The server does not answer</a></td>
 </tr>
 <tr>
-<td>L'application dit <strong>Impossible de joindre le serveur</strong> ou <strong>Connexion échouée</strong></td>
-<td>L'adresse saisie dans l'application : <a href="../../getting-started/apps/#the-server-address-to-enter">Applications et appareils</a></td>
-<td>Hors de chez vous seulement : <a href="../../administration/remote-access/">Accès distant et HTTPS</a></td>
+<td>L'application affiche <strong>Impossible de joindre le serveur</strong> ou <strong>Connexion échouée</strong></td>
+<td>L'adresse tapée dans l'application</td>
+<td><a href="../../getting-started/apps/#the-server-address-to-enter">Connecter les applications</a> ; hors de chez vous seulement : <a href="../../administration/remote-access/">Accès distant et HTTPS</a></td>
 </tr>
 <tr>
-<td>Tout le monde est déconnecté, plus aucune connexion ne passe</td>
-<td><strong>Admin → Accès distant → Proxys de confiance</strong>, et la base de données dans les logs</td>
+<td>Tout le monde est déconnecté, ou personne ne peut se connecter</td>
+<td><strong>Administration → Accès distant</strong>, les proxys de confiance ; puis les logs</td>
 <td><a href="#nobody-can-sign-in">Personne ne peut se connecter</a> ci-dessous</td>
 </tr>
 <tr>
-<td>Pas d'image, la lecture ne démarre pas, ou elle s'arrête</td>
-<td><strong>Infos du flux</strong> dans le lecteur, puis <strong>Admin → Santé des médias</strong> pour ce titre</td>
+<td>Un film n'a pas d'image, ne démarre pas, ou s'arrête</td>
+<td><strong>Infos du flux</strong> dans le lecteur, puis <strong>Administration → Santé des médias</strong> pour ce titre</td>
 <td><a href="#playback-problems">Problèmes de lecture</a> ci-dessous</td>
 </tr>
 <tr>
 <td>Ça saccade ou ça charge sans arrêt</td>
-<td><strong>Admin → Qualité streaming</strong> (quels titres et appareils attendent) et <strong>Admin → Santé du système</strong> (le serveur est-il à sa capacité)</td>
+<td><strong>Administration → Qualité streaming</strong> (quels titres et appareils attendent) et <strong>Administration → Santé du système</strong> (le serveur est-il trop occupé)</td>
 <td><a href="../../playback/transcoding/">Transcodage et capacité du serveur</a></td>
 </tr>
 <tr>
-<td>Mauvaise affiche, mauvais titre, un film non reconnu</td>
-<td><strong>Modifier les métadonnées</strong> ou <strong>Réidentifier</strong> sur le titre</td>
+<td>Mauvaise affiche, mauvais titre, ou un film n'est pas reconnu</td>
+<td><strong>Modifier les métadonnées</strong> sur le titre</td>
 <td><a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Corriger un titre faux ou manquant</a></td>
 </tr>
 <tr>
 <td>Des affiches manquent ou sont cassées</td>
-<td><strong>Admin → Cache artworks</strong></td>
+<td><strong>Administration → Cache artworks</strong></td>
 <td><a href="#library-and-posters">Bibliothèque et affiches</a> ci-dessous</td>
 </tr>
 <tr>
+<td>Les nouveaux fichiers n'apparaissent pas</td>
+<td>Le résultat du scan sur la ligne de la bibliothèque, dans <strong>Administration → Bibliothèques</strong></td>
+<td><a href="#library-and-posters">Bibliothèque et affiches</a> ci-dessous</td>
+</tr>
+<tr>
+<td>Les e-mails n'arrivent pas</td>
+<td><strong>Envoyer un e-mail de test</strong> dans <strong>Administration → Configuration du serveur → E-mail / SMTP</strong></td>
+<td><a href="#e-mails-do-not-arrive">Les e-mails n'arrivent pas</a> ci-dessous</td>
+</tr>
+<tr>
 <td>Un plugin échoue</td>
-<td>Ses <strong>Logs</strong> sur sa carte dans <strong>Admin → Plugins</strong></td>
-<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">Plugin crashed</a></td>
+<td>Ses <strong>Logs</strong>, sur sa carte dans <strong>Administration → Plugins</strong></td>
+<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">A plugin crashed</a></td>
 </tr>
 <tr>
 <td>Une diffusion s'est figée ou est devenue muette</td>
-<td><strong>Admin → En cours de lecture</strong> (la session est-elle encore là)</td>
+<td><strong>Administration → En cours de lecture</strong> : la lecture est-elle encore dans la liste ?</td>
 <td><a href="../../runbooks/incident-runbook/#a-cast-froze-went-silent-or-the-phone-keeps-spinning">A cast froze, went silent, or the phone keeps spinning</a></td>
 </tr>
 <tr>
 <td>Le disque se remplit</td>
-<td><strong>Admin → Cache de transcodage</strong></td>
-<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">Transcode cache disk full</a></td>
+<td><strong>Administration → Cache de transcodage</strong></td>
+<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">The cache disk is full</a></td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-logs">Les logs<a class="headerlink" href="#the-logs" title="Permanent link">¶</a></h2>
-<p>Le serveur écrit son journal dans <code>/data/logs/evey-AAAA-MM-JJ.log</code> à
-l'intérieur du conteneur, c'est-à-dire <code>./evey-data/logs/</code> à côté de votre
-fichier compose. Un fichier par jour, en JSON, conservé 90 jours par défaut
-(<code>EVEY_LOG_RETENTION_DAYS</code>).</p>
-<p><strong>Admin → Logs &amp; Debug</strong> lit ces mêmes fichiers : recherche plein texte, suivi
-en <strong>Direct</strong>, et un filtre <strong>Zone</strong> qui restreint à un domaine (lecteur et
-transcodage, index de lecture, sous-titres, détection d'intro, Chromecast,
-authentification, infrastructure...). Quand un spectateur signale un problème,
-c'est le premier endroit où regarder.</p>
-<p><code>docker compose logs evey</code> montre ce que le conteneur affiche pendant qu'il
-démarre : les lignes <code>evey:</code> du script de démarrage, la base de données
-intégrée et la bannière. C'est là qu'il faut lire quand le serveur ne se lance
-pas ; une fois qu'il tourne, le journal applicatif est dans le fichier et dans
-le panneau.</p>
+<p>Les logs sont le journal de bord d'Evey : chaque erreur y est notée, avec
+l'heure.</p>
+<p><strong>Le plus simple : Administration → Logs &amp; Debug.</strong> Vous y voyez les logs
+avec une zone de recherche, une vue <strong>Direct</strong> qui suit les nouvelles lignes,
+et un filtre <strong>Zone</strong> pour un seul domaine (lecteur et conversion,
+sous-titres, détection d'intro, Chromecast, connexion...). Quand quelqu'un
+signale un problème, regardez ici en premier, autour de l'heure qu'on vous
+donne.</p>
+<details class="info">
+<summary>Où sont les fichiers de logs</summary>
+<ul>
+<li>Les fichiers sont dans <code>./evey-data/logs/</code>, à côté de votre fichier
+  compose (<code>/data/logs/evey-YYYY-MM-DD.log</code> dans le conteneur). Un
+  fichier par jour, en JSON, gardé 90 jours par défaut
+  (<code>EVEY_LOG_RETENTION_DAYS</code>).</li>
+<li><code>docker compose logs evey</code> montre autre chose : ce que le conteneur
+  affiche pendant qu'il démarre (les lignes <code>evey:</code> du script de
+  démarrage, la base de données, la bannière). Lisez-le quand le serveur
+  ne démarre pas. Une fois qu'il tourne, les logs sont dans les fichiers
+  et dans le panneau.</li>
+</ul>
+</details>
 <h2 id="evey-admin-doctor"><code>evey admin doctor</code><a class="headerlink" href="#evey-admin-doctor" title="Permanent link">¶</a></h2>
-<p>Une seule commande vérifie tout le serveur et affiche une ligne par
-contrôle, <code>ok</code>, <code>WARN</code> ou <code>FAIL</code>, avec un remède :</p>
+<p>Une seule commande vérifie tout le serveur. Elle affiche une ligne par
+vérification, <code>ok</code>, <code>WARN</code> ou <code>FAIL</code>, avec ce qu'il faut faire :</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>doctor
 </span></code></pre></div>
-<p>Elle couvre la base de données et son schéma, la clé de signature, l'index de
-recherche et son écart avec la base, les montages de médias (y compris la
-possibilité pour le serveur d'écrire dans chaque bibliothèque), les dossiers de
-cache et de logs, <code>ffmpeg</code> et <code>mkvgo</code>, les proxys de confiance, l'accès distant
-et l'espace disque libre. <code>--repair</code> n'applique que les corrections sûres
-(créer et réattribuer les dossiers d'écriture manquants). Elle se termine en
-erreur quand un contrôle échoue. Les autres commandes sont dans
-<a href="../../runbooks/cli/">Ligne de commande</a>.</p>
+<details class="info">
+<summary>Ce qu'elle vérifie</summary>
+<p>La base de données et son schéma, la clé de signature, l'index de
+recherche (et s'il correspond à la base de données), les dossiers de
+médias (y compris si Evey peut écrire dans chaque bibliothèque), les
+dossiers de cache et de logs, <code>ffmpeg</code> et <code>mkvgo</code>, les proxys de
+confiance, l'accès distant, et la place libre sur le disque. <code>--repair</code>
+n'applique que les corrections sans risque (créer les dossiers qui
+manquent et leur donner le bon propriétaire). Elle se termine avec un
+code d'erreur quand une vérification échoue. Les autres commandes sont
+dans <a href="../../runbooks/cli/">Ligne de commande</a>.</p>
+</details>
 <h2 id="the-server-does-not-start">Le serveur ne démarre pas<a class="headerlink" href="#the-server-does-not-start" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3299,12 +3405,16 @@ erreur quand un contrôle échoue. Les autres commandes sont dans
 <p>Mot de passe administrateur perdu, clé de signature compromise ou base
 endommagée : <a href="../../runbooks/recovery/">Restauration</a>.</p>
 <h2 id="nobody-can-sign-in">Personne ne peut se connecter<a class="headerlink" href="#nobody-can-sign-in" title="Permanent link">¶</a></h2>
-<p>Chaque requête vérifie le compte auprès de la base de données et est refusée
-quand elle ne répond pas ; le journal le dit. L'autre cause habituelle est un
-reverse proxy absent de <strong>Admin → Accès distant → Proxys de confiance</strong> : tous
-les visiteurs partagent alors l'adresse du proxy et une seule limite de
-tentatives de connexion. La procédure est
-<a href="../../runbooks/incident-runbook/#every-login-returns-401">All logins return 401</a>.</p>
+<p>Deux causes habituelles :</p>
+<ul>
+<li><strong>La base de données ne répond pas.</strong> Evey vérifie chaque connexion
+  auprès d'elle, et refuse quand il ne peut pas. Les logs le disent.</li>
+<li><strong>Un reverse proxy manque dans les proxys de confiance</strong> (<strong>Administration
+  → Accès distant</strong>). Tous les visiteurs semblent alors venir de l'adresse du
+  proxy, et ils partagent tous une seule limite de tentatives de connexion.</li>
+</ul>
+<p>La procédure pas à pas :
+<a href="../../runbooks/incident-runbook/#every-login-returns-401">Every login returns 401</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Une clé de signature perdue ou remplacée ne déconnecte personne à elle
@@ -3315,7 +3425,7 @@ voir <a href="../../runbooks/recovery/#rotate-the-key-that-signs-access-tokens">
 <p>Le serveur répond à la maison mais pas ailleurs, ou les applications disent
 que l'accès distant est désactivé :
 <a href="../../administration/remote-access/">Accès distant et HTTPS</a>. La page
-<strong>Admin → Accès distant</strong> signale en rouge un serveur joignable depuis Internet
+<strong>Administration → Accès distant</strong> signale en rouge un serveur joignable depuis Internet
 alors que l'accès distant est désactivé.</p>
 <h3 id="sso-sign-in-fails">La connexion SSO échoue<a class="headerlink" href="#sso-sign-in-fails" title="Permanent link">¶</a></h3>
 <p>La page de connexion en donne la raison :</p>
@@ -3329,14 +3439,14 @@ alors que l'accès distant est désactivé.</p>
 <li><strong>le compte existe mais n'a pas pu être relié</strong> : le fournisseur n'a pas
   confirmé l'e-mail, la liaison est désactivée, ou le compte est relié à une
   autre identité ;</li>
-<li><strong>indisponible</strong> : le fournisseur est injoignable ; le <strong>Statut</strong> de la carte
+<li><strong>indisponible</strong> : le fournisseur est injoignable ; l'<strong>État</strong> de la carte
   et <strong>Tester la connexion</strong> montrent l'erreur.</li>
 </ul>
 <p>Une page d'erreur affichée par le fournisseur lui-même signifie le plus souvent
 que l'URI de redirection déclarée chez lui n'est pas celle qu'affiche la carte.
 Voir <a href="../../oidc/">Authentification unique (OIDC)</a>.</p>
 <h2 id="e-mails-do-not-arrive">Les e-mails n'arrivent pas<a class="headerlink" href="#e-mails-do-not-arrive" title="Permanent link">¶</a></h2>
-<p><strong>Envoyer un e-mail de test</strong> dans <strong>Admin → Configuration du serveur → E-mail /
+<p><strong>Envoyer un e-mail de test</strong> dans <strong>Administration → Configuration du serveur → E-mail /
 SMTP</strong> envoie un message à votre propre adresse avec les réglages enregistrés,
 et affiche la réponse du serveur de messagerie en cas d'échec. Un mode TLS qui
 ne correspond pas au port (<code>starttls</code> avec 587, <code>ssl</code> avec 465) est l'erreur
@@ -3344,18 +3454,20 @@ habituelle. Un hôte enregistré dans la carte remplace toutes les variables
 <code>EVEY_SMTP_*</code>. Les envois de notifications qui échouent sont journalisés comme
 <code>email: send notification</code>. Voir <a href="../../notifications/">Notifications</a>.</p>
 <h2 id="playback-problems">Problèmes de lecture<a class="headerlink" href="#playback-problems" title="Permanent link">¶</a></h2>
-<p>Les <strong>Infos du flux</strong> dans le lecteur nomment le mode de lecture (envoyé tel
-quel, copié ou réencodé, piste par piste) et ses raisons. Un titre transcodé
-alors que vous attendiez une lecture directe s'explique là : voir
+<p>Commencez par les <strong>Infos du flux</strong> dans le lecteur. Elles disent comment le
+film est envoyé (tel quel, recopié dans un autre format, ou converti), piste
+par piste, et pourquoi. Un titre converti alors que vous attendiez qu'il soit
+lu tel quel : voir
 <a href="../../playback/how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</p>
 <ul>
-<li>Un seul titre s'arrête, charge ou se déplace lentement : ouvrez <strong>Admin →
-  Santé des médias</strong>. Un fichier sans index de lecture, une zone endommagée ou
-  des pistes rangées par blocs l'expliquent, et la plupart se réparent sur
-  place. Voir <a href="../../runbooks/media-health/">Santé des médias</a>.</li>
-<li>Plusieurs titres, quand plusieurs personnes regardent : le serveur est
-  peut-être au bout de sa capacité de transcodage. <strong>Admin → Santé du système</strong>
-  montre la part utilisée. Voir
+<li><strong>Un seul titre</strong> s'arrête, charge sans arrêt, ou met du temps à sauter à
+  un autre moment : ouvrez <strong>Administration → Santé des médias</strong>. Les causes
+  habituelles sont un fichier sans index de lecture, un passage abîmé, ou des
+  pistes rangées en gros blocs. La plupart peuvent être réparées. Voir
+  <a href="../../runbooks/media-health/">Santé des médias</a>.</li>
+<li><strong>Plusieurs titres, quand plusieurs personnes regardent</strong> : le serveur est
+  peut-être au maximum de ce qu'il peut convertir. <strong>Administration → Santé
+  du système</strong> montre à quel point il est occupé. Voir
   <a href="../../playback/transcoding/">Transcodage et capacité du serveur</a>.</li>
 <li>La lecture transcodée échoue franchement :
   <a href="../../runbooks/incident-runbook/#transcoded-playback-fails">Transcoding fails</a>.</li>
@@ -3365,25 +3477,65 @@ alors que vous attendiez une lecture directe s'explique là : voir
   (AC-3/E-AC-3) : un reverse proxy qui impose sa propre Content-Security-Policy
   peut bloquer le décodeur utilisé par le lecteur web. Voir
   <a href="../../playback/audio/#dolby-digital-in-a-browser">Audio</a>.</li>
-<li>Son désynchronisé sur un titre : <strong>Admin → Santé des médias</strong> détecte un
+<li>Son désynchronisé sur un titre : <strong>Administration → Santé des médias</strong> détecte un
   audio qui démarre après l'image et des pistes en désaccord entre elles.</li>
 <li>Les sous-titres ne s'affichent pas : <a href="../../playback/subtitles/">Sous-titres</a>
   dit quels formats les lecteurs dessinent et lesquels le serveur doit
   incruster dans l'image.</li>
+<li><strong>Sous-titres en préparation…</strong> reste affiché plusieurs minutes : le fichier
+  n'a pas d'index pour cette piste et le serveur le lit en entier, une fois.
+  Voir <a href="../../playback/subtitles/#the-first-time-a-subtitle-is-shown">La première fois qu'un sous-titre s'affiche</a>.</li>
+<li>Des titres transcodés refusent de démarrer ou se bloquent alors que les
+  titres déjà lus fonctionnent, ou les administrateurs reçoivent <strong>Cache des
+  sous-titres plein</strong> : le disque est passé sous sa marge d'espace libre. Voir
+  <a href="../../playback/transcoding/#the-transcoding-cache">Le cache de transcodage</a>.</li>
 </ul>
 <h2 id="library-and-posters">Bibliothèque et affiches<a class="headerlink" href="#library-and-posters" title="Permanent link">¶</a></h2>
 <p>Les affiches et les fonds sont copiés sur le serveur pendant les scans, dans
 <code>./evey-data/artworks</code>, et les manquants sont retentés toutes les heures.
-<strong>Admin → Cache artworks</strong> indique combien n'ont pas encore de copie locale ;
+<strong>Administration → Cache artworks</strong> indique combien n'ont pas encore de copie locale ;
 <strong>Télécharger les artworks manquants</strong> les récupère tout de suite, et <strong>Purger
 les variantes corrompues</strong> supprime les affiches redimensionnées laissées vides
 par un redimensionnement raté, qui sont alors reconstruites à la demande.</p>
 <p>Une affiche ou un titre qui appartient à un autre film relève de
 l'identification des métadonnées, pas des affiches :
 <a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Corriger un titre faux ou manquant</a>.</p>
-<p>La recherche ne renvoie rien : reconstruisez l'index depuis la base avec
-<code>docker exec evey-server evey admin reindex-search</code>. L'index peut toujours être
-reconstruit, rien n'est perdu.</p>
+<p>Un nouveau fichier apparaît normalement en quelques minutes (voir
+<a href="../../administration/libraries/#how-new-files-are-picked-up">Prise en compte des nouveaux fichiers</a>).
+Sinon, appuyez sur <strong>Scanner</strong> sur la ligne de la bibliothèque, dans
+<strong>Administration → Bibliothèques</strong>, et lisez le résultat.</p>
+<p>Un scan se termine par <strong>Scan partiel - ces dossiers n'ont pas pu être lus :</strong>
+suivi de chemins : Evey ne peut pas lire ces dossiers (droits, partage réseau
+déconnecté). Le reste de la bibliothèque est analysé, et les titres d'un
+dossier illisible sont conservés plutôt que retirés. Vérifiez le montage et le
+propriétaire (<code>PUID</code>/<code>PGID</code>, voir <a href="../../installation/#common-variations">Installation</a>),
+puis relancez le scan.</p>
+<p>La recherche ne renvoie rien : reconstruisez l'index de recherche à partir de
+la base de données avec <code>docker exec evey-server evey admin reindex-search</code>.
+Rien n'est perdu : l'index peut toujours être reconstruit.</p>
+<h2 id="reporting-a-problem">Signaler un problème<a class="headerlink" href="#reporting-a-problem" title="Permanent link">¶</a></h2>
+<p>Écrivez à <strong>contact@eveyproject.org</strong>. Un signalement exploitable indique :</p>
+<ul>
+<li>ce que vous avez fait, ce que vous attendiez, et ce qui s'est passé à la
+  place ;</li>
+<li>quand c'est arrivé, à la minute près : c'est par l'heure qu'on retrouve les
+  lignes dans les logs ;</li>
+<li>l'appareil et l'application : <strong>Paramètres → À propos → Version de l'app</strong>
+  dans l'application Android, le navigateur et sa version pour l'application
+  web ;</li>
+<li>la version du serveur : <code>docker exec evey-server evey version</code> ;</li>
+<li>pour un problème de lecture, le titre et une capture des <strong>Infos du flux</strong>
+  (voir <a href="../../playback/how-playback-is-decided/#reading-stream-info">Lire les Infos du flux</a>) :
+  elles nomment le mode de lecture choisi et ses raisons, soit l'essentiel du
+  diagnostic.</li>
+</ul>
+<p>Un administrateur peut y ajouter les lignes de log autour de ce moment
+(<strong>Administration → Logs &amp; Debug</strong>, voir <a href="#the-logs">Les logs</a>) et le rapport de
+<a href="#evey-admin-doctor"><code>evey admin doctor</code></a>. Les logs nomment des comptes et
+des adresses réseau : relisez-les avant de les envoyer.</p>
+<p>Une faille de sécurité ne se signale pas dans un endroit public : écrivez à
+<strong>security@eveyproject.org</strong>, et laissez le temps de la corriger avant d'en
+parler.</p>
 
 
 

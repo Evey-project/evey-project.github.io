@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/administration/hardware-acceleration/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/administration/hardware-acceleration/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/administration/hardware-acceleration/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/administration/hardware-acceleration/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/administration/hardware-acceleration/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/administration/hardware-acceleration/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/administration/hardware-acceleration/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/administration/hardware-acceleration/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3076,14 +3138,26 @@
 
 
 <h1 id="hardware-acceleration">Accélération matérielle<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h1>
-<p>Une carte graphique ou un GPU intégré permet au serveur de transcoder plus de
-flux à la fois, et en plus haute résolution, que le processeur seul. Cette
-page s'adresse à l'administrateur : donnez le périphérique au conteneur,
-laissez le panneau sur <strong>Auto</strong>, et le serveur prouve lui-même ce que la carte
-sait faire avant de lui confier la moindre lecture.</p>
+<p><strong>En bref :</strong></p>
+<ul>
+<li>Une carte graphique, ou la partie graphique intégrée à beaucoup de
+  processeurs (Intel Quick Sync, par exemple), permet au serveur de convertir
+  plus de vidéos à la fois, et en plus haute résolution, que le processeur
+  seul.</li>
+<li>Elle ne sert que quand une vidéo est convertie (transcodée). Les films
+  envoyés tels quels, ou remis dans un autre format de fichier, ne
+  l'utilisent pas.</li>
+<li>Ce que vous faites : ajoutez quelques lignes à votre fichier compose pour
+  qu'Evey puisse utiliser la carte, puis laissez le réglage sur <strong>Auto
+  (meilleur disponible)</strong>.</li>
+<li>Evey teste la carte avec une vraie conversion avant de lui envoyer la
+  moindre lecture. Une carte qui rate le test n'est pas utilisée.</li>
+</ul>
+<p>Les étapes suivent, puis la façon dont le serveur prouve ce que la carte sait
+faire.</p>
 <h2 id="turn-it-on">L'activer<a class="headerlink" href="#turn-it-on" title="Permanent link">¶</a></h2>
 <ol>
-<li>Ouvrez <strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong>.
+<li>Ouvrez <strong>Administration → Configuration transcodage → Calibrage de l'encodage</strong>.
    <strong>Accélération matérielle</strong> est sur <strong>Auto (meilleur disponible)</strong> par
    défaut, et la ligne <strong>Détecté :</strong> nomme les accélérateurs que la machine
    annonce.</li>
@@ -3185,11 +3259,11 @@ coût mesuré le plus bas. Deux flux d'un même serveur peuvent donc utiliser de
 backends différents, par exemple le tone mapping HDR sur une carte et un
 encodage HEVC sur une autre.</p>
 <h2 id="checking-that-it-is-used">Vérifier qu'elle est utilisée<a class="headerlink" href="#checking-that-it-is-used" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Configuration transcodage → Calibrage de l'encodage</strong> affiche les
+<p><strong>Administration → Configuration transcodage → Calibrage de l'encodage</strong> affiche les
 accélérateurs détectés, le backend utilisé, les résolutions certifiées pour
 le GPU et pour le processeur, et sous <strong>Replis matériels</strong> les encodages
 récents qui se sont repliés sur le processeur, avec leur cause. Pendant une
-lecture, <strong>Admin → En cours de lecture</strong> indique le backend qui encode chaque
+lecture, <strong>Administration → En cours de lecture</strong> indique le backend qui encode chaque
 flux.</p>
 <p>Sous WSL2, NVENC fonctionne ; VAAPI et Quick Sync non (le pilote graphique de
 WSL échoue sur ces encodages), et le panneau les marque <strong>non supporté en
@@ -3204,6 +3278,7 @@ quiet moment: internal/app/transcoding/calibration_service.go - idleProbes, idle
 render group: docker-compose.gpu.yml ; nvidia: docker-compose.gpu-nvidia.yml
 panel: frontend/apps/web/src/features/admin/EncodeCalibrationCard.tsx (hw_mode, detected_backends, is_wsl)
 labels: i18n admin.calibration.cardTitle, hwModeLabel, hwModeAuto, hwModeOff, hwBackendLabel, detected, detectedNone, recalibrate, hwFallbacks, wslUnsupported ; admin.nav.transcodingConfig, nowPlaying
+plain opening: rules below ; i18n admin.calibration.hwModeAuto
 -->
 
 

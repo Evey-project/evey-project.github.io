@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/runbooks/recovery/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/runbooks/recovery/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/runbooks/recovery/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/runbooks/recovery/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/runbooks/recovery/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/runbooks/recovery/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/runbooks/recovery/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/runbooks/recovery/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3123,7 +3185,11 @@ Lancer maintenant</strong>) s'il y a la moindre chance d'en avoir besoin.</p>
 </span></code></pre></div>
 <p>Ce qui se passe :</p>
 <ol>
-<li>La commande attend 5 secondes avant de toucher à quoi que ce soit :
+<li>La commande lit d'abord tout le fichier : il doit se décompresser sans
+   erreur et se terminer par la ligne de fin de <code>pg_dump</code>. Un dump tronqué ou
+   corrompu est refusé (<code>refusing to restore: ...</code>) avant que quoi que ce soit
+   ne soit supprimé.</li>
+<li>Elle attend ensuite 5 secondes avant de toucher à quoi que ce soit :
    Ctrl+C annule.</li>
 <li><code>psql</code> applique le dump avec <code>--single-transaction</code> et <code>ON_ERROR_STOP=1</code>.
    À la moindre erreur la transaction est annulée et la base reste telle
@@ -3148,7 +3214,7 @@ sont élagués. <a href="../migration-runbook/">Migrations de la base</a> expliq
 restaurer un dump plutôt que revenir d'un cran sur le schéma.</p>
 <!-- sources
 reset-password / rotate-jwt-key: cmd/evey/admin.go - adminResetPassword (DeleteByUserID + BumpTokenEpoch), adminRotateJWTKey, endAllSessions ; epoch cache TTL: internal/app/user/token_epoch.go - epochCacheTTL
-restore-backup: cmd/evey/admin.go - adminRestoreBackup (5 s pause, --single-transaction, ON_ERROR_STOP=1, .sql.gz suffix)
+restore-backup: cmd/evey/admin.go - adminRestoreBackup, verifyDumpComplete (whole gzip + completion marker before anything runs), 5 s pause, --single-transaction, ON_ERROR_STOP=1, .sql.gz suffix)
 admin commands boot the embedded database: docker/entrypoint.sh
 refresh validation by stored hash: internal/app/user/auth.go - validateRefreshToken
 disable signs out: internal/app/user/user_service.go - DisableUser

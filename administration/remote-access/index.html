@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/administration/remote-access/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/administration/remote-access/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/administration/remote-access/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/administration/remote-access/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/administration/remote-access/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/administration/remote-access/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/administration/remote-access/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/administration/remote-access/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/administration/remote-access/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/administration/remote-access/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3112,44 +3174,63 @@
 
 
 <h1 id="remote-access-and-https">Remote access and HTTPS<a class="headerlink" href="#remote-access-and-https" title="Permanent link">¶</a></h1>
-<p>Publish the server at an <code>https://</code> address and the people in your household
-can use it from anywhere. This page is for the administrator: it covers the
-public address, the remote-access switch the server sets on its own, and what
-Evey needs to know about the reverse proxy in front of it.</p>
+<p>At home, Evey works at an address like <code>http://192.168.1.20:9091</code>. To watch
+from outside your home, you need two more things:</p>
+<ul>
+<li><strong>A public address</strong>, for example <code>https://evey.example.org</code>: a domain
+  name that leads to your home.</li>
+<li><strong>HTTPS</strong>, so that passwords and videos cross the internet encrypted. Evey
+  does not do HTTPS itself. A <strong>reverse proxy</strong> does it: a small program
+  placed in front of Evey that handles the secure connection and passes each
+  request on to Evey.</li>
+</ul>
+<p>This page shows how to publish the server, then what each setting does.</p>
 <h2 id="publish-the-server-in-three-steps">Publish the server in three steps<a class="headerlink" href="#publish-the-server-in-three-steps" title="Permanent link">¶</a></h2>
 <ol>
-<li>Put a reverse proxy in front of Evey that terminates HTTPS and forwards
-   everything to port <code>9091</code>: the bundled Caddy, or a proxy you already run.
-   Ready-made configurations are in
+<li><strong>Set up a reverse proxy</strong> that handles HTTPS and forwards everything to
+   Evey's port <code>9091</code>. You can use the Caddy setup that comes with Evey, or a
+   proxy you already run. Ready-made setups:
    <a href="../../reverse-proxy/">Reverse proxy configurations</a>.</li>
-<li>In <strong>Admin → Remote Access</strong>, set <strong>External URL</strong> to the <code>https://</code> address
-   and, when the proxy runs in another container, its network in <strong>Trusted
-   proxies</strong> (<code>172.16.0.0/12</code> for Docker's default networks).</li>
-<li>Nothing else: a server given a public address opens remote access on its
-   own. <code>evey admin doctor</code> confirms the proxy list in force and warns when a
-   published server is refusing remote clients.</li>
-</ol>
-<h2 id="remote-access-is-decided-from-the-public-address">Remote access is decided from the public address<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
-<p>Evey decides remote access at startup unless you have chosen it yourself:</p>
-<ul>
-<li>if the server was given a public address (<strong>External URL</strong>,
-  <code>EVEY_SERVER_BASE_URL</code> or <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>), remote access
-  is <strong>on</strong>;</li>
-<li>otherwise it is <strong>off</strong>, and only clients on your local networks are served.</li>
+<li><strong>Tell Evey about it</strong> in <strong>Admin → Remote Access</strong>:<ul>
+<li><strong>External URL</strong>: your public <code>https://</code> address.</li>
+<li><strong>Trusted proxies (IP or CIDR, comma-separated)</strong>: only when the proxy
+  runs in another container. Put its network there, for example
+  <code>172.16.0.0/12</code> for Docker's default networks.</li>
 </ul>
-<p>Once you change <strong>Enable Remote Access</strong> yourself, your choice is kept and the
-server no longer infers it: a published server can stay LAN-only if that is
-what you want. Remote access is a choice about who may reach the server, not
-a protection: every page still requires signing in.</p>
-<p>When remote access is off, a client outside the local networks receives a
-<code>403</code> on every page, and the apps show a message saying remote access is
-disabled rather than a generic error. If the server is reachable from the
-internet while remote access is off, the admin page shows <strong>Every remote user
-is locked out</strong>, the server logs it at startup and logs each refusal with the
-client address, and <code>evey admin doctor</code> reports it as a failure.</p>
+</li>
+<li><strong>That is all.</strong> Once it has a public address, the server opens remote
+   access by itself.</li>
+</ol>
+<p>To check, run <code>docker exec evey-server evey admin doctor</code>. It shows the
+trusted proxies in use, and warns when a published server is refusing people
+from outside.</p>
+<h2 id="remote-access-is-decided-from-the-public-address">Remote access is decided from the public address<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
+<p>Unless you choose yourself, Evey decides at startup:</p>
+<ul>
+<li><strong>The server has a public address</strong> (<strong>External URL</strong>, or the variables
+  <code>EVEY_SERVER_BASE_URL</code> or <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>): remote access
+  is <strong>on</strong>.</li>
+<li><strong>It has none</strong>: remote access is <strong>off</strong>. Only devices on your home
+  network can connect.</li>
+</ul>
+<p>As soon as you switch <strong>Enable Remote Access</strong> yourself, Evey keeps your
+choice and stops deciding for you. So a published server can stay home-only
+if you want.</p>
+<p>Remote access only decides who can reach the server. It is not a
+protection on its own: every page still asks people to sign in.</p>
+<p><strong>When remote access is off</strong>, someone outside your home is refused on every
+page (an error <code>403</code>). The apps say <strong>Remote access disabled</strong> instead of a
+vague error. If the server can be reached from the internet while remote
+access is off, Evey warns you in several places:</p>
+<ul>
+<li><strong>Admin → Remote Access</strong> shows <strong>Every remote user is locked out</strong>;</li>
+<li>the server log says so at startup, then logs each refusal with the
+  address it came from;</li>
+<li><code>evey admin doctor</code> reports it as a failure.</li>
+</ul>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Remote Access</strong>. Every setting applies without a restart: the
-network ones to the next request, the bitrate to the next playback.</p>
+<p>All in <strong>Admin → Remote Access</strong>. Every setting applies without a restart:
+network settings from the next request, the bitrate from the next playback.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Remote Access with an HTTPS External URL and a trusted proxy" loading="lazy" src="../../images/admin-remote-access.webp"></a>
 <br>
@@ -3159,74 +3240,76 @@ network ones to the next request, the bitrate to the next playback.</p>
 <thead>
 <tr>
 <th>Setting</th>
-<th>Effect</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Enable Remote Access</strong></td>
-<td>On: clients outside the local networks are served like any other. Off: they get a <code>403</code>.</td>
+<td>On: people outside your home network can connect like anyone else. Off: they are refused (<code>403</code>).</td>
 </tr>
 <tr>
 <td><strong>External URL</strong></td>
-<td>The public address. E-mail links, single sign-on redirects and cast URLs are built from it. An <code>https://</code> address also turns on HTTPS mode (below).</td>
+<td>Your public address. Links in e-mails, single sign-on and casting use it. An <code>https://</code> address also turns on HTTPS mode (below).</td>
 </tr>
 <tr>
-<td><strong>Trusted proxies</strong></td>
-<td>The reverse proxies whose forwarded client address Evey believes. Loopback is always trusted. Empty: the list comes from <code>EVEY_TRUSTED_PROXIES</code>.</td>
+<td><strong>Trusted proxies (IP or CIDR, comma-separated)</strong></td>
+<td>The reverse proxies Evey believes when they say who the real visitor is. The machine itself (loopback) is always trusted. Empty: the list comes from <code>EVEY_TRUSTED_PROXIES</code>.</td>
 </tr>
 <tr>
-<td><strong>LAN Networks</strong></td>
-<td>The address ranges treated as home. Private ranges are listed by default. Add a VPN range (Tailscale, WireGuard) here if its clients should count as home.</td>
+<td><strong>LAN Networks (CIDR, comma-separated)</strong></td>
+<td>The address ranges Evey treats as "home". Private ranges are listed by default. If you use a VPN (Tailscale, WireGuard) and want its users to count as home, add its range here.</td>
 </tr>
 <tr>
-<td><strong>Max Remote Bitrate</strong></td>
-<td>A bitrate ceiling for clients outside the local networks, in kbit/s (0 = none). A private address is never capped. When <strong>Admin → Transcoding</strong> also sets a ceiling for remote viewers, the lower of the two applies. See <a href="../../playback/how-playback-is-decided/#limits-on-the-session">How playback is decided</a>.</td>
+<td><strong>Max Remote Bitrate (Kbps, 0 = unlimited)</strong></td>
+<td>A quality limit for people outside your home network. A private address is never limited. If <strong>Admin → Transcoding</strong> also sets a limit for remote viewers, the lower one applies. See <a href="../../playback/how-playback-is-decided/#limits-on-the-session">How playback is decided</a>.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="what-evey-needs-to-know-about-the-proxy">What Evey needs to know about the proxy<a class="headerlink" href="#what-evey-needs-to-know-about-the-proxy" title="Permanent link">¶</a></h2>
-<p>Evey serves plain HTTP on port 9091, API and web interface together. HTTPS is
-the job of the reverse proxy, and Evey needs two things about it, both in
-<strong>Admin → Remote Access</strong>:</p>
+<p>Evey answers in plain HTTP on port 9091. The reverse proxy handles HTTPS.
+Evey needs to know two things about it, both in <strong>Admin → Remote Access</strong>:</p>
 <ul>
-<li><strong>External URL</strong> in <code>https://</code>. This is what tells Evey a proxy terminates
-  TLS: cookies get the <code>Secure</code> flag, HSTS is sent and the <code>X-Forwarded-Proto</code>
-  header of a trusted proxy is believed.</li>
-<li><strong>Trusted proxies</strong>, when the proxy is not on the same machine as Evey. A
-  proxy in another container needs its network here, for example
+<li><strong>External URL</strong> in <code>https://</code>. This tells Evey that a proxy handles HTTPS.
+  Evey then protects its sign-in cookies (<code>Secure</code> flag), tells browsers to
+  always use HTTPS (HSTS), and believes the <code>X-Forwarded-Proto</code> header of a
+  trusted proxy.</li>
+<li><strong>The trusted proxies</strong>, when the proxy is not on the same machine as Evey.
+  A proxy in another container needs its network here, for example
   <code>172.16.0.0/12</code> for Docker's default networks.</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">A range covering every address is refused</p>
-<p><code>0.0.0.0/0</code> or <code>::/0</code> in <strong>Trusted proxies</strong> would let any client choose
-the address it is seen with. The panel and <code>evey admin doctor</code> both refuse
-it: list the proxy's own address or network.</p>
+<p><code>0.0.0.0/0</code> or <code>::/0</code> as a trusted proxy would let any visitor pretend to
+come from anywhere. The panel and <code>evey admin doctor</code> both refuse it. List
+the proxy's own address or network instead.</p>
 </div>
 <h3 id="setting-it-in-the-environment-instead">Setting it in the environment instead<a class="headerlink" href="#setting-it-in-the-environment-instead" title="Permanent link">¶</a></h3>
-<p><code>EVEY_SERVER_BASE_URL</code> and <code>EVEY_TRUSTED_PROXIES</code> give the same answers from
-the compose file, which suits an installation described entirely as code or a
-server that must be reachable over HTTPS from its very first start. The panel
-wins when both are set: an <code>https://</code> External URL enables HTTPS mode even if
-the base URL is plain HTTP, and a saved proxy list replaces the variable.
-Emptying the field hands the answer back to the variable. See
-<a href="../../environment/server/#remote-access">Server and network</a>.</p>
+<p>The variables <code>EVEY_SERVER_BASE_URL</code> and <code>EVEY_TRUSTED_PROXIES</code> do the same
+from the compose file. This suits a setup written entirely as files, or a
+server that must answer over HTTPS from its very first start.</p>
+<p>When both are set, the panel wins. An <code>https://</code> <strong>External URL</strong> turns on
+HTTPS mode even if the base URL is plain HTTP, and a saved proxy list
+replaces the variable. Empty the field to hand the answer back to the
+variable. See <a href="../../environment/server/#remote-access">Server and network</a>.</p>
 <h2 id="the-real-client-address">The real client address<a class="headerlink" href="#the-real-client-address" title="Permanent link">¶</a></h2>
-<p>Remote access and <strong>Max Remote Bitrate</strong> both depend on Evey seeing each
-client's real address, in two successive steps: the trusted proxies decide
-whose forwarded address is believed, and so which address each client gets;
-the LAN networks then classify that address as local or remote.</p>
-<p>A proxy that does not forward the address, or that Evey does not trust, makes
-every request look like it comes from the proxy's private address: everyone
-counts as home, the remote-access setting has no effect and no remote cap
-applies.</p>
+<p>For remote access and the remote quality limit to work, Evey must see each
+visitor's real address. Two settings work together:</p>
+<ol>
+<li>The trusted proxies decide whose word Evey takes for the visitor's real
+   address.</li>
+<li>The LAN networks then decide whether that address is "home" or "remote".</li>
+</ol>
+<p>If the proxy does not pass the real address on, or Evey does not trust it,
+every request seems to come from the proxy's own private address. Then
+everyone counts as home: the remote access setting has no effect, and no
+remote limit applies.</p>
 <div class="admonition note">
 <p class="admonition-title">Fixing the proxy changes who counts as remote</p>
-<p>If remote access was off, remote clients are refused from the moment the
-proxy forwards their real address. Check <code>evey admin doctor</code> after
-changing proxy settings: it names the list in force and where it comes
-from, warns about a public range and fails on a range covering every
-address.</p>
+<p>If remote access was off, people outside are refused from the moment the
+proxy passes their real address. Run <code>evey admin doctor</code> after changing
+proxy settings: it shows the list in use and where it comes from, warns
+about a public range, and fails on a range covering every address.</p>
 </div>
 <!-- sources
 inference and explicit choice: docs/adr/0026-remote-access-inferred-from-a-published-url.md ; internal/config/remote_access_resolve.go - ResolveRemoteAccess, IsPubliclyReachableURL
@@ -3237,6 +3320,7 @@ proxy settings: docs/reverse-proxy.md
 https mode and trusted proxies live: internal/config/network_live.go - EffectiveHTTPS, EffectiveTrustedProxies ; internal/adapters/driving/http/access_handler_live_test.go
 catch-all range refused: internal/config/trusted_proxies.go - IsCatchAllProxyRange ; internal/config/network_live.go
 doctor check: cmd/evey/admin_ops.go - checkTrustedProxies
+exact field labels: i18n admin.remoteAccess.trustedProxies, lanNetworks, maxRemoteBitrate, lockoutRiskTitle ; apps message: i18n auth.remoteAccess.title
 -->
 
 

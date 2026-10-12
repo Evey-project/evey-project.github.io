@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../de/notifications/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/notifications/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/notifications/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/notifications/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/notifications/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/notifications/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/notifications/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/notifications/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -1088,7 +1150,7 @@
   <a href="#set-up-e-mail" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configurer l'e-mail
+        Régler l'e-mail
       
     </span>
   </a>
@@ -1110,7 +1172,7 @@
   <a href="#let-people-reset-their-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Permettre la réinitialisation du mot de passe
+        Permettre de réinitialiser son mot de passe
       
     </span>
   </a>
@@ -3001,7 +3063,7 @@
   <a href="#set-up-e-mail" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configurer l'e-mail
+        Régler l'e-mail
       
     </span>
   </a>
@@ -3023,7 +3085,7 @@
   <a href="#let-people-reset-their-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Permettre la réinitialisation du mot de passe
+        Permettre de réinitialiser son mot de passe
       
     </span>
   </a>
@@ -3054,66 +3116,88 @@
 
 
 <h1 id="e-mail-and-notifications">E-mail et notifications<a class="headerlink" href="#e-mail-and-notifications" title="Permanent link">¶</a></h1>
-<p>Evey prévient chaque profil quand arrivent de nouveaux films, séries, saisons,
-épisodes ou albums, dans les applications et, une fois l'e-mail configuré,
-par e-mail. Cette page s'adresse à l'administrateur qui configure le serveur
-de messagerie et à quiconque choisit ce que son profil reçoit. Les
-administrateurs sont aussi avertis des sauvegardes en échec, des erreurs de
-plugins et des nouvelles demandes de médias, et l'auteur d'une demande est
-prévenu quand elle reçoit une réponse.</p>
+<p>Evey prévient chaque profil quand de nouveaux films, séries, saisons,
+épisodes ou albums arrivent. Il prévient aussi :</p>
+<ul>
+<li><strong>la personne qui a fait une demande</strong>, quand elle reçoit une réponse ;</li>
+<li><strong>les administrateurs</strong>, des nouvelles demandes, des sauvegardes qui ont
+  échoué, des erreurs de plugins et d'un cache de sous-titres plein.</li>
+</ul>
+<p>Les notifications apparaissent dans les applications sans rien régler. Par
+e-mail, une fois que vous avez réglé un serveur de messagerie (plus bas).</p>
 <h2 id="where-notifications-appear">Où apparaissent les notifications<a class="headerlink" href="#where-notifications-appear" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Dans chaque application</strong> : la cloche, avec le nombre de notifications non
-  lues. Toujours là, rien à configurer. Une notification est conservée
-  30 jours. La liste ne montre que les titres des bibliothèques auxquelles le
-  compte a accès.</li>
-<li><strong>Push du navigateur</strong> : sur le web, chaque profil active <strong>Notifications
-  push</strong> dans <strong>Paramètres → Notifications</strong>, une fois par navigateur. Le
-  serveur crée ses clés de push au premier démarrage ; voir
-  <a href="../environment/notifications/#browser-push">E-mail et notifications</a> pour
-  fournir les vôtres. Les navigateurs n'autorisent le push que sur une adresse
-  HTTPS (ou <code>localhost</code>) ; ailleurs, le réglage affiche <strong>Les notifications
-  push exigent une adresse HTTPS : ouvrez ce serveur en HTTPS pour les
-  activer.</strong> Les applications Android et TV ne reçoivent pas de notifications
-  push.</li>
-<li><strong>E-mail</strong> : une fois l'e-mail configuré, chaque notification est aussi
-  envoyée à l'adresse du compte, dans la langue du profil, avec un lien vers le
-  serveur. Un compte à plusieurs profils reçoit un seul e-mail par événement. Il
-  n'y a pas de désinscription par utilisateur.</li>
+<li><strong>Dans chaque application</strong> : la cloche, avec le nombre de notifications
+  non lues. Toujours active. Une notification est gardée 30 jours. Chacun ne
+  voit que les titres des bibliothèques que son compte peut ouvrir.</li>
+<li><strong>Dans le navigateur (push)</strong> : sur le web, chaque profil active
+  <strong>Notifications push</strong> dans <strong>Paramètres → Notifications</strong>, une fois par
+  navigateur. Les navigateurs ne le permettent que sur une adresse en
+  <code>https://</code> (ou <code>localhost</code>). Ailleurs, le réglage affiche <strong>Les
+  notifications push exigent une adresse HTTPS : ouvrez ce serveur en HTTPS
+  pour les activer.</strong> Les applications Android et TV ne reçoivent pas de
+  notifications push.</li>
+<li><strong>Par e-mail</strong> : une fois l'e-mail réglé, chaque notification est aussi
+  envoyée à l'adresse e-mail du compte, dans la langue du profil, avec un
+  lien vers le serveur. Un compte avec plusieurs profils reçoit un seul
+  e-mail par événement. Personne ne peut couper les e-mails pour lui-même.</li>
 </ul>
-<h2 id="set-up-e-mail">Configurer l'e-mail<a class="headerlink" href="#set-up-e-mail" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Configuration du serveur → E-mail / SMTP</strong> :</p>
+<details class="info">
+<summary>Clés de push</summary>
+<p>Le serveur crée les clés dont le push du navigateur a besoin à son
+premier démarrage. Pour fournir les vôtres, voir
+<a href="../environment/notifications/#browser-push">E-mail et notifications</a>.</p>
+</details>
+<h2 id="set-up-e-mail">Régler l'e-mail<a class="headerlink" href="#set-up-e-mail" title="Permanent link">¶</a></h2>
+<p>Evey envoie les e-mails par un serveur de messagerie où vous avez déjà un
+compte : votre fournisseur d'e-mail, ou un service d'envoi. Les pages d'aide
+de votre fournisseur donnent les valeurs ci-dessous.</p>
+<ol>
+<li>Allez dans <strong>Administration → Configuration du serveur → E-mail / SMTP</strong>.</li>
+<li>
+<p>Remplissez les champs :</p>
 <table>
 <thead>
 <tr>
 <th>Champ</th>
-<th>Valeur</th>
+<th>Ce qu'il faut taper</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Hôte SMTP</strong>, <strong>Port</strong></td>
-<td>Le serveur de messagerie. <code>587</code> avec <code>starttls</code> ou <code>465</code> avec <code>ssl</code> sont les paires habituelles.</td>
+<td>Le serveur de messagerie et son port. Les paires habituelles sont <code>587</code> avec <code>starttls</code>, ou <code>465</code> avec <code>ssl</code>.</td>
 </tr>
 <tr>
 <td><strong>Nom d'utilisateur</strong>, <strong>Mot de passe</strong></td>
-<td>Le compte de connexion.</td>
+<td>Le compte avec lequel Evey se connecte.</td>
 </tr>
 <tr>
 <td><strong>Adresse d'expédition</strong></td>
-<td>L'adresse d'expéditeur de chaque message.</td>
+<td>L'adresse d'expéditeur affichée sur chaque message.</td>
 </tr>
 <tr>
 <td><strong>Mode TLS</strong></td>
-<td><code>starttls</code> passe une connexion en clair en TLS, <code>ssl</code> utilise TLS dès le départ, <code>none</code> envoie sans chiffrement.</td>
+<td><code>starttls</code> ou <code>ssl</code>, selon le port (voir plus haut). <code>none</code> envoie sans chiffrement.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Enregistrer les paramètres SMTP</strong> s'applique aussitôt, sans redémarrage.
-<strong>Envoyer un e-mail de test</strong> envoie un court message à l'adresse de votre
-propre compte avec les réglages enregistrés, et affiche la réponse du serveur
-de messagerie en cas d'échec.</p>
-<p>Les variables <code>EVEY_SMTP_*</code> servent de repli, tant que la carte n'a pas d'hôte :</p>
+</li>
+<li>
+<p>Appuyez sur <strong>Enregistrer les paramètres SMTP</strong>. Cela s'applique tout de
+   suite, sans redémarrage.</p>
+</li>
+<li>Appuyez sur <strong>Envoyer un e-mail de test</strong>. Evey envoie un court message à
+   l'adresse de votre propre compte. En cas d'échec, il affiche la réponse du
+   serveur de messagerie.</li>
+</ol>
+<p>L'erreur la plus courante est un mode TLS qui ne correspond pas au port.</p>
+<p>L'e-mail sert aux notifications et à la réinitialisation des mots de passe.
+Les invitations sont des liens que vous envoyez vous-même.</p>
+<details class="info">
+<summary>Régler l'e-mail plutôt dans l'environnement</summary>
+<p>Les variables <code>EVEY_SMTP_*</code> ne servent que tant que la carte n'a pas
+d'hôte :</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SMTP_HOST=smtp.example.com
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_SMTP_PORT=587
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>EVEY_SMTP_USERNAME=notifications@example.com
@@ -3121,15 +3205,11 @@ de messagerie en cas d'échec.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>EVEY_SMTP_FROM=noreply@example.com
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>EVEY_SMTP_TLS=starttls
 </span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Une seule source à la fois</p>
 <p>Dès qu'un hôte est enregistré dans la carte, tous les champs viennent de
-la carte et les variables sont ignorées : le serveur n'envoie donc jamais
-les identifiants des variables à un serveur de messagerie saisi dans le
-panneau. Videz l'hôte pour revenir aux variables.</p>
-</div>
-<p>L'e-mail sert aux notifications et aux réinitialisations de mot de passe ; les
-invitations sont des liens que vous partagez vous-même.</p>
+la carte et les variables sont ignorées. Ainsi, le serveur n'envoie
+jamais le mot de passe des variables à un serveur de messagerie tapé
+dans le panneau. Videz l'hôte pour revenir aux variables.</p>
+</details>
 <h2 id="choose-what-a-profile-receives">Choisir ce qu'un profil reçoit<a class="headerlink" href="#choose-what-a-profile-receives" title="Permanent link">¶</a></h2>
 <p>Dans <strong>Paramètres → Notifications</strong>, chaque profil choisit un niveau pour
 <strong>Films</strong>, <strong>Séries</strong> et <strong>Musique</strong> :</p>
@@ -3137,21 +3217,21 @@ invitations sont des liens que vous partagez vous-même.</p>
 <thead>
 <tr>
 <th>Niveau</th>
-<th>Nouveaux titres notifiés</th>
+<th>Nouveaux titres dont vous êtes prévenu</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Toutes</strong></td>
-<td>Tous. Le réglage par défaut.</td>
+<td>Tous. C'est le réglage par défaut.</td>
 </tr>
 <tr>
 <td><strong>Pertinentes</strong></td>
-<td>Seulement ceux qui partagent un genre avec les genres habituels du profil.</td>
+<td>Seulement les titres qui ont un genre en commun avec ce que le profil regarde d'habitude.</td>
 </tr>
 <tr>
 <td><strong>Importantes uniquement</strong></td>
-<td>Pour l'instant identique à Pertinentes.</td>
+<td>Pour l'instant, la même chose que Pertinentes.</td>
 </tr>
 <tr>
 <td><strong>Désactivé</strong></td>
@@ -3159,21 +3239,22 @@ invitations sont des liens que vous partagez vous-même.</p>
 </tr>
 </tbody>
 </table>
-<p>Un genre compte comme habituel quand il apparaît dans au moins 3 des 200
-dernières lectures du profil. Un titre sans genre n'est jamais notifié aux
-niveaux Pertinentes et Importantes uniquement.</p>
-<p>Plusieurs épisodes d'une même série arrivés en moins de 24 heures donnent une
-seule notification qui les compte, et aucune n'est envoyée quand la série ou la
-saison vient d'être annoncée.</p>
-<h2 id="let-people-reset-their-password">Permettre la réinitialisation du mot de passe<a class="headerlink" href="#let-people-reset-their-password" title="Permanent link">¶</a></h2>
+<p>Un genre compte comme « regardé d'habitude » quand il apparaît dans au moins
+3 des 200 dernières lectures du profil. Un titre sans genre n'est jamais
+notifié aux niveaux Pertinentes et Importantes uniquement.</p>
+<p>Quand plusieurs épisodes d'une même série arrivent en moins de 24 heures,
+vous recevez une seule notification qui les compte. Aucune n'est envoyée
+quand la série ou la saison vient d'être annoncée.</p>
+<h2 id="let-people-reset-their-password">Permettre de réinitialiser son mot de passe<a class="headerlink" href="#let-people-reset-their-password" title="Permanent link">¶</a></h2>
 <ol>
-<li>Configurez l'e-mail (ci-dessus).</li>
-<li>Activez <strong>Récupération du mot de passe</strong> dans <strong>Admin → Configuration du
-   serveur → Paramètres du serveur</strong>. Le réglage s'applique immédiatement.</li>
-<li>La page de connexion affiche alors <strong>Mot de passe oublié ?</strong>, qui envoie un
-   lien de réinitialisation par e-mail.</li>
+<li>Réglez l'e-mail (plus haut).</li>
+<li>Activez <strong>Récupération du mot de passe</strong> dans <strong>Administration →
+   Configuration du serveur → Paramètres du serveur</strong>. Cela s'applique tout
+   de suite.</li>
+<li>La page de connexion affiche alors <strong>Mot de passe oublié ?</strong>. Ce lien
+   envoie par e-mail un lien pour choisir un nouveau mot de passe.</li>
 </ol>
-<p>Sans serveur de messagerie, le lien reste masqué, même avec l'option activée.</p>
+<p>Sans serveur de messagerie, le lien reste caché, même avec l'option activée.</p>
 <!-- sources
 web push support: frontend/apps/web/src/lib/webpush.ts isPushSupported (serviceWorker + PushManager, secure context only) ; NotificationSettings.tsx shows pushNeedsHttps when unsupported
 types: internal/domain/notification/model.go (Type*, IsAdminOnly: backup_failed, plugin_error, media_request) ; emitted: internal/app/notification/event_handlers.go, batching.go
@@ -3187,6 +3268,9 @@ SMTP live from the card, env fallback, panel host = panel only, defaults 587/sta
 labels: i18n admin.serverConfig emailSmtp, smtpHost, port, smtpUsername, smtpPassword, fromAddress, tlsMode, saveSmtp, sendTestEmail
 no native push in the mobile/TV apps (no push client) ; VAPID generated: cmd/evey/wire_helpers.go
 password recovery: admin.serverSettings.passwordRecovery ; gated on smtpConfigured (cmd/evey/wire.go) ; auth.login.forgotPassword
+admin-only types include the subtitle cache: internal/domain/notification/model.go - IsAdminOnly (TypeCacheFull) ; i18n notifications push.cache_full
+labels: i18n admin.serverConfig.port, smtpUsername, smtpPassword, smtpEnvHint ; auth.settings pushNotifications, pushNeedsHttps ; levelAll, levelRelevant, levelImportant, levelDisabled
+no invitation e-mail: internal/adapters/driven/email (no invite sender)
 -->
 
 

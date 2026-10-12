@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/operations/monitoring/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/operations/monitoring/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/operations/monitoring/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/operations/monitoring/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/operations/monitoring/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/operations/monitoring/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/operations/monitoring/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/operations/monitoring/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/operations/monitoring/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/operations/monitoring/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -1574,6 +1636,17 @@
     <span class="md-ellipsis">
       
         History and statistics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prometheus-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus metrics
       
     </span>
   </a>
@@ -3045,6 +3118,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#prometheus-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-line" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3130,6 +3214,47 @@ expiry; <strong>Reset</strong> drops one immediately.</p>
 <p>How long each kind of history is kept is set in <strong>Admin → Server Config →
 Server Settings</strong> (play sessions, audit log, server metrics, streaming
 quality). A change applies at the next daily cleanup.</p>
+<h2 id="prometheus-metrics">Prometheus metrics<a class="headerlink" href="#prometheus-metrics" title="Permanent link">¶</a></h2>
+<p><code>GET /metrics</code> serves the server's counters in the Prometheus text format, all
+named <code>evey_...</code>. It answers an administrator session, or a fixed token set in
+<code>EVEY_METRICS_SCRAPE_TOKEN</code> and sent as <code>Authorization: Bearer &lt;token&gt;</code>, so
+that Prometheus or Grafana can scrape without signing in again
+(<a href="../../environment/logs-monitoring/">Backups, logs and monitoring</a>). The
+families worth a first chart:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What it tells</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>evey_transcodes_active</code>, <code>evey_transcode_queue_depth</code></td>
+<td>Background transcode jobs (outside live playback) running, and waiting for a slot.</td>
+</tr>
+<tr>
+<td><code>evey_hlsvod_sessions_active</code>, <code>evey_hlsvod_sessions_rejected_total</code></td>
+<td>FFmpeg processes producing playback segments, and starts refused because the server was at its limit.</td>
+</tr>
+<tr>
+<td><code>evey_hlsvod_cache_size_bytes</code>, <code>evey_hlsvod_cache_evicted_bytes_total</code></td>
+<td>Size of the segment cache on disk, and what the sweeper freed.</td>
+</tr>
+<tr>
+<td><code>evey_mkvgo_walks_in_flight</code>, <code>evey_mkvgo_plan_stats</code></td>
+<td>The in-process packager: windows being read, queued reads (<code>stat="slot_waits"</code>), see <a href="../../playback/mkvgo/#load-replaced-files-and-updates">MKVGo in Evey</a>.</td>
+</tr>
+<tr>
+<td><code>evey_http_requests_total</code>, <code>evey_http_request_duration_seconds</code></td>
+<td>Requests and latency by method and path.</td>
+</tr>
+<tr>
+<td><code>evey_watcher_alive</code>, <code>evey_scan_queue_depth</code></td>
+<td>Whether each library's folder watcher answered its last check (1 or 0), and files waiting to be scanned.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="command-line">Command line<a class="headerlink" href="#command-line" title="Permanent link">¶</a></h2>
 <p><code>evey admin doctor</code> checks the whole server in one report; the other
 diagnostic commands are listed in <a href="../../runbooks/cli/">Command line</a>.</p>
@@ -3137,7 +3262,8 @@ diagnostic commands are listed in <a href="../../runbooks/cli/">Command line</a>
 who's online: frontend/apps/web/src/features/admin/DashboardOnline.tsx (presence heartbeat, profile names, idle, SendCastReceiverCommand) ; i18n admin.online.*
 logs: internal/pkg/logger/logger.go - New (file only outside DevMode), rotatingWriter ; config EVEY_LOG_RETENTION_DAYS ; docker-compose.yml ./evey-data:/data
 labels: i18n admin.sessions.*, admin.systemHealth.*, admin.logs.where.*, admin.logs.live, admin.qoe.*, admin.analytics.*, admin.activity.*, admin.serverSettings.*RetentionDays, retentionSweepHint
-automatic limits: i18n admin.qoe.overrides.* ; docs/adr/0018-cmcd-qoe-pipeline.md
+automatic limits: i18n admin.qoe.overrides.*
+metrics: internal/pkg/metrics/metrics.go (names) ; internal/adapters/driving/http/auth_middleware.go - httpScrapeOrAdminMiddleware (Bearer scrape token or admin JWT) ; docs/adr/0018-cmcd-qoe-pipeline.md
 -->
 
 

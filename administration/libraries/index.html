@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/administration/libraries/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/administration/libraries/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/administration/libraries/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/administration/libraries/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/administration/libraries/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/administration/libraries/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/administration/libraries/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/administration/libraries/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/administration/libraries/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/administration/libraries/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3164,12 +3226,14 @@
 
 
 <h1 id="libraries-and-metadata">Libraries and metadata<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p>A library is a type and a set of folders: Evey walks the folders, recognises
-each file from its name and fetches its details (titles, summaries, posters,
-cast, ratings). This page is for the administrator who adds one: the three
-things you will do first (add a library, name the files, fix a wrong match)
-come first; how scans run, music and photo specifics, collections and the
-metadata sources follow.</p>
+<p>A <strong>library</strong> is one kind of media (films, series, music or photos) in one or
+more folders. Evey reads the folders, recognises each file from its name, and
+fetches its details from the internet: title, summary, poster, cast,
+ratings. These details are called <strong>metadata</strong>. For films and series, they
+come from The Movie Database (TMDB), a free online film database.</p>
+<p>The three things you will do first come first on this page: add a library,
+name your files, fix a wrong match. How scans work, music and photos,
+collections and the metadata sources come after.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Libraries on the demo server" loading="lazy" src="../../images/admin-libraries.webp"></a>
 <br>
@@ -3182,9 +3246,10 @@ metadata sources follow.</p>
    libraries: the type tells the scanner what to look for.</li>
 <li>Under <strong>Paths</strong>, pick a folder from the list, or <strong>Enter custom path...</strong>
    to type one; <strong>+ Add Path</strong> adds a second folder to the same library.</li>
-<li><strong>Create Library</strong>. The first walk of the folders follows within a couple
-   of minutes; <strong>Scan</strong> on the row starts it right away. Posters and summaries
-   arrive in the background, so a large library fills in over a few minutes.</li>
+<li>Press <strong>Create Library</strong>. Evey reads the folders within a couple of
+   minutes; press <strong>Scan</strong> on the library's row to start right away. Posters
+   and summaries arrive in the background, so a large library fills in over
+   a few minutes.</li>
 </ol>
 <table>
 <thead>
@@ -3218,11 +3283,12 @@ metadata sources follow.</p>
 </tbody>
 </table>
 <div class="admonition note">
-<p class="admonition-title">Paths are the container's</p>
-<p>The folder picker lists what the container sees. With the installation's
-compose file, your media folder is <code>/media</code>, so a folder <code>/srv/media/films</code>
-on the host is <code>/media/films</code> for Evey. A second mounted folder (<code>/media2</code>)
-is added the same way.</p>
+<p class="admonition-title">Folders are named as Evey sees them</p>
+<p>The folder list shows the folders as Evey sees them, inside its
+container. With the compose file from <a href="../../installation/">Install</a>, your
+media folder is <code>/media</code>. So a folder <code>/srv/media/films</code> on your computer
+is <code>/media/films</code> in Evey. A second media folder (<code>/media2</code>) works the
+same way.</p>
 </div>
 <h2 id="name-files-so-they-are-recognised">Name files so they are recognised<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
 <p>The scanner recognises names like these:</p>
@@ -3231,52 +3297,59 @@ is added the same way.</p>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>/media/series/The Outpost/Season 01/The.Outpost.S01E05.720p.mkv
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>/media/series/Quiet Storm/Quiet.Storm.03x10.mkv
 </span></code></pre></div>
-<p>For a film, the year matters most. For an episode, <code>S01E05</code> or <code>1x05</code>. Release
-tags (resolution, source, codec, audio, language tags such as <code>VOSTFR</code> or
-<code>MULTI</code>, editions such as "Director's Cut") are removed before the search.</p>
-<p>If your files carry a tag the parser does not know, add it in <strong>Admin → Server
-Config → Parser tokens</strong>: <strong>Extra quality tokens</strong> for single words (<code>HDRIP</code>),
-<strong>Extra edition suffixes</strong> for phrases. It applies from the next scan.</p>
-<h2 id="fix-a-wrong-or-missing-title">Fix a wrong or missing title<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
-<p>For one title, open it and choose <strong>Edit Metadata</strong>:</p>
 <ul>
-<li><strong>Identify on TMDB</strong> searches TMDB by title; <strong>Use this match</strong> applies the
-  result. This is the quickest fix for a film matched to a namesake.</li>
-<li>The fields change the details by hand. A value you edit is kept: later
-  refreshes do not overwrite it. Changing <strong>TMDB ID</strong> or <strong>IMDB ID</strong> fetches
-  the details of that id when you save.</li>
-<li><strong>Refresh metadata</strong> fetches the details again for the current match.
-  <strong>Reset metadata</strong> and <strong>Re-match metadata</strong> start over from the file name,
-  dropping your edits; Reset also wipes artwork and cast, and the seasons and
-  episodes of a series.</li>
+<li><strong>For a film</strong>, the year matters most: <code>The Mirror (1999)</code>.</li>
+<li><strong>For an episode</strong>, the season and episode number: <code>S01E05</code> or <code>1x05</code>.</li>
+<li>Extra words in the name are ignored: resolution, source, codec, audio,
+  language tags such as <code>VOSTFR</code> or <code>MULTI</code>, editions such as "Director's
+  Cut".</li>
+</ul>
+<p>If your files carry a word Evey does not ignore yet, add it in <strong>Admin →
+Server Config → Parser tokens</strong>: <strong>Extra quality tokens</strong> for single words
+(<code>HDRIP</code>), <strong>Extra edition suffixes</strong> for phrases. It applies from the next
+scan.</p>
+<h2 id="fix-a-wrong-or-missing-title">Fix a wrong or missing title<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
+<p>A film shows the poster of another film with the same name? The quickest
+fix:</p>
+<ol>
+<li>Open the title and choose <strong>Edit Metadata</strong>.</li>
+<li>Press <strong>Identify on TMDB</strong>, search for the right title.</li>
+<li>Press <strong>Use this match</strong>.</li>
+</ol>
+<p>Other options in <strong>Edit Metadata</strong>:</p>
+<ul>
+<li><strong>Edit a field by hand.</strong> A value you change is kept: later refreshes do
+  not overwrite it. Changing <strong>TMDB ID</strong> or <strong>IMDB ID</strong> fetches the details
+  of that id when you save.</li>
+<li><strong>Refresh metadata</strong> fetches the details again for the current match.</li>
+<li><strong>Reset metadata</strong> and <strong>Re-match metadata</strong> start over from the file name
+  and drop your edits. Reset also removes the artwork and cast, and the
+  seasons and episodes of a series.</li>
 </ul>
 <p>For a whole library, the row in <strong>Admin → Libraries</strong> offers:</p>
 <ul>
-<li><strong>Match orphans only</strong> retries the files that were never recognised. It is
-  fast.</li>
-<li><strong>Re-match all from TMDB</strong> redoes the search for every title. It is slow,
-  and corrects old mistakes after a large renaming.</li>
+<li><strong>Match orphans only</strong> tries again for the files that were never
+  recognised. It is fast.</li>
+<li><strong>Re-match all from TMDB</strong> searches again for every title. It is slow. Use
+  it after renaming many files.</li>
 <li><strong>Repair sagas</strong> joins films that belong to no collection back to their
   saga, when the other films of the saga are already in the library.</li>
 </ul>
 <h2 id="how-new-files-are-picked-up">How new files are picked up<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
-<p>The server walks every library at each start, then every 2 minutes
-(<strong>Admin → Server Config → Server Settings → Periodic scan interval</strong>, applied
-on restart). While something is playing, the walks are spaced out to 15
-minutes so they do not compete with playback for the disk. A new, renamed or
-deleted file is therefore seen within minutes without any setting.</p>
-<p>Two more ways to scan, on the library's row:</p>
+<p>You do not need to do anything: a new, renamed or deleted file shows up in
+Evey within a few minutes.</p>
+<p>To force it, or to add a regular full scan, use the library's row:</p>
 <table>
 <thead>
 <tr>
 <th>Action</th>
-<th>Effect</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Scan</strong></td>
-<td>A walk now. The row shows <strong>Scanning...</strong> then the result; a folder that could not be read is named.</td>
+<td>Reads the folders now. The row shows <strong>Scanning...</strong>, then the result. A folder that could not be read is named.</td>
 </tr>
 <tr>
 <td><strong>Schedule</strong></td>
@@ -3284,28 +3357,38 @@ deleted file is therefore seen within minutes without any setting.</p>
 </tr>
 </tbody>
 </table>
-<p>The server also watches folders for file system events (<strong>Admin → Server
-Config → Server Settings → Library file watcher</strong>), on the libraries whose
-realtime monitoring is on. It checks that the watch still answers by writing a
-probe file into the folder for a few seconds; a library whose watch is proven
-alive is walked once an hour instead of every 2 minutes, the others keep the
-periodic walk. Libraries created from the panel are not watched: the periodic
-walk is what picks their files up.</p>
+<details class="info">
+<summary>How the server checks the folders</summary>
+<ul>
+<li>The server reads every library at each start, then every 2 minutes
+  (<strong>Admin → Server Config → Server Settings → Periodic scan interval</strong>,
+  applied on restart). While something is playing, it waits 15 minutes
+  between reads, so that it does not slow playback down.</li>
+<li>It can also be told by the system when a file changes (<strong>Admin →
+  Server Config → Server Settings → Library file watcher</strong>), for the
+  libraries whose realtime monitoring is on. To check that this still
+  works, it writes a small test file into the folder for a few seconds.
+  A library where this is proven to work is read once an hour instead of
+  every 2 minutes.</li>
+<li>Libraries created from the panel do not use the file watcher: the
+  reads every 2 minutes pick up their files.</li>
+</ul>
+</details>
 <div class="admonition note">
 <p class="admonition-title">Network shares</p>
-<p>On an NFS or SMB share, a file written by another machine raises no event
-on the server. The periodic walk is what finds it.</p>
+<p>On an NFS or SMB share, a file written by another machine sends no
+signal to the server. The regular reads find it.</p>
 </div>
 <h2 id="music-libraries">Music libraries<a class="headerlink" href="#music-libraries" title="Permanent link">¶</a></h2>
 <p>The scanner reads MP3, FLAC, M4A, OGG, Opus, WAV and AAC files, and takes each
 track from its tags: title (the file name when it is missing), artist, album
 artist, album, year, track and disc numbers, genre. Artists are grouped by
 album artist, or by artist when that tag is empty.</p>
-<p><strong>An album is a folder.</strong> Tracks are grouped by the folder they sit in, not by
-their album tag: two folders sharing one album tag are two albums, and an album
-split into <code>CD1</code> and <code>CD2</code> subfolders shows as two. Keep each album in one
-folder; its tracks are ordered by disc number, then track number, and the album
-takes the name most of its tracks carry.</p>
+<p><strong>An album is a folder.</strong> Keep each album in one folder. Evey groups tracks
+by the folder they are in, not by their album tag. So two folders with the
+same album tag make two albums, and an album split into <code>CD1</code> and <code>CD2</code>
+subfolders shows as two. In an album, tracks are ordered by disc number,
+then track number, and the album takes the name most of its tracks carry.</p>
 <p>The cover is the picture embedded in the files, otherwise an image in the album
 folder (<code>cover.jpg</code>, <code>folder.jpg</code> or <code>front.jpg</code>), otherwise Cover Art Archive
 (found through MusicBrainz), otherwise iTunes.</p>
@@ -3332,9 +3415,10 @@ three kinds:</p>
 <strong>Download collection</strong> on the web gets the original files as one ZIP (up to
 1000 titles), leaving out what the account's library access or age limit hides.</p>
 <h2 id="metadata-keys">Metadata keys<a class="headerlink" href="#metadata-keys" title="Permanent link">¶</a></h2>
-<p>Evey ships with a TMDB key, so metadata works without configuration. Other
-sources are optional; their keys go in <strong>Admin → Server Config → API Keys</strong>,
-and a key set there wins over the same key given in the environment (see
+<p>Evey comes with a TMDB key, so metadata works with no setup. Other sources
+are optional. To use them, you get a key (a kind of password) from that
+service and paste it in <strong>Admin → Server Config → API Keys</strong>. A key set there
+wins over the same key given in the environment (see
 <a href="../../environment/libraries/">Environment: libraries and metadata</a>).</p>
 <table>
 <thead>
@@ -3363,11 +3447,11 @@ and a key set there wins over the same key given in the environment (see
 </tbody>
 </table>
 <h2 id="intro-recap-and-credits">Intro, recap and credits<a class="headerlink" href="#intro-recap-and-credits" title="Permanent link">¶</a></h2>
-<p>Evey marks the intro, the recap and the credits of episodes and films so the
-players can offer to skip them. The timings come from community databases
-(TheIntroDB, then IntroDB) when they know the title, and from the server's own
-analysis of the files otherwise. An administrator can adjust the segments of a
-title by hand, or run the detection again.</p>
+<p>Evey finds the intro, the recap and the credits of episodes and films, so
+the players can offer to skip them. The timings come from community
+databases (TheIntroDB, then IntroDB) when they know the title. Otherwise,
+the server works them out by analysing the files. An administrator can
+adjust them by hand for a title, or run the detection again.</p>
 <p>Players show <strong>Skip Intro</strong>, <strong>Skip Recap</strong> and <strong>Skip Credits</strong> buttons by
 default. <strong>Auto-skip intros</strong> (<strong>Admin → Server Config → Server Settings</strong>, off
 by default) makes every player skip them on its own.</p>
@@ -3386,6 +3470,7 @@ collections: internal/domain/library/model.go Collection (TmdbID, Rules), MaxCol
 keys: i18n admin.serverConfig.apiKeys.* ; admin.serverConfig.introProvidersTidbAuthed ; cmd/evey/wire_infra.go resolveAPIKeyWithBuiltin
 opensubtitles: internal/app/subtitle/service.go
 intro providers: docs/adr/0011-intro-detection-providers.md ; i18n admin.serverSettings.introAutoSkip
+labels: i18n admin.libraries.scan, createLibrary, addPath ; media.detail refreshMetadata, resetMetadata, rematchMetadata ; media identify openButton, useThis
 -->
 
 

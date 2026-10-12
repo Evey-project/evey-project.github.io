@@ -1,0 +1,4097 @@
+<!DOCTYPE html><html lang="hi" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/hi/runbooks/incident-runbook/">
+      
+      
+        <link rel="prev" href="../migration-runbook/">
+      
+      
+        <link rel="next" href="../../operations/advanced-deployments/">
+      
+      
+        
+          <link rel="alternate" href="../../../runbooks/incident-runbook/" hreflang="en">
+        
+          <link rel="alternate" href="../../../fr/runbooks/incident-runbook/" hreflang="fr">
+        
+          <link rel="alternate" href="../../../de/runbooks/incident-runbook/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/runbooks/incident-runbook/" hreflang="es">
+        
+          <link rel="alternate" href="./" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/runbooks/incident-runbook/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>गड़बड़ी होने पर क्या करें - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#incident-runbook" class="md-skip">
+          विषय पर बढ़ें
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="शीर्षक">
+    <a href="../../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              गड़बड़ी होने पर क्या करें
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="भाषा चुनें">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../runbooks/incident-runbook/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../fr/runbooks/incident-runbook/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/runbooks/incident-runbook/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/runbooks/incident-runbook/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/runbooks/incident-runbook/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="खोज" placeholder="खोज" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="खोजें">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="शेयर करें" aria-label="शेयर करें" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="हटा दें" aria-label="हटा दें" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            खोज शुरू करें
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="टैब" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  होम
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  शुरुआत
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  एडमिन
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लेबैक
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  सर्वर चलाना
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लगइन और API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  अंदर की बनावट
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="नैविगेशन" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    होम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    शुरुआत
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    शुरुआत
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    इंस्टॉल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पहला सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऐप कनेक्ट करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey पर देखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्राइवेसी पॉलिसी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडमिन
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    यूज़र, प्रोफ़ाइल और पैरेंटल कंट्रोल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिवर्स प्रॉक्सी कॉन्फ़िगरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    हार्डवेयर एक्सेलेरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सिंगल साइन-ऑन (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप और अपडेट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लेबैक
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey प्लेबैक का तरीका कैसे चुनता है
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और सर्वर की क्षमता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey में MKVGo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR और Dolby Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऑडियो
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सबटाइटल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chromecast पर कास्ट करना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    साथ में देखें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर चलाना
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर चलाना
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    समस्या का हल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    निगरानी और लॉग
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम और सर्वर लोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    मीडिया स्वास्थ्य
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कमांड लाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिकवरी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस माइग्रेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    गड़बड़ी होने पर क्या करें
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    गड़बड़ी होने पर क्या करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        शुरू करने से पहले
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-server-does-not-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्वर जवाब नहीं देता
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-login-returns-401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        हर लॉगिन 401 देता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transcoded-playback-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ट्रांसकोडिंग फ़ेल होती है
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ट्रांसकोडिंग फ़ेल होती है">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        प्लेबैक बफ़र होता है या कटता है, और लॉग वजह नहीं बताता
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stale_rendition वाले 410, प्लेयर चलते-चलते अपना master फिर से लाता है
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        डेटाबेस की गड़बड़ियाँ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-is-degraded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्च कमज़ोर हो गई है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-cache-disk-is-full" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कैश वाली डिस्क भर गई है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-plugin-crashed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        प्लगइन क्रैश हो गया
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कास्ट अटक गया, आवाज़ चली गई, या फ़ोन पर बस घूमता हुआ निशान दिखता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-a-session-or-a-compromised-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        किसी सेशन या असुरक्षित हुए डिवाइस को रोकना
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-library-scan-is-stuck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        लाइब्रेरी स्कैन अटक गया है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheatsheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        छोटी सूची
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कंटेनर के बिना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन सैंडबॉक्स सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कॉन्फ़िगरेशन रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर और नेटवर्क
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस और सर्च
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    खाते और साइन-इन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और हार्डवेयर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक डिलीवरी और डाउनलोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप, लॉग और निगरानी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लगइन और API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन लिखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    परमिशन और स्लॉट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    थीम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    वेबहुक और API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पब्लिक API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    अंदर की बनावट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    अंदर की बनावट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डिज़ाइन के सिद्धांत
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    आर्किटेक्चर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक पाइपलाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    भाषाएँ और सुलभता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    योगदान करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        शुरू करने से पहले
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-server-does-not-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्वर जवाब नहीं देता
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-login-returns-401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        हर लॉगिन 401 देता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transcoded-playback-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ट्रांसकोडिंग फ़ेल होती है
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ट्रांसकोडिंग फ़ेल होती है">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        प्लेबैक बफ़र होता है या कटता है, और लॉग वजह नहीं बताता
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stale_rendition वाले 410, प्लेयर चलते-चलते अपना master फिर से लाता है
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        डेटाबेस की गड़बड़ियाँ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-is-degraded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सर्च कमज़ोर हो गई है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-cache-disk-is-full" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कैश वाली डिस्क भर गई है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-plugin-crashed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        प्लगइन क्रैश हो गया
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        कास्ट अटक गया, आवाज़ चली गई, या फ़ोन पर बस घूमता हुआ निशान दिखता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-a-session-or-a-compromised-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        किसी सेशन या असुरक्षित हुए डिवाइस को रोकना
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-library-scan-is-stuck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        लाइब्रेरी स्कैन अटक गया है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheatsheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        छोटी सूची
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/hi/runbooks/incident-runbook.md" title="इस पृष्ठ को संपादित करें" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="incident-runbook">गड़बड़ी पुस्तिका<a class="headerlink" href="#incident-runbook" title="Permanent link">¶</a></h1>
+<p>Evey की आम रुकावटों में सबसे पहले क्या करें, ड्यूटी पर मौजूद ऑपरेटर के लिए। वह
+हिस्सा ढूँढें जो लक्षण से मेल खाता है, उसकी जाँचें चलाएँ, और जो मिला उससे मेल
+खाने वाला उपाय लागू करें। हर हिस्से का ढाँचा एक जैसा है: <strong>लक्षण</strong>, <strong>जाँच</strong>,
+<strong>उपाय</strong>।</p>
+<h2 id="before-you-start">शुरू करने से पहले<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<p>कमांड आम इंस्टॉल के लिए हैं: एक कंटेनर, <code>evey-server</code>, जिसके अंदर Postgres और
+Meilisearch हैं। उनकी लाइनें सर्वर वाले लॉग में ही आती हैं (डेटाबेस के लिए
+<code>postgres:</code> से शुरू होती हैं)। रिपॉज़िटरी की <code>docker-compose.yml</code>, <code>evey-postgres</code>
+और <code>evey-caddy</code> कंटेनर जोड़ती है; देखें
+<a href="../../operations/advanced-deployments/">उन्नत डिप्लॉयमेंट</a>।</p>
+<p><strong>पोर्ट।</strong> HTTP API <code>EVEY_SERVER_PORT</code> + 1 पर सुनता है, डिफ़ॉल्ट रूप से <code>9091</code>;
+<code>/healthz</code> वहीं जवाब देता है। compose की <code>ports:</code> लाइन ही इसे बाहर खोलती है।</p>
+<p>अंदर वाले डेटाबेस पर <strong>SQL शेल</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
+</span></code></pre></div>
+<p><strong>लॉग।</strong> एक ही धारा दो जगह मिलती है: रोज़ की फ़ाइल
+<code>./evey-data/logs/evey-YYYY-MM-DD.log</code> (<code>EVEY_LOG_DIR</code>, इमेज के अंदर
+<code>/data/logs</code>) और <code>docker logs evey-server</code>। फ़ाइल ही भरोसेमंद है: Docker का
+json-file ड्राइवर <code>docker logs</code> को रोटेट करता है, और रोटेशन के बाद यह कमांड
+कंटेनर से घंटों पहले ही रुक सकती है। जब दोनों में फ़र्क हो, तो फ़ाइल पढ़ें। एडमिन
+पैनल का <strong>लॉग और डीबग</strong> पेज इसी धारा में खोजता है
+(<code>GET /api/v1/admin/logs/search?q=&lt;term&gt;&amp;limit=200</code>); वहाँ bearer, JWT और
+<code>token=</code> / <code>password=</code> के मान <code>[redacted]</code> दिखते हैं, इसलिए मीडिया id से खोजें,
+टोकन से कभी नहीं।</p>
+<h2 id="the-server-does-not-answer">सर्वर जवाब नहीं देता<a class="headerlink" href="#the-server-does-not-answer" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: क्लाइंट कनेक्ट नहीं हो पाते; <code>curl http://localhost:9091/healthz</code>
+का समय खत्म हो जाता है या उसे मना कर दिया जाता है।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>ps<span class="w"> </span>--filter<span class="w"> </span><span class="nv">name</span><span class="o">=</span>evey-server
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>inspect<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{.State.Health.Status}}'</span><span class="w"> </span>evey-server
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">200</span><span class="w"> </span>evey-server
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ss<span class="w"> </span>-ltnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">9091</span><span class="w">                </span><span class="c1"># क्या पोर्ट सुन भी रहा है?</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>curl<span class="w"> </span>-v<span class="w"> </span>http://localhost:9091/healthz
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li>कंटेनर बंद हो गया: panic <code>docker logs evey-server</code> के आखिर में है। कारण ठीक
+  करें, फिर <code>docker compose up -d evey</code>।</li>
+<li>हेल्थचेक लाल है क्योंकि डेटाबेस या सर्च इंजन बंद है: देखें
+  <a href="#database-errors">डेटाबेस की गड़बड़ियाँ</a> और
+  <a href="#search-is-degraded">सर्च कमज़ोर हो गई है</a>।</li>
+<li>होस्ट पर पोर्ट का टकराव: compose की <code>ports:</code> लाइन में होस्ट वाला हिस्सा बदलें,
+  या पोर्ट खाली करें।</li>
+<li>आगे लगा Caddy रास्ता नहीं दे रहा (रिपॉज़िटरी वाला ढाँचा): <code>docker logs
+  evey-caddy</code>, <code>EVEY_DOMAIN</code> जाँचें, और यह भी कि <code>evey</code> का हेल्थचेक हरा है,
+  क्योंकि Caddy उसका इंतज़ार करता है।</li>
+</ul>
+<h2 id="every-login-returns-401">हर लॉगिन 401 देता है<a class="headerlink" href="#every-login-returns-401" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: हर उपयोगकर्ता को, एडमिन समेत, <code>/api/v1/auth/*</code> से 401 मिलता है।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'epoch|jwt|auth|signing|private key'</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/data/jwt.key
+</span></code></pre></div>
+<p>सबसे पहले epoch वाली लाइन खोजें। हर लॉगिन वाली माँग उपयोगकर्ता के टोकन epoch को
+डेटाबेस से दोबारा जाँचती है, और यह जाँच फ़ेल होने पर दरवाज़ा बंद रखती है: धीमा,
+लॉक या पहुँच से बाहर डेटाबेस हर माँग को वही 401 दिलाता है जो एक्सपायर हुआ टोकन
+देता है, जो JWT की समस्या जैसा लगता है पर है नहीं। सर्वर यह बताता है:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>auth rejected: the token epoch could not be read, so every authenticated request is failing - check the database, not the JWT key
+</span></code></pre></div>
+<p>अगर यह लाइन मौजूद है, तो <a href="#database-errors">डेटाबेस की गड़बड़ियाँ</a> पर जाएँ। इस
+बीच <code>/healthz</code> हरा रह सकता है: वह कनेक्शन को पिंग करता है, epoch वाली क्वेरी नहीं
+चलाता। Prometheus काउंटर है
+<code>evey_auth_failures_total{reason="epoch_lookup_failed"}</code>।</p>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li><strong>गायब या बदली हुई JWT की शायद ही कभी कारण होती है।</strong> अगर की वाली फ़ाइल
+  (<code>EVEY_JWT_PRIVATE_KEY_PATH</code>, <code>/data/jwt.key</code>) पढ़ी नहीं जा सकती, तो सर्वर शुरू
+  ही नहीं होता; अगर वह गायब है, तो फिर से बना ली जाती है। तब पुरानी की से साइन
+  हुए एक्सेस टोकन मना कर दिए जाते हैं, लेकिन ऐप उन्हें अपने रिफ़्रेश टोकन से
+  नया कर लेते हैं, जो डेटाबेस में जाँचा जाता है, की से नहीं: उपयोगकर्ता साइन इन
+  रहते हैं। पक्का करें कि <code>./evey-data</code> वॉल्यूम <code>/data</code> पर माउंट है; उसके बिना
+  डेटाबेस भी गायब होता है।</li>
+<li><strong>रेट लिमिटर हर माँग पर अटकता है</strong>: <code>EVEY_RATELIMIT_LOGIN_MAX</code> (हर IP के लिए
+  हर मिनट <code>10</code>) और <code>EVEY_RATELIMIT_GLOBAL_MAX</code> (<code>300</code>)। जो रिवर्स प्रॉक्सी सब कुछ
+  एक ही पते से आगे भेजता है, वह इसे जल्दी अटका देता है: प्रॉक्सी को <strong>एडमिन →
+  रिमोट एक्सेस</strong> में <strong>विश्वसनीय प्रॉक्सी</strong> में जोड़ें (रीस्टार्ट के बिना लागू
+  होता है; <code>EVEY_TRUSTED_PROXIES</code> बैकअप है)। रिपॉज़िटरी की
+  <code>docker-compose.override.yml</code> डेवलपमेंट के लिए दोनों को <code>1000</code> / <code>10000</code> कर
+  देती है।</li>
+<li>सर्वर और क्लाइंट के बीच <strong>घड़ी का अंतर</strong>: होस्ट पर <code>date -u</code>।</li>
+</ul>
+<h2 id="transcoded-playback-fails">ट्रांसकोडिंग फ़ेल होती है<a class="headerlink" href="#transcoded-playback-fails" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: सीधा प्लेबैक काम करता है, जिस प्लेबैक को ट्रांसकोड चाहिए वह फ़ेल होता
+है; प्लेयर गड़बड़ी दिखाता है और सर्वर के लॉग में ffmpeg के exit कोड दिखते हैं।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>which<span class="w"> </span>ffmpeg<span class="w"> </span>ffprobe
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ffmpeg<span class="w"> </span>-version<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'ffmpeg|transcode|hls'</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-ld<span class="w"> </span>/cache/transcode<span class="w"> </span>/data/trickplay
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>touch<span class="w"> </span>/cache/transcode/.write-test<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>rm<span class="w"> </span>/cache/transcode/.write-test
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li><strong>ffmpeg गायब है</strong> (कोई अपनी बनाई इमेज): आधिकारिक <code>Dockerfile</code> से फिर बिल्ड
+  करें।</li>
+<li><strong>कैश डायरेक्टरी में लिखा नहीं जा सकता</strong>: इमेज
+  <code>EVEY_TRANSCODING_CACHE_DIR=/cache/transcode</code> (<code>evey-cache</code> वॉल्यूम) और
+  <code>EVEY_TRICKPLAY_CACHE_DIR=/data/trickplay</code> सेट करती है; compose की
+  <code>environment:</code> वाली एंट्री इन्हें बदल देती है। इमेज के बाहर Go के डिफ़ॉल्ट
+  <code>/data/transcode</code> और <code>/cache/trickplay</code> हैं।</li>
+<li><strong>कैश भर गया</strong>: देखें <a href="#the-cache-disk-is-full">कैश वाली डिस्क भर गई है</a>।</li>
+<li><strong>हार्डवेयर एक्सेलेरेशन गड़बड़ कर रहा है</strong>: <strong>एडमिन → ट्रांसकोडिंग → एनकोड
+  कैलिब्रेशन</strong> में <strong>हार्डवेयर एक्सेलेरेशन</strong> को <strong>बंद (केवल सॉफ़्टवेयर)</strong> पर करें
+  (तुरंत लागू होता है और फिर से कैलिब्रेट करता है), ताकि हर ट्रांसकोड प्रोसेसर
+  पर चले; हार्डवेयर ठीक होने पर वापस <strong>स्वतः (सर्वोत्तम उपलब्ध)</strong> पर कर दें।</li>
+<li><strong>"सर्वर अन्य स्ट्रीम ट्रांसकोड करने में व्यस्त है"</strong>: लाइव क्षमता नापी जाती
+  है, सेट नहीं की जाती; देखें
+  <a href="../../playback/transcoding/#sharing-the-capacity">क्षमता बाँटना</a>।
+  <code>EVEY_TRANSCODING_MAX_CONCURRENT</code> (<strong>एडमिन → ट्रांसकोड कैश</strong> में <strong>अधिकतम
+  समवर्ती</strong>) सिर्फ़ लाइव प्लेबैक के बाहर वाले ट्रांसकोड कामों पर लागू होता है।</li>
+</ul>
+<h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">प्लेबैक बफ़र होता है या कटता है, और लॉग वजह नहीं बताता<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
+<p><strong>लक्षण</strong>: कोई दर्शक बताता है कि ट्रांसकोड हुआ टाइटल अटकता है; लॉग में
+<code>hls-vod: segment timeout</code> के साथ <code>err:"context canceled"</code> दिखता है, जिसका मतलब
+है कि क्लाइंट ने कनेक्शन छोड़ दिया, न कि सर्वर का समय खत्म हुआ।</p>
+<p><strong>जाँच</strong>: उससे शुरू करें जो सर्वर पहले ही दर्ज कर चुका है, इसकी कोई कीमत नहीं:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># किसी सेगमेंट की माँग ने पुराना एन्कोडर इस्तेमाल किया या नया शुरू किया, क्यों,</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># और प्लेयर को इसकी क्या कीमत पड़ी। सिर्फ़ तभी लॉग होता है जब कोई कीमत हो।</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># `over_client_patience: true` ही असली सुराग है।</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>grep<span class="w"> </span><span class="s1">'"software: reach decision"'</span><span class="w"> </span>/data/logs/evey-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-40
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># खुद एन्कोडर: शुरू होना, बंद किया जाना, और उसकी वजह।</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'"software: session (started|killed)"|per-hash cap'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span>/data/logs/evey-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-40
+</span></code></pre></div>
+<p>ये लाइनें बताती हैं कि सर्वर ने क्या फ़ैसला किया। ffmpeg ने सेकंड-दर-सेकंड क्या
+हासिल किया, यह देखने के लिए हर एन्कोडर का प्रगति लॉग चालू करें (<code>$TOKEN</code> एक
+एडमिन JWT है):</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># चालू। अगले एन्कोडर पर लागू होता है, रीस्टार्ट नहीं चाहिए।</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>curl<span class="w"> </span>-sf<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://localhost:9091/api/v1/admin/server-config/transcode.ffmpeg_progress_log<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"value":"true"}'</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># समस्या दोहराएँ, फिर एक सेशन पढ़ें: out_time = अब तक बनी सामग्री,</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># speed = एन्कोडर रियल टाइम से कितना आगे चला।</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-t<span class="w"> </span>/data/logs/ffmpeg<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>tail<span class="w"> </span>-20<span class="w"> </span>/data/logs/ffmpeg/&lt;file&gt;.log
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># काम पूरा होने पर बंद।</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>curl<span class="w"> </span>-sf<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://localhost:9091/api/v1/admin/server-config/transcode.ffmpeg_progress_log<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"value":"false"}'</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>जाँच के अलावा प्रगति लॉग बंद रखें: हर एन्कोडर के लिए एक फ़ाइल, हर सेशन
+के कुछ MB, मशीन पर हर प्लेबैक के लिए। फ़ाइल के नाम में फ़ैसले का hash, सीढ़ी
+का पायदान (<code>-vN-</code>) और शुरुआती सेगमेंट (<code>-sN-</code>) होता है, ताकि वह JSON लॉग से
+मिलाई जा सके; उसी जगह पर दोबारा शुरू हुए एन्कोडर को अपनी अलग फ़ाइल मिलती है,
+और इसी से एन्कोडर का बार-बार बदलना दिखता है।</p>
+</div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li><strong>बार-बार थोड़ा आगे जाना (सीक)</strong>: हर बार एक नया एन्कोडर शुरू हो सकता है, और
+  हर hash की सीमा (<code>MaxSessionsPerHash</code>, डिफ़ॉल्ट रूप से 2, कम मेमोरी वाली
+  प्रोफ़ाइल में 1) सबसे कम हाल में इस्तेमाल हुए एन्कोडर को हटा देती है: लॉग में
+  <code>session killed reason:lru_cap</code>। थोड़ा-बहुत होना सामान्य है।</li>
+<li><strong>क्लाइंट सर्वर से कम धैर्य रखता है</strong>: सीक तक पहुँचने की खिड़की
+  <code>clientSegmentPatience</code> (6 s) के हिसाब से तय होती है, जबकि सर्वर का अपना
+  इंतज़ार का बजट (<code>WaitBudgetDur</code>) 60 s है। <code>over_client_patience: true</code> वाली
+  <code>reach decision</code> लाइन का मतलब है कि सर्वर ऐसा इंतज़ार माँगने वाला था जिसे कोई
+  प्लेयर नहीं झेलता।</li>
+</ul>
+<h3 id="stale_rendition-410s-the-player-refetches-its-master-mid-play"><code>stale_rendition</code> वाले 410, प्लेयर चलते-चलते अपना master फिर से लाता है<a class="headerlink" href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" title="Permanent link">¶</a></h3>
+<p><strong>लक्षण</strong>: प्लेयर थोड़ी देर अटकता है, फिर ठीक हो जाता है; लॉग में
+<code>hls-vod: stale rendition URL refused (the ladder moved under a live player)</code>
+दिखता है और माँगों का जवाब <code>410 Gone</code> के साथ <code>X-Evey-Error: stale_rendition</code>
+होता है।</p>
+<p>यह खुद गड़बड़ी नहीं है, बल्कि एक सुरक्षा है जो चालू हुई है। हर manifest URI में
+वह फ़ैसले का hash होता है जिसके तहत वह बना था (<code>fp=</code>)। 410 का मतलब है कि किसी
+प्लेयर ने ऐसे सेशन का URL दिया जिसकी ABR सीढ़ी तब से बदल चुकी है; उसे जवाब देने
+का मतलब होता डिकोडर को किसी दूसरे rendition के बाइट देना। मना करना प्लेयर को
+master साफ़ तरीके से फिर से लाने पर मजबूर करता है।</p>
+<p><strong>जाँच</strong>: WARN में <code>sealed_fp</code>, <code>current_fp</code> और मीडिया id होते हैं।</p>
+<ul>
+<li><strong>डिप्लॉय, रीस्टार्ट या फिर से कैलिब्रेशन के ठीक बाद एक झटका</strong> अपेक्षित है:
+  लाइव सेशन क्षमता के किसी बदलाव के बाद भी चलते रहे। प्लेयर एक पोल के अंदर फिर
+  से सिंक हो जाते हैं।</li>
+<li><strong>आम काम के दौरान लगातार टपकते रहना</strong> का मतलब है कि कोई चीज़ लाइव स्ट्रीम के
+  नीचे सीढ़ियाँ बदलती रहती है: क्षमता का बार-बार बदलना खोजें (<code>docker logs
+  evey-server | grep -iE 'calibrat|capability'</code>), लोड में बार-बार बदलता admission
+  shaper, या ऊपर-नीचे होता CMCD सीमा ओवरराइड।</li>
+<li>जो प्लेयर <strong>410 पर चक्कर लगाते रहते हैं</strong>, उनके पास कैश किया हुआ master है
+  (ऐप का पुराना बिल्ड, <code>.m3u8</code> कैश करने वाला प्रॉक्सी)। प्रॉक्सी को
+  <code>Cache-Control: no-cache</code> आगे भेजना चाहिए।</li>
+</ul>
+<h2 id="database-errors">डेटाबेस की गड़बड़ियाँ<a class="headerlink" href="#database-errors" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: लॉग में <code>dial tcp ... connect: connection refused</code>, <code>pq: ...</code> है, या
+क्वेरी का समय खत्म हो जाता है।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">300</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'postgres|database'</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="s1">  SELECT count(*), state</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s1">    FROM pg_stat_activity</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s1">   WHERE datname = current_database()</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="s1">   GROUP BY state;"'</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>df<span class="w"> </span>-h<span class="w"> </span>./evey-data
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li><code>./evey-data</code> के नीचे <strong>डिस्क भर गई</strong> (क्लस्टर <code>./evey-data/postgres</code> में
+  रहता है): जगह खाली करें, फिर <code>docker compose restart evey</code>।</li>
+<li><strong>पूल खत्म हो गया</strong> (<code>too many connections</code>, लंबे इंतज़ार):
+  <code>EVEY_DB_MAX_OPEN_CONNS</code> (डिफ़ॉल्ट <code>25</code>)। अटके सेशन बंद करें:
+  <div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'idle in transaction'</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">   </span><span class="k">AND</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">state_change</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">'5 minutes'</span><span class="p">;</span>
+</span></code></pre></div></li>
+<li><strong>अलग Postgres कंटेनर</strong> (रिपॉज़िटरी वाला ढाँचा): <code>docker ps --filter
+  name=evey-postgres</code>, <code>docker logs --tail=200 evey-postgres</code>; सर्वर के
+  <code>EVEY_DB_USER</code> / <code>EVEY_DB_PASSWORD</code> / <code>EVEY_DB_NAME</code> को <code>postgres</code> सर्विस से
+  मेल खाना चाहिए।</li>
+</ul>
+<h2 id="search-is-degraded">सर्च कमज़ोर हो गई है<a class="headerlink" href="#search-is-degraded" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: सर्च के नतीजे खराब आते हैं; लॉग में <code>meilisearch
+unavailable, using SQL search fallback</code> दिखता है।</p>
+<p>जब Meilisearch तक पहुँचा नहीं जा सकता, तब भी सर्च SQL से चलती रहती है; सिर्फ़
+नतीजों का क्रम कम अच्छा होता है, कोई भी बंद नहीं होता। Meilisearch
+<code>evey-server</code> के अंदर चलता है (<code>EVEY_EMBEDDED_MEILI</code>, डिफ़ॉल्ट रूप से चालू),
+कंटेनर के loopback पर, पोर्ट 7700 पर।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>curl<span class="w"> </span>-sf<span class="w"> </span>http://127.0.0.1:7700/health
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">300</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>meili
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li>स्वस्थ नहीं: <code>docker compose restart evey</code>।</li>
+<li>इंडेक्स खराब हो गया: कंटेनर रोकें, <code>./evey-data/meili</code> को किनारे कर दें, फिर
+  से शुरू करें, फिर डेटाबेस से इंडेक्स फिर से बनाएँ:
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reindex-search
+</span></code></pre></div>
+  फिर से बनाना एक कमांड है, पैनल का कोई बटन नहीं।</li>
+</ul>
+<h2 id="the-cache-disk-is-full">कैश वाली डिस्क भर गई है<a class="headerlink" href="#the-cache-disk-is-full" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: ट्रांसकोड <code>no space left on device</code> के साथ फ़ेल होते हैं; हेल्थचेक
+बार-बार बदलता रहता है।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/cache/transcode<span class="w"> </span>/data/trickplay<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>docker<span class="w"> </span>volume<span class="w"> </span>inspect<span class="w"> </span>evey_evey-cache<span class="w">   </span><span class="c1"># compose का प्रीफ़िक्स अलग हो सकता है</span>
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ul>
+<li>ट्रांसकोड कैश खाली करें, यह फिर से बन सकता है:
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /cache/transcode/*'</span>
+</span></code></pre></div>
+  इससे उसके अंदर के <code>photos/</code> (फ़ोटो के छोटे-बड़े किए गए रूप) और <code>track-art/</code>
+  (ऑडियो टैग से निकाले गए कवर) भी हट जाते हैं; दोनों अगली माँग पर फिर से बनते
+  हैं। <strong>एडमिन → ट्रांसकोड कैश</strong> में <strong>सभी साफ़ करें</strong> पैनल से यही कैश खाली
+  करता है।</li>
+<li>Trickplay को फिर से बनाना ज़्यादा महँगा है; उसे सिर्फ़ ज़रूरत हो तभी हटाएँ:
+  <div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /data/trickplay/*'</span>
+</span></code></pre></div></li>
+<li>अगर होस्ट का वॉल्यूम तंग है, तो <strong>एडमिन → सर्वर कॉन्फ़िग → सर्वर सेटिंग्स</strong>
+  में <strong>ट्रांसकोड कैश बजट (GB)</strong> कम करें (डिफ़ॉल्ट <code>10</code>)। बजट जो भी हो, सफ़ाई
+  करने वाला काम कैश वॉल्यूम पर 2 GiB खाली रखता है।</li>
+</ul>
+<h2 id="a-plugin-crashed">प्लगइन क्रैश हो गया<a class="headerlink" href="#a-plugin-crashed" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: कोई प्लगइन जवाब देना बंद कर देता है; लॉग में प्लगइन runner से panic
+दिखते हैं।</p>
+<p><strong>जाँच</strong>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>30m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'plugin|pluginrunner|panic'</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># ये खोजें: "panic in plugin runner", "plugin process crashed", "remove plugin sock on crash"</span>
+</span></code></pre></div>
+<p><strong>उपाय</strong>:</p>
+<ol>
+<li>सर्वर को छुए बिना प्लगइन फिर से शुरू करें: <strong>एडमिन → प्लगइन</strong> में उसे फिर
+   से <strong>सक्षम करें</strong>, या <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>। यह तब काम करता
+   है जब प्लगइन सक्षम है लेकिन <code>Error</code> में अटका है: शुरू करने का रास्ता सिर्फ़
+   उस प्लगइन को मना करता है जो पहले से <code>Running</code> या <code>Initializing</code> है।</li>
+<li>अगर इससे ठीक न हो, तो पैनल से प्लगइन को <strong>अक्षम करें</strong>।</li>
+<li>अगर सर्वर खुद अस्थिर है: <code>docker compose restart evey</code>।</li>
+<li>प्लगइन की फ़ाइलें होस्ट पर <code>./evey-data/plugins/</code> में रहती हैं (कंटेनर में
+   <code>/data/plugins</code>)। खराब प्लगइन की डायरेक्टरी हटाएँ, रीस्टार्ट करें।</li>
+<li>panic का trace और प्लगइन का id प्लगइन बनाने वाले को भेजें।</li>
+</ol>
+<h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">कास्ट अटक गया, आवाज़ चली गई, या फ़ोन पर बस घूमता हुआ निशान दिखता है<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
+<p>यहाँ सब कुछ <strong>एडमिन → लॉग और डीबग</strong> से पढ़ा जा सकता है; मशीन पर किसी शेल की
+ज़रूरत नहीं। समय UTC में हैं। हर संकेत (beacon) एक <code>player-client: playback
+event reported</code> लाइन है, जिसमें <code>type=</code> और एक <code>details=</code> स्ट्रिंग होती है।</p>
+<ol>
+<li><strong>क्या रिसीवर चालू था, और कब तक?</strong> <code>cast_receiver_alive</code> खोजें। चलते समय
+   रिसीवर हर 30 s पर एक भेजता है; <code>details</code> में
+   <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code> (प्लेहेड के आसपास बफ़र हुए सेकंड) और
+   <code>pos_sec</code> होते हैं। ठीक चल रहे प्लेबैक में <code>ahead</code> दसियों सेकंड में होता है।
+   आखिरी संकेत का समय वह है जब रिसीवर बंद हुआ या बंद किया गया: उसके बाद कुछ न
+   होने का मतलब है कि टेलीविज़न अब रिसीवर नहीं चला रहा, फ़ोन चाहे जो दिखाए।</li>
+<li><strong>यह क्यों रुका?</strong> <code>cast_receiver_finished</code> खोजें: <code>reason=INTERRUPTED</code> का
+   मतलब है कि एक नया LOAD चल रहे LOAD की जगह ले रहा है (कुछ सेकंड पहले का
+   <code>StartStream</code> खोजें), <code>reason=ERROR</code> में प्लेयर की गड़बड़ी होती है। आखिरी
+   <code>alive</code> के बाद कोई <code>finished</code> न होने का मतलब है कि रिसीवर का प्रोसेस गायब हो
+   गया, अक्सर एक Chromecast HD जिसे 20+ Mbps वाले copy master पर मेमोरी के लिए
+   बंद कर दिया गया।</li>
+<li><strong>फ़ोन ने क्या देखा?</strong> <code>cast_sender_stall</code> खोजें: भेजने वाला
+   <code>state=playing frozen=&lt;n&gt;s pos=&lt;p&gt;</code> भेजता है जब Cast SDK अब भी PLAYING कहता है
+   लेकिन जगह 20 s से नहीं हिली, और <code>state=idle reason=&lt;r&gt;</code> जब रिसीवर ने रुकने
+   (idle) की कोई वजह बताई। ये WARN लाइनें हैं, इसलिए पेज का चेतावनी वाला फ़िल्टर
+   इन्हें सामने लाता है। इसके <code>pos</code> की तुलना रिसीवर के आखिरी <code>pos_sec</code> से करें।</li>
+<li><strong>क्या सेशन में एक के बाद एक गड़बड़ी हुई?</strong> <code>refresh rejected</code> खोजें: रिफ़्रेश
+   टोकन का <code>not found</code> ऐप को साइन आउट करके फिर से साइन इन कराता है (सहेजी गई
+   जानकारी से), जो स्ट्रीम फिर से जारी करता है; लाइन में टोकन का <code>jti</code>, <code>issued</code>
+   और <code>age</code> होता है, जिससे पुरानी कॉपी और नकली टोकन में फ़र्क पता चलता है। फिर से
+   जारी हुई स्ट्रीम देखने के लिए <code>StartStream</code> खोजें।</li>
+<li><strong>क्या स्ट्रीम डिवाइस के लिए बहुत बड़ी थी?</strong> <code>advertises a fallback
+   rung</code> (copy master का सबसे ऊँचा बिटरेट) और <code>plan fitted to the client's
+   line</code> खोजें (रिसीवर का <code>maxKbps</code> माप या उसका <code>abr=floor</code> बचाव; उसके बाद आने
+   वाले ट्रांसकोड master में वजह <code>client_line_exceeded</code> या <code>abr_floor_requested</code>
+   होती है)। जो सेशन 20+ Mbps वाले copy master पर शुरू हुआ और कुछ सेकंड बाद
+   फ़िट किए गए 1080p पायदान पर आ गया, वह बचाव का अपना काम करना है; copy master पर
+   फिर से शुरू होने वाला re-LOAD वह पैटर्न है जो Chromecast HD को बंद कर देता है।</li>
+<li><strong>सर्वर की तरफ़ कमी?</strong> <code>on-demand resource refused</code> खोजें: लगातार सेगमेंट पर
+   <code>context canceled</code> वाले इनकारों का झटका आगे-पीछे खिसकाना (scrub) है (हर माँग
+   अगली माँग से रद्द होती है), सर्वर की गलती नहीं; लंबी अवधि वाली <code>served</code> लाइनें
+   सर्वर की गलती हैं।</li>
+</ol>
+<p>अगर कदम 1-3 दिखाएँ कि रिसीवर चालू है और भेजने वाला चुप है, तो समस्या फ़ोन के Cast
+सेशन में है (SDK, TV तक का नेटवर्क)। अगर रिसीवर के संकेत पहले रुकते हैं, तो
+टेलीविज़न देखें: मेमोरी, कोडेक, स्ट्रीम का बिटरेट।</p>
+<h2 id="stop-a-session-or-a-compromised-device">किसी सेशन या असुरक्षित हुए डिवाइस को रोकना<a class="headerlink" href="#stop-a-session-or-a-compromised-device" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: <strong>एडमिन → अभी चल रहा है</strong> में कोई अनजान डिवाइस, या कोई उपयोगकर्ता
+अपनी सेशन सूची में किसी अनजान डिवाइस की शिकायत करता है।</p>
+<ol>
+<li>सेशन पहचानें:
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s1">  SELECT id, profile_id, device_name, client_ip, started_at</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s1">    FROM play_sessions</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s1">   WHERE ended_at IS NULL</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s1">   ORDER BY started_at DESC LIMIT 20;"'</span>
+</span></code></pre></div></li>
+<li>इसे <strong>एडमिन → अभी चल रहा है</strong> से रोकें: सेशन पर रोकने वाला आइकन (<strong>सत्र
+   रोकें</strong>), फिर पुष्टि के लिए <strong>रोकें</strong>; या gRPC पर सेशन id के साथ
+   <code>AdminSessionService/KillSession</code>। प्लेयर को पहले रुकने का आदेश मिलता है और
+   स्ट्रीम 5 सेकंड बाद खत्म की जाती है। इससे सिर्फ़ प्लेबैक खत्म होता है;
+   उपयोगकर्ता साइन इन रहता है।</li>
+<li>अगर स्ट्रीम फिर भी चलती रहे, तो कंटेनर रीस्टार्ट करें: हर एन्कोडर उसके साथ
+   रुक जाता है।
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</span></code></pre></div></li>
+<li>अगर खाता ही असुरक्षित हो गया है, तो <strong>एडमिन → उपयोगकर्ता → अक्षम करें</strong>:
+   रिफ़्रेश टोकन मिटा दिए जाते हैं और एक्सेस टोकन तुरंत रद्द हो जाते हैं, इसलिए
+   हर डिवाइस साइन आउट हो जाता है। नया पासवर्ड सेट करें (<code>evey admin reset-password
+   --user &lt;email&gt;</code>, देखें
+   <a href="../recovery/#give-a-user-a-new-password">रिकवरी</a>), फिर खाते को दोबारा <strong>सक्षम
+   करें</strong>।</li>
+</ol>
+<h2 id="a-library-scan-is-stuck">लाइब्रेरी स्कैन अटक गया है<a class="headerlink" href="#a-library-scan-is-stuck" title="Permanent link">¶</a></h2>
+<p><strong>लक्षण</strong>: कोई स्कैन घंटों से चलता हुआ दिखता है, और लॉग में किसी फ़ाइल की प्रगति
+नहीं दिखती।</p>
+<ol>
+<li>जाँचें कि स्कैन अब भी कुछ लॉग करता है या नहीं; अटके स्कैन में CPU खाली होता है
+   और हाल की कोई <code>scan:</code> लाइन नहीं होती:
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">500</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'scan:'</span>
+</span></code></pre></div></li>
+<li>स्कैन का लॉक मेमोरी में होता है, इसलिए रीस्टार्ट उसे हटा देता है:
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
+</span></code></pre></div></li>
+<li>अगर एक ही फ़ाइल बार-बार panic कराती है (stack trace में उसका नाम होता है), तो
+   उसे लाइब्रेरी के रास्ते से बाहर ले जाएँ, फिर दोबारा स्कैन करें।</li>
+<li>अगर फ़ाइल पर नज़र रखने वाला हिस्सा <code>watcher: inotify failed for path, will use
+   periodic scan</code> लॉग करता है, तो कर्नेल की निगरानी की सीमा खत्म हो गई है:
+   <div class="language-sh highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">echo</span><span class="w"> </span>fs.inotify.max_user_watches<span class="o">=</span><span class="m">524288</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/sysctl.conf
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>-p
+</span></code></pre></div></li>
+</ol>
+<h2 id="cheatsheet">छोटी सूची<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># हर चीज़ की हालत</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>healthy
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># हर कंटेनर को फ़ॉलो करें</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">100</span><span class="w"> </span>-f
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># असल में लागू कॉन्फ़िगरेशन</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>^EVEY_<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="c1"># डेटाबेस का साइज़</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey -c "</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="s1">  SELECT pg_size_pretty(pg_database_size(current_database()));"'</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1"># होस्ट की डिस्क</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>df<span class="w"> </span>-h<span class="w"> </span>./evey-data
+</span></code></pre></div>
+<!-- sources
+ports: internal/config/config.go (EVEY_SERVER_PORT, EVEY_GRPC_BIND) ; cmd/evey/main.go - httpPort = Port+1 ; Dockerfile - HEALTHCHECK
+logs: Dockerfile ENV EVEY_LOG_DIR ; internal/adapters/driving/http/admin_handler.go (GET /api/v1/admin/logs/search)
+epoch fail-closed: internal/adapters/driving/http/auth_middleware.go, internal/adapters/driving/grpcapi/interceptors/auth.go ; internal/pkg/metrics/metrics.go - AuthFailuresTotal
+rate limits: internal/config/config.go (EVEY_RATELIMIT_LOGIN_MAX, EVEY_RATELIMIT_GLOBAL_MAX, EVEY_TRUSTED_PROXIES) ; docker-compose.override.yml
+cache dirs: Dockerfile ENV EVEY_TRANSCODING_CACHE_DIR / EVEY_TRICKPLAY_CACHE_DIR ; docker-compose.yml ; internal/config/config.go defaults
+hardware mode and calibration labels: i18n/en/admin.yaml - transcodeCalibration.hwModeLabel, hwModeOff, hwModeAuto, cardTitle
+software producer: internal/app/transcoding/software_producer.go - clientSegmentPatience, WaitBudgetDur, MaxSessionsPerHash, "software: reach decision", over_client_patience ; internal/app/transcoding/software_producer_lifecycle.go - "software: session killed" ; cmd/evey/wire.go - low-memory profile, transcode.ffmpeg_progress_log, logs/ffmpeg
+server-config route: proto/evey/v1/server_config.proto - SetServerConfigEntry (PUT /api/v1/admin/server-config/{key})
+stale rendition: internal/adapters/driving/http/transcode_handler_vod.go - stale_rendition, sealed_fp
+db pool: internal/config/config.go (EVEY_DB_MAX_OPEN_CONNS)
+search fallback: cmd/evey/wire_infra.go ; cmd/evey/admin.go - adminReindexSearch ; docker/entrypoint.sh (EVEY_EMBEDDED_MEILI, MEILI_DATA_DIR)
+cache budget: internal/config/config.go (EVEY_TRANSCODING_CACHE_MAX_GB) ; internal/app/transcoding/segment_cache_evict.go - DefaultMinFreeBytes ; internal/adapters/driving/http/server.go - track-art under PhotoCacheDir ; cmd/evey/http.go - PhotoCacheDir
+plugins: internal/adapters/driven/pluginrunner/runner_start.go (panic/crash lines) ; internal/app/plugin/runtime_service.go - StartPlugin ; proto/evey/v1/admin_plugin.proto - EnablePlugin
+cast beacons: internal/adapters/driving/http/player_event_handler.go ; internal/app/user/auth.go - "refresh rejected" ; internal/adapters/driving/http/transcode_ondemand.go ; internal/app/transcoding/resolver_line.go
+sessions: internal/adapters/driven/postgres/migrations/000001_init.up.sql - play_sessions ; internal/adapters/driving/grpcapi/admin_audit.go - KillSession (5 s) ; internal/app/user/user_service.go - DisableUser
+scan: internal/app/library/scan_service.go - scanning map ; internal/app/library/watcher.go - inotify warning
+labels: i18n/en/admin.yaml - sidebar (logs, nowPlaying, remoteAccess, serverConfig, transcodeCache, users, plugins), nowPlaying.stopSession, transcodeCache.clearAll, transcodeCache.maxConcurrent, remoteAccess.trustedProxies, serverSettings.transcodeCacheMaxGB ; i18n/en/common.yaml - enable, disable
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  शीर्षभाग पर लौटें
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="फुटर">
+        
+          
+          <a href="../migration-runbook/" class="md-footer__link md-footer__link--prev" aria-label="पिछला: डेटाबेस माइग्रेशन">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                पिछला
+              </span>
+              <div class="md-ellipsis">
+                डेटाबेस माइग्रेशन
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../operations/advanced-deployments/" class="md-footer__link md-footer__link--next" aria-label="आगामी: एडवांस्ड डिप्लॉयमेंट">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                आगामी
+              </span>
+              <div class="md-ellipsis">
+                एडवांस्ड डिप्लॉयमेंट
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930 \u0926\u093f\u092f\u093e \u0917\u092f\u093e", "clipboard.copy": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930\u0947\u0902", "search.result.more.one": "1 \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.more.other": "# \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.none": "\u0915\u094b\u0908 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f \u0928\u0939\u0940\u0902", "search.result.one": "1 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f", "search.result.other": "# \u092e\u093f\u0932\u093e\u0928 \u0921\u093e\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f\u094d\u0938", "search.result.placeholder": "\u0916\u094b\u091c \u0936\u0941\u0930\u0942 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902", "search.result.term.missing": "\u095a\u093e\u092f\u092c", "select.version": "\u0935\u0930\u094d\u0936\u0928 \u091a\u0941\u0928\u0947\u0902"}, "version": null}</script>
+    
+    
+  
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

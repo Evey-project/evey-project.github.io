@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/playback/mkvgo/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback/mkvgo/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback/mkvgo/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback/mkvgo/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback/mkvgo/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/playback/mkvgo/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback/mkvgo/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback/mkvgo/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback/mkvgo/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback/mkvgo/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -1286,6 +1348,17 @@
     <span class="md-ellipsis">
       
         What stays with FFmpeg
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-replaced-files-and-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load, replaced files and updates
       
     </span>
   </a>
@@ -3017,6 +3090,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#load-replaced-files-and-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load, replaced files and updates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#seeing-which-engine-served-a-stream" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3051,10 +3135,19 @@
 
 
 <h1 id="mkvgo-in-evey">MKVGo in Evey<a class="headerlink" href="#mkvgo-in-evey" title="Permanent link">¶</a></h1>
-<p>MKVGo is the media library Evey runs inside its own process to read and
-repackage MKV/WebM and MP4/MOV files. This page is for the reader who wants to
-know what the server does without starting FFmpeg, and where FFmpeg still
-takes over.</p>
+<p><strong>In short:</strong></p>
+<ul>
+<li>MKVGo is a part of Evey that reads and repackages video files (MKV, WebM,
+  MP4, MOV) without converting the picture or the sound.</li>
+<li>Where it can, it is what serves <strong>Remux</strong> playbacks, extracts subtitles,
+  and reads your files during a scan. Anything that needs real conversion goes to
+  FFmpeg, a separate video tool.</li>
+<li>You have nothing to set. <strong>Admin → Now Playing</strong> shows, track by track,
+  whether MKVGo or FFmpeg served a playback.</li>
+</ul>
+<p>The rest of this page is for the reader who wants to know what the server
+does without starting FFmpeg, and where FFmpeg still takes over. MKVGo runs
+inside the Evey server process.</p>
 <p>MKVGo works on the structure of a file: its headers, its index, its tracks and
 their packets. It never decodes or encodes a picture or a sound; everything
 that needs server-side decoding goes to FFmpeg. It is developed as a separate
@@ -3091,9 +3184,10 @@ MKVGo saves on top is the process started for each session and the segments
 written to the transcoding cache. A re-encode is the expensive case, and a
 video re-encode is the only work that takes a transcoding slot: see
 <a href="../transcoding/">Transcoding and server capacity</a>.</p>
-<p>On capable clients, around 80% of video playback paths can avoid FFmpeg
-entirely: what the player decodes decides how often the file can be served as
-it is or only repackaged. How that is decided: <a href="../how-playback-is-decided/">How playback is decided</a>.</p>
+<p>Start and seek do not wait for a process or for a first segment on disk: the
+segment is built on request from the file's index. Whether a file takes this
+path depends on what the player decodes:
+<a href="../how-playback-is-decided/">How playback is decided</a>.</p>
 <h2 id="what-mkvgo-does">What MKVGo does<a class="headerlink" href="#what-mkvgo-does" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3116,8 +3210,8 @@ it is or only repackaged. How that is decided: <a href="../how-playback-is-decid
 </tr>
 <tr>
 <td><strong>Streaming without re-encoding</strong></td>
-<td>Remux: HLS segments in fragmented MP4 (CMAF), built on request from a plan kept per file. A DASH manifest is produced over the same segments; the apps use HLS.</td>
-<td>FFmpeg copies the tracks, still without re-encoding.</td>
+<td>Remux: HLS segments in fragmented MP4 (CMAF), built on request from a plan kept per file. A segment is written to the connection straight from the source file as it goes out: nothing is assembled in memory first, nothing is written to the transcoding cache. A DASH manifest is produced over the same segments; the apps use HLS.</td>
+<td>FFmpeg copies the tracks, still without re-encoding, into segments written to the cache.</td>
 </tr>
 <tr>
 <td><strong>MP4 for the browser</strong></td>
@@ -3126,8 +3220,8 @@ it is or only repackaged. How that is decided: <a href="../how-playback-is-decid
 </tr>
 <tr>
 <td><strong>Subtitles</strong></td>
-<td>Subtitle tracks embedded in an MKV are extracted to SRT or ASS.</td>
-<td>-</td>
+<td>Subtitle tracks embedded in an MKV are extracted on request, text tracks to WebVTT and bitmap tracks (PGS) to images. Where the file's own index (Cues) covers a track completely, the server reads only the blocks it points to instead of the whole file, and keeps that block index under its data directory (<code>subtitle-index/</code>) for the next request. A track that still needs a full read is answered "being prepared" with a retry delay, and the players poll until it is ready.</td>
+<td>ffmpeg extracts the track, reading the file through.</td>
 </tr>
 <tr>
 <td><strong>Preview images</strong></td>
@@ -3154,6 +3248,33 @@ it is or only repackaged. How that is decided: <a href="../how-playback-is-decid
   for intro detection.</li>
 <li>Containers other than MKV/WebM and MP4/MOV, such as AVI or MPEG-TS.</li>
 </ul>
+<h2 id="load-replaced-files-and-updates">Load, replaced files and updates<a class="headerlink" href="#load-replaced-files-and-updates" title="Permanent link">¶</a></h2>
+<p><strong>How much it reads at once.</strong> Building a segment reads one window of the
+source, video and audio together: 6 to 10 MiB for a 1080p file, about 15 MiB for
+a UHD remux. The server reads as many windows at once as it has processors,
+and fewer on a machine with little memory: all the windows in flight must fit
+in a quarter of the memory the server allows itself (half of the container's
+limit, or of the host's memory). Requests beyond that wait for a free slot,
+so the memory used does not grow with the audience; on a small host, a crowd
+starting at the same moment sees its first segments arrive one after the
+other rather than the server running out of memory.</p>
+<p><strong>A file replaced during playback.</strong> Every segment address names the file it
+was planned from. When a file is replaced on disk (a better copy, a repair),
+a segment requested at that moment is rebuilt once from the new file, and the
+addresses of the old file's playlist answer <code>410 Gone</code> instead of mixing the
+two files; opening the title again plays the new one.</p>
+<p><strong>After an update.</strong> Segment addresses carry the MKVGo version, so a browser
+or a proxy cache never serves a segment built by an older version, and no
+segment of this path is kept on disk to clear. The MP4 copies made for
+browsers are named after the version of their format: when it changes, each
+one is rebuilt the next time it is asked for.</p>
+<p><strong>Watching it.</strong> On <code>GET /metrics</code> (see
+<a href="../../operations/monitoring/#prometheus-metrics">Monitoring and logs</a>),
+<code>evey_mkvgo_walks_in_flight</code> is the number of windows being read right now,
+and <code>evey_mkvgo_plan_stats</code> sums the packager's counters by <code>stat</code>. A
+<code>walks_in_flight</code> sitting at its ceiling while <code>stat="slot_waits"</code> climbs means
+viewers are queuing for the processor; <code>stream_fallbacks</code> counts segments that
+had to be assembled in memory instead of streamed.</p>
 <h2 id="seeing-which-engine-served-a-stream">Seeing which engine served a stream<a class="headerlink" href="#seeing-which-engine-served-a-stream" title="Permanent link">¶</a></h2>
 <p><strong>Admin → Dashboard</strong> and <strong>Admin → Now Playing</strong> name the engine of each
 track: <code>mkvgo</code> or <code>ffmpeg</code>. A Remux can show both, for example the video
@@ -3163,13 +3284,19 @@ in-process, no ffmpeg, no session state, no on-disk segments: internal/adapters/
 probe + fallback reasons: internal/adapters/driven/prober/dispatcher.go (container gate, ReadMeta error, panic) ; internal/adapters/driven/prober/mapper.go (ColourDetermined, VP9 feature metadata) ; docs/adr/0016-mkv-fastpath-prober.md
 keyframe index: internal/adapters/driven/prober/keyframe_dispatcher.go
 DASH, CMAF, HLS default: docs/playback-serving.md (Delivery) ; OnDemandPlan.HasDASH
+streamed segments: internal/app/transcoding/ondemand.go - OnDemandResource (Bytes nil, WriteRange) ; internal/adapters/driving/http/transcode_ondemand_stream.go - servePlanResourceStreamed
 progressive MP4: internal/adapters/driving/http/remux_handler.go - RemuxToMP4, remuxCacheName
-subtitles: internal/adapters/driven/mkvgo/subtitle_extractor.go - ExtractSubtitle
+subtitles: internal/adapters/driving/http/subtitle_handler.go - extractSubtitleVTT ; subtitle_pgs.go ; subtitle_index_cache.go - fromCues, resolveAndStore, newSubtitleIndexCache ; subtitle_preparing.go (202 + Retry-After) ; subtitle_prewarm.go - ensureIndex
 preview images: internal/adapters/driving/http/frame_extractor_fastpath.go - maxSnapshotDriftMs ; cmd/evey/wire_helpers.go (transcoding.snapshot_fastpath)
 episode chains: internal/adapters/driving/http/transcode_concat.go ; internal/adapters/driven/mkvgo/concat.go - ConcatPackager ; frontend/apps/web/src/hooks/usePlaybackPrefs.ts - SeriesTrackPrefs.gapless (read by HLSPlayer, no UI sets it)
 media health: internal/adapters/driven/mkvgo/diagnose.go ; internal/adapters/driven/mkvgo/reindex.go ; internal/adapters/driven/mkvgo/track_retimer.go ; internal/app/maintenance/seek_index_reinterleave.go (Reinterleaver, ffmpeg adapter)
 ffmpeg only: docs/playback-serving.md (mkvgo vs ffmpeg table) ; internal/app/library/trickplay_service.go
 engine per track: i18n admin.sessions.track.engine (dashboard, now playing)
+reads at once: internal/adapters/driven/mkvgo/budget.go - BudgetFor (one walk per CPU, walks within memLimit/4 at 15 MiB each) ; cmd/evey/wire_infra.go (applied after the memory limit) ; cmd/evey/memlimit.go - applyMemoryLimit (half the cgroup or host budget)
+replaced file: internal/adapters/driving/http/transcode_ondemand.go - planSourceParam, servePlanSourceGone (410), replay once on a rebuilt plan ; internal/adapters/driving/http/transcode_vod_manifest_rebake.go - stampPlanSourceURIs
+after an update: packager version in segment URLs (?v=) ; internal/adapters/driving/http/remux_handler.go - remuxCacheFormat, remuxCacheName
+metrics: internal/pkg/metrics/metrics.go - MkvgoWalksInFlight, MkvgoPlanStats ; cmd/evey/wire.go - startMkvgoMetrics
+plain opening: rules below ; i18n admin.sessions.track.engine
 -->
 
 

@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/subtitles/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/subtitles/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/subtitles/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/subtitles/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/subtitles/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/subtitles/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/subtitles/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/subtitles/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -1359,6 +1421,17 @@
     <span class="md-ellipsis">
       
         Incrustation des sous-titres
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-first-time-a-subtitle-is-shown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La première fois qu'un sous-titre s'affiche
       
     </span>
   </a>
@@ -2995,6 +3068,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-first-time-a-subtitle-is-shown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La première fois qu'un sous-titre s'affiche
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choosing-and-adjusting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3029,12 +3113,28 @@
 
 
 <h1 id="subtitles">Sous-titres<a class="headerlink" href="#subtitles" title="Permanent link">¶</a></h1>
-<p>Comment un sous-titre s'affiche sur votre appareil, et si le choisir change
-la façon dont la vidéo est livrée. Pour les spectateurs ; le seul réglage qui
-compte est l'<strong>Incrustation des sous-titres</strong> du profil, dans <strong>Paramètres →
-Lecture</strong>. En bref : les sous-titres texte et Blu-ray ne touchent jamais à la
-vidéo, les sous-titres DVD et de diffusion sont incrustés et imposent un
-réencodage.</p>
+<p><strong>Pour activer les sous-titres</strong>, ouvrez le menu des réglages dans le lecteur
+et choisissez <strong>Sous-titres</strong>. Pour les avoir dans votre langue à chaque fois,
+réglez <strong>Paramètres → Lecture → Langue des sous-titres par défaut</strong>.</p>
+<p>La plupart des sous-titres s'affichent tout de suite. Deux cas sont
+différents :</p>
+<ul>
+<li><strong>La première fois que quelqu'un choisit un sous-titre rangé dans le
+  fichier</strong>, Evey doit le sortir du fichier. Le lecteur affiche
+  <strong>Sous-titres en préparation…</strong>, la vidéo continue, et les sous-titres
+  apparaissent tout seuls. Sur un très gros film, cela peut prendre quelques
+  minutes, une seule fois : ensuite, ils s'affichent tout de suite pour tout
+  le monde. Voir
+  <a href="#the-first-time-a-subtitle-is-shown">La première fois qu'un sous-titre s'affiche</a>.</li>
+<li><strong>Les sous-titres des DVD et de la télévision</strong> sont des images, pas du
+  texte. Le serveur les dessine dans la vidéo elle-même, ce qui le fait
+  beaucoup plus travailler. Le réglage de profil <strong>Incrustation des
+  sous-titres</strong> (<strong>Paramètres → Lecture</strong>) peut refuser cela, mais ces
+  sous-titres ne peuvent alors pas s'afficher. Voir
+  <a href="#subtitle-burn-in">Incrustation des sous-titres</a>.</li>
+</ul>
+<p>La suite de cette page explique chaque format de sous-titres et ce qu'il
+change pour le serveur.</p>
 <h2 id="what-each-format-does-to-the-video">Ce que chaque format fait à la vidéo<a class="headerlink" href="#what-each-format-does-to-the-video" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3104,6 +3204,22 @@ Lecture</strong>) s'applique aux formats de la dernière ligne :</p>
 </tr>
 </tbody>
 </table>
+<h2 id="the-first-time-a-subtitle-is-shown">La première fois qu'un sous-titre s'affiche<a class="headerlink" href="#the-first-time-a-subtitle-is-shown" title="Permanent link">¶</a></h2>
+<p>Un sous-titre contenu dans le fichier (texte ou PGS) est extrait par le
+serveur la première fois que quelqu'un le choisit, puis conservé : tous les
+visionnages suivants, par n'importe qui, l'obtiennent aussitôt. Quand l'index
+du fichier couvre la piste, le serveur ne lit que les blocs du sous-titre et
+cela prend quelques secondes. Sans cet index, il lit tout le fichier :
+plusieurs minutes pour un gros film (environ cinq pour un remux UHD de 85 Go
+sur un disque local, davantage quand le même serveur diffuse en parallèle).</p>
+<p>Pendant ce temps, le lecteur affiche <strong>Sous-titres en préparation…</strong> à
+l'endroit des sous-titres, revérifie de lui-même et les affiche dès qu'ils sont
+prêts ; la vidéo continue. Choisir une autre piste n'arrête pas le travail : le
+serveur le termine pour la fois suivante.</p>
+<p>Une piste que le serveur ne parvient pas à extraire reste vide. L'échec est
+mémorisé : la choisir de nouveau ne relance pas une lecture complète ; une
+mise à jour de MKVGo, la bibliothèque qui l'extrait, retente. Voir
+<a href="../mkvgo/#what-mkvgo-does">MKVGo dans Evey</a> pour ce qui est lu et quand.</p>
 <h2 id="choosing-and-adjusting">Choisir et ajuster<a class="headerlink" href="#choosing-and-adjusting" title="Permanent link">¶</a></h2>
 <ul>
 <li>Les lecteurs sélectionnent le sous-titre de la <strong>Langue des sous-titres par

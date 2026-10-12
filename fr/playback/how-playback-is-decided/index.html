@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/how-playback-is-decided/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/how-playback-is-decided/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/how-playback-is-decided/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/how-playback-is-decided/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/how-playback-is-decided/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/how-playback-is-decided/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/how-playback-is-decided/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/how-playback-is-decided/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3161,16 +3223,25 @@
 
 
 <h1 id="how-playback-is-decided">Comment Evey choisit le mode de lecture<a class="headerlink" href="#how-playback-is-decided" title="Permanent link">¶</a></h1>
-<p>Pourquoi ce film est-il lu tel quel sur la TV et réencodé sur le téléphone ?
-Cette page répond à quiconque appuie sur lecture : les trois modes et la
-lecture des <strong>Infos du flux</strong> viennent d'abord ; les règles exactes que le
-serveur applique suivent, pour qui veut comprendre ou les ajuster.</p>
-<p>Evey ne vous demande jamais de choisir une qualité avant de lancer un titre.
-Chaque lancement est une négociation entre trois parties : le contenu du
-fichier, ce que ce lecteur sait décoder, et ce que ce serveur peut encoder à
-cet instant. Un même film peut donc partir intact vers un appareil et être
-réencodé pour un autre, ou être lu différemment sur le même appareil quand le
-serveur est chargé.</p>
+<p>Pourquoi un film est-il lu tel quel sur la TV mais converti sur le téléphone ?</p>
+<p><strong>En bref :</strong></p>
+<ul>
+<li>Vous ne choisissez jamais de qualité. Quand vous appuyez sur lecture, le
+  serveur regarde le fichier, ce que votre appareil sait lire, et sa propre
+  charge. Puis il choisit la façon la plus légère qui fonctionne.</li>
+<li>Il y a trois façons : <strong>Lecture directe</strong> (le fichier tel quel), <strong>Remux</strong>
+  (la même image et le même son, remis dans un autre format de fichier), et
+  <strong>Transcodage</strong> (une partie du film convertie, souvent seulement le son).</li>
+<li>Le même film peut donc partir intact vers un appareil et être converti pour
+  un autre, ou être lu différemment sur le même appareil quand le serveur est
+  chargé.</li>
+<li>En général, vous n'avez rien à faire. Pour voir quelle façon vous avez eue,
+  et pourquoi, ouvrez les <strong>Infos du flux</strong> dans le lecteur : voir
+  <a href="#reading-stream-info">Lire les Infos du flux</a>.</li>
+</ul>
+<p>Les trois façons et la lecture des <strong>Infos du flux</strong> viennent d'abord. Les
+règles exactes que le serveur applique suivent, pour qui veut les comprendre
+ou les ajuster.</p>
 <h2 id="the-three-outcomes">Les trois modes de lecture<a class="headerlink" href="#the-three-outcomes" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3242,7 +3313,7 @@ lecteur ; sur la TV, dans le menu d'options du lecteur) affichent la
 commentaire, non sélectionnée, est en DTS ne sera pas transcodé pour autant.</p>
 <p>Les Infos du flux sont calculées au lancement de la lecture. Un seul cas leur
 échappe : une carte graphique saturée au moment précis où le flux démarre. Le
-flux bascule alors sur le processeur, et <strong>Admin → En cours de lecture</strong>
+flux bascule alors sur le processeur, et <strong>Administration → En cours de lecture</strong>
 indique le backend réellement utilisé.</p>
 <h2 id="what-each-side-brings">Ce qui entre dans la décision<a class="headerlink" href="#what-each-side-brings" title="Permanent link">¶</a></h2>
 <p><strong>Le fichier.</strong> Codec, résolution, profondeur de couleur, format HDR, débit,
@@ -3292,8 +3363,8 @@ ces limites est transcodé pour s'y conformer :</p>
 <li>le <strong>Débit maximal</strong> du compte, fixé par un administrateur ;</li>
 <li>le <strong>Débit maximum en streaming</strong> du profil, et son <strong>Débit maximum en
   mobile</strong> quand un téléphone est sur le réseau cellulaire ;</li>
-<li>le <strong>Débit distant maximal</strong> (<strong>Admin → Accès distant</strong>) et le <strong>Plafond de
-  débit vidéo, spectateurs distants</strong> (<strong>Admin → Configuration transcodage</strong>),
+<li>le <strong>Débit distant maximal</strong> (<strong>Administration → Accès distant</strong>) et le <strong>Plafond de
+  débit vidéo, spectateurs distants</strong> (<strong>Administration → Configuration transcodage</strong>),
   le plus bas des deux, quand l'adresse du spectateur est publique et hors des
   <strong>Réseaux LAN</strong>. Une adresse privée n'est jamais plafonnée.</li>
 </ul>

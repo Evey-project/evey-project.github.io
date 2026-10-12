@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/operations/monitoring/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/operations/monitoring/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/operations/monitoring/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/operations/monitoring/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/operations/monitoring/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/operations/monitoring/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/operations/monitoring/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/operations/monitoring/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -1574,6 +1636,17 @@
     <span class="md-ellipsis">
       
         Historique et statistiques
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prometheus-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métriques Prometheus
       
     </span>
   </a>
@@ -3045,6 +3118,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#prometheus-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métriques Prometheus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-line" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3133,6 +3217,48 @@ raison et leur échéance ; <strong>Réinitialiser</strong> en supprime une imm�
 Configuration du serveur → Paramètres du serveur</strong> (sessions de lecture,
 journal d'audit, métriques du serveur, qualité de streaming). Un changement
 s'applique au nettoyage quotidien suivant.</p>
+<h2 id="prometheus-metrics">Métriques Prometheus<a class="headerlink" href="#prometheus-metrics" title="Permanent link">¶</a></h2>
+<p><code>GET /metrics</code> sert les compteurs du serveur au format texte de Prometheus,
+tous nommés <code>evey_...</code>. Il répond à une session administrateur, ou à un jeton
+fixe défini dans <code>EVEY_METRICS_SCRAPE_TOKEN</code> et envoyé en
+<code>Authorization: Bearer &lt;jeton&gt;</code>, pour que Prometheus ou Grafana puissent
+collecter sans se reconnecter
+(<a href="../../environment/logs-monitoring/">Sauvegardes, logs et supervision</a>).
+Les familles qui méritent un premier graphique :</p>
+<table>
+<thead>
+<tr>
+<th>Métrique</th>
+<th>Ce qu'elle dit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>evey_transcodes_active</code>, <code>evey_transcode_queue_depth</code></td>
+<td>Tâches de transcodage en arrière-plan (hors lecture en direct) en cours, et en attente d'une place.</td>
+</tr>
+<tr>
+<td><code>evey_hlsvod_sessions_active</code>, <code>evey_hlsvod_sessions_rejected_total</code></td>
+<td>Processus FFmpeg qui produisent des segments de lecture, et démarrages refusés parce que le serveur était à sa limite.</td>
+</tr>
+<tr>
+<td><code>evey_hlsvod_cache_size_bytes</code>, <code>evey_hlsvod_cache_evicted_bytes_total</code></td>
+<td>Taille du cache de segments sur le disque, et ce que le balayage a libéré.</td>
+</tr>
+<tr>
+<td><code>evey_mkvgo_walks_in_flight</code>, <code>evey_mkvgo_plan_stats</code></td>
+<td>L'empaqueteur intégré : fenêtres en cours de lecture, lectures en attente (<code>stat="slot_waits"</code>), voir <a href="../../playback/mkvgo/#load-replaced-files-and-updates">MKVGo dans Evey</a>.</td>
+</tr>
+<tr>
+<td><code>evey_http_requests_total</code>, <code>evey_http_request_duration_seconds</code></td>
+<td>Requêtes et latence par méthode et par chemin.</td>
+</tr>
+<tr>
+<td><code>evey_watcher_alive</code>, <code>evey_scan_queue_depth</code></td>
+<td>Si la surveillance des dossiers de chaque bibliothèque a répondu à sa dernière vérification (1 ou 0), et fichiers en attente d'analyse.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="command-line">Ligne de commande<a class="headerlink" href="#command-line" title="Permanent link">¶</a></h2>
 <p><code>evey admin doctor</code> vérifie tout le serveur en un seul rapport ; les autres
 commandes de diagnostic sont listées dans la

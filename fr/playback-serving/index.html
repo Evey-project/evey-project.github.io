@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback-serving/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback-serving/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback-serving/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback-serving/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback-serving/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback-serving/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback-serving/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback-serving/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3156,13 +3218,18 @@ détient un lecteur et chaque segment qu'il récupère ensuite.</p>
     mkv[mkvgo&lt;br/&gt;barreau copy, sans processus]
     ff[ffmpeg&lt;br/&gt;transcodage, tonemap]
     pack[Manifestes&lt;br/&gt;master.m3u8, stream_N.m3u8,&lt;br/&gt;manifest.mpd]
+    wire[segment sur le fil&lt;br/&gt;envoyé en flux depuis le fichier source,&lt;br/&gt;rien sur disque]
     seg[(cache/transcode/segments/hash)]
     req --&gt; h --&gt; plan
     plan --&gt;|copy| mkv
     plan --&gt;|transcode| ff
     plan --&gt; pack
-    mkv --&gt; seg
+    mkv --&gt; wire
     ff --&gt; seg</code></pre>
+<p>Les deux moteurs quittent le serveur différemment : un segment mkvgo est
+construit à la demande et écrit sur la connexion au fil de l'envoi, la voie
+copy ne touche donc jamais le cache de segments ; un segment ffmpeg est un
+fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.</p>
 <h2 id="reading-order---follow-one-request-through-the-code">Ordre de lecture : suivre une requête dans le code<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
 <p>Ouvrez ces fichiers dans l'ordre pour suivre une requête de lecture de bout en bout :</p>
 <ol>

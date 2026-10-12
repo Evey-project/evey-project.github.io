@@ -1,0 +1,3770 @@
+<!DOCTYPE html><html lang="hi" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/hi/playback-serving/">
+      
+      
+        <link rel="prev" href="../ARCHITECTURE/">
+      
+      
+        <link rel="next" href="../SECURITY/">
+      
+      
+        
+          <link rel="alternate" href="../../playback-serving/" hreflang="en">
+        
+          <link rel="alternate" href="../../fr/playback-serving/" hreflang="fr">
+        
+          <link rel="alternate" href="../../de/playback-serving/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback-serving/" hreflang="es">
+        
+          <link rel="alternate" href="./" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback-serving/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>प्लेबैक पाइपलाइन - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#serving-a-video---the-hls-playback-path" class="md-skip">
+          विषय पर बढ़ें
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="शीर्षक">
+    <a href="../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              प्लेबैक पाइपलाइन
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="भाषा चुनें">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../playback-serving/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/playback-serving/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback-serving/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback-serving/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback-serving/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="खोज" placeholder="खोज" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="खोजें">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="शेयर करें" aria-label="शेयर करें" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="हटा दें" aria-label="हटा दें" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            खोज शुरू करें
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="टैब" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  होम
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  शुरुआत
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  एडमिन
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लेबैक
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  सर्वर चलाना
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  प्लगइन और API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  अंदर की बनावट
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="नैविगेशन" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="रिपॉजिटरी पर जाएं" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    होम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    शुरुआत
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    शुरुआत
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    इंस्टॉल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पहला सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऐप कनेक्ट करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey पर देखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्राइवेसी पॉलिसी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडमिन
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    यूज़र, प्रोफ़ाइल और पैरेंटल कंट्रोल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिमोट एक्सेस और HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिवर्स प्रॉक्सी कॉन्फ़िगरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    हार्डवेयर एक्सेलेरेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सिंगल साइन-ऑन (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप और अपडेट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लेबैक
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey प्लेबैक का तरीका कैसे चुनता है
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और सर्वर की क्षमता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey में MKVGo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR और Dolby Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ऑडियो
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सबटाइटल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chromecast पर कास्ट करना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    साथ में देखें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर चलाना
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर चलाना
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    समस्या का हल
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    निगरानी और लॉग
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम और सर्वर लोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    मीडिया स्वास्थ्य
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कमांड लाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    रिकवरी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस माइग्रेशन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    गड़बड़ी होने पर क्या करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडवांस्ड डिप्लॉयमेंट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कंटेनर के बिना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन सैंडबॉक्स सेटअप
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    एनवायरनमेंट वेरिएबल
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    कॉन्फ़िगरेशन रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर और नेटवर्क
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डेटाबेस और सर्च
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    खाते और साइन-इन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    लाइब्रेरी और मेटाडेटा
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ट्रांसकोडिंग और हार्डवेयर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक डिलीवरी और डाउनलोड
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकग्राउंड काम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ई-मेल और सूचनाएँ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    बैकअप, लॉग और निगरानी
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन और API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    प्लगइन और API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन लिखना
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API रेफ़रेंस
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    परमिशन और स्लॉट
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    थीम
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    वेबहुक और API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सर्वर API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    सर्वर API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    पब्लिक API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    एडमिन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लगइन API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    अंदर की बनावट
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    अंदर की बनावट
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    डिज़ाइन के सिद्धांत
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    आर्किटेक्चर
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक पाइपलाइन
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    प्लेबैक पाइपलाइन
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सोचने का ढाँचा: 3 सवाल, 2 इंजन, 1 कुंजी
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        पढ़ने का क्रम - कोड में एक request के पीछे चलें
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-engines-by-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        दो इंजन, लागत के हिसाब से
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ऑडियो वीडियो से अलग तय होता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packaging-cmaf-hls-dash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        पैक करना: CMAF, HLS, DASH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-patterns-in-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इस्तेमाल हुए design pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    भाषाएँ और सुलभता
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    योगदान करें
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="विषय - सूची">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      विषय - सूची
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        सोचने का ढाँचा: 3 सवाल, 2 इंजन, 1 कुंजी
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        पढ़ने का क्रम - कोड में एक request के पीछे चलें
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-engines-by-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        दो इंजन, लागत के हिसाब से
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audio-is-decided-separately-from-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ऑडियो वीडियो से अलग तय होता है
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packaging-cmaf-hls-dash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        पैक करना: CMAF, HLS, DASH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-patterns-in-play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        इस्तेमाल हुए design pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/hi/playback-serving.md" title="इस पृष्ठ को संपादित करें" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="serving-a-video---the-hls-playback-path">एक वीडियो परोसना - HLS प्लेबैक का रास्ता<a class="headerlink" href="#serving-a-video---the-hls-playback-path" title="Permanent link">¶</a></h1>
+<p>जब कोई प्लेयर एक वीडियो माँगता है तो क्या होता है, पहले <code>master.m3u8</code> request से
+लेकर एक segment के बाइट तक: पढ़ने का रास्ता। कोड कई जगह फैला है: <code>http</code> driving
+adapter (<code>internal/adapters/driving/http/transcode_*</code>), <code>app/transcoding</code> की सर्विस
+और <code>ffmpeg</code> / <code>mkvgo</code> / <code>prober</code> driven adapter; कोई एक function पूरा रास्ता नहीं
+चलाता, इसलिए यह पेज नक्शा है। इसे <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>
+(एक योजना, एक फ़ैसला), <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a> (योजना तय
+करने वाला) और <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a>
+(मापी गई क्षमताएँ) तय करते हैं। यह <a href="../ARCHITECTURE/">आर्किटेक्चर</a> में दी गई स्कैन
+pipeline का जोड़ीदार है, और <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">कोड का नक्शा</a> के "Golden path 4" के
+पीछे की गहरी जानकारी। इसी बातचीत को उपयोगकर्ता की नज़र से देखने के लिए
+<a href="../playback/how-playback-is-decided/">Evey प्लेबैक का तरीका कैसे चुनता है</a> पढ़ें।</p>
+<h2 id="the-mental-model-3-questions-2-engines-1-key">सोचने का ढाँचा: 3 सवाल, 2 इंजन, 1 कुंजी<a class="headerlink" href="#the-mental-model-3-questions-2-engines-1-key" title="Permanent link">¶</a></h2>
+<p>वीडियो परोसना तीन सवालों के जवाब देने और फिर उस जवाब को पैक करने तक सिमट जाता है,
+और सब कुछ एक hash से पहचाना जाता है।</p>
+<table>
+<thead>
+<tr>
+<th>सवाल</th>
+<th>जवाब कौन देता है</th>
+<th>कहाँ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q1 - क्या मैं फ़ाइल सस्ते में पढ़ सकता हूँ?</strong></td>
+<td><strong>फ़ाइल extension</strong> के हिसाब से probe का बँटवारा: <code>.mkv/.webm</code> और <code>.mp4/.mov</code> <a href="../playback/mkvgo/">mkvgo</a> के पास जाते हैं (सिर्फ़ शुरुआती हिस्सा, कोई प्रोसेस नहीं); बाकी सब, और तेज़ रास्ते की कोई भी विफलता, ffprobe के पास जाती है, जो आख़िरी फ़ैसला करता है</td>
+<td><code>adapters/driven/prober/dispatcher.go</code></td>
+</tr>
+<tr>
+<td><strong>Q2 - क्या क्लाइंट इसे जैसा है वैसा चला सकता है?</strong></td>
+<td>प्लेबैक का <strong>फ़ैसला</strong>, हर ट्रैक के लिए अलग: वीडियो <code>copy</code> या <code>transcode</code>, ऑडियो <code>copy</code> या <code>transcode</code> या wasm वाला AC-3 रास्ता; वीडियो और ऑडियो अलग-अलग तय होते हैं, और सबसे आम स्थिति है "वीडियो कॉपी करो, ऑडियो को AAC में फिर से encode करो"</td>
+<td><code>app/transcoding/decision.go</code></td>
+</tr>
+<tr>
+<td><strong>Q3 - यह होस्ट कितना encode कर सकता है?</strong></td>
+<td>calibration से मापी गई <strong>क्षमता</strong> (पहले शांत पल में मापी गई) और <strong>प्रवेश</strong> (सीढ़ी का कौन सा पायदान फ़िट होता है, क्या कोई जगह खाली है)</td>
+<td><code>app/transcoding/calibration_service.go</code>, <code>admission_shaper.go</code></td>
+</tr>
+</tbody>
+</table>
+<p>दो इंजन पूरे रास्ते में चलते हैं:</p>
+<ul>
+<li><strong>mkvgo</strong> बिना कोई प्रोसेस शुरू किए पढ़ता है और फिर से पैक करता है (रीमक्स, ज़रूरत पर)। मुफ़्त।</li>
+<li><strong>ffmpeg / ffprobe</strong> एक प्रोसेस शुरू करके decode, फिर से encode और probe करते हैं। महँगा।</li>
+</ul>
+<p>एक कुंजी: सब कुछ (cache फ़ोल्डर, ffmpeg सेशन, segment के URL) <strong>फ़ैसले के
+fingerprint</strong> से पहचाना जाता है, जो फ़ैसले का एक hash है। वही बाइट, वही hash, एक
+साझा encode। पूरे सिस्टम का सही चलना इस बात पर टिका है कि यह hash उस manifest के
+बीच, जो प्लेयर के पास है, और हर उस segment के बीच, जो वह बाद में माँगता है, <strong>स्थिर</strong>
+रहे।</p>
+<pre class="mermaid"><code>flowchart LR
+    req[प्लेयर का request&lt;br/&gt;master / variant / segment / audio]
+    h[http adapter&lt;br/&gt;transcode_handler_vod.go&lt;br/&gt;पहचान, बँटवारा]
+    plan[PlanResolver&lt;br/&gt;app/transcoding&lt;br/&gt;फ़ैसला + क्षमता + सीढ़ी&lt;br/&gt;+ रास्ता + fingerprint]
+    mkv[mkvgo&lt;br/&gt;copy पायदान, कोई प्रोसेस नहीं]
+    ff[ffmpeg&lt;br/&gt;transcode, tonemap]
+    pack[Manifest&lt;br/&gt;master.m3u8, stream_N.m3u8,&lt;br/&gt;manifest.mpd]
+    wire[नेटवर्क पर segment&lt;br/&gt;स्रोत फ़ाइल से सीधे भेजा गया,&lt;br/&gt;डिस्क पर कुछ नहीं]
+    seg[(cache/transcode/segments/hash)]
+    req --&gt; h --&gt; plan
+    plan --&gt;|copy| mkv
+    plan --&gt;|transcode| ff
+    plan --&gt; pack
+    mkv --&gt; wire
+    ff --&gt; seg</code></pre>
+<p>दोनों इंजन से निकला डेटा सर्वर से अलग-अलग तरह जाता है: mkvgo का segment माँगने पर
+बनता है और बनते-बनते कनेक्शन पर लिखा जाता है, इसलिए copy वाला रास्ता segment cache
+को कभी नहीं छूता; ffmpeg का segment fingerprint के फ़ोल्डर में एक फ़ाइल है, जो एक बार
+लिखी जाती है और वहीं से दी जाती है।</p>
+<h2 id="reading-order---follow-one-request-through-the-code">पढ़ने का क्रम - कोड में एक request के पीछे चलें<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
+<p>एक प्लेबैक request को शुरू से अंत तक देखने के लिए इन्हें इसी क्रम में खोलें:</p>
+<ol>
+<li><strong>प्रवेश</strong> - <code>internal/adapters/driving/http/transcode_handler_vod.go</code>:
+   <code>serveHTTP</code> पहचान जाँचता है, फिर master / variant / segment / audio की ओर भेजता
+   है।</li>
+<li><strong>योजना</strong> - <code>http/transcode_vod_plan.go</code> <code>*http.Request</code> को एक
+   transport-मुक्त <code>PlaybackRequest</code> में बदलता है;
+   <code>app/transcoding/playback_plan_resolver.go</code> (<code>PlanResolver.Resolve</code>, जिसका असली
+   रूप <code>playback_plan.go</code> में <code>PlaybackPlanResolver</code> है) एक न बदलने वाला
+   <code>PlaybackPlan</code> लौटाता है: फ़ैसला (Q2), सीढ़ी की श्रेणी, ढाली गई सीढ़ी, हार्डवेयर
+   का रास्ता, packager और fingerprint। सेशन का हर manifest और segment इसी से दिया
+   जाता है: manifest का input, लोड घटाने वाली जाँच, पुराने URL की मुहर, producer का
+   चुनाव और segment की कुंजी, सब इसी एक नतीजे को पढ़ते हैं, इसलिए एक request के
+   अंदर cache-hash का नियम बनावट से ही पक्का रहता है (segment के सबसे गर्म रास्ते पर
+   प्रोफ़ाइल-पसंद की लगभग 5 रीडिंग घटकर 1 रह गईं)। स्रोत के तथ्यों वाले helper
+   (codec, HDR, SAR, ten-bit...) बगल में <code>source_facts.go</code> में हैं।
+   <code>http/transcode_vod_fingerprint.go</code> में <code>makeDecision</code> और <code>buildFingerprint</code> उन
+   जगहों के लिए पतले wrapper हैं जहाँ योजना नहीं होती (prewarm, ज़रूरत पर master)।</li>
+<li><strong>Q2 - फ़ैसला</strong> - <code>internal/app/transcoding/decision.go</code>:
+   <code>MakePlaybackDecisionWithPrefs</code> (शुद्ध function) हर ट्रैक के लिए copy/transcode
+   का दिमाग़ है। resolver इसके ऊपर request के समय की पिन (<code>vd=</code> / <code>ad=</code>), ऑडियो
+   resync की छूट, वगैरह जोड़ता है।</li>
+<li><strong>Q3 - क्षमता</strong> - <code>internal/app/transcoding/calibration_service.go</code>:
+   <code>Current()</code> <code>domain/transcoding.Derive(report, policy)</code> (<code>derive.go</code>) लौटाता है,
+   यानी होस्ट की ऊपरी सीमाएँ, जो आख़िरी calibration से निकाली गई हैं।</li>
+<li><strong>सीढ़ी और प्रवेश</strong> - resolver सीढ़ी को ढालता है (जटिलता की श्रेणी, producer की
+   प्रोफ़ाइल, स्रोत/क्षमता की सीमाएँ, CMCD/AV1 की सीमाएँ, प्रवेश का रास्ता और ऊपरी
+   सीमा), फिर उसे प्रवेश की पिन पर <strong>जमा देता है</strong> (<code>admission_shaper.go</code>,
+   <code>FreezeLadder</code>), जिसे बाद की हर कॉल ज्यों का त्यों पढ़ती है: cache-hash का नियम
+   बनावट का हिस्सा बन जाता है। <code>video_session_limiter.go</code> क्षमता की जगह रखता है;
+   जगह भर जाने पर रास्ता हार्डवेयर से सॉफ़्टवेयर पर चला जाता है।</li>
+<li><strong>Fingerprint</strong> - एक <code>DecisionFingerprint</code> (टाइप और <code>Hash()</code>
+   <code>app/transcoding/segment_cache.go</code> में), जिसे resolver जोड़ता है। hash ही cache की
+   कुंजी है।</li>
+<li><strong>बाइट बनाना</strong> - copy: <strong>mkvgo</strong>, <code>app/transcoding/ondemand.go</code> (port) और
+   <code>adapters/driven/mkvgo/ondemand.go</code>; transcode: <strong>ffmpeg</strong>,
+   <code>adapters/driven/ffmpeg/hls_transcoder.go</code> (<code>BuildFFmpegArgs</code> शुद्ध है; segment
+   <code>/cache/transcode/segments/&lt;hash&gt;/</code> में जाते हैं)।</li>
+<li><strong>पैक करना</strong> - <code>app/transcoding/manifest_generator.go</code> <code>master.m3u8</code> /
+   <code>stream_N.m3u8</code> लिखता है; <code>manifest_generator_dash.go</code> <code>manifest.mpd</code> लिखता है।</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">अलग-अलग request के बीच, नियम URL में मान डालने पर टिका है</p>
+<p>फ़ैसले का हर input child URL में डाला जाना चाहिए (<code>manifest_generator.go</code> में
+<code>querySuffix</code>), वरना चलते प्लेबैक के बीच कोई poll प्लेयर के नीचे से योजना बदल
+सकता है। हर सेशन के URL फिर से बनाए जाते हैं
+(<code>transcode_vod_manifest_rebake.go</code>) ताकि उनमें stream token रहे, HLS और DASH
+दोनों के लिए, बिना कुकी वाले Chromecast समेत।</p>
+</div>
+<h2 id="the-two-engines-by-cost">दो इंजन, लागत के हिसाब से<a class="headerlink" href="#the-two-engines-by-cost" title="Permanent link">¶</a></h2>
+<p><strong>probe बाँटने वाला</strong> (<code>adapters/driven/prober/dispatcher.go</code>) extension के हिसाब से
+चलने वाली ज़िम्मेदारी की एक कड़ी है: यह mkvgo आज़माता है, और ज़रा भी शक होने पर
+ffprobe पर लौट आता है (parse की गड़बड़ी, panic, ऐसा नतीजा जो मैप न हो सके, MP4 का
+छूटा हुआ मीडिया ट्रैक, DoVi profile 5, न पढ़े जा सकने वाले रंग)। दोनों तेज़ रास्ते
+हमेशा चालू रहते हैं (<code>wire.go</code> में nil gate); ffprobe सुरक्षा जाल है, जिसे कभी छोड़ा
+नहीं जाता। दूसरा, बिल्कुल वैसा ही बाँटने वाला (<code>keyframe_dispatcher.go</code>) सीक इंडेक्स
+संभालता है।</p>
+<table>
+<thead>
+<tr>
+<th>काम</th>
+<th>mkvgo (मुफ़्त)</th>
+<th>ffprobe / ffmpeg (महँगा)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>मेटाडेटा probe (codec, आकार, HDR, bitrate, अवधि)</td>
+<td><code>.mkv/.webm/.mp4/.mov</code> सिर्फ़ शुरुआती हिस्सा</td>
+<td>बाकी सब, या fallback</td>
+</tr>
+<tr>
+<td>frame-rate मोड (cfr/vfr)</td>
+<td><code>AnalyzeFrameRateMode</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>MKV से MP4 रीमक्स (बिना फिर से encode किए)</td>
+<td><code>RemuxToMP4</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>ज़रूरत पर HLS/DASH (copy पायदान)</td>
+<td><code>OnDemandPackager</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>वीडियो फिर से encode / HDR tonemap</td>
+<td>-</td>
+<td><code>hls_transcoder.go</code></td>
+</tr>
+<tr>
+<td>interlace पहचान (idet), seek-landing, chromaprint, DoVi P5</td>
+<td>- (decode / side-data चाहिए)</td>
+<td>ffmpeg / ffprobe</td>
+</tr>
+</tbody>
+</table>
+<p>तीन ffprobe प्रोसेस अब भी उन MKV/MP4 स्रोतों पर चलते हैं जिनका डेटा mkvgo पहले से
+देता है, सब <code>ffmpeg</code> driven adapter में: <code>trickplay.go</code> में अवधि,
+<code>complexity_classifier.go</code> में bitrate और आकार, <code>audio_delay.go</code> में प्लेबैक का ऑडियो
+विलंब।</p>
+<h2 id="audio-is-decided-separately-from-video">ऑडियो वीडियो से अलग तय होता है<a class="headerlink" href="#audio-is-decided-separately-from-video" title="Permanent link">¶</a></h2>
+<p><code>makeDecision</code> <code>VideoDecision</code> और <code>AudioDecision</code> अलग-अलग बनाता है। "copy पायदान"
+(<code>isCopyRequest</code>) सिर्फ़ <strong>वीडियो</strong> पर निर्भर है; कॉपी किए गए वीडियो के साथ भी आमतौर
+पर फिर से encode किया गया AAC ट्रैक होता है। ऑडियो के फ़ैसले के तीन नतीजे हैं:</p>
+<table>
+<thead>
+<tr>
+<th>नतीजा</th>
+<th>क्या दिया जाता है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>copy</td>
+<td>स्रोत का ट्रैक, जैसा है</td>
+</tr>
+<tr>
+<td>AAC में transcode</td>
+<td>ffmpeg, हल्का</td>
+</tr>
+<tr>
+<td><strong>wasm रास्ता</strong>, ऐसे ब्राउज़र पर AC-3 / E-AC-3 के लिए जो इसे खुद decode नहीं कर सकता</td>
+<td>master को सिर्फ़-वीडियो बनाया जाता है, एक <code>#EVEY-AUDIO-URI</code> tag के साथ; AC-3 <strong>कॉपी</strong> होता है (योजना बन जाए तो mkvgo <code>od_audio</code>, वरना ffmpeg <code>-c:a copy</code>), और <code>ac3go.wasm</code> उसे ब्राउज़र में PCM में decode करता है (<code>WasmAudioEngine.ts</code>), वीडियो की घड़ी से बँधा हुआ</td>
+</tr>
+</tbody>
+</table>
+<p>Safari wasm रास्ते से क्षमता के आधार पर बाहर है, नाम के आधार पर नहीं:
+<code>canWasmDecodeAC3()</code> (<code>frontend/packages/client/src/web/codec.ts</code>) सिर्फ़ तब true
+लौटाता है जब ब्राउज़र बताता है कि वह AC-3 खुद <em>नहीं</em> चला सकता, और Safari बताता है कि
+वह चला सकता है।</p>
+<h2 id="packaging-cmaf-hls-dash">पैक करना: CMAF, HLS, DASH<a class="headerlink" href="#packaging-cmaf-hls-dash" title="Permanent link">¶</a></h2>
+<p>container हमेशा <strong>CMAF</strong> (fMP4) होता है: हर variant का एक <code>init.mp4</code> और <code>.m4s</code>
+segment (<code>hls_transcoder.go</code> में MPEG-TS वाली शाखा मृत है: <code>needsFMP4Segments</code>
+हमेशा true लौटाता है)। <em>उन्हीं</em> segment के ऊपर:</p>
+<ul>
+<li><strong>HLS</strong> (<code>master.m3u8</code>, <code>stream_N.m3u8</code>, <code>EXT-X-MAP</code> init + <code>.m4s</code>), दोनों इंजन।</li>
+<li><strong>DASH</strong> (<code>manifest.mpd</code>): mkvgo के copy रास्ते पर packager का अपना manifest
+  (<code>OnDemandPlan.HasDASH</code>, बाइट-दर-बाइट एक जैसा, बिना स्टोरेज के, AES-128 में बंद);
+  ffmpeg के रास्ते पर <strong>योजना से घोषित</strong> एक manifest, उन्हीं टुकड़ों पर जिन्हें HLS
+  playlist बताती हैं (<code>ManifestGenerator.MPD</code>), जो किसी भी टुकड़े के बनने से पहले लिखा
+  जाता है।</li>
+</ul>
+<p>DASH manifest को सच्चा बनाता है <strong>segment grid</strong> (<code>domain/transcoding.SegmentGrid</code>):
+हर ट्रांसकोड किया गया पायदान frame की एक ही पूरी संख्या पर काटा जाता है,
+<code>round(3 s x fps)</code> (23.976 fps पर 72, 25 पर 75, 29.97 पर 90), ताकि segment वीडियो
+ट्रैक की ticks में बिल्कुल सटीक हो और बदलने वाले पूरे समूह में एक जैसा हो; copy वाला
+fallback अपनी keyframe योजना बताता है। जिस स्रोत का frame rate अनजाना या बदलता हुआ
+है, वह पुरानी 3 s घड़ी पर रहता है, HLS रखता है, और <code>manifest.mpd</code> पर 404 लौटाता है।
+किसी क्लाइंट को DASH पर नहीं ले जाया गया है: हर जगह HLS ही डिफ़ॉल्ट है। बनाए गए
+टुकड़ों पर mkvgo का <code>DASHFromCMAF</code> बराबरी की कसौटी है (<code>internal/pkg/cmafparity</code>,
+23.976/25/29.97 fps पर <code>TestDASHGridIntegration</code>: ठंडी शुरुआत, seek, दो पायदानों वाला
+बदलने का समूह, एक AAC frame के अंदर अलग ऑडियो)।</p>
+<h2 id="design-patterns-in-play">इस्तेमाल हुए design pattern<a class="headerlink" href="#design-patterns-in-play" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>कहाँ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ports and adapters (hexagonal)</td>
+<td>app परत <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code> से बात करती है; ffmpeg और mkvgo इन्हें लागू करते हैं, और नया इंजन बस एक नया adapter है</td>
+</tr>
+<tr>
+<td>Strategy</td>
+<td><code>StreamProducer</code> (सॉफ़्टवेयर / हार्डवेयर / copy), जिसे एक <code>ProducerSelector</code> चुनता है</td>
+</tr>
+<tr>
+<td>fallback वाली chain of responsibility</td>
+<td>probe और keyframe बाँटने वाले (mkvgo, फिर आख़िरी फ़ैसले के लिए ffprobe)</td>
+</tr>
+<tr>
+<td>कंटेंट से पहचाना जाने वाला cache</td>
+<td><code>DecisionFingerprint</code> hash cache और ffmpeg सेशन की कुंजी है</td>
+</tr>
+<tr>
+<td>शुद्ध केंद्र, imperative खोल</td>
+<td><code>Derive</code>, <code>MakePlaybackDecision</code> और लागत का मॉडल शुद्ध हैं, ffmpeg या डेटाबेस के बिना unit-tested</td>
+</tr>
+<tr>
+<td>न बदलने वाला value object</td>
+<td><code>StreamPlan</code>, प्रवेश का फ़ैसला, एक बार बनता है और कभी बदला नहीं जाता, इसलिए URL से बाइट तक का नियम बनावट से ही पक्का रहता है</td>
+</tr>
+<tr>
+<td>धीरे-धीरे घटना (graceful degradation)</td>
+<td>हर कदम पर एक सुरक्षित fallback: 720p वाली डिफ़ॉल्ट क्षमता, हार्डवेयर से सॉफ़्टवेयर पर जाना, copy से transcode, mkvgo से ffprobe</td>
+</tr>
+</tbody>
+</table>
+<!-- sources
+entry and plan: internal/adapters/driving/http/transcode_handler_vod.go - serveHTTP ; internal/adapters/driving/http/transcode_vod_plan.go ; internal/adapters/driving/http/transcode_vod_fingerprint.go - makeDecision, buildFingerprint ; internal/adapters/driving/http/transcode_vod_manifest_rebake.go
+resolver: internal/app/transcoding/playback_plan_resolver.go - PlanResolver.Resolve ; internal/app/transcoding/playback_plan.go - PlaybackRequest, PlaybackPlan ; internal/app/transcoding/source_facts.go
+decision and capability: internal/app/transcoding/decision.go - MakePlaybackDecisionWithPrefs ; internal/app/transcoding/calibration_service.go - Current ; internal/domain/transcoding/derive.go - Derive
+ladder, admission, fingerprint: internal/app/transcoding/admission_shaper.go - StreamPlan, FreezeLadder ; internal/app/transcoding/video_session_limiter.go ; internal/app/transcoding/segment_cache.go - DecisionFingerprint ; internal/app/transcoding/stream_producer.go - StreamProducer, ProducerSelector
+engines: internal/adapters/driven/prober/dispatcher.go ; internal/adapters/driven/prober/keyframe_dispatcher.go ; internal/app/transcoding/ondemand.go - OnDemandPackager ; internal/adapters/driven/mkvgo/ondemand.go ; internal/adapters/driven/ffmpeg/hls_transcoder.go - BuildFFmpegArgs, needsFMP4Segments ; internal/adapters/driven/ffmpeg/trickplay.go, complexity_classifier.go, audio_delay.go
+packaging: internal/app/transcoding/manifest_generator.go - querySuffix, EVEY-AUDIO-URI ; internal/app/transcoding/manifest_generator_dash.go ; internal/domain/transcoding/segment_grid.go - SegmentTargetSeconds, gridFor ; internal/pkg/cmafparity ; internal/adapters/driven/ffmpeg/dash_grid_integration_test.go - TestDASHGridIntegration
+wasm: frontend/packages/client/src/web/codec.ts - canWasmDecodeAC3
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  शीर्षभाग पर लौटें
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="फुटर">
+        
+          
+          <a href="../ARCHITECTURE/" class="md-footer__link md-footer__link--prev" aria-label="पिछला: आर्किटेक्चर">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                पिछला
+              </span>
+              <div class="md-ellipsis">
+                आर्किटेक्चर
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../SECURITY/" class="md-footer__link md-footer__link--next" aria-label="आगामी: सुरक्षा मॉडल और प्लगइन सैंडबॉक्स">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                आगामी
+              </span>
+              <div class="md-ellipsis">
+                सुरक्षा मॉडल और प्लगइन सैंडबॉक्स
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930 \u0926\u093f\u092f\u093e \u0917\u092f\u093e", "clipboard.copy": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921 \u092a\u0930 \u0915\u0949\u092a\u0940 \u0915\u0930\u0947\u0902", "search.result.more.one": "1 \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.more.other": "# \u0914\u0930 \u0907\u0938 \u092a\u0943\u0937\u094d\u0920 \u092a\u0930", "search.result.none": "\u0915\u094b\u0908 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f \u0928\u0939\u0940\u0902", "search.result.one": "1 \u092e\u093f\u0932\u093e\u0928 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f", "search.result.other": "# \u092e\u093f\u0932\u093e\u0928 \u0921\u093e\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f\u094d\u0938", "search.result.placeholder": "\u0916\u094b\u091c \u0936\u0941\u0930\u0942 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902", "search.result.term.missing": "\u095a\u093e\u092f\u092c", "select.version": "\u0935\u0930\u094d\u0936\u0928 \u091a\u0941\u0928\u0947\u0902"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

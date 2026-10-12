@@ -1,0 +1,4147 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/zh/reverse-proxy/">
+      
+      
+        <link rel="prev" href="../administration/remote-access/">
+      
+      
+        <link rel="next" href="../administration/hardware-acceleration/">
+      
+      
+        
+          <link rel="alternate" href="../../reverse-proxy/" hreflang="en">
+        
+          <link rel="alternate" href="../../fr/reverse-proxy/" hreflang="fr">
+        
+          <link rel="alternate" href="../../de/reverse-proxy/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/reverse-proxy/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/reverse-proxy/" hreflang="hi">
+        
+          <link rel="alternate" href="./" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>反向代理配置 - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reverse-proxy-configurations" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              反向代理配置
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../reverse-proxy/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/reverse-proxy/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/reverse-proxy/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/reverse-proxy/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/reverse-proxy/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  入门
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  管理
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  播放
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  运维
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  插件与 API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  内部原理
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    入门
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首次设置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    连接应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用 Evey 观看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    隐私政策
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    管理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体库与元数据
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用户、个人资料与家长控制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    远程访问与 HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    远程访问与 HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    远程访问和 HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反向代理配置
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反向代理配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#tell-evey-about-the-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Evey 里登记代理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caddy-bundled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caddy（自带）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caddy（自带）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nginx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traefik
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Traefik">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-proxy-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx Proxy Manager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nginx Proxy Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-proxy-you-already-run-tls-terminated-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        您已经在运行的代理（TLS 在上游终止）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="您已经在运行的代理（TLS 在上游终止）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming---what-a-proxys-defaults-do-to-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流媒体：代理的默认设置会对它产生什么影响
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全头和 CSP：如果您的代理自己设置安全头，请读这一节
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        客户端真实 IP 和远程访问关口
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件加速
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    单点登录 (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    电子邮件与通知
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    备份与更新
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    播放
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey 如何选择播放方式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    转码与服务器容量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evey 中的 MKVGo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR 与杜比视界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    字幕
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    投屏到 Chromecast
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一起看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    运维
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    运维
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    故障排除
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    监控与日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后台任务与服务器负载
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体健康
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    命令行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    恢复
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库迁移
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事故手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级部署
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高级部署
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    不使用容器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件沙箱设置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    环境变量
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    环境变量
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配置参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    服务器与网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库与搜索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    账户与登录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    媒体库与元数据
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    转码与硬件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放分发与下载
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后台任务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件与沙箱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    电子邮件与通知
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    备份、日志与监控
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件与 API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    插件与 API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编写插件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    权限与插槽
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    主题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Webhook 与 API 密钥
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    服务器 API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    服务器 API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    公开 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    插件 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内部原理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    内部原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计原则
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    播放链路
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全模型与插件沙箱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    语言与无障碍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参与贡献
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#tell-evey-about-the-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Evey 里登记代理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caddy-bundled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caddy（自带）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caddy（自带）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nginx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traefik
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Traefik">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-proxy-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nginx Proxy Manager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nginx Proxy Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-proxy-you-already-run-tls-terminated-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        您已经在运行的代理（TLS 在上游终止）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="您已经在运行的代理（TLS 在上游终止）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-it-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-already-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        它已经处理好的事情
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming---what-a-proxys-defaults-do-to-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流媒体：代理的默认设置会对它产生什么影响
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全头和 CSP：如果您的代理自己设置安全头，请读这一节
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        客户端真实 IP 和远程访问关口
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/zh/reverse-proxy.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="reverse-proxy-configurations">反向代理配置<a class="headerlink" href="#reverse-proxy-configurations" title="Permanent link">¶</a></h1>
+<p>Evey 在端口 <strong>9091</strong> 上用普通 HTTP 同时提供 API 和网页界面；反向代理只需要终止 TLS，然后把所有请求转发到 <code>evey:9091</code>。请在下面选择您的代理（自带的 Caddy、Nginx、Traefik、Nginx Proxy Manager，或者您已经在运行的代理）。如果您要调整流媒体传输，或者自己设置安全头，请再读一读最后两节。</p>
+<h2 id="tell-evey-about-the-proxy">在 Evey 里登记代理<a class="headerlink" href="#tell-evey-about-the-proxy" title="Permanent link">¶</a></h2>
+<p>无论用哪种代理，Evey 都需要知道它的公网地址，以及该信任哪个代理。这两项都在<strong>管理 → 远程访问</strong>里设置：一个 <code>https://</code> 开头的<strong>外部 URL</strong>；如果代理是一个容器，再把它的网络填进<strong>受信任的代理</strong>。两项都无需重启就会生效。正是 <code>https://</code> 地址告诉 Evey 前面有代理在终止 TLS：Cookie 会带上 <code>Secure</code> 标记，会发送 HSTS，并且会相信受信任代理发来的 <code>X-Forwarded-Proto</code>。远程访问开关和客户端真实地址的说明见<a href="../administration/remote-access/">远程访问和 HTTPS</a>。</p>
+<p>如果您的整套安装都用代码描述，同样的设置也可以来自环境变量（两边都设置时，以管理面板为准）：</p>
+<div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SERVER_BASE_URL=https://media.example.com
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_TRUSTED_PROXIES=172.16.0.0/12       # 只有代理是容器时才需要；环回地址始终受信任
+</span></code></pre></div>
+<p>以前的 <code>EVEY_FORWARDED_PROTO</code> 仍然可以用来强制指定，但已经弃用：地址里的协议就足够了。</p>
+<p>每个自带的示例都从同一个地方读取域名，即 <code>.env</code> 里的 <code>EVEY_DOMAIN</code>。只需设置一次，Caddy、Nginx 和 Traefik 都会读取它。</p>
+<div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>EVEY_DOMAIN=media.example.com
+</span></code></pre></div>
+<h2 id="caddy-bundled">Caddy（自带）<a class="headerlink" href="#caddy-bundled" title="Permanent link">¶</a></h2>
+<h3 id="files">文件<a class="headerlink" href="#files" title="Permanent link">¶</a></h3>
+<p><a href="https://github.com/Evey-project/evey/blob/master/docker/Caddyfile"><code>docker/Caddyfile</code></a>，由 <a href="https://github.com/Evey-project/evey/blob/master/docker/Dockerfile.caddy"><code>docker/Dockerfile.caddy</code></a> 构建成镜像；对应仓库 <a href="https://github.com/Evey-project/evey/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a> 里的 <code>caddy</code> 服务。</p>
+<h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
+<ol>
+<li>在 <code>.env</code> 里设置 <code>EVEY_DOMAIN</code>，并确保主机的 80 和 443 端口能到达 Caddy 容器。</li>
+<li>把仓库 compose 文件里的 <code>caddy</code> 服务加到您的 compose 文件里，然后运行 <code>docker compose up -d</code>。Caddy 会自己为 <code>EVEY_DOMAIN</code> 申请 Let's Encrypt 证书。</li>
+<li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 <code>172.16.0.0/12</code>。</li>
+</ol>
+<h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
+<p>把所有请求代理到 <code>evey:9091</code>，流媒体路径不缓冲、不超时，数据随到随发。它整理好<a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own">安全一节</a>中的安全头和标准 CSP，并去掉应用自己的 CSP，确保到达浏览器的恰好只有一个；两个自带策略的页面会保留各自的策略。</p>
+<h2 id="nginx">Nginx<a class="headerlink" href="#nginx" title="Permanent link">¶</a></h2>
+<h3 id="files">文件<a class="headerlink" href="#files" title="Permanent link">¶</a></h3>
+<p><a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/evey.conf.template"><code>examples/nginx/evey.conf.template</code></a>，以及一个现成的 compose 叠加文件 <a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/docker-compose.nginx.yml"><code>examples/nginx/docker-compose.nginx.yml</code></a>。</p>
+<h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
+<ol>
+<li>在 <code>.env</code> 里设置 <code>EVEY_DOMAIN</code>。nginx 镜像在启动时会生成配置模板，并替换其中的 <code>EVEY_DOMAIN</code>。</li>
+<li>把证书和密钥放到模板期望的位置，用对应的文件名（<code>nginx-certs</code> 卷里的 <code>/etc/ssl/certs/&lt;domain&gt;.pem</code> 和 <code>/etc/ssl/private/&lt;domain&gt;.key</code>）：这个叠加文件不会替您申请证书。</li>
+<li><code>docker compose -f docker-compose.yml -f examples/nginx/docker-compose.nginx.yml up -d</code>。</li>
+<li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 <code>172.16.0.0/12</code>。</li>
+</ol>
+<h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
+<p>代理到 <code>evey:9091</code>，在流媒体路径上关闭缓冲和超时，升级 SyncPlay 的 WebSocket，转发 <code>X-Forwarded-For</code> 和 <code>X-Forwarded-Proto</code>，并设置 <code>client_max_body_size 2G</code>，用于上传插件和恢复备份。它会原样传递应用自己的安全头和 CSP。</p>
+<h2 id="traefik">Traefik<a class="headerlink" href="#traefik" title="Permanent link">¶</a></h2>
+<h3 id="files">文件<a class="headerlink" href="#files" title="Permanent link">¶</a></h3>
+<p><a href="https://github.com/Evey-project/evey/blob/master/examples/traefik/docker-compose.traefik.yml"><code>examples/traefik/docker-compose.traefik.yml</code></a>。</p>
+<h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
+<ol>
+<li>运行 Traefik，并配置一个 <code>websecure</code> 入口点、一个 <code>letsencrypt</code> 证书解析器，以及一个名为 <code>proxy</code> 的外部 Docker 网络；叠加文件里的标签默认使用这些名字。</li>
+<li>
+<p>在 <code>.env</code> 里设置 <code>EVEY_DOMAIN</code>，然后运行：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>-f<span class="w"> </span>examples/traefik/docker-compose.traefik.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+</li>
+<li>
+<p>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 <code>proxy</code> 网络的地址范围（<code>172.16.0.0/12</code> 覆盖 Docker 的默认网络）。</p>
+</li>
+</ol>
+<h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
+<p>叠加文件只添加路由标签，并加入 <code>proxy</code> 网络。Traefik 在默认设置下既不缓冲响应，也不限制响应的时长，所以不需要为流媒体做任何调整；它会自己转发 <code>X-Forwarded-For</code> 和 <code>X-Forwarded-Proto</code>，并原样传递应用的安全头。</p>
+<h2 id="nginx-proxy-manager">Nginx Proxy Manager<a class="headerlink" href="#nginx-proxy-manager" title="Permanent link">¶</a></h2>
+<h3 id="files">文件<a class="headerlink" href="#files" title="Permanent link">¶</a></h3>
+<p>没有：一切都在 NPM 的界面里设置。evey 容器必须在 NPM 使用的网络上，见<a href="#a-proxy-you-already-run-tls-terminated-upstream">您已经在运行的代理</a>。</p>
+<h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
+<p>在 <strong>Edit Proxy Host</strong> 里：</p>
+<ol>
+<li><strong>Details</strong>：Scheme 填 <code>http</code>，Forward Hostname 填 <code>evey-server</code>，Forward Port 填 <code>9091</code>。<strong>Websockets Support：开启</strong>（SyncPlay 需要）。<strong>Cache Assets：关闭</strong>，否则它会以固定的过期时间缓存媒体片段和播放列表。Block Common Exploits 可以保持开启（如果搜索或插件上传无缘无故返回 403，就把它关掉）。</li>
+<li><strong>SSL</strong>：您的证书、Force SSL、HTTP/2。HSTS 在这里可选，因为应用已经会发送它。</li>
+<li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 NPM 网络的地址范围。</li>
+</ol>
+<h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
+<p>NPM 会自己转发 <code>X-Forwarded-For</code>、<code>X-Forwarded-Proto</code> 和 Host 头，它的默认超时也永远不会在 Evey 的流上触发。不需要其他设置。</p>
+<p><strong>可选</strong>：不让 NPM 用自己的磁盘来缓冲直接播放的文件。在 <strong>Advanced</strong> → <em>Custom Nginx Configuration</em> 里设置（<code>Custom Locations</code> 标签页无法写正则表达式）：</p>
+<div class="language-nginx highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 插件上传（最多 100 MB）和备份恢复（最多 2 GB）。</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">client_max_body_size</span><span class="w"> </span><span class="s">2G</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 流媒体：不缓冲，不超时。</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/api/v1/media/.+/(hls|stream)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://evey-server:9091</span><span class="p">;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kn">proxy_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kn">proxy_request_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Connection</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># 媒体库扫描在整个扫描期间持续发送进度。</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="k">location</span><span class="w"> </span><span class="p">~</span><span class="w"> </span><span class="sr">^/api/v1/libraries/.+/scan</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://evey-server:9091</span><span class="p">;</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="kn">proxy_buffering</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Connection</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>其他所有路径（网页界面、API 的其余部分、SyncPlay 的 WebSocket）都走 NPM 自己的代理块，也就是 Details 标签页配置的那部分。不加这段配置也不会出问题，它只是改变大文件在哪里缓冲。</p>
+<h2 id="a-proxy-you-already-run-tls-terminated-upstream">您已经在运行的代理（TLS 在上游终止）<a class="headerlink" href="#a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h2>
+<p>如果 NAS 上已经有反向代理（厂商自带的、Nginx Proxy Manager，或者共享 Docker 网络上的 Traefik），就不需要 Caddy：Evey 会自己发出安全头和完整的 CSP，而流媒体规则无论如何也只能由面对客户端的那个代理来执行。在它后面再加一个代理没有任何好处。</p>
+<h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
+<p>把 evey 服务放到那个代理的网络上，目标设为 <code>evey-server:9091</code>（容器名；服务名 <code>evey</code> 也能解析）：</p>
+<div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1"># 不暴露端口：代理是唯一的入口</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">EVEY_SERVER_BASE_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://media.example.com</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">EVEY_TRUSTED_PROXIES</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.0.0/12</span><span class="w">     </span><span class="c1"># 知道代理的子网后，改成更窄的范围</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1"># ...</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">proxy-net</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>然后，在那个代理里，为通往 <code>evey-server:9091</code> 的路由：转发 <code>X-Forwarded-For</code> 和 <code>X-Forwarded-Proto</code>，开启 WebSocket 支持，并在流媒体路径上应用下面的流媒体规则。上面 Nginx 和 Nginx Proxy Manager 两节给出了具体的配置行。</p>
+<h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
+<p>这取决于代理本身：请检查到达浏览器的 CSP 头恰好只有一个（见后面几节），并在设置好受信任的代理后运行一次 <code>evey admin doctor</code>。</p>
+<h2 id="streaming---what-a-proxys-defaults-do-to-it">流媒体：代理的默认设置会对它产生什么影响<a class="headerlink" href="#streaming---what-a-proxys-defaults-do-to-it" title="Permanent link">¶</a></h2>
+<p>即使反向代理保持默认设置，Evey 也能正常工作：每个长时间的响应要么连续发送数据（HLS 片段、直接播放、转码输出），要么每 30 秒向客户端发一次心跳（事件流），所以默认的读取超时永远不会触发。不过还有两点值得了解：</p>
+<ul>
+<li><strong>缓冲。</strong> 会缓冲响应的代理（nginx 默认如此）会先把直接播放的文件读进自己的缓冲区和临时文件，客户端才能收到。这样能用，但一部几 GB 的电影就会经过代理主机的磁盘。在流媒体路径上设置 <code>proxy_buffering off</code> 可以避免这种情况。</li>
+<li><strong>扫描。</strong> <code>/api/v1/libraries/*/scan</code> 在整个扫描期间持续发送进度；如果代理限制响应的总时长（这种情况很少见，nginx、Caddy 和 Traefik 默认都不限制），就会把它提前切断。不过扫描本身仍然会在服务器端继续进行。</li>
+</ul>
+<p>涉及的路径：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/api/v1/media/*/hls/*
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>/api/v1/media/*/stream
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>/api/v1/libraries/*/scan
+</span></code></pre></div>
+<p>自带的 Caddy 和 Nginx 示例都在这些路径上做了这两项设置（不缓冲、不超时）。Traefik 示例和 Nginx Proxy Manager 这类通过界面配置的代理保持默认设置，这样也没有问题；上面 NPM 的那段配置是可选的。</p>
+<h2 id="security-headers--csp---read-this-if-your-proxy-sets-its-own">安全头和 CSP：如果您的代理自己设置安全头，请读这一节<a class="headerlink" href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" title="Permanent link">¶</a></h2>
+<p>Evey 会发出完整的 Content-Security-Policy。如果您的代理原样传递它，就不用再做什么了。</p>
+<p>但很多配置会把它去掉（Caddy 里的 <code>header_down -Content-Security-Policy</code>），再自己整理一份策略。这样做没问题，但<strong>您的</strong>策略必须保留下面这些指令值，否则一些功能会悄无声息地失效：</p>
+<table>
+<thead>
+<tr>
+<th>指令值</th>
+<th>指令</th>
+<th>缺少时会出问题的地方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>'self'</code></td>
+<td><code>frame-src</code></td>
+<td>所有插件界面和主题脚本（iframe 一片空白）。它们运行在 <code>/plugin-frame.html</code> 里，这是应用用框架嵌入的一个 Evey 页面（见下文）。</td>
+</tr>
+<tr>
+<td><code>'wasm-unsafe-eval'</code></td>
+<td><code>script-src</code></td>
+<td>浏览器里的 AC-3/E-AC-3 播放（ac3go WebAssembly 解码器无法编译，所以电影播放时没有声音）。这是一个范围很窄的指令值，只允许编译 Wasm，不允许一般的 <code>eval()</code>。</td>
+</tr>
+<tr>
+<td><code>https://www.gstatic.com</code></td>
+<td><code>script-src</code>（以及 <code>frame-src</code>）</td>
+<td>Google Cast 发送端 SDK 永远加载不了，所以谁都看不到投屏按钮。这是浏览器发现用户自己局域网里 Chromecast 的唯一途径。</td>
+</tr>
+<tr>
+<td><code>blob:</code></td>
+<td><code>media-src</code></td>
+<td>MSE 播放（hls.js 通过 blob URL 挂载视频流）。</td>
+</tr>
+<tr>
+<td><code>blob:</code></td>
+<td><code>worker-src</code></td>
+<td>hls.js 会悄悄退回到在主线程里解复用（在手机上更卡顿）。</td>
+</tr>
+</tbody>
+</table>
+<p>对于自己整理策略的代理，这是一份确认可用的策略，也就是自带的 Caddy 发送的那一份：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>default-src 'self'; base-uri 'self'; object-src 'none';
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>img-src 'self' https: data: blob:; media-src 'self' blob:;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>style-src 'self' 'unsafe-inline';
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>script-src 'self' 'wasm-unsafe-eval' https://www.gstatic.com;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>connect-src 'self' https: wss:; worker-src 'self' blob:; font-src 'self' data:;
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>frame-src 'self' https://www.gstatic.com
+</span></code></pre></div>
+<p><code>base-uri</code> 和 <code>object-src</code> 不会退回到 <code>default-src</code>，所以省略它们的策略对 <code>&lt;base href&gt;</code> 注入和 <code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code> 嵌入毫无限制。如果您自己整理策略，请保留它们。<code>script-src</code> 里没有 <code>'unsafe-inline'</code>：注入到页面里的脚本不会运行。请不要把它加回去，应用里没有任何地方需要它。</p>
+<p>有两个页面带有自己的策略，由应用发送；请在这两个路径上保留应用的头：</p>
+<ul>
+<li><code>/plugin-frame.html</code>：插件界面和主题脚本运行的页面。它的策略把它放进沙箱（即使在 iframe 以外打开也是如此），把它的网络访问限制在插件清单声明的主机内，并且只允许应用用框架嵌入它，所以它还会发送 <code>X-Frame-Options: SAMEORIGIN</code>：不要在这个路径上用 <code>DENY</code> 覆盖它，否则所有插件界面都会一片空白。</li>
+<li><code>/cast-receiver.html</code>：Chromecast 从 Evey 播放时加载的页面。Cast 播放器会往里面注入来自 <code>www.gstatic.com</code> 的样式、字体和图片。请在这个路径上保留应用的头，或者只对这个路径应用下面的策略：</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://www.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob: https:; worker-src 'self' blob:; font-src 'self' data: https://www.gstatic.com; connect-src 'self' https: wss:; frame-src https://www.gstatic.com; base-uri 'self'; object-src 'none'
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">到达浏览器的 CSP 头必须恰好只有一个</p>
+<p>如果有两个（应用的和您代理的，或者 Caddy 的和 Nginx Proxy Manager“Advanced”里那段配置的），浏览器会执行两者的<em>交集</em>：最严格的那个说了算，而且出错时没有任何提示。请用 <code>curl -sI https://your.domain | grep -ci content-security-policy</code> 检查，它必须输出 <code>1</code>。</p>
+</div>
+<p>每次修改后，还要再做两项检查：</p>
+<ul>
+<li><strong>策略要写在一行里。</strong> 在代理配置里把 CSP 拆成多行，是一种典型的、不会报错的损坏：拼接时会吞掉接缝处的字符（有一次 <code>...gstatic.com; connect-src</code> 变成了 <code>...gstaticonnect-src</code>，结果 Cast SDK 被禁用，两条指令也被合并了）。</li>
+<li><strong>插件框架保留它自己的策略：</strong> <code>curl -sI https://your.domain/plugin-frame.html | grep -i -e content-security -e x-frame</code> 必须显示 <code>sandbox allow-scripts</code> 和 <code>SAMEORIGIN</code>。</li>
+</ul>
+<h2 id="real-client-ips-and-the-remote-access-gate">客户端真实 IP 和远程访问关口<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
+<p>代理一旦转发客户端的真实地址，Evey 就能分辨观众是在家里还是在互联网上：<strong>最大远程码率</strong>和远程访问开关正是依据这一点起作用。有两条规则：</p>
+<ul>
+<li>受信任的代理（管理面板或 <code>EVEY_TRUSTED_PROXIES</code>）必须包含这个代理：如果代理是 Docker 网络上的容器，填 <code>172.16.0.0/12</code>；如果它运行在主机上，就什么都不用加，因为环回地址始终受信任，您设置的内容会加在它之上。</li>
+<li>多个代理串联时，每一个都必须保留 <code>X-Forwarded-For</code>。在 Caddy 里是 <code>servers { trusted_proxies static private_ranges }</code>；nginx 用 <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code>。</li>
+</ul>
+<p>开启这项功能会改变谁算作远程：一台远程访问原本关闭的服务器，会开始拒绝真正的远程客户端（<code>403 {"code":"remote_access_disabled"}</code>），尽管应用的设置一项都没改。设置了公网地址、而您又没有做过选择时，Evey 会自己开启远程访问；它在每次启动时记录当前状态，每次拒绝时记录客户端地址；<code>evey admin doctor</code> 会对“已发布但在拒绝访问”的情况报告失败。整个机制的说明见<a href="../administration/remote-access/#the-real-client-address">远程访问和 HTTPS</a>。</p>
+<!-- sources
+one port for API and UI, https mode from the scheme: internal/config/config.go (EVEY_FORWARDED_PROTO deprecated) ; internal/config/network_live.go - EffectiveHTTPS
+bundled Caddy: docker/Caddyfile (streaming matcher, @ownPolicy, header_down CSP) ; docker/Dockerfile.caddy ; docker-compose.yml caddy service
+nginx: examples/nginx/evey.conf.template ; examples/nginx/docker-compose.nginx.yml (nginx-certs volume, no ACME)
+traefik: examples/traefik/docker-compose.traefik.yml (labels + proxy network only)
+streaming paths: cmd/evey/gateway.go ; event streams ping 30 s ; scan progress stream
+csp and own-policy pages: internal/adapters/driving/http/helpers.go - securityHeadersMiddleware ; /plugin-frame.html ; /cast-receiver.html
+trusted proxies, catch-all refused, doctor: internal/config/trusted_proxies.go ; cmd/evey/admin_ops.go - checkTrustedProxies
+remote access inferred: docs/adr/0026-remote-access-inferred-from-a-published-url.md
+labels: i18n admin.remoteAccess.*
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚">
+        
+          
+          <a href="../administration/remote-access/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 远程访问和 HTTPS">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                远程访问和 HTTPS
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../administration/hardware-acceleration/" class="md-footer__link md-footer__link--next" aria-label="下一页: 硬件加速">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                硬件加速
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

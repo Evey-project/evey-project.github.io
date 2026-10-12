@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/hdr/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/hdr/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/hdr/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/hdr/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/hdr/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/hdr/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/hdr/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/hdr/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3095,11 +3157,24 @@
 
 
 <h1 id="hdr-and-dolby-vision">HDR et Dolby Vision<a class="headerlink" href="#hdr-and-dolby-vision" title="Permanent link">¶</a></h1>
-<p>À quoi ressemble un titre HDR ou Dolby Vision sur votre écran, et pourquoi :
-l'image d'origine, un réencodage qui conserve le HDR, ou une conversion en
-SDR. Pour les spectateurs qui se demandent pourquoi un film n'a pas le même
-rendu d'un appareil à l'autre, et pour les admins qui dimensionnent un
-serveur. Les règles générales de lecture sont dans
+<p><strong>En bref :</strong></p>
+<ul>
+<li>Le <strong>HDR</strong> est une image avec des zones claires plus lumineuses et des
+  couleurs plus riches que l'image habituelle (appelée <strong>SDR</strong>). Dolby Vision
+  est une sorte de HDR. Le HDR demande un écran capable de l'afficher.</li>
+<li>Sur un écran HDR avec l'application Android ou Android TV (et un appareil
+  qui décode le HEVC), vous avez l'image HDR d'origine, tant que rien d'autre
+  n'oblige à convertir.</li>
+<li>Dans un navigateur web, et sur tout écran qui n'est pas HDR, le serveur
+  convertit l'image en SDR. C'est voulu : du HDR affiché sur un écran SDR
+  paraît gris et délavé.</li>
+<li>Convertir du HDR en SDR est le travail le plus lourd que puisse faire le
+  processeur. Une carte graphique aide : voir
+  <a href="../../administration/hardware-acceleration/">Accélération matérielle</a>.</li>
+</ul>
+<p>Le reste de cette page explique chaque cas : l'image d'origine, un
+réencodage qui garde le HDR, ou une conversion en SDR. Les règles générales
+de lecture sont dans
 <a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</p>
 <h2 id="what-you-will-see-by-device">Ce que vous verrez, selon l'appareil<a class="headerlink" href="#what-you-will-see-by-device" title="Permanent link">¶</a></h2>
 <table>
@@ -3209,7 +3284,7 @@ de base qui s'affiche correctement sans aucun décodage Dolby Vision :</p>
 tone mapping ou le HDR conservé. Toutes les routes qui font du tone mapping
 l'y signalent, à une exception près : quand la carte graphique est saturée au
 moment où un flux démarre, le flux passe sur le processeur après le calcul
-des Infos du flux. <strong>Admin → En cours de lecture</strong> indique le backend
+des Infos du flux. <strong>Administration → En cours de lecture</strong> indique le backend
 réellement utilisé.</p>
 
 

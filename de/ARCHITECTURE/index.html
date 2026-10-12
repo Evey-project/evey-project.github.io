@@ -1,0 +1,4248 @@
+<!DOCTYPE html><html lang="de" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted media server - documentation">
+      
+      
+      
+        <link rel="canonical" href="https://eveyproject.org/de/ARCHITECTURE/">
+      
+      
+        <link rel="prev" href="../design-principles/">
+      
+      
+        <link rel="next" href="../playback-serving/">
+      
+      
+        
+          <link rel="alternate" href="../../ARCHITECTURE/" hreflang="en">
+        
+          <link rel="alternate" href="../../fr/ARCHITECTURE/" hreflang="fr">
+        
+          <link rel="alternate" href="./" hreflang="de">
+        
+          <link rel="alternate" href="../../es/ARCHITECTURE/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/ARCHITECTURE/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/ARCHITECTURE/" hreflang="zh">
+        
+      
+      
+      <link rel="icon" href="../../assets/brand/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Architektur - Evey</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+  <style>
+    .md-typeset .mermaid { cursor: zoom-in; }
+    .evey-zoom {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--md-default-bg-color);
+      background: color-mix(in srgb, var(--md-default-bg-color) 94%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; touch-action: none; cursor: grab;
+    }
+    .evey-zoom[data-dragging] { cursor: grabbing; }
+    .evey-zoom .mermaid {
+      cursor: inherit; margin: 0; transform-origin: 0 0; will-change: transform;
+      position: absolute; left: 0; top: 0;
+    }
+    .evey-zoom__bar {
+      position: absolute; top: .75rem; right: .75rem; display: flex; gap: .25rem; z-index: 1;
+    }
+    .evey-zoom__bar button {
+      width: 2.25rem; height: 2.25rem; border: 0; border-radius: .25rem; cursor: pointer;
+      font: 600 1.1rem/1 var(--md-text-font-family, sans-serif);
+      background: var(--md-default-fg-color--lightest); color: var(--md-default-fg-color);
+    }
+    .evey-zoom__bar button:hover { background: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+    .evey-zoom__hint {
+      position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%);
+      font-size: .7rem; color: var(--md-default-fg-color--light); pointer-events: none;
+    }
+  </style>
+
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architecture" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../" title="Evey" class="md-header__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Evey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architektur
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Sprache wechseln">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"></path></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../ARCHITECTURE/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/ARCHITECTURE/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/ARCHITECTURE/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/ARCHITECTURE/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/ARCHITECTURE/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Teilen" aria-label="Teilen" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Evey-project/evey" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Startseite
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Erste Schritte
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../administration/libraries/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Verwaltung
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../playback/how-playback-is-decided/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Wiedergabe
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../operations/troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Betrieb
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../plugins/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Plugins und API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-principles/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Interna
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Evey" class="md-nav__button md-logo" aria-label="Evey" data-md-component="logo">
+      
+  <img src="../../assets/brand/wordmark.svg" alt="logo">
+
+    </a>
+    Evey
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Evey-project/evey" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Evey-project/evey
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Startseite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Erste Schritte
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Erste Schritte
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/first-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ersteinrichtung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps verbinden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mit Evey schauen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datenschutzerklärung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verwaltung
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Verwaltung
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bibliotheken und Metadaten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benutzer, Profile und Kindersicherung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fernzugriff und HTTPS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fernzugriff und HTTPS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fernzugriff und HTTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-proxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reverse-Proxy-Konfigurationen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../administration/hardware-acceleration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardwarebeschleunigung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Single Sign-on (OIDC)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E-Mail und Benachrichtigungen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sicherungen und Updates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiedergabe
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Wiedergabe
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/how-playback-is-decided/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wie Evey die Wiedergabeart wählt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transkodierung und Serverkapazität
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/mkvgo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MKVGo in Evey
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/hdr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDR und Dolby Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/subtitles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Untertitel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/casting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streamen auf Chromecast
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback/watching-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zusammen schauen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Betrieb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Betrieb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fehlerbehebung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Überwachung und Protokolle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/background-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hintergrundaufgaben und Serverlast
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/media-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medienzustand
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kommandozeile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiederherstellung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/migration-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datenbankmigrationen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/incident-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Störungshandbuch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9">
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Erweiterte Bereitstellungen
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Erweiterte Bereitstellungen
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/advanced-deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Erweiterte Bereitstellungen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment-bare-metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ohne Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/sandbox-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin-Sandbox einrichten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10">
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Umgebungsvariablen
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Umgebungsvariablen
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Konfigurationsreferenz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server und Netzwerk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/database-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datenbank und Suche
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Konten und Anmeldung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bibliotheken und Metadaten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/transcoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transkodierung und Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/playback-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auslieferung und Downloads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hintergrundaufgaben
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins und Sandbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E-Mail und Benachrichtigungen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/logs-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sicherungen, Protokolle und Überwachung
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins und API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plugins und API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ein Plugin schreiben
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin-API-Referenz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Berechtigungen und Slots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../themes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Themes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Webhooks und API-Schlüssel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server-API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Server-API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/public/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Öffentliche API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin-API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin-API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interna
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Interna
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gestaltungsprinzipien
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architektur
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architektur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#layering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schichtung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounded-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abgegrenzte Kontexte
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Abgegrenzte Kontexte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beziehungen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-data-flow---user-plays-a-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typischer Datenfluss - „ein Benutzer spielt ein Medium ab“
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architekturwächter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c4-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4-Diagramme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C4-Diagramme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level-1---system-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 1 - Systemkontext
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-2---container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 2 - Container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3---component-zoom-on-evey-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 3 - Komponenten (Zoom auf evey-server)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3-bonus---component-zoom-on-the-scan-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weiterführende Lektüre
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playback-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wiedergabekette
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sicherheitsmodell und Plugin-Sandbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i18n-accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprachen und Barrierefreiheit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mitwirken
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#layering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schichtung
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounded-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abgegrenzte Kontexte
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Abgegrenzte Kontexte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beziehungen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-data-flow---user-plays-a-media" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typischer Datenfluss - „ein Benutzer spielt ein Medium ab“
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-guards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architekturwächter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c4-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4-Diagramme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C4-Diagramme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level-1---system-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 1 - Systemkontext
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-2---container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 2 - Container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3---component-zoom-on-evey-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 3 - Komponenten (Zoom auf evey-server)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3-bonus---component-zoom-on-the-scan-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weiterführende Lektüre
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <a href="https://github.com/Evey-project/evey/edit/master/wiki/translations/de/ARCHITECTURE.md" title="Seite editieren" class="md-content__button md-icon" rel="edit">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+  </a>
+
+
+<h1 id="architecture">Architektur<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
+<p>Wie der Server aufgebaut ist: die hexagonale Schichtung unter <code>internal/</code>,
+die abgegrenzten Kontexte, die Ereignisse, die sie verbinden, und die
+statischen Wächter, die den Code auf diesen Schienen halten. Der Code liegt
+in <code>internal/domain</code>, <code>internal/app</code>, <code>internal/adapters/{driving,driven}</code>
+und wird in <code>cmd/evey/wire*.go</code> verdrahtet. Die Struktur ist durch
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a> festgelegt, die Aufteilung
+der Repositorys durch <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a> und der
+Ereignisbus durch <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>. Wie man baut und
+startet, steht in <a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a>; welche Dateien Sie für eine bestimmte
+Änderung anfassen, steht in der <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Karte der Codebasis</a>.</p>
+<p>Das Backend ist in Go geschrieben. Die Clients für Web, Handy und Fernseher
+sind ein TypeScript/React-Monorepo unter <code>frontend/</code> (React Native / Expo für
+Handy und Fernseher).</p>
+<h2 id="layering">Schichtung<a class="headerlink" href="#layering" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    driving[Treibende Adapter&lt;br/&gt;internal/adapters/driving&lt;br/&gt;grpcapi, http, pluginhost]
+    app[Anwendungsdienste&lt;br/&gt;internal/app/context]
+    domain[Domäne&lt;br/&gt;internal/domain/context&lt;br/&gt;Modelle, Wertobjekte, Ports]
+    driven[Getriebene Adapter&lt;br/&gt;internal/adapters/driven&lt;br/&gt;postgres, ffmpeg, mkvgo, ...]
+    driving --&gt; app --&gt; domain
+    driven -. setzen die Ports um .-&gt; domain</code></pre>
+<table>
+<thead>
+<tr>
+<th>Verzeichnis</th>
+<th>Enthält</th>
+<th>Regel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>internal/domain/&lt;context&gt;/</code></td>
+<td>Modelle, Wertobjekte und die <strong>Ports</strong> (Schnittstellen)</td>
+<td>kein Import eines Frameworks, kein Import eines anderen Kontexts</td>
+</tr>
+<tr>
+<td><code>internal/app/&lt;context&gt;/</code></td>
+<td>Anwendungsdienste, die die Ports steuern</td>
+<td>Ein- und Ausgabe läuft über einen Port; <code>dlna</code> (SSDP / UPnP AVTransport) und <code>loadtest</code> (eigener HTTP-Client) sind die zwei bewussten Ausnahmen, die direkt ins Netz gehen</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driven/</code></td>
+<td>ausgehende Adapter, die die Ports umsetzen: <code>postgres</code>, <code>meilisearch</code>, <code>ffmpeg</code>, <code>mkvgo</code>, <code>filesystem</code>, <code>prober</code>, <code>opensubtitles</code>, <code>email</code>, <code>webpush</code>, <code>webhooksender</code>, <code>pluginrunner</code>, <code>metadata</code>, <code>introproviders</code>, <code>search</code></td>
+<td>drei weitere erfüllen eine Schnittstelle der App-Schicht statt eines Domänen-Ports: <code>itunes</code> und <code>musicbrainz</code> (<code>app/music.AlbumArtFetcher</code>), <code>ociregistry</code> (<code>app/updatecheck</code>)</td>
+</tr>
+<tr>
+<td><code>internal/adapters/driving/</code></td>
+<td>eingehende Adapter: <code>grpcapi</code> (+ grpc-gateway HTTP), <code>http</code> (statische Dateien, Auth-Middleware, SSE, HLS, Dateien der Plugin-iframes), <code>pluginhost</code> (gRPC-Server auf einem Unix-Socket, authentifiziert über die Anmeldedaten der Gegenseite, die Host-API, die Plugins aus der Sandbox zurückrufen)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/pkg/</code></td>
+<td>der gemeinsame technische Kern: auth, logger, eventbus, i18n, metrics, tracing, ratelimit, procfork, ssrf, cache, ...</td>
+<td></td>
+</tr>
+<tr>
+<td><code>internal/config/</code></td>
+<td>Serverkonfiguration</td>
+<td></td>
+</tr>
+<tr>
+<td><code>gen/</code></td>
+<td>erzeugter Proto-Code</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Abhängigkeitsregel: <code>adapters -&gt; app -&gt; domain</code>. Die Domäne importiert nie
+die App oder die Adapter. Die Zusammensetzung ist von Hand geschrieben
+(nicht google/wire), in <code>cmd/evey/wire.go</code> und seinen Geschwistern
+<code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>,
+<code>wire_helpers.go</code>. Tests umgehen die Adapter, indem sie Attrappen
+einsetzen, die dieselben Domänen-Ports umsetzen: 20 der 21 Domänenpakete
+bringen ein Unterpaket <code>fakes/</code> mit.</p>
+<h2 id="bounded-contexts">Abgegrenzte Kontexte<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
+<p>Zweiunddreißig Kontextpakete liegen unter <code>internal/domain/</code> und
+<code>internal/app/</code>: 19 gibt es in beiden Schichten, 2 nur in der Domäne
+(<code>ratings</code>, <code>shared</code>), 11 nur in der App. Sie arbeiten teils über
+Domänenereignisse auf einem gemeinsamen Bus zusammen; die App-Schicht liest
+außerdem direkt das Domänenpaket eines benachbarten Kontexts (siehe
+<a href="#relations">Beziehungen</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Kontext</th>
+<th>Zuständigkeit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user</code></td>
+<td>Konten, Authentifizierung, Sitzungen, Einstellungen</td>
+</tr>
+<tr>
+<td><code>library</code></td>
+<td>Bibliotheken, Ordner, Scan-Aufträge, Medienindex, Personen, Sammlungen, Favoriten und Daumen eines Profils (Daumen haben keinen App-Dienst: Der Bewertungs-RPC speichert und liest <code>UserRatingRepository</code> direkt), Trickplay, Erkennung von Intro und Abspann</td>
+</tr>
+<tr>
+<td><code>media</code> (nur App)</td>
+<td>Freigabelinks und Stream-Tokens</td>
+</tr>
+<tr>
+<td><code>mediarequest</code></td>
+<td>von Benutzern eingereichte Medienanfragen</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>Anreicherung über TMDB / OMDb, Artwork</td>
+</tr>
+<tr>
+<td><code>playback</code></td>
+<td>Streams, Fortschritt, Fernsteuerung, laufende Wiedergaben</td>
+</tr>
+<tr>
+<td><code>transcoding</code></td>
+<td>ffmpeg-Aufträge, HLS-Segmente</td>
+</tr>
+<tr>
+<td><code>subtitle</code></td>
+<td>eingebettet + extern + opensubtitles</td>
+</tr>
+<tr>
+<td><code>mkv</code></td>
+<td>Operationen am MKV-Container (über <a href="../playback/mkvgo/">mkvgo</a>)</td>
+</tr>
+<tr>
+<td><code>music</code></td>
+<td>audiospezifische Wiedergabe + Tags</td>
+</tr>
+<tr>
+<td><code>photo</code></td>
+<td>Fotobibliotheken</td>
+</tr>
+<tr>
+<td><code>favorite</code> (nur App)</td>
+<td>Favoriten pro Profil; das Modell und <code>FavoriteRepository</code> liegen in <code>domain/library</code></td>
+</tr>
+<tr>
+<td><code>playlist</code></td>
+<td>Playlists der Benutzer, intelligente Playlists</td>
+</tr>
+<tr>
+<td><code>collection</code> (nur App)</td>
+<td>von Administratoren gepflegte Sammlungen; ihre Ports liegen in <code>domain/library</code></td>
+</tr>
+<tr>
+<td><code>ratings</code> (nur Domäne)</td>
+<td>bildet die Altersfreigaben der Länder (CSA, FSK, MPAA, BBFC, ACB) auf eine einzige Achse des Mindestalters ab</td>
+</tr>
+<tr>
+<td><code>feed</code></td>
+<td>Aktivitätsfeed / Entdecken</td>
+</tr>
+<tr>
+<td><code>activity</code></td>
+<td>Zeitleiste der Benutzeraktivität</td>
+</tr>
+<tr>
+<td><code>chromecast</code></td>
+<td>Lebenszyklus einer Cast-Sitzung</td>
+</tr>
+<tr>
+<td><code>syncplay</code></td>
+<td>Synchronisierte Sitzungen über mehrere Geräte</td>
+</tr>
+<tr>
+<td><code>plugin</code></td>
+<td>Plugin-Verzeichnis, Sandbox-Tokens, Lebenszyklus</td>
+</tr>
+<tr>
+<td><code>notification</code></td>
+<td>Benachrichtigungen in der App + Web-Push</td>
+</tr>
+<tr>
+<td><code>webhook</code></td>
+<td>ausgehende Webhooks</td>
+</tr>
+<tr>
+<td><code>backup</code></td>
+<td>Sicherung/Wiederherstellung von Datenbank + Konfiguration</td>
+</tr>
+<tr>
+<td><code>config</code> (nur App)</td>
+<td>gespeicherte Servereinstellungen, geschrieben von den Einstiegspunkten REST und gRPC</td>
+</tr>
+<tr>
+<td><code>dlna</code> (nur App)</td>
+<td>SSDP-Erkennung und UPnP-AVTransport-Steuerung</td>
+</tr>
+<tr>
+<td><code>loadtest</code> (nur App)</td>
+<td>simuliert Zuschauer gegen den eigenen HTTP-Stack des Servers: HLS, oder die rohe Datei, wenn das Urteil für einen Client Direktwiedergabe lautet</td>
+</tr>
+<tr>
+<td><code>maintenance</code> (nur App)</td>
+<td>Medienwartung auf Anstoß des Administrators: Neuaufbau des Seek-Index, Reparaturjournal, Rückgängig, Prüfung der Tonspuren</td>
+</tr>
+<tr>
+<td><code>presence</code> (nur App)</td>
+<td>nicht gespeichertes Verzeichnis im Arbeitsspeicher, wer gerade verbunden ist</td>
+</tr>
+<tr>
+<td><code>qoe</code> (nur App)</td>
+<td>Empfang und Zusammenfassung der Wiedergabe-Telemetrie CMCD (CTA-5004)</td>
+</tr>
+<tr>
+<td><code>demo</code> (nur App)</td>
+<td>die öffentliche Demo-Instanz (<code>EVEY_DEMO=1</code>): legt ihre Konten, Bibliotheken und frei lizenzierten Medien über die eigenen Dienste des Produkts an und setzt sich selbst zurück</td>
+</tr>
+<tr>
+<td><code>updatecheck</code> (nur App)</td>
+<td>vergleicht den laufenden Build mit dem, was die Registry veröffentlicht, und sagt es dem Administrator; er aktualisiert nie etwas</td>
+</tr>
+<tr>
+<td><code>shared</code> (nur Domäne)</td>
+<td>übergreifende Ports (<code>EventBus</code>, <code>TransactionalUnit</code>, <code>ServerConfigRepository</code>, <code>ShareLinkRepository</code>), typisierte IDs, Cursor, Stream-Tokens</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relations">Beziehungen<a class="headerlink" href="#relations" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sender</th>
+<th>Ereignisse</th>
+<th>Empfangen von</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>library</code></td>
+<td><code>LibraryCreated</code> / <code>LibraryDeleted</code>, <code>LibraryScanStarted</code> / <code>LibraryScanCompleted</code>, <code>MediaItemAdded</code>, <code>MediaItemRemoved</code>, <code>TrickplayGenerated</code></td>
+<td><code>media.item.added</code>: <code>notification</code>, <code>metadata</code> (automatische Anreicherung), <code>library</code> selbst (Trickplay-Worker + Intro-Erkennung), <code>feed</code> (Genre-Cache verwerfen)</td>
+</tr>
+<tr>
+<td><code>playback</code></td>
+<td><code>PlaybackStarted</code> / <code>PlaybackStopped</code></td>
+<td>heute kein eigener Abonnent; nur das <code>"*"</code>-Sammelabo von <code>webhook</code> empfängt sie</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td><code>UserCreated</code>, <code>user.password.reset_requested</code></td>
+<td>das erste hat keinen Abonnenten; das zweite empfängt der getriebene Adapter <code>email</code></td>
+</tr>
+<tr>
+<td><code>pluginrunner</code></td>
+<td><code>plugin.error</code> / <code>plugin.started</code></td>
+<td><code>app/plugin</code> für sein Sicherheits-Dashboard, <code>notification</code> für den Administrator</td>
+</tr>
+<tr>
+<td><code>shared</code></td>
+<td><code>ServerConfigChanged</code></td>
+<td>die Dienste, die eine im Verwaltungsbereich gespeicherte Einstellung ohne Neustart anwenden (SMTP, Zeitzone, CPU-Budget, ...)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Die Suchindexierung ist <strong>nicht</strong> ereignisgesteuert: <code>library.ScanService</code>
+  ruft den Port <code>library.SearchIndex</code> direkt auf.</li>
+<li>Es gibt keine Brücke, die Domänenereignisse an Plugins weitergibt: Plugins
+  erreichen die API mit JWTs mit begrenzten Bereichen
+  (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>). Der Bus selbst ist
+  <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>.</li>
+<li><code>shared.TransactionalUnit</code> umschließt Schreibvorgänge über mehrere
+  Aggregate (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0002-transactional-unit-port.md">ADR-0002</a>).</li>
+</ul>
+<p>Kein Paket unter <code>internal/domain</code> importiert das Domänenpaket eines anderen
+Kontexts. Diese Regel setzt <code>internal/contractguard/domain_imports_test.go</code>
+durch (siehe <a href="#architecture-guards">Architekturwächter</a>). Die App-Schicht
+ist nicht daran gebunden: 15 App-Pakete importieren heute das Domänenpaket
+eines benachbarten Kontexts.</p>
+<h2 id="typical-data-flow---user-plays-a-media">Typischer Datenfluss - „ein Benutzer spielt ein Medium ab“<a class="headerlink" href="#typical-data-flow---user-plays-a-media" title="Permanent link">¶</a></h2>
+<ol>
+<li>Der Client (Handy/Web) ruft <code>POST /api/v1/playback/start</code> auf (Route von grpc-gateway).</li>
+<li><code>internal/adapters/driving/http</code> führt seine Auth-Middleware aus (<code>auth_middleware.go</code>, <code>httpAuthMiddleware</code>) und liest die Sitzung aus.</li>
+<li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) prüft das Proto und ruft <code>app/playback.CommandService.StartStream</code> auf (Trennung von Befehlen und Abfragen, siehe <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a>).</li>
+<li><code>app/playback.CommandService</code> ruft Domänen-Ports auf: <code>user.UserRepository</code>, <code>playback.SessionQueryRepo</code> (Idempotenz + Gerätelimit), <code>playback.SessionCommandRepo</code>, dann <code>shared.EventBus.Publish(PlaybackStarted)</code>.</li>
+<li>Die getriebenen Adapter führen aus: <code>postgres</code> speichert die Sitzung innerhalb eines Bereichs <code>shared.TransactionalUnit.Do</code>; der Bus im Prozess (<code>internal/pkg/eventbus</code>) verteilt asynchron.</li>
+<li><code>PlaybackStarted</code> hat heute keinen eigenen Abonnenten: Nur das <code>"*"</code>-Sammelabo von <code>webhook</code> empfängt es.</li>
+<li>Die Antwort fließt als JSON durch grpc-gateway zurück; Fortschrittsmeldungen laufen über SSE / gRPC-Streams.</li>
+</ol>
+<p>Was passiert, sobald der Player nach dem Manifest und den Segmenten fragt,
+beschreibt <a href="../playback-serving/">Ein Video ausliefern - der HLS-Wiedergabeweg</a>.</p>
+<h2 id="architecture-guards">Architekturwächter<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
+<p>Die Regeln oben stehen nicht nur in der Dokumentation.
+<code>internal/contractguard/</code> enthält 58 statische Tests in 30 Dateien, die den
+Build scheitern lassen, wenn sich die Codebasis von ihnen entfernt.</p>
+<p>Die hexagonale Regel selbst ist <code>TestDomainContextsDoNotImportEachOther</code>
+(ADR-0001), in <code>domain_imports_test.go</code>. Er durchläuft <code>internal/domain</code> und
+setzt genau das durch: Ein Kontext darf <code>internal/domain/shared</code> und seinen
+eigenen Paketbaum importieren, sonst nichts aus <code>internal/domain</code>, und nie
+<code>internal/app</code> oder <code>internal/adapters</code>. Sein Bereich endet bei
+<code>internal/domain</code>: Über die App-Schicht sagt er nichts.</p>
+<p>Die übrigen schützen Verträge, die eine Sprach- oder Prozessgrenze
+überqueren, darunter:</p>
+<table>
+<thead>
+<tr>
+<th>Wächter</th>
+<th>Was er ablehnt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TestNoClientReadOfAFieldTheServerNeverWrites</code></td>
+<td>ein Feld einer Proto-Antwort, das ein Client liest, aber kein Servercode schreibt</td>
+</tr>
+<tr>
+<td><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code>, <code>TestBootInstallsItsSilentWirings</code></td>
+<td>Verdrahtung, die sonst stillschweigend scheitern würde</td>
+</tr>
+<tr>
+<td><code>TestPostgresRepositoriesBoundTheirQueries</code></td>
+<td>eine Abfrage eines Postgres-Repositorys ohne Zeitlimit</td>
+</tr>
+<tr>
+<td><code>TestProcfork_EveryForkGoesThroughCommand</code></td>
+<td>ein Start eines Unterprozesses an <code>internal/pkg/procfork</code> vorbei</td>
+</tr>
+<tr>
+<td><code>TestEverySortFieldTheAPIAcceptsHasASQLColumn</code>, <code>...CanBuildACursorValue</code></td>
+<td>ein Sortierfeld, das in der Zuordnung zu SQL-Spalten oder im Cursor-Kodierer fehlt</td>
+</tr>
+<tr>
+<td><code>TestEveryWebSurfaceReachingAnAdminRPCIsClassified</code>, plus sein natives Gegenstück für Handy und Fernseher</td>
+<td>eine Oberfläche, die einen RPC nur für Administratoren aufruft, ohne festzulegen, wer sie sieht</td>
+</tr>
+<tr>
+<td><code>TestEveryAllowedSlotIsMountedOnWebAndMobile</code>, <code>TestPluginBridgeParityWebMobile</code></td>
+<td>ein Slot für Plugin-Oberflächen oder eine Nachricht der Brücke, die es nur auf einem Client gibt</td>
+</tr>
+<tr>
+<td><code>TestImageSubtitleCodecsAgreeAcrossServerAndClients</code></td>
+<td>eine zweite Liste von Codecs für Bilduntertitel in einem Player</td>
+</tr>
+<tr>
+<td><code>TestHandWrittenClientTypesMatchTheEndpointTheyCall</code></td>
+<td>ein von Hand geschriebener Antworttyp für Handy/TV, der von seinem Endpunkt abweicht</td>
+</tr>
+<tr>
+<td><code>TestOnlyThePlanDecidesPlayback</code>, <code>TestNoCallerDerivesDownstreamOfThePlaybackPlan</code></td>
+<td>eine Wiedergabeentscheidung außerhalb des Plan-Resolvers (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>)</td>
+</tr>
+<tr>
+<td><code>TestRestartExitCodeAgreesWithTheEntrypoint</code></td>
+<td>ein Exit-Code in Go und <code>docker/entrypoint.sh</code>, die sich uneinig sind, was ein Neustart bedeutet</td>
+</tr>
+<tr>
+<td><code>TestServerEmittedI18nKeysExistInCatalogue</code>, <code>TestI18nPlaceholdersAgreeAcrossLocales</code></td>
+<td>ein vom Server gesendeter Schlüssel, der im Katalog fehlt, Platzhalter, die sich zwischen Sprachen unterscheiden</td>
+</tr>
+</tbody>
+</table>
+<h2 id="c4-diagrams">C4-Diagramme<a class="headerlink" href="#c4-diagrams" title="Permanent link">¶</a></h2>
+<p>Vier Diagramme beschreiben Evey in abnehmender Zoomstufe nach dem
+<a href="https://c4model.com/">C4-Modell</a>. Die Knotennamen sind die echten
+Go-Paketnamen unter <code>internal/</code>. Die Containernamen stammen aus
+<code>docker-compose.yml</code> für <code>evey-server</code>, <code>evey-postgres</code> und <code>evey-caddy</code>;
+<code>evey-web</code>, <code>evey-meilisearch</code>, <code>evey-mobile</code> und <code>evey-mailcatcher</code> sind in
+<code>docker-compose.override.yml</code> angegeben und gibt es nur in der
+Entwicklungsumgebung.</p>
+<h3 id="level-1---system-context">Ebene 1 - Systemkontext<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
+<p>Wer mit Evey spricht und welche Drittanbieter Evey erreicht.</p>
+<pre class="mermaid"><code>flowchart LR
+    user[Benutzer&lt;br/&gt;Client für Web / Handy / TV]
+    admin[Administrator&lt;br/&gt;Web-Oberfläche /admin]
+    oidc[OIDC-Identitätsanbieter&lt;br/&gt;optionales SSO]
+    tmdb[TMDB API&lt;br/&gt;Metadaten zu Filmen/Serien]
+    omdb[OMDb API&lt;br/&gt;Ersatz-Metadaten + Bewertungen]
+    imdb[IMDbAPI / TVmaze&lt;br/&gt;Ersatz-Metadaten zu Serien]
+    art[MusicBrainz / iTunes Search&lt;br/&gt;Albumcover]
+    introdb[IntroDB / TIDB&lt;br/&gt;Zeitmarken für Intro + Abspann]
+    opensubs[OpenSubtitles&lt;br/&gt;Untertitelsuche]
+    webpush[Web-Push-Gateway&lt;br/&gt;FCM / APNs / VAPID]
+    registry[OCI-Registry&lt;br/&gt;veröffentlichte Image-Tags]
+
+    subgraph evey[Evey Media Server]
+        core((Selbst gehostete Medienplattform&lt;br/&gt;Bibliothek, Wiedergabe, Transkodierung,&lt;br/&gt;Musik, Fotos, Plugins))
+    end
+
+    user --&gt;|HTTPS&lt;br/&gt;HLS / SSE / gRPC-Web| evey
+    admin --&gt;|HTTPS&lt;br/&gt;/admin| evey
+    evey -.-&gt;|OIDC code flow| oidc
+    evey -.-&gt;|HTTPS Metadatenabruf| tmdb
+    evey -.-&gt;|HTTPS Metadatenabruf| omdb
+    evey -.-&gt;|HTTPS Metadatenabruf| imdb
+    evey -.-&gt;|HTTPS Artworkabruf| art
+    evey -.-&gt;|HTTPS Intro-Abfrage| introdb
+    evey -.-&gt;|HTTPS Untertitelabruf| opensubs
+    evey -.-&gt;|HTTPS Push-Zustellung| webpush
+    evey -.-&gt;|HTTPS Update-Prüfung| registry</code></pre>
+<h3 id="level-2---container">Ebene 2 - Container<a class="headerlink" href="#level-2---container" title="Permanent link">¶</a></h3>
+<p>Die bereitstellbaren Einheiten, die <code>docker compose --env-file .env.dev up</code>
+startet. Durchgezogene Pfeile sind Datenverkehr zur Laufzeit; gestrichelte
+Pfeile gehen nach außen zu Drittanbietern.</p>
+<pre class="mermaid"><code>flowchart TB
+    user([Browser / Handy des Benutzers])
+    admin([Browser des Administrators])
+
+    subgraph compose[Docker-Compose-Netz]
+        caddy[evey-caddy&lt;br/&gt;Caddy 2.9&lt;br/&gt;:80 / :443&lt;br/&gt;TLS, Reverse-Proxy]
+        web[evey-web&lt;br/&gt;Vite dev / nginx prod&lt;br/&gt;:5173 dev&lt;br/&gt;React SPA + RN web]
+        server[evey-server&lt;br/&gt;Go-Binärdatei&lt;br/&gt;:9091 HTTP+gRPC-gateway&lt;br/&gt;intern :9090 gRPC]
+        pg[(evey-postgres&lt;br/&gt;PostgreSQL 16&lt;br/&gt;:5432)]
+        meili[(evey-meilisearch&lt;br/&gt;Meilisearch 1.12&lt;br/&gt;:7700)]
+        mobile[evey-mobile&lt;br/&gt;nur dev&lt;br/&gt;:8081 Expo / Metro bundler]
+        mail[evey-mailcatcher&lt;br/&gt;nur dev&lt;br/&gt;:1025 SMTP / :1080 UI]
+    end
+
+    tmdb[[TMDB / OMDb / OpenSubtitles]]
+    fs[(/media-Volumes&lt;br/&gt;schreibgeschützte Bind-Mounts)]
+    cache[(Volume evey-cache&lt;br/&gt;Transkodierung + Trickplay)]
+    data[(Volume evey-data&lt;br/&gt;Schlüssel, Protokolle, Sicherungen,&lt;br/&gt;Plugins, Avatare)]
+
+    user --&gt;|HTTPS| caddy
+    admin --&gt;|HTTPS /admin| caddy
+    caddy --&gt;|HTTP /| web
+    caddy --&gt;|HTTP /v1, /api, SSE, HLS| server
+    web --&gt;|gRPC-Web über /v1| server
+    user -.-&gt;|Metro-Dev-Bundle| mobile
+
+    server --&gt;|SQL/TCP 5432| pg
+    server --&gt;|HTTP 7700&lt;br/&gt;Indexierung + Suche| meili
+    server -.-&gt;|SMTP 1025 dev| mail
+    server -.-&gt;|HTTPS| tmdb
+    server --&gt;|FS lesen| fs
+    server --&gt;|FS lesen/schreiben| cache
+    server --&gt;|FS lesen/schreiben| data</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Die Produktion weicht von dieser Entwicklungsumgebung ab</p>
+<p>Die Compose-Datei der Installation gibt einen einzigen Dienst an,
+<code>evey</code>. Es gibt keinen eigenen Container <code>evey-web</code> (und weder den
+Mailcatcher noch den Metro-Bundler, die es nur in der Entwicklung
+gibt): Die Binärdatei liefert die gebaute Weboberfläche aus <code>/srv</code> aus,
+ein Reverse-Proxy leitet also <em>alles</em>, Oberfläche und API, an sie auf
+<code>:9091</code> weiter. Postgres und Meilisearch laufen im selben Container,
+überwacht von <code>docker/entrypoint.sh</code>: PostgreSQL 17 mit seinen Daten
+unter <code>/data/postgres</code> und die Meilisearch-Binärdatei (<code>Dockerfile</code>,
+Stufe <code>meili-download</code>, auf 1.12.8 festgelegt) mit ihrem Index unter
+<code>/data/meili</code>. Die eigene <code>docker-compose.yml</code> des Repositorys behält
+getrennte Dienste <code>postgres</code> und <code>caddy</code>, beschrieben unter
+<a href="../operations/advanced-deployments/">Erweiterte Bereitstellungen</a>.
+Siehe <a href="../installation/">Installation</a> und
+<a href="../reverse-proxy/">Reverse-Proxy-Konfigurationen</a>.</p>
+</div>
+<h3 id="level-3---component-zoom-on-evey-server">Ebene 3 - Komponenten (Zoom auf <code>evey-server</code>)<a class="headerlink" href="#level-3---component-zoom-on-evey-server" title="Permanent link">¶</a></h3>
+<p>Hexagonale Schichtung in der Go-Binärdatei. Treibende Adapter rufen
+Anwendungsdienste über deren Schnittstellen auf; Anwendungsdienste hängen
+nur von Domänen-Ports ab; getriebene Adapter setzen diese Ports um.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph driving[Treibende Adapter - eingehend]
+        grpc[grpcapi&lt;br/&gt;internal/adapters/driving/grpcapi&lt;br/&gt;Handler pro Kontext]
+        gw[grpc-gateway&lt;br/&gt;JSON/HTTP &lt;-&gt; gRPC&lt;br/&gt;aus Proto erzeugt]
+        http[http&lt;br/&gt;internal/adapters/driving/http&lt;br/&gt;statisch, SSE, HLS,&lt;br/&gt;auth_middleware.go]
+        plug[pluginhost&lt;br/&gt;internal/adapters/driving/pluginhost&lt;br/&gt;gRPC über Unix-Socket&lt;br/&gt;Auth über Peer-Credentials]
+    end
+
+    subgraph app[Anwendungsschicht - internal/app]
+        direction TB
+        a_lib[library]
+        a_med[media]
+        a_meta[metadata]
+        a_play[playback]
+        a_trans[transcoding]
+        a_sub[subtitle]
+        a_mkv[mkv]
+        a_music[music]
+        a_photo[photo]
+        a_user[user]
+        a_upd[updatecheck]
+        a_misc[favorite, playlist, collection,&lt;br/&gt;feed, activity,&lt;br/&gt;chromecast, syncplay,&lt;br/&gt;plugin, notification, webhook,&lt;br/&gt;backup, dlna, config, mediarequest,&lt;br/&gt;maintenance, presence, qoe, loadtest,&lt;br/&gt;demo]
+    end
+
+    subgraph domain[Domänenkern - internal/domain]
+        d_models[Aggregate + Wertobjekte&lt;br/&gt;pro abgegrenztem Kontext]
+        d_ports[Ausgehende Ports&lt;br/&gt;Repos - Befehle/Abfragen getrennt,&lt;br/&gt;EventBus, TransactionalUnit,&lt;br/&gt;ServerConfigRepository]
+    end
+
+    subgraph driven[Getriebene Adapter - ausgehend]
+        pgad[postgres&lt;br/&gt;Repos + Migrationen&lt;br/&gt;shared.TransactionalUnit]
+        meiad[meilisearch&lt;br/&gt;Suchindex]
+        fsad[filesystem&lt;br/&gt;Scanner, Parser, Watcher]
+        ffad[ffmpeg&lt;br/&gt;Transcoder, Trickplay]
+        mkvad[mkvgo&lt;br/&gt;MKV-Operationen]
+        metaad[metadata&lt;br/&gt;Clients für TMDB, OMDb,&lt;br/&gt;IMDbAPI, TVmaze]
+        introad[introproviders&lt;br/&gt;Kette IntroDB + TIDB]
+        itunad[itunes&lt;br/&gt;Albumcover]
+        mbad[musicbrainz&lt;br/&gt;Albumcover]
+        ociad[ociregistry&lt;br/&gt;veröffentlichte Tags]
+        probead[prober&lt;br/&gt;schneller Weg mkvgo,&lt;br/&gt;Rückfall ffprobe]
+        searchad[search&lt;br/&gt;robuste Fassade über meili]
+        osad[opensubtitles]
+        emad[email]
+        wpad[webpush]
+        whad[webhooksender]
+        prad[pluginrunner]
+    end
+
+    grpc --&gt; app
+    gw --&gt; grpc
+    http --&gt; app
+    plug --&gt; app
+
+    app --&gt; d_ports
+    app --&gt; d_models
+    d_ports -.setzt um.- pgad
+    d_ports -.setzt um.- meiad
+    d_ports -.setzt um.- fsad
+    d_ports -.setzt um.- ffad
+    d_ports -.setzt um.- mkvad
+    d_ports -.setzt um.- metaad
+    d_ports -.setzt um.- introad
+    d_ports -.setzt um.- probead
+    a_music -.Schnittstelle der App.- itunad
+    a_music -.Schnittstelle der App.- mbad
+    a_upd -.Schnittstelle der App.- ociad
+    d_ports -.setzt um.- searchad
+    d_ports -.setzt um.- osad
+    d_ports -.setzt um.- emad
+    d_ports -.setzt um.- wpad
+    d_ports -.setzt um.- whad
+    d_ports -.setzt um.- prad
+
+    pgad --&gt; pg2[(PostgreSQL)]
+    meiad --&gt; me2[(Meilisearch)]
+    fsad --&gt; fs2[(/media-Bind-Mounts)]
+    ffad --&gt; cc2[(evey-cache + ffmpeg-Binärdatei)]
+    metaad -.-&gt; ext2[[TMDB / OMDb / IMDbAPI / TVmaze]]
+    introad -.-&gt; ext3[[IntroDB / TIDB]]
+    itunad -.-&gt; ext4[[iTunes Search / MusicBrainz]]
+    mbad -.-&gt; ext4
+    ociad -.-&gt; ext5[[OCI-Registry]]</code></pre>
+<p>Hinweise zu den Goroutinen:</p>
+<ul>
+<li>Der gRPC-Server (<code>grpc.Server.Serve</code>) und der HTTP-Server (Gateway + statische Dateien) laufen jeweils in eigenen Goroutinen, gestartet von der Verdrahtung in <code>cmd/evey</code>.</li>
+<li>Scan-Aufträge von <code>app/library</code> laufen in einem Worker-Pool (eine Goroutine pro laufendem Bibliotheksscan, siehe <code>library.ScanService</code>).</li>
+<li>ffmpeg-Aufträge startet der getriebene Adapter <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>) über <code>internal/pkg/procfork</code>, mit einer überwachenden Goroutine pro Auftrag, die die Fehlerausgabe (stderr) des Prozesses leert.</li>
+<li><code>shared.EventBus</code> verteilt an die Abonnenten asynchron: Jeder Abonnent läuft in seiner eigenen Goroutine, ein langsamer Empfänger blockiert also nie die Sender. Der Bus öffnet selbst keine Transaktion; das ist Aufgabe des Handlers.</li>
+<li><code>pluginrunner</code> startet einen Unterprozess pro Plugin; iframe-Plugins leben im Browser des Benutzers und sprechen über signierte Tokens zurück, die <code>app/plugin</code> ausstellt.</li>
+</ul>
+<h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
+<p>Der heiße Pfad, der Dateien auf der Platte in durchsuchbare, angereicherte
+Medien verwandelt. Durchgezogene Pfeile sind direkte Aufrufe; gestrichelte
+Pfeile sind Domänenereignisse auf dem Bus. Die Suchindexierung ist ein
+direkter Port-Aufruf aus <code>ScanService</code>, kein Ereignis.</p>
+<pre class="mermaid"><code>flowchart LR
+    user([Administrator startet&lt;br/&gt;POST /api/v1/libraries/:id/scan])
+
+    subgraph driving2[treibend]
+        h[grpcapi&lt;br/&gt;library_handler.go]
+    end
+
+    subgraph appLayer[internal/app/library]
+        svc[ScanService&lt;br/&gt;Worker-Pool,&lt;br/&gt;1 Goroutine pro Bibliothek]
+    end
+
+    subgraph drivenScan[getrieben]
+        scanner[filesystem.Scanner&lt;br/&gt;Durchlauf + Parser]
+        watcher[filesystem.FSWatcher&lt;br/&gt;fsnotify, inkrementell]
+    end
+
+    subgraph domainScan[domain/library]
+        repo[(Ports MediaItemCommandRepo + MediaItemQueryRepo)]
+        bus[(Port EventBus)]
+    end
+
+    subgraph persist[getriebene Speicherung]
+        pgrepo[postgres.MediaItemRepository&lt;br/&gt;innerhalb TransactionalUnit]
+        searchidx[meilisearch.SearchAdapter&lt;br/&gt;setzt library.SearchIndex um]
+    end
+
+    subgraph consumers[Ereignisempfänger - jeder in eigener Goroutine]
+        meta[app/metadata&lt;br/&gt;Anreicherung TMDB/OMDb]
+        trick[app/library&lt;br/&gt;Trickplay-Worker]
+        intro[app/library&lt;br/&gt;Intro-Erkennung]
+        feed[app/feed&lt;br/&gt;Genre-Cache verwerfen]
+        notif[app/notification&lt;br/&gt;Hinweise auf neue Medien]
+        wh[app/webhook&lt;br/&gt;Sammelabo, ausgehender POST]
+    end
+
+    user --&gt; h --&gt; svc
+    svc --&gt; scanner
+    watcher --&gt; svc
+    scanner --&gt; svc
+    svc --&gt; repo
+    repo --&gt; pgrepo
+    svc --&gt; searchidx
+    svc --&gt; bus
+    bus -. MediaItemAdded .-&gt; meta
+    bus -. MediaItemAdded .-&gt; trick
+    bus -. MediaItemAdded .-&gt; intro
+    bus -. MediaItemAdded .-&gt; feed
+    bus -. MediaItemAdded .-&gt; notif
+    bus -. MediaItemAdded .-&gt; wh
+    trick -. TrickplayGenerated .-&gt; intro
+    meta --&gt; repo
+    trick --&gt; ffstore[(evey-cache&lt;br/&gt;Trickplay-Sprites)]</code></pre>
+<p>Lesen Sie das zusammen mit dem Abschnitt „Typischer Datenfluss“ oben: Der
+Wiedergabeweg ist der spiegelbildliche Leseweg; die Scan-Kette ist der
+Schreibweg, der den Medienindex füllt, aus dem der Leseweg ausliefert.</p>
+<h2 id="further-reading">Weiterführende Lektüre<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> - bauen, starten, Migrationen, Proto erzeugen</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Karte der Codebasis</a> - welche Dateien Sie für häufige Änderungen anfassen</li>
+<li><a href="../playback-serving/">Ein Video ausliefern - der HLS-Wiedergabeweg</a> - der Leseweg der HLS-Videoauslieferung, im Detail</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">Server-API</a> - erzeugte API-Referenz</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">Entscheidungsprotokolle</a> - Architektur-Entscheidungsprotokolle</li>
+</ul>
+<!-- sources
+layering: internal/domain ; internal/app ; internal/adapters/driven ; internal/adapters/driving ; internal/pkg ; internal/config ; gen ; cmd/evey/wire.go, wire_infra.go, wire_services.go, wire_adapters.go, wire_events.go, wire_helpers.go
+app-layer interfaces: internal/app/music/album_art_chain.go - AlbumArtFetcher ; internal/adapters/driven/ociregistry (app/updatecheck)
+network exceptions: internal/app/dlna/service.go ; internal/app/loadtest/runner.go
+events and subscribers: internal/app/notification/command_service.go ; internal/app/metadata/command_service_enrich.go ; internal/app/library/trickplay_service.go ; internal/app/library/intro_detection_service.go ; internal/app/feed/genre_cache.go ; internal/app/webhook/service.go ; internal/adapters/driven/email/password_reset_emailer.go ; internal/app/plugin/security_dashboard_service.go ; internal/app/config/smtp.go, timezone.go, cpu_budget.go
+guards: internal/contractguard/*_test.go - TestDomainContextsDoNotImportEachOther, TestOnlyThePlanDecidesPlayback, TestNoCallerDerivesDownstreamOfThePlaybackPlan, TestServerEmittedI18nKeysExistInCatalogue, TestI18nPlaceholdersAgreeAcrossLocales
+topology: docker-compose.yml ; docker-compose.override.yml ; Dockerfile - MEILI_VERSION, postgresql-17 ; docker/entrypoint.sh - PG_MAJOR
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Fußzeile">
+        
+          
+          <a href="../design-principles/" class="md-footer__link md-footer__link--prev" aria-label="Zurück: Gestaltungsprinzipien">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Zurück
+              </span>
+              <div class="md-ellipsis">
+                Gestaltungsprinzipien
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../playback-serving/" class="md-footer__link md-footer__link--next" aria-label="Weiter: Wiedergabekette">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Weiter
+              </span>
+              <div class="md-ellipsis">
+                Wiedergabekette
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      AGPL-3.0-or-later
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Evey-project" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}, "version": null}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <script>
+    (function () {
+      var open = null;
+
+      function close() {
+        if (!open) return;
+        var o = open; open = null;
+        o.placeholder.replaceWith(o.node);
+        o.node.style.transform = "";
+        o.layer.remove();
+        document.removeEventListener("keydown", onKey);
+      }
+
+      function onKey(e) {
+        if (!open) return;
+        if (e.key === "Escape") { e.preventDefault(); close(); }
+        else if (e.key === "+" || e.key === "=") zoomBy(1.25, null);
+        else if (e.key === "-") zoomBy(0.8, null);
+        else if (e.key === "0") fit();
+      }
+
+      function apply() {
+        var o = open;
+        o.node.style.transform = "translate(" + o.x + "px," + o.y + "px) scale(" + o.k + ")";
+      }
+
+      // Zoom about a point of the layer (the cursor, or its centre).
+      function zoomBy(factor, at) {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var px = at ? at.x - r.left : r.width / 2, py = at ? at.y - r.top : r.height / 2;
+        var k = Math.min(12, Math.max(0.2, o.k * factor));
+        var ratio = k / o.k;
+        o.x = px - (px - o.x) * ratio;
+        o.y = py - (py - o.y) * ratio;
+        o.k = k;
+        apply();
+      }
+
+      // Fill the viewport: the whole point is reading labels that were tiny.
+      function fit() {
+        var o = open, r = o.layer.getBoundingClientRect();
+        var w = o.width || 1, h = o.height || 1, pad = 48;
+        o.k = Math.max(1, Math.min((r.width - 2 * pad) / w, (r.height - 2 * pad) / h));
+        o.x = (r.width - w * o.k) / 2;
+        o.y = (r.height - h * o.k) / 2;
+        apply();
+      }
+
+      function button(label, title, onClick) {
+        var b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+        b.addEventListener("click", function (e) { e.stopPropagation(); onClick(); });
+        return b;
+      }
+
+      function openDiagram(node) {
+        if (open) close();
+        var rect = node.getBoundingClientRect();
+        var layer = document.createElement("div");
+        layer.className = "evey-zoom";
+        layer.setAttribute("role", "dialog");
+        layer.setAttribute("aria-label", "Diagram");
+        var bar = document.createElement("div");
+        bar.className = "evey-zoom__bar";
+        bar.append(
+          button("\u2212", "Zoom out", function () { zoomBy(0.8, null); }),
+          button("+", "Zoom in", function () { zoomBy(1.25, null); }),
+          button("\u21BA", "Fit to screen", fit),
+          button("\u00D7", "Close", close)
+        );
+        var hint = document.createElement("div");
+        hint.className = "evey-zoom__hint";
+        hint.textContent = "Scroll or pinch to zoom, drag to pan, Esc to close";
+        var placeholder = document.createElement("div");
+        placeholder.style.height = rect.height + "px";
+        node.replaceWith(placeholder);
+        // The diagram keeps its rendered width so the transform has a stable base.
+        node.style.width = rect.width + "px";
+        layer.append(node, bar, hint);
+        document.body.append(layer);
+        open = { node: node, layer: layer, placeholder: placeholder, width: rect.width, height: rect.height, k: 1, x: 0, y: 0 };
+        fit();
+        document.addEventListener("keydown", onKey);
+
+        layer.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          zoomBy(e.deltaY < 0 ? 1.15 : 1 / 1.15, { x: e.clientX, y: e.clientY });
+        }, { passive: false });
+
+        // Pointer events cover mouse, pen and touch; two fingers pinch.
+        var pointers = new Map(), lastDist = 0, moved = false;
+        layer.addEventListener("pointerdown", function (e) {
+          pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+          layer.setPointerCapture(e.pointerId);
+          layer.setAttribute("data-dragging", "");
+          moved = false;
+        });
+        layer.addEventListener("pointermove", function (e) {
+          var p = pointers.get(e.pointerId);
+          if (!p) return;
+          if (pointers.size === 2) {
+            var pts = Array.from(pointers.values());
+            var other = pts[0] === p ? pts[1] : pts[0];
+            var dist = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+            if (lastDist) zoomBy(dist / lastDist, { x: (e.clientX + other.x) / 2, y: (e.clientY + other.y) / 2 });
+            lastDist = dist;
+          } else {
+            open.x += e.clientX - p.x; open.y += e.clientY - p.y; apply();
+          }
+          if (Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y) > 2) moved = true;
+          p.x = e.clientX; p.y = e.clientY;
+        });
+        function up(e) {
+          pointers.delete(e.pointerId);
+          if (pointers.size < 2) lastDist = 0;
+          if (pointers.size === 0) {
+            layer.removeAttribute("data-dragging");
+            // A plain click on the backdrop (not on the diagram) closes.
+            if (!moved && e.target === layer) close();
+          }
+        }
+        layer.addEventListener("pointerup", up);
+        layer.addEventListener("pointercancel", up);
+      }
+
+      function arm(root) {
+        root.querySelectorAll(".md-typeset .mermaid").forEach(function (node) {
+          if (node.dataset.eveyZoom) return;
+          node.dataset.eveyZoom = "1";
+          node.setAttribute("tabindex", "0");
+          node.setAttribute("role", "button");
+          node.setAttribute("aria-label", "Open the diagram full screen");
+          node.addEventListener("click", function () { openDiagram(node); });
+          node.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDiagram(node); }
+          });
+        });
+      }
+
+      // The theme swaps each pre.mermaid for a div.mermaid once Mermaid has
+      // rendered it, and instant navigation replaces the whole article: watch
+      // the document rather than hook the theme's internals.
+      arm(document);
+      new MutationObserver(function () { arm(document); })
+        .observe(document.body, { childList: true, subtree: true });
+    })();
+  </script>
+  <script>
+    (function () {
+      var LOCALES = ["fr", "de", "es", "hi", "zh"];
+
+      function langOf(path) {
+        var seg = path.replace(/^\/+/, "").split("/")[0];
+        return LOCALES.indexOf(seg) !== -1 ? seg : "en";
+      }
+
+      var current = langOf(window.location.pathname);
+
+      function filter(list) {
+        var items = list.querySelectorAll(".md-search-result__item");
+        var kept = 0;
+        items.forEach(function (item) {
+          var link = item.querySelector("a[href]");
+          if (!link) return;
+          var path;
+          try {
+            path = new URL(link.href, window.location.origin).pathname;
+          } catch (e) {
+            return;
+          }
+          var match = langOf(path) === current;
+          item.hidden = !match;
+          if (match) kept++;
+        });
+        return kept;
+      }
+
+      function watch() {
+        var list = document.querySelector(".md-search-result__list");
+        if (!list) return false;
+        filter(list);
+        new MutationObserver(function () { filter(list); })
+          .observe(list, { childList: true, subtree: true });
+        return true;
+      }
+
+      if (!watch()) {
+        // The result list is created on first query.
+        var root = document.querySelector(".md-search__output") || document.body;
+        new MutationObserver(function (_, obs) {
+          if (watch()) obs.disconnect();
+        }).observe(root, { childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  
+<script id="init-glightbox">document.querySelectorAll('.glightbox').forEach(function(element) {
+    try {
+        var img = element.querySelector('img');
+        if (img && img.src) {
+            element.setAttribute('href', img.src);
+        } else {
+            console.log('No img element with src attribute found');
+        }
+    } catch (error) {
+        console.log('Error:', error);
+    }
+});
+const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

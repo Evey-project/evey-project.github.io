@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/playback/transcoding/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback/transcoding/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback/transcoding/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback/transcoding/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback/transcoding/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/playback/transcoding/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback/transcoding/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback/transcoding/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback/transcoding/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback/transcoding/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3073,11 +3135,25 @@
 
 
 <h1 id="transcoding-and-server-capacity">Transcoding and server capacity<a class="headerlink" href="#transcoding-and-server-capacity" title="Permanent link">¶</a></h1>
-<p>Transcoding is the expensive outcome of <a href="../how-playback-is-decided/">the playback decision</a>:
-Direct Play and Remux cost the server almost nothing and never take a
-transcoding slot. This page is for the administrator who wants to know how
-many viewers the server can serve at once: how it measures what it can
-encode, how it shares that capacity, and what a viewer sees when it is full.</p>
+<p><strong>In short:</strong></p>
+<ul>
+<li><strong>Transcoding</strong> means converting a video into a form the device can play.
+  It is the only heavy work the server does: playing a file as it is (Direct
+  Play) or repackaging it (Remux) costs almost nothing. See
+  <a href="../how-playback-is-decided/">How playback is decided</a>.</li>
+<li>You do not set how many people the server can serve. It measures itself
+  at its first quiet moment, in a few minutes, and never accepts more.</li>
+<li>When it runs short, a new playback gets a lower quality, or moves from a
+  busy graphics card to the processor. If neither has room, the player says
+  <strong>The server is busy transcoding other streams</strong>.</li>
+<li>What you may want to do: give the server a graphics card
+  (<a href="../../administration/hardware-acceleration/">Hardware acceleration</a>), and
+  keep free space on the disk that holds the cache
+  (<a href="#the-transcoding-cache">The transcoding cache</a>).</li>
+</ul>
+<p>The rest of this page is for the administrator who wants the details: how
+the server measures what it can encode, how it shares that capacity, and
+what a viewer sees when it is full.</p>
 <h2 id="the-server-measures-itself">The server measures itself<a class="headerlink" href="#the-server-measures-itself" title="Permanent link">¶</a></h2>
 <p>The capacity is not a setting you estimate. The server measures it:</p>
 <ul>
@@ -3186,7 +3262,19 @@ lowers its maximum quality for a while, then lifts the limit on its own. See
 another viewer, or the same one later, plays the same title with the same
 decision. <strong>Admin → Transcode Cache</strong> shows its size and clears it; the
 <strong>Transcode cache budget</strong> (<strong>Admin → Server Config → Server Settings</strong>) caps
-it.</p>
+it. <strong>Clear All</strong> also removes the subtitles extracted from your files,
+kept in <code>./evey-data/subtitles</code>: they are extracted again on request.</p>
+<p><strong>When the disk fills up.</strong> The server keeps a margin of free space on the
+disk that holds the cache: 2 GiB by default, set with
+<code>EVEY_TRANSCODE_CACHE_MIN_FREE_MB</code> (<code>0</code> turns the margin off). Below it, the
+oldest segments no one is watching are evicted first. If that does not free
+enough, a segment that does not exist yet is refused with a delay after which
+the player may ask again, instead of starting an encoder that would fail for lack
+of space; segments already on disk are still served. The extracted subtitles
+in <code>./evey-data</code> follow the same margin: below it, new ones are no longer
+kept, each request extracts them again, and the administrators receive
+<strong>Subtitle cache full</strong> (at most once an hour, also sent to webhooks as
+<code>transcoding.derived_cache_full</code>).</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Clear the cache after an update that changes how videos are encoded, so
@@ -3204,6 +3292,8 @@ while someone watches makes their stream rebuffer once, then resume.</p>
   the server sustains. It refuses to run while anyone is watching.</li>
 </ul>
 <!-- sources
+disk floor: cmd/evey/wire.go (EVEY_TRANSCODE_CACHE_MIN_FREE_MB, DefaultMinFreeBytes, SetWriteFloor, SetSubtitleCacheWriteFloor, OnSubtitleCacheFloorHit) ; internal/app/transcoding/segment_cache_admit.go - AdmitWrite, tryOnDemandEvict, ErrCacheFull ; internal/adapters/driving/http/transcode_vod_admission.go (503 + Retry-After) ; internal/domain/transcoding/events.go - DerivedCacheFull ; i18n notifications.cache_full
+clear all empties extracted subtitles: internal/app/transcoding/service.go - WithDerivedCachePurge ; internal/adapters/driving/http/subtitle_cache.go - SubtitleCachePurger (/data/subtitles)
 calibration: internal/app/transcoding/calibration_service.go - EnsureCalibrated, Recalibrate, idleProbes, idleCPUPercent ; internal/domain/transcoding/capability.go - SafeFallback ; internal/adapters/driven/ffmpeg/benchmark.go - softwareLadderSpecs (floors 720/480), sample order (path > url+sha256 > synthetic) ; docs/adr/0029-transcoding-routes-are-measured-not-assumed.md ; i18n player.calibrating, admin.calibration.contendedLine, transcodesActiveToast
 capacity: i18n admin.transcoding.livePlaybackTitle, maxVideoSessionsDesc, videoSessionsAutoAdjusts ; internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper, StreamPlan ; internal/app/transcoding/video_session_limiter.go - VideoSessionLimiter (PoolCPU, PoolGPU) ; internal/app/transcoding/resolved_route.go - SpillPoolFull, SpillTitleBlocked ; internal/app/transcoding/hw_route_blocklist.go ; CalibrationService.DemoteCapability
 busy: i18n errors max_concurrent_reached
@@ -3212,6 +3302,7 @@ single variant: internal/config/config.go (EVEY_TRANSCODING_SINGLE_VARIANT, defa
 bench samples: internal/config/config.go (EVEY_BENCH_{SDR,HDR}_SAMPLE{,_URL,_SHA256})
 cache budget, clear while live: i18n admin.serverSettings.transcodeCacheMaxGB, admin.transcodeCache.clearConfirmLiveSessions ; automatic limits: admin.qoe.overrides.*
 load test: i18n admin.loadtest.idleWarning, errorActiveStreams
+plain opening, busy message: i18n errors max_concurrent_reached ; internal/app/transcoding/admission_shaper.go - VideoAdmissionShaper.GrantRoute
 -->
 
 

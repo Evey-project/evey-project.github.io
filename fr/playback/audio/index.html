@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/audio/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/audio/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/audio/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/audio/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/audio/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/audio/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/audio/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/audio/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -3073,12 +3135,24 @@
 
 
 <h1 id="audio">Audio<a class="headerlink" href="#audio" title="Permanent link">¶</a></h1>
-<p>Quelle piste vous entendrez, si elle arrive telle quelle ou réencodée sur
-votre appareil, et avec combien de canaux. Pour les spectateurs ; les réglages
-de profil cités ici se trouvent dans <strong>Paramètres → Lecture</strong>. La piste audio
-est évaluée indépendamment de la vidéo : dans la plupart des transcodages,
-c'est la seule chose réencodée, la vidéo est copiée et le son converti dans un
-format que le lecteur sait lire.</p>
+<p><strong>En bref :</strong></p>
+<ul>
+<li>Vous entendez la langue de votre profil quand le film l'a : réglez-la dans
+  <strong>Paramètres → Lecture → Langue audio par défaut</strong>. Une piste que vous
+  choisissez à la main dans le lecteur passe toujours en premier.</li>
+<li>Le son est envoyé tel quel quand votre appareil sait le lire. Sinon, le
+  serveur le convertit dans un format courant (AAC). Souvent, le son est la
+  seule chose convertie, et l'image n'est pas touchée.</li>
+<li>Sur le haut-parleur d'un téléphone, un casque ou en Bluetooth,
+  l'application Android lit en stéréo. Avec l'application Android ou Android
+  TV en HDMI, vous avez autant de canaux que la TV ou l'amplificateur en
+  accepte (5.1, par exemple).</li>
+<li>Le son est décalé par rapport à l'image ? Voir
+  <a href="#sound-out-of-sync">Son désynchronisé</a>.</li>
+</ul>
+<p>Le reste de cette page explique quelle piste est lue, quand elle est copiée
+ou convertie, et avec combien de canaux. Les réglages de profil cités ici
+sont dans <strong>Paramètres → Lecture</strong>.</p>
 <h2 id="what-you-will-hear-by-device">Ce que vous entendrez, selon l'appareil<a class="headerlink" href="#what-you-will-hear-by-device" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3163,7 +3237,7 @@ redémarre le flux à la position courante. Une piste copiée ne peut pas être
 décalée : le serveur la réencode, et les Infos du flux affichent
 <strong>Resynchronisation audio demandée</strong>.</p>
 <p>Quand le décalage vient du fichier lui-même (une piste audio qui démarre
-après l'image, ou des pistes en désaccord entre elles), <strong>Admin → Santé des
+après l'image, ou des pistes en désaccord entre elles), <strong>Administration → Santé des
 médias</strong> le signale mais ne le réécrit jamais de lui-même : une piste qui
 démarre en retard est le plus souvent un doublage calé volontairement.
 <strong>Vérifier la synchro</strong>, sur la ligne du fichier, permet d'en juger à l'œil et

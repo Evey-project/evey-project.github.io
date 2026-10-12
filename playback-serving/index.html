@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../fr/playback-serving/" hreflang="fr">
         
+          <link rel="alternate" href="../de/playback-serving/" hreflang="de">
+        
+          <link rel="alternate" href="../es/playback-serving/" hreflang="es">
+        
+          <link rel="alternate" href="../hi/playback-serving/" hreflang="hi">
+        
+          <link rel="alternate" href="../zh/playback-serving/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../fr/playback-serving/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../de/playback-serving/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../es/playback-serving/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../hi/playback-serving/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../zh/playback-serving/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3153,13 +3215,18 @@ it later fetches.</p>
     mkv[mkvgo&lt;br/&gt;copy rung, no process]
     ff[ffmpeg&lt;br/&gt;transcode, tonemap]
     pack[Manifests&lt;br/&gt;master.m3u8, stream_N.m3u8,&lt;br/&gt;manifest.mpd]
+    wire[segment on the wire&lt;br/&gt;streamed from the source file,&lt;br/&gt;nothing on disk]
     seg[(cache/transcode/segments/hash)]
     req --&gt; h --&gt; plan
     plan --&gt;|copy| mkv
     plan --&gt;|transcode| ff
     plan --&gt; pack
-    mkv --&gt; seg
+    mkv --&gt; wire
     ff --&gt; seg</code></pre>
+<p>The two engines leave the server differently: a mkvgo segment is built on
+request and written to the connection as it goes, so the copy path never
+touches the segment cache; an ffmpeg segment is a file under the fingerprint's
+directory, written once and served from there.</p>
 <h2 id="reading-order---follow-one-request-through-the-code">Reading order - follow one request through the code<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
 <p>Open these in sequence to trace a single playback request end to end:</p>
 <ol>

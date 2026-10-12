@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="../../fr/playback/casting/" hreflang="fr">
         
+          <link rel="alternate" href="../../de/playback/casting/" hreflang="de">
+        
+          <link rel="alternate" href="../../es/playback/casting/" hreflang="es">
+        
+          <link rel="alternate" href="../../hi/playback/casting/" hreflang="hi">
+        
+          <link rel="alternate" href="../../zh/playback/casting/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="../../fr/playback/casting/" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/playback/casting/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/playback/casting/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../hi/playback/casting/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh/playback/casting/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Apps and devices
+    Connect the apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Watching with Evey
   
 
     
@@ -3051,13 +3113,21 @@
 
 
 <h1 id="casting">Casting<a class="headerlink" href="#casting" title="Permanent link">¶</a></h1>
-<p>What the television plays when you cast, and why it can differ from what your
-phone or browser was playing. For viewers using the <strong>Cast</strong> button of the web
-player in Chrome or of the Android app, towards a Chromecast or a TV with
-Chromecast built in; the Android TV app has no Cast button. The phone or the
-browser only starts the session: the TV plays the stream from the server
-directly, through Evey's own receiver application, and the server decides what
-to send for the TV, not for the device that cast.</p>
+<p>Casting sends a film from your phone or computer to the TV.</p>
+<ol>
+<li>Start the film in the web player in Chrome, or in the Android app.</li>
+<li>Press <strong>Cast</strong> in the player.</li>
+<li>Pick your Chromecast, or your TV with Chromecast built in.</li>
+</ol>
+<p>The film then plays on the TV. The Android TV app has no <strong>Cast</strong> button: it
+already is the TV. Firefox shows no <strong>Cast</strong> button either. With Safari, or
+Chrome on an Android phone, the button works differently: see
+<a href="#browsers-without-a-cast-session-of-their-own">Browsers without a Cast session of their own</a>.</p>
+<p>The picture on the TV can differ from the one on your phone, and that is
+normal. The TV does not receive what your phone was playing: it fetches the
+film from the server itself, and the server prepares a version that suits
+the TV. The rest of this page explains how, for the curious and for the
+person who runs Evey.</p>
 <h2 id="what-the-tv-plays">What the TV plays<a class="headerlink" href="#what-the-tv-plays" title="Permanent link">¶</a></h2>
 <p>The stream is decoded by the TV, so the playback decision uses the receiver's
 capabilities, from the most reliable source available:</p>
@@ -3128,6 +3198,7 @@ server-driven receiver: docs/adr/0025-server-driven-cast.md
 web button and fallbacks: frontend/apps/web/src/features/playback/HLSPlayer.tsx - castAvailable, handleMobileCast ; hooks/hlsPlayerUtils.ts - pickCastTapPath, planRendererLoad, pickPlayOnFallback ; frontend/apps/web/src/hooks/useCasting.ts - startCast (castDevices[0], renderers[0])
 DLNA: internal/app/dlna/service.go (SSDP AVTransport) ; not in frontend/apps/mobile
 labels: i18n player.cast ; player.playOn.title ; player.streamInfo.reason.client_line_exceeded, abr_floor_requested
+viewer steps: i18n player.cast ; Android TV has no Cast button: frontend/apps/tv (no useCastSession)
 -->
 
 

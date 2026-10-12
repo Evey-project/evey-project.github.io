@@ -21,6 +21,14 @@
         
           <link rel="alternate" href="./" hreflang="fr">
         
+          <link rel="alternate" href="../../../de/playback/mkvgo/" hreflang="de">
+        
+          <link rel="alternate" href="../../../es/playback/mkvgo/" hreflang="es">
+        
+          <link rel="alternate" href="../../../hi/playback/mkvgo/" hreflang="hi">
+        
+          <link rel="alternate" href="../../../zh/playback/mkvgo/" hreflang="zh">
+        
       
       
       <link rel="icon" href="../../../assets/brand/favicon.svg">
@@ -209,6 +217,30 @@
           <li class="md-select__item">
             <a href="./" hreflang="fr" class="md-select__link">
               Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../de/playback/mkvgo/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../es/playback/mkvgo/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../hi/playback/mkvgo/" hreflang="hi" class="md-select__link">
+              हिन्दी
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../zh/playback/mkvgo/" hreflang="zh" class="md-select__link">
+              中文
             </a>
           </li>
         
@@ -533,6 +565,8 @@
       
         
       
+        
+      
     
     
     
@@ -648,7 +682,35 @@
   <span class="md-ellipsis">
     
   
-    Applications et appareils
+    Connecter les applications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/watching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regarder avec Evey
   
 
     
@@ -1286,6 +1348,17 @@
     <span class="md-ellipsis">
       
         Ce qui reste à FFmpeg
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-replaced-files-and-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Charge, fichiers remplacés et mises à jour
       
     </span>
   </a>
@@ -3017,6 +3090,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#load-replaced-files-and-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Charge, fichiers remplacés et mises à jour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#seeing-which-engine-served-a-stream" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3051,10 +3135,20 @@
 
 
 <h1 id="mkvgo-in-evey">MKVGo dans Evey<a class="headerlink" href="#mkvgo-in-evey" title="Permanent link">¶</a></h1>
-<p>MKVGo est la bibliothèque multimédia qu'Evey exécute dans son propre processus
-pour lire et réempaqueter les fichiers MKV/WebM et MP4/MOV. Cette page
-s'adresse à qui veut savoir ce que le serveur fait sans lancer FFmpeg, et où
-FFmpeg prend encore le relais.</p>
+<p><strong>En bref :</strong></p>
+<ul>
+<li>MKVGo est une partie d'Evey qui lit les fichiers vidéo (MKV, WebM, MP4,
+  MOV) et les remet dans un autre format de fichier, sans convertir l'image
+  ni le son.</li>
+<li>Quand c'est possible, c'est elle qui sert les lectures en <strong>Remux</strong>, sort
+  les sous-titres des fichiers, et lit vos fichiers pendant un scan. Tout ce
+  qui demande une vraie conversion passe par FFmpeg, un outil vidéo à part.</li>
+<li>Vous n'avez rien à régler. <strong>Administration → En cours de lecture</strong> montre,
+  piste par piste, si une lecture a été servie par MKVGo ou par FFmpeg.</li>
+</ul>
+<p>Le reste de cette page s'adresse à qui veut savoir ce que le serveur fait
+sans lancer FFmpeg, et où FFmpeg prend encore le relais. MKVGo tourne à
+l'intérieur du processus du serveur Evey.</p>
 <p>MKVGo travaille sur la structure d'un fichier : ses en-têtes, son index, ses
 pistes et leurs paquets. Elle ne décode ni n'encode jamais une image ou un
 son ; tout ce qui demande un décodage côté serveur passe par FFmpeg. Elle est
@@ -3092,10 +3186,10 @@ ce que MKVGo économise en plus, c'est le processus lancé pour chaque session e
 les segments écrits dans le cache de transcodage. Le réencodage est le cas
 coûteux, et un réencodage vidéo est le seul travail qui occupe un créneau de
 transcodage : voir <a href="../transcoding/">Transcodage et capacité du serveur</a>.</p>
-<p>Avec des clients capables, environ 80 % des chemins de lecture vidéo peuvent
-se passer entièrement de FFmpeg : ce que le lecteur sait décoder décide de la
-fréquence à laquelle le fichier peut être servi tel quel ou seulement
-réempaqueté. Comment cela se décide :
+<p>Le démarrage et le déplacement n'attendent ni un processus ni un premier
+segment sur le disque : le segment est construit à la demande à partir de
+l'index du fichier. Qu'un fichier emprunte cette voie dépend de ce que le
+lecteur sait décoder :
 <a href="../how-playback-is-decided/">Comment Evey choisit le mode de lecture</a>.</p>
 <h2 id="what-mkvgo-does">Ce que fait MKVGo<a class="headerlink" href="#what-mkvgo-does" title="Permanent link">¶</a></h2>
 <table>
@@ -3119,8 +3213,8 @@ réempaqueté. Comment cela se décide :
 </tr>
 <tr>
 <td><strong>Diffusion sans réencodage</strong></td>
-<td>Remux : segments HLS en MP4 fragmenté (CMAF), construits à la demande à partir d'un plan gardé par fichier. Un manifeste DASH est produit sur les mêmes segments ; les applications utilisent HLS.</td>
-<td>FFmpeg copie les pistes, toujours sans réencoder.</td>
+<td>Remux : segments HLS en MP4 fragmenté (CMAF), construits à la demande à partir d'un plan gardé par fichier. Un segment est écrit sur la connexion directement depuis le fichier source, au fil de l'envoi : rien n'est assemblé en mémoire au préalable, rien n'est écrit dans le cache de transcodage. Un manifeste DASH est produit sur les mêmes segments ; les applications utilisent HLS.</td>
+<td>FFmpeg copie les pistes, toujours sans réencoder, dans des segments écrits dans le cache.</td>
 </tr>
 <tr>
 <td><strong>MP4 pour le navigateur</strong></td>
@@ -3129,8 +3223,8 @@ réempaqueté. Comment cela se décide :
 </tr>
 <tr>
 <td><strong>Sous-titres</strong></td>
-<td>Les pistes de sous-titres intégrées à un MKV sont extraites en SRT ou en ASS.</td>
-<td>-</td>
+<td>Les pistes de sous-titres intégrées à un MKV sont extraites à la demande, les pistes texte en WebVTT et les pistes image (PGS) en images. Quand l'index propre du fichier (les Cues) couvre entièrement une piste, le serveur ne lit que les blocs qu'il désigne au lieu du fichier entier, et garde cet index des blocs sous son répertoire de données (<code>subtitle-index/</code>) pour la demande suivante. Une piste qui demande encore une lecture complète reçoit une réponse « en préparation » avec un délai de nouvel essai, et les lecteurs réinterrogent jusqu'à ce qu'elle soit prête.</td>
+<td>ffmpeg extrait la piste en lisant le fichier de bout en bout.</td>
 </tr>
 <tr>
 <td><strong>Images d'aperçu</strong></td>
@@ -3157,8 +3251,39 @@ réempaqueté. Comment cela se décide :
   l'entrelacement, empreintes audio pour la détection des génériques.</li>
 <li>Les conteneurs autres que MKV/WebM et MP4/MOV, comme l'AVI ou le MPEG-TS.</li>
 </ul>
+<h2 id="load-replaced-files-and-updates">Charge, fichiers remplacés et mises à jour<a class="headerlink" href="#load-replaced-files-and-updates" title="Permanent link">¶</a></h2>
+<p><strong>Ce qu'il lit à la fois.</strong> Construire un segment lit une fenêtre de la
+source, vidéo et audio ensemble : 6 à 10 Mio pour un fichier 1080p, environ
+15 Mio pour un remux UHD. Le serveur lit autant de fenêtres à la fois qu'il a
+de processeurs, et moins sur une machine qui a peu de mémoire : toutes les
+fenêtres en cours doivent tenir dans un quart de la mémoire que le serveur
+s'accorde (la moitié de la limite du conteneur, ou de la mémoire de l'hôte).
+Les demandes au-delà attendent une place libre, si bien que la mémoire
+utilisée ne grandit pas avec l'audience ; sur une petite machine, une foule
+qui démarre au même moment voit ses premiers segments arriver les uns après
+les autres plutôt que de voir le serveur manquer de mémoire.</p>
+<p><strong>Un fichier remplacé pendant la lecture.</strong> Chaque adresse de segment nomme le
+fichier à partir duquel il a été planifié. Quand un fichier est remplacé sur
+le disque (une meilleure copie, une réparation), un segment demandé à ce
+moment est reconstruit une fois à partir du nouveau fichier, et les adresses
+de la liste de lecture de l'ancien fichier répondent <code>410 Gone</code> plutôt que de
+mélanger les deux fichiers ; rouvrir le titre lit le nouveau.</p>
+<p><strong>Après une mise à jour.</strong> Les adresses des segments portent la version de
+MKVGo : un navigateur ou un cache de proxy ne sert jamais un segment construit
+par une version plus ancienne, et aucun segment de cette voie n'est gardé sur
+le disque, il n'y a donc rien à vider. Les copies MP4 faites pour les
+navigateurs portent la version de leur format dans leur nom : quand elle
+change, chacune est reconstruite la prochaine fois qu'on la demande.</p>
+<p><strong>Le surveiller.</strong> Sur <code>GET /metrics</code> (voir
+<a href="../../operations/monitoring/#prometheus-metrics">Supervision et logs</a>),
+<code>evey_mkvgo_walks_in_flight</code> donne le nombre de fenêtres en cours de lecture,
+et <code>evey_mkvgo_plan_stats</code> additionne les compteurs de l'empaqueteur par <code>stat</code>.
+Un <code>walks_in_flight</code> bloqué à son plafond pendant que <code>stat="slot_waits"</code>
+grimpe signifie que des spectateurs font la queue pour le processeur ;
+<code>stream_fallbacks</code> compte les segments qui ont dû être assemblés en mémoire
+au lieu d'être diffusés directement.</p>
 <h2 id="seeing-which-engine-served-a-stream">Voir quel moteur sert un flux<a class="headerlink" href="#seeing-which-engine-served-a-stream" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Tableau de bord</strong> et <strong>Admin → En cours de lecture</strong> indiquent le
+<p><strong>Administration → Tableau de bord</strong> et <strong>Administration → En cours de lecture</strong> indiquent le
 moteur de chaque piste : <code>mkvgo</code> ou <code>ffmpeg</code>. Un remux peut afficher les deux,
 par exemple la vidéo empaquetée par MKVGo et l'audio copié par FFmpeg.</p>
 
