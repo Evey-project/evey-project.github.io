@@ -3214,8 +3214,8 @@ her. Um einen Rechner von Grund auf neu aufzubauen, brauchen Sie den Ordner.</p>
 <details class="info">
 <summary>Telemetrie und das Dateiformat</summary>
 <p>Messwerte zu Wiedergabe und Server (hinter den Diagrammen zu Qualität und
-Last) bleiben standardmäßig draußen: Sie wachsen am schnellsten und sagen
-nichts über Ihren Katalog. <strong>Telemetrie in Sicherungen einschließen</strong>
+Last) werden standardmäßig nicht aufgenommen: Sie wachsen am schnellsten und
+enthalten keine Angaben über Ihren Katalog. <strong>Telemetrie in Sicherungen einschließen</strong>
 (<strong>Verwaltung → Serverkonfiguration</strong>) nimmt sie wieder auf, für manuelle,
 geplante und über die Kommandozeile erstellte Sicherungen. Beim
 Wiederherstellen einer Sicherung werden diese Tabellen immer geleert.</p>
@@ -3259,16 +3259,16 @@ siehe <a href="../runbooks/recovery/">Wiederherstellung</a>.</p>
 </ul>
 <details class="info">
 <summary>Die genaue Version festlegen, die Sie betreiben</summary>
-<p>Während der Beta gibt es keine nummerierten Versionen und keinen Tag
-<code>latest</code>. Der Tag <code>beta-0.0.1</code> ändert sich mit jedem Update. Für einen
-Server, auf den Sie sich verlassen, tragen Sie in der Zeile <code>image:</code> einen
-festen Tag <code>sha-&lt;commit&gt;</code> ein. So laufen zwei Pulls im Abstand eines Tages
+<p>Während der Beta gibt es keine nummerierten Versionen und kein Tag
+<code>latest</code>. Das Tag <code>beta-0.0.1</code> ändert sich mit jedem Update. Für einen
+Server, auf den Sie sich verlassen, tragen Sie in der Zeile <code>image:</code> ein
+festes Tag <code>sha-&lt;commit&gt;</code> ein. So laufen zwei Pulls im Abstand eines Tages
 mit demselben Code. Sobald es Versionen gibt, folgt <code>latest</code> der neuesten
 stabilen Version, und ein Versions-Tag (<code>0.2.0</code>) legt sie fest.</p>
 </details>
 <h3 id="going-back">Zurückkehren<a class="headerlink" href="#going-back" title="Permanent link">¶</a></h3>
 <ol>
-<li>Tragen Sie den vorherigen Tag in die Zeile <code>image:</code> Ihrer Compose-Datei
+<li>Tragen Sie das vorherige Tag in die Zeile <code>image:</code> Ihrer Compose-Datei
    ein.</li>
 <li>Hat die neuere Version die Datenbank verändert, stellen Sie zuerst deren
    Kopie von vor dem Update wieder her:

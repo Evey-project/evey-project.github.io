@@ -1697,7 +1697,7 @@
   <a href="#checking-the-sync-by-eye" class="md-nav__link">
     <span class="md-ellipsis">
       
-        用眼睛检查同步
+        目视检查同步
       
     </span>
   </a>
@@ -1741,7 +1741,7 @@
   <a href="#from-the-command-line" class="md-nav__link">
     <span class="md-ellipsis">
       
-        用命令行
+        通过命令行
       
     </span>
   </a>
@@ -3144,7 +3144,7 @@
   <a href="#checking-the-sync-by-eye" class="md-nav__link">
     <span class="md-ellipsis">
       
-        用眼睛检查同步
+        目视检查同步
       
     </span>
   </a>
@@ -3188,7 +3188,7 @@
   <a href="#from-the-command-line" class="md-nav__link">
     <span class="md-ellipsis">
       
-        用命令行
+        通过命令行
       
     </span>
   </a>
@@ -3219,7 +3219,7 @@
 
 
 <h1 id="media-health">媒体健康<a class="headerlink" href="#media-health" title="Permanent link">¶</a></h1>
-<p>某部片子跳转很慢、播到某处卡住，或者声音慢慢对不上了：<strong>管理 → 媒体健康</strong>会读取您各个媒体库里的每个 MKV/WebM 文件，并为每个文件给出一个结论。目标是让这个页面逐渐清空：Evey 能修的，它就修（<strong>全部修复</strong>）；其余的只提示一次，您可以把它标记为已看过。</p>
+<p>某个影片跳转很慢、在某处卡住，或者声音逐渐与画面不同步：<strong>管理 → 媒体健康</strong>会读取您各个媒体库里的每个 MKV/WebM 文件，并为每个文件给出一个结论。目标是让这个页面逐渐清空：Evey 能修复的问题由它修复（<strong>全部修复</strong>）；其余的只提示一次，您可以把它标记为已看过。</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="扫描后的管理 → 媒体健康：一个待修复的文件，一条提示" loading="lazy" src="../../../images/admin-media-health.webp"></a>
 <br>
@@ -3248,17 +3248,17 @@
 </tr>
 </tbody>
 </table>
-<p>两种结论都不会给您派活。Evey 无法处理的测量结果只是一条提示，而且测量也可能出错：如果文件播放正常，那它就是正常的。</p>
+<p>两种结论都不需要您手动处理。Evey 无法处理的测量结果只是一条提示，而且测量也可能出错：如果文件播放正常，就不需要做任何处理。</p>
 <h3 id="repairable">可修复<a class="headerlink" href="#repairable" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>缺少跳转索引</strong>，或者索引无法使用。症状是跳转或继续播放很慢。索引会在一个临时副本里重建，副本经过完整检查（轨道、时长、索引）后，再替换原文件。</li>
 <li><strong>容器错误</strong>：这个 <code>.mkv</code> 实际上是 MP4 或 MOV 文件。它会被重命名为 <code>.mp4</code>，媒体库也会跟着更新；不改写任何内容。</li>
-<li><strong>损坏片段</strong>：文件中间有一段数据损坏了。修复会跳过这一段，并重新同步后面的内容，所以这些字节会永久丢失。修复对话框会明确询问您（<strong>同时重新同步 N 个损坏文件</strong>）；不勾选的话，损坏的文件不会被动。有些文件的损坏只在改写时才暴露出来（<strong>修复时发现损坏</strong>），也是一样：扫描只读取文件头，看不到这种损坏。</li>
-<li><strong>轨道按块存放</strong>：先是几分钟的视频，再是几分钟的音频，而不是交错排列在一起。任何播放器都过不了第一块。<strong>重新交错轨道</strong>会把轨道重新交错写入，不重新编码，并在替换文件之前检查每个数据包都写进去了。</li>
+<li><strong>损坏片段</strong>：文件中间有一段数据损坏了。修复会跳过这一段，并重新同步后面的内容，所以这些字节会永久丢失。修复对话框会明确询问您（<strong>同时重新同步 N 个损坏文件</strong>）；不勾选的话，损坏的文件不会被改动。有些文件的损坏只在改写时才暴露出来（<strong>修复时发现损坏</strong>），也是一样：扫描只读取文件头，看不到这种损坏。</li>
+<li><strong>轨道按块存放</strong>：先是几分钟的视频，再是几分钟的音频，而不是交错排列在一起。任何播放器都无法播放到第一块之后。<strong>重新交错轨道</strong>会把轨道重新交错写入，不重新编码，并在替换文件之前检查每个数据包都已写入。</li>
 </ul>
 <h3 id="info">信息<a class="headerlink" href="#info" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>下载不完整</strong>：文件的结尾一直没有下载下来。它能播放到断掉的地方。没有任何工具能找回缺少的部分，只有片源能。</li>
+<li><strong>下载不完整</strong>：文件的结尾一直没有下载下来。它能播放到中断的位置。任何工具都无法找回缺少的部分，只能从片源重新获取。</li>
 <li><strong>跳转粗糙</strong>：重建的索引里仍然有一处空洞，多半是片尾字幕。跳转到空洞里时，会落在空洞的边缘；在其他任何地方，跳转都是精确的。</li>
 <li><strong>音轨从 +N 秒开始</strong>：某条音轨比画面开始得晚。配音就是这样和剪辑版本对齐的，所有播放器都会照此播放。Evey 从不改写它。</li>
 <li><strong>音轨相差 N 秒</strong>：文件自己的几条音轨彼此对不上，说明其中一条的位置不对。任何测量都判断不出是哪一条。</li>
@@ -3268,11 +3268,11 @@
 <li><strong>尾部多余字节</strong>：文件内容结束之后还有多余的字节。播放没有问题。</li>
 <li><strong>无法读取</strong>：扫描读不了这个文件（文件不存在、无法读取，或者解析器不接受这种容器）。请检查挂载或片源。</li>
 </ul>
-<h2 id="checking-the-sync-by-eye">用眼睛检查同步<a class="headerlink" href="#checking-the-sync-by-eye" title="Permanent link">¶</a></h2>
-<p>对于上面三种和音频有关的提示，在文件那一行点击<strong>检查同步</strong>，服务器会生成一小段片段：选一个时刻、一条音轨和一个要试的偏移量，然后观看，需要时可以放慢。比较几条音轨只能说明它们彼此是否一致，永远说不出哪一条跟着画面；只有亲眼看才能定论。</p>
+<h2 id="checking-the-sync-by-eye">目视检查同步<a class="headerlink" href="#checking-the-sync-by-eye" title="Permanent link">¶</a></h2>
+<p>对于上面三种和音频有关的提示，在文件那一行点击<strong>检查同步</strong>，服务器会生成一小段片段：选一个时刻、一条音轨和一个要试的偏移量，然后观看，需要时可以放慢。比较几条音轨只能说明它们彼此是否一致，无法说明哪一条与画面同步；只有观看才能确定。</p>
 <p><strong>对该音轨应用 N 秒</strong>会把这条音轨移动选定的偏移量。这个改动会被记录为您的判断，而不是测量结果，并且可以在<strong>历史</strong>里撤销。</p>
 <h2 id="marking-as-seen">标记为已看过<a class="headerlink" href="#marking-as-seen" title="Permanent link">¶</a></h2>
-<p><strong>已看过，不再提示</strong>（一个文件）和<strong>全部标记为已看过</strong>（一组文件）会把一条信息类提示从<strong>待处理</strong>视图中移走。只有提示可以标记：可修复的缺陷，就去修复它。这个标记只对文件当前的样子有效：如果文件的大小或日期变了，下次扫描会重新诊断它。<strong>重新提示</strong>可以取消这个标记。</p>
+<p><strong>已看过，不再提示</strong>（一个文件）和<strong>全部标记为已看过</strong>（一组文件）会把一条信息类提示从<strong>待处理</strong>视图中移走。只有提示可以标记：可修复的缺陷应当修复。这个标记只对文件当前的样子有效：如果文件的大小或日期变了，下次扫描会重新诊断它。<strong>重新提示</strong>可以取消这个标记。</p>
 <p>表格上方的各个视图（<strong>待处理</strong>、<strong>可修复</strong>、<strong>信息</strong>、<strong>已看过</strong>、<strong>备份</strong>、<strong>全部</strong>）和搜索框，是您处理大型媒体库的工具：<strong>待处理</strong>就是待办清单。</p>
 <h2 id="scans">扫描<a class="headerlink" href="#scans" title="Permanent link">¶</a></h2>
 <p>一次扫描会读取每个文件的开头部分（几 KB），对于没有变化的文件，沿用上一次的结论。<strong>磁盘占用</strong>决定扫描的快慢：</p>
@@ -3280,9 +3280,9 @@
 <li><strong>轻量</strong>：一次一个文件，然后暂停，暂停的时间和读取花的时间一样长。磁盘大约有一半时间是空闲的，所以有人可以继续观看。</li>
 <li><strong>快速</strong>：同时处理多个文件，不暂停。对于分布在多块磁盘上的媒体库，大约快三倍，但扫描期间播放可能会卡顿。</li>
 </ul>
-<p>有两种情况会让扫描把所有文件重新诊断一遍：文件有了变化，以及新版本的 Evey 改变了检查项目。所以在这样的更新之后，大型媒体库的第一次扫描会很久；之后的扫描又会很快。</p>
+<p>有两种情况会让扫描把所有文件重新诊断一遍：文件有了变化，以及新版本的 Evey 改变了检查项目。所以在这样的更新之后，大型媒体库的第一次扫描耗时较长；之后的扫描会恢复为较快。</p>
 <h2 id="backups-history-and-undo">备份、历史和撤销<a class="headerlink" href="#backups-history-and-undo" title="Permanent link">¶</a></h2>
-<p><strong>保留备份</strong>默认是开启的：每个被改写的文件，都会在旁边把原文件保留为一个 <code>.mkvgobak</code>。<strong>还原</strong>恢复一个文件，<strong>全部还原</strong>恢复所选范围内的文件，<strong>删除备份</strong>会把备份永久删除。关闭这个选项后，运行期间只存在最近的几份副本，并在运行结束时删除；作为交换，每次修复在替换文件之前都会做更深入的校验。如果给每个文件都保留一份副本会占满存储卷，页面会在运行之前提醒您。</p>
+<p><strong>保留备份</strong>默认是开启的：每个被改写的文件，都会在旁边把原文件保留为一个 <code>.mkvgobak</code>。<strong>还原</strong>恢复一个文件，<strong>全部还原</strong>恢复所选范围内的文件，<strong>删除备份</strong>会把备份永久删除。关闭这个选项后，运行期间只存在最近的几份副本，并在运行结束时删除；此时每次修复在替换文件之前都会进行更深入的校验。如果给每个文件都保留一份副本会占满存储卷，页面会在运行之前提醒您。</p>
 <p><strong>修复日志</strong>列出了修复对整个媒体库中文件字节所做的每一处改动；<strong>历史</strong>显示单个文件的改动。有些改动可以在那里撤销，不需要任何副本：</p>
 <table>
 <thead>
@@ -3316,7 +3316,7 @@
 <figcaption><strong>全部修复</strong>之后：索引已重建，日志记录了这一操作，文件离开了待处理队列；那条提示仍然保留。这个索引是直接在原文件里修补的，这种方式不保留副本：只有需要整个改写的文件才会保留备份（界面为英文）。</figcaption>
 </figure>
 <p>修复会写入您的媒体文件夹。这些文件夹必须以读写方式挂载到容器里（卷上不要加 <code>:ro</code>）；如果某次运行遇到了只读的卷，页面会告诉您。扫描则不受影响，两种方式都可以。</p>
-<h2 id="from-the-command-line">用命令行<a class="headerlink" href="#from-the-command-line" title="Permanent link">¶</a></h2>
+<h2 id="from-the-command-line">通过命令行<a class="headerlink" href="#from-the-command-line" title="Permanent link">¶</a></h2>
 <p>同样的功能也可以通过运维命令行使用，见<a href="../cli/#media-maintenance">命令行</a>：</p>
 <ul>
 <li><code>evey admin reindex-no-cue --root &lt;dir&gt; [--apply] [--resync]</code> 重建缺失的索引；如果不加 <code>--apply</code>，就只是试运行；</li>

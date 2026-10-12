@@ -3168,7 +3168,7 @@
 <p>ये वेरिएबल बताते हैं कि सर्वर किस पते पर खुला है, वह किन प्रॉक्सी पर भरोसा
 करता है, बाहर से कौन उस तक पहुँच सकता है और वह कितने अनुरोध स्वीकार करता है।
 इनमें से ज़्यादातर compose फ़ाइल में एक बार सेट होते हैं; उसके बाद
-<strong>एडमिन → रिमोट एक्सेस</strong> जो सहेजता है, वह इन पर भारी पड़ता है, जैसा
+<strong>एडमिन → रिमोट एक्सेस</strong> जो सहेजता है, उसे इनसे ज़्यादा प्राथमिकता मिलती है, जैसा
 <a href="../../configuration/">कॉन्फ़िगरेशन रेफ़रेंस</a> में समझाया गया है।</p>
 <h2 id="address-and-ports">पता और पोर्ट<a class="headerlink" href="#address-and-ports" title="Permanent link">¶</a></h2>
 <table>
@@ -3185,7 +3185,7 @@
 <td><code>EVEY_SERVER_BASE_URL</code></td>
 <td><code>http://localhost:9091</code></td>
 <td>सार्वजनिक पता। <code>https://</code> वाला पता <code>Secure</code> कुकी, HSTS और <code>X-Forwarded-Proto</code> पर भरोसा चालू करता है। ई-मेल के लिंक, सिंगल साइन-ऑन के रीडायरेक्ट और कास्ट के URL इसी से बनते हैं।</td>
-<td>रिमोट एक्सेस → <strong>बाहरी URL</strong> सेट होने पर भारी पड़ता है, तुरंत लागू; <code>https://</code> वाला बाहरी URL भी HTTPS चालू करता है</td>
+<td>रिमोट एक्सेस → <strong>बाहरी URL</strong> सेट होने पर उसे प्राथमिकता मिलती है, तुरंत लागू; <code>https://</code> वाला बाहरी URL भी HTTPS चालू करता है</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_PORT</code></td>

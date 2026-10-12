@@ -3165,7 +3165,7 @@
 
 
 <h1 id="server-and-network">Servidor y red<a class="headerlink" href="#server-and-network" title="Permanent link">¶</a></h1>
-<p>Las variables que dicen dónde se publica el servidor, de qué proxies se fía,
+<p>Las variables que dicen dónde se publica el servidor, en qué proxies confía,
 quién puede llegar a él desde fuera y cuántas peticiones acepta. La mayoría
 se definen una sola vez en el archivo compose; lo que guarda después
 <strong>Administración → Acceso remoto</strong> tiene prioridad sobre ellas, como explica
@@ -3185,7 +3185,7 @@ la <a href="../../configuration/">Referencia de configuración</a>.</p>
 <td><code>EVEY_SERVER_BASE_URL</code></td>
 <td><code>http://localhost:9091</code></td>
 <td>La dirección pública. Una dirección <code>https://</code> activa las cookies <code>Secure</code>, HSTS y la confianza en <code>X-Forwarded-Proto</code>. Los enlaces de los correos, las redirecciones del inicio de sesión único y las URL de envío a Chromecast se construyen a partir de ella.</td>
-<td>Acceso remoto → <strong>URL externa</strong> gana si está definida, inmediato; una URL externa en <code>https://</code> también activa HTTPS</td>
+<td>Acceso remoto → <strong>URL externa</strong> tiene prioridad si está definida, inmediato; una URL externa en <code>https://</code> también activa HTTPS</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_PORT</code></td>
@@ -3221,7 +3221,7 @@ la <a href="../../configuration/">Referencia de configuración</a>.</p>
 <tr>
 <td><code>EVEY_TRUSTED_PROXIES</code></td>
 <td>solo la interfaz local</td>
-<td>Redes cuya dirección de cliente reenviada se cree, separadas por comas (para un proxy en un contenedor: <code>172.16.0.0/12</code>, que puedes acotar cuando la conozcas). Se suman a la interfaz local, nunca la sustituyen; una entrada mal escrita impide el arranque.</td>
+<td>Redes cuya dirección de cliente reenviada se acepta, separadas por comas (para un proxy en un contenedor: <code>172.16.0.0/12</code>, que puedes acotar cuando la conozcas). Se suman a la interfaz local, nunca la sustituyen; una entrada mal escrita impide el arranque.</td>
 <td>Acceso remoto → <strong>Proxies de confianza (IP o CIDR, separados por comas)</strong> sustituye esta lista, inmediato; vaciar el campo vuelve a aplicar la variable</td>
 </tr>
 <tr>

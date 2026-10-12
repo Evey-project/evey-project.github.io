@@ -3116,8 +3116,8 @@
 <p><strong>要打开字幕</strong>，在播放器里打开设置菜单，选择<strong>字幕</strong>。想每次都自动显示您语言的字幕，请设置<strong>设置 → 播放 → 默认字幕语言</strong>。</p>
 <p>大多数字幕会立刻出现。有两种情况不一样：</p>
 <ul>
-<li><strong>某条封装在文件里的字幕第一次被人选中时</strong>，Evey 需要先把它从文件里取出来。这时播放器会显示<strong>字幕准备中…</strong>，视频继续播放，字幕准备好后会自己出现。如果电影文件非常大，这可能要几分钟，但只有这一次：之后任何人选它，都会马上显示。见<a href="#the-first-time-a-subtitle-is-shown">字幕第一次显示时</a>。</li>
-<li><strong>DVD 和电视广播的字幕</strong>是图片，不是文字。服务器要把它们画进视频画面里，这会让服务器辛苦得多。个人资料里的<strong>字幕内嵌</strong>设置（<strong>设置 → 播放</strong>）可以拒绝这样做，但那样的话，这类字幕就无法显示。见<a href="#subtitle-burn-in">字幕内嵌</a>。</li>
+<li><strong>某条封装在文件里的字幕第一次被选中时</strong>，Evey 需要先把它从文件里提取出来。这时播放器会显示<strong>字幕准备中…</strong>，视频继续播放，字幕准备好后会自动显示。如果电影文件非常大，这可能要几分钟，但只有这一次：之后任何人选它，都会马上显示。见<a href="#the-first-time-a-subtitle-is-shown">字幕第一次显示时</a>。</li>
+<li><strong>DVD 和电视广播的字幕</strong>是图片，不是文字。服务器要把它们绘制到视频画面中，这会大大增加服务器的工作量。个人资料里的<strong>字幕内嵌</strong>设置（<strong>设置 → 播放</strong>）可以拒绝这样做，但那样的话，这类字幕就无法显示。见<a href="#subtitle-burn-in">字幕内嵌</a>。</li>
 </ul>
 <p>本页其余部分会说明每种字幕格式，以及它们对服务器有什么影响。</p>
 <h2 id="what-each-format-does-to-the-video">每种格式对视频的影响<a class="headerlink" href="#what-each-format-does-to-the-video" title="Permanent link">¶</a></h2>
@@ -3151,10 +3151,10 @@
 </tr>
 </tbody>
 </table>
-<p>所有播放器（网页、Android、Android TV）都会自己绘制文字字幕和 PGS 字幕，所以选这些字幕从来不会改变视频的传送方式。只有表格最后一行会：把字幕内嵌到画面，需要先解码视频再重新编码，所以本来可以直接播放的片子，就变成了转码。这时流信息会列出<strong>字幕已内嵌到画面</strong>。</p>
+<p>所有播放器（网页、Android、Android TV）都会自己绘制文字字幕和 PGS 字幕，所以选这些字幕从来不会改变视频的传送方式。只有表格最后一行会：把字幕内嵌到画面，需要先解码视频再重新编码，所以本来可以直接播放的影片会改为转码。这时流信息会列出<strong>字幕已内嵌到画面</strong>。</p>
 <p>只有在您真正选中图片字幕时，它才会被内嵌进去。如果文件只是带着这种字幕，或者把它标成了默认字幕，仍然可以直接播放。</p>
 <h2 id="subtitle-burn-in">字幕内嵌<a class="headerlink" href="#subtitle-burn-in" title="Permanent link">¶</a></h2>
-<p>个人资料里的<strong>字幕内嵌</strong>设置（<strong>设置 → 播放</strong>）管的是表格最后一行的那些格式：</p>
+<p>个人资料里的<strong>字幕内嵌</strong>设置（<strong>设置 → 播放</strong>）控制的是表格最后一行的那些格式：</p>
 <table>
 <thead>
 <tr>
@@ -3182,15 +3182,15 @@
 </tbody>
 </table>
 <h2 id="the-first-time-a-subtitle-is-shown">字幕第一次显示时<a class="headerlink" href="#the-first-time-a-subtitle-is-shown" title="Permanent link">¶</a></h2>
-<p>封装在文件里的字幕（文字或 PGS），会在第一次有人选中时由服务器提取出来，然后保存下来：以后无论谁再看，都能马上显示。如果文件自带的索引覆盖了这条字幕，服务器只需读取字幕所在的数据块，几秒钟就好。没有这个索引的话，就要读完整个文件：大电影需要好几分钟（本地硬盘上一部 85 GB 的 UHD 原盘重封装（Remux）文件大约要五分钟；如果服务器同时还在播放视频，时间会更长）。</p>
-<p>在此期间，播放器会在字幕的位置显示<strong>字幕准备中…</strong>，并自己定时查看，字幕一准备好就显示出来；视频照常播放。换选别的字幕不会中断提取：服务器会把它做完，留着下次用。</p>
-<p>服务器提取不出来的字幕会一直是空的。这次失败会被记下来，所以再次选它不会又从头读一遍文件；等负责提取的程序库 MKVGo 更新后，会再试一次。读取什么、什么时候读，见 <a href="../mkvgo/#what-mkvgo-does">Evey 中的 MKVGo</a>。</p>
+<p>封装在文件里的字幕（文字或 PGS），会在第一次有人选中时由服务器提取出来，然后保存下来：以后无论谁再看，都能马上显示。如果文件自带的索引覆盖了这条字幕，服务器只需读取字幕所在的数据块，只需几秒钟。没有这个索引的话，就要读完整个文件：大电影需要好几分钟（本地硬盘上一部 85 GB 的 UHD 原盘重封装（Remux）文件大约要五分钟；如果服务器同时还在播放视频，时间会更长）。</p>
+<p>在此期间，播放器会在字幕的位置显示<strong>字幕准备中…</strong>，并自动定期检查，字幕一准备好就显示出来；视频照常播放。换选别的字幕不会中断提取：服务器会完成提取，供下次使用。</p>
+<p>服务器无法提取的字幕会保持为空。这次失败会被记录，所以再次选择它不会重新读取整个文件；等负责提取的程序库 MKVGo 更新后，会再试一次。读取什么、什么时候读，见 <a href="../mkvgo/#what-mkvgo-does">Evey 中的 MKVGo</a>。</p>
 <h2 id="choosing-and-adjusting">选择和调整<a class="headerlink" href="#choosing-and-adjusting" title="Permanent link">¶</a></h2>
 <ul>
-<li>播放器会先选个人资料里<strong>默认字幕语言</strong>对应的字幕，再选文件标为默认的那条（比如强制字幕）。您手动选的字幕绝不会被替换掉；换一部新片子时，会重新开始选择。</li>
-<li>播放器里的<strong>字幕同步</strong>可以让当前片子的字幕提前或推后（正数表示推后显示）。设置后立即生效。</li>
+<li>播放器会先选个人资料里<strong>默认字幕语言</strong>对应的字幕，再选文件标为默认的那条（比如强制字幕）。您手动选的字幕绝不会被替换掉；换一部新影片时，会重新开始选择。</li>
+<li>播放器里的<strong>字幕同步</strong>可以让当前影片的字幕提前或推后（正数表示推后显示）。设置后立即生效。</li>
 <li><strong>字幕样式</strong>可以设置文字字幕的大小、文字颜色、背景、字体、阴影和位置。PGS 图片字幕按原样绘制。</li>
-<li>点击“<strong>上传字幕…</strong>”可以为这部片子添加一个字幕文件。</li>
+<li>点击“<strong>上传字幕…</strong>”可以为这部影片添加一个字幕文件。</li>
 <li>如果设置了 OpenSubtitles 密钥（见<a href="../../administration/libraries/#metadata-keys">媒体库与元数据</a>），可以通过服务器 API 搜索并下载文件里没有的字幕（先 <code>GET /api/v1/media/{id}/subtitles/search</code>，再 <code>POST /api/v1/media/{id}/subtitles/download</code>）。下载的文件保存在电影旁边的 <code>.subtitles</code> 文件夹里。应用里没有这个搜索功能。</li>
 </ul>
 

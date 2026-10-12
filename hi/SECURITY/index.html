@@ -3090,7 +3090,7 @@
   <a href="#crash-notification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        गिरने की सूचना
+        क्रैश की सूचना
       
     </span>
   </a>
@@ -3514,7 +3514,7 @@
   <a href="#crash-notification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        गिरने की सूचना
+        क्रैश की सूचना
       
     </span>
   </a>
@@ -3677,12 +3677,12 @@
 
 
 <h1 id="plugin-sandbox-and-threat-model">प्लगइन सैंडबॉक्स और ख़तरा मॉडल<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
-<p>सर्वर प्लगइन को बंद रखने के लिए क्या करता है: इंस्टॉल के समय की जाँचें, चलते समय की
+<p>सर्वर प्लगइन को सीमित रखने के लिए क्या करता है: इंस्टॉल के समय की जाँचें, चलते समय की
 परतें, सैंडबॉक्स मोड, और हर एक अब भी क्या नहीं रोक सकता। कोड
 <code>internal/adapters/driven/pluginrunner</code> (इंस्टॉल का विश्लेषण, सैंडबॉक्स),
 <code>cmd/evey-plugin-launcher</code> (Landlock और kernel का seccomp फ़िल्टर), <code>sandbox/sandbox.c</code>
 (<code>LD_PRELOAD</code> फ़िल्टर) और <code>internal/adapters/driving/pluginhost</code> (वह होस्ट API जिसे
-प्लगइन कॉल करते हैं) में रहता है; डिज़ाइन
+प्लगइन कॉल करते हैं) में है; डिज़ाइन
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a> और
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a> तय करते हैं। अगर आप प्लगइन लिख रहे
@@ -3690,12 +3690,12 @@
 <a href="../plugins/security-model/">अनुमतियाँ और स्लॉट</a> पढ़ें; आपकी मशीन को कौन सा सैंडबॉक्स
 मिलता है, यह जानने के लिए <a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> पढ़ें।</p>
 <h2 id="threat-model">ख़तरा मॉडल<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
-<p>प्लगइन अलग प्रोसेस के रूप में चलते हैं, जो Unix socket पर gRPC से सर्वर से बात करते
-हैं। सर्वर डिफ़ॉल्ट रूप से किसी प्लगइन कोड पर भरोसा नहीं करता। जिन ख़तरों से वह बचाता
+<p>प्लगइन अलग प्रोसेस के रूप में चलते हैं, जो Unix socket पर gRPC के ज़रिए सर्वर से संवाद
+करते हैं। सर्वर डिफ़ॉल्ट रूप से किसी प्लगइन कोड पर भरोसा नहीं करता। जिन ख़तरों से वह बचाता
 है, सबसे गंभीर से सबसे कम गंभीर तक:</p>
 <ol>
 <li><strong>दूसरे की पहचान लेना</strong> - कोई प्लगइन दूसरे प्लगइन होने का दिखावा करता है ताकि उसकी अनुमतियाँ इस्तेमाल कर सके।</li>
-<li><strong>अधिकार बढ़ाना</strong> - कोई प्लगइन अपने सैंडबॉक्स से निकल जाता है और सर्वर बनकर command चलाता है।</li>
+<li><strong>अधिकार बढ़ाना</strong> - कोई प्लगइन अपने सैंडबॉक्स से बाहर निकल जाता है और सर्वर के अधिकारों से command चलाता है।</li>
 <li><strong>फ़ाइल सिस्टम तक पहुँच</strong> - कोई प्लगइन अपने फ़ोल्डर के बाहर पढ़ता या लिखता है, ख़ासकर सर्वर के secret।</li>
 <li><strong>नेटवर्क से डेटा बाहर भेजना</strong> - कोई प्लगइन अपनी पसंद के होस्ट को डेटा भेजता है।</li>
 <li><strong>संसाधनों का दुरुपयोग</strong> - mining, fork bomb, मेमोरी या डिस्क ख़त्म कर देना।</li>
@@ -3848,8 +3848,8 @@
 <code>tests/fixtures/plugins/malicious/</code> में एक regression fixture के साथ, पर यह चलते
 समय होने वाले हर बदलाव के पीछे नहीं जा सकता (<code>strrev("metsys")</code>, किसी फ़ाइल से पढ़ा
 payload decode करना)। यह comment के अंदर भी मेल ढूँढता है: <code># pip install foo</code>
-वाला comment <code>runtime_install</code> चालू कर देता है। <strong>असली सीमा चलते समय का सैंडबॉक्स
-है, विश्लेषण नहीं</strong>: जो प्लगइन किसी पैटर्न को विश्लेषण से बचाकर निकाल ले, वह फिर भी
+वाला comment <code>runtime_install</code> चालू कर देता है। <strong>सुरक्षा चलते समय का सैंडबॉक्स लागू
+करता है, विश्लेषण नहीं</strong>: जो प्लगइन किसी पैटर्न को विश्लेषण से बचाकर निकाल ले, वह फिर भी
 सर्वर का डेटा नहीं पढ़ सकता, मना किया सिस्टम कॉल नहीं कर सकता, अपनी संसाधन सीमाएँ
 पार नहीं कर सकता, या ऐसा होस्ट method कॉल नहीं कर सकता जिसकी उसके पास अनुमति
 नहीं।</p>
@@ -3886,8 +3886,8 @@ payload decode करना)। यह comment के अंदर भी मे
 पैकेज का SHA256 देखता है; इंस्टॉल लागू करते समय वही hash जाँचा जाता है, इसलिए जिस
 पैकेज का विश्लेषण हुआ, वही इंस्टॉल होता है। अपडेट अनुमतियों, स्लॉट और होस्ट का फ़र्क
 दिखाता है, और नई अनुमति के लिए साफ़ स्वीकृति चाहिए।</p>
-<p>ऊँची अनुमतियों के लिए भरोसे की सीमा एडमिन है: Evey पूरी तस्वीर दिखाता है, एडमिन
-स्वीकार या मना करता है।</p>
+<p>ऊँची अनुमतियों के लिए भरोसे का निर्णय एडमिन का है: Evey दिखाता है कि प्लगइन किन
+चीज़ों तक पहुँचेगा, एडमिन स्वीकार या मना करता है।</p>
 <h2 id="at-run-time">चलते समय<a class="headerlink" href="#at-run-time" title="Permanent link">¶</a></h2>
 <p>छह परतें हर <a href="#sandbox-modes">सैंडबॉक्स मोड</a> में लागू रहती हैं; पहली दो कैसे लागू होती
 हैं, यह मोड पर निर्भर है।</p>
@@ -3910,7 +3910,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
   के बाद निजी, आरक्षित और link-local पते मना करता है, इसलिए DNS rebinding और redirect
   फिर से जाँचे जाते हैं (सूची के बाहर के होस्ट पर redirect मना है);</li>
 <li>सर्वर का कोई credential नहीं जोड़ता, जवाब की body 8 MiB और request के header 8 KiB
-  तक सीमित रखता है, और 20 s के बाद छोड़ देता है।</li>
+  तक सीमित रखता है, और 20 s के बाद अनुरोध रद्द कर देता है।</li>
 </ul>
 <p>इससे वे रास्ते बंद होते हैं जो सीधे बाहर जाने पर खुले रहते (<code>169.254.169.254</code> जैसे IP,
 प्लगइन का अपना resolver)। जो बचता है: broker यह तय करता है कि कॉल <em>कहाँ</em> जाती है, यह
@@ -3918,7 +3918,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
 <div class="admonition tip">
 <p class="admonition-title">सर्वर चलाने वालों के लिए सुझाव</p>
 <p>broker SSRF का ख़तरा होस्ट पर ले आता है। <code>evey-server</code> container पर बाहर जाने का
-एक नियम, जो कोड से अलग हो, दूसरी दीवार जोड़ता है: <code>169.254.0.0/16</code> बंद करें और
+एक नियम, जो कोड से अलग हो, सुरक्षा की दूसरी परत जोड़ता है: <code>169.254.0.0/16</code> बंद करें और
 अंदरूनी नेटवर्क को डेटाबेस और खोज के endpoint तक सीमित करें।</p>
 </div>
 <h3 id="system-calls">सिस्टम कॉल<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
@@ -3928,7 +3928,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
    प्लगइन शुरू करने से ठीक पहले लगाता है
    (<a href="https://github.com/Evey-project/evey/blob/master/cmd/evey-plugin-launcher/seccomp_linux.go"><code>seccomp_linux.go</code></a>)। यह प्लगइन और
    उसके children को विरासत में मिलता है और <strong>compiled, static binary पर भी लागू होता
-   है</strong>। किसी सिस्टम कॉल में गलत architecture हो, तो प्रोसेस मार दिया जाता है।
+   है</strong>। किसी सिस्टम कॉल में गलत architecture हो, तो प्रोसेस समाप्त कर दिया जाता है।
    <code>landlock</code> और <code>basic</code> में लागू।</li>
 <li><strong><code>LD_PRELOAD</code> फ़िल्टर</strong>, <a href="https://github.com/Evey-project/evey/blob/master/sandbox/sandbox.c"><code>sandbox/sandbox.c</code></a>, जो उन
    interpreter वाले प्लगइन में लोड होता है जो <code>subprocess</code> नहीं बताते। यह
@@ -4005,7 +4005,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
 <p>यह एक <strong>मना-सूची</strong> है: <code>open</code>, <code>read</code>, <code>write</code>, <code>mmap</code>, Unix <code>socket</code> और <code>connect</code> की
 अनुमति बनी रहती है। रास्तों को फ़ाइल सिस्टम वाली परत सीमित करती है, seccomp नहीं।
 <code>bubblewrap</code> में launcher इस्तेमाल नहीं होता: वहाँ static binary को कोई seccomp फ़िल्टर
-नहीं मिलता, और उसे namespace और mount अनुमति सूची बंद रखते हैं।</p>
+नहीं मिलता, और उसे namespace और mount अनुमति सूची सीमित रखते हैं।</p>
 <h3 id="a-separate-user">एक अलग उपयोगकर्ता<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
 <p>प्लगइन उपयोगकर्ता 1001 (<code>evey-plugin</code>) के रूप में चल सकता है, जो सर्वर (1000) से अलग
 है, ताकि सर्वर के secret सिर्फ़ फ़ाइल की अनुमतियों से ही उसके लिए न पढ़े जा सकें।
@@ -4020,7 +4020,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
 <tbody>
 <tr>
 <td><code>auto</code> (डिफ़ॉल्ट)</td>
-<td>सिर्फ़ तब जब सैंडबॉक्स <code>basic</code> पर पहुँचता है, वह अकेली स्थिति जहाँ secret के चारों ओर फ़ाइल की अनुमतियाँ ही अकेली दीवार हैं</td>
+<td>सिर्फ़ तब जब सैंडबॉक्स <code>basic</code> पर पहुँचता है, वह अकेली स्थिति जहाँ फ़ाइल की अनुमतियाँ ही secret की एकमात्र सुरक्षा हैं</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -4034,7 +4034,7 @@ namespace)। <code>network</code> अनुमति वाला प्लग�
 </table>
 <p>बदलाव launcher करता है, जिसके पास <code>cap_setuid</code> है; सर्वर खुद बिना अधिकारों या
 capabilities के चलता है। launcher 1000 से नीचे का कोई लक्ष्य मना करता है। अगर वह बदल
-नहीं पाता, तो <code>basic</code> में प्लगइन मना होता है (वहाँ उपयोगकर्ता ही अकेली दीवार है), जबकि
+नहीं पाता, तो <code>basic</code> में प्लगइन मना होता है (वहाँ अलग उपयोगकर्ता ही एकमात्र सुरक्षा है), जबकि
 <code>landlock</code> में वह एक चेतावनी के साथ सर्वर के उपयोगकर्ता के रूप में चलता है।
 <code>bubblewrap</code> और <code>strict</code> में यह काम user namespace करता है।</p>
 <p>चालू होने पर, साइन करने वाली कुंजी (<code>0600</code>) और बैकअप (<code>0700</code> फ़ोल्डर, <code>0600</code> फ़ाइलें)
@@ -4050,7 +4050,7 @@ capabilities के चलता है। launcher 1000 से नीचे क
 कर सकता, या किसी child process से कॉल नहीं भेज सकता। PID न मिलने पर एक चेतावनी लॉग
 होती है।</p>
 <h3 id="resource-limits">संसाधनों की सीमाएँ<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
-<p>user space में एक निगरानी करने वाला (बिना अधिकार वाले container में cgroups उपलब्ध
+<p>user space में एक निगरानी प्रक्रिया (बिना अधिकार वाले container में cgroups उपलब्ध
 नहीं होते) हर 2 सेकंड में <code>/proc/&lt;pid&gt;</code> पढ़ता है और सीमा पार करने वाले प्लगइन को रोक
 देता है (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>):</p>
 <table>
@@ -4084,15 +4084,15 @@ capabilities के चलता है। launcher 1000 से नीचे क
 </tr>
 </tbody>
 </table>
-<p>वही दौर उस प्लगइन को चिह्नित करता है जो लगभग 30 s तक एक CPU को 90% से ऊपर दबाए रखता
-है, और <code>hardware.gpu</code> वाले उस प्लगइन को रोक देता है जो किसी ग्राफ़िक्स इंजन को इसी तरह
-दबाए रखता है। सीमाएँ हर प्लगइन के लिए <strong>एडमिन → प्लगइन → संसाधन सीमाएँ</strong> में तय होती
+<p>वही दौर उस प्लगइन को चिह्नित करता है जो लगभग 30 s तक एक CPU का 90% से ज़्यादा उपयोग
+करता रहता है, और <code>hardware.gpu</code> वाले उस प्लगइन को रोक देता है जो किसी ग्राफ़िक्स इंजन
+का इसी तरह उपयोग करता रहता है। सीमाएँ हर प्लगइन के लिए <strong>एडमिन → प्लगइन → संसाधन सीमाएँ</strong> में तय होती
 हैं; environment वेरिएबल <code>EVEY_PLUGINS_MEMORY_MB</code>, <code>EVEY_PLUGINS_PIDS_MAX</code>,
 <code>EVEY_PLUGINS_DISK_MAX_MB</code> और <code>EVEY_PLUGINS_CPU_NICE</code> शुरुआती डिफ़ॉल्ट तय करते हैं।</p>
 <h3 id="interface-isolation">इंटरफ़ेस का अलगाव<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
 <p>प्लगइन का इंटरफ़ेस एक <code>&lt;iframe sandbox="allow-scripts"&gt;</code> में चलता है, बिना same-origin
 पहुँच, फ़ॉर्म या popup के, एक ऐसी Content-Security-Policy के तहत जो सिर्फ़ उसके
-<code>external_fetch</code> होस्ट से कनेक्शन की अनुमति देती है। पुल
+<code>external_fetch</code> होस्ट से कनेक्शन की अनुमति देती है। bridge
 (<code>frontend/packages/client/src/plugins/hostProtocol.ts</code>) सीमित करता है कि वह पेज से
 क्या माँग सकता है: <code>toast</code> एक सेकंड में ज़्यादा से ज़्यादा 3, 200 अक्षर, कोई HTML नहीं;
 <code>navigate</code> सिर्फ़ <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> और <code>/search</code>
@@ -4104,7 +4104,7 @@ capabilities के चलता है। launcher 1000 से नीचे क
 वाला कोई प्रोसेस <code>/proc</code> से उसकी मेमोरी या environment नहीं पढ़ सकता, जिससे मेमोरी में
 रखी साइन करने वाली कुंजी और डेटाबेस और खोज के पासवर्ड सुरक्षित रहते हैं, Landlock के
 बिना वाले kernel पर भी।</p>
-<h3 id="crash-notification">गिरने की सूचना<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
+<h3 id="crash-notification">क्रैश की सूचना<a class="headerlink" href="#crash-notification" title="Permanent link">¶</a></h3>
 <p>runner एक <code>plugin.error</code> event प्रकाशित करता है जब किसी प्लगइन को सैंडबॉक्स library
 चाहिए पर वह न मिले, या जब कोई प्लगइन त्रुटि के साथ बंद हो। सूचना सर्विस इसे सेट किए
 गए चैनलों से एडमिन तक भेजती है, और <strong>सुरक्षा डैशबोर्ड</strong> इसे दर्ज करता है।</p>
@@ -4265,7 +4265,7 @@ capabilities के चलता है। launcher 1000 से नीचे क
 <h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
 <p><code>bubblewrap</code> और साथ में <code>LD_PRELOAD</code> फ़िल्टर (सिर्फ़ interpreter वाले प्लगइन)।</p>
 <h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
-<p><code>auto</code> का आख़िरी सहारा: अलग उपयोगकर्ता, kernel फ़िल्टर, <code>LD_PRELOAD</code> फ़िल्टर,
+<p><code>auto</code> का आख़िरी विकल्प: अलग उपयोगकर्ता, kernel फ़िल्टर, <code>LD_PRELOAD</code> फ़िल्टर,
 <code>-deny-inet</code>, और Landlock अगर kernel में हो। Landlock के बिना वाले kernel पर हर रास्ते
 के हिसाब से कोई बंदिश नहीं होती: प्लगइन सबके पढ़ने लायक गैर-संवेदनशील फ़ाइलें पढ़ सकता
 है और प्रोसेस की सूची देख सकता है। सर्वर के secret अलग उपयोगकर्ता और
@@ -4365,10 +4365,10 @@ capabilities के चलता है। launcher 1000 से नीचे क
 <li><strong>सिर्फ़ HTTP port ही खोलने के लिए है।</strong> gRPC port (<code>EVEY_SERVER_PORT</code>, डिफ़ॉल्ट 9090)
   एक अंदरूनी रास्ता है, जिसका अकेला client उसी प्रोसेस का HTTP gateway है; HTTP API
   उस port से एक आगे वाला port है। gRPC डिफ़ॉल्ट रूप से loopback पर bind होता है
-  (<code>EVEY_GRPC_BIND=127.0.0.1</code>), क्योंकि रिमोट एक्सेस का दरवाज़ा HTTP middleware है और
-  इस पर लागू नहीं होता। bind को चौड़ा करने पर एक चेतावनी लॉग होती है; तब उसे firewall से
+  (<code>EVEY_GRPC_BIND=127.0.0.1</code>), क्योंकि रिमोट एक्सेस की जाँच HTTP middleware है और
+  इस पर लागू नहीं होती। bind का दायरा बढ़ाने पर एक चेतावनी लॉग होती है; तब उसे firewall से
   बंद करना सर्वर चलाने वाले का काम है।</li>
-<li><strong>रिमोट एक्सेस का दरवाज़ा उस एक client पते से तय करता है जो भरोसेमंद proxy की सीमा
+<li><strong>रिमोट एक्सेस की जाँच उस एक client पते से निर्णय लेती है जो भरोसेमंद proxy की सीमा
   पर जाँचा गया हो</strong>, कभी किसी request header से नहीं। कोई client <code>X-Forwarded-For</code> से
   <code>127.0.0.1</code> होने का दावा नहीं कर सकता, और जो request उस सीमा से कभी नहीं गुज़रा, वह
   रिमोट माना जाता है। यह डिप्लॉयमेंट का नियंत्रण है, पहचान नहीं।</li>

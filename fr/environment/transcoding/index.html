@@ -3121,12 +3121,12 @@
 
 
 <h1 id="transcoding-and-hardware">Transcodage et matériel<a class="headerlink" href="#transcoding-and-hardware" title="Permanent link">¶</a></h1>
-<p>Les variables derrière la capacité, la carte graphique, les limites de
+<p>Les variables qui règlent la capacité, la carte graphique, les limites de
 qualité et le cache de transcodage. La plupart des installations n'en
 définissent aucune : le serveur mesure la machine et choisit lui-même le
 matériel, comme l'explique
 <a href="../../playback/transcoding/">Transcodage et capacité du serveur</a>. Quand un
-réglage existe dans <strong>Admin → Configuration transcodage</strong>, la valeur
+réglage existe dans <strong>Administration → Configuration transcodage</strong>, la valeur
 enregistrée l'emporte.</p>
 <h2 id="hardware-acceleration">Accélération matérielle<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h2>
 <p>Donner le GPU au conteneur :
@@ -3186,7 +3186,7 @@ enregistrée l'emporte.</p>
 </tbody>
 </table>
 <p>L'encodeur Intel basse consommation et la sortie AV1 (interrupteur et
-plafond) n'ont pas de variable : ils se règlent uniquement dans <strong>Admin →
+plafond) n'ont pas de variable : ils se règlent uniquement dans <strong>Administration →
 Configuration transcodage</strong>.</p>
 <h2 id="capacity-and-limits">Capacité et limites<a class="headerlink" href="#capacity-and-limits" title="Permanent link">¶</a></h2>
 <table>
@@ -3202,7 +3202,7 @@ Configuration transcodage</strong>.</p>
 <tr>
 <td><code>EVEY_TRANSCODING_MAX_SESSIONS</code></td>
 <td><code>0</code> (nombre de CPU)</td>
-<td>Nombre total de sessions de transcodage simultanées. Sur une machine qui tient à peine un transcodage 4K HDR logiciel, mettez <code>1</code> ou <code>2</code>.</td>
+<td>Nombre total de sessions de transcodage simultanées. Sur une machine qui suffit à peine pour un transcodage 4K HDR logiciel, mettez <code>1</code> ou <code>2</code>.</td>
 <td>Configuration transcodage → Limites avancées → <strong>Sessions HLS simultanées maximum</strong>, redémarrage</td>
 </tr>
 <tr>
@@ -3244,7 +3244,7 @@ Configuration transcodage</strong>.</p>
 <tr>
 <td><code>EVEY_TRANSCODING_MAX_VIDEO_BITRATE_REMOTE_KBPS</code></td>
 <td><code>0</code> (aucun)</td>
-<td>Le même plafond pour les clients hors du réseau de la maison.</td>
+<td>Le même plafond pour les clients hors du réseau domestique.</td>
 <td>Configuration transcodage → <strong>Plafond de débit vidéo, spectateurs distants</strong>, immédiat</td>
 </tr>
 </tbody>

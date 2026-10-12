@@ -753,7 +753,7 @@
   <a href="#what-evey-sets-up-by-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qu'Evey règle tout seul
+        Ce qu'Evey règle de lui-même
       
     </span>
   </a>
@@ -3148,7 +3148,7 @@
   <a href="#what-evey-sets-up-by-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ce qu'Evey règle tout seul
+        Ce qu'Evey règle de lui-même
       
     </span>
   </a>
@@ -3179,7 +3179,7 @@
 
 
 <h1 id="install">Installation<a class="headerlink" href="#install" title="Permanent link">¶</a></h1>
-<p>Cette page s'adresse à la personne qui va faire tourner Evey pour la maison.
+<p>Cette page s'adresse à la personne qui va faire tourner Evey pour son foyer.
 Il vous faut un ordinateur ou un NAS qui reste allumé, avec Docker installé.
 Cela se fait en trois étapes :</p>
 <ol>
@@ -3212,7 +3212,7 @@ dans <a href="../operations/advanced-deployments/">Déploiements avancés</a>.</
   images, index de recherche). Le fichier compose ci-dessous les range dans
   un dossier nommé <code>evey-data</code>, à côté du fichier.</li>
 </ul>
-<p>Evey répond en HTTP simple sur le réseau de la maison. Pour regarder depuis
+<p>Evey répond en HTTP simple sur le réseau domestique. Pour regarder depuis
 l'extérieur, il faut du HTTPS, que vous pourrez ajouter plus tard :
 <a href="../administration/remote-access/">Accès distant et HTTPS</a>.</p>
 <h2 id="the-compose-file">Étape 1 : enregistrer le fichier compose<a class="headerlink" href="#the-compose-file" title="Permanent link">¶</a></h2>
@@ -3242,15 +3242,15 @@ médias (la ligne marquée 5). Par exemple, si vos films sont dans
    chaque mise à jour. Pour garder exactement le même code, utilisez plutôt
    un tag <code>sha-&lt;commit&gt;</code> : voir
    <a href="../backups/#updating-evey">Sauvegardes et mises à jour</a>.</li>
-<li>Le port. Le nombre de gauche est celui que vous taperez dans le navigateur
+<li>Le port. Le nombre de gauche est celui que vous saisirez dans le navigateur
    et dans les applications. Gardez <code>9091</code>, sauf si un autre programme
    l'utilise déjà.</li>
 <li>Les données d'Evey : base de données, clés, mots de passe créés, index de
    recherche, images, journaux, sauvegardes, plugins. <strong>C'est le dossier à
    sauvegarder.</strong></li>
 <li>Un cache de vidéo convertie, de photos et de pochettes redimensionnées.
-   Vous pouvez le supprimer quand vous voulez : il se remplit de nouveau tout
-   seul.</li>
+   Vous pouvez le supprimer quand vous voulez : il se reconstitue
+   automatiquement.</li>
 <li>Vos médias. Remplacez <code>/path/to/your/media</code> par le vrai dossier. Dans
    Evey, ce dossier s'appelle <code>/media</code>. Evey peut y écrire, et c'est voulu :
    ainsi, la <a href="../runbooks/media-health/">Santé des médias</a> peut réparer un
@@ -3277,7 +3277,7 @@ Docker, puis <code>:9091</code> :</p>
 <thead>
 <tr>
 <th>Où est votre navigateur</th>
-<th>Adresse à taper</th>
+<th>Adresse à saisir</th>
 </tr>
 </thead>
 <tbody>
@@ -3286,7 +3286,7 @@ Docker, puis <code>:9091</code> :</p>
 <td><code>http://localhost:9091</code></td>
 </tr>
 <tr>
-<td>Sur un autre ordinateur ou un téléphone de la maison</td>
+<td>Sur un autre ordinateur ou un téléphone du réseau domestique</td>
 <td><code>http://</code> + l'adresse IP de la machine qui fait tourner Docker + <code>:9091</code>, par exemple <code>http://192.168.1.20:9091</code></td>
 </tr>
 <tr>
@@ -3305,7 +3305,7 @@ la <a href="../getting-started/first-setup/#1-the-setup-wizard">Première config
 Une fois l'assistant terminé, la même adresse ouvre la page de connexion.</p>
 <div class="admonition tip">
 <p class="admonition-title">Notez cette adresse</p>
-<p>Tout le monde à la maison en aura besoin. Les applications Android et
+<p>Chaque personne de votre foyer en aura besoin. Les applications Android et
 Android TV demandent exactement cette adresse sur leur premier écran,
 avec <code>http://</code> et le port :
 <a href="../getting-started/apps/#the-server-address-to-enter">Connecter les applications</a>.</p>
@@ -3328,7 +3328,7 @@ avec <code>http://</code> et le port :
 <tr>
 <td>Volume <code>evey-cache</code></td>
 <td>Vidéo convertie, photos et pochettes redimensionnées</td>
-<td>Oui. Il se remplit de nouveau tout seul.</td>
+<td>Oui. Il se reconstitue automatiquement.</td>
 </tr>
 <tr>
 <td>Vos dossiers de médias</td>
@@ -3351,7 +3351,7 @@ avec <code>http://</code> et le port :
 <p><strong>Un deuxième dossier de médias.</strong> Ajoutez <code>- /other/path:/media2</code> sous
 <code>volumes:</code>. Un troisième devient <code>/media3</code>, et ainsi de suite.</p>
 <p><strong>Un autre port.</strong> Changez seulement le nombre de gauche, par exemple
-<code>"8080:9091"</code>. Tapez ensuite <code>:8080</code> dans le navigateur et dans les
+<code>"8080:9091"</code>. Saisissez ensuite <code>:8080</code> dans le navigateur et dans les
 applications.</p>
 <p><strong>À qui appartiennent les fichiers.</strong> Par défaut, Evey prend le propriétaire
 de votre dossier de médias, pour que les réparations puissent écrire. Pour
@@ -3377,7 +3377,7 @@ vos services) : voir <a href="../administration/remote-access/">Accès distant e
   <a href="../administration/hardware-acceleration/">Accélération matérielle</a>.</li>
 </ul>
 </details>
-<h2 id="what-evey-sets-up-by-itself">Ce qu'Evey règle tout seul<a class="headerlink" href="#what-evey-sets-up-by-itself" title="Permanent link">¶</a></h2>
+<h2 id="what-evey-sets-up-by-itself">Ce qu'Evey règle de lui-même<a class="headerlink" href="#what-evey-sets-up-by-itself" title="Permanent link">¶</a></h2>
 <p>Vous n'avez pas à configurer :</p>
 <ul>
 <li><strong>Combien de vidéos le serveur peut convertir en même temps.</strong> Il mesure la

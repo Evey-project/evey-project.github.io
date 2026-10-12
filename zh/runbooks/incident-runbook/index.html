@@ -1815,7 +1815,7 @@
   <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
     <span class="md-ellipsis">
       
-        播放缓冲或中断，日志却没说原因
+        播放缓冲或中断，日志却没有说明原因
       
     </span>
   </a>
@@ -1864,7 +1864,7 @@
   <a href="#the-cache-disk-is-full" class="md-nav__link">
     <span class="md-ellipsis">
       
-        缓存磁盘满了
+        缓存磁盘已满
       
     </span>
   </a>
@@ -1886,7 +1886,7 @@
   <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        投屏卡住、没有声音，或者手机一直在转圈
+        投屏卡住、没有声音，或者手机一直显示加载中
       
     </span>
   </a>
@@ -3216,7 +3216,7 @@
   <a href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" class="md-nav__link">
     <span class="md-ellipsis">
       
-        播放缓冲或中断，日志却没说原因
+        播放缓冲或中断，日志却没有说明原因
       
     </span>
   </a>
@@ -3265,7 +3265,7 @@
   <a href="#the-cache-disk-is-full" class="md-nav__link">
     <span class="md-ellipsis">
       
-        缓存磁盘满了
+        缓存磁盘已满
       
     </span>
   </a>
@@ -3287,7 +3287,7 @@
   <a href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        投屏卡住、没有声音，或者手机一直在转圈
+        投屏卡住、没有声音，或者手机一直显示加载中
       
     </span>
   </a>
@@ -3351,7 +3351,7 @@
 
 
 <h1 id="incident-runbook">事故手册<a class="headerlink" href="#incident-runbook" title="Permanent link">¶</a></h1>
-<p>本页写给值班的运维人员，说明 Evey 常见故障的第一步处理。找到和症状相符的小节，按其中的方法检查，再根据检查结果采取对应的修复办法。每个小节的结构都一样：<strong>症状</strong>、<strong>诊断</strong>、<strong>修复</strong>。</p>
+<p>本页写给值班的运维人员，说明 Evey 常见故障的初步处理。找到和症状相符的小节，按其中的方法检查，再根据检查结果采取对应的修复办法。每个小节的结构都一样：<strong>症状</strong>、<strong>诊断</strong>、<strong>修复</strong>。</p>
 <h2 id="before-you-start">开始之前<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <p>这些命令针对标准安装：只有一个容器 <code>evey-server</code>，Postgres 和 Meilisearch 都在里面运行。它们的日志行和服务器的日志出现在同一个日志里（数据库的日志行以 <code>postgres:</code> 开头）。代码仓库里的 <code>docker-compose.yml</code> 另外加了 <code>evey-postgres</code> 和 <code>evey-caddy</code> 两个容器；见<a href="../../operations/advanced-deployments/">高级部署</a>。</p>
 <p><strong>端口。</strong> HTTP API 监听 <code>EVEY_SERVER_PORT</code> + 1，默认是 <code>9091</code>；<code>/healthz</code> 也在这个端口上应答。compose 里的 <code>ports:</code> 那一行负责把它对外公开。</p>
@@ -3361,7 +3361,7 @@
 </span></code></pre></div>
 <p><strong>日志。</strong> 同样的日志流有两份：每天一个的文件 <code>./evey-data/logs/evey-YYYY-MM-DD.log</code>（<code>EVEY_LOG_DIR</code>，镜像内是 <code>/data/logs</code>），以及 <code>docker logs evey-server</code>。以文件为准：Docker 的 json-file 驱动会轮转 <code>docker logs</code> 的内容，轮转之后，这条命令显示的日志可能比容器实际停止的时间早好几个小时就断了。两者不一致时，请看文件。管理面板的<strong>日志与调试</strong>页面搜索的也是同一个日志流（<code>GET /api/v1/admin/logs/search?q=&lt;term&gt;&amp;limit=200</code>）；在那里，bearer 令牌、JWT 以及 <code>token=</code> / <code>password=</code> 的值都会显示为 <code>[redacted]</code>，所以请搜索媒体 ID，不要搜索令牌。</p>
 <h2 id="the-server-does-not-answer">服务器没有应答<a class="headerlink" href="#the-server-does-not-answer" title="Permanent link">¶</a></h2>
-<p><strong>症状</strong>：客户端连不上；<code>curl http://localhost:9091/healthz</code> 超时或被拒绝。</p>
+<p><strong>症状</strong>：客户端无法连接；<code>curl http://localhost:9091/healthz</code> 超时或被拒绝。</p>
 <p><strong>诊断</strong>：</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>ps<span class="w"> </span>--filter<span class="w"> </span><span class="nv">name</span><span class="o">=</span>evey-server
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>inspect<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{.State.Health.Status}}'</span><span class="w"> </span>evey-server
@@ -3372,9 +3372,9 @@
 <p><strong>修复</strong>：</p>
 <ul>
 <li>容器已经退出：panic 信息在 <code>docker logs evey-server</code> 的末尾。解决原因后，运行 <code>docker compose up -d evey</code>。</li>
-<li>健康检查变红，是因为数据库或搜索引擎停了：见<a href="#database-errors">数据库错误</a>和<a href="#search-is-degraded">搜索功能降级</a>。</li>
-<li>主机上端口冲突：修改 compose 里 <code>ports:</code> 那一行的主机端口，或者把这个端口腾出来。</li>
-<li>前面的 Caddy 不转发请求（代码仓库的部署方式）：查看 <code>docker logs evey-caddy</code>，检查 <code>EVEY_DOMAIN</code>，并确认 <code>evey</code> 的健康检查是绿色的，因为 Caddy 会等它。</li>
+<li>健康检查变红，是因为数据库或搜索引擎停止运行：见<a href="#database-errors">数据库错误</a>和<a href="#search-is-degraded">搜索功能降级</a>。</li>
+<li>主机上端口冲突：修改 compose 里 <code>ports:</code> 那一行的主机端口，或者释放这个端口。</li>
+<li>前面的 Caddy 不转发请求（代码仓库的部署方式）：查看 <code>docker logs evey-caddy</code>，检查 <code>EVEY_DOMAIN</code>，并确认 <code>evey</code> 的健康检查是绿色的，因为 Caddy 会等待它就绪。</li>
 </ul>
 <h2 id="every-login-returns-401">每次登录都返回 401<a class="headerlink" href="#every-login-returns-401" title="Permanent link">¶</a></h2>
 <p><strong>症状</strong>：所有用户，包括管理员，从 <code>/api/v1/auth/*</code> 得到的都是 401。</p>
@@ -3382,13 +3382,13 @@
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'epoch|jwt|auth|signing|private key'</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/data/jwt.key
 </span></code></pre></div>
-<p>先找关于 epoch 的那一行。每个经过身份验证的请求，都会到数据库里重新检查用户的令牌 epoch，而这项检查在出问题时一律拒绝：只要数据库很慢、被锁住或者连不上，每个请求都会返回和令牌过期时一模一样的 401，看起来像是 JWT 的问题，其实不是。服务器会明确说出来：</p>
+<p>先找关于 epoch 的那一行。每个经过身份验证的请求，都会到数据库里重新检查用户的令牌 epoch，而这项检查在出问题时一律拒绝：只要数据库很慢、被锁住或者无法连接，每个请求都会返回和令牌过期时完全相同的 401，看起来像是 JWT 的问题，其实不是。服务器会在日志中明确说明：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>auth rejected: the token epoch could not be read, so every authenticated request is failing - check the database, not the JWT key
 </span></code></pre></div>
 <p>如果有这一行，请去看<a href="#database-errors">数据库错误</a>。这期间 <code>/healthz</code> 可能仍然是绿色的：它只测试连接，不执行 epoch 查询。对应的 Prometheus 计数器是 <code>evey_auth_failures_total{reason="epoch_lookup_failed"}</code>。</p>
 <p><strong>修复</strong>：</p>
 <ul>
-<li><strong>JWT 密钥丢失或改变，很少是原因。</strong> 密钥文件（<code>EVEY_JWT_PRIVATE_KEY_PATH</code>，<code>/data/jwt.key</code>）读不出来时，服务器根本无法启动；文件不存在时，会重新生成一个。这时旧密钥签发的访问令牌会被拒绝，但应用会用刷新令牌来续签，而刷新令牌是在数据库里检查的，和密钥无关：用户仍然保持登录。请确认 <code>./evey-data</code> 卷挂载在 <code>/data</code>；没有它，数据库也不在。</li>
+<li><strong>JWT 密钥丢失或改变，很少是原因。</strong> 密钥文件（<code>EVEY_JWT_PRIVATE_KEY_PATH</code>，<code>/data/jwt.key</code>）无法读取时，服务器根本无法启动；文件不存在时，会重新生成一个。这时旧密钥签发的访问令牌会被拒绝，但应用会用刷新令牌来续签，而刷新令牌是在数据库里检查的，和密钥无关：用户仍然保持登录。请确认 <code>./evey-data</code> 卷挂载在 <code>/data</code>；没有它，数据库也不存在。</li>
 <li><strong>每个请求都触发了限流</strong>：<code>EVEY_RATELIMIT_LOGIN_MAX</code>（每个 IP 每分钟 <code>10</code> 次）和 <code>EVEY_RATELIMIT_GLOBAL_MAX</code>（<code>300</code>）。如果反向代理把所有请求都以同一个地址转发过来，很快就会触发限流：在<strong>管理 → 远程访问</strong>里把这个代理加到<strong>受信任的代理</strong>中（无需重启就会生效；<code>EVEY_TRUSTED_PROXIES</code> 是后备方式）。代码仓库里的 <code>docker-compose.override.yml</code> 在开发时把两者分别提高到 <code>1000</code> / <code>10000</code>。</li>
 <li><strong>服务器和客户端之间的时钟不一致</strong>：在主机上运行 <code>date -u</code> 查看。</li>
 </ul>
@@ -3407,13 +3407,13 @@
 <ul>
 <li><strong>没有 ffmpeg</strong>（自己定制的镜像）：用官方的 <code>Dockerfile</code> 重新构建。</li>
 <li><strong>缓存目录不可写</strong>：镜像设置了 <code>EVEY_TRANSCODING_CACHE_DIR=/cache/transcode</code>（<code>evey-cache</code> 卷）和 <code>EVEY_TRICKPLAY_CACHE_DIR=/data/trickplay</code>；compose 里 <code>environment:</code> 下的设置会覆盖它们。在镜像之外，Go 代码里的默认值是 <code>/data/transcode</code> 和 <code>/cache/trickplay</code>。</li>
-<li><strong>缓存满了</strong>：见<a href="#the-cache-disk-is-full">缓存磁盘满了</a>。</li>
+<li><strong>缓存已满</strong>：见<a href="#the-cache-disk-is-full">缓存磁盘已满</a>。</li>
 <li><strong>硬件加速工作不正常</strong>：在<strong>管理 → 转码 → 编码校准</strong>里把<strong>硬件加速</strong>设为<strong>关闭（仅软件）</strong>（立即生效，并重新校准），让所有转码都在处理器上进行；硬件修好后，再改回<strong>自动（最佳可用）</strong>。</li>
-<li><strong>“服务器正忙于转码其他流”</strong>：实时容量是测量出来的，不是设置出来的；见<a href="../../playback/transcoding/#sharing-the-capacity">分配这份能力</a>。<code>EVEY_TRANSCODING_MAX_CONCURRENT</code>（<strong>管理 → 转码缓存</strong>里的<strong>最大并发</strong>）只管实时播放以外的转码任务。</li>
+<li><strong>“服务器正忙于转码其他流”</strong>：实时容量是测量出来的，不是设置出来的；见<a href="../../playback/transcoding/#sharing-the-capacity">分配这份能力</a>。<code>EVEY_TRANSCODING_MAX_CONCURRENT</code>（<strong>管理 → 转码缓存</strong>里的<strong>最大并发</strong>）只适用于实时播放以外的转码任务。</li>
 </ul>
-<h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">播放缓冲或中断，日志却没说原因<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
-<p><strong>症状</strong>：一位观众反映，某部转码播放的片子会卡住；日志里有 <code>hls-vod: segment timeout</code> 和 <code>err:"context canceled"</code>，意思是客户端挂断了连接，而不是服务器超时。</p>
-<p><strong>诊断</strong>：先看服务器已经记录下来的内容，这不花任何代价：</p>
+<h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">播放缓冲或中断，日志却没有说明原因<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
+<p><strong>症状</strong>：一位观众反映，某部转码播放的影片会卡住；日志里有 <code>hls-vod: segment timeout</code> 和 <code>err:"context canceled"</code>，意思是客户端挂断了连接，而不是服务器超时。</p>
+<p><strong>诊断</strong>：先看服务器已经记录下来的内容，这不需要额外开销：</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 某个片段请求为什么沿用了一个编码器、或者新启动了一个，以及这让播放器付出了什么代价。</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># 只有产生代价时才会记录。`over_client_patience: true` 就是确凿的证据。</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>grep<span class="w"> </span><span class="s1">'"software: reach decision"'</span><span class="w"> </span>/data/logs/evey-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-40
@@ -3440,20 +3440,20 @@
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>不在排查问题时，请让进度日志保持关闭：每个编码器一个文件，每个会话几 MB，这台机器上的每次播放都会产生。文件名里带有决策哈希、档位（<code>-vN-</code>）和起始片段（<code>-sN-</code>），所以能和 JSON 日志对应起来；在同一位置重新启动的编码器会有自己单独的文件，正是这一点让编码器的反复启动变得一目了然。</p>
+<p>不在排查问题时，请让进度日志保持关闭：每个编码器一个文件，每个会话几 MB，这台机器上的每次播放都会产生。文件名里带有决策哈希、档位（<code>-vN-</code>）和起始片段（<code>-sN-</code>），所以能和 JSON 日志对应起来；在同一位置重新启动的编码器会有自己单独的文件，正是这一点让编码器的反复启动清晰可见。</p>
 </div>
 <p><strong>修复</strong>：</p>
 <ul>
-<li><strong>反复短距离向前跳转</strong>：每次跳转都可能启动一个新的编码器，而每个哈希的上限（<code>MaxSessionsPerHash</code>，默认 2，低内存配置下为 1）会终止最久没用的那个：日志里显示 <code>session killed reason:lru_cap</code>。适度出现属于正常。</li>
-<li><strong>客户端比服务器更没耐心</strong>：跳转可达窗口是按 <code>clientSegmentPatience</code>（6 秒）来定的，而服务器自己的等待预算（<code>WaitBudgetDur</code>）是 60 秒。如果一行 <code>reach decision</code> 带有 <code>over_client_patience: true</code>，说明服务器正准备让播放器等待一段没有任何播放器会等下去的时间。</li>
+<li><strong>反复短距离向前跳转</strong>：每次跳转都可能启动一个新的编码器，而每个哈希的上限（<code>MaxSessionsPerHash</code>，默认 2，低内存配置下为 1）会终止最久未使用的那个：日志里显示 <code>session killed reason:lru_cap</code>。适度出现属于正常。</li>
+<li><strong>客户端的等待时间比服务器短</strong>：跳转可达窗口是按 <code>clientSegmentPatience</code>（6 秒）来定的，而服务器自己的等待预算（<code>WaitBudgetDur</code>）是 60 秒。如果一行 <code>reach decision</code> 带有 <code>over_client_patience: true</code>，说明服务器正准备让播放器等待超过任何播放器所能等待的时间。</li>
 </ul>
 <h3 id="stale_rendition-410s-the-player-refetches-its-master-mid-play"><code>stale_rendition</code> 410，播放器在播放中途重新获取主播放列表<a class="headerlink" href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" title="Permanent link">¶</a></h3>
 <p><strong>症状</strong>：播放器短暂卡住，然后恢复；日志里有 <code>hls-vod: stale rendition URL refused (the ladder moved under a live player)</code>，请求得到的回复是 <code>410 Gone</code>，带有 <code>X-Evey-Error: stale_rendition</code>。</p>
-<p>这是一项保护机制在起作用，本身并不是故障。每个清单 URI 都带有生成它时的决策哈希（<code>fp=</code>）。410 表示播放器出示的 URL 来自一个会话，而这个会话的 ABR 档位阶梯后来已经改变了；如果照样提供，就会把另一个版本的字节交给解码器。拒绝请求会迫使播放器干净地重新获取主播放列表。</p>
+<p>这是一项保护机制在起作用，本身并不是故障。每个清单 URI 都带有生成它时的决策哈希（<code>fp=</code>）。410 表示播放器出示的 URL 来自一个会话，而这个会话的 ABR 档位阶梯后来已经改变了；如果照样提供，就会把另一个版本的字节交给解码器。拒绝请求会迫使播放器完整地重新获取主播放列表。</p>
 <p><strong>诊断</strong>：这条 WARN 带有 <code>sealed_fp</code>、<code>current_fp</code> 和媒体 ID。</p>
 <ul>
 <li><strong>在部署、重启或重新校准之后立即出现一阵</strong>是正常的：正在进行的会话经历了一次能力变化。播放器在一次轮询之内就会重新同步。</li>
-<li><strong>在正常运行期间持续零星出现</strong>，说明有什么东西在不断改变正在播放的视频流的档位阶梯：检查能力是否反复变化（<code>docker logs evey-server | grep -iE 'calibrat|capability'</code>）、准入调节器是否在负载下频繁变动，或者 CMCD 上限覆盖是否在来回摆动。</li>
+<li><strong>在正常运行期间持续零星出现</strong>，说明有某种机制在不断改变正在播放的视频流的档位阶梯：检查能力是否反复变化（<code>docker logs evey-server | grep -iE 'calibrat|capability'</code>）、准入调节器是否在负载下频繁变动，或者 CMCD 上限覆盖是否在来回摆动。</li>
 <li><strong>在 410 上反复循环</strong>的播放器，持有的是缓存下来的主播放列表（旧版应用，或者缓存了 <code>.m3u8</code> 的代理）。代理必须把 <code>Cache-Control: no-cache</code> 原样传过去。</li>
 </ul>
 <h2 id="database-errors">数据库错误<a class="headerlink" href="#database-errors" title="Permanent link">¶</a></h2>
@@ -3480,7 +3480,7 @@
 </ul>
 <h2 id="search-is-degraded">搜索功能降级<a class="headerlink" href="#search-is-degraded" title="Permanent link">¶</a></h2>
 <p><strong>症状</strong>：搜索结果变差了；日志里有 <code>meilisearch unavailable, using SQL search fallback</code>。</p>
-<p>Meilisearch 连不上时，搜索会通过 SQL 继续工作；只是排序质量下降，没有人会因此用不了。Meilisearch 运行在 <code>evey-server</code> 里面（<code>EVEY_EMBEDDED_MEILI</code>，默认开启），使用容器的回环地址，端口 7700。</p>
+<p>无法连接 Meilisearch 时，搜索会通过 SQL 继续工作；只是排序质量下降，不会有人因此无法使用。Meilisearch 运行在 <code>evey-server</code> 里面（<code>EVEY_EMBEDDED_MEILI</code>，默认开启），使用容器的回环地址，端口 7700。</p>
 <p><strong>诊断</strong>：</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>curl<span class="w"> </span>-sf<span class="w"> </span>http://127.0.0.1:7700/health
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">300</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>meili
@@ -3493,7 +3493,7 @@
 </span></code></pre></div>
   重建是一条命令，不是面板里的操作。</li>
 </ul>
-<h2 id="the-cache-disk-is-full">缓存磁盘满了<a class="headerlink" href="#the-cache-disk-is-full" title="Permanent link">¶</a></h2>
+<h2 id="the-cache-disk-is-full">缓存磁盘已满<a class="headerlink" href="#the-cache-disk-is-full" title="Permanent link">¶</a></h2>
 <p><strong>症状</strong>：转码失败，提示 <code>no space left on device</code>；健康检查时好时坏。</p>
 <p><strong>诊断</strong>：</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
@@ -3519,23 +3519,23 @@
 </span></code></pre></div>
 <p><strong>修复</strong>：</p>
 <ol>
-<li>不动服务器，重新启动插件：在<strong>管理 → 插件</strong>里再次<strong>启用</strong>它，或者 <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>。当插件处于启用状态、却卡在 <code>Error</code> 时，这样做有效：启动流程只会拒绝已经处于 <code>Running</code> 或 <code>Initializing</code> 状态的插件。</li>
+<li>无需改动服务器，重新启动插件：在<strong>管理 → 插件</strong>里再次<strong>启用</strong>它，或者 <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>。当插件处于启用状态、却卡在 <code>Error</code> 时，这样做有效：启动流程只会拒绝已经处于 <code>Running</code> 或 <code>Initializing</code> 状态的插件。</li>
 <li>如果这样还不行，在面板里<strong>禁用</strong>这个插件。</li>
 <li>如果服务器本身不稳定：<code>docker compose restart evey</code>。</li>
 <li>插件文件位于主机上的 <code>./evey-data/plugins/</code>（容器内是 <code>/data/plugins</code>）。删除出问题的插件的目录，然后重启。</li>
 <li>把 panic 堆栈和插件 ID 发给插件作者。</li>
 </ol>
-<h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">投屏卡住、没有声音，或者手机一直在转圈<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
+<h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">投屏卡住、没有声音，或者手机一直显示加载中<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
 <p>这里的所有信息都可以在<strong>管理 → 日志与调试</strong>里看到；不需要登录到机器上的 shell。时间都是 UTC。每个信标都是一行 <code>player-client: playback event reported</code>，带有 <code>type=</code> 和一个 <code>details=</code> 字符串。</p>
 <ol>
-<li><strong>接收端当时还活着吗？活到什么时候？</strong> 搜索 <code>cast_receiver_alive</code>。接收端在播放时每 30 秒发送一次；<code>details</code> 里带有 <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code>（播放位置前后缓冲了多少秒）和 <code>pos_sec</code>。播放正常时，<code>ahead</code> 是几十秒。最后一个信标的时间，就是接收端停止运行或被终止的时间：在那之后什么都没有，就说明电视已经不再运行接收端了，不管手机上显示的是什么。</li>
-<li><strong>它为什么停了？</strong> 搜索 <code>cast_receiver_finished</code>：<code>reason=INTERRUPTED</code> 表示一个新的 LOAD 替换了正在播放的内容（往前几秒找找有没有 <code>StartStream</code>），<code>reason=ERROR</code> 带有播放器的错误。如果最后一个 <code>alive</code> 之后没有 <code>finished</code>，说明接收端进程消失了，最常见的情况是 Chromecast HD 在播放 20 Mbps 以上的直接复制主播放列表时，因内存不足被终止。</li>
+<li><strong>接收端当时是否在运行？运行到什么时候？</strong> 搜索 <code>cast_receiver_alive</code>。接收端在播放时每 30 秒发送一次；<code>details</code> 里带有 <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code>（播放位置前后缓冲了多少秒）和 <code>pos_sec</code>。播放正常时，<code>ahead</code> 是几十秒。最后一个信标的时间，就是接收端停止运行或被终止的时间：在那之后什么都没有，就说明电视已经不再运行接收端了，不管手机上显示的是什么。</li>
+<li><strong>它为什么停了？</strong> 搜索 <code>cast_receiver_finished</code>：<code>reason=INTERRUPTED</code> 表示一个新的 LOAD 替换了正在播放的内容（查找几秒钟前是否有 <code>StartStream</code>），<code>reason=ERROR</code> 带有播放器的错误。如果最后一个 <code>alive</code> 之后没有 <code>finished</code>，说明接收端进程消失了，最常见的情况是 Chromecast HD 在播放 20 Mbps 以上的直接复制主播放列表时，因内存不足被终止。</li>
 <li><strong>手机看到了什么？</strong> 搜索 <code>cast_sender_stall</code>：当 Cast SDK 仍然显示 PLAYING、但播放位置 20 秒都没有动时，发送端会发出 <code>state=playing frozen=&lt;n&gt;s pos=&lt;p&gt;</code>；当接收端报告了空闲原因时，会发出 <code>state=idle reason=&lt;r&gt;</code>。这些是 WARN 级别的日志行，所以页面的警告筛选会把它们显示出来。把它的 <code>pos</code> 和接收端最后一个 <code>pos_sec</code> 比较一下。</li>
 <li><strong>会话有没有引发连锁反应？</strong> 搜索 <code>refresh rejected</code>：刷新令牌 <code>not found</code> 会让应用退出登录再重新登录（用保存的凭据），从而重新发起视频流；这一行带有令牌的 <code>jti</code>、<code>issued</code> 和 <code>age</code>，可以据此分辨是一份过时的副本还是伪造的令牌。搜索 <code>StartStream</code> 可以看到重新发起的情况。</li>
 <li><strong>视频流对设备来说太大了吗？</strong> 搜索 <code>advertises a fallback rung</code>（直接复制主播放列表的峰值码率）和 <code>plan fitted to the client's line</code>（接收端测得的 <code>maxKbps</code>，或者它的 <code>abr=floor</code> 补救；随后的转码主播放列表会带有原因 <code>client_line_exceeded</code> 或 <code>abr_floor_requested</code>）。如果一个会话从 20 Mbps 以上的直接复制主播放列表开始，几秒钟后降到一个适配过的 1080p 档位，那是补救机制在正常工作；如果重新 LOAD 后又从直接复制主播放列表开始，这正是会让 Chromecast HD 崩溃的模式。</li>
-<li><strong>是服务器那边供不上数据吗？</strong> 搜索 <code>on-demand resource refused</code>：连续几个片段出现一连串 <code>context canceled</code> 拒绝，是在拖动进度条（每个请求都被下一个请求取消了），不是服务器的问题；持续时间很长的 <code>served</code> 日志行才是。</li>
+<li><strong>是服务器无法及时提供数据吗？</strong> 搜索 <code>on-demand resource refused</code>：连续几个片段出现一连串 <code>context canceled</code> 拒绝，是在拖动进度条（每个请求都被下一个请求取消了），不是服务器的问题；持续时间很长的 <code>served</code> 日志行才是。</li>
 </ol>
-<p>如果第 1-3 步显示接收端还活着、发送端却没有动静，问题出在手机的投屏会话上（SDK，或者到电视的网络）。如果接收端的信标先停了，就去看电视：内存、编码、视频流的码率。</p>
+<p>如果第 1-3 步显示接收端仍在运行、发送端却没有任何记录，问题出在手机的投屏会话上（SDK，或者到电视的网络）。如果接收端的信标先停了，就去看电视：内存、编码、视频流的码率。</p>
 <h2 id="stop-a-session-or-a-compromised-device">停止一个会话或一台被盗用的设备<a class="headerlink" href="#stop-a-session-or-a-compromised-device" title="Permanent link">¶</a></h2>
 <p><strong>症状</strong>：<strong>管理 → 正在播放</strong>里出现了一台意料之外的设备，或者有用户反映自己的会话列表里有一台不认识的设备。</p>
 <ol>

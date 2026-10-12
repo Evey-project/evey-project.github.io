@@ -3293,7 +3293,7 @@
 <h1 id="architecture">Arquitectura<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
 <p>Cómo está montado el servidor: las capas hexagonales bajo <code>internal/</code>, los
 contextos delimitados, los eventos que los conectan y las guardas estáticas
-que mantienen el código en esos raíles. El código vive en <code>internal/domain</code>,
+que hacen cumplir esas reglas en el código. El código está en <code>internal/domain</code>,
 <code>internal/app</code>, <code>internal/adapters/{driving,driven}</code> y se conecta en
 <code>cmd/evey/wire*.go</code>; la organización la decide
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>, la separación de los
@@ -3359,13 +3359,13 @@ TypeScript/React en <code>frontend/</code> (React Native / Expo para móvil y TV
 </table>
 <p>Regla de dependencias: <code>adapters -&gt; app -&gt; domain</code>. El dominio nunca importa
 la aplicación ni los adaptadores. La composición está escrita a mano (no con
-google/wire) en <code>cmd/evey/wire.go</code> y sus hermanos <code>wire_infra.go</code>,
+google/wire) en <code>cmd/evey/wire.go</code> y los archivos relacionados <code>wire_infra.go</code>,
 <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>, <code>wire_helpers.go</code>.
-Los tests se saltan los adaptadores inyectando dobles que implementan los
+Los tests prescinden de los adaptadores inyectando dobles que implementan los
 mismos puertos del dominio: 20 de los 21 paquetes del dominio incluyen un
 subpaquete <code>fakes/</code>.</p>
 <h2 id="bounded-contexts">Contextos delimitados<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
-<p>Treinta y dos paquetes de contexto viven en <code>internal/domain/</code> e
+<p>Treinta y dos paquetes de contexto están en <code>internal/domain/</code> e
 <code>internal/app/</code>: 19 existen en las dos capas, 2 solo en el dominio
 (<code>ratings</code>, <code>shared</code>) y 11 solo en la aplicación. Colaboran en parte mediante
 eventos de dominio en un bus compartido; la capa de aplicación también lee
@@ -3425,7 +3425,7 @@ directamente el paquete de dominio de un contexto vecino (consulta
 </tr>
 <tr>
 <td><code>favorite</code> (solo aplicación)</td>
-<td>favoritos por perfil; el modelo y <code>FavoriteRepository</code> viven en <code>domain/library</code></td>
+<td>favoritos por perfil; el modelo y <code>FavoriteRepository</code> están en <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>playlist</code></td>
@@ -3433,7 +3433,7 @@ directamente el paquete de dominio de un contexto vecino (consulta
 </tr>
 <tr>
 <td><code>collection</code> (solo aplicación)</td>
-<td>colecciones preparadas por el administrador; sus puertos viven en <code>domain/library</code></td>
+<td>colecciones preparadas por el administrador; sus puertos están en <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>ratings</code> (solo dominio)</td>
@@ -3501,7 +3501,7 @@ directamente el paquete de dominio de un contexto vecino (consulta
 </tr>
 <tr>
 <td><code>updatecheck</code> (solo aplicación)</td>
-<td>compara la versión en marcha con lo que publica el registro y se lo dice al administrador; nunca actualiza nada</td>
+<td>compara la versión en marcha con lo que publica el registro y se lo indica al administrador; nunca actualiza nada</td>
 </tr>
 <tr>
 <td><code>shared</code> (solo dominio)</td>
@@ -3652,7 +3652,7 @@ contenedores vienen de <code>docker-compose.yml</code> para <code>evey-server</c
 <code>evey-mobile</code> y <code>evey-mailcatcher</code> se declaran en
 <code>docker-compose.override.yml</code> y solo existen en la topología de desarrollo.</p>
 <h3 id="level-1---system-context">Nivel 1 - Contexto del sistema<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
-<p>Quién habla con Evey, y a qué servicios de terceros se conecta Evey.</p>
+<p>Quién se comunica con Evey, y a qué servicios de terceros se conecta Evey.</p>
 <pre class="mermaid"><code>flowchart LR
     user[Usuario&lt;br/&gt;cliente web / móvil / TV]
     admin[Administrador&lt;br/&gt;interfaz web /admin]
@@ -3828,7 +3828,7 @@ adaptadores de salida implementan esos puertos.</p>
 <li>Los trabajos de escaneo de <code>app/library</code> funcionan en un grupo de trabajadores (una goroutine por cada escaneo de biblioteca activo, consulta <code>library.ScanService</code>).</li>
 <li>Los trabajos de ffmpeg los lanza el adaptador de salida <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>) a través de <code>internal/pkg/procfork</code>, con una goroutine de supervisión por trabajo que vacía el stderr del proceso.</li>
 <li><code>shared.EventBus</code> reparte a los suscriptores de forma asíncrona: cada suscriptor funciona en su propia goroutine, así que un consumidor lento nunca bloquea a quien publica. El bus no abre ninguna transacción propia; eso es trabajo del handler.</li>
-<li><code>pluginrunner</code> lanza un subproceso por plugin; los plugins de iframe viven dentro del navegador del usuario y se comunican con tokens firmados emitidos por <code>app/plugin</code>.</li>
+<li><code>pluginrunner</code> lanza un subproceso por plugin; los plugins de iframe se ejecutan dentro del navegador del usuario y se comunican con tokens firmados emitidos por <code>app/plugin</code>.</li>
 </ul>
 <h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Nivel 3 (extra) - Zoom en la cadena de escaneo<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
 <p>La vía crítica que convierte los archivos del disco en medios enriquecidos y

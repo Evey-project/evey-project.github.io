@@ -3308,7 +3308,7 @@ mehr.</p>
 <td><a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Einen falschen oder fehlenden Titel korrigieren</a></td>
 </tr>
 <tr>
-<td>Poster fehlen oder sind kaputt</td>
+<td>Poster fehlen oder sind beschädigt</td>
 <td><strong>Verwaltung → Artwork-Cache</strong></td>
 <td><a href="#library-and-posters">Bibliothek und Poster</a> unten</td>
 </tr>
@@ -3340,8 +3340,8 @@ mehr.</p>
 </tbody>
 </table>
 <h2 id="the-logs">Die Protokolle<a class="headerlink" href="#the-logs" title="Permanent link">¶</a></h2>
-<p>Das Protokoll ist Eveys Tagebuch: Jeder Fehler wird dort eingetragen, mit der
-Uhrzeit.</p>
+<p>Das Protokoll zeichnet auf, was Evey tut: Jeder Fehler wird dort eingetragen,
+mit der Uhrzeit.</p>
 <p><strong>Der einfache Weg: Verwaltung → Protokolle &amp; Debug.</strong> Dort sehen Sie das
 Protokoll mit einem Suchfeld, einer Ansicht <strong>Live</strong>, die neuen Zeilen folgt,
 und einem Filter <strong>Bereich</strong> für einen bestimmten Teil (Player und
@@ -3356,7 +3356,7 @@ Ihnen nennt.</p>
   JSON, standardmäßig 90 Tage aufbewahrt (<code>EVEY_LOG_RETENTION_DAYS</code>).</li>
 <li><code>docker compose logs evey</code> zeigt etwas anderes: was der Container beim
   Start ausgibt (die <code>evey:</code>-Zeilen des Startskripts, die Datenbank, das
-  Banner). Lesen Sie das, wenn der Server nicht hochkommt. Sobald er
+  Banner). Lesen Sie das, wenn der Server nicht startet. Sobald er
   läuft, steht das Protokoll in den Dateien und im Verwaltungsbereich.</li>
 </ul>
 </details>
@@ -3391,7 +3391,7 @@ Befehle stehen unter <a href="../../runbooks/cli/">Kommandozeile</a>.</p>
 </tr>
 <tr>
 <td>Zeilen, die mit <code>evey:</code> beginnen und Postgres betreffen</td>
-<td>Die eingebaute Datenbank wollte nicht starten: ein Cluster einer anderen Postgres-Hauptversion (<a href="../advanced-deployments/#move-to-a-newer-postgres-major">Wechsel der Postgres-Hauptversion</a>), ein Datenverzeichnis, das kein Postgres-Cluster ist, eine volle Festplatte oder <code>./evey-data/postgres</code> auf einer Netzwerkfreigabe.</td>
+<td>Die eingebaute Datenbank ist nicht gestartet: ein Cluster einer anderen Postgres-Hauptversion (<a href="../advanced-deployments/#move-to-a-newer-postgres-major">Wechsel der Postgres-Hauptversion</a>), ein Datenverzeichnis, das kein Postgres-Cluster ist, eine volle Festplatte oder <code>./evey-data/postgres</code> auf einer Netzwerkfreigabe.</td>
 </tr>
 <tr>
 <td><code>permission denied</code> bei <code>/cache/...</code>, in einer Neustartschleife</td>
@@ -3400,12 +3400,12 @@ Befehle stehen unter <a href="../../runbooks/cli/">Kommandozeile</a>.</p>
 </tbody>
 </table>
 <p>Ein verlorenes Administratorpasswort, ein kompromittierter Signaturschlüssel
-oder eine kaputte Datenbank: <a href="../../runbooks/recovery/">Wiederherstellung</a>.</p>
+oder eine beschädigte Datenbank: <a href="../../runbooks/recovery/">Wiederherstellung</a>.</p>
 <h2 id="nobody-can-sign-in">Niemand kann sich anmelden<a class="headerlink" href="#nobody-can-sign-in" title="Permanent link">¶</a></h2>
 <p>Zwei übliche Ursachen:</p>
 <ul>
 <li><strong>Die Datenbank antwortet nicht.</strong> Evey prüft jede Anmeldung gegen sie und
-  lehnt ab, wenn das nicht geht. Das Protokoll sagt es.</li>
+  lehnt ab, wenn das nicht geht. Das Protokoll zeigt das an.</li>
 <li><strong>Ein Reverse Proxy fehlt bei den vertrauenswürdigen Proxys</strong> (<strong>Verwaltung
   → Fernzugriff</strong>). Jeder Besucher scheint dann von der Adresse des Proxys zu
   kommen, und alle teilen sich eine einzige Grenze für Anmeldeversuche.</li>
@@ -3444,7 +3444,7 @@ eingetragene Weiterleitungs-URI nicht die ist, die die Karte zeigt. Siehe
 <h2 id="e-mails-do-not-arrive">E-Mails kommen nicht an<a class="headerlink" href="#e-mails-do-not-arrive" title="Permanent link">¶</a></h2>
 <p><strong>Test-E-Mail senden</strong> unter <strong>Verwaltung → Serverkonfiguration → E-Mail /
 SMTP</strong> schickt mit den gespeicherten Einstellungen eine Nachricht an Ihre
-eigene Adresse und zeigt die Antwort des Mailservers, wenn es nicht klappt.
+eigene Adresse und zeigt die Antwort des Mailservers, wenn der Versand fehlschlägt.
 Ein TLS-Modus, der nicht zum Port passt (<code>starttls</code> mit 587, <code>ssl</code> mit 465),
 ist der übliche Fehler. Ein in der Karte gespeicherter Host ersetzt jede
 Variable <code>EVEY_SMTP_*</code>. Fehlgeschlagene Benachrichtigungs-E-Mails werden als
@@ -3477,13 +3477,13 @@ dass er unverändert läuft: siehe
 <li>Ton nicht synchron bei einem Titel: <strong>Verwaltung → Medienzustand</strong> erkennt
   Ton, der nach dem Bild beginnt, und Spuren, die nicht zueinander passen.</li>
 <li>Untertitel erscheinen nicht: <a href="../../playback/subtitles/">Untertitel</a> sagt,
-  welche Formate die Player selbst zeichnen und welche der Server ins Bild
+  welche Formate die Player selbst darstellen und welche der Server ins Bild
   einbrennen muss.</li>
 <li><strong>Untertitel werden vorbereitet…</strong> bleibt minutenlang stehen: Die Datei hat
   für diese Spur keinen Index, und der Server liest sie einmal ganz durch.
   Siehe
   <a href="../../playback/subtitles/#the-first-time-a-subtitle-is-shown">Wenn ein Untertitel zum ersten Mal angezeigt wird</a>.</li>
-<li>Transkodierte Titel wollen nicht starten oder bleiben hängen, während schon
+<li>Transkodierte Titel starten nicht oder bleiben hängen, während schon
   gespielte Titel weiter funktionieren, oder Administratoren bekommen
   <strong>Untertitel-Cache voll</strong>: Die Festplatte liegt unter ihrer Reserve an
   freiem Speicher. Siehe
@@ -3505,7 +3505,7 @@ Wenn nicht, drücken Sie in der Zeile der Bibliothek unter <strong>Verwaltung �
 Bibliotheken</strong> auf <strong>Scannen</strong> und lesen Sie das Ergebnis.</p>
 <p>Ein Scan endet mit <strong>Unvollständiger Scan - diese Ordner konnten nicht gelesen
 werden:</strong>, gefolgt von Pfaden: Evey kann diese Ordner nicht lesen
-(Berechtigungen, eine Netzwerkfreigabe, die weggefallen ist). Der Rest der
+(Berechtigungen, eine Netzwerkfreigabe, die nicht mehr verbunden ist). Der Rest der
 Bibliothek wird gescannt, und die Titel unter einem unlesbaren Ordner bleiben
 erhalten, statt entfernt zu werden. Prüfen Sie die Einbindung und den
 Besitzer (<code>PUID</code>/<code>PGID</code>, siehe

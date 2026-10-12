@@ -2563,7 +2563,7 @@
   <a href="#stable-theming-hooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ganchos estables para temas
+        Selectores estables para temas
       
     </span>
   </a>
@@ -3153,7 +3153,7 @@
   <a href="#stable-theming-hooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ganchos estables para temas
+        Selectores estables para temas
       
     </span>
   </a>
@@ -3252,7 +3252,7 @@
 <h1 id="themes">Temas<a class="headerlink" href="#themes" title="Permanent link">¶</a></h1>
 <p>Un tema cambia el aspecto de la interfaz de Evey: es un paquete de
 <code>kind: theme</code> sin proceso de servidor, hecho de una hoja de estilos y,
-si quieres, de un script encerrado en un marco oculto. Esta página es para
+si quieres, de un script aislado en un marco oculto. Esta página es para
 quien crea temas; explica lo que pueden contener los dos archivos y lo que el
 instalador reescribe o rechaza. Los temas se instalan como los plugins, desde
 <strong>Administración → Plugins</strong>, y cada usuario elige el suyo en
@@ -3293,7 +3293,7 @@ comentario. Cambiarlas cambia el aspecto de todas las pantallas a la vez:</p>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nv">--radius</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
 </span></code></pre></div>
-<h3 id="stable-theming-hooks">Ganchos estables para temas<a class="headerlink" href="#stable-theming-hooks" title="Permanent link">¶</a></h3>
+<h3 id="stable-theming-hooks">Selectores estables para temas<a class="headerlink" href="#stable-theming-hooks" title="Permanent link">¶</a></h3>
 <p>Algunos elementos decorativos llevan clases estables a las que puedes
 apuntar sin depender de las clases utilitarias, que cambian de una versión a
 otra. Son un contrato: no se van a renombrar.</p>
@@ -3390,13 +3390,13 @@ escribiste. Nunca rechaza el paquete.</p>
 </tbody>
 </table>
 <p>Los caracteres escapados se decodifican antes de estas comprobaciones, así
-que una secuencia de escape no sirve para saltárselas.</p>
+que una secuencia de escape no sirve para eludirlas.</p>
 <h2 id="themejs">theme.js<a class="headerlink" href="#themejs" title="Permanent link">¶</a></h2>
 <p>El script es opcional. Se sirve en <code>/api/v1/themes/&lt;id&gt;/theme.js</code> a los
 usuarios conectados y se ejecuta en un <code>&lt;iframe sandbox="allow-scripts"&gt;</code>
 oculto cuya política fija <code>connect-src 'none'</code>: no tiene acceso a la página
 anfitriona, a su almacenamiento ni a la red, aunque el script haya pasado el
-análisis de la instalación. Lo único que tiene a mano es <code>window.evey.theme</code>,
+análisis de la instalación. Lo único a lo que tiene acceso es <code>window.evey.theme</code>,
 inyectado antes de que el script se ejecute.</p>
 <h3 id="eveythemecssdeclarations"><code>evey.theme.css(declarations)</code><a class="headerlink" href="#eveythemecssdeclarations" title="Permanent link">¶</a></h3>
 <p>Envía declaraciones de propiedades personalizadas a la página anfitriona, que

@@ -3162,8 +3162,8 @@
 <h1 id="permissions-and-slots">Berechtigungen und Slots<a class="headerlink" href="#permissions-and-slots" title="Permanent link">¶</a></h1>
 <p>Für Plugin-Autoren: was ein Manifest angeben darf, was der Installer prüft
 und welche Regeln für ein Plugin zur Laufzeit gelten. Der Katalog unten ist
-die Liste, aus der Sie wählen. Wie der Server ein Plugin einsperrt und was
-diese Abschottung nicht verhindern kann, steht in
+die Liste, aus der Sie wählen. Wie der Server ein Plugin isoliert und was
+diese Isolierung nicht verhindern kann, steht in
 <a href="../../SECURITY/">Plugin-Sandbox und Bedrohungsmodell</a>.</p>
 <h2 id="what-is-checked-at-install">Was bei der Installation geprüft wird<a class="headerlink" href="#what-is-checked-at-install" title="Permanent link">¶</a></h2>
 <p>Ein Plugin wird bei der Installation abgelehnt, wenn:</p>
@@ -3210,7 +3210,7 @@ signieren und welche Signaturregel ein Server durchsetzen kann:
 <a href="../dev-setup/#7-sign-your-plugin">Ein Plugin schreiben</a>.</p>
 <h2 id="permissions-catalog">Katalog der Berechtigungen<a class="headerlink" href="#permissions-catalog" title="Permanent link">¶</a></h2>
 <p>Eine Berechtigung wird unter <code>permissions</code> angegeben. Jeder andere Wert
-lässt die Installation scheitern. Webhooks empfangen (<code>webhook.receiver</code>)
+führt zur Ablehnung der Installation. Webhooks empfangen (<code>webhook.receiver</code>)
 und Metadaten liefern (<code>metadata.provider</code>) sind Capabilities und werden
 unter <code>capabilities</code> angegeben: siehe
 <a href="../api-reference/#capabilities">Plugin-API-Referenz</a>.</p>
@@ -3232,7 +3232,7 @@ unter <code>capabilities</code> angegeben: siehe
 </tr>
 <tr>
 <td><code>native-binary</code></td>
-<td>Das Paket darf <code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code>, eingebettete Archive oder nativen Code enthalten, den die Analyse nicht lesen kann. Der Administrator sieht undurchsichtigen Code und muss ihn akzeptieren. Pflicht für ein <code>go</code>-Plugin.</td>
+<td>Das Paket darf <code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code>, eingebettete Archive oder nativen Code enthalten, den die Analyse nicht lesen kann. Der Administrator sieht Code, den die Analyse nicht prüfen kann, und muss ihn akzeptieren. Pflicht für ein <code>go</code>-Plugin.</td>
 </tr>
 <tr>
 <td><code>filesystem</code></td>
@@ -3330,7 +3330,7 @@ Weiterleitungen werden erneut gegen die Liste und die Adressregel geprüft.</p>
 <code>https</code>.</p>
 <h2 id="slot-whitelist">Liste der erlaubten Slots<a class="headerlink" href="#slot-whitelist" title="Permanent link">¶</a></h2>
 <p>Plugins dürfen Oberfläche nur in ausdrücklich erlaubte Slots einfügen.
-Kritische Wege fehlen absichtlich.</p>
+Kritische Bereiche fehlen absichtlich.</p>
 <table>
 <thead>
 <tr>
@@ -3383,9 +3383,9 @@ Kritische Wege fehlen absichtlich.</p>
 </tbody>
 </table>
 <p><strong>Nie erlaubt:</strong> <code>admin.*</code> (außer <code>admin.nav</code>), <code>login.*</code>, <code>setup.*</code>,
-<code>profile.security.*</code>. Diese Wege sind für Anmeldung oder Rechte kritisch,
-und ein Einfügen dort wäre ein Weg zur Rechteausweitung oder zum Phishing.</p>
-<p>Inhalt in <code>admin.nav</code> ist eingesperrt wie in jedem anderen Slot: Er wird in
+<code>profile.security.*</code>. Diese Bereiche sind für Anmeldung oder Rechte kritisch,
+und ein Einfügen dort würde eine Rechteausweitung oder Phishing ermöglichen.</p>
+<p>Inhalt in <code>admin.nav</code> ist isoliert wie in jedem anderen Slot: Er wird in
 einem <code>&lt;iframe sandbox="allow-scripts"&gt;</code> ohne <code>allow-same-origin</code>
 dargestellt, in einer Seite mit der Richtlinie <code>default-src 'none'</code>. Er ist
 also fremder Inhalt, der im Verwaltungsbereich angezeigt wird, keine
@@ -3393,7 +3393,7 @@ Verwaltungsfähigkeit, die dem Plugin gewährt wird.</p>
 <p>Die Brücke begrenzt, was ein Frame von der Seite verlangen darf:
 <code>evey.toast</code> höchstens 3 Nachrichten pro Sekunde, 200 Zeichen, kein HTML;
 <code>evey.navigate</code> nur <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code>
-und <code>/search</code>; <code>evey.resize</code> auf 50 bis 800 px begrenzt. Der Frame hält
+und <code>/search</code>; <code>evey.resize</code> auf 50 bis 800 px begrenzt. Der Frame erhält
 keinen Token: Der Host stellt für die Aufrufe <code>public</code> und <code>prefs</code> einen
 Token für fünf Minuten aus, begrenzt auf (Plugin, Benutzer), und der Server
 lehnt standardmäßig jede Methode ab, die dieser Token nicht nennt.</p>

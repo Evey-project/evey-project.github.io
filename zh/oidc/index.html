@@ -3116,7 +3116,7 @@
 
 
 <h1 id="single-sign-on-oidc">单点登录（OIDC）<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
-<p>让大家用您已经在运行的身份提供方登录（Keycloak、Authentik、Authelia、Google，或任何其他 OpenID Connect 提供方）：这样，网页版和 Android 应用的登录页上，密码表单旁边会出现<strong>使用 SSO 登录</strong>。管理员要做两步：先在提供方那里登记 Evey，再在管理面板里填写一张卡片。</p>
+<p>让用户通过您已经在运行的身份提供方登录（Keycloak、Authentik、Authelia、Google，或任何其他 OpenID Connect 提供方）：这样，网页版和 Android 应用的登录页上，密码表单旁边会出现<strong>使用 SSO 登录</strong>。管理员要做两步：先在提供方那里登记 Evey，再在管理面板里填写一张卡片。</p>
 <h2 id="1-register-evey-with-the-provider">1. 在提供方那里登记 Evey<a class="headerlink" href="#1-register-evey-with-the-provider" title="Permanent link">¶</a></h2>
 <p>在提供方里创建一个客户端（或应用），设置为：授权码（Authorization Code）授权方式，范围 <code>openid email profile</code>，一个客户端密钥，以及<strong>单点登录 (SSO)</strong> 卡片上<strong>在提供方处登记以下地址</strong>下面显示的两个地址：</p>
 <table>
@@ -3137,7 +3137,7 @@
 </tr>
 </tbody>
 </table>
-<p>这两个地址都由服务器的公网地址（<strong>管理 → 远程访问</strong>）生成：如果大家用另一个地址访问 Evey，请先设置好它。</p>
+<p>这两个地址都由服务器的公网地址（<strong>管理 → 远程访问</strong>）生成：如果用户通过另一个地址访问 Evey，请先设置好它。</p>
 <h2 id="2-configure-evey">2. 配置 Evey<a class="headerlink" href="#2-configure-evey" title="Permanent link">¶</a></h2>
 <p><strong>管理 → 服务器配置 → 单点登录 (SSO)</strong>：</p>
 <table>
@@ -3182,11 +3182,11 @@
 </tr>
 </tbody>
 </table>
-<p><strong>测试连接</strong>检查颁发者是否有应答。<strong>保存 SSO 设置</strong>会立即生效，无需重启。<strong>状态</strong>这一行说明提供方能否连上；连不上时，会附上最后一次的错误。</p>
+<p><strong>测试连接</strong>检查颁发者是否有应答。<strong>保存 SSO 设置</strong>会立即生效，无需重启。<strong>状态</strong>这一行说明能否连接到提供方；无法连接时，会附上最后一次的错误。</p>
 <p><a href="../environment/accounts/#single-sign-on-oidc">账户与登录</a>中的 <code>EVEY_OIDC_*</code> 变量是后备方案：如果卡片里的值来自这些变量，卡片会注明；保存卡片后，就以卡片为准。</p>
 <div class="admonition note">
-<p class="admonition-title">提供方永远不会卡住服务器</p>
-<p>即使提供方宕机，服务器也照常启动；提供方连不上时，SSO 按钮保持隐藏，密码登录照常可用。下次有人尝试登录时会再联系提供方，最多每 30 秒一次。</p>
+<p class="admonition-title">服务器的运行从不依赖提供方</p>
+<p>即使提供方宕机，服务器也照常启动；无法连接到提供方时，SSO 按钮保持隐藏，密码登录照常可用。下次有人尝试登录时会再联系提供方，最多每 30 秒一次。</p>
 </div>
 <h2 id="who-can-sign-in">谁可以登录<a class="headerlink" href="#who-can-sign-in" title="Permanent link">¶</a></h2>
 <ol>

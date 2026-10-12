@@ -3078,7 +3078,7 @@
 
 <h1 id="accounts-and-sign-in">账户与登录<a class="headerlink" href="#accounts-and-sign-in" title="Permanent link">¶</a></h1>
 <p>这些是会话和单点登录背后的变量：一次登录能保持多久，签名密钥放在哪里，以及 OIDC 提供商。
-单点登录通常在面板里设置，见<a href="../../oidc/">单点登录（OIDC）</a>；这里的变量是它的备用方式。</p>
+单点登录通常在面板里设置，见<a href="../../oidc/">单点登录（OIDC）</a>；这里的变量是它的后备设置。</p>
 <h2 id="sessions">会话<a class="headerlink" href="#sessions" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3093,13 +3093,13 @@
 <tr>
 <td><code>EVEY_JWT_PRIVATE_KEY_PATH</code></td>
 <td><code>/data/jwt.key</code></td>
-<td>给访问令牌签名的密钥，第一次启动时生成。如果它丢失了，下次启动会生成一个新的，应用会更新自己的令牌：谁都不会被登出。</td>
+<td>给访问令牌签名的密钥，第一次启动时生成。如果它丢失了，下次启动会生成一个新的，应用会更新自己的令牌：不会有任何人被登出。</td>
 <td>无</td>
 </tr>
 <tr>
 <td><code>EVEY_JWT_ACCESS_TTL</code></td>
 <td><code>15m</code></td>
-<td>访问令牌的有效期。应用会在后台悄悄更新它。</td>
+<td>访问令牌的有效期。应用会在后台自动更新它。</td>
 <td>无</td>
 </tr>
 <tr>

@@ -1975,7 +1975,7 @@
   <a href="#basic-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        basic（最后的办法）
+        basic（最后选择）
       
     </span>
   </a>
@@ -1991,7 +1991,7 @@
   <a href="#keep-secrets-out-of-a-plugins-reach" class="md-nav__link">
     <span class="md-ellipsis">
       
-        让密钥远离插件
+        防止插件访问密钥
       
     </span>
   </a>
@@ -2024,7 +2024,7 @@
   <a href="#verify-the-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        确认沙箱在工作
+        确认沙箱正常工作
       
     </span>
   </a>
@@ -3241,7 +3241,7 @@
   <a href="#basic-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        basic（最后的办法）
+        basic（最后选择）
       
     </span>
   </a>
@@ -3257,7 +3257,7 @@
   <a href="#keep-secrets-out-of-a-plugins-reach" class="md-nav__link">
     <span class="md-ellipsis">
       
-        让密钥远离插件
+        防止插件访问密钥
       
     </span>
   </a>
@@ -3290,7 +3290,7 @@
   <a href="#verify-the-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        确认沙箱在工作
+        确认沙箱正常工作
       
     </span>
   </a>
@@ -3324,7 +3324,7 @@
 <p>这一页说明怎样直接在主机上运行 Evey（用 systemd、init 脚本，或者手动运行），而不用 Docker 镜像（见<a href="../installation/">安装</a>）。
 推荐的方式是镜像：插件沙箱、安全加固和插件运行时都已经在里面配好了。不用容器运行，就意味着要自己做到同样的安全程度：
 相关的程序放在一起，一个专用的非 root 用户，您的内核支持的沙箱后端，以及只有所有者能访问的密钥目录。
-这一页按顺序一步步讲。</p>
+本页按顺序逐步说明。</p>
 <h2 id="build-and-install-the-binaries">构建并安装程序<a class="headerlink" href="#build-and-install-the-binaries" title="Permanent link">¶</a></h2>
 <p>构建两个 Go 程序，并把它们安装在同一个目录里：插件运行器先在 <code>$EVEY_PLUGIN_LAUNCHER</code> 里找启动器，
 然后在它自己的可执行文件旁边找，最后在 <code>$PATH</code> 里找。</p>
@@ -3343,11 +3343,11 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gcc<span class="w"> </span>-shared<span class="w"> </span>-fPIC<span class="w"> </span>-nostartfiles<span class="w"> </span>-o<span class="w"> </span>libevey-sandbox.so<span class="w"> </span>sandbox/sandbox.c
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>-m<span class="w"> </span><span class="m">0644</span><span class="w"> </span>libevey-sandbox.so<span class="w"> </span>/app/libevey-sandbox.so
 </span></code></pre></div>
-<p>这个路径是写死在运行器里的。没有这个文件，插件会拒绝启动（无法隔离就拒绝），除非服务器以开发模式运行。
+<p>这个路径在运行器中是固定的。没有这个文件，插件会拒绝启动（无法隔离就拒绝），除非服务器以开发模式运行。
 这个垫片库在 Landlock 或 bubblewrap 之上，为动态链接的插件再加一份 seccomp 禁止清单。
 镜像把它和 SDK 一起放在 <code>/app</code> 下；用符号链接也可以。</p>
 <h3 id="runtimes-and-services">运行时和服务<a class="headerlink" href="#runtimes-and-services" title="Permanent link">¶</a></h3>
-<p>请安装您的插件的 <code>entrypoint:</code> 会调用的程序。运行器认得 <code>python3</code>、<code>python</code>、<code>node</code>、<code>php</code>、<code>ruby</code>、<code>perl</code>、<code>lua</code>、<code>bash</code> 和 <code>sh</code>；
+<p>请安装您的插件的 <code>entrypoint:</code> 会调用的程序。运行器识别 <code>python3</code>、<code>python</code>、<code>node</code>、<code>php</code>、<code>ruby</code>、<code>perl</code>、<code>lua</code>、<code>bash</code> 和 <code>sh</code>；
 大多数社区插件只需要 <code>python3</code>。然后是服务器要通信的那些服务：</p>
 <table>
 <thead>
@@ -3367,7 +3367,7 @@
 </tr>
 <tr>
 <td><strong>Meilisearch</strong></td>
-<td>搜索索引；没有它，搜索会退回到用 SQL</td>
+<td>搜索索引；没有它，搜索会改用 SQL</td>
 </tr>
 <tr>
 <td><strong><code>bwrap</code></strong>（bubblewrap）</td>
@@ -3389,8 +3389,8 @@
 </span></code></pre></div>
 <ul>
 <li><code>evey</code>（UID 1000）运行服务器。</li>
-<li><code>evey-plugin</code>（UID 1001）是开启 uid 分离时插件切换到的用户。这样，被攻破的插件落到的是另一个无特权的用户上，
-  单凭普通的文件权限，它就读不到服务器的密钥。</li>
+<li><code>evey-plugin</code>（UID 1001）是开启 uid 分离时插件切换到的用户。这样，被攻破的插件会以另一个无特权用户的身份运行，
+  单凭普通的文件权限，它就无法读取服务器的密钥。</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -3403,7 +3403,7 @@
 如果您希望“无法隔离就拒绝”，请明确设置一种模式。</p>
 <h3 id="landlock-recommended">Landlock（推荐）<a class="headerlink" href="#landlock-recommended" title="Permanent link">¶</a></h3>
 <p>按路径的文件系统允许清单（插件只看得到自己的目录和套接字目录，永远看不到您的数据或密钥），
-再加上 Landlock v4 的 TCP 出站过滤。它不需要特权、不需要挂载，也不需要命名空间：启动器先把它加在自己身上，然后再执行插件。</p>
+再加上 Landlock v4 的 TCP 出站过滤。它不需要特权、不需要挂载，也不需要命名空间：启动器先对自身应用它，然后再执行插件。</p>
 <p>Landlock 必须编译进内核，并且在当前启用的 LSM 列表里。运行器会探测 <code>landlock_create_ruleset</code>；
 如果没有这个系统调用（内核比 5.13 旧），或者 Landlock 不在启用列表里，探测就会失败。检查方法：</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uname<span class="w"> </span>-r<span class="w">                              </span><span class="c1"># 需要 5.13 或更新</span>
@@ -3427,15 +3427,15 @@
 <p>检查主机是否允许设置命名空间和挂载：</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>bwrap<span class="w"> </span>--unshare-user<span class="w"> </span>--unshare-net<span class="w"> </span>--ro-bind<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/bin/true<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"bwrap OK"</span>
 </span></code></pre></div>
-<h3 id="basic-last-resort">basic（最后的办法）<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
+<h3 id="basic-last-resort">basic（最后选择）<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
 <p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> 就是切换用户（uid）加上 seccomp 垫片库；如果有启动器，它仍然会装上它的内核 seccomp 禁止清单，
 并尽力加上 Landlock。没有按路径的文件系统隔离：插件以 UID 1001 运行，只有 seccomp 保护。
 请在 Landlock 和 bubblewrap 都不能用的旧内核或受限内核上使用它，并依靠下面的 uid 分离来保护密钥。</p>
 <p>获得了 <code>subprocess</code> 权限的插件，即使在 <code>basic</code> 模式下也需要启动器：垫片库在子进程 <code>exec</code> 之后就不再起作用，
 只有启动器设置的内核 seccomp 还在。没有启动器时，这样的插件会拒绝启动，而不是在没有隔离的情况下运行。</p>
-<h2 id="keep-secrets-out-of-a-plugins-reach">让密钥远离插件<a class="headerlink" href="#keep-secrets-out-of-a-plugins-reach" title="Permanent link">¶</a></h2>
+<h2 id="keep-secrets-out-of-a-plugins-reach">防止插件访问密钥<a class="headerlink" href="#keep-secrets-out-of-a-plugins-reach" title="Permanent link">¶</a></h2>
 <p>uid 分离让每个插件以 <code>evey-plugin</code>（UID 1001）运行，和服务器（UID 1000）分开，这样，单凭普通的文件权限，
-插件就读不到 <code>jwt.key</code>、备份或日志。它在 <code>basic</code> 模式下很重要；在 Landlock 或 bubblewrap 下，文件系统已经被隔开了，所以它在那里是多余的。</p>
+插件就无法读取 <code>jwt.key</code>、备份或日志。它在 <code>basic</code> 模式下很重要；在 Landlock 或 bubblewrap 下，文件系统已经受到限制，所以它在那里是多余的。</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>：</p>
 <table>
 <thead>
@@ -3464,7 +3464,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>setcap<span class="w"> </span>cap_setuid+ep<span class="w"> </span>/opt/evey/evey-plugin-launcher
 </span></code></pre></div>
 <p>启动器拒绝任何小于 1000 的目标 uid 或 gid。如果无法切换（缺少能力，或者设置了 <code>no_new_privs</code>），
-<code>basic</code> 模式下的插件会被拒绝，因为在那里 uid 是它唯一的一道墙；在 Landlock 下，它会记录一条警告，然后以服务器的 uid 运行。</p>
+<code>basic</code> 模式下的插件会被拒绝，因为在那里 uid 是它唯一的保护；在 Landlock 下，它会记录一条警告，然后以服务器的 uid 运行。</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>uid 分离和 <code>no_new_privs</code> 不能同时使用。如果服务器在 systemd 的 <code>NoNewPrivileges=yes</code> 下运行，
@@ -3473,7 +3473,7 @@
 <p>如果服务器改为以 root 运行（不推荐），它会直接把插件切换到 1001，就不需要这项能力了。
 用简单的话说明每种情况，见<a href="../plugins/sandbox-deployment/">插件沙箱设置</a>。</p>
 <h2 id="secret-file-permissions">密钥文件的权限<a class="headerlink" href="#secret-file-permissions" title="Permanent link">¶</a></h2>
-<p>照镜像的做法：存放密钥的目录只有所有者能访问，这样，即使没有 Landlock，切换到 UID 1001 的插件也读不到它们。</p>
+<p>按照镜像的做法：存放密钥的目录只有所有者能访问，这样，即使没有 Landlock，切换到 UID 1001 的插件也无法读取它们。</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>evey:evey<span class="w"> </span>/var/lib/evey
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># plugins/ 归服务器所有（安装的插件解压在这里）；evey 组</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># （evey-plugin 属于这个组）只能读取和执行已安装的文件：</span>
@@ -3492,19 +3492,19 @@
   <code>EVEY_TRANSCODING_CACHE_DIR</code>（<code>/data/transcode</code>）、<code>EVEY_TRICKPLAY_CACHE_DIR</code>（<code>/cache/trickplay</code>）
   和 <code>EVEY_JWT_PRIVATE_KEY_PATH</code>（<code>/data/jwt.key</code>）设为您自己的目录。</li>
 <li>服务器提供的是普通的 HTTP：请在前面放一个反向代理来提供 TLS，把<strong>外部 URL</strong> 设为 <code>https://</code> 地址，
-  并把代理加到<strong>受信任的代理</strong>里（<strong>管理 -&gt; 远程访问</strong>；<code>EVEY_SERVER_BASE_URL</code> 和 <code>EVEY_TRUSTED_PROXIES</code> 是备用方式）。
+  并把代理加到<strong>受信任的代理</strong>里（<strong>管理 → 远程访问</strong>；<code>EVEY_SERVER_BASE_URL</code> 和 <code>EVEY_TRUSTED_PROXIES</code> 是后备值）。
   见<a href="../reverse-proxy/">反向代理配置</a>。</li>
 <li><strong>服务器会打开两个端口，只能对外开放其中一个。</strong>
   <code>EVEY_SERVER_PORT</code>（默认 <code>9090</code>）是原生的 gRPC 监听端口；您的客户端和反向代理访问的 HTTP API 是这个端口加一（<code>9091</code>）。
-  远程访问的把关决定局域网以外的客户端能不能连接，它接在 HTTP 这条处理链上，不管 gRPC 监听端口，
+  远程访问控制决定局域网以外的客户端能否连接，它位于 HTTP 处理链中，不覆盖 gRPC 监听端口，
   所以 gRPC 默认只绑定本机回环地址（<code>EVEY_GRPC_BIND=127.0.0.1</code>）。如果您有理由对外开放它，请设置 <code>EVEY_GRPC_BIND=0.0.0.0</code>；
-  服务器启动时会警告您把关对它不起作用，这时防火墙就要由您自己来设。</li>
+  服务器启动时会警告远程访问控制不适用于该端口，此时需要您自己用防火墙限制它。</li>
 <li>迁移在启动时执行；没有单独的迁移步骤。</li>
 <li>插件的资源上限（<code>EVEY_PLUGINS_MEMORY_MB</code>、<code>_PIDS_MAX</code>、<code>_DISK_MAX_MB</code>、<code>_CPU_NICE</code>）和沙箱模式，
-  可以在运行时从<strong>管理 -&gt; 插件 -&gt; 资源限制</strong>修改；环境变量的值只是初始默认值。</li>
+  可以在运行时从<strong>管理 → 插件 → 资源限制</strong>修改；环境变量的值只是初始默认值。</li>
 <li>管理面板里的重启服务器功能依赖镜像里的进程管理程序，不用容器运行时会显示为不可用：请自己重启服务。</li>
 </ul>
-<h2 id="verify-the-sandbox">确认沙箱在工作<a class="headerlink" href="#verify-the-sandbox" title="Permanent link">¶</a></h2>
+<h2 id="verify-the-sandbox">确认沙箱正常工作<a class="headerlink" href="#verify-the-sandbox" title="Permanent link">¶</a></h2>
 <p>服务器会在日志里记录它最终选择的后端。第一个插件启动后，请查找：</p>
 <ul>
 <li>使用 <code>auto</code> 时，会出现一次：<code>plugin sandbox auto-detection complete
@@ -3519,8 +3519,8 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>/sys/kernel/security/lsm<span class="w">              </span><span class="c1"># 列出 "landlock"</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>grep<span class="w"> </span>Seccomp:<span class="w"> </span>/proc/&lt;plugin-pid&gt;/status<span class="w">   </span><span class="c1"># 2 = 插件上有一个生效的 seccomp 过滤器</span>
 </span></code></pre></div>
-<p>正在运行的插件进程上出现 <code>Seccomp: 2</code> 这一行，说明内核过滤器已经装上了。
-如果设置了 <code>EVEY_PLUGINS_SANDBOX_MODE=landlock</code>，而 Landlock 没有生效，插件会拒绝启动：这正是“无法隔离就拒绝”的约定在起作用。</p>
+<p>正在运行的插件进程上出现 <code>Seccomp: 2</code> 这一行，说明内核过滤器已经安装。
+如果设置了 <code>EVEY_PLUGINS_SANDBOX_MODE=landlock</code>，而 Landlock 没有生效，插件会拒绝启动：这说明“无法隔离就拒绝”的机制在正常工作。</p>
 <p>关于备份、更新和恢复命令，容器的那些页面同样适用：<a href="../backups/">备份和更新</a>、<a href="../runbooks/recovery/">恢复</a>
 和<a href="../runbooks/cli/">命令行</a>介绍的是同一个 <code>evey admin</code> 程序。</p>
 <!-- sources

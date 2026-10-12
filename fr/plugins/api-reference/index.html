@@ -3448,7 +3448,7 @@
 
 
 <h1 id="plugin-api-reference">Référence de l'API des plugins<a class="headerlink" href="#plugin-api-reference" title="Permanent link">¶</a></h1>
-<p>Le contrat contre lequel un plugin s'écrit : les champs de <code>plugin.yaml</code>, les
+<p>Le contrat que doit respecter un plugin : les champs de <code>plugin.yaml</code>, les
 deux services gRPC que le backend et le serveur échangent, et le pont
 <code>window.evey</code> qu'un module d'interface reçoit dans son cadre. Le parcours qui
 les met en oeuvre est <a href="../dev-setup/">Écrire un plugin</a> ; ce que chaque
@@ -3544,7 +3544,7 @@ de lecture, panneau <strong>Config</strong> de l'administration compris. Enregis
 panneau avec le masque inchangé conserve la valeur stockée : modifier un autre
 champ n'efface jamais un secret.</p>
 <h2 id="backend-the-two-services">Backend : les deux services<a class="headerlink" href="#backend-the-two-services" title="Permanent link">¶</a></h2>
-<p>Le processus backend et le serveur parlent gRPC sur deux sockets Unix dont les
+<p>Le processus backend et le serveur communiquent en gRPC sur deux sockets Unix dont les
 chemins arrivent dans l'environnement :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>EVEY_PLUGIN_ID=&lt;id du plugin&gt;
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>EVEY_PLUGIN_SOCK=&lt;chemin&gt;   # votre processus écoute ici et sert PluginService
@@ -3570,7 +3570,7 @@ d'entrée au démarrage du plugin (<a href="../dev-setup/#1-prerequisites">prér
 </tr>
 <tr>
 <td><code>HealthCheck()</code></td>
-<td>Périodiquement, pour distinguer un processus vivant d'un processus bloqué. Répondez <code>healthy: true</code> tant que vous pouvez servir.</td>
+<td>Périodiquement, pour distinguer un processus actif d'un processus bloqué. Répondez <code>healthy: true</code> tant que vous pouvez servir.</td>
 </tr>
 <tr>
 <td><code>Shutdown(reason)</code></td>
@@ -3628,7 +3628,7 @@ sont listées pour qu'un stub ne vous induise pas en erreur.</p>
 <tr>
 <td><code>Fetch(url, method, headers)</code></td>
 <td><code>network</code></td>
-<td>La seule sortie de la sandbox : <code>http</code> ou <code>https</code>, <code>GET</code> ou <code>HEAD</code>, un hôte de <code>external_fetch</code>, adresses privées refusées après résolution et à travers les redirections. Le corps est plafonné à 8 Mio (<code>truncated</code> le signale) et la requête entière à 20 secondes. Le serveur n'ajoute aucun identifiant qui lui appartienne.</td>
+<td>Le seul accès au réseau depuis la sandbox : <code>http</code> ou <code>https</code>, <code>GET</code> ou <code>HEAD</code>, un hôte de <code>external_fetch</code>, adresses privées refusées après résolution et à travers les redirections. Le corps est plafonné à 8 Mio (<code>truncated</code> le signale) et la requête entière à 20 secondes. Le serveur n'ajoute aucun identifiant qui lui appartienne.</td>
 </tr>
 <tr>
 <td><code>SearchMedia</code>, <code>GetMediaStreams</code>, <code>GetChapters</code>, <code>GetSubtitles</code></td>
@@ -3686,7 +3686,7 @@ le stockage est supprimé avec le plugin.</p>
 </tbody>
 </table>
 <p>Ce stockage est global au plugin. Les données <strong>par utilisateur</strong> (une
-préférence de la personne qui regarde le widget) vivent côté interface, par
+préférence de la personne qui regarde le widget) sont gérées côté interface, par
 la permission <code>prefs</code> ci-dessous.</p>
 <h2 id="frontend-api">API de l'interface<a class="headerlink" href="#frontend-api" title="Permanent link">¶</a></h2>
 <p>Un module d'interface tourne dans un cadre à origine opaque, sous une
@@ -3722,8 +3722,8 @@ au plus 3 notifications par seconde sont affichées.</p>
 800. <code>0</code> replie l'emplacement : un widget qui n'a rien à montrer ne prend
 aucune place. Un widget <code>home.section</code> s'ouvre à <code>data.suggestedHeight</code> sans
 rien faire : l'hôte connaît la surface où il vous a placé et recommande la
-hauteur qu'un widget d'accueil y a, pour que tous les widgets arrivent à la
-même taille. Ne redimensionnez que si vous savez mieux.</p>
+hauteur qu'un widget d'accueil y a, pour que tous les widgets aient la
+même taille. Ne redimensionnez que si vous avez une raison précise de le faire.</p>
 <h3 id="eveyprefs-permission-prefs"><code>evey.prefs.*</code> (permission <code>prefs</code>)<a class="headerlink" href="#eveyprefs-permission-prefs" title="Permanent link">¶</a></h3>
 <p>Les préférences de l'utilisateur courant dans l'espace propre du plugin,
 liées à (ce plugin, cet utilisateur) par le jeton que l'hôte détient pour le
@@ -3751,9 +3751,9 @@ dans le cadre sans question d'origine croisée. Seules les ressources du
 plugin sont accessibles.</p>
 <h3 id="on-a-television">Sur une télévision<a class="headerlink" href="#on-a-television" title="Permanent link">¶</a></h3>
 <p>L'application télévision exécute le module dans une WebView, et quelques
-évidences du navigateur n'y tiennent plus :</p>
+comportements habituels du navigateur n'y sont plus valables :</p>
 <ul>
-<li><strong>Ne vous dimensionnez pas d'après votre propre fenêtre.</strong> Dans la WebView,
+<li><strong>Ne dimensionnez pas le widget d'après sa propre fenêtre.</strong> Dans la WebView,
   <code>window.innerHeight</code> est l'emplacement que l'hôte vient de vous accorder.
   Partez de <code>data.viewportHeight</code> ou de <code>data.suggestedHeight</code>.</li>
 <li><strong>Ni focus, ni pointeur.</strong> Le widget ne reçoit jamais le focus de la
@@ -3820,13 +3820,13 @@ soumise au consentement. Tout autre emplacement <code>admin.*</code>, <code>logi
 <code>media.read</code>, <code>media.write</code>, <code>webhook.receiver</code> ou <code>notification.sender</code>.
 L'installateur vérifie le nom, l'administrateur voit la liste dans l'aperçu
 et tout ajout à la mise à jour, et le Tableau de bord sécurité l'enregistre.
-Le serveur n'aiguille rien sur une capacité aujourd'hui : un
+Le serveur n'oriente aujourd'hui aucun appel en fonction d'une capacité : un
 <code>metadata.provider</code> ne reçoit aucun appel d'enrichissement, un
 <code>webhook.receiver</code> ne reçoit aucune requête entrante. Ce qu'un plugin peut
 réellement faire est décidé par ses <strong>permissions</strong>.</p>
 <h2 id="permissions-of-the-interface">Permissions de l'interface<a class="headerlink" href="#permissions-of-the-interface" title="Permanent link">¶</a></h2>
 <p><code>public</code> et <code>prefs</code> se déclarent sous <code>permissions</code> comme les autres. Elles
-n'accordent rien au processus backend ; elles débloquent <code>evey.media.*</code> et
+n'accordent rien au processus backend ; elles donnent accès à <code>evey.media.*</code> et
 <code>evey.prefs.*</code> dans le cadre. Le cadre ne détient jamais de jeton : l'hôte
 émet un jeton de cinq minutes limité à (plugin, utilisateur) et relaie les
 appels, et le serveur refuse par défaut toute méthode que les portées du
@@ -3835,7 +3835,7 @@ jeton ne nomment pas
 <div class="admonition note">
 <p class="admonition-title">Ce qu'un plugin ne peut jamais demander</p>
 <p><code>admin.*</code>, <code>auth.*</code>, <code>system.*</code>, <code>user.write</code> et <code>library.write</code> sont
-verrouillés : un manifeste qui les nomme est refusé, un jeton ne peut
+interdits : un manifeste qui les nomme est refusé, un jeton ne peut
 jamais les porter, et les méthodes d'administration refusent un jeton de
 plugin quelles que soient ses portées.</p>
 </div>
@@ -3845,7 +3845,7 @@ courant : des bases en Node.js et en Python (<code>nodejs-example</code>,
 <code>python-example</code>), un fournisseur de métadonnées (<code>metadata-example</code>), un
 récepteur de webhooks (<code>webhook-receiver</code>), un widget d'accueil avec une
 étape de build (<code>weather</code>), le stockage de données avec les permissions
-<code>public</code> et <code>prefs</code> et l'emplacement <code>admin.nav</code> (<code>data-demo</code>), un tour de
+<code>public</code> et <code>prefs</code> et l'emplacement <code>admin.nav</code> (<code>data-demo</code>), un exemple de
 chaque type de champ de <code>config_schema</code> (<code>config-demo</code>), et deux thèmes
 (<code>theme-dark-blue</code>, <code>open-workshop</code>). <code>make plugin-zips</code> les empaquette
 tous.</p>

@@ -3228,7 +3228,7 @@ una variante de la imagen, o si el sandbox de plugins indica algo distinto de
 <code>landlock</code>. Para usar Evey sin Docker, consulta
 <a href="../../deployment-bare-metal/">Sin contenedor</a>.</p>
 <h2 id="the-embedded-database">La base de datos integrada<a class="headerlink" href="#the-embedded-database" title="Permanent link">¶</a></h2>
-<p>El clúster vive en <code>./evey-data/postgres</code> (Postgres 17, creado en el primer
+<p>El clúster está en <code>./evey-data/postgres</code> (Postgres 17, creado en el primer
 arranque y propiedad del usuario del servidor). Solo escucha en la interfaz
 local del contenedor y exige la contraseña generada, así que un plugin que se
 ejecuta con otro usuario no puede abrirlo. <code>docker stop</code> lo apaga limpiamente
@@ -3253,7 +3253,7 @@ restauración con la nueva:</p>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
 </span></code></pre></div>
 <h2 id="run-postgres-as-a-separate-service">Usar Postgres como servicio aparte<a class="headerlink" href="#run-postgres-as-a-separate-service" title="Permanent link">¶</a></h2>
-<p>Para gestionar tú mismo la vida de la base de datos (un Postgres gestionado,
+<p>Para gestionar tú mismo el ciclo de vida de la base de datos (un Postgres gestionado,
 una versión mayor fijada, tu propia política de volcados), ejecútala como un
 servicio aparte e indícale al servidor dónde está. Definir <code>EVEY_DB_HOST</code> es
 lo que desactiva la base de datos integrada. El servidor se niega a arrancar
@@ -3422,7 +3422,7 @@ equipo al ejecutar el contenedor.</p>
 <p>La imagen contiene todo lo necesario para confinar los plugins, sin modo
 privilegiado. El modo de sandbox por defecto (<code>auto</code>) elige el mecanismo más
 fuerte que permite el equipo: Landlock en cualquier kernel moderno. Comprueba
-el modo activo en el <strong>Panel de seguridad</strong> de <strong>Administración -&gt; Plugins</strong>.
+el modo activo en el <strong>Panel de seguridad</strong> de <strong>Administración → Plugins</strong>.
 Un equipo que muestra <code>basic</code> no puede aislar el acceso de los plugins a los
 archivos: <a href="../../plugins/sandbox-deployment/">Configurar el sandbox de plugins</a>
 explica lo que eso significa y qué cambiar. Las capas en sí se describen en

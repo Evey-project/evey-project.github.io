@@ -3252,7 +3252,7 @@
 <h1 id="themes">थीम<a class="headerlink" href="#themes" title="Permanent link">¶</a></h1>
 <p>थीम Evey के इंटरफ़ेस का रूप बदलती है: यह <code>kind: theme</code> वाला एक पैकेज है जिसमें
 कोई बैकएंड प्रोसेस नहीं होता, बस एक stylesheet और, चाहें तो, एक script जो एक छिपे
-फ़्रेम में बंद रहती है। यह पेज थीम बनाने वालों के लिए है; यह बताता है कि इन दो
+फ़्रेम तक सीमित रहती है। यह पेज थीम बनाने वालों के लिए है; यह बताता है कि इन दो
 फ़ाइलों में क्या हो सकता है और इंस्टॉलर क्या बदल देता है या मना करता है। थीम
 प्लगइन की तरह <strong>एडमिन → प्लगइन</strong> से इंस्टॉल होती हैं, और हर उपयोगकर्ता
 <strong>सेटिंग्स → रूप-रंग → थीम</strong> में अपनी थीम चुनता है।</p>
@@ -3266,7 +3266,7 @@
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># न language, न entrypoint, न permissions, न capabilities: वरना इंस्टॉल मना होता है</span>
 </span></code></pre></div>
-<p>ZIP की जड़ में, manifest के बगल में, <code>theme.css</code> और/या <code>theme.js</code> होती है। जिस
+<p>ZIP के root फ़ोल्डर में, manifest के बगल में, <code>theme.css</code> और/या <code>theme.js</code> होती है। जिस
 पैकेज में दोनों में से कोई नहीं, वह स्वीकार होता है पर कोई असर नहीं दिखता।
 <code>examples/plugins/theme-dark-blue</code> (रंगों के वेरिएबल बदलने वाली एक छोटी
 <code>theme.css</code>) और <code>examples/plugins/open-workshop</code> (पूरा नया रूप), दोनों सफ़ाई वाली
@@ -3293,7 +3293,7 @@ properties के एक समूह से बनाता है; <code>examp
 </span></code></pre></div>
 <h3 id="stable-theming-hooks">थीम के लिए स्थिर हुक<a class="headerlink" href="#stable-theming-hooks" title="Permanent link">¶</a></h3>
 <p>कुछ सजावटी हिस्सों पर स्थिर class होती हैं, जिन्हें आप utility class पर निर्भर
-हुए बिना निशाना बना सकते हैं; utility class रिलीज़ के बीच बदलती रहती हैं। ये एक
+हुए बिना CSS में चुन सकते हैं; utility class रिलीज़ के बीच बदलती रहती हैं। ये एक
 अनुबंध हैं: इनके नाम नहीं बदले जाएँगे।</p>
 <table>
 <thead>
@@ -3326,7 +3326,7 @@ properties के एक समूह से बनाता है; <code>examp
 </tr>
 <tr>
 <td><code>.evey-media-detail</code></td>
-<td>मीडिया के जानकारी वाले पेज की जड़</td>
+<td>मीडिया के जानकारी वाले पेज का root element</td>
 <td>जानकारी वाले हिस्से की बनावट</td>
 </tr>
 </tbody>
@@ -3376,7 +3376,7 @@ properties के एक समूह से बनाता है; <code>examp
 <td>phishing वाली परत का सबसे आम रूप। <code>top: 0; left: 0</code> से टिका और अपने कंटेंट जितना बड़ा header बना रहता है। एक ही selector की घोषणाएँ सभी rule में जोड़कर देखी जाती हैं।</td>
 </tr>
 <tr>
-<td><code>button</code>, <code>[role=button]</code>, <code>a[href*=logout]</code> या <code>[data-critical]</code> को निशाना बनाने वाले rule में <code>pointer-events: none</code></td>
+<td><code>button</code>, <code>[role=button]</code>, <code>a[href*=logout]</code> या <code>[data-critical]</code> को चुनने वाले rule में <code>pointer-events: none</code></td>
 <td>वह घोषणा हटा दी जाती है, बाकी रहता है</td>
 <td>किसी अहम control का क्लिक होना छिपाना इंटरफ़ेस से धोखा है।</td>
 </tr>
@@ -3388,13 +3388,13 @@ properties के एक समूह से बनाता है; <code>examp
 </tbody>
 </table>
 <p>इन जाँचों से पहले escape किए गए अक्षर पढ़कर असली रूप में लाए जाते हैं, इसलिए
-escape sequence से इन्हें चकमा नहीं दिया जा सकता।</p>
+escape sequence से इन जाँचों से बचा नहीं जा सकता।</p>
 <h2 id="themejs">theme.js<a class="headerlink" href="#themejs" title="Permanent link">¶</a></h2>
 <p>script वैकल्पिक है। यह साइन-इन किए हुए उपयोगकर्ताओं को
 <code>/api/v1/themes/&lt;id&gt;/theme.js</code> पर दी जाती है और एक छिपे
 <code>&lt;iframe sandbox="allow-scripts"&gt;</code> में चलती है, जिसकी नीति <code>connect-src 'none'</code>
 रखती है: होस्ट पेज, उसके स्टोरेज या नेटवर्क तक कोई पहुँच नहीं, उस script के लिए भी
-जो इंस्टॉल की जाँच पास कर चुकी है। अकेला रास्ता <code>window.evey.theme</code> है, जो script
+जो इंस्टॉल की जाँच पास कर चुकी है। एकमात्र इंटरफ़ेस <code>window.evey.theme</code> है, जो script
 चलने से पहले डाला जाता है।</p>
 <h3 id="eveythemecssdeclarations"><code>evey.theme.css(declarations)</code><a class="headerlink" href="#eveythemecssdeclarations" title="Permanent link">¶</a></h3>
 <p>होस्ट पेज को custom property की घोषणाएँ भेजता है, जो उन्हें <code>:root</code> पर लागू करता

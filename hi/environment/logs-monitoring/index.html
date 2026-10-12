@@ -3198,7 +3198,7 @@
 <tr>
 <td><code>EVEY_LOG_DIR</code></td>
 <td><code>/data/logs</code></td>
-<td>जहाँ हर दिन की लॉग फ़ाइल <code>evey-YYYY-MM-DD.log</code> लिखी जाती है। इमेज इसे सेट करती है। यही फ़ाइल असली स्रोत है: <code>docker logs</code> वही धारा दिखाता है, पर Docker उसे घुमाकर पुराना हिस्सा हटाता रहता है।</td>
+<td>जहाँ हर दिन की लॉग फ़ाइल <code>evey-YYYY-MM-DD.log</code> लिखी जाती है। इमेज इसे सेट करती है। यही फ़ाइल असली स्रोत है: <code>docker logs</code> वही आउटपुट दिखाता है, पर Docker उसे rotate करता है (पुराना हिस्सा हटा देता है)।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>

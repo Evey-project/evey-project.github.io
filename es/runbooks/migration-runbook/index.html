@@ -3142,7 +3142,7 @@
 
 <h1 id="database-migrations">Migraciones de la base de datos<a class="headerlink" href="#database-migrations" title="Permanent link">¶</a></h1>
 <p>Cómo cambia Evey el esquema de su base de datos durante una actualización,
-qué comprobar antes y después, y cómo salir cuando una migración se queda a
+qué comprobar antes y después, y qué hacer cuando una migración se queda a
 medias. Para quien administra la instalación estándar, donde la base de datos
 funciona dentro del contenedor <code>evey-server</code>; quien contribuya escribiendo
 una migración encontrará las reglas al final.</p>
@@ -3159,7 +3159,7 @@ reciente de cada una de las 3 últimas versiones del esquema.</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>up<span class="w">        </span><span class="c1"># aplica todas las migraciones pendientes</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>down<span class="w">      </span><span class="c1"># deshace exactamente un paso</span>
 </span></code></pre></div>
-<p><code>up</code> y <code>down</code> hacen antes una copia; <code>--no-backup</code> se la salta. Para abrir
+<p><code>up</code> y <code>down</code> hacen antes una copia; <code>--no-backup</code> la omite. Para abrir
 un shell SQL en la base de datos integrada:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
@@ -3167,7 +3167,7 @@ un shell SQL en la base de datos integrada:</p>
 <h2 id="update-safely">Actualizar sin riesgo<a class="headerlink" href="#update-safely" title="Permanent link">¶</a></h2>
 <ol>
 <li>
-<p><strong>Haz una copia de seguridad</strong> en <strong>Administración -&gt; Copia de seguridad y
+<p><strong>Haz una copia de seguridad</strong> en <strong>Administración → Copia de seguridad y
    restauración</strong> (<strong>Ejecutar ahora</strong>), o desde un script:
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer &lt;admin-token&gt;"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>http://localhost:9091/api/v1/admin/backups
@@ -3208,8 +3208,8 @@ un shell SQL en la base de datos integrada:</p>
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'migrat|error'</span>
 </span></code></pre></div>
-   Vacía la caché de transcodificación (<strong>Administración -&gt; Caché de
-   transcodificación -&gt; Limpiar todo</strong>) si la versión ha cambiado la forma de
+   Vacía la caché de transcodificación (<strong>Administración → Caché de
+   transcodificación → Borrar todo</strong>) si la versión ha cambiado la forma de
    codificar los vídeos.<p></p>
 </li>
 </ol>
@@ -3241,7 +3241,7 @@ seguir. Lleva el esquema al estado que quieras y después quita la marca:</p>
 </span></code></pre></div>
 <p>Reinicia el contenedor; las migraciones siguen desde ahí. Restaurar la copia
 anterior a la migración (<a href="../recovery/#restore-a-pre-migration-dump">Recuperación</a>)
-es la otra salida.</p>
+es la otra opción.</p>
 <h2 id="writing-a-migration">Escribir una migración<a class="headerlink" href="#writing-a-migration" title="Permanent link">¶</a></h2>
 <p>Para quien contribuye. Los archivos están en
 <code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code>.
@@ -3249,7 +3249,7 @@ Ejemplos ya publicados:</p>
 <ul>
 <li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP
   CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>. Toma <code>ACCESS EXCLUSIVE</code> en
-  las dos tablas mientras dura el ADD. Barato en tablas pequeñas, doloroso en
+  las dos tablas mientras dura el ADD. Rápido en tablas pequeñas, costoso en
   <code>media_items</code> / <code>watch_progress</code>.</li>
 <li><strong><code>000067_sort_title_index.up.sql</code></strong>,
   <strong><code>000068_watch_progress_composite_index.up.sql</code></strong>,
@@ -3279,7 +3279,8 @@ Ejemplos ya publicados:</p>
   COLUMN</code> + relleno + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> en un solo archivo. Esa
   forma solo funciona porque Evey funciona con una sola instancia, con las
   migraciones aplicadas de forma síncrona al arrancar; un despliegue
-  escalonado devolvería errores desde la mitad que vaya por detrás. <code>000077</code>
+  escalonado devolvería errores desde la mitad de las instancias que
+  todavía no esté actualizada. <code>000077</code>
   y <code>000098_playlists_profile_id.up.sql</code> se escribieron así y se quedan como
   están porque ya se han publicado. Para una nueva, repártela en tres
   versiones:</li>

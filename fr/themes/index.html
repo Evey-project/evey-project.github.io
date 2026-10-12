@@ -3253,9 +3253,9 @@
 <p>Un thème change l'apparence de l'interface d'Evey : un paquet de
 <code>kind: theme</code> sans processus côté serveur, fait d'une feuille de style et, en
 option, d'un script confiné dans un cadre caché. Cette page s'adresse aux
-auteurs de thèmes ; elle dit ce que les deux fichiers peuvent contenir et ce
+auteurs de thèmes ; elle décrit ce que les deux fichiers peuvent contenir et ce
 que l'installateur réécrit ou refuse. Les thèmes s'installent comme les
-plugins, depuis <strong>Admin → Plugins</strong>, et chaque utilisateur choisit le sien
+plugins, depuis <strong>Administration → Plugins</strong>, et chaque utilisateur choisit le sien
 dans <strong>Paramètres → Apparence → Thème</strong>.</p>
 <h2 id="manifest">Manifeste<a class="headerlink" href="#manifest" title="Permanent link">¶</a></h2>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aurora</span><span class="w">               </span><span class="c1"># obligatoire ; nom lisible</span>
@@ -3382,7 +3382,7 @@ jamais le paquet.</p>
 <tr>
 <td><code>pointer-events: none</code> dans une règle qui vise <code>button</code>, <code>[role=button]</code>, <code>a[href*=logout]</code> ou <code>[data-critical]</code></td>
 <td>Cette déclaration retirée, le reste conservé</td>
-<td>Masquer la cliquabilité d'un contrôle critique est un détournement d'interface.</td>
+<td>Rendre un contrôle critique non cliquable est un détournement d'interface.</td>
 </tr>
 <tr>
 <td><code>z-index</code> au-dessus de 999</td>
@@ -3406,7 +3406,7 @@ applique sur <code>:root</code>. C'est la seule forme acceptée : une liste de
 <code>--nom: valeur</code>, jusqu'à 200 déclarations, chaque valeur de 500 caractères au
 plus, sans <code>url()</code>, <code>image-set</code>, <code>expression()</code>, <code>@import</code>, <code>javascript:</code>,
 <code>data:</code>, <code>http(s):</code>, <code>//</code>, commentaire ni accolade. Tout le reste est
-abandonné et signalé dans la console. Une propriété n'agit que là où la
+ignoré et signalé dans la console. Une propriété n'agit que là où la
 feuille de style assainie y fait référence.</p>
 <div class="language-js highlight"><span class="filename">theme.js</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">evey</span><span class="p">.</span><span class="nx">theme</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s2">"--accent: #e8a33d; --accent-hover: #f0b95c"</span><span class="p">);</span>
 </span></code></pre></div>
@@ -3433,7 +3433,7 @@ mentionner ces noms, même dans un commentaire.</p>
 <thead>
 <tr>
 <th>Motif</th>
-<th>Ce qu'il attrape</th>
+<th>Ce qu'il détecte</th>
 </tr>
 </thead>
 <tbody>
@@ -3455,7 +3455,7 @@ mentionner ces noms, même dans un commentaire.</p>
 </tr>
 <tr>
 <td><code>\.constructor\s*\.\s*constructor</code></td>
-<td>L'évasion <code>[].constructor.constructor</code></td>
+<td>Le contournement <code>[].constructor.constructor</code></td>
 </tr>
 <tr>
 <td><code>new\s+Function\b</code></td>

@@ -3329,7 +3329,7 @@ contre la règle d'adresse.</p>
 <code>https://</code> : un widget peut appeler ces hôtes directement, en <code>https</code>
 seulement.</p>
 <h2 id="slot-whitelist">Liste des emplacements<a class="headerlink" href="#slot-whitelist" title="Permanent link">¶</a></h2>
-<p>Les plugins ne peuvent injecter de l'interface que dans des emplacements
+<p>Les plugins ne peuvent injecter des éléments d'interface que dans des emplacements
 explicitement autorisés. Les chemins critiques en sont volontairement
 absents.</p>
 <table>
@@ -3405,13 +3405,13 @@ jeton ne nomme pas.</p>
    l'analyse statique et la vérification de signature, et renvoie la
    différence de permissions, de capacités, d'emplacements et
    d'<code>external_fetch</code> par rapport à la version installée.</li>
-<li>Si la différence n'est pas vide, l'administrateur doit la reconnaître
-   avant que la mise à jour soit appliquée (<code>requires_ack = true</code> ; par la
+<li>Si la différence n'est pas vide, l'administrateur doit l'accepter
+   avant que la mise à jour ne soit appliquée (<code>requires_ack = true</code> ; par la
    route d'envoi, <code>accept_permission_changes=true</code>).</li>
 <li>L'empreinte du paquet est relevée à l'aperçu et vérifiée à l'application :
    le ZIP analysé est le ZIP installé.</li>
 <li>Sous <code>EVEY_PLUGINS_COSIGN_POLICY=enforce</code>, un échec de signature à
-   l'application bloque la mise à jour même si l'aperçu est passé.</li>
+   l'application bloque la mise à jour même si l'aperçu a réussi.</li>
 </ol>
 <!-- sources
 manifest validation: internal/adapters/driven/pluginrunner/manifest.go - validateManifest, validateExternalFetch ; internal/domain/plugin/model.go - Validate ; capabilities.go - KnownPermissions, KnownCapabilities

@@ -2834,7 +2834,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Fremder Code wird eingesperrt, nicht vertraut
+        2. Fremder Code wird isoliert, ihm wird nicht vertraut
       
     </span>
   </a>
@@ -3104,7 +3104,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Fremder Code wird eingesperrt, nicht vertraut
+        2. Fremder Code wird isoliert, ihm wird nicht vertraut
       
     </span>
   </a>
@@ -3206,7 +3206,7 @@ Entscheidungsprotokollen, in denen sie sichtbar wird. Lesen Sie diese Seite,
 um zu verstehen, warum Evey sich so verhält, bevor Sie lesen, wie es gebaut
 ist (<a href="../ARCHITECTURE/">Architektur</a>) oder warum eine grundlegende Wahl
 getroffen wurde (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/README.md">Entscheidungsprotokolle</a>). Wenn sich zwei
-Prinzipien widersprechen, gewinnt das, das weiter oben in der Liste steht.</p>
+Prinzipien widersprechen, hat das Vorrang, das weiter oben in der Liste steht.</p>
 <table>
 <thead>
 <tr>
@@ -3222,7 +3222,7 @@ Prinzipien widersprechen, gewinnt das, das weiter oben in der Liste steht.</p>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a></td>
 </tr>
 <tr>
-<td>2. Fremder Code wird eingesperrt, nicht vertraut</td>
+<td>2. Fremder Code wird isoliert, ihm wird nicht vertraut</td>
 <td>Plugin-Sandbox</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>, <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a></td>
 </tr>
@@ -3264,10 +3264,10 @@ ist eine Frage der Bereitstellung, das andere schützt die Bibliothek.</p>
 <p>Siehe <a href="../administration/users/">Benutzer, Profile und Kindersicherung</a>,
 <a href="../administration/remote-access/">Fernzugriff und HTTPS</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a>.</p>
-<h2 id="2-third-party-code-is-contained-not-trusted">2. Fremder Code wird eingesperrt, nicht vertraut<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
+<h2 id="2-third-party-code-is-contained-not-trusted">2. Fremder Code wird isoliert, ihm wird nicht vertraut<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
 <p>Ein Plugin bekommt die Berechtigungen, die sein Manifest angibt, und sonst
 nichts. Es wird vor der Installation analysiert, läuft in einer Sandbox ohne
-direkten Netzzugang und hält einen Token, der standardmäßig abgelehnt wird.
+direkten Netzzugang und hält ein Token, dessen Zugriffe standardmäßig verweigert werden.
 Was die Sandbox trotzdem nicht verhindern kann, steht ausdrücklich
 geschrieben, statt nur angedeutet zu werden.</p>
 <p>Siehe <a href="../SECURITY/">Plugin-Sandbox und Bedrohungsmodell</a>,
@@ -3288,7 +3288,7 @@ Lässt sich eine Fähigkeit nicht nachweisen, nimmt der Server die vorsichtige
 Antwort: Ein unbekannter Cast-Empfänger bekommt die Fähigkeiten des ältesten
 Modells, und Pixelformate, die Player noch nicht melden, folgen einer festen
 Kompatibilitätsregel. Wer zu viel annimmt, bekommt ein schwarzes Bild oder
-falsche Farben. Wer zu wenig annimmt, bezahlt mit einer Transkodierung.</p>
+falsche Farben. Wer zu wenig annimmt, verursacht eine Transkodierung.</p>
 <p>Siehe <a href="../playback/casting/">Streamen auf Chromecast</a>,
 <a href="../administration/hardware-acceleration/">Hardware-Beschleunigung</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a>.</p>

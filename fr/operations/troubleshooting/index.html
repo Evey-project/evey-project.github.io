@@ -3263,10 +3263,10 @@
 
 
 <h1 id="troubleshooting">Dépannage<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h1>
-<p>Quelque chose ne marche pas ? Cherchez ce que vous voyez dans le tableau
-ci-dessous. La colonne du milieu dit où regarder en premier ; la dernière
+<p>Quelque chose ne fonctionne pas ? Cherchez ce que vous voyez dans le tableau
+ci-dessous. La colonne du milieu indique où regarder en premier ; la dernière
 mène à la solution. Si cela ne suffit pas, les logs et <code>evey admin doctor</code>
-(plus bas) en disent plus.</p>
+(plus bas) donnent plus de détails.</p>
 <h2 id="where-to-look-by-symptom">Où regarder, selon ce que vous voyez<a class="headerlink" href="#where-to-look-by-symptom" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3278,13 +3278,13 @@ mène à la solution. Si cela ne suffit pas, les logs et <code>evey admin doctor
 </thead>
 <tbody>
 <tr>
-<td>Rien ne répond, même à la maison</td>
+<td>Rien ne répond, même sur le réseau domestique</td>
 <td>Evey tourne-t-il ? <code>docker compose ps</code>, puis les dernières lignes qu'il affiche : <code>docker compose logs --tail=200 evey</code></td>
-<td><a href="#the-server-does-not-start">Le serveur ne démarre pas</a> ci-dessous ; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">The server does not answer</a></td>
+<td><a href="#the-server-does-not-start">Le serveur ne démarre pas</a> ci-dessous ; <a href="../../runbooks/incident-runbook/#the-server-does-not-answer">Le serveur ne répond pas</a></td>
 </tr>
 <tr>
 <td>L'application affiche <strong>Impossible de joindre le serveur</strong> ou <strong>Connexion échouée</strong></td>
-<td>L'adresse tapée dans l'application</td>
+<td>L'adresse saisie dans l'application</td>
 <td><a href="../../getting-started/apps/#the-server-address-to-enter">Connecter les applications</a> ; hors de chez vous seulement : <a href="../../administration/remote-access/">Accès distant et HTTPS</a></td>
 </tr>
 <tr>
@@ -3298,7 +3298,7 @@ mène à la solution. Si cela ne suffit pas, les logs et <code>evey admin doctor
 <td><a href="#playback-problems">Problèmes de lecture</a> ci-dessous</td>
 </tr>
 <tr>
-<td>Ça saccade ou ça charge sans arrêt</td>
+<td>La lecture saccade ou charge sans arrêt</td>
 <td><strong>Administration → Qualité streaming</strong> (quels titres et appareils attendent) et <strong>Administration → Santé du système</strong> (le serveur est-il trop occupé)</td>
 <td><a href="../../playback/transcoding/">Transcodage et capacité du serveur</a></td>
 </tr>
@@ -3325,22 +3325,22 @@ mène à la solution. Si cela ne suffit pas, les logs et <code>evey admin doctor
 <tr>
 <td>Un plugin échoue</td>
 <td>Ses <strong>Logs</strong>, sur sa carte dans <strong>Administration → Plugins</strong></td>
-<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">A plugin crashed</a></td>
+<td><a href="../../runbooks/incident-runbook/#a-plugin-crashed">Un plugin a planté</a></td>
 </tr>
 <tr>
 <td>Une diffusion s'est figée ou est devenue muette</td>
 <td><strong>Administration → En cours de lecture</strong> : la lecture est-elle encore dans la liste ?</td>
-<td><a href="../../runbooks/incident-runbook/#a-cast-froze-went-silent-or-the-phone-keeps-spinning">A cast froze, went silent, or the phone keeps spinning</a></td>
+<td><a href="../../runbooks/incident-runbook/#a-cast-froze-went-silent-or-the-phone-keeps-spinning">Une diffusion s'est figée, est devenue muette, ou le téléphone reste en chargement</a></td>
 </tr>
 <tr>
 <td>Le disque se remplit</td>
 <td><strong>Administration → Cache de transcodage</strong></td>
-<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">The cache disk is full</a></td>
+<td><a href="../../runbooks/incident-runbook/#the-cache-disk-is-full">Le disque de cache est plein</a></td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-logs">Les logs<a class="headerlink" href="#the-logs" title="Permanent link">¶</a></h2>
-<p>Les logs sont le journal de bord d'Evey : chaque erreur y est notée, avec
+<p>Les logs sont le journal d'Evey : chaque erreur y est notée, avec
 l'heure.</p>
 <p><strong>Le plus simple : Administration → Logs &amp; Debug.</strong> Vous y voyez les logs
 avec une zone de recherche, une vue <strong>Direct</strong> qui suit les nouvelles lignes,
@@ -3408,13 +3408,13 @@ endommagée : <a href="../../runbooks/recovery/">Restauration</a>.</p>
 <p>Deux causes habituelles :</p>
 <ul>
 <li><strong>La base de données ne répond pas.</strong> Evey vérifie chaque connexion
-  auprès d'elle, et refuse quand il ne peut pas. Les logs le disent.</li>
+  auprès d'elle, et refuse quand il ne peut pas. Les logs l'indiquent.</li>
 <li><strong>Un reverse proxy manque dans les proxys de confiance</strong> (<strong>Administration
   → Accès distant</strong>). Tous les visiteurs semblent alors venir de l'adresse du
   proxy, et ils partagent tous une seule limite de tentatives de connexion.</li>
 </ul>
 <p>La procédure pas à pas :
-<a href="../../runbooks/incident-runbook/#every-login-returns-401">Every login returns 401</a>.</p>
+<a href="../../runbooks/incident-runbook/#every-login-returns-401">Toutes les connexions renvoient 401</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Une clé de signature perdue ou remplacée ne déconnecte personne à elle
@@ -3422,8 +3422,8 @@ seule : les applications renouvellent leurs jetons. Pour mettre fin à
 toutes les sessions volontairement, c'est <code>evey admin rotate-jwt-key</code>,
 voir <a href="../../runbooks/recovery/#rotate-the-key-that-signs-access-tokens">Restauration</a>.</p>
 </div>
-<p>Le serveur répond à la maison mais pas ailleurs, ou les applications disent
-que l'accès distant est désactivé :
+<p>Le serveur répond sur le réseau domestique mais pas ailleurs, ou les
+applications indiquent que l'accès distant est désactivé :
 <a href="../../administration/remote-access/">Accès distant et HTTPS</a>. La page
 <strong>Administration → Accès distant</strong> signale en rouge un serveur joignable depuis Internet
 alors que l'accès distant est désactivé.</p>
@@ -3454,7 +3454,7 @@ habituelle. Un hôte enregistré dans la carte remplace toutes les variables
 <code>EVEY_SMTP_*</code>. Les envois de notifications qui échouent sont journalisés comme
 <code>email: send notification</code>. Voir <a href="../../notifications/">Notifications</a>.</p>
 <h2 id="playback-problems">Problèmes de lecture<a class="headerlink" href="#playback-problems" title="Permanent link">¶</a></h2>
-<p>Commencez par les <strong>Infos du flux</strong> dans le lecteur. Elles disent comment le
+<p>Commencez par les <strong>Infos du flux</strong> dans le lecteur. Elles indiquent comment le
 film est envoyé (tel quel, recopié dans un autre format, ou converti), piste
 par piste, et pourquoi. Un titre converti alors que vous attendiez qu'il soit
 lu tel quel : voir
@@ -3469,9 +3469,9 @@ lu tel quel : voir
   peut-être au maximum de ce qu'il peut convertir. <strong>Administration → Santé
   du système</strong> montre à quel point il est occupé. Voir
   <a href="../../playback/transcoding/">Transcodage et capacité du serveur</a>.</li>
-<li>La lecture transcodée échoue franchement :
-  <a href="../../runbooks/incident-runbook/#transcoded-playback-fails">Transcoding fails</a>.</li>
-<li>Ça charge et les logs ne disent pas pourquoi :
+<li>La lecture transcodée échoue complètement :
+  <a href="../../runbooks/incident-runbook/#transcoded-playback-fails">La lecture transcodée échoue</a>.</li>
+<li>La lecture se met en mémoire tampon et les logs n'indiquent pas pourquoi :
   <a href="../../runbooks/incident-runbook/#it-buffers-or-cuts-out-and-the-log-does-not-say-why">la procédure de diagnostic</a>.</li>
 <li>Pas de son dans un navigateur uniquement, avec une piste Dolby Digital
   (AC-3/E-AC-3) : un reverse proxy qui impose sa propre Content-Security-Policy
@@ -3480,7 +3480,7 @@ lu tel quel : voir
 <li>Son désynchronisé sur un titre : <strong>Administration → Santé des médias</strong> détecte un
   audio qui démarre après l'image et des pistes en désaccord entre elles.</li>
 <li>Les sous-titres ne s'affichent pas : <a href="../../playback/subtitles/">Sous-titres</a>
-  dit quels formats les lecteurs dessinent et lesquels le serveur doit
+  indique quels formats les lecteurs affichent eux-mêmes et lesquels le serveur doit
   incruster dans l'image.</li>
 <li><strong>Sous-titres en préparation…</strong> reste affiché plusieurs minutes : le fichier
   n'a pas d'index pour cette piste et le serveur le lit en entier, une fois.
@@ -3496,7 +3496,7 @@ lu tel quel : voir
 <strong>Administration → Cache artworks</strong> indique combien n'ont pas encore de copie locale ;
 <strong>Télécharger les artworks manquants</strong> les récupère tout de suite, et <strong>Purger
 les variantes corrompues</strong> supprime les affiches redimensionnées laissées vides
-par un redimensionnement raté, qui sont alors reconstruites à la demande.</p>
+par un redimensionnement échoué, qui sont alors reconstruites à la demande.</p>
 <p>Une affiche ou un titre qui appartient à un autre film relève de
 l'identification des métadonnées, pas des affiches :
 <a href="../../administration/libraries/#fix-a-wrong-or-missing-title">Corriger un titre faux ou manquant</a>.</p>

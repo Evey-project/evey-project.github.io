@@ -3142,12 +3142,12 @@
 
 <h1 id="database-migrations">डेटाबेस माइग्रेशन<a class="headerlink" href="#database-migrations" title="Permanent link">¶</a></h1>
 <p>अपडेट के दौरान Evey अपने डेटाबेस का स्कीमा कैसे बदलता है, पहले और बाद में क्या
-जाँचना है, और जब कोई माइग्रेशन आधे रास्ते में रुक जाए तो बाहर कैसे निकलें। यह
+जाँचना है, और जब कोई माइग्रेशन आधे रास्ते में रुक जाए तो क्या करें। यह
 आम इंस्टॉल चलाने वाले ऑपरेटरों के लिए है, जहाँ डेटाबेस <code>evey-server</code> कंटेनर के
 अंदर चलता है; माइग्रेशन लिखने वाले योगदानकर्ताओं के लिए नियम आखिर में हैं।</p>
 <h2 id="how-migrations-run">माइग्रेशन कैसे चलते हैं<a class="headerlink" href="#how-migrations-run" title="Permanent link">¶</a></h2>
-<p>माइग्रेशन प्रोग्राम के अंदर ही होते हैं और सर्वर शुरू होने पर <code>golang-migrate</code>
-उन्हें लागू करता है। हालत <code>schema_migrations</code> टेबल में रहती है, जिसमें एक पंक्ति
+<p>माइग्रेशन binary के अंदर ही शामिल होते हैं और सर्वर शुरू होने पर <code>golang-migrate</code>
+उन्हें लागू करता है। स्थिति <code>schema_migrations</code> टेबल में दर्ज रहती है, जिसमें एक पंक्ति
 <code>{version, dirty}</code> होती है। कुछ भी लागू करने से पहले, सर्वर <code>EVEY_BACKUP_DIR</code>
 (<code>/data/backups</code>, यानी होस्ट पर <code>./evey-data/backups</code>) में एक पूरा डंप लिखता है,
 जिसका नाम <code>pre-migration-&lt;version&gt;-&lt;UTC timestamp&gt;.sql.gz</code> होता है, और सबसे हाल
@@ -3157,7 +3157,7 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>up<span class="w">        </span><span class="c1"># सारे बाकी माइग्रेशन लागू करें</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>down<span class="w">      </span><span class="c1"># ठीक एक कदम पीछे जाएँ</span>
 </span></code></pre></div>
-<p><code>up</code> और <code>down</code> पहले एक डंप लेते हैं; <code>--no-backup</code> इसे छोड़ देता है। अंदर वाले
+<p><code>up</code> और <code>down</code> पहले एक डंप लेते हैं; <code>--no-backup</code> इसे छोड़ देता है। embedded
 डेटाबेस पर SQL शेल खोलने के लिए:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
@@ -3234,8 +3234,8 @@
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">schema_migrations</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
 </span></code></pre></div>
 <p>कंटेनर रीस्टार्ट करें; माइग्रेशन वहीं से आगे चलते हैं। माइग्रेशन से पहले का डंप
-वापस लाना (<a href="../recovery/#restore-a-pre-migration-dump">रिकवरी</a>) बाहर निकलने का
-दूसरा रास्ता है।</p>
+वापस लाना (<a href="../recovery/#restore-a-pre-migration-dump">रिकवरी</a>) दूसरा
+उपाय है।</p>
 <h2 id="writing-a-migration">माइग्रेशन लिखना<a class="headerlink" href="#writing-a-migration" title="Permanent link">¶</a></h2>
 <p>योगदानकर्ताओं के लिए। फ़ाइलें
 <code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code> में
@@ -3243,8 +3243,8 @@
 <ul>
 <li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP
   CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>। ADD चलने तक दोनों टेबल पर
-  <code>ACCESS EXCLUSIVE</code> लेता है। छोटी टेबल पर सस्ता, <code>media_items</code> /
-  <code>watch_progress</code> पर तकलीफ़देह।</li>
+  <code>ACCESS EXCLUSIVE</code> लेता है। छोटी टेबल पर इसका असर कम है, <code>media_items</code> /
+  <code>watch_progress</code> पर भारी।</li>
 <li><strong><code>000067_sort_title_index.up.sql</code></strong>,
   <strong><code>000068_watch_progress_composite_index.up.sql</code></strong>,
   <strong><code>000069_quick_connect_shortcode_index.up.sql</code></strong> - सादा <code>CREATE INDEX</code>, जो

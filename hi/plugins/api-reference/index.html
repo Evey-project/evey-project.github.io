@@ -3449,12 +3449,12 @@
 
 <h1 id="plugin-api-reference">प्लगइन API संदर्भ<a class="headerlink" href="#plugin-api-reference" title="Permanent link">¶</a></h1>
 <p>वह अनुबंध जिसके हिसाब से प्लगइन लिखा जाता है: <code>plugin.yaml</code> के फ़ील्ड, वे दो gRPC
-सर्विस जिनसे बैकएंड और सर्वर आपस में बात करते हैं, और <code>window.evey</code> पुल, जो
+सर्विस जिनसे बैकएंड और सर्वर आपस में संवाद करते हैं, और <code>window.evey</code> bridge, जो
 इंटरफ़ेस मॉड्यूल को उसके फ़्रेम में मिलता है। इनका इस्तेमाल करने वाला पूरा उदाहरण
 <a href="../dev-setup/">प्लगइन लिखना</a> में है; हर अनुमति क्या करने देती है और इंस्टॉलर क्या
 मना करता है, यह <a href="../security-model/">अनुमतियाँ और स्लॉट</a> में है।</p>
 <h2 id="manifest">Manifest<a class="headerlink" href="#manifest" title="Permanent link">¶</a></h2>
-<p>हर ZIP की जड़ में एक <code>plugin.yaml</code> (या <code>plugin.yml</code>) होता है, ज़्यादा से ज़्यादा
+<p>हर ZIP के root फ़ोल्डर में एक <code>plugin.yaml</code> (या <code>plugin.yml</code>) होता है, ज़्यादा से ज़्यादा
 1 MB का।</p>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-plugin</span><span class="w">              </span><span class="c1"># ज़रूरी; अनोखा, kebab-case</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2.3</span><span class="w">               </span><span class="c1"># ज़रूरी; semver, X.Y.Z या X.Y.Z-label</span>
@@ -3515,7 +3515,7 @@
 </tr>
 <tr>
 <td><code>external_fetch</code></td>
-<td>सिर्फ़ होस्ट के नाम। scheme चल जाता है और हटा दिया जाता है; wildcard या IP लिखने पर इंस्टॉल मना होता है (<a href="../security-model/#external-fetch-rules">नियम</a>)।</td>
+<td>सिर्फ़ होस्ट के नाम। scheme स्वीकार किया जाता है और हटा दिया जाता है; wildcard या IP लिखने पर इंस्टॉल मना होता है (<a href="../security-model/#external-fetch-rules">नियम</a>)।</td>
 </tr>
 <tr>
 <td><code>capabilities</code></td>
@@ -3543,7 +3543,7 @@
 सहेजने पर सहेजा हुआ मान बना रहता है, इसलिए किसी दूसरे फ़ील्ड को बदलने से secret
 कभी नहीं मिटता।</p>
 <h2 id="backend-the-two-services">बैकएंड: दो सर्विस<a class="headerlink" href="#backend-the-two-services" title="Permanent link">¶</a></h2>
-<p>बैकएंड प्रोसेस और सर्वर दो Unix socket पर gRPC बोलते हैं, जिनके रास्ते
+<p>बैकएंड प्रोसेस और सर्वर दो Unix socket पर gRPC से संवाद करते हैं, जिनके रास्ते
 environment में मिलते हैं:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>EVEY_PLUGIN_ID=&lt;plugin id&gt;
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>EVEY_PLUGIN_SOCK=&lt;path&gt;   # आपका प्रोसेस यहाँ सुनता है और PluginService देता है
@@ -3588,8 +3588,8 @@ environment में मिलते हैं:</p>
 <h3 id="hostservice-what-the-plugin-can-call">HostService: प्लगइन क्या कॉल कर सकता है<a class="headerlink" href="#hostservice-what-the-plugin-can-call" title="Permanent link">¶</a></h3>
 <p>जिस कॉल की अनुमति manifest में नहीं बताई गई, वह <code>PermissionDenied</code> के साथ मना हो
 जाती है। <em>दिया नहीं जाता</em> वाले method <code>Unimplemented</code> लौटाते हैं; वे आगे के किसी
-वर्ज़न के अनुबंध का हिस्सा हैं, और यहाँ इसलिए लिखे हैं ताकि कोई stub आपको भटकाए
-नहीं।</p>
+वर्ज़न के अनुबंध का हिस्सा हैं, और यहाँ इसलिए लिखे हैं ताकि किसी stub से आपको
+गलतफ़हमी न हो।</p>
 <table>
 <thead>
 <tr>
@@ -3617,7 +3617,7 @@ environment में मिलते हैं:</p>
 <tr>
 <td><code>EmitEvent(event_type, payload)</code></td>
 <td>कोई नहीं</td>
-<td>सर्वर की event bus पर <code>plugin.event.&lt;event_type&gt;</code> के रूप में प्रकाशित होता है, जहाँ वेबहुक इसे सुन सकते हैं।</td>
+<td>सर्वर की event bus पर <code>plugin.event.&lt;event_type&gt;</code> के रूप में प्रकाशित होता है, जहाँ वेबहुक इसकी सदस्यता ले सकते हैं।</td>
 </tr>
 <tr>
 <td><code>GetMediaItem(id)</code>, <code>ListMediaItems(library_id, type, parent_id, limit, offset)</code></td>
@@ -3653,8 +3653,8 @@ environment में मिलते हैं:</p>
 </table>
 <h3 id="data-store">डेटा स्टोर<a class="headerlink" href="#data-store" title="Permanent link">¶</a></h3>
 <p>हर प्लगइन के पास एक स्थायी key/value स्टोर होता है, बिना कोई अनुमति बताए: cursor,
-cache, आखिरी sync का समय, कुछ भी जो restart के बाद भी याद रखना हो। मान बंद
-string हैं; JSON खुद encode करें। प्लगइन की id पहचाने गए socket से आती है, इसलिए
+cache, आखिरी sync का समय, कुछ भी जो restart के बाद भी याद रखना हो। मान ऐसी
+string हैं जिन्हें सर्वर नहीं पढ़ता; JSON खुद encode करें। प्लगइन की id पहचाने गए socket से आती है, इसलिए
 प्लगइन सिर्फ़ अपने हिस्से में पढ़ता और लिखता है, और पूरा स्टोर प्लगइन के साथ
 मिटा दिया जाता है।</p>
 <table>
@@ -3686,7 +3686,7 @@ string हैं; JSON खुद encode करें। प्लगइन क�
 <p>यह स्टोर पूरे प्लगइन के लिए एक है। <strong>हर उपयोगकर्ता का</strong> डेटा (विजेट देखने वाले
 व्यक्ति की कोई पसंद) इंटरफ़ेस की तरफ़ रहता है, नीचे दी गई <code>prefs</code> अनुमति के ज़रिए।</p>
 <h2 id="frontend-api">Frontend API<a class="headerlink" href="#frontend-api" title="Permanent link">¶</a></h2>
-<p>इंटरफ़ेस मॉड्यूल एक बंद origin वाले फ़्रेम में चलता है, <code>default-src 'none'</code> नीति
+<p>इंटरफ़ेस मॉड्यूल एक opaque origin वाले फ़्रेम में चलता है, <code>default-src 'none'</code> नीति
 के साथ: होस्ट पेज, उसकी कुकी या उसके स्टोरेज तक कोई पहुँच नहीं, कोई फ़ॉर्म नहीं,
 कोई popup नहीं, और <code>connect-src</code> सिर्फ़ <code>https</code> पर <code>external_fetch</code> के होस्ट तक
 सीमित। बाकी सब <code>window.evey</code> से होकर जाता है, जो मॉड्यूल चलने से पहले डाला जाता
@@ -3716,11 +3716,11 @@ string हैं; JSON खुद encode करें। प्लगइन क�
 <code>0</code> स्लॉट को समेट देता है: जिस विजेट के पास दिखाने को कुछ नहीं, वह जगह नहीं
 लेता। <code>home.section</code> विजेट बिना कुछ किए <code>data.suggestedHeight</code> पर खुलता है: होस्ट
 जानता है कि उसने आपको किस जगह रखा है और वहाँ होम विजेट की जो ऊँचाई होती है वही
-सुझाता है, ताकि हर विजेट एक ही आकार में दिखे। आकार तभी बदलें जब आप बेहतर
-जानते हों।</p>
+सुझाता है, ताकि हर विजेट एक ही आकार में दिखे। आकार तभी बदलें जब आपके पास इससे
+बेहतर जानकारी हो।</p>
 <h3 id="eveyprefs-permission-prefs"><code>evey.prefs.*</code> (अनुमति <code>prefs</code>)<a class="headerlink" href="#eveyprefs-permission-prefs" title="Permanent link">¶</a></h3>
-<p>मौजूदा उपयोगकर्ता की पसंद, प्लगइन के अपने हिस्से में, उस token से (यह प्लगइन, यह
-उपयोगकर्ता) से बँधी हुई जो होस्ट फ़्रेम के लिए रखता है। हर कॉल एक promise
+<p>मौजूदा उपयोगकर्ता की पसंद, प्लगइन के अपने हिस्से में, उस token के ज़रिए (यह प्लगइन, यह
+उपयोगकर्ता) से जुड़ी हुई जो होस्ट फ़्रेम के लिए रखता है। हर कॉल एक promise
 लौटाती है; अनुमति न हो तो वह reject होता है।</p>
 <div class="language-js highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">await</span><span class="w"> </span><span class="nx">evey</span><span class="p">.</span><span class="nx">prefs</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"units"</span><span class="p">,</span><span class="w"> </span><span class="s2">"celsius"</span><span class="p">);</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">found</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">evey</span><span class="p">.</span><span class="nx">prefs</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"units"</span><span class="p">);</span>
@@ -3829,7 +3829,7 @@ string हैं; JSON खुद encode करें। प्लगइन क�
 और Python में शुरुआती प्लगइन (<code>nodejs-example</code>, <code>python-example</code>), एक मेटाडेटा
 provider (<code>metadata-example</code>), एक वेबहुक receiver (<code>webhook-receiver</code>), build
 step वाला एक होम विजेट (<code>weather</code>), <code>public</code> और <code>prefs</code> अनुमतियों और <code>admin.nav</code>
-स्लॉट के साथ डेटा स्टोर (<code>data-demo</code>), <code>config_schema</code> के हर फ़ील्ड टाइप का दौरा
+स्लॉट के साथ डेटा स्टोर (<code>data-demo</code>), <code>config_schema</code> के हर फ़ील्ड टाइप का उदाहरण
 (<code>config-demo</code>), और दो थीम (<code>theme-dark-blue</code>, <code>open-workshop</code>)। <code>make plugin-zips</code>
 इन सबको पैक करता है।</p>
 <!-- sources

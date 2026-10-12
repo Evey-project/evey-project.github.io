@@ -1111,7 +1111,7 @@
   <a href="#1-register-evey-with-the-provider" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. सेवा में Evey को दर्ज करें
+        1. प्रदाता के यहाँ Evey को दर्ज करें
       
     </span>
   </a>
@@ -3052,7 +3052,7 @@
   <a href="#1-register-evey-with-the-provider" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. सेवा में Evey को दर्ज करें
+        1. प्रदाता के यहाँ Evey को दर्ज करें
       
     </span>
   </a>
@@ -3116,13 +3116,13 @@
 
 
 <h1 id="single-sign-on-oidc">सिंगल साइन-ऑन (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
-<p>लोगों को उस पहचान सेवा (identity provider) से साइन इन करने दें जो आप पहले से
-चलाते हैं (Keycloak, Authentik, Authelia, Google, या कोई भी दूसरी OpenID
-Connect सेवा): तब वेब और Android ऐप के साइन-इन पेज पर पासवर्ड वाले फ़ॉर्म के
-पास <strong>SSO से साइन इन करें</strong> दिखता है। एडमिन के लिए दो कदम: सेवा में Evey को
+<p>लोगों को उस पहचान प्रदाता (identity provider) से साइन इन करने दें जो आप पहले से
+चलाते हैं (Keycloak, Authentik, Authelia, Google, या कोई भी दूसरा OpenID
+Connect प्रदाता): तब वेब और Android ऐप के साइन-इन पेज पर पासवर्ड वाले फ़ॉर्म के
+पास <strong>SSO से साइन इन करें</strong> दिखता है। एडमिन के लिए दो कदम: प्रदाता के यहाँ Evey को
 दर्ज करें, फिर एडमिन पैनल में एक कार्ड भरें।</p>
-<h2 id="1-register-evey-with-the-provider">1. सेवा में Evey को दर्ज करें<a class="headerlink" href="#1-register-evey-with-the-provider" title="Permanent link">¶</a></h2>
-<p>सेवा में एक client (या application) बनाएँ: Authorization Code grant, scopes
+<h2 id="1-register-evey-with-the-provider">1. प्रदाता के यहाँ Evey को दर्ज करें<a class="headerlink" href="#1-register-evey-with-the-provider" title="Permanent link">¶</a></h2>
+<p>प्रदाता के यहाँ एक client (या application) बनाएँ: Authorization Code grant, scopes
 <code>openid email profile</code>, एक client secret, और वे दो पते जो <strong>सिंगल साइन-ऑन
 (SSO)</strong> कार्ड पर <strong>ये पते अपने प्रदाता के यहाँ दर्ज करें</strong> के नीचे दिखते हैं:</p>
 <table>
@@ -3161,7 +3161,7 @@ Evey तक किसी दूसरे पते से पहुँचते 
 </tr>
 <tr>
 <td><strong>जारीकर्ता (Issuer) URL</strong></td>
-<td>सेवा का पता; Evey उसके नीचे <code>/.well-known/openid-configuration</code> पढ़ता है।</td>
+<td>प्रदाता का पता; Evey उसके नीचे <code>/.well-known/openid-configuration</code> पढ़ता है।</td>
 </tr>
 <tr>
 <td><strong>क्लाइंट ID</strong>, <strong>क्लाइंट सीक्रेट</strong></td>
@@ -3169,7 +3169,7 @@ Evey तक किसी दूसरे पते से पहुँचते 
 </tr>
 <tr>
 <td><strong>अनुमत ई-मेल डोमेन</strong></td>
-<td>अल्पविराम से अलग। सेट होने पर सिर्फ़ इन्हीं पतों को माना जाता है, और सेवा को पते की पुष्टि करनी होती है।</td>
+<td>अल्पविराम से अलग। सेट होने पर सिर्फ़ इन्हीं पतों को माना जाता है, और प्रदाता को पते की पुष्टि करनी होती है।</td>
 </tr>
 <tr>
 <td><strong>बटन का लेबल</strong></td>
@@ -3190,46 +3190,46 @@ Evey तक किसी दूसरे पते से पहुँचते 
 </tbody>
 </table>
 <p><strong>कनेक्शन जाँचें</strong> देखता है कि issuer जवाब देता है। <strong>SSO सेटिंग्स सहेजें</strong>
-तुरंत लागू होता है, बिना रीस्टार्ट के। <strong>स्थिति</strong> वाली लाइन बताती है कि सेवा
+तुरंत लागू होता है, बिना रीस्टार्ट के। <strong>स्थिति</strong> वाली लाइन बताती है कि प्रदाता
 तक पहुँचा जा सकता है या नहीं, और न पहुँचा जा सके तो आखिरी एरर भी।</p>
 <p><a href="../environment/accounts/#single-sign-on-oidc">खाते और साइन-इन</a> वाले
-<code>EVEY_OIDC_*</code> वेरिएबल पीछे का सहारा हैं: कार्ड बताता है कि उसके मान उनसे आ रहे
-हैं, और कार्ड सेव करने पर कार्ड की बात मानी जाती है।</p>
+<code>EVEY_OIDC_*</code> वेरिएबल वैकल्पिक तरीका (fallback) हैं: कार्ड बताता है कि उसके मान उनसे
+आ रहे हैं, और कार्ड सेव करने पर कार्ड के मान लागू होते हैं।</p>
 <div class="admonition note">
-<p class="admonition-title">सेवा कभी सर्वर के ज़रूरी रास्ते पर नहीं होती</p>
-<p>सेवा बंद हो तब भी सर्वर शुरू हो जाता है, जब तक सेवा तक पहुँचा नहीं जा
+<p class="admonition-title">प्रदाता कभी सर्वर के ज़रूरी रास्ते (critical path) पर नहीं होता</p>
+<p>प्रदाता बंद हो तब भी सर्वर शुरू हो जाता है, जब तक प्रदाता तक पहुँचा नहीं जा
 सकता तब तक SSO बटन छिपा रहता है, और पासवर्ड से साइन इन काम करता रहता है।
-अगली साइन-इन कोशिश पर सेवा से फिर संपर्क किया जाता है, ज़्यादा से ज़्यादा
+अगली साइन-इन कोशिश पर प्रदाता से फिर संपर्क किया जाता है, ज़्यादा से ज़्यादा
 हर 30 सेकंड में एक बार।</p>
 </div>
 <h2 id="who-can-sign-in">कौन साइन इन कर सकता है<a class="headerlink" href="#who-can-sign-in" title="Permanent link">¶</a></h2>
 <ol>
-<li>जो खाता इस सेवा से पहले साइन इन कर चुका है, वह फिर से साइन इन करता है,
+<li>जो खाता इस प्रदाता से पहले साइन इन कर चुका है, वह फिर से साइन इन करता है,
    बशर्ते वह अक्षम न हो।</li>
 <li>नहीं तो, <strong>सत्यापित ई-मेल से मौजूदा खातों से जोड़ें</strong> चालू हो, तो उसी
-   ई-मेल वाला मौजूदा खाता सेवा से जोड़ दिया जाता है और साइन इन हो जाता है,
-   लेकिन सिर्फ़ तब जब सेवा पते की पुष्टि करे। खाते का पासवर्ड बना रहता है।
+   ई-मेल वाला मौजूदा खाता प्रदाता से जोड़ दिया जाता है और साइन इन हो जाता है,
+   लेकिन सिर्फ़ तब जब प्रदाता पते की पुष्टि करे। खाते का पासवर्ड बना रहता है।
    एडमिन खाते इस तरह कभी नहीं जोड़े जाते।</li>
 <li>नहीं तो, <strong>नए SSO उपयोगकर्ताओं के लिए खाते बनाएँ</strong> चालू हो, तो एक नया खाता
    बनता है, एक प्रोफ़ाइल और कार्ड में चुनी गई लाइब्रेरी पहुँच के साथ। उसका
-   उपयोगकर्ता नाम सेवा का <code>preferred_username</code> होता है, वह न हो तो ई-मेल का
+   उपयोगकर्ता नाम प्रदाता का <code>preferred_username</code> होता है, वह न हो तो ई-मेल का
    <code>@</code> से पहले वाला हिस्सा; जो नाम पहले से लिया जा चुका है, उसके आगे एक छोटा
-   सा जोड़ लगता है।</li>
+   suffix जोड़ा जाता है।</li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">खाता बनाना डिफ़ॉल्ट रूप से बंद क्यों है</p>
-<p>Google जैसी सार्वजनिक सेवा के साथ, वहाँ खाता रखने वाला कोई भी व्यक्ति
+<p>Google जैसे सार्वजनिक प्रदाता के साथ, वहाँ खाता रखने वाला कोई भी व्यक्ति
 वरना आपके सर्वर पर भी खाता पा सकता था। खाता बनाना डिफ़ॉल्ट रूप से सिर्फ़
 तब चालू होता है जब <strong>अनुमत ई-मेल डोमेन</strong> यह सीमित करता है कि कौन योग्य
 है। जब यह बंद है, तो सिर्फ़ मौजूदा खाते SSO से साइन इन कर सकते हैं।</p>
 </div>
 <p>जब साइन इन मना किया जाता है, तो साइन-इन पेज वजह बताता है: ई-मेल डोमेन की
 अनुमति नहीं है, कोई खाता मेल नहीं खाता और साइन-अप बंद है, खाता अक्षम है,
-खाता है लेकिन जोड़ा नहीं जा सका, या सेवा उपलब्ध नहीं है।</p>
+खाता है लेकिन जोड़ा नहीं जा सका, या प्रदाता उपलब्ध नहीं है।</p>
 <h2 id="signing-out">साइन आउट करना<a class="headerlink" href="#signing-out" title="Permanent link">¶</a></h2>
-<p>जब सेवा एक logout endpoint देती है, तो SSO से साइन इन के बाद Evey से साइन आउट
-करने पर सेवा पर भी सेशन खत्म हो जाता है, फिर Evey के साइन-इन पेज पर वापसी
-होती है। कार्ड बताता है कि सेवा इसे सपोर्ट करती है या नहीं।</p>
+<p>जब प्रदाता एक logout endpoint देता है, तो SSO से साइन इन के बाद Evey से साइन आउट
+करने पर प्रदाता पर भी सेशन खत्म हो जाता है, फिर Evey के साइन-इन पेज पर वापसी
+होती है। कार्ड बताता है कि प्रदाता इसे सपोर्ट करता है या नहीं।</p>
 <!-- sources
 settings and precedence (panel keys oidc.* win over EVEY_OIDC_*): internal/app/user/oidc_settings.go - ResolveOIDCConfig, AllowSignup default from AllowedEmailDomains
 lazy discovery, 30 s backoff, never at boot: internal/app/user/oidc_service.go - oidcRetryBackoff ; cmd/evey/wire.go

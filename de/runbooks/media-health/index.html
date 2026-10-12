@@ -3219,8 +3219,8 @@
 
 
 <h1 id="media-health">Medienzustand<a class="headerlink" href="#media-health" title="Permanent link">¶</a></h1>
-<p>Ein Titel springt langsam, bleibt an einer Stelle hängen, oder sein Ton
-verschiebt sich: <strong>Verwaltung → Medienzustand</strong> liest jede MKV/WebM-Datei
+<p>Bei einem Titel dauert das Springen lange, die Wiedergabe bleibt an einer
+Stelle hängen, oder der Ton verschiebt sich: <strong>Verwaltung → Medienzustand</strong> liest jede MKV/WebM-Datei
 Ihrer Bibliotheken und gibt jeder eine einzige Antwort. Ziel ist eine Seite,
 die sich leert: Was Evey beheben kann, behebt es (<strong>Alle reparieren</strong>); der
 Rest wird einmal erwähnt und kann als gesehen markiert werden.</p>
@@ -3253,9 +3253,9 @@ des Tons stimmen), bekommt eine von zwei Antworten, und mit Absicht nur zwei:</p
 </tr>
 </tbody>
 </table>
-<p>Keines der beiden Urteile schiebt Ihnen eine Aufgabe zu. Eine Messung, mit
-der Evey nichts anfangen kann, ist ein Hinweis, und eine Messung kann falsch
-sein: Läuft die Datei gut, ist sie in Ordnung.</p>
+<p>Keines der beiden Urteile verlangt manuelle Arbeit von Ihnen. Eine Messung,
+mit der Evey nichts anfangen kann, ist nur ein Hinweis, und eine Messung kann
+falsch sein: Läuft die Datei korrekt, ist nichts zu tun.</p>
 <h3 id="repairable">Reparierbar<a class="headerlink" href="#repairable" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Ohne Seek-Index</strong>, oder mit einem, der nicht nutzbar ist. Man merkt es an
@@ -3263,7 +3263,7 @@ sein: Läuft die Datei gut, ist sie in Ordnung.</p>
   vorläufigen Kopie neu aufgebaut. Die Kopie wird vollständig geprüft (Spuren,
   Dauer, Index) und ersetzt dann die Datei.</li>
 <li><strong>Falscher Container</strong>: Die <code>.mkv</code> ist in Wahrheit eine MP4- oder MOV-Datei.
-  Sie wird in <code>.mp4</code> umbenannt, und die Bibliothek zieht mit; nichts wird
+  Sie wird in <code>.mp4</code> umbenannt, und die Bibliothek übernimmt die Änderung; nichts wird
   umgeschrieben.</li>
 <li><strong>Beschädigter Abschnitt</strong>: eine beschädigte Stelle mitten in der Datei. Die
   Reparatur überspringt sie und synchronisiert, was folgt, neu. Diese Bytes
@@ -3284,7 +3284,7 @@ sein: Läuft die Datei gut, ist sie in Ordnung.</p>
   läuft bis zu der Stelle, an der sie abbricht. Kein Werkzeug holt den
   fehlenden Teil zurück; das kann nur die Quelle.</li>
 <li><strong>Grobes Springen</strong>: Der neu aufgebaute Index hat noch eine Lücke, meist im
-  Abspann. Ein Sprung in die Lücke landet an ihrem Rand; überall sonst sind
+  Abspann. Ein Sprung in die Lücke endet an ihrem Rand; überall sonst sind
   Sprünge genau.</li>
 <li><strong>Ton bei +N s</strong>: Eine Tonspur beginnt nach dem Bild. So wird eine
   Synchronfassung an eine Schnittfassung angepasst, und jeder Player folgt

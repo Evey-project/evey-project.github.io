@@ -3677,22 +3677,22 @@
 
 
 <h1 id="plugin-sandbox-and-threat-model">插件沙箱与威胁模型<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
-<p>服务器为了把插件关住做了哪些事：安装时的检查、运行时的各层防护、各种沙箱模式，以及每一层仍然防不住的东西。
+<p>服务器为限制插件所采取的措施：安装时的检查、运行时的各层防护、各种沙箱模式，以及每一层仍然无法阻止的情况。
 代码位于 <code>internal/adapters/driven/pluginrunner</code>（安装分析、沙箱）、<code>cmd/evey-plugin-launcher</code>（Landlock 和内核 seccomp 过滤器）、
 <code>sandbox/sandbox.c</code>（<code>LD_PRELOAD</code> 过滤器）以及 <code>internal/adapters/driving/pluginhost</code>（插件调用的宿主 API）；
 设计依据 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a> 和
-<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>。如果您在编写插件，想知道可以声明什么、什么会被拒绝，请读
-<a href="../plugins/security-model/">权限与插槽</a>；想知道您的机器会用上哪种沙箱，请读<a href="../plugins/sandbox-deployment/">插件沙箱设置</a>。</p>
+<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>。如果您在编写插件，想知道可以声明什么、什么会被拒绝，请阅读
+<a href="../plugins/security-model/">权限与插槽</a>；想知道您的机器会使用哪种沙箱，请阅读<a href="../plugins/sandbox-deployment/">插件沙箱设置</a>。</p>
 <h2 id="threat-model">威胁模型<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
 <p>插件作为独立的进程运行，通过 Unix 套接字上的 gRPC 和服务器通信。服务器默认不信任任何插件代码。它要防范的风险，从最严重到最轻：</p>
 <ol>
 <li><strong>冒充</strong> - 插件假装成另一个插件，以使用对方的权限。</li>
 <li><strong>权限提升</strong> - 插件逃出沙箱，以服务器的身份执行命令。</li>
-<li><strong>文件系统访问</strong> - 插件读写自己目录之外的东西，尤其是服务器的机密。</li>
+<li><strong>文件系统访问</strong> - 插件读写自己目录之外的内容，尤其是服务器的机密。</li>
 <li><strong>网络外泄</strong> - 插件把数据发送到它自己挑选的主机。</li>
 <li><strong>滥用资源</strong> - 挖矿、fork 炸弹、耗尽内存或磁盘。</li>
-<li><strong>供应链</strong> - 分析读不懂的混淆代码或编译代码。</li>
+<li><strong>供应链</strong> - 分析无法读取的混淆代码或编译代码。</li>
 </ol>
 <pre class="mermaid"><code>flowchart LR
     zip[插件包] --&gt; ex[ZIP 解压&lt;br/&gt;限制、不允许符号链接、不允许 setuid]
@@ -3722,7 +3722,7 @@
 <p>清单声明插件申请的权限。未知的权限会导致安装被拒绝。之后这些权限会被强制执行：</p>
 <ul>
 <li><strong><code>subprocess</code></strong> 允许创建子进程。没有它时，内核会拒绝创建进程（<code>-deny-fork</code>），对于解释型插件，<code>LD_PRELOAD</code> 过滤器还会拒绝 <code>execve</code>。</li>
-<li><strong><code>native-binary</code></strong> 允许包里带编译好的代码或压缩包，这些是分析读不懂的。</li>
+<li><strong><code>native-binary</code></strong> 允许包中包含编译好的代码或压缩包，分析无法读取这些内容。</li>
 <li><strong>API 权限</strong>（<code>api.library</code>、<code>api.user</code>、<code>api.metadata</code>、<code>media.read</code>、<code>media.write</code>、<code>notification.sender</code>……）在每次调用宿主时都由
   <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driving/grpcapi/plugin_interceptor.go"><code>PluginPermissionInterceptor</code></a> 检查。</li>
 </ul>
@@ -3825,11 +3825,11 @@
 <p>出现 CRITICAL 发现或 <code>mime_mismatch</code> 时，安装会被拒绝。<code>compiled_binary</code> 和 <code>embedded_archive</code> 也会导致拒绝，除非清单声明了 <code>native-binary</code>。</p>
 <div class="admonition note">
 <p class="admonition-title">分析无法保证的事情</p>
-<p>它是按模式工作的。它能识破已知的几类混淆（分好几步把字符串拼接成可调用对象、按名称查找内置函数、<code>Function.constructor</code> 逃逸），
+<p>它是按模式工作的。它能还原已知的几类混淆（分好几步把字符串拼接成可调用对象、按名称查找内置函数、<code>Function.constructor</code> 逃逸），
 每一类在 <code>tests/fixtures/plugins/malicious/</code> 里都有一个回归测试样例；但它无法跟踪运行时进行的每一种变换
 （<code>strrev("metsys")</code>、解码从文件里读出的载荷）。它也会匹配注释里的内容：一行 <code># pip install foo</code> 注释会触发 <code>runtime_install</code>。
-<strong>真正起把关作用的是运行时的沙箱，而不是分析</strong>：即使某个插件让一个模式从分析下溜了过去，它仍然读不到服务器的数据，
-调用不了被拒绝的系统调用，突破不了资源限制，也调用不了它没有权限的宿主方法。</p>
+<strong>实际执行限制的是运行时的沙箱，而不是分析</strong>：即使插件中的某个模式未被分析发现，该插件仍然无法读取服务器的数据，
+无法调用被拒绝的系统调用，无法超出资源限制，也无法调用它没有权限的宿主方法。</p>
 </div>
 <h3 id="signature">签名<a class="headerlink" href="#signature" title="Permanent link">¶</a></h3>
 <p>插件包可以用 cosign 签名。<code>EVEY_PLUGINS_COSIGN_POLICY</code> 决定验证失败时怎么处理（<code>pluginrunner/cosign.go</code>）：</p>
@@ -3876,11 +3876,11 @@
   所以 DNS 重绑定和重定向都会被再次检查（重定向到列表之外的主机会被拒绝）；</li>
 <li>不附加服务器的任何凭据，响应体最大 8 MiB，请求头最大 8 KiB，20 秒后放弃。</li>
 </ul>
-<p>这堵住了直接外连留下的漏洞（像 <code>169.254.169.254</code> 这样的 IP 地址、插件自带的 DNS 解析器）。剩下的问题是：代理控制的是一次调用<em>去哪里</em>，
+<p>这关闭了直接外连所留下的途径（像 <code>169.254.169.254</code> 这样的 IP 地址、插件自带的 DNS 解析器）。剩下的问题是：代理控制的是一次调用<em>去哪里</em>，
 而不是它<em>带了什么</em>。见<a href="#known-limits">已知限制</a>。</p>
 <div class="admonition tip">
 <p class="admonition-title">给运维人员的建议</p>
-<p>代理把 SSRF 的暴露面转移到了宿主上。在 <code>evey-server</code> 容器上加一条出站规则，不依赖代码，就多了第二道墙：
+<p>代理把 SSRF 的暴露面转移到了宿主上。在 <code>evey-server</code> 容器上添加一条与代码无关的出站规则，可以提供第二层保护：
 丢弃 <code>169.254.0.0/16</code>，并把内部网络限制为只能访问数据库和搜索服务的端点。</p>
 </div>
 <h3 id="system-calls">系统调用<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
@@ -3959,9 +3959,9 @@
 <p>对于没有 <code>subprocess</code> 权限的插件，内核还会拒绝创建进程（<code>fork</code>、<code>vfork</code>、不带 <code>CLONE_THREAD</code> 的 <code>clone</code>；<code>clone3</code> 返回 <code>ENOSYS</code>，
 这样 C 库会退回使用 <code>clone</code>）；线程仍然可以正常工作。</p>
 <p>这是一份<strong>黑名单</strong>：<code>open</code>、<code>read</code>、<code>write</code>、<code>mmap</code>、Unix <code>socket</code> 和 <code>connect</code> 仍然允许。路径由文件系统那一层限制，而不是靠 seccomp。
-在 <code>bubblewrap</code> 下不使用启动器：静态二进制文件在那里没有 seccomp 过滤器，靠命名空间和挂载白名单关住。</p>
+在 <code>bubblewrap</code> 下不使用启动器：静态二进制文件在那里没有 seccomp 过滤器，由命名空间和挂载白名单进行限制。</p>
 <h3 id="a-separate-user">独立的用户<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
-<p>插件可以以用户 1001（<code>evey-plugin</code>）运行，和服务器（1000）不同，这样光靠文件权限，它就读不到服务器的机密。
+<p>插件可以以用户 1001（<code>evey-plugin</code>）运行，和服务器（1000）不同，这样仅凭文件权限，它就无法读取服务器的机密。
 由 <code>EVEY_PLUGINS_UID_SEPARATION</code> 控制：</p>
 <table>
 <thead>
@@ -3973,7 +3973,7 @@
 <tbody>
 <tr>
 <td><code>auto</code>（默认）</td>
-<td>只在沙箱最终落到 <code>basic</code> 时，这是文件权限成为机密周围唯一一道墙的唯一情况</td>
+<td>只在沙箱最终解析为 <code>basic</code> 时，这是文件权限成为机密唯一保护的唯一情况</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -3986,7 +3986,7 @@
 </tbody>
 </table>
 <p>切换由启动器完成，它持有 <code>cap_setuid</code>；服务器本身不带任何特权或能力运行。启动器拒绝切换到 1000 以下的任何用户。
-如果无法切换，<code>basic</code> 下的插件会被拒绝（在那里，用户是唯一的一道墙），而在 <code>landlock</code> 下，插件会以服务器的用户身份运行，并记录一条警告。
+如果无法切换，<code>basic</code> 下的插件会被拒绝（在那里，用户是唯一的保护），而在 <code>landlock</code> 下，插件会以服务器的用户身份运行，并记录一条警告。
 在 <code>bubblewrap</code> 和 <code>strict</code> 下，由用户命名空间承担这个角色。</p>
 <p>启用时，签名密钥（<code>0600</code>）和备份（<code>0700</code> 目录、<code>0600</code> 文件）在运行时只有所有者能访问，即使 <code>/data</code> 是绑定挂载的也一样。
 所有插件共用用户 1001：它们之间靠文件系统那一层隔离，而不是靠用户。</p>
@@ -3995,7 +3995,7 @@
 （<code>SO_PEERCRED</code>，用户空间无法伪造），并和插件启动时记录的 PID 比较。插件的身份来自套接字，从不来自请求头。
 所以插件无法冒充另一个插件，无法调用另一个插件的套接字，也无法借子进程转发调用。PID 不匹配时会记录一条警告。</p>
 <h3 id="resource-limits">资源限制<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h3>
-<p>一个运行在用户空间的监控程序（在无特权的容器里用不了 cgroups）每 2 秒读取一次 <code>/proc/&lt;pid&gt;</code>，停掉超出限制的插件
+<p>一个运行在用户空间的监控程序（在无特权的容器里用不了 cgroups）每 2 秒读取一次 <code>/proc/&lt;pid&gt;</code>，停止超出限制的插件
 （<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0013-userspace-plugin-resource-monitor.md">ADR-0013</a>）：</p>
 <table>
 <thead>
@@ -4028,7 +4028,7 @@
 </tr>
 </tbody>
 </table>
-<p>同一轮检查还会标记让 CPU 持续高于 90% 大约 30 秒的插件，并停掉以同样方式让图形引擎持续满载的、获得了 <code>hardware.gpu</code> 权限的插件。
+<p>同一轮检查还会标记让 CPU 持续高于 90% 大约 30 秒的插件，并停止以同样方式让图形引擎持续满载的、获得了 <code>hardware.gpu</code> 权限的插件。
 这些限制可以在<strong>管理 → 插件 → 资源限制</strong>里按插件设置；环境变量 <code>EVEY_PLUGINS_MEMORY_MB</code>、<code>EVEY_PLUGINS_PIDS_MAX</code>、<code>EVEY_PLUGINS_DISK_MAX_MB</code>
 和 <code>EVEY_PLUGINS_CPU_NICE</code> 设置启动时的默认值。</p>
 <h3 id="interface-isolation">界面隔离<a class="headerlink" href="#interface-isolation" title="Permanent link">¶</a></h3>
@@ -4103,7 +4103,7 @@
 </table>
 <h3 id="auto-default"><code>auto</code>（默认）<a class="headerlink" href="#auto-default" title="Permanent link">¶</a></h3>
 <p>在第一个插件启动时确定一次，选用宿主支持的最强模式：内核强制执行 Landlock，<em>并且</em>找得到 <code>evey-plugin-launcher</code> 二进制文件
-（在服务器二进制旁边、在 <code>$PATH</code> 里，或在 <code>EVEY_PLUGIN_LAUNCHER</code> 指定的位置）时，选 <strong>landlock</strong>；否则，如果测试沙箱真的能建起来
+（在服务器二进制旁边、在 <code>$PATH</code> 里，或在 <code>EVEY_PLUGIN_LAUNCHER</code> 指定的位置）时，选 <strong>landlock</strong>；否则，如果测试沙箱确实能够创建
 （<a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/sandbox_probe.go"><code>ProbeSandbox</code></a>），选 <strong>bubblewrap</strong>，实际上这意味着裸机或特权容器；
 再否则，选 <strong>basic</strong>。Landlock 排在第一，是因为它不需要任何特权，而且能在 Docker 默认的安全配置下运行。
 最终选定的模式会记录在日志里，并显示在<strong>管理 → 插件 → 安全仪表板</strong>的<strong>主机沙箱</strong>一行。</p>
@@ -4132,7 +4132,7 @@
 <h3 id="landlock"><code>landlock</code><a class="headerlink" href="#landlock" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>文件系统：</strong> 由启动器应用的 Landlock 允许列表。系统目录（<code>/usr</code>、<code>/lib</code>、<code>/lib64</code>、<code>/bin</code>、<code>/sbin</code>、<code>/etc</code>、<code>/app</code>）只读；
-  <code>/dev</code> 里只有 <code>null</code>、<code>zero</code>、<code>full</code>、<code>random</code> 和 <code>urandom</code>，所以显卡节点和服务器的终端都碰不到；插件的目录和套接字目录可读写；
+  <code>/dev</code> 里只有 <code>null</code>、<code>zero</code>、<code>full</code>、<code>random</code> 和 <code>urandom</code>，所以显卡节点和服务器的终端都无法访问；插件的目录和套接字目录可读写；
   其他一切，包括 <code>/data</code> 和其他插件，一律拒绝。获得了 <code>hardware.gpu</code> 权限的插件，作为唯一的例外，可以访问它的渲染节点。</li>
 <li><strong>网络：</strong> <code>-restrict-net</code> 和 <code>-deny-inet</code>；只能通过 <code>Fetch</code> 外连。</li>
 <li><strong>系统调用：</strong> 内核过滤器和 <code>LD_PRELOAD</code> 过滤器。</li>
@@ -4186,7 +4186,7 @@
 <h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
 <p><code>bubblewrap</code> 加上 <code>LD_PRELOAD</code> 过滤器（只对解释型插件）。</p>
 <h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
-<p><code>auto</code> 的最后退路：独立的用户、内核过滤器、<code>LD_PRELOAD</code> 过滤器、<code>-deny-inet</code>，内核支持时还有 Landlock。
+<p><code>auto</code> 的最后选择：独立的用户、内核过滤器、<code>LD_PRELOAD</code> 过滤器、<code>-deny-inet</code>，内核支持时还有 Landlock。
 在没有 Landlock 的内核上，没有按路径的限制：插件可以读取不敏感、所有人可读的文件，也能看到进程列表。
 服务器的机密仍然由独立的用户和 <code>PR_SET_DUMPABLE</code> 保护，网络被切断，危险的系统调用被拒绝，编译好的二进制也不例外。</p>
 <h2 id="configuration">配置<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
@@ -4245,7 +4245,7 @@
 </tr>
 <tr>
 <td>所有插件共用用户 1001</td>
-<td>插件可以向同伴发信号（向服务器发信号会被拒绝）</td>
+<td>插件可以向其他插件发信号（向服务器发信号会被拒绝）</td>
 <td><code>PR_SET_DUMPABLE</code> 阻止通过 <code>/proc</code> 读取其他进程；Landlock 和 bubblewrap 隔离各个插件的目录</td>
 </tr>
 <tr>
@@ -4265,12 +4265,12 @@
 </tr>
 <tr>
 <td>分析是按模式工作的</td>
-<td>有意的混淆可以藏住代码</td>
-<td>管理员预览；起把关作用的是沙箱，而不是分析</td>
+<td>有意的混淆可以隐藏代码</td>
+<td>管理员预览；安全边界是沙箱，而不是分析</td>
 </tr>
 <tr>
 <td><code>LD_PRELOAD</code> 只覆盖动态链接的解释型插件</td>
-<td>在没有启动器的 <code>basic</code> 下，静态二进制可以躲开它</td>
+<td>在没有启动器的 <code>basic</code> 下，静态二进制可以绕过它</td>
 <td>官方镜像始终带有启动器，它的内核过滤器覆盖静态二进制</td>
 </tr>
 </tbody>
@@ -4279,12 +4279,12 @@
 <p>有两条不变的规则决定谁能访问到服务器：</p>
 <ul>
 <li><strong>只有 HTTP 端口是打算对外公开的。</strong> gRPC 端口（<code>EVEY_SERVER_PORT</code>，默认 9090）是内部传输通道，唯一的客户端是同一进程里的 HTTP 网关；
-  HTTP API 用的是这个端口加一。gRPC 默认只绑定在回环地址上（<code>EVEY_GRPC_BIND=127.0.0.1</code>），因为远程访问的关卡是 HTTP 中间件，管不到它。
-  扩大绑定范围会记录一条警告；之后用防火墙把它挡住，就是运维人员的事了。</li>
-<li><strong>远程访问关卡依据的是在受信任代理边界上验证过的那一个客户端地址</strong>，从不依据请求头。客户端无法通过 <code>X-Forwarded-For</code> 冒称 <code>127.0.0.1</code>，
-  而没有经过那道边界的请求，一律算作远程。这是部署层面的控制，不是身份验证。</li>
+  HTTP API 用的是这个端口加一。gRPC 默认只绑定在回环地址上（<code>EVEY_GRPC_BIND=127.0.0.1</code>），因为远程访问控制是 HTTP 中间件，不覆盖 gRPC。
+  扩大绑定范围会记录一条警告；此时需要由运维人员用防火墙限制该端口。</li>
+<li><strong>远程访问控制依据的是在受信任代理边界上验证过的那一个客户端地址</strong>，从不依据请求头。客户端无法通过 <code>X-Forwarded-For</code> 冒称 <code>127.0.0.1</code>，
+  而没有经过该边界的请求，一律视为远程请求。这是部署层面的控制，不是身份验证。</li>
 </ul>
-<p>见<a href="../administration/remote-access/">远程访问和 HTTPS</a>以及<a href="../environment/server/#remote-access">服务器与网络</a>。</p>
+<p>见<a href="../administration/remote-access/">远程访问和 HTTPS</a>以及<a href="../environment/server/#remote-access">配置参考</a>。</p>
 <h2 id="what-the-logs-may-contain">日志里可能有什么<a class="headerlink" href="#what-the-logs-may-contain" title="Permanent link">¶</a></h2>
 <p>服务器日志会进入<strong>日志与调试</strong>、缺陷报告和备份，所以在写入每一行时都会清除凭据（<code>internal/pkg/logger/redact.go</code>）：
 键名表示机密的属性（<code>authorization</code>、<code>token</code>、<code>api_key</code>、<code>password</code>、<code>pin</code>、<code>secret</code>……）会被整个替换，
@@ -4292,7 +4292,7 @@
 写代码时：永远不要用表示机密的键名记录不是机密的值（它会被遮盖），新增一种凭据时，要在它第一次被写进日志之前就把它加进那份列表。</p>
 <h2 id="reporting-a-vulnerability">报告漏洞<a class="headerlink" href="#reporting-a-vulnerability" title="Permanent link">¶</a></h2>
 <p>请私下报告，绝不要发在公开的 issue 里：<code>security@eveyproject.org</code>，也就是仓库<a href="https://github.com/Evey-project/evey/blob/master/SECURITY.md">安全策略</a>里的地址。
-插件的身份验证、权限和沙箱逃逸，和其他问题一样都在范围之内。请不要拿不属于您的 Evey 实例做测试。</p>
+插件的身份验证、权限和沙箱逃逸，和其他问题一样都在范围之内。请不要对不属于您的 Evey 实例进行测试。</p>
 <!-- sources
 install checks: internal/adapters/driven/pluginrunner/zip.go ; internal/adapters/driven/pluginrunner/analyzer.go ; internal/adapters/driven/pluginrunner/cosign.go ; internal/app/plugin/install.go ; internal/adapters/driving/grpcapi/plugin_interceptor.go - PluginPermissionInterceptor
 runtime: internal/adapters/driven/pluginrunner/runner_sandbox.go - applySandbox ; internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode, launcherPath, systemReadOnlyDirs, safeDevNodes ; cmd/evey-plugin-launcher/seccomp_linux.go - deniedSyscalls, selfSignalSyscalls, cloneNamespaceFlags, appendDenyForkRules ; cmd/evey-plugin-launcher/droppriv_linux.go ; sandbox/sandbox.c ; internal/adapters/driven/pluginrunner/runner_bwrap.go - buildBwrapCmd ; internal/adapters/driven/pluginrunner/sandbox_probe.go - ProbeSandbox ; internal/adapters/driving/pluginhost/fetch.go - Fetch, maxFetchBytes, maxFetchHeaderBytes, fetchTimeout ; cmd/evey/hardening_linux.go

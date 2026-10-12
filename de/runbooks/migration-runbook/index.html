@@ -3142,7 +3142,7 @@
 
 <h1 id="database-migrations">Datenbankmigrationen<a class="headerlink" href="#database-migrations" title="Permanent link">¶</a></h1>
 <p>Wie Evey bei einem Update den Aufbau seiner Datenbank (das Schema) ändert, was
-Sie vorher und nachher prüfen, und wie Sie herauskommen, wenn eine Migration
+Sie vorher und nachher prüfen, und wie Sie den Fehler beheben, wenn eine Migration
 auf halbem Weg stehen bleibt. Für Betreiber der Standardinstallation, in der
 die Datenbank im Container <code>evey-server</code> läuft. Wer selbst eine Migration
 schreibt, findet die Regeln am Ende.</p>
@@ -3167,7 +3167,7 @@ Dump jeder der 3 jüngsten Schemaversionen.</p>
 <h2 id="update-safely">Sicher aktualisieren<a class="headerlink" href="#update-safely" title="Permanent link">¶</a></h2>
 <ol>
 <li>
-<p><strong>Legen Sie eine Sicherung an</strong> unter <strong>Verwaltung -&gt; Sicherung &amp;
+<p><strong>Legen Sie eine Sicherung an</strong> unter <strong>Verwaltung → Sicherung &amp;
    Wiederherstellung</strong> (<strong>Jetzt ausführen</strong>), oder aus einem Skript:
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer &lt;admin-token&gt;"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>http://localhost:9091/api/v1/admin/backups
@@ -3199,7 +3199,7 @@ Dump jeder der 3 jüngsten Schemaversionen.</p>
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey-server
 </span></code></pre></div>
-   Ein gutes Ergebnis: eine Zeile <code>migrations: pre-migration backup written</code>,
+   Ein erfolgreiches Update zeigt: eine Zeile <code>migrations: pre-migration backup written</code>,
    wenn es etwas anzuwenden gab, dann das Banner des Servers, dann antwortet
    <code>curl -sf http://localhost:9091/healthz</code>.<p></p>
 </li>
@@ -3208,8 +3208,8 @@ Dump jeder der 3 jüngsten Schemaversionen.</p>
    </p><div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>migrate<span class="w"> </span>version
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>--since<span class="w"> </span>10m<span class="w"> </span>evey-server<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s1">'migrat|error'</span>
 </span></code></pre></div>
-   Leeren Sie den Transkodierungs-Cache (<strong>Verwaltung -&gt;
-   Transkodierungs-Cache -&gt; Alle leeren</strong>), wenn die neue Version ändert,
+   Leeren Sie den Transkodierungs-Cache (<strong>Verwaltung →
+   Transkodierungs-Cache → Alle leeren</strong>), wenn die neue Version ändert,
    wie Videos kodiert werden.<p></p>
 </li>
 </ol>
@@ -3242,8 +3242,8 @@ Markierung:</p>
 </span></code></pre></div>
 <p>Starten Sie den Container neu; die Migrationen machen von dort aus weiter.
 Den Dump von vor der Migration wiederherzustellen
-(<a href="../recovery/#restore-a-pre-migration-dump">Wiederherstellung</a>) ist der
-andere Ausweg.</p>
+(<a href="../recovery/#restore-a-pre-migration-dump">Wiederherstellung</a>) ist die
+andere Möglichkeit.</p>
 <h2 id="writing-a-migration">Eine Migration schreiben<a class="headerlink" href="#writing-a-migration" title="Permanent link">¶</a></h2>
 <p>Für Mitwirkende. Die Dateien liegen unter
 <code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code>.
@@ -3252,7 +3252,7 @@ Beispiele, die schon ausgeliefert wurden:</p>
 <li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP
   CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>. Setzt für die Dauer des ADD
   <code>ACCESS EXCLUSIVE</code> auf beide Tabellen. Günstig bei kleinen Tabellen,
-  schmerzhaft bei <code>media_items</code> / <code>watch_progress</code>.</li>
+  problematisch bei <code>media_items</code> / <code>watch_progress</code>.</li>
 <li><strong><code>000067_sort_title_index.up.sql</code></strong>,
   <strong><code>000068_watch_progress_composite_index.up.sql</code></strong>,
   <strong><code>000069_quick_connect_shortcode_index.up.sql</code></strong> - einfaches
@@ -3282,7 +3282,7 @@ Beispiele, die schon ausgeliefert wurden:</p>
   <code>ADD COLUMN</code> + Nachfüllen + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> nicht in eine
   Datei. Diese Form funktioniert nur, weil Evey als einzelne Instanz läuft
   und die Migrationen beim Start der Reihe nach angewendet werden; bei einem
-  schrittweisen Ausrollen würde die Hälfte, die zurückliegt, Fehler liefern.
+  schrittweisen Ausrollen würden die noch nicht aktualisierten Instanzen Fehler liefern.
   <code>000077</code> und <code>000098_playlists_profile_id.up.sql</code> wurden so geschrieben und
   bleiben so, weil sie schon ausgeliefert sind. Verteilen Sie eine neue auf
   drei Versionen:</li>
@@ -3291,7 +3291,7 @@ Beispiele, die schon ausgeliefert wurden:</p>
 <li><strong>migrieren</strong> - die neue Spalte nachfüllen (Aufgabe im Hintergrund,
      nicht die Migration), dann das Lesen auf sie umstellen;</li>
 <li><strong>zusammenziehen</strong> - sobald kein ausgerollter Code die alte Spalte mehr
-     anfasst, <code>SET NOT NULL</code> und die alte Spalte löschen.</li>
+     verwendet, <code>SET NOT NULL</code> und die alte Spalte löschen.</li>
 </ul>
 <!-- sources
 migrations: internal/adapters/driven/postgres/migrate.go - RunMigrations, RollbackLastMigration, CurrentMigrationVersion ; internal/adapters/driven/postgres/migrate_backup.go - dumpDatabase, backupFilePrefix, pruneOldBackups, defaultBackupRetention

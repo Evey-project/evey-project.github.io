@@ -3116,7 +3116,7 @@
 
 
 <h1 id="single-sign-on-oidc">Single Sign-on (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
-<p>Lassen Sie die Leute sich über den Identitätsanbieter anmelden, den Sie schon
+<p>Lassen Sie Benutzer sich über den Identitätsanbieter anmelden, den Sie schon
 betreiben (Keycloak, Authentik, Authelia, Google oder jeder andere
 OpenID-Connect-Anbieter): Die Anmeldeseite der Web- und Android-Apps zeigt
 dann neben dem Passwortformular <strong>Mit SSO anmelden</strong>. Für den Administrator
@@ -3146,7 +3146,7 @@ Adressen beim Anbieter eintragen</strong> zeigt:</p>
 </tbody>
 </table>
 <p>Beide werden aus der öffentlichen Adresse des Servers gebildet (<strong>Verwaltung →
-Fernzugriff</strong>): Tragen Sie diese zuerst ein, wenn die Leute Evey unter einer
+Fernzugriff</strong>): Tragen Sie diese zuerst ein, wenn die Benutzer Evey unter einer
 anderen Adresse erreichen.</p>
 <h2 id="2-configure-evey">2. Evey einrichten<a class="headerlink" href="#2-configure-evey" title="Permanent link">¶</a></h2>
 <p><strong>Verwaltung → Serverkonfiguration → Single Sign-on (SSO)</strong>:</p>
@@ -3196,11 +3196,11 @@ anderen Adresse erreichen.</p>
 speichern</strong> gilt sofort, ohne Neustart. Die Zeile <strong>Status</strong> sagt, ob der
 Anbieter erreichbar ist, und nennt sonst den letzten Fehler.</p>
 <p>Die Variablen <code>EVEY_OIDC_*</code> aus
-<a href="../environment/accounts/#single-sign-on-oidc">Konten und Anmeldung</a> sind der
-Rückfall: Die Karte sagt, wenn ihre Werte von dort kommen, und sobald Sie die
+<a href="../environment/accounts/#single-sign-on-oidc">Konten und Anmeldung</a> sind die
+Rückfallwerte: Die Karte zeigt an, wenn ihre Werte von dort kommen, und sobald Sie die
 Karte speichern, gilt die Karte.</p>
 <div class="admonition note">
-<p class="admonition-title">Der Anbieter liegt nie auf dem kritischen Pfad des Servers</p>
+<p class="admonition-title">Der Server ist für seinen Betrieb nie auf den Anbieter angewiesen</p>
 <p>Der Server startet auch, wenn der Anbieter ausgefallen ist. Die
 SSO-Schaltfläche bleibt verborgen, solange der Anbieter nicht erreichbar
 ist, und die Anmeldung mit Passwort funktioniert weiter. Der Anbieter wird

@@ -1775,7 +1775,7 @@
   <a href="#a-migration-that-stopped-halfway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        迁移中途停下了
+        迁移中途停止
       
     </span>
   </a>
@@ -3099,7 +3099,7 @@
   <a href="#a-migration-that-stopped-halfway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        迁移中途停下了
+        迁移中途停止
       
     </span>
   </a>
@@ -3141,7 +3141,7 @@
 
 
 <h1 id="database-migrations">数据库迁移<a class="headerlink" href="#database-migrations" title="Permanent link">¶</a></h1>
-<p>本页说明 Evey 在更新时如何改变数据库结构、前后要检查什么，以及迁移中途停下时如何脱身。它写给使用标准安装的运维人员，标准安装中数据库运行在 <code>evey-server</code> 容器里；编写迁移的贡献者可以在最后找到相关规则。</p>
+<p>本页说明 Evey 在更新时如何改变数据库结构、前后要检查什么，以及迁移中途停止时如何恢复。它写给使用标准安装的运维人员，标准安装中数据库运行在 <code>evey-server</code> 容器里；编写迁移的贡献者可以在最后找到相关规则。</p>
 <h2 id="how-migrations-run">迁移如何运行<a class="headerlink" href="#how-migrations-run" title="Permanent link">¶</a></h2>
 <p>迁移内置在程序里，服务器启动时由 <code>golang-migrate</code> 应用。状态记录在 <code>schema_migrations</code> 表里，只有一行 <code>{version, dirty}</code>。在应用任何迁移之前，服务器会把完整的转储写到 <code>EVEY_BACKUP_DIR</code>（<code>/data/backups</code>，也就是主机上的 <code>./evey-data/backups</code>），文件名为 <code>pre-migration-&lt;version&gt;-&lt;UTC timestamp&gt;.sql.gz</code>；最近 3 个数据库结构版本中，每个版本保留最新的一份转储。</p>
 <p>同样的操作也可以手动进行：</p>
@@ -3163,10 +3163,10 @@
    迁移前自动生成的转储是第二份副本，不能代替这次备份。<p></p>
 </li>
 <li>
-<p><strong>查看当前版本</strong>：<code>docker exec evey-server evey admin migrate version</code> 会输出 <code>schema version: N</code>。如果输出的是 <code>DIRTY</code>，请先去看<a href="#a-migration-that-stopped-halfway">迁移中途停下了</a>，再进行更新。</p>
+<p><strong>查看当前版本</strong>：<code>docker exec evey-server evey admin migrate version</code> 会输出 <code>schema version: N</code>。如果输出的是 <code>DIRTY</code>，请先阅读<a href="#a-migration-that-stopped-halfway">迁移中途停止</a>，再进行更新。</p>
 </li>
 <li>
-<p><strong>如果您的片库很大</strong>，先看看最大的几张表：改写其中某张表的迁移会花更长时间，为此容器的健康检查允许启动最长用 300 秒。
+<p><strong>如果您的片库很大</strong>，先看看最大的几张表：改写其中某张表的迁移会花更长时间，为此容器的健康检查允许启动过程最长持续 300 秒。
    </p><div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="p">,</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">       </span><span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">       </span><span class="n">n_live_tup</span>
@@ -3197,7 +3197,7 @@
 <p class="admonition-title">Warning</p>
 <p>除了清除“脏”状态（见下文），不要手动修改 <code>schema_migrations</code>，而且修改之前要先做一次转储。</p>
 </div>
-<h2 id="a-migration-that-stopped-halfway">迁移中途停下了<a class="headerlink" href="#a-migration-that-stopped-halfway" title="Permanent link">¶</a></h2>
+<h2 id="a-migration-that-stopped-halfway">迁移中途停止<a class="headerlink" href="#a-migration-that-stopped-halfway" title="Permanent link">¶</a></h2>
 <p>如果日志显示 <code>Dirty database version N. Fix and force version.</code>，说明某个迁移在中途崩溃了，<code>golang-migrate</code> 拒绝继续。请先把数据库结构调整到您想要的状态，然后清除这个标记：</p>
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">version</span><span class="p">,</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">schema_migrations</span><span class="p">;</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
@@ -3205,11 +3205,11 @@
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">-- 然后记录实际到达的版本：</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">schema_migrations</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
 </span></code></pre></div>
-<p>重启容器；迁移会从那里继续。另一种脱身办法是恢复迁移前的转储（<a href="../recovery/#restore-a-pre-migration-dump">恢复</a>）。</p>
+<p>重启容器；迁移会从那里继续。另一种恢复办法是恢复迁移前的转储（<a href="../recovery/#restore-a-pre-migration-dump">恢复</a>）。</p>
 <h2 id="writing-a-migration">编写迁移<a class="headerlink" href="#writing-a-migration" title="Permanent link">¶</a></h2>
 <p>写给贡献者。迁移文件位于 <code>internal/adapters/driven/postgres/migrations/NNNNNN_&lt;name&gt;.{up,down}.sql</code>。已经发布的例子：</p>
 <ul>
-<li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>。在 ADD 执行期间，会对两张表都加 <code>ACCESS EXCLUSIVE</code> 锁。在小表上开销很小，在 <code>media_items</code> / <code>watch_progress</code> 上就很痛苦。</li>
+<li><strong><code>000066_cascade_and_email_unique.up.sql</code></strong> - <code>ALTER TABLE ... DROP CONSTRAINT ... ADD CONSTRAINT ... FOREIGN KEY</code>。在 ADD 执行期间，会对两张表都加 <code>ACCESS EXCLUSIVE</code> 锁。在小表上开销很小，在 <code>media_items</code> / <code>watch_progress</code> 上开销则很大。</li>
 <li><strong><code>000067_sort_title_index.up.sql</code></strong>、<strong><code>000068_watch_progress_composite_index.up.sql</code></strong>、<strong><code>000069_quick_connect_shortcode_index.up.sql</code></strong> - 普通的 <code>CREATE INDEX</code>，在大表上会锁住写入。<code>CREATE INDEX CONCURRENTLY</code> 不能在迁移事务里运行。</li>
 <li><strong><code>000072_syncplay_queue.up.sql</code></strong> - <code>ALTER TABLE ... ADD COLUMN ... NOT NULL DEFAULT '[]'</code>。在 PG 11 及以上版本只改元数据，但仍会短暂持有 <code>ACCESS EXCLUSIVE</code> 锁。</li>
 </ul>
@@ -3219,7 +3219,7 @@
 <li><strong>DROP COLUMN</strong> 只改元数据，但没有备份的话，这一列就再也找不回来了。不要在停止读取这一列的同一个版本里删除它：先停止读取，部署，再在下一个版本里删除。</li>
 <li><strong>大表上的外键</strong>：先 <code>ADD CONSTRAINT ... NOT VALID</code>，再在后续的迁移里 <code>VALIDATE CONSTRAINT</code>（验证只需要 <code>SHARE UPDATE EXCLUSIVE</code> 锁）。</li>
 <li><strong>批量 UPDATE / 回填数据</strong>：在大表上，绝不要放在单个迁移里完成。发布一个什么都不做的结构迁移，再加一个后台任务。</li>
-<li><strong>替换列（扩展、迁移、收缩）</strong>：不要把 <code>ADD COLUMN</code> + 回填 + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> 塞进一个文件。这种写法之所以能用，只是因为 Evey 以单实例运行，迁移在启动时同步应用；如果是滚动部署，落后的那一半实例就会返回错误。<code>000077</code> 和 <code>000098_playlists_profile_id.up.sql</code> 就是这样写的，因为已经发布，所以保持原样。新的迁移请分三个版本完成：</li>
+<li><strong>替换列（扩展、迁移、收缩）</strong>：不要把 <code>ADD COLUMN</code> + 回填 + <code>SET NOT NULL</code> + <code>DROP COLUMN</code> 合并到一个文件中。这种写法之所以能用，只是因为 Evey 以单实例运行，迁移在启动时同步应用；如果是滚动部署，落后的那一半实例就会返回错误。<code>000077</code> 和 <code>000098_playlists_profile_id.up.sql</code> 就是这样写的，因为已经发布，所以保持原样。新的迁移请分三个版本完成：</li>
 <li><strong>扩展</strong> - 添加可为空的新列，同时写入两列，继续读取旧列；</li>
 <li><strong>迁移</strong> - 回填新列（用后台任务，而不是在迁移里做），然后改为读取新列；</li>
 <li><strong>收缩</strong> - 等到已部署的代码都不再使用旧列，再 <code>SET NOT NULL</code> 并删除旧列。</li>

@@ -3431,7 +3431,7 @@ Altersgrenzen):
 <h2 id="what-the-server-does-by-itself">Was der Server von selbst erledigt<a class="headerlink" href="#what-the-server-does-by-itself" title="Permanent link">¶</a></h2>
 <p>Nichts davon müssen Sie einstellen:</p>
 <ul>
-<li><strong>Wie jedes Gerät eine Datei abspielt.</strong> Jedes Gerät sagt dem Server, was
+<li><strong>Wie jedes Gerät eine Datei abspielt.</strong> Jedes Gerät meldet dem Server, was
   es abspielen kann. Für jeden Titel schickt der Server die Datei dann so, wie
   sie ist, verpackt sie neu, oder wandelt nur das um, was das Gerät nicht
   abspielen kann. Siehe
@@ -3439,19 +3439,19 @@ Altersgrenzen):
 <li><strong>Wie viele Personen er bedienen kann.</strong> In seinem ersten ruhigen Moment
   misst der Server, wie viel Video er gleichzeitig umwandeln kann, mit dem
   Prozessor und einer Grafikkarte, falls vorhanden, und nimmt nie mehr an.
-  Das dauert ein paar Minuten. In der Zwischenzeit wird eine Wiedergabe, die
-  eine Umwandlung braucht, gebeten zu warten. Siehe
+  Das dauert ein paar Minuten. In der Zwischenzeit muss eine Wiedergabe, die
+  eine Umwandlung braucht, warten. Siehe
   <a href="../../playback/transcoding/">Transkodierung und Serverkapazität</a>.</li>
 <li><strong>Der Zugriff von außerhalb Ihres Zuhauses.</strong> Aus, bis Sie dem Server eine
   öffentliche Adresse geben. Siehe
   <a href="../../administration/remote-access/">Fernzugriff und HTTPS</a>.</li>
 <li><strong>Eine Sicherheitskopie der Datenbank</strong> vor jedem Update, das sie verändert.
-  Regelmäßige Sicherungen sind nur eine Einstellung entfernt:
+  Regelmäßige Sicherungen richten Sie mit einer einzigen Einstellung ein:
   <a href="../../backups/">Sicherungen und Updates</a>.</li>
 </ul>
 <h2 id="before-you-share-the-address-outside-your-home">Bevor Sie die Adresse außerhalb Ihres Zuhauses weitergeben<a class="headerlink" href="#before-you-share-the-address-outside-your-home" title="Permanent link">¶</a></h2>
 <ol>
-<li>Stellen Sie den Server hinter HTTPS. Evey selbst spricht nur einfaches
+<li>Stellen Sie den Server hinter HTTPS. Evey selbst verwendet nur einfaches
    HTTP, was zu Hause in Ordnung ist, im Internet aber nicht.
    <a href="../../administration/remote-access/">Fernzugriff und HTTPS</a>.</li>
 <li>Richten Sie einen Sicherungsplan ein und bewahren Sie eine Kopie des

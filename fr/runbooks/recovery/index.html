@@ -3133,12 +3133,12 @@ lancer dans le conteneur du serveur ne demande rien de plus.</p>
 <p>La seconde forme démarre d'abord la base embarquée, exécute la commande et
 sort. Aucune de ces commandes ne démarre le serveur.</p>
 <h2 id="give-a-user-a-new-password">Donner un nouveau mot de passe à un utilisateur<a class="headerlink" href="#give-a-user-a-new-password" title="Permanent link">¶</a></h2>
-<p>À utiliser quand un utilisateur est bloqué dehors, ou juste après une
+<p>À utiliser quand un utilisateur ne peut plus se connecter, ou juste après une
 compromission supposée de son compte. Le nouveau mot de passe est affiché une
 seule fois et jamais journalisé : copiez-le avant de fermer le terminal.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
 </span></code></pre></div>
-<p>Un bon résultat ressemble à ceci :</p>
+<p>Une exécution réussie affiche ceci :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>user:     admin@example.com
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>user_id:  usr-xxxxxxxx
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>password: &lt;24 octets aléatoires en base64url&gt;
@@ -3152,7 +3152,7 @@ application ouverte s'en aperçoit sous une trentaine de secondes et redemande
 une connexion. Si vous perdez la sortie, relancez la commande.</p>
 <h2 id="rotate-the-key-that-signs-access-tokens">Renouveler la clé qui signe les jetons d'accès<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
 <p>À utiliser quand le fichier de clé a pu fuiter, ou pour déconnecter tout le
-monde d'un coup. Pour un seul compte, <strong>Admin -&gt; Utilisateurs -&gt; Désactiver</strong>
+monde d'un coup. Pour un seul compte, <strong>Administration → Utilisateurs → Désactiver</strong>
 ou la réinitialisation de mot de passe ci-dessus suffit.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
 </span></code></pre></div>
@@ -3166,7 +3166,7 @@ ou la réinitialisation de mot de passe ci-dessus suffit.</p>
 <li>Au démarrage suivant, le serveur génère une nouvelle clé RSA de 2048 bits.</li>
 </ol>
 <p>Redémarrez ensuite le conteneur (<code>docker compose restart evey</code>) pour que la
-nouvelle clé serve. Si la base n'a pas pu être jointe, la clé est quand même
+nouvelle clé soit utilisée. Si la base n'a pas pu être jointe, la clé est quand même
 mise de côté et la commande l'annonce : <code>key rotated, but sessions could not
 be ended (restart the server, then run this again)</code>. Faites exactement cela.</p>
 <h2 id="restore-a-pre-migration-dump">Restaurer un dump pris avant une migration<a class="headerlink" href="#restore-a-pre-migration-dump" title="Permanent link">¶</a></h2>
@@ -3176,7 +3176,7 @@ depuis peuvent être perdues. La commande passe un dump <code>.sql.gz</code> par
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>La restauration écrase les lignes actuelles. Prenez d'abord une
-sauvegarde de l'état courant (<strong>Admin -&gt; Sauvegarde BDD et restauration -&gt;
+sauvegarde de l'état courant (<strong>Administration → Sauvegarde BDD et restauration →
 Lancer maintenant</strong>) s'il y a la moindre chance d'en avoir besoin.</p>
 </div>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>evey
@@ -3199,7 +3199,7 @@ Lancer maintenant</strong>) s'il y a la moindre chance d'en avoir besoin.</p>
 <p>Prérequis :</p>
 <ul>
 <li>Le nom du fichier doit finir par <code>.sql.gz</code>. Les archives <code>.tar.gz</code> de
-  <strong>Admin -&gt; Sauvegarde BDD et restauration</strong> se restaurent depuis le
+  <strong>Administration → Sauvegarde BDD et restauration</strong> se restaurent depuis le
   panneau, pas avec cette commande.</li>
 <li>La base cible doit exister ; le dump supprime et recrée les tables, pas la
   base.</li>
@@ -3210,8 +3210,8 @@ changement de schéma, sous <code>EVEY_BACKUP_DIR</code> (<code>/data/backups</c
 <code>./evey-data/backups</code> sur l'hôte), nommés
 <code>pre-migration-&lt;version du schéma&gt;-&lt;horodatage UTC&gt;.sql.gz</code>. Le dump le plus
 récent de chacune des 3 dernières versions du schéma est conservé, les autres
-sont élagués. <a href="../migration-runbook/">Migrations de la base</a> explique quand
-restaurer un dump plutôt que revenir d'un cran sur le schéma.</p>
+sont supprimés. <a href="../migration-runbook/">Migrations de la base</a> explique quand
+restaurer un dump plutôt que ramener le schéma à la version précédente.</p>
 <!-- sources
 reset-password / rotate-jwt-key: cmd/evey/admin.go - adminResetPassword (DeleteByUserID + BumpTokenEpoch), adminRotateJWTKey, endAllSessions ; epoch cache TTL: internal/app/user/token_epoch.go - epochCacheTTL
 restore-backup: cmd/evey/admin.go - adminRestoreBackup, verifyDumpComplete (whole gzip + completion marker before anything runs), 5 s pause, --single-transaction, ON_ERROR_STOP=1, .sql.gz suffix)

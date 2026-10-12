@@ -1742,7 +1742,7 @@
   <a href="#per-title-encoding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        按片编码
+        按影片编码
       
     </span>
   </a>
@@ -1802,7 +1802,7 @@
   <a href="#what-is-not-in-evey-admin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        evey admin 里没有的东西
+        evey admin 未包含的程序
       
     </span>
   </a>
@@ -3205,7 +3205,7 @@
   <a href="#per-title-encoding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        按片编码
+        按影片编码
       
     </span>
   </a>
@@ -3265,7 +3265,7 @@
   <a href="#what-is-not-in-evey-admin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        evey admin 里没有的东西
+        evey admin 未包含的程序
       
     </span>
   </a>
@@ -3332,7 +3332,7 @@
 </tr>
 <tr>
 <td><code>evey version</code></td>
-<td>版本、提交、构建日期。它不需要配置，也不需要数据库，所以在一个无法启动的容器里也能回答。</td>
+<td>版本、提交、构建日期。它不需要配置，也不需要数据库，所以在一个无法启动的容器里也能输出结果。</td>
 </tr>
 <tr>
 <td><code>evey help</code></td>
@@ -3348,7 +3348,7 @@
 </tr>
 </tbody>
 </table>
-<p>其他任何第一个参数都会被拒绝（退出码 1），而不会悄悄地启动服务器。</p>
+<p>其他任何第一个参数都会被拒绝（退出码 1），而不会在没有任何提示的情况下启动服务器。</p>
 <h2 id="the-commands">命令列表<a class="headerlink" href="#the-commands" title="Permanent link">¶</a></h2>
 <p>下面的列表就是程序自己的 <code>--help</code> 文本，分组方式和 <code>evey admin</code> 输出的一样。不带子命令运行 <code>evey admin</code>，得到的永远是当前的列表。</p>
 <h3 id="recovery">恢复<a class="headerlink" href="#recovery" title="Permanent link">¶</a></h3>
@@ -3416,7 +3416,7 @@
 </span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>                                             Dry-run by default. --root defaults to /data/artworks.
 </span></code></pre></div>
 <p><strong>管理 → 媒体健康</strong>背后运行的是同一套引擎，用它来修复媒体库更简单：见<a href="../media-health/">媒体健康</a>。</p>
-<h3 id="per-title-encoding">按片编码<a class="headerlink" href="#per-title-encoding" title="Permanent link">¶</a></h3>
+<h3 id="per-title-encoding">按影片编码<a class="headerlink" href="#per-title-encoding" title="Permanent link">¶</a></h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>evey admin reclassify &lt;media-id&gt;             Force-recompute the complexity class of one media item.
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>evey admin reclassify --all                  Wipe every classified row; the background worker then
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>                                             re-classifies the whole library at its background pace.
@@ -3471,7 +3471,7 @@
 </span></code></pre></div>
 <p>zsh 用户：先运行 <code>autoload -U +X bashcompinit &amp;&amp; bashcompinit</code>，再加载同一个脚本。自动补全涵盖：子命令、它们的选项和选项值（<code>--mode</code>、<code>--backend</code>、<code>--scenario</code>）、<code>--user</code> 后面的用户邮箱、<code>--root</code> 后面服务器已知的媒体库根目录（以及任意目录）、<code>ladder-bench</code>、<code>ladder-probe</code> 和 <code>route-bench</code> 的文件参数只补全媒体文件，以及 <code>restore-backup</code> 的 <code>.sql.gz</code> 转储文件。</p>
 <p>Docker 镜像在构建时就安装好了自动补全。镜像里没有 <code>man</code> 程序，所以在它的管理 shell（<code>docker exec -it evey-server bash</code>）里输入 <code>man evey</code>，会分页显示 <code>evey man --text</code> 的内容。</p>
-<h2 id="what-is-not-in-evey-admin"><code>evey admin</code> 里没有的东西<a class="headerlink" href="#what-is-not-in-evey-admin" title="Permanent link">¶</a></h2>
+<h2 id="what-is-not-in-evey-admin"><code>evey admin</code> 未包含的程序<a class="headerlink" href="#what-is-not-in-evey-admin" title="Permanent link">¶</a></h2>
 <p>源代码树里，服务器旁边还有三个独立的程序。它们是开发和测试用的工具，不是运维命令，Docker 镜像里也不包含它们：</p>
 <table>
 <thead>
@@ -3499,7 +3499,7 @@
 <ul>
 <li><a href="../recovery/">恢复</a>：重置密码、轮换 JWT 密钥、恢复备份。</li>
 <li><a href="../migration-runbook/">数据库迁移</a>：部署数据库结构、回退、从“脏”状态恢复。</li>
-<li><a href="../incident-runbook/">事故手册</a>：服务器出问题时的第一步处理。</li>
+<li><a href="../incident-runbook/">事故手册</a>：服务器运行异常时的初步处理。</li>
 </ul>
 <!-- sources
 dispatch and top-level commands: cmd/evey/cli.go - runCLI (version, help, completion, man, unknown command refused), cmd/evey/main.go

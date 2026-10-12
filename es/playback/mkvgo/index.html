@@ -3146,7 +3146,7 @@
   muestra, pista por pista, si una reproducción la ha servido MKVGo o FFmpeg.</li>
 </ul>
 <p>El resto de esta página es para quien quiera saber qué hace el servidor sin
-arrancar FFmpeg, y dónde sigue tomando el relevo FFmpeg. MKVGo funciona
+arrancar FFmpeg, y en qué casos sigue interviniendo FFmpeg. MKVGo funciona
 dentro del proceso del servidor Evey.</p>
 <p>MKVGo trabaja con la estructura de un archivo: sus cabeceras, su índice, sus
 pistas y sus paquetes. Nunca descodifica ni codifica una imagen o un sonido;
@@ -3175,7 +3175,7 @@ como una biblioteca Go aparte:
 </tr>
 <tr>
 <td><strong>FFmpeg</strong></td>
-<td>Transformaciones de verdad: volver a codificar, convertir HDR a SDR (tone-mapping), descodificar una imagen. También es el recurso de reserva cada vez que MKVGo no puede con un archivo.</td>
+<td>Transformaciones de verdad: volver a codificar, convertir HDR a SDR (tone-mapping), descodificar una imagen. También es el recurso de reserva cada vez que MKVGo no puede procesar un archivo.</td>
 <td>Un proceso por tarea.</td>
 </tr>
 </tbody>
@@ -3203,7 +3203,7 @@ reproductor: <a href="../how-playback-is-decided/">Cómo elige Evey el modo de r
 <tr>
 <td><strong>Leer archivos</strong></td>
 <td>Durante un escaneo de la biblioteca, los códecs, la resolución, el HDR, el bitrate y la duración se leen del principio del archivo.</td>
-<td>Lo lee ffprobe. También toma el relevo ante cualquier duda: un error de lectura, o información de color que MKVGo no ha podido leer en un códec que admite HDR.</td>
+<td>Lo lee ffprobe. También se usa ante cualquier duda: un error de lectura, o información de color que MKVGo no ha podido leer en un códec que admite HDR.</td>
 </tr>
 <tr>
 <td><strong>Índice de fotogramas clave</strong></td>

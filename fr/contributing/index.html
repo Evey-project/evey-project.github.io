@@ -3091,7 +3091,7 @@
 <h1 id="contributing">Contribuer<a class="headerlink" href="#contributing" title="Permanent link">¶</a></h1>
 <p>Par où commencer quand vous voulez travailler sur le code d'Evey, et ce
 qu'une pull request doit passer. Les documents écrits pour les contributeurs
-vivent avec le code, sur GitHub, plutôt que sur ce site ; cette page y
+sont conservés avec le code, sur GitHub, plutôt que sur ce site ; cette page y
 renvoie. Ils sont en anglais.</p>
 <h2 id="where-to-start">Par où commencer<a class="headerlink" href="#where-to-start" title="Permanent link">¶</a></h2>
 <table>
@@ -3146,13 +3146,13 @@ du code qu'elles expliquent, et sont le point de départ avant de proposer de
 changer l'un de ces choix.</p>
 <h2 id="before-you-open-a-pull-request">Avant d'ouvrir une pull request<a class="headerlink" href="#before-you-open-a-pull-request" title="Permanent link">¶</a></h2>
 <ol>
-<li>Lancez <code>make pre-push</code> : c'est la barrière, et elle exécute en local les
+<li>Lancez <code>make pre-push</code> : c'est le contrôle à passer, et il exécute en local les
    vérifications de la CI dans cet ordre : vet, recherche de vulnérabilités,
    build, tests unitaires avec <code>-race</code>, frontend (typage, lint, tests
    unitaires), analyse de sécurité, lint,
    <a href="../ARCHITECTURE/#architecture-guards">gardes d'architecture</a>, hygiène des
    commits, recherche de secrets, détection de rupture des proto, build
-   depuis un checkout propre, les barrières d'intégration du dépôt et du
+   depuis un checkout propre, les contrôles d'intégration du dépôt et du
    transcodage, et l'audit TV.</li>
 <li>Ajoutez des tests pour tout nouveau comportement et pour chaque
    correction de bug.</li>
@@ -3162,7 +3162,7 @@ changer l'un de ces choix.</p>
    gardez le droit d'auteur sur votre travail.</li>
 </ol>
 <div class="admonition warning">
-<p class="admonition-title">La barrière ne construit ni l'image Docker ni les applications Android</p>
+<p class="admonition-title">Le contrôle ne construit ni l'image Docker ni les applications Android</p>
 <p>Après avoir touché le <code>Dockerfile</code> ou du code Kotlin, construisez-les
 vous-même (<code>docker build --target runtime</code>, la tâche Gradle de release)
 avant de pousser.</p>

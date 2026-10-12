@@ -3121,7 +3121,7 @@
 
 
 <h1 id="plugins-and-sandbox">प्लगइन और सैंडबॉक्स<a class="headerlink" href="#plugins-and-sandbox" title="Permanent link">¶</a></h1>
-<p>वे वेरिएबल जो तय करते हैं कि प्लगइन को कैसे बंद घेरे में रखा जाता है और उन पर
+<p>वे वेरिएबल जो तय करते हैं कि प्लगइन को कैसे अलग और सीमित रखा जाता है और उन पर
 क्या सीमाएँ हैं। डिफ़ॉल्ट एक सामान्य Docker होस्ट के लिए ठीक हैं; कौन सा सेटअप
 किस होस्ट के लिए ठीक है, यह
 <a href="../../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> में है, और परतें
@@ -3147,7 +3147,7 @@
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
 <td><code>auto</code></td>
-<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> या <code>basic</code>। <code>auto</code> वह सबसे मज़बूत तरीका चुनता है जो होस्ट पर चलता है; साफ़ चुना गया <code>landlock</code> उस प्लगइन को मना कर देता है जिसे वह बंद घेरे में नहीं रख सकता।</td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> या <code>basic</code>। <code>auto</code> वह सबसे मज़बूत तरीका चुनता है जो होस्ट पर चलता है; साफ़ चुना गया <code>landlock</code> उस प्लगइन को मना कर देता है जिसे वह सीमित नहीं कर सकता।</td>
 <td>प्लगइन → संसाधन सीमाएँ → <strong>सैंडबॉक्स मोड</strong>, इसके बाद शुरू होने वाले प्लगइन पर लागू</td>
 </tr>
 <tr>
@@ -3160,7 +3160,7 @@
 </table>
 <h2 id="resource-limits">संसाधन सीमाएँ<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h2>
 <p>ये शुरुआती मान हैं; <strong>एडमिन → प्लगइन → संसाधन सीमाएँ</strong> में सहेजे गए मान हर
-प्लगइन पर लागू होते हैं और इन पर भारी पड़ते हैं।</p>
+प्लगइन पर लागू होते हैं और इनसे ज़्यादा प्राथमिकता रखते हैं।</p>
 <table>
 <thead>
 <tr>

@@ -3137,10 +3137,10 @@
 <h1 id="audio">音频<a class="headerlink" href="#audio" title="Permanent link">¶</a></h1>
 <p><strong>简单来说：</strong></p>
 <ul>
-<li>如果电影有您个人资料设定的语言，您听到的就是这种语言：在<strong>设置 → 播放 → 默认音频语言</strong>里设置。您在播放器里亲手选的音轨永远优先。</li>
+<li>如果电影有您个人资料设定的语言，您听到的就是这种语言：在<strong>设置 → 播放 → 默认音频语言</strong>里设置。您在播放器里手动选择的音轨始终优先。</li>
 <li>如果您的设备能播放，声音会原样发送。否则，服务器会把它转换成一种通用格式（AAC）。很多时候只转换声音，画面保持原样。</li>
 <li>用手机扬声器、耳机或蓝牙时，Android 应用播放的是立体声。用 Android 或 Android TV 应用通过 HDMI 输出时，电视或功放能接收多少个声道，您就能得到多少个声道（例如 5.1）。</li>
-<li>声音和画面对不上？见<a href="#sound-out-of-sync">声音不同步</a>。</li>
+<li>声音和画面不同步？见<a href="#sound-out-of-sync">声音不同步</a>。</li>
 </ul>
 <p>本页其余部分说明播放哪条音轨、什么时候直接复制、什么时候转换，以及有几个声道。这里提到的个人资料设置都在<strong>设置 → 播放</strong>里。</p>
 <h2 id="what-you-will-hear-by-device">不同设备上您会听到什么<a class="headerlink" href="#what-you-will-hear-by-device" title="Permanent link">¶</a></h2>
@@ -3170,9 +3170,9 @@
 </tr>
 </tbody>
 </table>
-<p>Android 应用会在每次开始播放时检测输出：插上耳机后，从下一部片子、下一次切换轨道或切换画质开始生效，不会在一场戏的中间切换。</p>
+<p>Android 应用会在每次开始播放时检测输出：插上耳机后，从下一部影片、下一次切换轨道或切换画质开始生效，不会在一个场景的中途切换。</p>
 <h2 id="which-track-plays">播放哪条音轨<a class="headerlink" href="#which-track-plays" title="Permanent link">¶</a></h2>
-<p>在片子页面或播放器里亲手选的音轨永远优先。否则，播放器先按个人资料的<strong>默认音频语言</strong>选，再选文件标记为默认的音轨，最后选第一条。如果文件里既有解说音轨也有普通音轨，标记为解说的音轨会被跳过，选用普通音轨。</p>
+<p>在影片页面或播放器里手动选择的音轨始终优先。否则，播放器先按个人资料的<strong>默认音频语言</strong>选，再选文件标记为默认的音轨，最后选第一条。如果文件里既有解说音轨也有普通音轨，标记为解说的音轨会被跳过，选用普通音轨。</p>
 <p>只看正在播放的那条音轨：您没在听的 DTS 音轨，永远不会导致转码。</p>
 <h2 id="copied-or-re-encoded">直接复制还是重新编码<a class="headerlink" href="#copied-or-re-encoded" title="Permanent link">¶</a></h2>
 <p>如果播放器能解码这条音轨的编码，它的输出又有足够的声道，并且没有超出个人资料的<strong>最大音频声道</strong>（<strong>立体声 (2.0)</strong>、<strong>环绕声 (5.1)</strong> 或<strong>环绕声 (7.1)</strong>），这条音轨就直接复制。否则，它会被重新编码成 AAC：</p>
@@ -3182,14 +3182,14 @@
 </ul>
 <p>在转码或重封装的视频流里，直接复制的音轨还必须是播放器在视频流片段中能接受的格式。AAC、AC-3 和 E-AC-3 总是可以；其他编码只有在播放器表示接受时才行。不满足时，这条音轨会被重新编码，流信息显示<strong>音轨无法在流中原样传输</strong>：播放器可能能解码文件里的 MP3，却不接受视频流里的 MP3。</p>
 <h2 id="dolby-digital-in-a-browser">浏览器里的杜比数字<a class="headerlink" href="#dolby-digital-in-a-browser" title="Permanent link">¶</a></h2>
-<p>大多数浏览器不能解码 AC-3 或 E-AC-3。网页播放器不让服务器重新编码这条音轨，而是用一个在网页里运行的解码器自己解码：音轨原样发送，流信息显示它为<strong>客户端解码</strong>。能原生解码杜比数字的浏览器（例如 Safari）会把它当作普通音轨接收；选择哪种方式，是通过测试浏览器来决定的，而不是靠认出是哪种浏览器。环绕声音轨只有在个人资料的<strong>最大音频声道</strong>允许时，才会在网页里解码：设为立体声的个人资料会改为收到重新编码的 AAC，它可以把声道混缩。</p>
+<p>大多数浏览器不能解码 AC-3 或 E-AC-3。网页播放器不让服务器重新编码这条音轨，而是用一个在网页里运行的解码器自己解码：音轨原样发送，流信息显示它为<strong>客户端解码</strong>。能原生解码杜比数字的浏览器（例如 Safari）会把它当作普通音轨接收；选择哪种方式，是通过测试浏览器来决定的，而不是依据浏览器的类型。环绕声音轨只有在个人资料的<strong>最大音频声道</strong>允许时，才会在网页里解码：设为立体声的个人资料会改为收到重新编码的 AAC，它可以把声道混缩。</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>如果反向代理设置了自己的 Content-Security-Policy，就必须在 <code>script-src</code> 里允许 <code>'wasm-unsafe-eval'</code>，否则解码器无法启动，电影会没有声音。见<a href="../../reverse-proxy/#security-headers--csp---read-this-if-your-proxy-sets-its-own">反向代理配置</a>。</p>
 </div>
 <h2 id="sound-out-of-sync">声音不同步<a class="headerlink" href="#sound-out-of-sync" title="Permanent link">¶</a></h2>
-<p>播放器里的<strong>音频同步</strong>可以为当前这部片子移动声音（正值让声音晚一点播放）。当视频流由服务器以重封装或转码的方式提供时，才有这个选项；在直接播放时，这个控件会显示<strong>仅在转码播放时可用</strong>。应用一个偏移量后，视频流会从当前位置重新开始。直接复制的音轨无法移动，所以服务器会重新编码它，流信息显示<strong>已请求音频重新同步</strong>。</p>
-<p>如果偏移就在文件本身里（音轨比画面开始得晚，或者几条轨道之间互相对不上），<strong>管理 → 媒体健康</strong>会报告它，但从不自己改写文件：开始得晚的偏移，通常是配音特意对齐的结果。在这个文件那一行点击<strong>检查同步</strong>，您可以用眼睛判断并应用一个偏移量，这个改动可以在它的历史记录里撤销。见<a href="../../runbooks/media-health/#checking-the-sync-by-eye">媒体健康</a>。</p>
+<p>播放器里的<strong>音频同步</strong>可以为当前影片移动声音（正值让声音延后播放）。当视频流由服务器以重封装或转码的方式提供时，才有这个选项；在直接播放时，这个控件会显示<strong>仅在转码播放时可用</strong>。应用一个偏移量后，视频流会从当前位置重新开始。直接复制的音轨无法移动，所以服务器会重新编码它，流信息显示<strong>已请求音频重新同步</strong>。</p>
+<p>如果偏移就在文件本身里（音轨比画面开始得晚，或者几条轨道之间互相不一致），<strong>管理 → 媒体健康</strong>会报告它，但从不自动改写文件：开始得晚的偏移，通常是配音特意对齐的结果。在这个文件那一行点击<strong>检查同步</strong>，您可以通过观看来判断，并应用一个偏移量，这个改动可以在它的历史记录里撤销。见<a href="../../runbooks/media-health/#checking-the-sync-by-eye">媒体健康</a>。</p>
 <!-- sources
 track choice: internal/app/transcoding/decision.go - selectedAudioSpec ; frontend/packages/client/src/hooks/usePlayerTrackSelection.ts
 copy vs aac, channels: internal/app/transcoding/decision.go - evaluateAudio, applyAudioChannelTarget (aacMaxTargetChannels)

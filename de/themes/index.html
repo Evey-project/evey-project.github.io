@@ -3252,7 +3252,7 @@
 <h1 id="themes">Themes<a class="headerlink" href="#themes" title="Permanent link">¶</a></h1>
 <p>Ein Theme gestaltet die Oberfläche von Evey neu: ein Paket mit <code>kind: theme</code>
 ohne eigenen Serverprozess, bestehend aus einem Stylesheet und optional einem
-Skript, das in einem unsichtbaren Frame eingesperrt bleibt. Diese Seite
+Skript, das isoliert in einem unsichtbaren Frame läuft. Diese Seite
 richtet sich an Theme-Autoren. Sie sagt, was die beiden Dateien enthalten
 dürfen und was der Installer umschreibt oder ablehnt. Themes werden wie
 Plugins installiert, unter <strong>Verwaltung → Plugins</strong>. Jeder Benutzer wählt
@@ -3297,7 +3297,7 @@ Kommentar. Wer sie überschreibt, gestaltet jeden Bildschirm auf einmal um:</p>
 <h3 id="stable-theming-hooks">Stabile Ansatzpunkte für Themes<a class="headerlink" href="#stable-theming-hooks" title="Permanent link">¶</a></h3>
 <p>Einige gestalterische Elemente tragen stabile Klassen. Sie können sie
 ansprechen, ohne von den Utility-Klassen abzuhängen, die sich von Version zu
-Version ändern. Diese Klassen sind ein Vertrag: Sie werden nicht umbenannt.</p>
+Version ändern. Diese Klassen sind verbindlich: Sie werden nicht umbenannt.</p>
 <table>
 <thead>
 <tr>
@@ -3357,7 +3357,7 @@ lehnt er nie ab.</p>
 <tr>
 <td><code>@import ...</code></td>
 <td>Entfernt</td>
-<td>Ein Theme ist in sich geschlossen; ein Import ist ein Datenleck ins Netz.</td>
+<td>Ein Theme ist in sich geschlossen; ein Import würde Daten über das Netz preisgeben.</td>
 </tr>
 <tr>
 <td><code>url(http://...)</code>, <code>url(https://...)</code>, <code>url(//...)</code>, ein externer Kandidat in <code>image-set()</code>, eine Custom Property mit einer solchen URL</td>

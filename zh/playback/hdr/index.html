@@ -3162,7 +3162,7 @@
 <li><strong>HDR</strong> 是一种比普通画面（称为 <strong>SDR</strong>）高光更亮、色彩更丰富的画面。杜比视界是 HDR 的一种。HDR 需要一块能显示它的屏幕。</li>
 <li>在 HDR 屏幕上使用 Android 或 Android TV 应用时（设备还要能解码 HEVC），只要没有别的原因迫使转换，您看到的就是原始的 HDR 画面。</li>
 <li>在网页浏览器里，以及在任何不是 HDR 的屏幕上，服务器都会把画面转换成 SDR。这是有意为之：HDR 画面显示在 SDR 屏幕上，会显得灰暗、发白。</li>
-<li>把 HDR 转换成 SDR，是处理器能做的最重的工作。显卡能帮上忙：见<a href="../../administration/hardware-acceleration/">硬件加速</a>。</li>
+<li>把 HDR 转换成 SDR，是处理器上开销最大的工作。显卡可以分担这项工作：见<a href="../../administration/hardware-acceleration/">硬件加速</a>。</li>
 </ul>
 <p>本页其余部分逐一说明每种情况：保留原始画面、重新编码但保留 HDR，或者转换成 SDR。播放的一般规则见 <a href="../how-playback-is-decided/">Evey 如何选择播放方式</a>。</p>
 <h2 id="what-you-will-see-by-device">不同设备上您会看到什么<a class="headerlink" href="#what-you-will-see-by-device" title="Permanent link">¶</a></h2>
@@ -3176,7 +3176,7 @@
 <tbody>
 <tr>
 <td>Android TV 或 Android 手机上的 HDR 屏幕，并且有 HEVC 解码器</td>
-<td>原始的 HDR10 或 HLG 画面，原封不动，除非别的原因（码率、分辨率、要内嵌的字幕）迫使重新编码。</td>
+<td>原始的 HDR10 或 HLG 画面，不做任何改动，除非别的原因（码率、分辨率、要内嵌的字幕）迫使重新编码。</td>
 </tr>
 <tr>
 <td>浏览器</td>
@@ -3192,7 +3192,7 @@
 </tr>
 </tbody>
 </table>
-<p>不经转换就把 HDR 显示在 SDR 屏幕上，颜色会发白、发灰，所以服务器从不这样发送。Android 应用会在每次开始播放时检测显示屏，而不是只在安装时检测一次：给盒子接上一台 HDR 电视后，从下一部片子、下一次切换轨道或切换画质开始生效。</p>
+<p>不经转换就把 HDR 显示在 SDR 屏幕上，颜色会发白、发灰，所以服务器从不这样发送。Android 应用会在每次开始播放时检测显示屏，而不是只在安装时检测一次：给机顶盒接上一台 HDR 电视后，从下一部影片、下一次切换轨道或切换画质开始生效。</p>
 <h2 id="when-the-original-is-kept">什么时候保留原始画面<a class="headerlink" href="#when-the-original-is-kept" title="Permanent link">¶</a></h2>
 <p>当播放器报告它的屏幕能显示 HDR，并且能解码这种编码，同时没有其他原因（码率、分辨率、容器）需要重新编码时，HDR10 或 HLG 视频会原样发送。</p>
 <h2 id="when-the-video-must-be-re-encoded-anyway">无论如何都要重新编码时<a class="headerlink" href="#when-the-video-must-be-re-encoded-anyway" title="Permanent link">¶</a></h2>
@@ -3202,14 +3202,14 @@
 <li>服务器有一块显卡，在测量时证明了它能编码带 HDR 的 10 位 HEVC；</li>
 <li>这块显卡此刻可以用来处理这个视频流。</li>
 </ul>
-<p>结果是 10 位 HEVC，并沿用片源的 HDR 标记（BT.2020 色彩，PQ 或 HLG 传输特性）。HDR10+ 的动态元数据不会保留：走这条路时，HDR10+ 的片子会按 HDR10 播放。</p>
+<p>结果是 10 位 HEVC，并沿用片源的 HDR 标记（BT.2020 色彩，PQ 或 HLG 传输特性）。HDR10+ 的动态元数据不会保留：在这种处理方式下，HDR10+ 影片会按 HDR10 播放。</p>
 <p>只要有一个条件不满足，处理器或显卡就会先把画面色调映射成 SDR，再进行编码。这时流信息会列出 <strong>HDR 已转换为 SDR（色调映射）</strong>。</p>
 <p>如果原始画面本可以发送，但服务器暂时还不能以直接复制的方式提供它（例如它的跳转索引还在构建中），视频会在这样的显卡上重新编码，并保留 HDR，流信息会显示 <strong>无法直接复制，重新编码时保留 HDR</strong>。</p>
 <h2 id="when-the-screen-is-sdr">屏幕是 SDR 时<a class="headerlink" href="#when-the-screen-is-sdr" title="Permanent link">¶</a></h2>
 <p>播放器没有报告 HDR 屏幕时，收到的是经过色调映射的 SDR 画面。如果显卡已经证明它能做色调映射（例如带 OpenCL 的 VAAPI），就在显卡上做；否则在处理器上做：如果 ffmpeg 版本提供了 SIMD 优化的滤镜（AVX2），就用它，否则用一组可移植的滤镜。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>在处理器上，色调映射是开销最大的一种转码。服务器会为 HDR 单独测量一个分辨率上限，通常更低，所以在同一台机器上，HDR 片子转换后的分辨率可能比 SDR 片子低。见<a href="../transcoding/#the-server-measures-itself">转码</a>。</p>
+<p>在处理器上，色调映射是开销最大的一种转码。服务器会为 HDR 单独测量一个分辨率上限，通常更低，所以在同一台机器上，HDR 影片转换后的分辨率可能比 SDR 影片低。见<a href="../transcoding/#the-server-measures-itself">转码</a>。</p>
 </div>
 <h2 id="dolby-vision">杜比视界<a class="headerlink" href="#dolby-vision" title="Permanent link">¶</a></h2>
 <p>播放器的报告只说明它的屏幕能否显示 HDR，不说明它是否支持杜比视界；Evey 也从不根据“支持 HDR”去推断“支持杜比视界”：把杜比视界发给只支持 HDR10 的屏幕，颜色会出错。只有当视频流带有一个不需要任何杜比视界解码就能正确显示的基础层时，才会直接复制：</p>
@@ -3240,7 +3240,7 @@
 </tbody>
 </table>
 <h2 id="checking-what-happened">查看实际情况<a class="headerlink" href="#checking-what-happened" title="Permanent link">¶</a></h2>
-<p><strong>流信息</strong>会显示对视频的处理，并在原因中列出色调映射或保留了 HDR。所有做色调映射的路线都会在那里报告，只有一个例外：如果视频流开始的那一刻显卡正好满了，视频流会在流信息算好之后才转到处理器上。<strong>管理 → 正在播放</strong>会显示实际使用的后端。</p>
+<p><strong>流信息</strong>会显示对视频的处理，并在原因中列出色调映射或保留了 HDR。所有做色调映射的处理方式都会在那里报告，只有一个例外：如果视频流开始的那一刻显卡正好已满负荷，视频流会在计算出流信息之后才转到处理器上。<strong>管理 → 正在播放</strong>会显示实际使用的后端。</p>
 <!-- sources
 decision: internal/app/transcoding/decision.go - evaluateVideo (hdr_tonemapping_needed, dovi_base_layer, doViBaseLayerIsHDR10)
 re-encode with HDR kept, copy unavailable: internal/app/transcoding/playback_plan_resolver.go - Decide (hdr_copy_unavailable) ; internal/app/transcoding/resolver_route.go - naturalRoute, passthroughWanted, hwTonemapWanted

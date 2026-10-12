@@ -3121,7 +3121,7 @@
 
 
 <h1 id="plugins-and-sandbox">Plugins und Sandbox<a class="headerlink" href="#plugins-and-sandbox" title="Permanent link">¶</a></h1>
-<p>Die Variablen dafür, wie Plugins abgeschottet und begrenzt werden. Die
+<p>Die Variablen dafür, wie Plugins isoliert und begrenzt werden. Die
 Standardwerte passen zu einem normalen Docker-Host. Welche Einrichtung zu
 welchem Host passt, steht unter
 <a href="../../plugins/sandbox-deployment/">Plugin-Sandbox einrichten</a>, und wie die
@@ -3147,21 +3147,21 @@ Schichten funktionieren, unter
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
 <td><code>auto</code></td>
-<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> oder <code>basic</code>. <code>auto</code> wählt die stärkste Stufe, die der Host unterstützt; ein ausdrücklich gesetztes <code>landlock</code> lehnt ein Plugin ab, das es nicht abschotten kann.</td>
+<td><code>auto</code>, <code>landlock</code>, <code>bubblewrap</code>, <code>strict</code> oder <code>basic</code>. <code>auto</code> wählt die stärkste Stufe, die der Host unterstützt; ein ausdrücklich gesetztes <code>landlock</code> lehnt ein Plugin ab, das es nicht isolieren kann.</td>
 <td>Plugins → Ressourcenlimits → <strong>Sandbox-Modus</strong>, gilt für danach gestartete Plugins</td>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_UID_SEPARATION</code></td>
 <td><code>auto</code></td>
-<td><code>auto</code>, <code>on</code> oder <code>off</code>: startet Plugins unter einem eigenen Benutzer. <code>auto</code> tut das nur, wenn die Sandbox auf <code>basic</code> hinausläuft. Nicht vereinbar mit <code>no_new_privs</code> am Container.</td>
+<td><code>auto</code>, <code>on</code> oder <code>off</code>: startet Plugins unter einem eigenen Benutzer. <code>auto</code> tut das nur, wenn die Sandbox zu <code>basic</code> aufgelöst wird. Nicht vereinbar mit <code>no_new_privs</code> am Container.</td>
 <td>keine</td>
 </tr>
 </tbody>
 </table>
 <h2 id="resource-limits">Ressourcenlimits<a class="headerlink" href="#resource-limits" title="Permanent link">¶</a></h2>
 <p>Das sind die Startwerte. Die unter <strong>Verwaltung → Plugins →
-Ressourcenlimits</strong> gespeicherten Werte gelten für jedes Plugin und gewinnen
-gegenüber ihnen.</p>
+Ressourcenlimits</strong> gespeicherten Werte gelten für jedes Plugin und haben
+Vorrang vor ihnen.</p>
 <table>
 <thead>
 <tr>

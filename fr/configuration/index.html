@@ -3187,7 +3187,7 @@
 
 
 <h1 id="configuration-reference">Référence de configuration<a class="headerlink" href="#configuration-reference" title="Permanent link">¶</a></h1>
-<p>Où vit chaque réglage d'un serveur Evey, quelle valeur l'emporte quand un
+<p>Où se trouve chaque réglage d'un serveur Evey, quelle valeur l'emporte quand un
 réglage existe à la fois dans le panneau d'administration et dans
 l'environnement, et ce qui demande un redémarrage. Les variables elles-mêmes
 sont listées par thème dans les dix pages liées plus bas ; cette page
@@ -3199,8 +3199,8 @@ stockage, adresse publique, informations sur le reverse proxy - va dans le
 fichier compose, sous forme de variables d'environnement. <strong>Ce qu'un
 administrateur ajuste ensuite</strong> - langues, limites de transcodage,
 accélération matérielle, planifications, limites des plugins - se trouve
-dans le panneau d'administration, est stocké en base, survit à la mise à
-jour du conteneur et s'applique le plus souvent sans redémarrage.</p>
+dans le panneau d'administration, est stocké en base, est conservé lors de la
+mise à jour du conteneur et s'applique le plus souvent sans redémarrage.</p>
 <p>Pour un réglage qui existe aux deux endroits, la priorité est toujours la
 même :</p>
 <ol>
@@ -3312,7 +3312,7 @@ commandes <code>evey admin</code> n'ont pas besoin de mot de passe. Ne renseigne
 <code>EVEY_DB_PASSWORD</code> ou <code>MEILI_MASTER_KEY</code> que pour une base ou un moteur de
 recherche externe.</p>
 <p>Une clé TMDB est intégrée. <code>EVEY_TMDB_API_KEY</code> fournit la vôtre ; la clé
-saisie dans <strong>Admin → Configuration du serveur → Clés API</strong> l'emporte.</p>
+saisie dans <strong>Administration → Configuration du serveur → Clés API</strong> l'emporte.</p>
 <h2 id="variables-you-do-not-need">Variables inutiles<a class="headerlink" href="#variables-you-do-not-need" title="Permanent link">¶</a></h2>
 <p>Des lignes souvent reprises d'anciennes installations, et pourquoi elles ne
 changent rien :</p>
@@ -3342,7 +3342,7 @@ changent rien :</p>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
-<td><code>auto</code> choisit le confinement le plus robuste que permet la machine. Ne la définissez explicitement que pour une garantie stricte : <code>landlock</code> refuse de lancer un plugin qu'il ne peut pas confiner, là où <code>auto</code> se dégrade avec un avertissement.</td>
+<td><code>auto</code> choisit le confinement le plus robuste que permet la machine. Ne la définissez explicitement que pour une garantie stricte : <code>landlock</code> refuse de lancer un plugin qu'il ne peut pas confiner, là où <code>auto</code> passe à un mode moins strict avec un avertissement.</td>
 </tr>
 <tr>
 <td>un <code>group_add</code> pour <code>/dev/dri/card0</code></td>
@@ -3365,7 +3365,7 @@ mieux : le serveur adopte l'utilisateur propriétaire du plus grand nombre de
 montages et rejoint les groupes des autres en groupes secondaires, de sorte
 que les réparations y fonctionnent si leurs fichiers sont modifiables par le
 groupe (l'avertissement de démarrage liste les montages qui pourraient encore
-refuser l'écriture). La détection ne s'efface complètement (repli sur
+refuser l'écriture). La détection automatique n'est abandonnée (repli sur
 <code>1000:1000</code> avec un avertissement) que si tous les montages appartiennent à
 root ou à l'uid réservé <code>1001</code> : attribuez vos médias à un utilisateur
 ordinaire, ou définissez <code>PUID</code>/<code>PGID</code> explicitement :</p>

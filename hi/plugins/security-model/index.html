@@ -3162,7 +3162,7 @@
 <h1 id="permissions-and-slots">अनुमतियाँ और स्लॉट<a class="headerlink" href="#permissions-and-slots" title="Permanent link">¶</a></h1>
 <p>प्लगइन बनाने वालों के लिए: manifest क्या बता सकता है, इंस्टॉलर क्या जाँचता है, और
 चलते समय प्लगइन पर कौन से नियम लागू होते हैं। नीचे की सूची वह है जिसमें से आप
-चुनते हैं; सर्वर प्लगइन को कैसे बंद रखता है, और यह बंदिश क्या नहीं रोक सकती, यह
+चुनते हैं; सर्वर प्लगइन को कैसे सीमित रखता है, और यह सीमा क्या नहीं रोक सकती, यह
 <a href="../../SECURITY/">प्लगइन सैंडबॉक्स और ख़तरा मॉडल</a> में बताया गया है।</p>
 <h2 id="what-is-checked-at-install">इंस्टॉल के समय क्या जाँचा जाता है<a class="headerlink" href="#what-is-checked-at-install" title="Permanent link">¶</a></h2>
 <p>प्लगइन इंस्टॉल के समय मना हो जाता है, जब:</p>
@@ -3223,7 +3223,7 @@
 </tr>
 <tr>
 <td><code>native-binary</code></td>
-<td>पैकेज में <code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code>, अंदर रखे आर्काइव या ऐसा native code हो सकता है जिसे विश्लेषण पढ़ नहीं सकता। एडमिन बंद कोड देखता है और उसे स्वीकार करना होता है। <code>go</code> प्लगइन के लिए ज़रूरी।</td>
+<td>पैकेज में <code>.so</code>, <code>.dll</code>, <code>.exe</code>, <code>.wasm</code>, <code>.jar</code>, अंदर रखे आर्काइव या ऐसा native code हो सकता है जिसे विश्लेषण पढ़ नहीं सकता। एडमिन को ऐसा कोड दिखता है जिसे पढ़ा नहीं जा सकता, और उसे यह स्वीकार करना होता है। <code>go</code> प्लगइन के लिए ज़रूरी।</td>
 </tr>
 <tr>
 <td><code>filesystem</code></td>
@@ -3271,8 +3271,8 @@
 <p><code>external_fetch: [...]</code> में बताए जाते हैं और इंस्टॉल के समय जाँचे जाते हैं
 (<code>validateExternalFetch</code>)। सब या कुछ नहीं: एक भी गलत एंट्री पूरा इंस्टॉल मना करवा
 देती है।</p>
-<p>एंट्री एक <strong>सिर्फ़ होस्ट का नाम</strong> है। आगे लगा scheme चल जाता है और हटा दिया जाता
-है; सिर्फ़ होस्ट का नाम रखा जाता है।</p>
+<p>एंट्री एक <strong>सिर्फ़ होस्ट का नाम</strong> है। आगे लगा scheme स्वीकार किया जाता है और हटा दिया
+जाता है; सिर्फ़ होस्ट का नाम रखा जाता है।</p>
 <table>
 <thead>
 <tr>
@@ -3318,7 +3318,7 @@
 <p>वही होस्ट सूची, आगे <code>https://</code> लगाकर, प्लगइन के फ़्रेम का <code>connect-src</code> बनती है:
 विजेट उन होस्ट को सीधे कॉल कर सकता है, सिर्फ़ <code>https</code> पर।</p>
 <h2 id="slot-whitelist">स्लॉट की अनुमति सूची<a class="headerlink" href="#slot-whitelist" title="Permanent link">¶</a></h2>
-<p>प्लगइन इंटरफ़ेस सिर्फ़ उन स्लॉट में डाल सकते हैं जिनकी साफ़ अनुमति है। ज़रूरी
+<p>प्लगइन इंटरफ़ेस सिर्फ़ उन स्लॉट में डाल सकते हैं जिनकी साफ़ अनुमति है। संवेदनशील
 रास्ते जानबूझकर इसमें नहीं हैं।</p>
 <table>
 <thead>
@@ -3378,7 +3378,7 @@
 <code>allow-same-origin</code> के बिना एक <code>&lt;iframe sandbox="allow-scripts"&gt;</code> में बनता है, ऐसे
 पेज में जिसकी नीति <code>default-src 'none'</code> है, इसलिए यह एडमिन वाले हिस्से में दिखाया
 गया किसी तीसरे पक्ष का कंटेंट है, प्लगइन को दिया गया कोई एडमिन अधिकार नहीं।</p>
-<p>पुल सीमित करता है कि फ़्रेम पेज से क्या माँग सकता है: <code>evey.toast</code> एक सेकंड में
+<p>bridge सीमित करता है कि फ़्रेम पेज से क्या माँग सकता है: <code>evey.toast</code> एक सेकंड में
 ज़्यादा से ज़्यादा 3 संदेश, 200 अक्षर, कोई HTML नहीं; <code>evey.navigate</code> सिर्फ़
 <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> और <code>/search</code>; <code>evey.resize</code>
 50-800 px के बीच। फ़्रेम के पास कोई token नहीं होता: <code>public</code> और <code>prefs</code> कॉल के

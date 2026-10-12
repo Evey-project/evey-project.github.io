@@ -3126,8 +3126,8 @@ de calidad y la caché de transcodificación. La mayoría de las instalaciones
 no define ninguna: el servidor mide la máquina y elige el hardware por sí
 mismo, como se explica en
 <a href="../../playback/transcoding/">Transcodificación y capacidad del servidor</a>.
-Cuando un ajuste existe en <strong>Administración → Transcodificación</strong>, gana el
-valor guardado ahí.</p>
+Cuando un ajuste existe en <strong>Administración → Transcodificación</strong>, tiene
+prioridad el valor guardado ahí.</p>
 <h2 id="hardware-acceleration">Aceleración por hardware<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h2>
 <p>Cómo dar acceso a la GPU al contenedor:
 <a href="../../administration/hardware-acceleration/">Aceleración por hardware</a>.</p>
@@ -3180,7 +3180,7 @@ valor guardado ahí.</p>
 <tr>
 <td><code>EVEY_TRANSCODING_HW_PER_VARIANT</code></td>
 <td><code>false</code></td>
-<td>Un ffmpeg por calidad en la vía de GPU en lugar de un solo proceso para todas: aísla los fallos y evita el grafo de varias salidas que hace caer los controladores VA frágiles.</td>
+<td>Un ffmpeg por calidad en la vía de GPU en lugar de un solo proceso para todas: aísla los fallos y evita el grafo de varias salidas que hace fallar los controladores VA poco estables.</td>
 <td>Transcodificación → Límites avanzados → <strong>Un proceso de codificación por hardware por peldaño</strong>, al reiniciar</td>
 </tr>
 </tbody>
@@ -3201,7 +3201,7 @@ tienen variable: se ajustan solo en <strong>Administración → Transcodificaci�
 <tr>
 <td><code>EVEY_TRANSCODING_MAX_SESSIONS</code></td>
 <td><code>0</code> (número de CPU)</td>
-<td>Total de sesiones de transcodificación simultáneas. En una máquina que apenas aguanta una transcodificación 4K HDR por software, pon <code>1</code> o <code>2</code>.</td>
+<td>Total de sesiones de transcodificación simultáneas. En una máquina que apenas puede hacer una transcodificación 4K HDR por software, pon <code>1</code> o <code>2</code>.</td>
 <td>Transcodificación → Límites avanzados → <strong>Sesiones HLS simultáneas máximas (vacío = sin límite)</strong>, al reiniciar</td>
 </tr>
 <tr>
@@ -3274,13 +3274,13 @@ tienen variable: se ajustan solo en <strong>Administración → Transcodificaci�
 <tr>
 <td><code>EVEY_TRANSCODING_CACHE_DIR</code></td>
 <td><code>/cache/transcode</code></td>
-<td>Dónde vive. La define la imagen.</td>
+<td>Dónde está. La define la imagen.</td>
 <td>ninguno</td>
 </tr>
 <tr>
 <td><code>EVEY_TRICKPLAY_CACHE_DIR</code></td>
 <td><code>/data/trickplay</code></td>
-<td>Dónde viven las miniaturas de la barra de progreso. La define la imagen: cuesta mucho regenerarlas, así que se quedan en <code>/data</code>.</td>
+<td>Dónde están las miniaturas de la barra de progreso. La define la imagen: cuesta mucho regenerarlas, así que se quedan en <code>/data</code>.</td>
 <td>ninguno</td>
 </tr>
 </tbody>

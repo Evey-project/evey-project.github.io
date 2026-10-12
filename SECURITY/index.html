@@ -3919,7 +3919,7 @@ permission calls the host's <code>Fetch</code> method over its Unix socket. The 
 <div class="admonition tip">
 <p class="admonition-title">Recommended for operators</p>
 <p>The broker moves the SSRF surface to the host. An egress rule on the
-<code>evey-server</code> container, independent of the code, adds a second wall:
+<code>evey-server</code> container, independent of the code, adds a second protection:
 drop <code>169.254.0.0/16</code> and restrict the internal network to the database
 and search endpoints.</p>
 </div>
@@ -4023,7 +4023,7 @@ alone. <code>EVEY_PLUGINS_UID_SEPARATION</code> controls it:</p>
 <tbody>
 <tr>
 <td><code>auto</code> (default)</td>
-<td>only when the sandbox resolves to <code>basic</code>, the one case where file permissions are the only wall around the secrets</td>
+<td>only when the sandbox resolves to <code>basic</code>, the one case where file permissions are the only protection of the secrets</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -4038,7 +4038,7 @@ alone. <code>EVEY_PLUGINS_UID_SEPARATION</code> controls it:</p>
 <p>The switch is made by the launcher, which holds <code>cap_setuid</code>; the server
 itself runs without privileges or capabilities. The launcher refuses any
 target below 1000. If it cannot switch, a plugin in <code>basic</code> is refused (the
-user is the only wall there), while in <code>landlock</code> it runs as the server's
+user is the only protection there), while in <code>landlock</code> it runs as the server's
 user with a warning. In <code>bubblewrap</code> and <code>strict</code>, the user namespace plays
 this role.</p>
 <p>When active, the signing key (<code>0600</code>) and the backups (<code>0700</code> directory,

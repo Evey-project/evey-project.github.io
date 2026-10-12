@@ -3199,7 +3199,7 @@ puede llegar al proveedor y, si no, muestra el último error.</p>
 <p>Las variables <code>EVEY_OIDC_*</code> de
 <a href="../environment/accounts/#single-sign-on-oidc">Cuentas e inicio de sesión</a>
 son la opción de reserva: la tarjeta indica cuándo sus valores vienen de
-ellas, y al guardar la tarjeta pasa a mandar ella.</p>
+ellas, y una vez guardada, la tarjeta tiene prioridad.</p>
 <div class="admonition note">
 <p class="admonition-title">El servidor nunca depende del proveedor para funcionar</p>
 <p>El servidor arranca aunque el proveedor no esté disponible, el botón SSO
@@ -3220,7 +3220,7 @@ proveedor en el siguiente intento de inicio de sesión, como mucho cada
 <li>Si no, con <strong>Crear cuentas para nuevos usuarios SSO</strong> activado, se crea
    una cuenta nueva, con un perfil y el acceso a bibliotecas elegido en la
    tarjeta. Su nombre de usuario es el <code>preferred_username</code> del proveedor,
-   o si no, la parte del correo antes de <code>@</code>; si el nombre ya está cogido,
+   o si no, la parte del correo antes de <code>@</code>; si el nombre ya está en uso,
    se le añade un sufijo corto.</li>
 </ol>
 <div class="admonition warning">

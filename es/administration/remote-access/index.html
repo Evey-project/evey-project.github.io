@@ -3258,7 +3258,7 @@ desde la siguiente reproducción.</p>
 </tr>
 <tr>
 <td><strong>Proxies de confianza (IP o CIDR, separados por comas)</strong></td>
-<td>Los proxies inversos a los que Evey cree cuando dicen quién es el visitante real. La propia máquina (loopback) siempre es de confianza. Vacío: la lista sale de <code>EVEY_TRUSTED_PROXIES</code>.</td>
+<td>Los proxies inversos en los que Evey confía para indicar quién es el visitante real. La propia máquina (loopback) siempre es de confianza. Vacío: la lista sale de <code>EVEY_TRUSTED_PROXIES</code>.</td>
 </tr>
 <tr>
 <td><strong>Redes LAN (CIDR, separadas por comas)</strong></td>
@@ -3277,7 +3277,7 @@ Acceso remoto</strong>:</p>
 <ul>
 <li><strong>URL externa</strong> en <code>https://</code>. Esto le dice a Evey que un proxy se encarga
   de HTTPS. Evey protege entonces sus cookies de inicio de sesión (marca
-  <code>Secure</code>), pide a los navegadores que usen siempre HTTPS (HSTS), y cree la
+  <code>Secure</code>), pide a los navegadores que usen siempre HTTPS (HSTS), y acepta la
   cabecera <code>X-Forwarded-Proto</code> de un proxy de confianza.</li>
 <li><strong>Los proxies de confianza</strong>, cuando el proxy no está en la misma máquina
   que Evey. Un proxy en otro contenedor necesita aquí su red, por ejemplo
@@ -3295,7 +3295,7 @@ del propio proxy.</p>
 desde el archivo compose. Esto encaja con una configuración escrita entera
 en archivos, o con un servidor que debe responder por HTTPS desde su primer
 arranque.</p>
-<p>Cuando están las dos cosas, gana el panel. Una <strong>URL externa</strong> en <code>https://</code>
+<p>Cuando están las dos cosas, tiene prioridad el panel. Una <strong>URL externa</strong> en <code>https://</code>
 activa el modo HTTPS aunque la URL base sea HTTP simple, y una lista de
 proxies guardada sustituye a la variable. Vacía el campo para devolverle la
 decisión a la variable. Ver
@@ -3304,7 +3304,7 @@ decisión a la variable. Ver
 <p>Para que el acceso remoto y el límite de calidad remoto funcionen, Evey tiene
 que ver la dirección real de cada visitante. Dos ajustes trabajan juntos:</p>
 <ol>
-<li>Los proxies de confianza deciden a quién cree Evey sobre la dirección
+<li>Los proxies de confianza deciden de quién acepta Evey la dirección
    real del visitante.</li>
 <li>Las redes LAN deciden después si esa dirección es de «casa» o «remota».</li>
 </ol>

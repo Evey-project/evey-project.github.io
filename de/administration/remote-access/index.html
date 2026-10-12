@@ -3258,7 +3258,7 @@ Wiedergabe.</p>
 </tr>
 <tr>
 <td><strong>Vertrauenswürdige Proxys (IP oder CIDR, kommagetrennt)</strong></td>
-<td>Die Reverse Proxys, denen Evey glaubt, wenn sie sagen, wer der echte Besucher ist. Der Rechner selbst (Loopback) ist immer vertrauenswürdig. Leer: Die Liste kommt aus <code>EVEY_TRUSTED_PROXIES</code>.</td>
+<td>Die Reverse Proxys, deren Angabe zum tatsächlichen Besucher Evey übernimmt. Der Rechner selbst (Loopback) ist immer vertrauenswürdig. Leer: Die Liste kommt aus <code>EVEY_TRUSTED_PROXIES</code>.</td>
 </tr>
 <tr>
 <td><strong>LAN-Netzwerke (CIDR, kommagetrennt)</strong></td>
@@ -3277,7 +3277,7 @@ Fernzugriff</strong>:</p>
 <ul>
 <li><strong>Externe URL</strong> mit <code>https://</code>. Daran erkennt Evey, dass ein Proxy HTTPS
   übernimmt. Evey schützt dann seine Anmelde-Cookies (Flag <code>Secure</code>), sagt
-  Browsern, immer HTTPS zu benutzen (HSTS), und glaubt dem Header
+  Browsern, immer HTTPS zu benutzen (HSTS), und übernimmt den Header
   <code>X-Forwarded-Proto</code> eines vertrauenswürdigen Proxys.</li>
 <li><strong>Die vertrauenswürdigen Proxys</strong>, wenn der Proxy nicht auf demselben
   Rechner wie Evey läuft. Für einen Proxy in einem anderen Container gehört
@@ -3287,7 +3287,7 @@ Fernzugriff</strong>:</p>
 <div class="admonition warning">
 <p class="admonition-title">Ein Bereich, der alle Adressen abdeckt, wird abgelehnt</p>
 <p><code>0.0.0.0/0</code> oder <code>::/0</code> als vertrauenswürdiger Proxy würde jedem Besucher
-erlauben, so zu tun, als käme er von irgendwoher. Der Verwaltungsbereich
+erlauben, eine beliebige Herkunftsadresse vorzutäuschen. Der Verwaltungsbereich
 und <code>evey admin doctor</code> lehnen das beide ab. Tragen Sie stattdessen die
 eigene Adresse oder das Netz des Proxys ein.</p>
 </div>
@@ -3296,7 +3296,7 @@ eigene Adresse oder das Netz des Proxys ein.</p>
 aus der Compose-Datei heraus. Das passt zu einer Einrichtung, die ganz in
 Dateien geschrieben ist, oder zu einem Server, der schon beim allerersten
 Start über HTTPS antworten muss.</p>
-<p>Ist beides gesetzt, gewinnt der Verwaltungsbereich. Eine <code>https://</code>-Adresse
+<p>Ist beides gesetzt, hat der Verwaltungsbereich Vorrang. Eine <code>https://</code>-Adresse
 als <strong>Externe URL</strong> schaltet den HTTPS-Modus ein, auch wenn die Basis-URL
 einfaches HTTP ist, und eine gespeicherte Proxy-Liste ersetzt die Variable.
 Leeren Sie das Feld, um die Entscheidung wieder der Variable zu überlassen.
@@ -3306,8 +3306,8 @@ Siehe <a href="../../environment/server/#remote-access">Server und Netzwerk</a>.
 muss Evey die echte Adresse jedes Besuchers sehen. Zwei Einstellungen arbeiten
 zusammen:</p>
 <ol>
-<li>Die vertrauenswürdigen Proxys legen fest, wem Evey die echte Adresse des
-   Besuchers glaubt.</li>
+<li>Die vertrauenswürdigen Proxys legen fest, von wem Evey die Angabe zur
+   echten Adresse des Besuchers übernimmt.</li>
 <li>Die LAN-Netzwerke entscheiden dann, ob diese Adresse „zu Hause“ oder
    „unterwegs“ ist.</li>
 </ol>

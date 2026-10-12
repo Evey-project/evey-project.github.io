@@ -3109,7 +3109,7 @@
 <td><a href="https://github.com/Evey-project/evey/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></td>
 </tr>
 <tr>
-<td>半小时内摸清代码的结构</td>
+<td>半小时内了解代码的结构</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a></td>
 </tr>
 <tr>
@@ -3140,16 +3140,16 @@
 它们保存在仓库里，就在它们所解释的代码旁边。如果您想提议改变其中某个选择，请先从这些记录读起。</p>
 <h2 id="before-you-open-a-pull-request">提交 pull request 之前<a class="headerlink" href="#before-you-open-a-pull-request" title="Permanent link">¶</a></h2>
 <ol>
-<li>运行 <code>make pre-push</code>：它就是检查关口，会在本地按以下顺序运行 CI 的各项检查：vet、漏洞扫描、构建、
+<li>运行 <code>make pre-push</code>：这是必须通过的检查，它会在本地按以下顺序运行 CI 的各项检查：vet、漏洞扫描、构建、
    带 <code>-race</code> 的单元测试、前端（类型检查、lint、单元测试）、安全扫描、lint、
-   <a href="../ARCHITECTURE/#architecture-guards">架构守卫</a>、提交规范检查、密钥泄露扫描、proto 破坏性变更检查、
-   从干净检出的代码构建、仓库和转码的集成测试关口，以及电视应用审计。</li>
+   <a href="../ARCHITECTURE/#architecture-guards">架构检查</a>、提交规范检查、密钥泄露扫描、proto 破坏性变更检查、
+   从干净检出的代码构建、仓库和转码的集成测试检查，以及电视应用审计。</li>
 <li>为新的行为和每一个缺陷修复补上测试。</li>
 <li>外部贡献需要一次性接受<a href="https://github.com/Evey-project/evey/blob/master/CLA.md">贡献者许可协议</a>：Evey 采用 AGPL-3.0-or-later 许可，
    也可能以商业许可提供。您的作品版权仍归您所有。</li>
 </ol>
 <div class="admonition warning">
-<p class="admonition-title">检查关口不会构建 Docker 镜像，也不会构建 Android 应用</p>
+<p class="admonition-title">这组检查不会构建 Docker 镜像，也不会构建 Android 应用</p>
 <p>修改了 <code>Dockerfile</code> 或 Kotlin 代码之后，请在推送之前自己构建它们
 （<code>docker build --target runtime</code>，以及 Gradle 的 release 任务）。</p>
 </div>

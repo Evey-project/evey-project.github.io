@@ -753,7 +753,7 @@
   <a href="#what-evey-sets-up-by-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evey 会自己设置好的东西
+        Evey 自动完成的设置
       
     </span>
   </a>
@@ -3148,7 +3148,7 @@
   <a href="#what-evey-sets-up-by-itself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evey 会自己设置好的东西
+        Evey 自动完成的设置
       
     </span>
   </a>
@@ -3179,13 +3179,13 @@
 
 
 <h1 id="install">安装<a class="headerlink" href="#install" title="Permanent link">¶</a></h1>
-<p>这一页写给要为全家运行 Evey 的人。您需要一台一直开着、装好了 Docker 的电脑或 NAS。一共三步：</p>
+<p>本页面向要为全家运行 Evey 的人。您需要一台持续开机、装好了 Docker 的电脑或 NAS。一共三步：</p>
 <ol>
 <li>保存一个文件，也就是 compose 文件。</li>
 <li>用一条命令启动 Evey。</li>
 <li>在浏览器里打开 Evey。</li>
 </ol>
-<p>接下来，<a href="../getting-started/first-setup/">首次设置</a>向导会带您往下走。</p>
+<p>接下来，<a href="../getting-started/first-setup/">首次设置</a>向导会引导您完成后续步骤。</p>
 <p>Evey 只运行一个容器。数据库和搜索引擎都在容器里，所以不用另外安装任何东西，不用写 <code>.env</code> 文件，也不用设置内存或处理器。</p>
 <div class="admonition warning">
 <p class="admonition-title">请用本页的文件，不要用 Git 仓库里的那个</p>
@@ -3193,12 +3193,12 @@
 </div>
 <h2 id="what-you-need">您需要准备什么<a class="headerlink" href="#what-you-need" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>一台一直开着的电脑或 NAS</strong>，处理器是 x86-64 架构（Intel 或 AMD）。ARM64 机器需要正式发布的版本标签，目前还没有：见 <a href="../operations/advanced-deployments/#arm-hosts">ARM 主机</a>。</li>
+<li><strong>一台持续开机的电脑或 NAS</strong>，处理器是 x86-64 架构（Intel 或 AMD）。ARM64 机器需要正式发布的版本标签，目前还没有：见 <a href="../operations/advanced-deployments/#arm-hosts">ARM 主机</a>。</li>
 <li><strong>带 Compose v2 的 Docker。</strong> 命令是 <code>docker compose</code>（中间有空格），不是旧的 <code>docker-compose</code>。</li>
 <li><strong>您的媒体文件夹</strong>：放电影、剧集、音乐或照片的地方。</li>
 <li><strong>一些磁盘空间，给 Evey 存自己的数据</strong>（数据库、海报图片、搜索索引）。下面的 compose 文件会把这些数据放在文件旁边一个叫 <code>evey-data</code> 的文件夹里。</li>
 </ul>
-<p>在家里的网络中，Evey 使用普通的 HTTP。要在外面观看，需要 HTTPS，可以以后再加：<a href="../administration/remote-access/">远程访问与 HTTPS</a>。</p>
+<p>在家里的网络中，Evey 使用普通的 HTTP。要在家庭网络以外观看，需要 HTTPS，可以以后再添加：<a href="../administration/remote-access/">远程访问与 HTTPS</a>。</p>
 <h2 id="the-compose-file">第 1 步：保存 compose 文件<a class="headerlink" href="#the-compose-file" title="Permanent link">¶</a></h2>
 <p>为 Evey 建一个文件夹，比如 <code>evey</code>，然后把下面的内容保存到里面，文件名为 <code>docker-compose.yml</code>。只需改一行：您媒体文件的路径（标着 5 的那一行）。比如您的电影在 <code>/srv/media</code>，这一行就改成 <code>- /srv/media:/media</code>。</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
@@ -3218,11 +3218,11 @@
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="nt">evey-cache</span><span class="p">:</span>
 </span></code></pre></div>
 <ol>
-<li>Evey 的版本。Evey 还在测试阶段，所以还没有 <code>latest</code> 标签：<code>beta-0.0.1</code> 跟随开发分支，每次更新都会变。如果想一直停在完全相同的代码上，请改用 <code>sha-&lt;commit&gt;</code> 标签：见<a href="../backups/#updating-evey">备份与更新</a>。</li>
+<li>Evey 的版本。Evey 还在测试阶段，所以还没有 <code>latest</code> 标签：<code>beta-0.0.1</code> 跟随开发分支，每次更新都会变。如果想始终使用完全相同的代码，请改用 <code>sha-&lt;commit&gt;</code> 标签：见<a href="../backups/#updating-evey">备份与更新</a>。</li>
 <li>端口。左边的数字就是您以后在浏览器和应用里要输入的那个。除非已经有别的程序占用了 <code>9091</code>，否则保持不变。</li>
 <li>Evey 自己的数据：数据库、密钥、自动生成的密码、搜索索引、海报图片、日志、备份、插件。<strong>需要备份的就是这个文件夹。</strong></li>
-<li>缓存：转换过的视频、缩放过的照片和封面。随时可以删除，它会自己重新填满。</li>
-<li>您的媒体。把 <code>/path/to/your/media</code> 换成真实的文件夹。在 Evey 里，这个文件夹叫 <code>/media</code>。它特意设成可写，这样您要求时，<a href="../runbooks/media-health/">媒体健康</a>才能修复文件。在末尾加上 <code>:ro</code> 就变成只读：Evey 就不能在里面写东西，修复也会失败。</li>
+<li>缓存：转换过的视频、缩放过的照片和封面。随时可以删除，它会自动重新生成。</li>
+<li>您的媒体。把 <code>/path/to/your/media</code> 换成真实的文件夹。在 Evey 里，这个文件夹叫 <code>/media</code>。它特意设成可写，这样您要求时，<a href="../runbooks/media-health/">媒体健康</a>才能修复文件。在末尾加上 <code>:ro</code> 就变成只读：Evey 就无法在其中写入，修复也会失败。</li>
 <li>容器停止时，给数据库留出时间正常关闭。Docker 默认只给 10 秒，对大型片库来说太短。</li>
 </ol>
 <h2 id="first-launch">第 2 步：启动 Evey<a class="headerlink" href="#first-launch" title="Permanent link">¶</a></h2>
@@ -3250,8 +3250,8 @@
 <td><code>http://</code> + 运行 Docker 那台机器的 IP 地址 + <code>:9091</code>，比如 <code>http://192.168.1.20:9091</code></td>
 </tr>
 <tr>
-<td>不在家时</td>
-<td>暂时不行。这需要 HTTPS 和公网地址：见<a href="../administration/remote-access/">远程访问与 HTTPS</a>。</td>
+<td>在家庭网络以外</td>
+<td>暂时无法访问。这需要 HTTPS 和公网地址：见<a href="../administration/remote-access/">远程访问与 HTTPS</a>。</td>
 </tr>
 </tbody>
 </table>
@@ -3279,16 +3279,16 @@
 <tr>
 <td><code>evey-cache</code> 卷</td>
 <td>转换过的视频、缩放过的照片和封面</td>
-<td>能。它会自己重新填满。</td>
+<td>能。它会自动重新生成。</td>
 </tr>
 <tr>
 <td>您的媒体文件夹</td>
 <td>您的文件</td>
-<td>Evey 从不删除它们。在 Evey 里删除一部片子，只是把它从媒体库移除，不会从硬盘上删除。</td>
+<td>Evey 从不删除它们。在 Evey 里删除一部影片，只是把它从媒体库移除，不会从硬盘上删除。</td>
 </tr>
 </tbody>
 </table>
-<p>Evey 只在三种情况下往您的媒体文件夹里写东西：</p>
+<p>Evey 只在三种情况下向您的媒体文件夹写入内容：</p>
 <ul>
 <li>您在<strong>媒体健康</strong>里发起的修复（原文件会保留作为备份）；</li>
 <li>从 OpenSubtitles 下载的字幕（保存在电影旁边的 <code>.subtitles</code> 文件夹里）；</li>
@@ -3304,18 +3304,18 @@
 <details class="note">
 <summary>在 NAS 上（Synology Container Manager、QNAP Container Station）</summary>
 <ul>
-<li>第一次启动前，先建好 <code>evey-data</code> 文件夹。和 Docker 命令行不同，这些界面不肯挂载不存在的文件夹。其他都不用建。</li>
-<li>把 <code>PUID</code> 和 <code>PGID</code> 设成拥有媒体文件的那个 NAS 用户（通过 SSH 运行 <code>id &lt;用户名&gt;</code> 查看；Synology 上通常在 <code>1026</code> 左右，用户组 <code>100</code>）。NAS 的共享文件夹常常归 <code>root</code> 所有，而 Evey 绝不会自动使用 root 身份。</li>
+<li>第一次启动前，先建好 <code>evey-data</code> 文件夹。和 Docker 命令行不同，这些界面无法挂载不存在的文件夹。其他都不用建。</li>
+<li>把 <code>PUID</code> 和 <code>PGID</code> 设成拥有媒体文件的那个 NAS 用户（通过 SSH 运行 <code>id &lt;user&gt;</code> 查看；Synology 上通常在 <code>1026</code> 左右，用户组 <code>100</code>）。NAS 的共享文件夹常常归 <code>root</code> 所有，而 Evey 绝不会自动使用 root 身份。</li>
 <li>带 Quick Sync 的 Intel NAS：按<a href="../administration/hardware-acceleration/">硬件加速</a>里的说明，加上 <code>devices:</code> 和 <code>group_add:</code> 这几行。</li>
 </ul>
 </details>
-<h2 id="what-evey-sets-up-by-itself">Evey 会自己设置好的东西<a class="headerlink" href="#what-evey-sets-up-by-itself" title="Permanent link">¶</a></h2>
+<h2 id="what-evey-sets-up-by-itself">Evey 自动完成的设置<a class="headerlink" href="#what-evey-sets-up-by-itself" title="Permanent link">¶</a></h2>
 <p>这些都不用您配置：</p>
 <ul>
 <li><strong>服务器能同时转换多少视频。</strong> 它会在第一次空闲时测量这台机器。</li>
-<li><strong>显卡。</strong> Evey 会检测您交给容器的显卡，并用一次真实的转换来检验它。</li>
+<li><strong>显卡。</strong> Evey 会检测您提供给容器的显卡，并用一次真实的转换来检验它。</li>
 <li><strong>每台设备怎么播放文件。</strong> 每次播放时决定：见<a href="../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。</li>
-<li><strong>从家外面访问。</strong> 默认关闭，直到您给服务器设置公网地址。</li>
+<li><strong>从家庭网络以外访问。</strong> 默认关闭，直到您给服务器设置公网地址。</li>
 </ul>
 <p>以后可能要改的设置（服务器名称、计划任务时间、各种限制、API 密钥）都在管理面板里，不在 compose 文件里。为数不多的环境变量列在<a href="../configuration/">配置参考</a>里。</p>
 

@@ -3158,7 +3158,7 @@
 cómo mide el servidor lo que puede codificar, cómo reparte esa capacidad y
 qué ve un espectador cuando está lleno.</p>
 <h2 id="the-server-measures-itself">El servidor se mide a sí mismo<a class="headerlink" href="#the-server-measures-itself" title="Permanent link">¶</a></h2>
-<p>La capacidad no es un ajuste que tengas que calcular a ojo. El servidor la
+<p>La capacidad no es un ajuste que tengas que estimar tú. El servidor la
 mide:</p>
 <ul>
 <li><strong>Cuándo.</strong> No al arrancar: el servidor arranca con lo que ya sabía (o, la
@@ -3170,7 +3170,7 @@ mide:</p>
 <li><strong>Qué.</strong> Codificaciones reales de un clip 4K, en SDR y en HDR, con el
   procesador y con cada acelerador que el servidor ha detectado, de la misma
   forma que una reproducción real. El resultado es la resolución más alta que
-  cada uno aguanta en tiempo real, y lo que cuesta cada tipo de flujo.</li>
+  cada uno soporta en tiempo real, y lo que cuesta cada tipo de flujo.</li>
 <li><strong>Otra vez.</strong> Cuando cambia el hardware, o con <strong>Recalibrar</strong> en
   <strong>Administración → Transcodificación → Calibración de codificación</strong>. El
   botón espera a que nadie esté viendo nada.</li>
@@ -3179,13 +3179,13 @@ mide:</p>
 muestra <strong>El servidor se está calibrando</strong> y se le pide que lo vuelva a
 intentar en un momento. La Reproducción directa y el Remux no se ven
 afectados.</p>
-<p>En un procesador que no aguanta ninguna de las resoluciones, el servidor
+<p>En un procesador que no soporta ninguna de las resoluciones, el servidor
 sigue ofreciendo 720p (SDR) y 480p (HDR), un flujo cada vez.</p>
 <p>La medición usa, por este orden, un clip que le des tú, un clip de referencia
 que se descarga una vez y se comprueba con su SHA256, o un clip sintético
 generado en el momento. Un clip real mide de forma más fiel que el
 sintético, que exagera el coste y puede poner a una máquina un límite más
-bajo del que merece:</p>
+bajo del que le corresponde:</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
@@ -3223,12 +3223,12 @@ poco de procesador para su audio y su empaquetado.</p>
 </ol>
 <p>Si una codificación con la tarjeta gráfica falla en un título, ese título
 pasa al procesador durante un tiempo, para todos los espectadores. La
-tarjeta en sí solo se aparta si también falla en ella una codificación de
+tarjeta en sí solo se deja de usar si también falla en ella una codificación de
 prueba que no depende del contenido, y se vuelve a probar más tarde:
 consulta <a href="../../administration/hardware-acceleration/">Aceleración por hardware</a>.</p>
 <p>Mientras alguien ve algo, el trabajo de fondo del propio servidor
 (miniaturas, detección de intros, análisis de los medios) se pone en pausa,
-para que la reproducción tenga la máquina para ella: consulta
+para que la reproducción disponga de toda la máquina: consulta
 <a href="../../operations/background-work/">Tareas en segundo plano y carga del servidor</a>.</p>
 <p>Cuando un tipo de fuente sigue haciendo esperar a los espectadores a pesar
 de todo esto, el servidor baja su calidad máxima durante un tiempo, y luego
@@ -3307,7 +3307,7 @@ una vez y luego sigue.</p>
 <li><strong>Administración → Calidad de streaming</strong>: cómo ha ido la reproducción para
   los espectadores reales.</li>
 <li><strong>Prueba de carga</strong> (<strong>Administración → Transcodificación</strong>): simula
-  espectadores para medir lo que aguanta el servidor. No se ejecuta mientras
+  espectadores para medir lo que soporta el servidor. No se ejecuta mientras
   alguien esté viendo algo.</li>
 </ul>
 <!-- sources

@@ -3161,12 +3161,12 @@
 
 <h1 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">¶</a></h1>
 <p>Cette page s'adresse à l'administrateur : comment installer un plugin ou un
-thème, ce que vous acceptez en le faisant, et ce que le serveur le laisse
-toucher sur votre machine. Tout se passe dans <strong>Admin → Plugins</strong> ; les pages
+thème, ce que vous acceptez en le faisant, et ce que le serveur lui permet
+de faire sur votre machine. Tout se passe dans <strong>Administration → Plugins</strong> ; les pages
 destinées aux auteurs de plugins sont listées <a href="#writing-a-plugin">à la fin</a>.</p>
 <p>Un plugin ajoute à Evey ce qu'il ne fait pas lui-même : une section sur la
 page d'accueil, une surcouche dans le lecteur, une source de métadonnées, un
-thème. Chaque plugin est un processus à part, qui dialogue avec le serveur par
+thème. Chaque plugin est un processus à part, qui communique avec le serveur par
 un socket local, confiné par une sandbox et limité aux permissions que déclare
 son manifeste. Son interface, quand il en a une, s'exécute dans un cadre isolé
 de la page.</p>
@@ -3179,12 +3179,12 @@ de la page.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="L'accueil avec le plugin météo" loading="lazy" src="../../images/home.webp"></a>
 <br>
-<figcaption>Avec le plugin météo d'exemple : une section en haut, dessinée dans son propre cadre.</figcaption>
+<figcaption>Avec le plugin météo d'exemple : une section en haut, affichée dans son propre cadre.</figcaption>
 </figure>
 </div>
 <h2 id="install-a-plugin">Installer un plugin<a class="headerlink" href="#install-a-plugin" title="Permanent link">¶</a></h2>
 <ol>
-<li>Dans <strong>Admin → Plugins</strong>, ouvrez <strong>Installer un plugin</strong> et choisissez le
+<li>Dans <strong>Administration → Plugins</strong>, ouvrez <strong>Installer un plugin</strong> et choisissez le
    <strong>Fichier plugin (.zip)</strong>. Si l'auteur fournit une signature, ajoutez-la
    dans <strong>Fichier signature (.zip.sig, optionnel)</strong>. L'onglet <strong>Depuis une
    URL</strong> installe à partir d'un lien ; ajoutez <code>#sha256:&lt;empreinte&gt;</code> à l'URL
@@ -3309,10 +3309,10 @@ l'analyse, le résultat de la signature et la dernière erreur. Sa ligne
 machine : s'il affiche <code>basic</code>, l'hôte n'offre aucune isolation du système de
 fichiers par chemin, et <a href="sandbox-deployment/">Mise en place de la sandbox des
 plugins</a> explique quoi changer.</p>
-<p>Les plugins sont activés par défaut. <code>EVEY_PLUGINS_ENABLED=false</code> éteint tout
+<p>Les plugins sont activés par défaut. <code>EVEY_PLUGINS_ENABLED=false</code> désactive tout
 le sous-système.</p>
 <h2 id="what-a-plugin-can-do-on-your-host">Ce qu'un plugin peut faire sur votre machine<a class="headerlink" href="#what-a-plugin-can-do-on-your-host" title="Permanent link">¶</a></h2>
-<p>Quoi que dise son manifeste, un plugin :</p>
+<p>Quoi que déclare son manifeste, un plugin :</p>
 <ul>
 <li>voit son propre dossier, pas les données du serveur ni les fichiers média ;</li>
 <li>n'a aucun accès direct au réseau : un plugin qui a la permission <code>network</code>
@@ -3327,7 +3327,7 @@ section ou la zone de bannière de l'accueil, un panneau latéral dans une
 bibliothèque ou sur une fiche, une surcouche du lecteur, les réglages
 d'apparence, le bas de la barre de navigation, ou une entrée du menu
 d'administration qui ouvre la page du plugin lui-même. Un plugin ne peut
-jamais dessiner dans les écrans de connexion, d'installation, de sécurité ni
+jamais rien afficher dans les écrans de connexion, d'installation, de sécurité ni
 dans les écrans d'administration existants. Dans son cadre, il n'a accès ni à
 la page, ni à vos cookies, ni à votre session : ce qu'il lit sur le serveur
 passe par un jeton de courte durée limité aux deux permissions qu'il peut
@@ -3338,7 +3338,7 @@ pour les préférences de l'utilisateur courant dans son propre espace).</p>
 de la sandbox, et ce qu'elle ne peut toujours pas empêcher, sont décrits dans
 <a href="../SECURITY/">Sandbox des plugins et modèle de menace</a>.</p>
 <div class="admonition warning">
-<p class="admonition-title">Le serveur contrôle à qui parle un plugin, pas ce qu'il dit</p>
+<p class="admonition-title">Le serveur contrôle les hôtes que contacte un plugin, pas ce qu'il leur envoie</p>
 <p>Une fois qu'un hôte figure dans la liste d'un plugin, le serveur ne peut
 pas inspecter ce que le plugin lui envoie. Examinez un plugin tiers avant
 de l'installer, comme n'importe quel logiciel, et considérez sa liste
@@ -3348,7 +3348,7 @@ bibliothèque.</p>
 <h2 id="themes">Thèmes<a class="headerlink" href="#themes" title="Permanent link">¶</a></h2>
 <p>Un thème est un paquet de <code>kind: theme</code> sans processus : une feuille de style
 et, en option, un script confiné dans un cadre caché. Il s'installe depuis la
-même boîte <strong>Installer un plugin</strong> ; la feuille de style est assainie à
+même fenêtre <strong>Installer un plugin</strong> ; la feuille de style est assainie à
 l'installation. Chaque utilisateur le choisit ensuite dans <strong>Paramètres →
 Apparence → Thème</strong>. Ce qu'un thème peut contenir est décrit dans
 <a href="../themes/">Thèmes</a>.</p>

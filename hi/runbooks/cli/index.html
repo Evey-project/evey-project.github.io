@@ -1813,7 +1813,7 @@
   <a href="#related-runbooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        जुड़ी हुई पुस्तिकाएँ
+        संबंधित रनबुक
       
     </span>
   </a>
@@ -3276,7 +3276,7 @@
   <a href="#related-runbooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        जुड़ी हुई पुस्तिकाएँ
+        संबंधित रनबुक
       
     </span>
   </a>
@@ -3310,7 +3310,7 @@
 <p>सर्वर का प्रोग्राम ही ऑपरेटर की कमांड लाइन का काम भी करता है: <code>evey admin
 &lt;subcommand&gt;</code> रखरखाव या रिकवरी का एक टूल चलाता है, उसी कॉन्फ़िगरेशन और डेटाबेस
 पर जो सर्वर इस्तेमाल करता है, और फिर बंद हो जाता है। यह पेज कमांड की सूची देता है
-और बताता है कि उन्हें कंटेनर में कैसे चलाएँ; रोज़ के काम (भूला हुआ पासवर्ड, की
+और बताता है कि उन्हें कंटेनर में कैसे चलाएँ; रोज़ के काम (भूला हुआ पासवर्ड, कुंजी
 बदलना, बैकअप से वापस लाना) <a href="../recovery/">रिकवरी</a> में हैं।</p>
 <h2 id="running-a-command">कमांड चलाना<a class="headerlink" href="#running-a-command" title="Permanent link">¶</a></h2>
 <p>आम इंस्टॉलेशन में कमांड कंटेनर के अंदर चलती हैं, जिसमें डेटाबेस का पासवर्ड और
@@ -3395,7 +3395,7 @@
 </span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>                                             unless EVEY_DEMO=1. Dry-run by default.
 </span></code></pre></div>
 <p><code>reset-password</code> और <code>rotate-jwt-key</code> दोनों सेशन खत्म करते हैं: पहला उस
-उपयोगकर्ता के, दूसरा सबके। खुले ऐप लगभग 30 सेकंड के अंदर यह पकड़ लेते हैं और
+उपयोगकर्ता के, दूसरा सबके। खुले ऐप लगभग 30 सेकंड के अंदर इसका पता लगा लेते हैं और
 फिर से साइन इन करने को कहते हैं। पूरे तरीके <a href="../recovery/">रिकवरी</a> में हैं।</p>
 <h3 id="schema">स्कीमा<a class="headerlink" href="#schema" title="Permanent link">¶</a></h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>evey admin migrate up [--no-backup]          Apply every pending migration.
@@ -3526,11 +3526,11 @@
 </tr>
 </tbody>
 </table>
-<h2 id="related-runbooks">जुड़ी हुई पुस्तिकाएँ<a class="headerlink" href="#related-runbooks" title="Permanent link">¶</a></h2>
+<h2 id="related-runbooks">संबंधित रनबुक<a class="headerlink" href="#related-runbooks" title="Permanent link">¶</a></h2>
 <ul>
-<li><a href="../recovery/">रिकवरी</a>: पासवर्ड रीसेट, JWT की बदलना, बैकअप से वापस लाना।</li>
+<li><a href="../recovery/">रिकवरी</a>: पासवर्ड रीसेट, JWT कुंजी बदलना, बैकअप से वापस लाना।</li>
 <li><a href="../migration-runbook/">डेटाबेस माइग्रेशन</a>: स्कीमा डिप्लॉय, रोलबैक, dirty हालत से निकलना।</li>
-<li><a href="../incident-runbook/">गड़बड़ी पुस्तिका</a>: जब सर्वर ठीक से काम न करे, तब पहले क्या करें।</li>
+<li><a href="../incident-runbook/">इंसिडेंट रनबुक</a>: जब सर्वर ठीक से काम न करे, तब पहले क्या करें।</li>
 </ul>
 <!-- sources
 dispatch and top-level commands: cmd/evey/cli.go - runCLI (version, help, completion, man, unknown command refused), cmd/evey/main.go

@@ -3677,9 +3677,9 @@
 
 
 <h1 id="plugin-sandbox-and-threat-model">Sandbox de plugins y modelo de amenazas<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
-<p>Lo que hace el servidor para encerrar a un plugin: las comprobaciones al
+<p>Lo que hace el servidor para aislar a un plugin: las comprobaciones al
 instalar, las capas mientras funciona, los modos de sandbox, y lo que cada
-uno todavía no puede impedir. El código vive en
+uno todavía no puede impedir. El código está en
 <code>internal/adapters/driven/pluginrunner</code> (análisis en la instalación,
 sandbox), <code>cmd/evey-plugin-launcher</code> (Landlock y el filtro seccomp del
 núcleo), <code>sandbox/sandbox.c</code> (el filtro <code>LD_PRELOAD</code>) e
@@ -3692,7 +3692,7 @@ quieres saber qué puedes declarar y qué se rechazará, lee
 <a href="../plugins/security-model/">Permisos y slots</a>; para saber qué sandbox recibe
 tu máquina, lee <a href="../plugins/sandbox-deployment/">Configurar el sandbox de plugins</a>.</p>
 <h2 id="threat-model">Modelo de amenazas<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
-<p>Los plugins funcionan como procesos separados que hablan con el servidor por
+<p>Los plugins funcionan como procesos separados que se comunican con el servidor por
 gRPC sobre sockets Unix. Por defecto, el servidor no confía en el código de
 ningún plugin. Los riesgos de los que se defiende, del más grave al menos
 grave:</p>
@@ -3855,8 +3855,8 @@ transformaciones que se hacen mientras el código funciona
 (<code>strrev("metsys")</code>, decodificar una carga leída de un archivo). También
 busca dentro de los comentarios: un comentario <code># pip install foo</code> dispara
 <code>runtime_install</code>. <strong>La frontera que se impone es el sandbox en
-funcionamiento, no el análisis</strong>: un plugin que cuela un patrón sin que el
-análisis lo vea sigue sin poder leer los datos del servidor, hacer una
+funcionamiento, no el análisis</strong>: un plugin con un patrón que el
+análisis no detecta sigue sin poder leer los datos del servidor, hacer una
 llamada al sistema prohibida, superar sus límites de recursos ni llamar a
 un método del servidor para el que no tiene permiso.</p>
 </div>
@@ -3903,7 +3903,7 @@ cómo se imponen las dos primeras depende del modo.</p>
 <p>Un plugin ve su propia carpeta y la carpeta de su socket, y no los datos del
 servidor, gracias a una lista permitida de Landlock (<code>landlock</code>) o a una
 lista blanca de montajes de bubblewrap (<code>bubblewrap</code>, <code>strict</code>). En el modo
-<code>basic</code>, en un núcleo sin Landlock, no hay encierro por ruta: entonces lo que
+<code>basic</code>, en un núcleo sin Landlock, no hay restricción por ruta: entonces lo que
 protege los secretos del servidor son el usuario aparte y los permisos de los
 archivos.</p>
 <h3 id="network">Red<a class="headerlink" href="#network" title="Permanent link">¶</a></h3>
@@ -3931,7 +3931,7 @@ Consulta <a href="#known-limits">Límites conocidos</a>.</p>
 <p class="admonition-title">Recomendado para quien administra el servidor</p>
 <p>El intermediario traslada al servidor la superficie de ataque SSRF. Una
 regla de salida en el contenedor <code>evey-server</code>, independiente del código,
-añade un segundo muro: bloquea <code>169.254.0.0/16</code> y limita la red interna
+añade una segunda protección: bloquea <code>169.254.0.0/16</code> y limita la red interna
 a la base de datos y al servicio de búsqueda.</p>
 </div>
 <h3 id="system-calls">Llamadas al sistema<a class="headerlink" href="#system-calls" title="Permanent link">¶</a></h3>
@@ -4017,7 +4017,7 @@ procesos (<code>fork</code>, <code>vfork</code>, <code>clone</code> sin <code>CL
 <code>ENOSYS</code> para que la biblioteca C vuelva a <code>clone</code>); los hilos siguen
 funcionando.</p>
 <p>Es una <strong>lista de bloqueo</strong>: <code>open</code>, <code>read</code>, <code>write</code>, <code>mmap</code>, <code>socket</code> Unix y
-<code>connect</code> siguen permitidos. Las rutas las encierra la capa del sistema de
+<code>connect</code> siguen permitidos. Las rutas las restringe la capa del sistema de
 archivos, no seccomp. En <code>bubblewrap</code> no se usa el lanzador: ahí un binario
 estático no recibe ningún filtro seccomp, y lo contienen los espacios de
 nombres y la lista blanca de montajes.</p>
@@ -4035,7 +4035,7 @@ por los permisos de los archivos. Lo controla <code>EVEY_PLUGINS_UID_SEPARATION<
 <tbody>
 <tr>
 <td><code>auto</code> (por defecto)</td>
-<td>solo cuando el sandbox acaba en <code>basic</code>, el único caso en el que los permisos de los archivos son el único muro alrededor de los secretos</td>
+<td>solo cuando el sandbox acaba en <code>basic</code>, el único caso en el que los permisos de los archivos son la única protección de los secretos</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -4050,7 +4050,7 @@ por los permisos de los archivos. Lo controla <code>EVEY_PLUGINS_UID_SEPARATION<
 <p>El cambio lo hace el lanzador, que tiene <code>cap_setuid</code>; el servidor en sí
 funciona sin privilegios ni capacidades. El lanzador rechaza cualquier
 destino por debajo de 1000. Si no puede cambiar, un plugin en <code>basic</code> se
-rechaza (ahí el usuario es el único muro), mientras que en <code>landlock</code>
+rechaza (ahí el usuario es la única protección), mientras que en <code>landlock</code>
 funciona con el usuario del servidor y un aviso. En <code>bubblewrap</code> y <code>strict</code>,
 este papel lo cumple el espacio de nombres de usuario.</p>
 <p>Cuando está activo, la clave de firma (<code>0600</code>) y las copias de seguridad
@@ -4133,10 +4133,10 @@ sandbox para un plugin que la necesita, o cuando un plugin termina con un
 error. El servicio de notificaciones se lo envía al administrador por los
 canales configurados, y el <strong>Panel de seguridad</strong> lo registra.</p>
 <h2 id="sandbox-modes">Modos de sandbox<a class="headerlink" href="#sandbox-modes" title="Permanent link">¶</a></h2>
-<p>El modo elige cómo se encierran el sistema de archivos y la red.
+<p>El modo elige cómo se restringen el sistema de archivos y la red.
 <code>EVEY_PLUGINS_SANDBOX_MODE</code> fija el valor inicial (por defecto <code>auto</code>); se
-puede cambiar en <strong>Administración → Plugins → Límites de recursos → Modo
-aislado</strong>. El ejecutor lo aplica en
+puede cambiar en <strong>Administración → Plugins → Límites de recursos → Modo de
+sandbox</strong>. El ejecutor lo aplica en
 <a href="https://github.com/Evey-project/evey/blob/master/internal/adapters/driven/pluginrunner/runner_sandbox.go"><code>applySandbox</code></a>.
 En todos los modos: ninguna salida IP directa, el vigilante de recursos y la
 autenticación del socket del servidor.</p>
@@ -4217,7 +4217,7 @@ host</strong> de <strong>Administración → Plugins → Panel de seguridad</str
 <tbody>
 <tr>
 <td>Docker en un núcleo reciente</td>
-<td><code>landlock</code>: encierro por ruta, sin salida directa, llamadas al sistema peligrosas rechazadas, binarios estáticos incluidos. El caso normal.</td>
+<td><code>landlock</code>: restricción por ruta, sin salida directa, llamadas al sistema peligrosas rechazadas, binarios estáticos incluidos. El caso normal.</td>
 </tr>
 <tr>
 <td>Docker en un núcleo antiguo sin Landlock, p. ej. un NAS antiguo</td>
@@ -4244,7 +4244,7 @@ host</strong> de <strong>Administración → Plugins → Panel de seguridad</str
 <li><strong>Requiere:</strong> un núcleo 5.13 o posterior con Landlock en la lista de LSM
   activos, y el lanzador (las dos cosas se cumplen con la imagen oficial en
   un equipo reciente). Un <code>landlock</code> explícito se niega a arrancar un plugin
-  que no puede encerrar.</li>
+  que no puede aislar.</li>
 </ul>
 <h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
 <ul>
@@ -4302,7 +4302,7 @@ host</strong> de <strong>Administración → Plugins → Panel de seguridad</str
 <h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
 <p>El último recurso de <code>auto</code>: el usuario aparte, el filtro del núcleo, el
 filtro <code>LD_PRELOAD</code>, <code>-deny-inet</code> y Landlock si el núcleo lo tiene. En un
-núcleo sin Landlock no hay encierro por ruta: un plugin puede leer los
+núcleo sin Landlock no hay restricción por ruta: un plugin puede leer los
 archivos no sensibles legibles por todos y ver la lista de procesos. Los
 secretos del servidor siguen protegidos por el usuario aparte y
 <code>PR_SET_DUMPABLE</code>, la red está cortada y las llamadas al sistema peligrosas
@@ -4360,19 +4360,19 @@ en palabras sencillas:
 </thead>
 <tbody>
 <tr>
-<td>Sin encierro por ruta en <code>basic</code> en un núcleo sin Landlock</td>
+<td>Sin restricción por ruta en <code>basic</code> en un núcleo sin Landlock</td>
 <td>Un plugin puede leer los archivos no sensibles legibles por todos y las carpetas de los otros plugins</td>
 <td>Secretos protegidos por el usuario aparte y <code>PR_SET_DUMPABLE</code>; <code>auto</code> prefiere Landlock o bubblewrap</td>
 </tr>
 <tr>
 <td>Todos los plugins comparten el usuario 1001</td>
-<td>Un plugin puede enviar señales a sus hermanos (enviarlas al servidor se rechaza)</td>
+<td>Un plugin puede enviar señales a los otros plugins (enviarlas al servidor se rechaza)</td>
 <td><code>PR_SET_DUMPABLE</code> impide leer otros procesos por <code>/proc</code>; Landlock y bubblewrap aíslan las carpetas de los plugins</td>
 </tr>
 <tr>
 <td>Seccomp es una lista de bloqueo</td>
 <td>Las llamadas de archivos y de sockets Unix siguen permitidas</td>
-<td>Las rutas las encierran Landlock o bubblewrap; los sockets IP se rechazan</td>
+<td>Las rutas las restringen Landlock o bubblewrap; los sockets IP se rechazan</td>
 </tr>
 <tr>
 <td>El intermediario traslada al servidor la superficie SSRF</td>
@@ -4391,7 +4391,7 @@ en palabras sencillas:
 </tr>
 <tr>
 <td><code>LD_PRELOAD</code> solo cubre los plugins dinámicos e interpretados</td>
-<td>Un binario estático en <code>basic</code> sin el lanzador se le escapa</td>
+<td>No cubre un binario estático en <code>basic</code> sin el lanzador</td>
 <td>La imagen oficial siempre incluye el lanzador, cuyo filtro del núcleo cubre los binarios estáticos</td>
 </tr>
 </tbody>

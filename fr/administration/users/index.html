@@ -3234,7 +3234,7 @@
   historique, ses points de reprise, ses favoris, ses langues et sa page
   d'accueil.</li>
 </ul>
-<p>Un compte peut contenir plusieurs profils. La plupart des maisons partagent
+<p>Un compte peut contenir plusieurs profils. La plupart des foyers partagent
 un seul compte, avec un profil par personne. Vous pouvez aussi donner à
 chaque adulte son propre compte.</p>
 <p>Cette page commence par les tâches courantes : ajouter quelqu'un, ajouter un
@@ -3263,7 +3263,7 @@ passe :</p>
    qui gérera le serveur avec vous.</li>
 <li>Sous <strong>Liens d'invitation</strong>, appuyez sur <strong>Copier le lien</strong> et envoyez-le.</li>
 </ol>
-<p>Le lien est fabriqué à partir de l'adresse de votre navigateur. Ouvrez le
+<p>Le lien est construit à partir de l'adresse de votre navigateur. Ouvrez le
 panneau d'administration depuis l'adresse que les autres utiliseront (par
 exemple <code>http://192.168.1.20:9091</code>), pas depuis <code>localhost</code>. <strong>Révoquer</strong>
 empêche un lien de fonctionner.</p>
@@ -3275,8 +3275,8 @@ nombre d'appareils (voir
 <a href="#what-an-administrator-can-restrict-per-account">Ce qu'un administrateur peut restreindre par compte</a>).</p>
 <p>Sur la ligne d'un compte :</p>
 <ul>
-<li><strong>Désactiver</strong> bloque ses connexions sans rien supprimer. <strong>Activer</strong> le
-  laisse revenir.</li>
+<li><strong>Désactiver</strong> bloque ses connexions sans rien supprimer. <strong>Activer</strong> rétablit
+  ses connexions.</li>
 <li><strong>Supprimer</strong> retire le compte et ses profils.</li>
 </ul>
 <h2 id="profiles-kids-profiles-and-the-pin">Profils, profils enfant et code PIN<a class="headerlink" href="#profiles-kids-profiles-and-the-pin" title="Permanent link">¶</a></h2>
@@ -3325,7 +3325,7 @@ lecture et les téléchargements.</p>
   et le système britannique sert quand cela ne suffit pas.</li>
 <li><strong>Un titre sans classification utilisable</strong> est caché au profil enfant
   plutôt que montré.</li>
-<li><strong>Dans le doute, c'est non.</strong> Si le serveur n'arrive pas à lire les réglages
+<li><strong>En cas de doute, l'accès est refusé.</strong> Si le serveur ne parvient pas à lire les réglages
   d'un profil (une erreur de base de données, par exemple), il refuse le
   contenu au lieu de l'autoriser.</li>
 <li><strong>Les téléchargements aussi.</strong> Un film téléchargé sur un téléphone garde sa
@@ -3385,13 +3385,13 @@ heures.</p>
 <ul>
 <li><strong>En dehors des horaires</strong>, le profil est fermé partout : navigation,
   films, musique, téléchargements. Chaque application affiche un écran
-  verrouillé qui dit quand il rouvre.</li>
+  verrouillé qui indique quand il redevient accessible.</li>
 <li><strong>Dix minutes avant la fermeture</strong>, le lecteur affiche un avertissement. À
   l'heure de fermeture, la lecture s'arrête.</li>
-<li><strong>Pour laisser l'enfant entrer quand même</strong>, tapez le <strong>Code PIN parent</strong>
+<li><strong>Pour laisser l'enfant entrer quand même</strong>, saisissez le <strong>Code PIN parent</strong>
   sur l'écran verrouillé : le code PIN d'un profil du même compte qui n'est
   pas un profil enfant. Il ouvre le profil enfant jusqu'à sa prochaine plage
-  d'ouverture. Le code PIN de l'enfant ne marche pas ici. <strong>Changer de
+  d'ouverture. Le code PIN de l'enfant ne fonctionne pas ici. <strong>Changer de
   profil</strong> revient à la liste des profils.</li>
 </ul>
 <details class="info">
@@ -3404,14 +3404,14 @@ heures.</p>
 <li>Revenir de <strong>Jour par jour</strong> à <strong>Semaine / week-end</strong> est refusé quand
   les jours d'un bloc sont différents : ainsi, rien n'est perdu par
   erreur.</li>
-<li>Des horaires que le serveur n'arrive pas à lire gardent le profil
+<li>Des horaires que le serveur ne parvient pas à lire gardent le profil
   fermé.</li>
 <li>Un film téléchargé et lu sans connexion ne passe jamais par le
   serveur : les horaires ne s'y appliquent donc pas.</li>
 </ul>
 </details>
 <h2 id="requests">Demandes<a class="headerlink" href="#requests" title="Permanent link">¶</a></h2>
-<p>Les gens peuvent demander un film, une série ou un artiste que vous n'avez
+<p>Les utilisateurs peuvent demander un film, une série ou un artiste que vous n'avez
 pas encore. Leurs demandes arrivent dans <strong>Administration → Demandes de
 média</strong>. Pour chacune, choisissez <strong>Accepter</strong>, <strong>Refuser</strong> ou <strong>Plus tard</strong>,
 et ajoutez une note si vous voulez. La personne est prévenue de votre
@@ -3420,7 +3420,7 @@ réponse.</p>
 demandes par défaut pour tous les utilisateurs</strong>, puis <strong>Dérogations par
 utilisateur</strong> pour les exceptions.</p>
 <h2 id="the-home-page">La page d'accueil<a class="headerlink" href="#the-home-page" title="Permanent link">¶</a></h2>
-<p>La page d'accueil est une pile de rangées. Une rangée qui n'a rien à montrer
+<p>La page d'accueil est une suite de rangées. Une rangée qui n'a rien à montrer
 est cachée.</p>
 <table>
 <thead>
@@ -3469,7 +3469,7 @@ le profil a déjà terminé. Une série compte comme terminée une fois tous ses
   <strong>Personnaliser</strong> (sur la page d'accueil des applications web et
   téléphone, dans la barre du haut de l'application TV) : afficher ou cacher
   une rangée, la déplacer, ou <strong>Réinitialiser</strong>. C'est enregistré sur le
-  serveur et suit le profil sur tous ses appareils.</li>
+  serveur et s'applique au profil sur tous ses appareils.</li>
 <li>Un profil peut afficher une rangée que vous avez cachée, sauf la rangée
   d'un plugin : là, votre choix est définitif.</li>
 </ul>
@@ -3479,9 +3479,9 @@ le profil a déjà terminé. Une série compte comme terminée une fois tous ses
 personne qui a le lien peut télécharger le fichier d'origine, sans compte.
 Le lien est copié pour que vous puissiez le coller.</p>
 <ul>
-<li>Il cesse de marcher au bout de 48 heures.</li>
-<li>Quand l'accès distant est coupé, il ne marche que depuis le réseau de la
-  maison.</li>
+<li>Il cesse de fonctionner au bout de 48 heures.</li>
+<li>Quand l'accès distant est désactivé, il ne fonctionne que depuis le réseau
+  domestique.</li>
 <li>Qui a le lien peut télécharger le fichier jusqu'à ce qu'il expire :
   partagez-le avec autant de soin que le fichier lui-même.</li>
 </ul>

@@ -3242,7 +3242,7 @@ SQL-Shell:</p>
 <p>Das Image legt die Hauptversion der eingebetteten Datenbank fest. Ein Image
 mit einer neueren Hauptversion weigert sich, den alten Cluster zu öffnen, und
 zeigt eine Meldung, die auf diese Seite verweist. Es betreibt also kein
-Datenverzeichnis, das es nicht lesen kann. Der Weg hinüber ist ein Dump mit
+Datenverzeichnis, das es nicht lesen kann. Der Wechsel erfolgt über einen Dump mit
 dem alten Image und eine Wiederherstellung mit dem neuen:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) pg_dump -h 127.0.0.1 -U evey -Fc evey'</span><span class="w"> </span>&gt;<span class="w"> </span>evey-before-upgrade.dump
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
@@ -3296,8 +3296,8 @@ Standardpasswort <code>evey</code> verweigert der Server den Start.</p>
 <h2 id="run-meilisearch-as-a-separate-service">Meilisearch als eigenen Dienst betreiben<a class="headerlink" href="#run-meilisearch-as-a-separate-service" title="Permanent link">¶</a></h2>
 <p>Dasselbe Prinzip für die Suchmaschine: Schalten Sie die eingebettete ab,
 richten Sie den Server auf Ihre eigene und verwenden Sie auf beiden Seiten
-denselben Schlüssel. Ein ausdrücklich gesetzter <code>MEILI_MASTER_KEY</code> gewinnt
-gegenüber dem erzeugten <code>./evey-data/keys/meili.key</code>.</p>
+denselben Schlüssel. Ein ausdrücklich gesetzter <code>MEILI_MASTER_KEY</code> hat Vorrang
+vor dem erzeugten <code>./evey-data/keys/meili.key</code>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">docker-compose.yml</label><label for="__tabbed_2_2">.env</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3335,10 +3335,10 @@ gegenüber dem erzeugten <code>./evey-data/keys/meili.key</code>.</p>
 Datenbank neu aufgebaut. <code>meili-data</code> kann also jederzeit verworfen werden.</p>
 <h2 id="move-back-onto-the-embedded-database">Zurück zur eingebetteten Datenbank<a class="headerlink" href="#move-back-onto-the-embedded-database" title="Permanent link">¶</a></h2>
 <p>Eine Installation, die Postgres als eigenen Dienst betreibt, kann auf den
-einzelnen Container umziehen. Die eingebettete Datenbank importiert einmalig
+einzelnen Container wechseln. Die eingebettete Datenbank importiert einmalig
 einen Dump, den sie unter <code>./evey-data/postgres-import.sql.gz</code> findet, und
 zwar in den Cluster, den sie beim ersten Start anlegt, bevor der Server
-läuft. Danach laufen die Migrationen des Servers darüber.</p>
+läuft. Danach wendet der Server seine Migrationen darauf an.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. die aktuelle Datenbank exportieren (reines SQL, mit gzip gepackt)</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-T<span class="w"> </span>postgres<span class="w"> </span>pg_dump<span class="w"> </span>-U<span class="w"> </span>evey<span class="w"> </span>--no-owner<span class="w"> </span>--no-privileges<span class="w"> </span>evey<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>&gt;<span class="w"> </span>evey-data/postgres-import.sql.gz
@@ -3371,7 +3371,7 @@ nur für amd64: Legen Sie auf einem ARM-Host ein Release-Tag fest.</p>
   weiter. Der Server prüft den Encoder und misst ihn, bevor er ihn nutzt.
   RKMPP wurde vom Projekt noch nicht auf echter Hardware geprüft. Ein
   Raspberry Pi oder ein ARM-NAS mit Realtek-Chip hat keinen Hardware-Encoder,
-  den der Server nutzen kann: Diese Hosts setzen auf Direktwiedergabe und
+  den der Server nutzen kann: Diese Hosts nutzen Direktwiedergabe und
   Software-Transkodierung, bemessen durch dieselbe Kalibrierung wie jeder
   andere Host.</li>
 <li><strong>HDR-Tone-Mapping</strong> nutzt auf ARM (NEON) denselben SIMD-Filter <code>tonemapx</code>
@@ -3418,7 +3418,7 @@ Gen11), <code>GPU=intel</code> (Gen12 und neuer), <code>GPU=amd</code> oder <cod
 braucht keine Variante: Das NVIDIA Container Toolkit bringt den Treiber des
 Hosts zur Laufzeit in den Container.</p>
 <h2 id="the-plugin-sandbox-on-an-unusual-host">Die Plugin-Sandbox auf einem ungewöhnlichen Host<a class="headerlink" href="#the-plugin-sandbox-on-an-unusual-host" title="Permanent link">¶</a></h2>
-<p>Das Image enthält alles, was nötig ist, um Plugins abzuschotten, ohne
+<p>Das Image enthält alles, was nötig ist, um Plugins zu isolieren, ohne
 privilegierten Modus. Der Standard-Sandbox-Modus (<code>auto</code>) wählt das stärkste
 Verfahren, das der Host erlaubt: Landlock auf jedem modernen Kernel. Den
 geltenden Modus sehen Sie im <strong>Sicherheits-Dashboard</strong> unter <strong>Verwaltung →

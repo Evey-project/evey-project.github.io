@@ -2500,7 +2500,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Atteindre le monde extérieur
+        6. Accéder à l'extérieur
       
     </span>
   </a>
@@ -3184,7 +3184,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Atteindre le monde extérieur
+        6. Accéder à l'extérieur
       
     </span>
   </a>
@@ -3291,9 +3291,9 @@ reviendrez. Les appels et les champs eux-mêmes sont dans la
 <p>Un plugin est un ZIP avec un <code>plugin.yaml</code> à sa racine et un processus
 backend que le serveur démarre dans une sandbox. Le processus sert un petit
 service gRPC sur un socket Unix et rappelle le serveur sur un autre. Il peut
-aussi embarquer un module d'interface, dessiné dans un cadre isolé de la page,
-et ne parle au monde extérieur que par le serveur, vers les hôtes qu'il a
-déclarés.</p>
+aussi embarquer un module d'interface, affiché dans un cadre isolé de la page,
+et ne communique avec l'extérieur que par l'intermédiaire du serveur, vers
+les hôtes qu'il a déclarés.</p>
 <h2 id="1-prerequisites">1. Prérequis<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3373,7 +3373,7 @@ et l'installons.</p>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nt">permissions</span><span class="p">:</span>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">api.library</span><span class="w">             </span><span class="c1"># laisse le backend lire les médias</span>
 </span></code></pre></div>
-<p><code>language</code> dit au serveur quel environnement vérifier et quels stubs
+<p><code>language</code> indique au serveur quel environnement vérifier et quels stubs
 copier ; <code>entrypoint</code> est ce qu'il lance, dans le dossier du plugin, avec
 l'environnement de l'étape suivante.</p>
 </li>
@@ -3398,7 +3398,7 @@ l'environnement de l'étape suivante.</p>
 </span></code></pre></div>
 </li>
 <li>
-<p><strong>Installez-le.</strong> Dans <strong>Admin → Plugins</strong>, <strong>Installer un plugin</strong>,
+<p><strong>Installez-le.</strong> Dans <strong>Administration → Plugins</strong>, <strong>Installer un plugin</strong>,
    choisissez le ZIP puis <strong>Aperçu et installation</strong> : l'aperçu liste
    <code>api.library</code> et le résultat de l'analyse statique. Par l'API, le même
    envoi s'écrit :</p>
@@ -3409,7 +3409,7 @@ l'environnement de l'étape suivante.</p>
 </li>
 <li>
 <p><strong>Lisez le journal.</strong> Sur la carte du plugin, <strong>Logs</strong> montre la ligne
-   écrite par <code>Initialize</code>. <code>docker compose logs evey</code> porte le côté serveur du
+   écrite par <code>Initialize</code>. <code>docker compose logs evey</code> montre le côté serveur du
    même démarrage, sous l'identifiant du plugin.</p>
 </li>
 <li>
@@ -3420,9 +3420,9 @@ l'environnement de l'étape suivante.</p>
    l'administrateur doit approuver.</p>
 </li>
 </ol>
-<p>Vous avez là tout le contrat backend. À partir d'ici, un plugin grandit dans
-trois directions : appeler le serveur (<code>HostService</code>, section 4), dessiner une
-interface (section 5), et atteindre le monde extérieur (section 6).</p>
+<p>Vous avez là tout le contrat backend. À partir d'ici, un plugin peut être
+étendu de trois façons : appeler le serveur (<code>HostService</code>, section 4),
+afficher une interface (section 5), et accéder à l'extérieur (section 6).</p>
 <h2 id="4-call-the-server-from-the-backend">4. Appeler le serveur depuis le backend<a class="headerlink" href="#4-call-the-server-from-the-backend" title="Permanent link">¶</a></h2>
 <p>Chaque appel à <code>HostService</code> porte l'identité du plugin : le serveur vérifie
 le processus sur le socket par son PID, et un intercepteur refuse tout appel
@@ -3451,7 +3451,7 @@ fichiers et où va le module :</p>
 </span></code></pre></div>
 <p>Le module reçoit un pont <code>window.evey</code> : <code>evey.onInit</code> lui remet la
 configuration du plugin, la langue, le thème et la surface sur laquelle il
-atterrit ; <code>evey.resize</code>, <code>evey.toast</code> et <code>evey.navigate</code> agissent sur la
+s'affiche ; <code>evey.resize</code>, <code>evey.toast</code> et <code>evey.navigate</code> agissent sur la
 page dans des limites fixes ; et, quand le manifeste déclare <code>prefs</code> ou
 <code>public</code>, <code>evey.prefs.*</code> et <code>evey.media.*</code> atteignent le serveur par un jeton
 de courte durée que l'hôte détient pour le cadre.
@@ -3459,9 +3459,9 @@ de courte durée que l'hôte détient pour le cadre.
 <code>examples/plugins/data-demo</code> montre <code>prefs</code>, <code>public</code> et l'emplacement
 <code>admin.nav</code>. Le pont et les emplacements sont décrits dans la
 <a href="../api-reference/#frontend-api">référence de l'API</a>.</p>
-<h2 id="6-reach-the-outside-world">6. Atteindre le monde extérieur<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
+<h2 id="6-reach-the-outside-world">6. Accéder à l'extérieur<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
 <p>Un processus de plugin ne peut ouvrir aucun socket vers Internet, quel que
-soit le mode de sandbox. La seule sortie est l'appel <code>Fetch</code> de
+soit le mode de sandbox. Le seul accès possible est l'appel <code>Fetch</code> de
 <code>HostService</code> : le serveur vérifie la cible contre le manifeste, puis fait la
 requête lui-même.</p>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">permissions</span><span class="p">:</span>
@@ -3480,14 +3480,14 @@ Les règles sont dans
 <p class="admonition-title">Les hôtes sont un contrat avec l'administrateur</p>
 <p>L'administrateur voit la liste des hôtes à l'installation et doit
 approuver tout ajout à la mise à jour. Limitez-la à ce dont le plugin a
-besoin, et dites dans votre README ce que chaque hôte reçoit.</p>
+besoin, et indiquez dans votre README ce que chaque hôte reçoit.</p>
 </div>
 <h2 id="7-sign-your-plugin">7. Signer son plugin<a class="headerlink" href="#7-sign-your-plugin" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Ce que prouve une signature</p>
-<p>Une signature dit que le ZIP que l'administrateur installe est, octet
+<p>Une signature atteste que le ZIP que l'administrateur installe est, octet
 pour octet, celui que <strong>vous</strong> avez publié, signé avec la clé en
-laquelle il a confiance. Elle ne dit rien de ce que fait le plugin : les
+laquelle il a confiance. Elle n'indique rien de ce que fait le plugin : les
 permissions, les hôtes et l'analyse de l'aperçu s'appliquent toujours.
 Evey la vérifie hors ligne et dans son propre processus (ECDSA P-256 sur
 le SHA-256 du ZIP, le format que produit <code>cosign sign-blob --key</code>) : pas
@@ -3535,13 +3535,13 @@ politique, puis redémarre le serveur :</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">EVEY_PLUGINS_COSIGN_PUBLIC_KEY</span><span class="o">=</span>/etc/evey/cosign.pub
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">EVEY_PLUGINS_COSIGN_POLICY</span><span class="o">=</span>warn<span class="w">   </span><span class="c1"># ou "enforce" pour refuser ce qui ne se vérifie pas</span>
 </span></code></pre></div>
-<p>Puis, dans <strong>Admin → Plugins</strong>, il choisit le ZIP et, dans <strong>Fichier
+<p>Puis, dans <strong>Administration → Plugins</strong>, il choisit le ZIP et, dans <strong>Fichier
 signature (.zip.sig, optionnel)</strong>, son <code>.zip.sig</code> ; par l'API, la signature
 est le champ <code>sig</code> de l'envoi. L'aperçu affiche <strong>Signé</strong> ou une signature
 invalide, et le Tableau de bord sécurité conserve le résultat.</p>
-<p>Ce qui piège souvent :</p>
+<p>Erreurs fréquentes :</p>
 <ul>
-<li><strong>Tout changement du ZIP casse la signature</strong>, même recompresser les mêmes
+<li><strong>Tout changement du ZIP invalide la signature</strong>, même recompresser les mêmes
   fichiers. Signez le fichier que vous distribuez, et signez de nouveau à
   chaque version.</li>
 <li><strong>Seules les clés ECDSA P-256 sont acceptées</strong>, ce que produit <code>cosign
@@ -3552,13 +3552,13 @@ invalide, et le Tableau de bord sécurité conserve le résultat.</p>
   Avec <code>enforce</code> et sans clé, le serveur refuse de démarrer.</li>
 <li>Avec le <code>warn</code> par défaut et sans clé publique configurée, <strong>rien n'est
   vérifié</strong> ; le serveur se contente d'un avertissement au démarrage.</li>
-<li>Une mauvaise clé, un ZIP altéré et un <code>.sig</code> manquant se lisent tous comme
+<li>Une mauvaise clé, un ZIP altéré et un <code>.sig</code> manquant sont tous traités comme
   une signature en échec : sous <code>enforce</code>, l'installation ou la mise à jour
   est refusée.</li>
 </ul>
 <h2 id="8-what-the-installer-checks-in-order">8. Ce que vérifie l'installateur, dans l'ordre<a class="headerlink" href="#8-what-the-installer-checks-in-order" title="Permanent link">¶</a></h2>
 <p>Chaque étape peut refuser le paquet ; l'administrateur voit la raison, et le
-journal du serveur porte le détail.</p>
+journal du serveur contient le détail.</p>
 <ol>
 <li><strong>Manifeste.</strong> <code>plugin.yaml</code> est lu directement dans le ZIP : champs
    obligatoires, semver, permissions et capacités connues, emplacements dans
@@ -3597,14 +3597,14 @@ commentaire est signalée comme du code.</p>
 plafond de mémoire, une limite de processus et de threads, et une taille
 maximale pour son dossier ; un moniteur arrête un plugin qui les dépasse. Les
 défauts sont 256 Mio, 64 processus et 100 Mio, ajustables par
-l'administrateur dans <strong>Admin → Plugins → Limites de ressources</strong>. Sans la
+l'administrateur dans <strong>Administration → Plugins → Limites de ressources</strong>. Sans la
 permission <code>subprocess</code>, le processus ne peut pas créer d'enfants, quel que
 soit le langage ; les threads fonctionnent.</p>
-<p>La sandbox confine le système de fichiers au dossier du plugin et coupe tout
+<p>La sandbox confine le système de fichiers au dossier du plugin et bloque tout
 socket réseau, sans condition. Le mode en vigueur dépend de l'hôte, pas du
 plugin : <a href="../../SECURITY/#sandbox-modes">Sandbox des plugins et modèle de menace</a>
 les décrit, et <a href="../sandbox-deployment/">Mise en place de la sandbox des plugins</a>
-dit à un administrateur lequel choisir.</p>
+indique à un administrateur lequel choisir.</p>
 <h2 id="10-distribute-a-plugin">10. Distribuer un plugin<a class="headerlink" href="#10-distribute-a-plugin" title="Permanent link">¶</a></h2>
 <p>Il n'y a pas de catalogue : un administrateur installe un plugin en envoyant
 son ZIP ou en collant son URL dans le panneau d'administration, depuis
@@ -3625,7 +3625,7 @@ l'endroit où vous le publiez (une release sur une forge, votre propre site).</p
 <tr>
 <th>Symptôme</th>
 <th>Cause</th>
-<th>Remède</th>
+<th>Solution</th>
 </tr>
 </thead>
 <tbody>

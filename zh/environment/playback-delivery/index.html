@@ -3100,8 +3100,8 @@
 
 <h1 id="playback-delivery-and-downloads">播放分发与下载<a class="headerlink" href="#playback-delivery-and-downloads" title="Permanent link">¶</a></h1>
 <p>这些开关决定视频流怎样打包，以及服务器为下载准备什么。默认值就是推荐的做法：
-这些开关的用途，是在排查问题时关掉某条路线，或者主动开启一条默认关闭的路线。
-最开始是怎样选择播放方式的：见<a href="../../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。</p>
+这些开关的用途，是在排查问题时关闭某种处理方式，或者主动开启一种默认关闭的处理方式。
+播放方式最初是如何选择的：见<a href="../../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。</p>
 <p>有面板键的变量，也可以在<strong>管理 → 服务器配置 → 配置条目</strong>里用这个键添加一行来设置；这一行优先于环境变量。
 面板会提示下载相关的键；其他的键请按这里写的样子输入。它们都在启动时读取，
 所以不管用哪种方式修改，都要到下次重启才生效。</p>
@@ -3119,31 +3119,31 @@
 <tr>
 <td><code>EVEY_HLS_ONDEMAND</code></td>
 <td>开启</td>
-<td>如果文件的轨道可以直接复制，就在发送时即时重新打包，不用 ffmpeg，也不写入缓存。<code>off</code>：这类文件改走 ffmpeg 的复制路线。</td>
+<td>如果文件的轨道可以直接复制，就在发送时即时重新打包，不用 ffmpeg，也不写入缓存。<code>off</code>：这类文件改用 ffmpeg 的复制方式。</td>
 <td>配置条目 <code>transcoding.hls_ondemand</code>，需重启</td>
 </tr>
 <tr>
 <td><code>EVEY_REMUX_COPY</code></td>
 <td>开启</td>
-<td>ffmpeg 的复制路线：文件允许时，视频直接复制，不重新编码。<code>off</code>：这些文件改为转码。</td>
+<td>ffmpeg 的复制方式：文件允许时，视频直接复制，不重新编码。<code>off</code>：这些文件改为转码。</td>
 <td>配置条目 <code>transcoding.remux_copy</code>，需重启</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_AUDIO_RENDITION_ENABLED</code></td>
 <td><code>true</code></td>
-<td>把各条音轨作为单独的音频版本提供，这样播放器换语言时不用重新获取视频。也让一路直接复制的视频可以配上一条另外重新编码的音轨播放。</td>
+<td>把各条音轨作为单独的音频版本提供，这样播放器换语言时不用重新获取视频。也使直接复制的视频可以与另外重新编码的音轨一起播放。</td>
 <td>无</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_COPY_FALLBACK_RUNG</code></td>
 <td><code>true</code></td>
-<td>在直接复制的视频流旁边，再加一个转码出来的低画质，这样网络突然变差时，播放器可以降一档，而不是卡住。在播放器用到它之前，不消耗任何资源。</td>
+<td>在直接复制的视频流旁边，再加一个转码出来的低画质，这样网络突然变差时，播放器可以降低一档画质，而不是卡住。在播放器用到它之前，不消耗任何资源。</td>
 <td>无</td>
 </tr>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_CONCAT</code></td>
 <td>开启</td>
-<td>网页播放器请求时，剧集之间无缝衔接播放。不能直接复制的一集会退回到普通的视频流。</td>
+<td>网页播放器请求时，剧集之间无缝衔接播放。不能直接复制的一集会改用普通的视频流。</td>
 <td>配置条目 <code>transcoding.hls_ondemand_concat</code>，需重启</td>
 </tr>
 <tr>
@@ -3198,7 +3198,7 @@
 <tr>
 <td><code>EVEY_DOWNLOAD_REDUCE_ABOVE_BYTES</code></td>
 <td><code>4294967296</code>（4 GiB）</td>
-<td>超过这个大小，应用就会提供更小的版本；电影放不下时，手机也会提供它。</td>
+<td>超过这个大小，应用就会提供更小的版本；手机存储空间放不下电影时，手机也会提供它。</td>
 <td>配置条目 <code>downloads.reduce_above_bytes</code>，需重启</td>
 </tr>
 </tbody>

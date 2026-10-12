@@ -1903,7 +1903,7 @@
   <a href="#the-seccomp-shim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        La cale seccomp
+        Le module seccomp
       
     </span>
   </a>
@@ -3169,7 +3169,7 @@
   <a href="#the-seccomp-shim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        La cale seccomp
+        Le module seccomp
       
     </span>
   </a>
@@ -3324,11 +3324,11 @@
 <p>Comment faire tourner Evey directement sur un hôte (systemd, un script
 d'init, ou à la main) au lieu de l'<a href="../installation/">image Docker</a>. L'image
 est la voie recommandée : elle livre la sandbox des plugins, le durcissement
-et les runtimes des plugins déjà câblés. Se passer du conteneur signifie
-reproduire cette posture vous-même : les bons binaires côte à côte, un
+et les runtimes des plugins déjà configurés. Se passer du conteneur signifie
+reproduire cette configuration vous-même : les bons binaires côte à côte, un
 utilisateur dédié non root, le moteur de sandbox que votre noyau prend en
 charge, et des dossiers de secrets réservés à leur propriétaire. Cette page
-déroule tout cela dans l'ordre.</p>
+présente ces étapes dans l'ordre.</p>
 <h2 id="build-and-install-the-binaries">Construire et installer les binaires<a class="headerlink" href="#build-and-install-the-binaries" title="Permanent link">¶</a></h2>
 <p>Construisez les deux binaires Go et installez-les dans le même dossier : le
 lanceur de plugins cherche le launcher d'abord dans <code>$EVEY_PLUGIN_LAUNCHER</code>,
@@ -3344,22 +3344,22 @@ puis à côté de son propre exécutable, puis dans <code>$PATH</code>.</p>
 </span></code></pre></div>
 <p><code>evey version</code> affiche la version, le commit et la date de construction sans
 aucune configuration.</p>
-<h3 id="the-seccomp-shim">La cale seccomp<a class="headerlink" href="#the-seccomp-shim" title="Permanent link">¶</a></h3>
+<h3 id="the-seccomp-shim">Le module seccomp<a class="headerlink" href="#the-seccomp-shim" title="Permanent link">¶</a></h3>
 <p>Construisez <code>libevey-sandbox.so</code> (un seul fichier C, il faut un compilateur
 C) et installez-la au chemin que le lanceur attend, <code>/app/libevey-sandbox.so</code> :</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gcc<span class="w"> </span>-shared<span class="w"> </span>-fPIC<span class="w"> </span>-nostartfiles<span class="w"> </span>-o<span class="w"> </span>libevey-sandbox.so<span class="w"> </span>sandbox/sandbox.c
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>-m<span class="w"> </span><span class="m">0644</span><span class="w"> </span>libevey-sandbox.so<span class="w"> </span>/app/libevey-sandbox.so
 </span></code></pre></div>
 <p>Le chemin est fixé dans le lanceur. Sans ce fichier, les plugins refusent de
-démarrer (échec fermé) sauf si le serveur tourne en mode développement. La
-cale ajoute une liste de refus seccomp pour les plugins liés dynamiquement,
+démarrer (refus par défaut) sauf si le serveur tourne en mode développement. Le
+module ajoute une liste de refus seccomp pour les plugins liés dynamiquement,
 par-dessus Landlock ou bubblewrap. L'image la garde sous <code>/app</code> avec le SDK ;
 un lien symbolique convient aussi.</p>
 <h3 id="runtimes-and-services">Runtimes et services<a class="headerlink" href="#runtimes-and-services" title="Permanent link">¶</a></h3>
 <p>Installez ce que le <code>entrypoint:</code> de vos plugins invoque. Le lanceur
 reconnaît <code>python3</code>, <code>python</code>, <code>node</code>, <code>php</code>, <code>ruby</code>, <code>perl</code>, <code>lua</code>, <code>bash</code>
 et <code>sh</code> ; <code>python3</code> couvre la plupart des plugins communautaires. Puis les
-services auxquels le serveur parle :</p>
+services avec lesquels le serveur communique :</p>
 <table>
 <thead>
 <tr>
@@ -3392,7 +3392,7 @@ services auxquels le serveur parle :</p>
 </table>
 <p>La base et le moteur de recherche embarqués sont une fonction du point
 d'entrée de l'image, pas du binaire : sans conteneur, vous faites tourner les
-deux vous-même et pointez <code>EVEY_DB_HOST</code> et <code>EVEY_MEILI_URL</code> dessus.</p>
+deux vous-même et indiquez leur adresse dans <code>EVEY_DB_HOST</code> et <code>EVEY_MEILI_URL</code>.</p>
 <h2 id="run-as-a-dedicated-non-root-user">Tourner sous un utilisateur dédié non root<a class="headerlink" href="#run-as-a-dedicated-non-root-user" title="Permanent link">¶</a></h2>
 <p>Ne lancez jamais le serveur en root. Créez un groupe et deux utilisateurs
 sans privilège, comme le fait l'image :</p>
@@ -3420,8 +3420,8 @@ donc un plugin voisin ne peut pas lire <code>/proc/&lt;pid-du-serveur&gt;/{mem,e
 <h2 id="pick-the-sandbox-backend-for-your-kernel">Choisir le moteur de sandbox pour votre noyau<a class="headerlink" href="#pick-the-sandbox-backend-for-your-kernel" title="Permanent link">¶</a></h2>
 <p>Définissez <code>EVEY_PLUGINS_SANDBOX_MODE</code>. <code>auto</code> (la valeur par défaut) résout
 dans l'ordre landlock, bubblewrap, basic et retient le plus fort que l'hôte
-prend en charge. Fixez un mode explicitement quand vous voulez un échec
-fermé.</p>
+prend en charge. Fixez un mode explicitement quand vous voulez qu'un plugin soit
+refusé si ce mode n'est pas disponible.</p>
 <h3 id="landlock-recommended">Landlock (recommandé)<a class="headerlink" href="#landlock-recommended" title="Permanent link">¶</a></h3>
 <p>Une liste blanche de chemins (un plugin voit son propre dossier et le dossier
 de socket, jamais vos données ni vos secrets) plus un filtre de sortie TCP
@@ -3449,10 +3449,10 @@ nul plutôt que de lancer un plugin sans confinement.</p>
 <p>Quand Landlock n'est pas disponible, installez <code>bwrap</code>. Il place chaque
 plugin dans des espaces de noms utilisateur, pid, uts, ipc et réseau avec
 une liste blanche de montages. Il lui faut les espaces de noms utilisateur
-non privilégiés et l'appel système <code>mount</code>, vrai sur la plupart des Linux
-sans conteneur mais bloqué dans un conteneur non privilégié, ce qui explique
+non privilégiés et l'appel système <code>mount</code>, ce qui est le cas sur la plupart des
+Linux sans conteneur mais bloqué dans un conteneur non privilégié, ce qui explique
 que Landlock soit le défaut du conteneur. <code>auto</code> ne retient bubblewrap que si
-Landlock est absent et qu'une sonde <code>bwrap</code> jetable réussit.</p>
+Landlock est absent et qu'un test <code>bwrap</code> ponctuel réussit.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>bubblewrap<span class="w">  </span><span class="c1"># espaces de noms</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>strict<span class="w">      </span><span class="c1"># espaces de noms plus la cale seccomp</span>
 </span></code></pre></div>
@@ -3461,23 +3461,23 @@ montage :</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>bwrap<span class="w"> </span>--unshare-user<span class="w"> </span>--unshare-net<span class="w"> </span>--ro-bind<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/bin/true<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"bwrap OK"</span>
 </span></code></pre></div>
 <h3 id="basic-last-resort">basic (dernier recours)<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
-<p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> est un abaissement d'uid plus la cale
+<p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> est un abaissement d'uid plus le module
 seccomp ; le launcher, quand il est présent, installe quand même sa liste de
-refus seccomp noyau et un Landlock au mieux. Il n'y a aucun confinement de
+refus seccomp noyau et un Landlock appliqué au mieux. Il n'y a aucun confinement de
 fichiers par chemin : un plugin tourne sous l'UID 1001 avec seccomp seul.
 Réservez-le aux noyaux anciens ou verrouillés où ni Landlock ni bubblewrap ne
 fonctionnent, et comptez sur la séparation d'uid ci-dessous pour protéger les
 secrets.</p>
 <p>Un plugin doté de la permission <code>subprocess</code> exige le launcher même en mode
-<code>basic</code> : la cale ne survit pas à un <code>exec</code> d'un processus enfant, seul le
-seccomp noyau du launcher y survit. Sans le launcher, un tel plugin refuse de
+<code>basic</code> : le module n'est plus actif après l'<code>exec</code> d'un processus enfant,
+seul le seccomp noyau du launcher le reste. Sans le launcher, un tel plugin refuse de
 démarrer plutôt que de tourner sans confinement.</p>
 <h2 id="keep-secrets-out-of-a-plugins-reach">Garder les secrets hors de portée d'un plugin<a class="headerlink" href="#keep-secrets-out-of-a-plugins-reach" title="Permanent link">¶</a></h2>
 <p>La séparation d'uid fait tourner chaque plugin sous <code>evey-plugin</code> (UID
 1001), distinct du serveur (UID 1000), pour qu'un plugin ne puisse pas lire
 <code>jwt.key</code>, les sauvegardes ou les journaux par simples permissions de
 fichiers. Elle compte en mode <code>basic</code> ; sous Landlock ou bubblewrap le
-système de fichiers est déjà cloisonné, elle y est redondante.</p>
+système de fichiers est déjà isolé, elle y est redondante.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code> :</p>
 <table>
 <thead>
@@ -3508,14 +3508,14 @@ de fichier et bascule vers l'UID 1001 juste avant d'exécuter le plugin :</p>
 </span></code></pre></div>
 <p>Le launcher refuse tout uid ou gid cible inférieur à 1000. Quand il ne peut
 pas abaisser (capability absente, <code>no_new_privs</code> positionné), un plugin en
-mode <code>basic</code> est refusé, puisque l'uid est son seul rempart là ; sous
+mode <code>basic</code> est refusé, puisque l'uid y est sa seule protection ; sous
 Landlock il journalise un avertissement et tourne sous l'uid du serveur.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>La séparation d'uid est incompatible avec <code>no_new_privs</code>. Si le serveur
 tourne sous systemd avec <code>NoNewPrivileges=yes</code>, la capability de fichier
 est ignorée à l'exec : les plugins sont refusés en mode <code>basic</code>, et sous
-Landlock la séparation d'uid se dégrade en même uid. Choisissez l'un ou
+Landlock le plugin tourne sous le même uid que le serveur. Choisissez l'un ou
 l'autre.</p>
 </div>
 <p>Si le serveur tourne en root à la place (déconseillé), il abaisse lui-même
@@ -3523,8 +3523,8 @@ les plugins vers 1001 et la capability n'est pas nécessaire. Le tableau en
 langage courant, scénario par scénario, est dans
 <a href="../plugins/sandbox-deployment/">Sandbox des plugins</a>.</p>
 <h2 id="secret-file-permissions">Permissions des fichiers secrets<a class="headerlink" href="#secret-file-permissions" title="Permanent link">¶</a></h2>
-<p>Reproduisez l'image : les dossiers porteurs de secrets sont réservés à leur
-propriétaire, pour qu'un plugin abaissé vers l'UID 1001 ne puisse pas les
+<p>Reproduisez la configuration de l'image : les dossiers qui contiennent des
+secrets sont réservés à leur propriétaire, pour qu'un plugin abaissé vers l'UID 1001 ne puisse pas les
 lire même sans Landlock.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>evey:evey<span class="w"> </span>/var/lib/evey
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># le serveur possède plugins/ (il y extrait les installations) ; le groupe evey,</span>
@@ -3539,11 +3539,11 @@ lire même sans Landlock.</p>
 <code>EVEY_JWT_PRIVATE_KEY_PATH</code>.</p>
 <h2 id="configure-the-environment">Configurer l'environnement<a class="headerlink" href="#configure-the-environment" title="Permanent link">¶</a></h2>
 <p>Toute la configuration passe par des variables d'environnement <code>EVEY_*</code> ;
-<a href="../configuration/">Configuration</a> a le tableau complet. Points propres à une
+<a href="../configuration/">Configuration</a> contient le tableau complet. Points propres à une
 installation sans conteneur :</p>
 <ul>
-<li>Pointez <code>EVEY_DB_HOST</code> et <code>EVEY_MEILI_URL</code> sur vos PostgreSQL et
-  Meilisearch. <code>EVEY_DB_PASSWORD</code> ne doit pas être la valeur par défaut
+<li>Indiquez dans <code>EVEY_DB_HOST</code> et <code>EVEY_MEILI_URL</code> l'adresse de vos
+  PostgreSQL et Meilisearch. <code>EVEY_DB_PASSWORD</code> ne doit pas être la valeur par défaut
   <code>evey</code>.</li>
 <li>Les chemins par défaut du code ont été choisis pour le conteneur :
   réglez <code>EVEY_LOG_DIR</code> (par défaut le chemin relatif <code>logs</code>),
@@ -3552,23 +3552,23 @@ installation sans conteneur :</p>
   <code>EVEY_JWT_PRIVATE_KEY_PATH</code> (<code>/data/jwt.key</code>) vers vos propres dossiers.</li>
 <li>Le serveur sert du HTTP en clair : mettez un proxy inverse devant pour le
   TLS, avec une <strong>URL externe</strong> en <code>https://</code> et le proxy dans <strong>Proxys de
-  confiance</strong> (<strong>Admin -&gt; Accès distant</strong> ; <code>EVEY_SERVER_BASE_URL</code> et
+  confiance</strong> (<strong>Administration → Accès distant</strong> ; <code>EVEY_SERVER_BASE_URL</code> et
   <code>EVEY_TRUSTED_PROXIES</code> sont les replis). Voir
   <a href="../reverse-proxy/">Proxy inverse</a>.</li>
 <li><strong>Le serveur ouvre deux ports, et un seul peut être exposé.</strong>
   <code>EVEY_SERVER_PORT</code> (<code>9090</code> par défaut) est l'écoute gRPC native ; l'API
-  HTTP à laquelle parlent vos clients et votre proxy inverse est ce port plus
-  un (<code>9091</code>). La barrière d'accès distant, qui décide si des clients hors de
-  votre LAN peuvent se connecter, est câblée dans la chaîne HTTP et ne couvre
+  HTTP qu'utilisent vos clients et votre proxy inverse est ce port plus
+  un (<code>9091</code>). Le contrôle d'accès distant, qui décide si des clients hors de
+  votre LAN peuvent se connecter, est intégré à la chaîne HTTP et ne couvre
   pas l'écoute gRPC, qui se lie donc par défaut à la boucle locale seule
   (<code>EVEY_GRPC_BIND=127.0.0.1</code>). Si vous avez une raison de la publier,
   définissez <code>EVEY_GRPC_BIND=0.0.0.0</code> ; le serveur avertit au démarrage que
-  la barrière ne s'y applique pas, et le pare-feu est alors à votre charge.</li>
+  le contrôle ne s'y applique pas, et le pare-feu est alors à votre charge.</li>
 <li>Les migrations tournent au démarrage ; il n'y a pas d'étape de migration
   séparée.</li>
 <li>Les plafonds de ressources des plugins (<code>EVEY_PLUGINS_MEMORY_MB</code>,
   <code>_PIDS_MAX</code>, <code>_DISK_MAX_MB</code>, <code>_CPU_NICE</code>) et le mode de sandbox se
-  modifient à chaud depuis <strong>Admin -&gt; Plugins -&gt; Limites de ressources</strong> ;
+  modifient à chaud depuis <strong>Administration → Plugins → Limites de ressources</strong> ;
   les valeurs d'environnement sont les défauts initiaux.</li>
 <li>Le redémarrage du serveur depuis le panneau d'admin s'appuie sur le
   superviseur de l'image et se déclare indisponible hors conteneur :
@@ -3582,7 +3582,7 @@ plugin, cherchez :</p>
   selected_mode=landlock</code> (ou <code>bubblewrap</code>, <code>basic</code>) ;</li>
 <li>à chaque démarrage de plugin : <code>plugin sandbox applied
   sandbox_mode=landlock plugin_id=...</code> ;</li>
-<li>l'avertissement que vous ne voulez pas voir quand vous attendiez
+<li>l'avertissement qui signale un problème quand vous attendiez
   Landlock : <code>plugin sandbox auto-detection fell back to basic mode: no
   per-path filesystem isolation available ...</code>, qui signifie que ni Landlock
   ni un <code>bwrap</code> fonctionnel n'ont été trouvés. Revérifiez la section sur les
@@ -3592,10 +3592,10 @@ plugin, cherchez :</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>/sys/kernel/security/lsm<span class="w">              </span><span class="c1"># liste "landlock"</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>grep<span class="w"> </span>Seccomp:<span class="w"> </span>/proc/&lt;pid-du-plugin&gt;/status<span class="w">   </span><span class="c1"># 2 = un filtre seccomp est actif sur le plugin</span>
 </span></code></pre></div>
-<p>Une ligne <code>Seccomp: 2</code> sur un processus de plugin en vie confirme que le
+<p>Une ligne <code>Seccomp: 2</code> sur un processus de plugin en cours d'exécution confirme que le
 filtre noyau est installé. Avec <code>EVEY_PLUGINS_SANDBOX_MODE=landlock</code> et
-Landlock non imposé, le plugin refuse de démarrer : c'est le contrat d'échec
-fermé qui fonctionne.</p>
+Landlock non imposé, le plugin refuse de démarrer : c'est le refus par défaut
+prévu qui s'applique.</p>
 <p>Pour les sauvegardes, les mises à jour et les commandes de récupération, les
 pages du conteneur s'appliquent telles quelles :
 <a href="../backups/">Sauvegardes et mises à jour</a>, <a href="../runbooks/recovery/">Récupération</a>

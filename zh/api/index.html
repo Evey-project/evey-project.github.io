@@ -3032,7 +3032,7 @@
 <p>每个 <code>.swagger.json</code> 文件都可以导入任何 OpenAPI 工具（Swagger UI、Postman、Insomnia）。
 HTTP 路由是根据 <code>proto/evey/v1/</code> 里的 gRPC 定义生成的，所以文件里的方法名就是它背后的 gRPC 方法。</p>
 <h2 id="authentication">身份验证<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
-<p>能到达 API 的凭据有三种，都放在 <code>Authorization</code> 请求头里：</p>
+<p>可用于访问 API 的凭据有三种，都放在 <code>Authorization</code> 请求头里：</p>
 <table>
 <thead>
 <tr>
@@ -3059,7 +3059,7 @@ HTTP 路由是根据 <code>proto/evey/v1/</code> 里的 gRPC 定义生成的，�
 </tr>
 </tbody>
 </table>
-<p>无论带有什么权限范围，插件令牌都永远到不了任何管理方法
+<p>无论带有什么权限范围，插件令牌都无法调用任何管理方法
 （<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>，
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>）。</p>
 <h2 id="regeneration">重新生成<a class="headerlink" href="#regeneration" title="Permanent link">¶</a></h2>

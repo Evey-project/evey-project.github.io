@@ -3078,7 +3078,7 @@
 
 <h1 id="database-and-search">数据库与搜索<a class="headerlink" href="#database-and-search" title="Permanent link">¶</a></h1>
 <p>这些是 Postgres 数据库和 Meilisearch 索引的变量。默认情况下，镜像自己运行这两者，并自动生成它们的密码：
-标准安装一个都不用设置。它们用于自带数据库或搜索引擎的安装，或者用来调整内置的那两个；
+标准安装不需要设置其中任何一个。它们用于自带数据库或搜索引擎的安装，或者用来调整内置的那两个；
 具体步骤见<a href="../../operations/advanced-deployments/">高级部署</a>。它们在面板里都没有对应的设置。</p>
 <h2 id="database">数据库<a class="headerlink" href="#database" title="Permanent link">¶</a></h2>
 <table>
@@ -3130,13 +3130,13 @@
 <tr>
 <td><code>EVEY_DB_APP_USER</code></td>
 <td><code>evey_app</code></td>
-<td>当 <code>EVEY_DB_USER</code> 是超级用户时，服务器和它的迁移所使用的无特权角色。它在启动时创建，数据库及其中的对象都交给它，每次启动都会得到一个新的随机密码（不写到任何地方）。这样，即使有 SQL 注入，也无法在主机上运行程序或读取文件。</td>
+<td>当 <code>EVEY_DB_USER</code> 是超级用户时，服务器和它的迁移所使用的无特权角色。它在启动时创建，数据库及其中的对象都归它所有，每次启动都会得到一个新的随机密码（不写到任何地方）。这样，即使有 SQL 注入，也无法在主机上运行程序或读取文件。</td>
 <td>无</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_PRIVILEGE_SPLIT</code></td>
 <td><code>true</code></td>
-<td><code>false</code> 让所有操作都以 <code>EVEY_DB_USER</code> 运行，包括超级用户的操作。这是数据库拒绝这种拆分时的退路；否则启动会停止，并指出这个变量。</td>
+<td><code>false</code> 让所有操作都以 <code>EVEY_DB_USER</code> 运行，包括超级用户的操作。这是数据库不接受这种拆分时的备选办法；否则启动会停止，并指出这个变量。</td>
 <td>无</td>
 </tr>
 <tr>
@@ -3166,7 +3166,7 @@
 <tr>
 <td><code>EVEY_DB_MAX_OPEN_CONNS</code></td>
 <td><code>25</code></td>
-<td>打开的数据库连接数。每个连接都会占用 Postgres 那边的内存；只有大型部署才需要调高。</td>
+<td>打开的数据库连接数。每个连接都会占用 Postgres 端的内存；只有大型部署才需要调高。</td>
 <td>无</td>
 </tr>
 <tr>
@@ -3221,7 +3221,7 @@
 <tr>
 <td><code>MEILI_MAX_INDEXING_MEMORY</code></td>
 <td>约为容器内存的 20 %，至少 128 MiB</td>
-<td>内置的 Meilisearch 建索引时可以使用的内存。它按容器的内存上限计算，而不是按整台机器的内存，这样一次扫描不会耗尽小容器的内存。明确给出的值会原样传过去。</td>
+<td>内置的 Meilisearch 建索引时可以使用的内存。它按容器的内存上限计算，而不是按整台机器的内存，这样一次扫描不会耗尽小容器的内存。明确给出的值会原样传递。</td>
 <td>无</td>
 </tr>
 </tbody>

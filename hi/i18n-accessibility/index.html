@@ -3291,10 +3291,10 @@
 
 
 <h1 id="languages--accessibility">भाषाएँ और सुलभता<a class="headerlink" href="#languages--accessibility" title="Permanent link">¶</a></h1>
-<p>भाषाओं (i18n) और सुलभता (a11y) के मामले में Evey कहाँ खड़ा है: क्या अनुवादित है
+<p>भाषाओं (i18n) और सुलभता (a11y) के मामले में Evey की स्थिति क्या है: क्या अनुवादित है
 और अनुवादों की सूची हर क्लाइंट तक कैसे पहुँचती है, फिर सहायक तकनीक के लिए क्या
-मौजूद है और क्या नहीं। अनुवादों की सूची repository की जड़ में
-<code>i18n/&lt;locale&gt;/*.yaml</code> में रहती है; <code>internal/pkg/i18n</code> इसे देता है और हर ऐप का i18n
+मौजूद है और क्या नहीं। अनुवादों की सूची repository के root फ़ोल्डर में
+<code>i18n/&lt;locale&gt;/*.yaml</code> में रखी है; <code>internal/pkg/i18n</code> इसे देता है और हर ऐप का i18n
 मॉड्यूल इसे लोड करता है। यह एक self-hosted प्रोजेक्ट है जिसे एक व्यक्ति चलाता है:
 ख़ासकर सुलभता को "जितना हो सके उतना" मानें, प्रमाणित नहीं।</p>
 <h2 id="internationalization-i18n">भाषाएँ (i18n)<a class="headerlink" href="#internationalization-i18n" title="Permanent link">¶</a></h2>
@@ -3322,11 +3322,11 @@
 अंग्रेज़ी में हो, या इसका उल्टा।</p>
 <h3 id="supported-ui-languages">इंटरफ़ेस की भाषाएँ<a class="headerlink" href="#supported-ui-languages" title="Permanent link">¶</a></h3>
 <p>छह: <strong>अंग्रेज़ी (en)</strong>, <strong>फ़्रेंच (fr)</strong>, <strong>जर्मन (de)</strong>, <strong>स्पैनिश (es)</strong>,
-<strong>चीनी (zh)</strong>, <strong>हिंदी (hi)</strong>। अंग्रेज़ी स्रोत भाषा है और आख़िरी सहारा भी: किसी दूसरी
+<strong>चीनी (zh)</strong>, <strong>हिंदी (hi)</strong>। अंग्रेज़ी स्रोत भाषा है और fallback भाषा भी: किसी दूसरी
 भाषा में जो वाक्य न हो, वह खाली जगह या कुंजी दिखाने के बजाय अंग्रेज़ी में दिखता है।</p>
 <h3 id="how-a-string-reaches-the-screen">एक वाक्य स्क्रीन तक कैसे पहुँचता है<a class="headerlink" href="#how-a-string-reaches-the-screen" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>सच का एक ही स्रोत:</strong> repo की जड़ में <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a>,
+<li><strong>एकमात्र आधिकारिक स्रोत:</strong> repo के root फ़ोल्डर में <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a>,
   namespace में बँटा हुआ (<code>common</code>, <code>auth</code>, <code>media</code>, <code>player</code>, <code>admin</code>, <code>errors</code>,
   <code>notifications</code>, <code>mobile</code>, <code>downloads</code>, <code>requests</code>)। वही सूची हर जगह इस्तेमाल
   होती है।</li>
@@ -3336,7 +3336,7 @@
   बार शुरू होने के लिए ब्राउज़र के local storage में एक कॉपी रखता है, और
   <code>&lt;html lang&gt;</code> को चालू भाषा के साथ मिलाकर रखता है, ताकि सहायक तकनीक सही भाषा
   बोले। <strong>मोबाइल और टीवी ऐप</strong> उसी endpoint से, साझा native i18n मॉड्यूल के ज़रिए
-  लोड करते हैं, और उन स्क्रीन के लिए अंग्रेज़ी का एक साथ आने वाला आधार
+  लोड करते हैं, और उन स्क्रीन के लिए ऐप के साथ आने वाला अंग्रेज़ी टेक्स्ट
   (<code>fallback.en.json</code>, <code>offlineStrings.ts</code>) रखते हैं जो सर्वर के जवाब से पहले
   दिखती हैं।</li>
 <li>भाषा आपके खाते की पसंद से चुनी जाती है; वह न हो तो ब्राउज़र/डिवाइस की भाषा से

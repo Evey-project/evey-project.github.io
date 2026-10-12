@@ -3121,11 +3121,11 @@
 
 
 <h1 id="transcoding-and-hardware">转码与硬件<a class="headerlink" href="#transcoding-and-hardware" title="Permanent link">¶</a></h1>
-<p>这些是服务器容量、显卡、画质上限和转码缓存背后的变量。大多数安装一个都不用设置：
+<p>这些是服务器容量、显卡、画质上限和转码缓存背后的变量。大多数安装不需要设置其中任何一个：
 服务器会自己测量这台机器，并自己选择硬件，见<a href="../../playback/transcoding/">转码与服务器容量</a>。
 如果某项设置在<strong>管理 → 转码</strong>里也有，就以那里保存的值为准。</p>
 <h2 id="hardware-acceleration">硬件加速<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h2>
-<p>如何把 GPU 交给容器：见<a href="../../administration/hardware-acceleration/">硬件加速</a>。</p>
+<p>如何让容器使用 GPU：见<a href="../../administration/hardware-acceleration/">硬件加速</a>。</p>
 <table>
 <thead>
 <tr>
@@ -3151,7 +3151,7 @@
 <tr>
 <td><code>EVEY_TRANSCODING_HW_BACKEND</code></td>
 <td>空（自动检测）</td>
-<td>固定使用一个后端（<code>nvenc</code>、<code>vaapi</code>、<code>qsv</code>）：只测量这一个。这样，同一台主机上的几个 Evey 容器可以各走一条不同的 GPU 路线。</td>
+<td>固定使用一个后端（<code>nvenc</code>、<code>vaapi</code>、<code>qsv</code>）：只测量这一个。这样，同一台主机上的几个 Evey 容器可以各自使用不同的 GPU 路径。</td>
 <td>无</td>
 </tr>
 <tr>
@@ -3163,7 +3163,7 @@
 <tr>
 <td><code>EVEY_TRANSCODING_HW_FIRST_SEGMENT_TIMEOUT</code></td>
 <td><code>10s</code></td>
-<td>硬件转码在这段时间内还没有产出第一个片段，就被当作 GPU 卡住了，改由处理器接手。</td>
+<td>硬件转码在这段时间内还没有产出第一个片段，就视为 GPU 无响应，改由处理器处理。</td>
 <td>无</td>
 </tr>
 <tr>
@@ -3175,7 +3175,7 @@
 <tr>
 <td><code>EVEY_TRANSCODING_HW_PER_VARIANT</code></td>
 <td><code>false</code></td>
-<td>在 GPU 路线上，每个画质各用一个 ffmpeg，而不是所有画质共用一个进程：这样故障不会互相影响，也避开了会让脆弱的 VA 驱动崩溃的多路输出处理流程。</td>
+<td>在 GPU 路径上，每个画质各用一个 ffmpeg，而不是所有画质共用一个进程：这样故障不会互相影响，也避免了会让不稳定的 VA 驱动崩溃的多路输出处理流程。</td>
 <td>转码 → 高级限制 → <strong>每个码率档一个硬件编码进程</strong>，需重启</td>
 </tr>
 </tbody>
@@ -3207,7 +3207,7 @@
 <tr>
 <td><code>EVEY_TRANSCODING_SINGLE_VARIANT</code></td>
 <td><code>true</code></td>
-<td>只编码观众正在看的那个画质。<code>false</code> 让所有画质共用一次解码，但也会编码没人看的画质；只适合不能用硬件解码、片源又很重的主机。</td>
+<td>只编码观众正在看的那个画质。<code>false</code> 让所有画质共用一次解码，但也会编码没人看的画质；只适合不能用硬件解码、片源解码负担又很重的主机。</td>
 <td>转码 → 高级限制 → <strong>一次只编码一个码率档</strong>，需重启</td>
 </tr>
 <tr>
@@ -3225,7 +3225,7 @@
 <tr>
 <td><code>EVEY_TRANSCODING_SOFTWARE_THREADS</code></td>
 <td>不限</td>
-<td>每个软件编码器使用的线程数（1 到 64；其他值都表示不限）。硬件编码器不理会它。</td>
+<td>每个软件编码器使用的线程数（1 到 64；其他值都表示不限）。硬件编码器忽略此设置。</td>
 <td>无</td>
 </tr>
 <tr>
@@ -3256,13 +3256,13 @@
 <tr>
 <td><code>EVEY_TRANSCODING_CACHE_MAX_GB</code></td>
 <td><code>10</code></td>
-<td>整个转码缓存（片段、重封装的文件、准备好的下载）的大小，最久没用的最先删除。</td>
+<td>整个转码缓存（片段、重封装的文件、准备好的下载）的大小，最久未使用的内容最先删除。</td>
 <td>服务器配置 → 服务器设置 → <strong>转码缓存预算</strong>，需重启</td>
 </tr>
 <tr>
 <td><code>EVEY_TRANSCODE_CACHE_MIN_FREE_MB</code></td>
 <td><code>2048</code></td>
-<td>缓存所在磁盘上保留的空闲空间。低于这个值时，先清掉闲置的片段，然后拒绝新的片段，而不是把它们写入磁盘；提取出来的字幕不再保存，并通知管理员。<code>0</code> 关闭这个余量。见<a href="../../playback/transcoding/#the-transcoding-cache">转码缓存</a>。</td>
+<td>缓存所在磁盘上保留的空闲空间。低于这个值时，先清除闲置的片段，然后拒绝新的片段，而不是把它们写入磁盘；提取出来的字幕不再保存，并通知管理员。<code>0</code> 关闭这个余量。见<a href="../../playback/transcoding/#the-transcoding-cache">转码缓存</a>。</td>
 <td>无</td>
 </tr>
 <tr>

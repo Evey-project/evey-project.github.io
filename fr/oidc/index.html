@@ -3116,7 +3116,7 @@
 
 
 <h1 id="single-sign-on-oidc">Authentification unique (OIDC)<a class="headerlink" href="#single-sign-on-oidc" title="Permanent link">¶</a></h1>
-<p>Laissez les gens se connecter avec le fournisseur d'identité que vous avez
+<p>Permettez aux utilisateurs de se connecter avec le fournisseur d'identité que vous avez
 déjà (Keycloak, Authentik, Authelia, Google ou tout autre fournisseur OpenID
 Connect) : la page de connexion des applications web et Android affiche alors
 <strong>Se connecter avec SSO</strong> à côté du formulaire de mot de passe. Deux étapes
@@ -3145,11 +3145,11 @@ affiche sous <strong>Adresses à déclarer chez votre fournisseur</strong> :</p>
 </tr>
 </tbody>
 </table>
-<p>Les deux sont construites à partir de l'adresse publique du serveur (<strong>Admin →
+<p>Les deux sont construites à partir de l'adresse publique du serveur (<strong>Administration →
 Accès distant</strong>) : réglez-la d'abord si l'on accède à Evey par une autre
 adresse.</p>
 <h2 id="2-configure-evey">2. Configurer Evey<a class="headerlink" href="#2-configure-evey" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Configuration du serveur → Authentification unique (SSO)</strong> :</p>
+<p><strong>Administration → Configuration du serveur → Authentification unique (SSO)</strong> :</p>
 <table>
 <thead>
 <tr>
@@ -3197,8 +3197,8 @@ réglages SSO</strong> s'applique aussitôt, sans redémarrage. La ligne <strong
 si le fournisseur est joignable, avec la dernière erreur s'il ne l'est pas.</p>
 <p>Les variables <code>EVEY_OIDC_*</code> de
 <a href="../environment/accounts/#single-sign-on-oidc">Comptes et connexion</a> servent de
-repli : la carte signale quand ses valeurs en viennent, et l'enregistrer prend
-le relais.</p>
+repli : la carte signale quand ses valeurs en viennent, et l'enregistrer les
+remplace.</p>
 <div class="admonition note">
 <p class="admonition-title">Le fournisseur n'est jamais sur le chemin critique du serveur</p>
 <p>Le serveur démarre même quand le fournisseur est arrêté, le bouton SSO

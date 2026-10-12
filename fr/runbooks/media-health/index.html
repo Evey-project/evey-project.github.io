@@ -3219,8 +3219,8 @@
 
 
 <h1 id="media-health">Santé des médias<a class="headerlink" href="#media-health" title="Permanent link">¶</a></h1>
-<p>Un titre se déplace lentement, cale toujours au même endroit, ou son son
-dérive : <strong>Admin → Santé des médias</strong> lit chaque fichier MKV/WebM de vos
+<p>Un titre se déplace lentement, cale toujours au même endroit, ou son audio
+se décale peu à peu : <strong>Administration → Santé des médias</strong> lit chaque fichier MKV/WebM de vos
 bibliothèques et donne à chacun une seule réponse. Le but est une page qui se
 vide : ce qu'Evey sait réparer, il le répare (<strong>Tout réparer</strong>) ; le reste est
 signalé une fois et peut être marqué comme vu.</p>
@@ -3254,9 +3254,9 @@ seulement :</p>
 </tr>
 </tbody>
 </table>
-<p>Aucune des deux ne vous confie une corvée. Une mesure sur laquelle Evey ne
+<p>Aucune des deux ne vous laisse de tâche manuelle. Une mesure sur laquelle Evey ne
 peut pas agir reste une remarque, et une mesure peut se tromper : si le
-fichier se lit bien, il va bien.</p>
+fichier se lit correctement, il n'y a rien à faire.</p>
 <h3 id="repairable">Réparable<a class="headerlink" href="#repairable" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Sans index de lecture</strong>, ou avec un index inutilisable. Le symptôme : un déplacement
@@ -3266,7 +3266,7 @@ fichier se lit bien, il va bien.</p>
 <li><strong>Mauvais conteneur</strong> : le <code>.mkv</code> est en réalité un fichier MP4 ou MOV. Il est
   renommé en <code>.mp4</code> et la bibliothèque suit ; rien n'est réécrit.</li>
 <li><strong>Zone endommagée</strong> : une région corrompue au milieu du fichier. La réparation
-  la saute et resynchronise la suite, et ces octets sont perdus pour de bon. La
+  la saute et resynchronise la suite, et ces octets sont définitivement perdus. La
   fenêtre de réparation le demande explicitement (<strong>Resynchroniser aussi N
   fichiers endommagés</strong>) ; case décochée, les fichiers endommagés ne sont pas
   touchés. Il en va de même pour un fichier dont la corruption n'apparaît qu'à la
@@ -3283,7 +3283,7 @@ fichier se lit bien, il va bien.</p>
   lit jusqu'à la coupure. Aucun outil ne récupère la partie manquante ; seule la
   source le peut.</li>
 <li><strong>Recherche imprécise</strong> : l'index reconstruit a encore un trou, le plus souvent
-  le générique de fin. Un déplacement dans ce trou arrive à son bord ; partout
+  le générique de fin. Un déplacement dans ce trou aboutit à sa limite ; partout
   ailleurs, la recherche est exacte.</li>
 <li><strong>Audio à +N s</strong> : une piste audio commence après l'image. C'est ainsi qu'un
   doublage est calé sur un montage, et tous les lecteurs le respectent. Evey ne le
@@ -3333,7 +3333,7 @@ le rythme :</p>
   rapide sur une bibliothèque répartie sur plusieurs disques, mais la lecture
   peut saccader pendant ce temps.</li>
 </ul>
-<p>Deux choses font tout rediagnostiquer à une analyse : un fichier qui a changé, et
+<p>Deux cas obligent une analyse à tout rediagnostiquer : un fichier qui a changé, et
 une nouvelle version d'Evey dont les contrôles ont changé. La première analyse
 après une telle mise à jour est donc longue sur une grande bibliothèque ; les
 suivantes redeviennent rapides.</p>
@@ -3341,10 +3341,10 @@ suivantes redeviennent rapides.</p>
 <p><strong>Conserver les sauvegardes</strong> est activé par défaut : chaque fichier réécrit garde
 son original en <code>.mkvgobak</code> à côté de lui. <strong>Restaurer</strong> remet un fichier, <strong>Tout
 restaurer</strong> la sélection en cours, et <strong>Supprimer les sauvegardes</strong> les efface
-pour de bon. Désactivé, seules les dernières copies existent pendant une passe, et
+définitivement. Désactivé, seules les quelques dernières copies existent pendant une passe, et
 elles sont supprimées à la fin ; chaque réparation est alors vérifiée plus à fond
 avant de remplacer le fichier. Quand garder une copie de chaque fichier
-remplirait le volume, la page le dit avant la passe.</p>
+remplirait le volume, la page l'indique avant la passe.</p>
 <p>Le <strong>Journal des réparations</strong> liste chaque modification qu'une réparation a
 apportée aux octets d'un fichier, sur toute la bibliothèque ; <strong>Historique</strong> le
 montre pour un seul fichier. Certaines modifications s'y annulent sans aucune
@@ -3389,7 +3389,7 @@ fonctionne dans les deux cas.</p>
 <a href="../cli/#media-maintenance">Ligne de commande</a> :</p>
 <ul>
 <li><code>evey admin reindex-no-cue --root &lt;dossier&gt; [--apply] [--resync]</code> reconstruit
-  les index manquants, à blanc sauf avec <code>--apply</code> ;</li>
+  les index manquants, en simulation sauf avec <code>--apply</code> ;</li>
 <li><code>evey admin validate-streaming --root &lt;dossier&gt;</code> affiche le rapport de
   préparation au streaming, en lecture seule.</li>
 </ul>

@@ -3609,12 +3609,12 @@ Fernzugriff</strong>: eine <strong>Externe URL</strong> mit <code>https://</code
 Container ist, sein Netz unter <strong>Vertrauenswürdige Proxys</strong>. Beides gilt ohne
 Neustart. An einer <code>https://</code>-Adresse erkennt Evey, dass vor ihm ein Proxy TLS
 übernimmt: Cookies bekommen das Flag <code>Secure</code>, HSTS wird gesendet, und
-<code>X-Forwarded-Proto</code> von einem vertrauenswürdigen Proxy wird geglaubt. Den
+<code>X-Forwarded-Proto</code> von einem vertrauenswürdigen Proxy wird übernommen. Den
 Schalter für den Fernzugriff und die echte Adresse des Clients erklärt
 <a href="../administration/remote-access/">Fernzugriff und HTTPS</a>.</p>
 <p>Dieselben Angaben können auch aus der Umgebung kommen, für eine Installation,
-die ganz als Code beschrieben ist (sind beide gesetzt, gewinnt der
-Verwaltungsbereich):</p>
+die ganz als Code beschrieben ist (sind beide gesetzt, hat der
+Verwaltungsbereich Vorrang):</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SERVER_BASE_URL=https://media.example.com
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_TRUSTED_PROXIES=172.16.0.0/12       # nur nötig, wenn der Proxy ein Container ist; Loopback ist immer vertrauenswürdig
 </span></code></pre></div>
@@ -3764,11 +3764,11 @@ Details einstellt. Lassen Sie den Ausschnitt weg, geht nichts kaputt - er
 <p>Auf einem NAS, das schon einen Reverse Proxy hat (den des Herstellers, Nginx
 Proxy Manager, ein Traefik in einem gemeinsamen Docker-Netz), wird kein Caddy
 gebraucht: Evey sendet eigene Sicherheits-Header und eine vollständige CSP,
-und die Streaming-Regeln kann ohnehin nur der Proxy durchsetzen, der mit dem
-Client spricht. Ein zweiter Proxy dahinter bringt nichts.</p>
+und die Streaming-Regeln kann ohnehin nur der Proxy durchsetzen, mit dem der
+Client direkt verbunden ist. Ein zweiter Proxy dahinter bringt nichts.</p>
 <h3 id="set-it-up">Einrichten<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
-<p>Hängen Sie den Dienst <code>evey</code> in das Netz dieses Proxys und zielen Sie auf
-<code>evey-server:9091</code> (der Containername; der Dienstname <code>evey</code> funktioniert
+<p>Verbinden Sie den Dienst <code>evey</code> mit dem Netz dieses Proxys und leiten Sie an
+<code>evey-server:9091</code> weiter (der Containername; der Dienstname <code>evey</code> funktioniert
 auch):</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
@@ -3822,7 +3822,7 @@ durch, sind Sie fertig.</p>
 <p>Viele Einrichtungen entfernen sie stattdessen
 (<code>header_down -Content-Security-Policy</code> in Caddy) und setzen eine eigene. Das
 ist in Ordnung, aber dann muss <strong>Ihre</strong> Richtlinie diese Einträge behalten,
-sonst fallen Funktionen still aus:</p>
+sonst fallen Funktionen ohne Fehlermeldung aus:</p>
 <table>
 <thead>
 <tr>
@@ -3855,7 +3855,7 @@ sonst fallen Funktionen still aus:</p>
 <tr>
 <td><code>blob:</code></td>
 <td><code>worker-src</code></td>
-<td>hls.js weicht still auf Demuxing im Hauptthread aus (ruckeliger auf Handys).</td>
+<td>hls.js weicht ohne Meldung auf Demuxing im Hauptthread aus (ruckeliger auf Handys).</td>
 </tr>
 </tbody>
 </table>
@@ -3878,7 +3878,7 @@ hinzu - nichts in der App braucht es.</p>
 diesen beiden Pfaden den Header der App stehen:</p>
 <ul>
 <li><code>/plugin-frame.html</code>, die Seite, in der Plugin-Oberflächen und
-  Theme-Skripte laufen. Ihre Richtlinie sperrt sie in eine Sandbox (auch wenn
+  Theme-Skripte laufen. Ihre Richtlinie führt sie in einer Sandbox aus (auch wenn
   sie außerhalb eines iframes geöffnet wird), beschränkt ihren Netzzugriff auf
   die Hosts, die das Manifest des Plugins angibt, und lässt nur die App sie
   einbetten. Deshalb sendet sie auch <code>X-Frame-Options: SAMEORIGIN</code>:
@@ -3895,7 +3895,7 @@ diesen beiden Pfaden den Header der App stehen:</p>
 <p class="admonition-title">Genau ein CSP-Header darf beim Browser ankommen</p>
 <p>Bei zweien (dem der App und dem Ihres Proxys, oder dem von Caddy und dem
 „Advanced“-Ausschnitt von Nginx Proxy Manager) setzen Browser die
-<em>Schnittmenge</em> durch: Die strengste gewinnt, und der Fehler bleibt still.
+<em>Schnittmenge</em> durch: Die strengere Richtlinie gilt, und der Fehler wird nicht gemeldet.
 Prüfen Sie das mit
 <code>curl -sI https://your.domain | grep -ci content-security-policy</code>, das
 <code>1</code> ausgeben muss.</p>
@@ -3903,8 +3903,8 @@ Prüfen Sie das mit
 <p>Zwei weitere Prüfungen nach jeder Änderung:</p>
 <ul>
 <li><strong>Halten Sie die Richtlinie in einer Zeile.</strong> Eine CSP, die in einer
-  Proxy-Konfiguration über mehrere Zeilen verteilt ist, wird gern still
-  beschädigt: Beim Zusammenfügen gehen Zeichen an der Nahtstelle verloren
+  Proxy-Konfiguration über mehrere Zeilen verteilt ist, wird häufig
+  unbemerkt beschädigt: Beim Zusammenfügen gehen Zeichen an der Verbindungsstelle verloren
   (<code>...gstatic.com; connect-src</code> wurde einmal zu <code>...gstaticonnect-src</code>, was
   das Cast-SDK abschaltete und zwei Direktiven verschmolz).</li>
 <li><strong>Der Plugin-Frame behält seine eigene Richtlinie:</strong>

@@ -3315,7 +3315,7 @@ conteneur ; les procédures du quotidien (mot de passe perdu, rotation de clé,
 restauration) sont dans <a href="../recovery/">Restauration</a>.</p>
 <h2 id="running-a-command">Lancer une commande<a class="headerlink" href="#running-a-command" title="Permanent link">¶</a></h2>
 <p>Dans l'installation standard, les commandes se lancent dans le conteneur, qui
-porte déjà le mot de passe de la base et la configuration <code>EVEY_*</code> :</p>
+contient déjà le mot de passe de la base et la configuration <code>EVEY_*</code> :</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>doctor
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>bash<span class="w">      </span><span class="c1"># un shell d'administration : evey admin ..., man evey</span>
 </span></code></pre></div>
@@ -3409,10 +3409,10 @@ redemandent une connexion. Les procédures complètes sont dans
 </span></code></pre></div>
 <p>Un <code>pg_dump</code> d'avant migration est pris pour <code>up</code> et <code>down</code> quand
 <code>EVEY_BACKUP_DIR</code> est défini (<code>/data/backups</code> dans l'image Docker) ;
-<code>--no-backup</code> le saute, pour les machines sans <code>pg_dump</code>. Un échec en cours de
+<code>--no-backup</code> l'omet, pour les machines sans <code>pg_dump</code>. Un échec en cours de
 <code>up</code> laisse <code>schema_migrations.dirty = true</code> : voir les
 <a href="../migration-runbook/">Procédures de migration</a>. Sur la pile de
-développement, le Makefile enveloppe ces trois commandes en <code>make migrate-up</code>,
+développement, le Makefile fournit ces trois commandes sous la forme <code>make migrate-up</code>,
 <code>make migrate-down</code> et <code>make migrate-version</code>, exécutées dans le conteneur de
 développement <code>evey-server</code>.</p>
 <h3 id="media-maintenance">Maintenance des médias<a class="headerlink" href="#media-maintenance" title="Permanent link">¶</a></h3>
@@ -3440,7 +3440,7 @@ développement <code>evey-server</code>.</p>
 </span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>                                             Delete artwork files on disk that no DB row references.
 </span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>                                             Dry-run by default. --root defaults to /data/artworks.
 </span></code></pre></div>
-<p>Le même moteur travaille derrière <strong>Admin → Santé des médias</strong>, qui est la
+<p>Le même moteur est utilisé par <strong>Administration → Santé des médias</strong>, qui est la
 façon la plus simple de réparer une bibliothèque : voir
 <a href="../media-health/">Santé des médias</a>.</p>
 <h3 id="per-title-encoding">Encodage par titre<a class="headerlink" href="#per-title-encoding" title="Permanent link">¶</a></h3>
@@ -3509,7 +3509,7 @@ d'administration (<code>docker exec -it evey-server bash</code>) répond à <cod
 affichant <code>evey man --text</code> page par page, puisque l'image ne contient pas de
 binaire <code>man</code>.</p>
 <h2 id="what-is-not-in-evey-admin">Ce qui n'est pas dans <code>evey admin</code><a class="headerlink" href="#what-is-not-in-evey-admin" title="Permanent link">¶</a></h2>
-<p>Trois programmes autonomes vivent à côté du serveur dans les sources. Ce sont
+<p>Trois programmes autonomes se trouvent à côté du serveur dans les sources. Ce sont
 des outils de développement et de QA, pas des commandes d'exploitation, et
 l'image Docker ne les contient pas :</p>
 <table>
@@ -3538,7 +3538,7 @@ l'image Docker ne les contient pas :</p>
 <ul>
 <li><a href="../recovery/">Restauration</a> : réinitialisation de mot de passe, rotation de la clé JWT, restauration d'une sauvegarde.</li>
 <li><a href="../migration-runbook/">Procédures de migration</a> : déploiement du schéma, retour en arrière, récupération d'un état « dirty ».</li>
-<li><a href="../incident-runbook/">Procédures d'incident</a> : les premiers gestes quand le serveur se comporte mal.</li>
+<li><a href="../incident-runbook/">Procédures d'incident</a> : les premiers gestes quand le serveur présente un problème.</li>
 </ul>
 
 

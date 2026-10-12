@@ -3245,10 +3245,10 @@ collections et les sources de métadonnées viennent ensuite.</p>
 <ol>
 <li><strong>Administration → Bibliothèques → Ajouter une bibliothèque</strong>.</li>
 <li>Donnez-lui un <strong>Nom</strong> et un <strong>Type</strong>. Gardez les films et les séries dans
-   des bibliothèques séparées : le type dit au scanner ce qu'il doit
+   des bibliothèques séparées : le type indique au scanner ce qu'il doit
    chercher.</li>
 <li>Sous <strong>Chemins</strong>, choisissez un dossier dans la liste, ou <strong>Entrer un
-   chemin personnalisé...</strong> pour en taper un ; <strong>+ Ajouter un chemin</strong> ajoute
+   chemin personnalisé...</strong> pour en saisir un ; <strong>+ Ajouter un chemin</strong> ajoute
    un deuxième dossier à la même bibliothèque.</li>
 <li>Appuyez sur <strong>Créer une bibliothèque</strong>. Evey lit les dossiers dans les
    deux minutes qui suivent ; appuyez sur <strong>Scanner</strong> sur la ligne de la
@@ -3293,7 +3293,7 @@ collections et les sources de métadonnées viennent ensuite.</p>
 Avec le fichier compose de l'<a href="../../installation/">installation</a>, votre
 dossier de médias s'appelle <code>/media</code>. Un dossier <code>/srv/media/films</code> sur
 votre ordinateur devient donc <code>/media/films</code> dans Evey. Un deuxième
-dossier de médias (<code>/media2</code>) marche de la même façon.</p>
+dossier de médias (<code>/media2</code>) fonctionne de la même façon.</p>
 </div>
 <h2 id="name-files-so-they-are-recognised">Nommer les fichiers pour qu'ils soient reconnus<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
 <p>Le scanner reconnaît des noms comme ceux-ci :</p>
@@ -3316,7 +3316,7 @@ de qualité supplémentaires</strong> pour un mot seul (<code>HDRIP</code>), <st
 d'édition supplémentaires</strong> pour une expression. Cela s'applique dès le scan
 suivant.</p>
 <h2 id="fix-a-wrong-or-missing-title">Corriger un titre faux ou manquant<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
-<p>Un film affiche l'affiche d'un autre film du même nom ? La correction la plus
+<p>Un film montre l'affiche d'un autre film du même nom ? La correction la plus
 rapide :</p>
 <ol>
 <li>Ouvrez le titre et choisissez <strong>Modifier les métadonnées</strong>.</li>
@@ -3382,9 +3382,9 @@ la ligne de la bibliothèque :</p>
   (<strong>Administration → Configuration du serveur → Paramètres du serveur →
   Surveillance des fichiers de la bibliothèque</strong>), pour les
   bibliothèques dont la surveillance en temps réel est activée. Pour
-  vérifier que cela marche toujours, il écrit un petit fichier de test
+  vérifier que cela fonctionne toujours, il écrit un petit fichier de test
   dans le dossier pendant quelques secondes. Une bibliothèque où cela
-  marche bien n'est lue qu'une fois par heure au lieu de toutes les
+  fonctionne n'est lue qu'une fois par heure au lieu de toutes les
   2 minutes.</li>
 <li>Les bibliothèques créées depuis le panneau n'utilisent pas cette
   surveillance : la lecture toutes les 2 minutes trouve leurs fichiers.</li>
@@ -3407,7 +3407,7 @@ Evey regroupe les morceaux selon le dossier où ils sont, pas selon leur tag
 d'album. Deux dossiers avec le même tag d'album font donc deux albums, et un
 album coupé en sous-dossiers <code>CD1</code> et <code>CD2</code> s'affiche en deux. Dans un album,
 les morceaux sont classés par numéro de disque, puis par numéro de piste, et
-l'album prend le nom que porte la plupart de ses morceaux.</p>
+l'album prend le nom que portent la plupart de ses morceaux.</p>
 <p>La pochette est l'image intégrée aux fichiers, sinon une image du dossier de
 l'album (<code>cover.jpg</code>, <code>folder.jpg</code> ou <code>front.jpg</code>), sinon Cover Art Archive
 (trouvé via MusicBrainz), sinon iTunes.</p>
@@ -3423,9 +3423,9 @@ redimensionnées sur le serveur et gardées dans le cache de transcodage.</p>
 <p><strong>Collections</strong> regroupe des titres sous un même nom, pour tous les comptes.
 Il y en a trois sortes :</p>
 <ul>
-<li><strong>Collections TMDB</strong> : les sagas, remplies toutes seules quand TMDB range
-  un film dans l'une d'elles. <strong>Réparer les sagas</strong> (plus haut) rattrape les
-  films qui ont raté la leur.</li>
+<li><strong>Collections TMDB</strong> : les sagas, remplies automatiquement quand TMDB range
+  un film dans l'une d'elles. <strong>Réparer les sagas</strong> (plus haut) rattache les
+  films qui n'ont pas été ajoutés à la leur.</li>
 <li><strong>Nouvelle collection</strong> : une liste qu'un administrateur remplit à la main,
   avec <strong>Ajouter à la collection</strong> sur un titre ou sur une sélection, et qu'il
   met dans l'ordre.</li>
@@ -3436,10 +3436,10 @@ Il y en a trois sortes :</p>
 </ul>
 <p>Seuls les administrateurs créent et modifient les collections. Tout le monde
 peut les parcourir, et <strong>Télécharger la collection</strong> sur le web récupère les
-fichiers d'origine dans un seul ZIP (jusqu'à 1000 titres), sans ce que
-l'accès aux bibliothèques ou la limite d'âge du compte cache.</p>
+fichiers d'origine dans un seul ZIP (jusqu'à 1000 titres), sauf ce que
+l'accès aux bibliothèques ou la limite d'âge du compte masquent.</p>
 <h2 id="metadata-keys">Clés de métadonnées<a class="headerlink" href="#metadata-keys" title="Permanent link">¶</a></h2>
-<p>Evey est livré avec une clé TMDB : les métadonnées marchent sans rien
+<p>Evey est livré avec une clé TMDB : les métadonnées fonctionnent sans rien
 régler. Les autres sources sont facultatives. Pour les utiliser, vous
 demandez une clé (une sorte de mot de passe) à ce service et vous la collez
 dans <strong>Administration → Configuration du serveur → Clés API</strong>. Une clé
@@ -3481,8 +3481,8 @@ relancer la détection.</p>
 <p>Par défaut, les lecteurs affichent les boutons <strong>Passer l'intro</strong>, <strong>Passer
 le résumé</strong> et <strong>Passer le générique</strong>. <strong>Saut automatique des intros</strong>
 (<strong>Administration → Configuration du serveur → Paramètres du serveur</strong>,
-désactivé par défaut) fait passer les intros tout seul dans tous les
-lecteurs.</p>
+désactivé par défaut) fait passer automatiquement les intros dans tous
+les lecteurs.</p>
 
 
 

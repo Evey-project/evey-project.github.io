@@ -793,7 +793,7 @@
   <a href="#quick-connect-signing-in-a-tv-without-typing-a-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        快速连接：电视登录不用输密码
+        快速连接：无需输入密码即可登录电视
       
     </span>
   </a>
@@ -804,7 +804,7 @@
   <a href="#what-each-app-adds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        每个应用多了什么
+        每个应用的额外功能
       
     </span>
   </a>
@@ -826,7 +826,7 @@
   <a href="#which-device-plays-what" class="md-nav__link">
     <span class="md-ellipsis">
       
-        哪台设备播什么
+        各设备的播放方式
       
     </span>
   </a>
@@ -3149,7 +3149,7 @@
   <a href="#quick-connect-signing-in-a-tv-without-typing-a-password" class="md-nav__link">
     <span class="md-ellipsis">
       
-        快速连接：电视登录不用输密码
+        快速连接：无需输入密码即可登录电视
       
     </span>
   </a>
@@ -3160,7 +3160,7 @@
   <a href="#what-each-app-adds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        每个应用多了什么
+        每个应用的额外功能
       
     </span>
   </a>
@@ -3182,7 +3182,7 @@
   <a href="#which-device-plays-what" class="md-nav__link">
     <span class="md-ellipsis">
       
-        哪台设备播什么
+        各设备的播放方式
       
     </span>
   </a>
@@ -3213,15 +3213,15 @@
 
 
 <h1 id="connect-the-apps">连接应用<a class="headerlink" href="#connect-the-apps" title="Permanent link">¶</a></h1>
-<p>您的手机或电视在问 Evey 服务器的地址？这一页告诉您该输入什么，以及连不上时怎么办。</p>
-<p>每个应用连接的都是您自己家里的 Evey 服务器。地址只需输入一次，然后登录，选择您的个人资料。看到哪里、看过什么、收藏了什么，都保存在服务器上，所以换一台设备也能接着用。</p>
+<p>您的手机或电视在问 Evey 服务器的地址？本页说明该输入什么，以及无法连接时怎么办。</p>
+<p>每个应用连接的都是您自己家里的 Evey 服务器。地址只需输入一次，然后登录，选择您的个人资料。看到哪里、看过什么、收藏了什么，都保存在服务器上，所以换一台设备也能继续使用。</p>
 <ul>
 <li><strong>网页浏览器</strong>：什么都不用装，打开服务器的地址就行。管理员的管理面板也在这里。</li>
 <li><strong>Android</strong>（手机、平板）和 <strong>Android TV</strong>：Evey 应用。它们还在测试中，还没有在 Google Play 上向所有人开放。</li>
 <li><strong>Chromecast</strong>：不需要应用。在 Chrome 的网页播放器里，或者在 Android 应用里投屏就行。</li>
 </ul>
 <h2 id="the-server-address-to-enter">要输入的服务器地址<a class="headerlink" href="#the-server-address-to-enter" title="Permanent link">¶</a></h2>
-<p><strong>请向运行 Evey 的人要地址。</strong> 它看起来像这样：</p>
+<p><strong>请向运行 Evey 的人索取地址。</strong> 它看起来像这样：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>http://192.168.1.20:9091
 </span></code></pre></div>
 <p>然后，在 Android 或 Android TV 应用里：</p>
@@ -3254,10 +3254,10 @@
 <tbody>
 <tr>
 <td>在家，和服务器连着同一个 Wi-Fi</td>
-<td>家里的地址，比如 <code>http://192.168.1.20:9091</code>。如果路由器认识服务器的名字，用名字也可以，比如 <code>http://nas:9091</code>。</td>
+<td>家里的地址，比如 <code>http://192.168.1.20:9091</code>。如果路由器能解析服务器的名称，用名称也可以，比如 <code>http://nas:9091</code>。</td>
 </tr>
 <tr>
-<td>不在家</td>
+<td>在家庭网络以外</td>
 <td>公网地址，以 <code>https://</code> 开头，通常不带端口，比如 <code>https://evey.example.org</code>。只有运行 Evey 的人设置过，才会有这个地址。</td>
 </tr>
 </tbody>
@@ -3271,13 +3271,13 @@
 <li>在家里用 <strong><code>http://</code></strong> 是正常的。<code>https://</code> 只用于公网地址，在<strong>管理 → 远程访问 → 外部 URL</strong>里设置：见<a href="../../administration/remote-access/">远程访问与 HTTPS</a>。</li>
 </ul>
 </details>
-<p>只要还没有保存任何服务器，连接界面还会解释要填什么（<strong>Evey 运行在别人为你搭建的服务器上。请输入它的网址，也就是你在浏览器中打开的那个地址。</strong>），并提供<strong>在哪里找到我的服务器地址？</strong>，点进去就是这一页。手机会在浏览器里打开它；电视则把这一页的网址显示在屏幕上，让您在别的设备上打开。</p>
+<p>只要还没有保存任何服务器，连接界面还会解释要填什么（<strong>Evey 运行在别人为您搭建的服务器上。请输入它的网址，也就是您在浏览器中打开的那个地址。</strong>），并提供<strong>在哪里找到我的服务器地址？</strong>，点进去就是这一页。手机会在浏览器里打开它；电视则把这一页的网址显示在屏幕上，让您在别的设备上打开。</p>
 <h3 id="scan-local-network-what-it-finds-and-what-it-does-not">扫描本地网络：能找到什么，找不到什么<a class="headerlink" href="#scan-local-network-what-it-finds-and-what-it-does-not" title="Permanent link">¶</a></h3>
 <p>输入栏下面的<strong>扫描本地网络</strong>会帮您在家里找 Evey 服务器。最多可能要两分钟左右。找到的每台服务器都会列出名称、地址和版本。点一下就会填进输入栏，然后点击<strong>连接</strong>。如果什么都没找到，界面会显示<strong>在此网络上未找到服务器 - 请在下方输入地址</strong>：那就自己输入地址。</p>
 <p>如果手机用的是移动数据、访客 Wi-Fi，或者和服务器不在同一个网络，扫描就找不到服务器。</p>
 <details class="info">
 <summary>扫描具体试了哪些地址</summary>
-<p>它会在四个常见的家庭网段（<code>192.168.1.x</code>、<code>192.168.0.x</code>、<code>10.0.0.x</code> 和 <code>172.16.0.x</code>，主机号 1 到 254）的每个地址上，用 <code>http://</code> 试 <code>9091</code>、<code>8096</code> 和 <code>8920</code> 这三个端口，每次同时试五十个，每个等 2 秒。所以，如果服务器在别的网段（<code>192.168.2.x</code>、<code>10.1.x.x</code>...）、用别的端口，或者只能通过 HTTPS 访问，也会找不到。应用不使用 mDNS 或 Bonjour，也不会读取手机所在的网段：这四个网段是固定的。</p>
+<p>它会在四个常见的家庭网段（<code>192.168.1.x</code>、<code>192.168.0.x</code>、<code>10.0.0.x</code> 和 <code>172.16.0.x</code>，主机号 1 到 254）的每个地址上，用 <code>http://</code> 试 <code>9091</code>、<code>8096</code> 和 <code>8920</code> 这三个端口，每次同时试五十个，每个地址等待 2 秒。所以，如果服务器在别的网段（<code>192.168.2.x</code>、<code>10.1.x.x</code>...）、用别的端口，或者只能通过 HTTPS 访问，也会找不到。应用不使用 mDNS 或 Bonjour，也不会读取手机所在的网段：这四个网段是固定的。</p>
 </details>
 <h3 id="when-the-connection-fails">连接失败时<a class="headerlink" href="#when-the-connection-fails" title="Permanent link">¶</a></h3>
 <p>每次失败都会弹出一个标题为<strong>连接失败</strong>的对话框。请在下表中找到对应的提示（Android 应用的部分提示目前仍是英文）：</p>
@@ -3297,7 +3297,7 @@
 </tr>
 <tr>
 <td><strong>此连接未加密</strong></td>
-<td>您给一个外网地址输入了 <code>http://</code>。您的密码和视频会毫无保护地经过互联网。</td>
+<td>您给一个家庭网络以外的地址输入了 <code>http://</code>。您的密码和视频会毫无保护地经过互联网。</td>
 <td>点击<strong>取消</strong>，改用 <code>https://</code> 开头的公网地址。如果您清楚自己在做什么，也可以点<strong>仍然连接</strong>。</td>
 </tr>
 <tr>
@@ -3307,7 +3307,7 @@
 </tr>
 <tr>
 <td><strong>Couldn't reach ...</strong></td>
-<td>地址或端口错了，<code>http</code> 和 <code>https</code> 弄混了，或者不在同一个网络。</td>
+<td>地址或端口错了，<code>http</code> 和 <code>https</code> 混淆了，或者不在同一个网络。</td>
 <td>同样的检查。在家里，试试把 <code>https://</code> 换成 <code>http://</code>；如果是公网地址，就反过来。</td>
 </tr>
 <tr>
@@ -3317,7 +3317,7 @@
 </tr>
 <tr>
 <td><strong>... answered "HTTP 404 ..." instead of a healthy Evey server.</strong></td>
-<td>有东西在回应，但不是 Evey：端口后面多了路径，或者这个端口被别的程序占用了。</td>
+<td>有程序在回应，但不是 Evey：端口后面多了路径，或者这个端口被别的程序占用了。</td>
 <td>删掉端口后面的所有内容，并检查端口号。</td>
 </tr>
 <tr>
@@ -3327,21 +3327,21 @@
 </tr>
 <tr>
 <td><strong>远程访问已禁用</strong></td>
-<td>您不在家，而服务器不接受来自家外面的连接。</td>
-<td>去问运行 Evey 的人。他们可以在<strong>管理 → 远程访问</strong>里打开：<a href="../../administration/remote-access/">远程访问与 HTTPS</a>。</td>
+<td>您在家庭网络以外，而服务器不接受来自外部的连接。</td>
+<td>请联系运行 Evey 的人。他们可以在<strong>管理 → 远程访问</strong>里打开：<a href="../../administration/remote-access/">远程访问与 HTTPS</a>。</td>
 </tr>
 </tbody>
 </table>
 <p>在 Android TV 上，提示更简短：回应的不是 Evey 时显示 <strong>Server returned 404</strong>，没有任何回应时显示原始的网络错误。原因和检查方法都一样。电视同样需要 <code>http://</code>（只写 <code>192.168.1.20:9091</code> 会失败），但给公网地址输入 <code>http://</code> 时，它不会提醒您。</p>
-<p>如果以后打开应用时服务器没有回应，应用会回到这个界面，并列出已保存的服务器。在电视上，还会多显示一句：“<strong>服务器没有响应，可能已休眠或不在网络上。</strong>”等服务器重新开机后，再选一次它就行。</p>
+<p>如果以后打开应用时服务器没有回应，应用会回到这个界面，并列出已保存的服务器。在电视上，还会多显示一句：“<strong>服务器没有响应，可能已休眠或不在网络上。</strong>”等服务器重新开机后，再选择它即可。</p>
 <h3 id="changing-or-adding-a-server-later">以后更换或添加服务器<a class="headerlink" href="#changing-or-adding-a-server-later" title="Permanent link">¶</a></h3>
 <p>两个应用都能记住好几台服务器。连接界面会把它们列在<strong>您的服务器</strong>下面，正在用的那台标着<strong>当前</strong>（Android）或<strong>活跃</strong>（Android TV），下面还有<strong>添加其他服务器</strong>。点一下已保存的服务器，就能重新连接，不用再输入地址。每台服务器都分别保存自己的登录状态。</p>
 <ul>
 <li><strong>Android。</strong> 在连接界面上，每台已保存的服务器都有一个删除按钮（确认后，它的登录信息也会被清除）。登录界面上有<strong>更换服务器</strong>。登录之后，<strong>设置 → 服务器</strong>会打开<strong>管理服务器</strong>：点一台服务器就切换过去，也可以<strong>重命名</strong>或<strong>删除</strong>它。唯一保存的那台服务器不能删除。</li>
 <li><strong>Android TV。</strong> <strong>设置 → 更换服务器</strong>会让电视退出登录，回到连接界面；登录界面上也有同样的按钮。在连接界面上，<strong>管理服务器</strong>可以重命名或删除已保存的服务器。</li>
 </ul>
-<h2 id="quick-connect-signing-in-a-tv-without-typing-a-password">快速连接：电视登录不用输密码<a class="headerlink" href="#quick-connect-signing-in-a-tv-without-typing-a-password" title="Permanent link">¶</a></h2>
-<p>用遥控器输密码很慢。快速连接让您改在手机或电脑上确认电视的登录。</p>
+<h2 id="quick-connect-signing-in-a-tv-without-typing-a-password">快速连接：无需输入密码即可登录电视<a class="headerlink" href="#quick-connect-signing-in-a-tv-without-typing-a-password" title="Permanent link">¶</a></h2>
+<p>用遥控器输入密码很慢。快速连接让您改在手机或电脑上确认电视的登录。</p>
 <ol>
 <li>在电视的登录界面上，选择<strong>快速连接</strong>（标着<strong>推荐用于电视</strong>）。电视会显示一个 6 位的代码、一个二维码，以及代码还剩多久有效。</li>
 <li>在一台已经登录的设备上确认这个代码，方法任选一种：<ul>
@@ -3352,18 +3352,18 @@
 </li>
 <li>几秒钟内，电视就会登录到同一个账户。</li>
 </ol>
-<p>Android 应用的登录界面也有快速连接，适合不想在手机上输密码的时候用。</p>
-<h2 id="what-each-app-adds">每个应用多了什么<a class="headerlink" href="#what-each-app-adds" title="Permanent link">¶</a></h2>
+<p>Android 应用的登录界面也有快速连接，适合不想在手机上输入密码时使用。</p>
+<h2 id="what-each-app-adds">每个应用的额外功能<a class="headerlink" href="#what-each-app-adds" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>网页。</strong> 播放器里的键盘快捷键（按 <code>?</code> 查看全部）、浏览器通知（见<a href="../../notifications/">通知</a>），以及管理面板。</li>
 <li><strong>Android。</strong><ul>
-<li><strong>下载</strong>，用来离线观看。下载好的内容在 30 天内都能播放，不需要连接服务器。它只对有权观看的个人资料开放：如果一部电影超过了儿童个人资料的年龄上限，那么即使是别的个人资料下载的，儿童个人资料也打不开。管理员开启这项功能后，遇到对手机来说太大的电影，应用还会提供一个由服务器准备的小一些的版本（<code>downloads.quality_choice</code>，见<a href="../../environment/playback-delivery/">播放分发与下载</a>）。</li>
+<li><strong>下载</strong>，用来离线观看。下载好的内容在 30 天内都能播放，不需要连接服务器。它只对有权观看的个人资料开放：如果一部电影超过了儿童个人资料的年龄上限，那么即使是别的个人资料下载的，儿童个人资料也无法打开。管理员开启这项功能后，遇到对手机来说太大的电影，应用还会提供一个由服务器准备的小一些的版本（<code>downloads.quality_choice</code>，见<a href="../../environment/playback-delivery/">播放分发与下载</a>）。</li>
 <li><strong>投屏</strong>到 Chromecast。</li>
 </ul>
 </li>
 <li><strong>Android TV。</strong> 专为遥控器设计的界面。</li>
 </ul>
-<p>在网页和 Android 播放器里，<strong>播放到</strong>可以把您正在看的内容，发送到另一个已打开、并登录同一账户的 Evey 应用上，在那里接着播放。</p>
+<p>在网页和 Android 播放器里，<strong>播放到</strong>可以把您正在看的内容，发送到另一个已打开、并登录同一账户的 Evey 应用上，在那里继续播放。</p>
 <h2 id="keeping-the-apps-up-to-date">让应用保持最新<a class="headerlink" href="#keeping-the-apps-up-to-date" title="Permanent link">¶</a></h2>
 <p>当您的 Android 或 Android TV 应用比服务器配套的版本旧时，它会提醒您：</p>
 <ul>
@@ -3371,8 +3371,8 @@
 <li>电视会在顶部栏里显示。</li>
 </ul>
 <p>点一下就会打开这个应用在 Play 商店的页面。Play 商店并不总会自动更新应用（只在设备空闲并连着 Wi-Fi 时才会更新，而且这个功能可以被关掉），所以才有这个提醒。应用已是最新版本，或者服务器比这项功能还旧时，什么都不会显示。网页版永远不需要更新：它由服务器直接提供。</p>
-<h2 id="which-device-plays-what">哪台设备播什么<a class="headerlink" href="#which-device-plays-what" title="Permanent link">¶</a></h2>
-<p>每个应用都会告诉服务器自己的设备能播什么。对每部片子，服务器再决定是原样发送文件，还是先做调整。所以同一部电影，可以原样发给电视，同时为旧手机做转换。播放器里的<strong>流信息</strong>面板会显示决定了什么，以及原因：见<a href="../../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。投屏有它自己的规则：见<a href="../../playback/casting/">投屏到 Chromecast</a>。</p>
+<h2 id="which-device-plays-what">各设备的播放方式<a class="headerlink" href="#which-device-plays-what" title="Permanent link">¶</a></h2>
+<p>每个应用都会告诉服务器自己的设备能播放什么。对每部影片，服务器再决定是原样发送文件，还是先做调整。所以同一部电影，可以原样发给电视，同时为旧手机做转换。播放器里的<strong>流信息</strong>面板会显示决定了什么，以及原因：见<a href="../../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。投屏有它自己的规则：见<a href="../../playback/casting/">投屏到 Chromecast</a>。</p>
 
 
 

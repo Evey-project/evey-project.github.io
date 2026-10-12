@@ -2957,7 +2957,7 @@
   <a href="#level-3-bonus---component-zoom-on-the-scan-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette
+        Ebene 3 (Ergänzung) - Komponenten-Zoom auf die Scan-Kette
       
     </span>
   </a>
@@ -3244,7 +3244,7 @@
   <a href="#level-3-bonus---component-zoom-on-the-scan-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette
+        Ebene 3 (Ergänzung) - Komponenten-Zoom auf die Scan-Kette
       
     </span>
   </a>
@@ -3293,7 +3293,7 @@
 <h1 id="architecture">Architektur<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
 <p>Wie der Server aufgebaut ist: die hexagonale Schichtung unter <code>internal/</code>,
 die abgegrenzten Kontexte, die Ereignisse, die sie verbinden, und die
-statischen Wächter, die den Code auf diesen Schienen halten. Der Code liegt
+statischen Wächter, die prüfen, dass der Code diese Struktur einhält. Der Code liegt
 in <code>internal/domain</code>, <code>internal/app</code>, <code>internal/adapters/{driving,driven}</code>
 und wird in <code>cmd/evey/wire*.go</code> verdrahtet. Die Struktur ist durch
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a> festgelegt, die Aufteilung
@@ -3360,9 +3360,9 @@ Handy und Fernseher).</p>
 </table>
 <p>Abhängigkeitsregel: <code>adapters -&gt; app -&gt; domain</code>. Die Domäne importiert nie
 die App oder die Adapter. Die Zusammensetzung ist von Hand geschrieben
-(nicht google/wire), in <code>cmd/evey/wire.go</code> und seinen Geschwistern
+(nicht google/wire), in <code>cmd/evey/wire.go</code> und den zugehörigen Dateien
 <code>wire_infra.go</code>, <code>wire_services.go</code>, <code>wire_adapters.go</code>, <code>wire_events.go</code>,
-<code>wire_helpers.go</code>. Tests umgehen die Adapter, indem sie Attrappen
+<code>wire_helpers.go</code>. Tests umgehen die Adapter, indem sie Fakes
 einsetzen, die dieselben Domänen-Ports umsetzen: 20 der 21 Domänenpakete
 bringen ein Unterpaket <code>fakes/</code> mit.</p>
 <h2 id="bounded-contexts">Abgegrenzte Kontexte<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
@@ -3386,7 +3386,7 @@ außerdem direkt das Domänenpaket eines benachbarten Kontexts (siehe
 </tr>
 <tr>
 <td><code>library</code></td>
-<td>Bibliotheken, Ordner, Scan-Aufträge, Medienindex, Personen, Sammlungen, Favoriten und Daumen eines Profils (Daumen haben keinen App-Dienst: Der Bewertungs-RPC speichert und liest <code>UserRatingRepository</code> direkt), Trickplay, Erkennung von Intro und Abspann</td>
+<td>Bibliotheken, Ordner, Scan-Aufträge, Medienindex, Personen, Sammlungen, Favoriten und Daumen-Bewertungen eines Profils (Daumen-Bewertungen haben keinen App-Dienst: Der Bewertungs-RPC speichert und liest <code>UserRatingRepository</code> direkt), Trickplay, Erkennung von Intro und Abspann</td>
 </tr>
 <tr>
 <td><code>media</code> (nur App)</td>
@@ -3482,7 +3482,7 @@ außerdem direkt das Domänenpaket eines benachbarten Kontexts (siehe
 </tr>
 <tr>
 <td><code>loadtest</code> (nur App)</td>
-<td>simuliert Zuschauer gegen den eigenen HTTP-Stack des Servers: HLS, oder die rohe Datei, wenn das Urteil für einen Client Direktwiedergabe lautet</td>
+<td>simuliert Zuschauer gegen den eigenen HTTP-Stack des Servers: HLS, oder die unveränderte Datei, wenn die Entscheidung für einen Client Direktwiedergabe lautet</td>
 </tr>
 <tr>
 <td><code>maintenance</code> (nur App)</td>
@@ -3502,7 +3502,7 @@ außerdem direkt das Domänenpaket eines benachbarten Kontexts (siehe
 </tr>
 <tr>
 <td><code>updatecheck</code> (nur App)</td>
-<td>vergleicht den laufenden Build mit dem, was die Registry veröffentlicht, und sagt es dem Administrator; er aktualisiert nie etwas</td>
+<td>vergleicht den laufenden Build mit dem, was die Registry veröffentlicht, und meldet es dem Administrator; er aktualisiert nie etwas</td>
 </tr>
 <tr>
 <td><code>shared</code> (nur Domäne)</td>
@@ -3577,13 +3577,13 @@ beschreibt <a href="../playback-serving/">Ein Video ausliefern - der HLS-Wiederg
 <h2 id="architecture-guards">Architekturwächter<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
 <p>Die Regeln oben stehen nicht nur in der Dokumentation.
 <code>internal/contractguard/</code> enthält 58 statische Tests in 30 Dateien, die den
-Build scheitern lassen, wenn sich die Codebasis von ihnen entfernt.</p>
+Build scheitern lassen, wenn die Codebasis von ihnen abweicht.</p>
 <p>Die hexagonale Regel selbst ist <code>TestDomainContextsDoNotImportEachOther</code>
 (ADR-0001), in <code>domain_imports_test.go</code>. Er durchläuft <code>internal/domain</code> und
 setzt genau das durch: Ein Kontext darf <code>internal/domain/shared</code> und seinen
 eigenen Paketbaum importieren, sonst nichts aus <code>internal/domain</code>, und nie
 <code>internal/app</code> oder <code>internal/adapters</code>. Sein Bereich endet bei
-<code>internal/domain</code>: Über die App-Schicht sagt er nichts.</p>
+<code>internal/domain</code>: Die App-Schicht prüft er nicht.</p>
 <p>Die übrigen schützen Verträge, die eine Sprach- oder Prozessgrenze
 überqueren, darunter:</p>
 <table>
@@ -3636,7 +3636,7 @@ eigenen Paketbaum importieren, sonst nichts aus <code>internal/domain</code>, un
 </tr>
 <tr>
 <td><code>TestRestartExitCodeAgreesWithTheEntrypoint</code></td>
-<td>ein Exit-Code in Go und <code>docker/entrypoint.sh</code>, die sich uneinig sind, was ein Neustart bedeutet</td>
+<td>ein Exit-Code in Go und <code>docker/entrypoint.sh</code>, die unterschiedlich festlegen, was ein Neustart bedeutet</td>
 </tr>
 <tr>
 <td><code>TestServerEmittedI18nKeysExistInCatalogue</code>, <code>TestI18nPlaceholdersAgreeAcrossLocales</code></td>
@@ -3645,7 +3645,7 @@ eigenen Paketbaum importieren, sonst nichts aus <code>internal/domain</code>, un
 </tbody>
 </table>
 <h2 id="c4-diagrams">C4-Diagramme<a class="headerlink" href="#c4-diagrams" title="Permanent link">¶</a></h2>
-<p>Vier Diagramme beschreiben Evey in abnehmender Zoomstufe nach dem
+<p>Vier Diagramme beschreiben Evey von der Gesamtsicht bis ins Detail nach dem
 <a href="https://c4model.com/">C4-Modell</a>. Die Knotennamen sind die echten
 Go-Paketnamen unter <code>internal/</code>. Die Containernamen stammen aus
 <code>docker-compose.yml</code> für <code>evey-server</code>, <code>evey-postgres</code> und <code>evey-caddy</code>;
@@ -3653,7 +3653,7 @@ Go-Paketnamen unter <code>internal/</code>. Die Containernamen stammen aus
 <code>docker-compose.override.yml</code> angegeben und gibt es nur in der
 Entwicklungsumgebung.</p>
 <h3 id="level-1---system-context">Ebene 1 - Systemkontext<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
-<p>Wer mit Evey spricht und welche Drittanbieter Evey erreicht.</p>
+<p>Wer mit Evey kommuniziert und welche Drittanbieter Evey erreicht.</p>
 <pre class="mermaid"><code>flowchart LR
     user[Benutzer&lt;br/&gt;Client für Web / Handy / TV]
     admin[Administrator&lt;br/&gt;Web-Oberfläche /admin]
@@ -3829,10 +3829,10 @@ nur von Domänen-Ports ab; getriebene Adapter setzen diese Ports um.</p>
 <li>Scan-Aufträge von <code>app/library</code> laufen in einem Worker-Pool (eine Goroutine pro laufendem Bibliotheksscan, siehe <code>library.ScanService</code>).</li>
 <li>ffmpeg-Aufträge startet der getriebene Adapter <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>) über <code>internal/pkg/procfork</code>, mit einer überwachenden Goroutine pro Auftrag, die die Fehlerausgabe (stderr) des Prozesses leert.</li>
 <li><code>shared.EventBus</code> verteilt an die Abonnenten asynchron: Jeder Abonnent läuft in seiner eigenen Goroutine, ein langsamer Empfänger blockiert also nie die Sender. Der Bus öffnet selbst keine Transaktion; das ist Aufgabe des Handlers.</li>
-<li><code>pluginrunner</code> startet einen Unterprozess pro Plugin; iframe-Plugins leben im Browser des Benutzers und sprechen über signierte Tokens zurück, die <code>app/plugin</code> ausstellt.</li>
+<li><code>pluginrunner</code> startet einen Unterprozess pro Plugin; iframe-Plugins laufen im Browser des Benutzers und rufen den Server mit signierten Tokens auf, die <code>app/plugin</code> ausstellt.</li>
 </ul>
-<h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Ebene 3 (Zugabe) - Komponenten-Zoom auf die Scan-Kette<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
-<p>Der heiße Pfad, der Dateien auf der Platte in durchsuchbare, angereicherte
+<h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Ebene 3 (Ergänzung) - Komponenten-Zoom auf die Scan-Kette<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
+<p>Der Hot Path, der Dateien auf der Platte in durchsuchbare, angereicherte
 Medien verwandelt. Durchgezogene Pfeile sind direkte Aufrufe; gestrichelte
 Pfeile sind Domänenereignisse auf dem Bus. Die Suchindexierung ist ein
 direkter Port-Aufruf aus <code>ScanService</code>, kein Ereignis.</p>

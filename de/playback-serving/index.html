@@ -3162,8 +3162,8 @@ nach <code>master.m3u8</code> bis zu den Bytes eines Segments: der Leseweg. Der 
 verteilt sich auf den treibenden Adapter <code>http</code>
 (<code>internal/adapters/driving/http/transcode_*</code>), die Dienste in
 <code>app/transcoding</code> und die getriebenen Adapter <code>ffmpeg</code> / <code>mkvgo</code> / <code>prober</code>.
-Keine einzelne Funktion führt den ganzen Ablauf aus, deshalb ist diese Seite
-die Karte. Entschieden wird er durch
+Keine einzelne Funktion führt den ganzen Ablauf aus, deshalb gibt diese Seite
+den Überblick. Entschieden wird er durch
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a> (ein Plan, eine
 Entscheidung), <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a> (der
 Plan-Resolver) und
@@ -3202,7 +3202,7 @@ dann zu verpacken, wobei alles über einen einzigen Hash adressiert wird.</p>
 </tr>
 </tbody>
 </table>
-<p>Zwei Engines ziehen sich durch alles:</p>
+<p>Zwei Engines werden überall eingesetzt:</p>
 <ul>
 <li><strong>mkvgo</strong> liest und verpackt neu (Remux, auf Abruf), ohne einen Prozess zu starten. Kostenlos.</li>
 <li><strong>ffmpeg / ffprobe</strong> dekodieren, kodieren neu und analysieren, indem sie einen Prozess starten. Teuer.</li>
@@ -3251,15 +3251,15 @@ von Anfang bis Ende zu verfolgen:</p>
    Abwerfen von Stufen, Versiegelung veralteter URLs, Wahl des Produzenten
    und Segmentschlüssel lesen alle diese eine Auflösung. Innerhalb einer
    Anfrage gilt die Invariante des Cache-Hashs also schon durch die
-   Bauweise (der heiße Pfad für Segmente ging von etwa 5 Abrufen der
+   Bauweise (der Hot Path für Segmente ging von etwa 5 Abrufen der
    Profileinstellungen auf 1 zurück). Die Hilfsfunktionen für Fakten der
    Quelle (Codec, HDR, SAR, 10 Bit...) liegen daneben in <code>source_facts.go</code>.
    <code>makeDecision</code> und <code>buildFingerprint</code> in
-   <code>http/transcode_vod_fingerprint.go</code> sind dünne Hüllen für die
+   <code>http/transcode_vod_fingerprint.go</code> sind dünne Wrapper für die
    Aufrufstellen ohne Plan (Vorwärmen, Master auf Abruf).</li>
 <li><strong>F2 - Entscheidung</strong> - <code>internal/app/transcoding/decision.go</code>:
-   <code>MakePlaybackDecisionWithPrefs</code> (rein) ist das Gehirn, das pro Spur
-   zwischen Kopieren und Transkodieren entscheidet. Der Resolver legt die
+   <code>MakePlaybackDecisionWithPrefs</code> (rein) ist die zentrale Funktion, die pro
+   Spur zwischen Kopieren und Transkodieren entscheidet. Der Resolver legt die
    Festlegungen aus der Anfrage darüber (<code>vd=</code> / <code>ad=</code>), die Übersteuerung
    für die Audio-Neusynchronisierung usw.</li>
 <li><strong>F3 - Fähigkeit</strong> - <code>internal/app/transcoding/calibration_service.go</code>:
@@ -3287,11 +3287,11 @@ von Anfang bis Ende zu verfolgen:</p>
    <code>manifest.mpd</code>.</li>
 </ol>
 <div class="admonition warning">
-<p class="admonition-title">Über Anfragen hinweg beruht die Invariante auf eingebackenen URLs</p>
-<p>Jede Eingabe der Entscheidung muss in die URLs der Unterdateien
-eingebacken sein (<code>querySuffix</code> in <code>manifest_generator.go</code>), sonst kann
-eine Abfrage mitten in der Wiedergabe den Plan unter dem Player kippen.
-URLs pro Sitzung werden neu gebacken
+<p class="admonition-title">Über Anfragen hinweg beruht die Invariante auf den Werten in den URLs</p>
+<p>Jede Eingabe der Entscheidung muss fest in den URLs der Unterdateien
+stehen (<code>querySuffix</code> in <code>manifest_generator.go</code>), sonst kann eine
+Abfrage mitten in der Wiedergabe den Plan ändern, den der Player nutzt.
+URLs pro Sitzung werden neu erzeugt
 (<code>transcode_vod_manifest_rebake.go</code>), damit sie den Stream-Token tragen,
 für HLS wie für DASH, auch für Chromecast ohne Cookies.</p>
 </div>
@@ -3300,8 +3300,8 @@ für HLS wie für DASH, auch für Chromecast ohne Cookies.</p>
 eine Zuständigkeitskette nach Dateiendung: Er versucht mkvgo und fällt bei
 jedem Zweifel auf ffprobe zurück (Lesefehler, Panic, nicht abbildbares
 Ergebnis, eine verlorene Medienspur in einer MP4, DoVi-Profil 5, nicht
-lesbare Farbangaben). Beide schnellen Wege sind immer an (nil-Schranken in
-<code>wire.go</code>); ffprobe ist das Sicherheitsnetz und wird nie umgangen. Ein
+lesbare Farbangaben). Beide schnellen Wege sind immer an (nil-Prüfungen in
+<code>wire.go</code>); ffprobe ist die Rückfallebene und wird nie umgangen. Ein
 zweiter, gleich gebauter Verteiler (<code>keyframe_dispatcher.go</code>) kümmert sich
 um den Seek-Index (die Stellen, an denen gespult werden kann).</p>
 <table>
@@ -3339,7 +3339,7 @@ um den Seek-Index (die Stellen, an denen gespult werden kann).</p>
 <td><code>hls_transcoder.go</code></td>
 </tr>
 <tr>
-<td>Zeilensprung erkennen (idet), Landepunkt beim Spulen, chromaprint, DoVi P5</td>
+<td>Zeilensprung erkennen (idet), Zielposition beim Spulen, chromaprint, DoVi P5</td>
 <td>- (braucht Dekodierung / Zusatzdaten)</td>
 <td>ffmpeg / ffprobe</td>
 </tr>
@@ -3383,27 +3383,27 @@ der Browser meldet, dass er AC-3 <em>nicht</em> selbst abspielen kann, und Safar
 meldet, dass er es kann.</p>
 <h2 id="packaging-cmaf-hls-dash">Verpacken: CMAF, HLS, DASH<a class="headerlink" href="#packaging-cmaf-hls-dash" title="Permanent link">¶</a></h2>
 <p>Der Container ist immer <strong>CMAF</strong> (fMP4): ein <code>init.mp4</code> pro Variante plus
-<code>.m4s</code>-Segmente (der MPEG-TS-Zweig in <code>hls_transcoder.go</code> ist tot:
+<code>.m4s</code>-Segmente (der MPEG-TS-Zweig in <code>hls_transcoder.go</code> ist toter Code:
 <code>needsFMP4Segments</code> liefert immer true). Über <em>dieselben</em> Segmente:</p>
 <ul>
 <li><strong>HLS</strong> (<code>master.m3u8</code>, <code>stream_N.m3u8</code>, <code>EXT-X-MAP</code> init + <code>.m4s</code>), beide Engines.</li>
 <li><strong>DASH</strong> (<code>manifest.mpd</code>): auf dem mkvgo-Kopierweg das eigene Manifest
   des Packagers (<code>OnDemandPlan.HasDASH</code>, Byte für Byte identisch, kein
   Speicherplatz, unter AES-128 abgeschaltet); auf dem ffmpeg-Weg ein
-  Manifest, das <strong>aus dem Plan erklärt</strong> wird, über dieselben Fragmente, die
+  Manifest, das <strong>aus dem Plan deklariert</strong> wird, über dieselben Fragmente, die
   die HLS-Playlists ansprechen (<code>ManifestGenerator.MPD</code>), geschrieben bevor
   irgendein Fragment existiert.</li>
 </ul>
-<p>Was das DASH-Manifest ehrlich macht, ist das <strong>Segmentraster</strong>
+<p>Was das DASH-Manifest korrekt macht, ist das <strong>Segmentraster</strong>
 (<code>domain/transcoding.SegmentGrid</code>): Jede transkodierte Stufe wird auf
 dieselbe ganze Zahl von Bildern geschnitten, <code>round(3 s x fps)</code> (72 bei
 23,976 fps, 75 bei 25, 90 bei 29,97). Ein Segment ist also exakt in den
 Ticks der Videospur und über die ganze Umschaltgruppe hinweg identisch; der
-Kopier-Rückfall erklärt seinen Keyframe-Plan. Eine Quelle mit unbekannter
+Kopier-Rückfall deklariert seinen Keyframe-Plan. Eine Quelle mit unbekannter
 oder variabler Bildrate bleibt beim alten 3-s-Takt, behält HLS und
 antwortet auf <code>manifest.mpd</code> mit 404. Kein Client wird auf DASH
 umgestellt: HLS bleibt überall der Standard. <code>DASHFromCMAF</code> von mkvgo über
-die erzeugten Fragmente ist das Orakel für die Übereinstimmung
+die erzeugten Fragmente dient als Test-Orakel für die Übereinstimmung
 (<code>internal/pkg/cmafparity</code>, <code>TestDASHGridIntegration</code> bei 23,976/25/29,97
 fps: kalt, Spulen, Umschaltgruppe mit zwei Stufen, getrenntes Audio
 innerhalb eines AAC-Frames).</p>
@@ -3418,7 +3418,7 @@ innerhalb eines AAC-Frames).</p>
 <tbody>
 <tr>
 <td>Ports und Adapter (hexagonal)</td>
-<td>die App-Schicht spricht mit <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code>; ffmpeg und mkvgo setzen sie um, und eine neue Engine ist ein neuer Adapter</td>
+<td>die App-Schicht nutzt <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code>; ffmpeg und mkvgo setzen sie um, und eine neue Engine ist ein neuer Adapter</td>
 </tr>
 <tr>
 <td>Strategie</td>

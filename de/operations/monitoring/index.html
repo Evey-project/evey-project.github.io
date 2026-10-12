@@ -3163,8 +3163,8 @@
 
 
 <h1 id="monitoring-and-logs">Überwachung und Protokolle<a class="headerlink" href="#monitoring-and-logs" title="Permanent link">¶</a></h1>
-<p>Wo Sie sehen, was der Server tut, für den Administrator, der nach dem Rechten
-sehen will, statt etwas zu reparieren: von dem, was gerade läuft, bis zur
+<p>Wo Sie sehen, was der Server tut, für den Administrator, der den Zustand
+prüfen will, statt etwas zu reparieren: von dem, was gerade läuft, bis zur
 Statistik des Monats, mit den Protokollen dazwischen. Wenn Sie einem
 bestimmten Fehler nachgehen, beginnen Sie mit der
 <a href="../troubleshooting/">Fehlerbehebung</a>.</p>
@@ -3198,13 +3198,13 @@ ein Benutzer ein Problem meldet.</p>
 <code>./evey-data/logs/</code> (<code>/data/logs/evey-YYYY-MM-DD.log</code> im Container),
 standardmäßig 90 Tage aufbewahrt. <code>docker compose logs evey</code> zeigt nur, was
 der Container beim Start ausgibt. Das lesen Sie, wenn der Server nicht
-hochkommt. Siehe <a href="../troubleshooting/#the-logs">Fehlerbehebung</a>.</p>
+startet. Siehe <a href="../troubleshooting/#the-logs">Fehlerbehebung</a>.</p>
 <h2 id="how-playback-actually-went">Wie die Wiedergabe wirklich lief<a class="headerlink" href="#how-playback-actually-went" title="Permanent link">¶</a></h2>
 <p><strong>Verwaltung → Streaming-Qualität</strong> beruht auf dem, was die Player während der
 Wiedergabe melden (Pufferstand, erneutes Puffern, Durchsatz, im Format CMCD):
-wie oft Zuschauer gewartet haben, welche Titel am häufigsten hängen und welche
-Arten von Geräten Mühe haben, über den letzten Tag oder die letzte Woche.</p>
-<p>Der Server handelt auch danach. Lässt eine bestimmte Art von Quelle die
+wie oft Zuschauer gewartet haben, welche Titel am häufigsten hängen und bei welchen
+Gerätearten Probleme auftreten, über den letzten Tag oder die letzte Woche.</p>
+<p>Der Server reagiert auch darauf. Lässt eine bestimmte Art von Quelle die
 Zuschauer immer wieder warten, senkt er für eine Weile die höchste Qualität
 für diese Art von Quelle, zusätzlich zur kalibrierten Obergrenze, und hebt die
 Grenze danach von selbst wieder auf. Die aktiven Grenzen stehen unter

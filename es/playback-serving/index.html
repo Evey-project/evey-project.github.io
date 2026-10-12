@@ -3255,7 +3255,7 @@ de principio a fin:</p>
    en <code>http/transcode_vod_fingerprint.go</code>, son simples envoltorios para los
    puntos de llamada sin plan (precalentamiento, master bajo demanda).</li>
 <li><strong>P2 - Decisión</strong> - <code>internal/app/transcoding/decision.go</code>:
-   <code>MakePlaybackDecisionWithPrefs</code> (pura) es el cerebro que decide copiar o
+   <code>MakePlaybackDecisionWithPrefs</code> (pura) es la función que decide copiar o
    transcodificar pista por pista. El resolutor añade encima los valores
    fijados en la petición (<code>vd=</code> / <code>ad=</code>), la corrección de la
    resincronización del audio, etc.</li>
@@ -3283,11 +3283,11 @@ de principio a fin:</p>
    <code>manifest.mpd</code>.</li>
 </ol>
 <div class="admonition warning">
-<p class="admonition-title">Entre peticiones, la regla depende de grabar los datos en las URL</p>
-<p>Cada dato que entra en la decisión tiene que quedar grabado en las URL
+<p class="admonition-title">Entre peticiones, la regla depende de incluir los datos en las URL</p>
+<p>Cada dato que entra en la decisión tiene que quedar incluido en las URL
 hijas (<code>querySuffix</code> en <code>manifest_generator.go</code>); si no, una consulta a
 mitad de la reproducción puede cambiar el plan sin que el reproductor lo
-sepa. Las URL de cada sesión se vuelven a grabar
+sepa. Las URL de cada sesión se vuelven a generar
 (<code>transcode_vod_manifest_rebake.go</code>) para llevar el token de streaming,
 tanto en HLS como en DASH, incluido Chromecast, que no usa cookies.</p>
 </div>
@@ -3297,7 +3297,7 @@ cadena de responsabilidad según la extensión: prueba mkvgo, y vuelve a
 ffprobe ante cualquier duda (error de lectura, pánico, resultado que no se
 puede traducir, una pista multimedia MP4 descartada, DoVi perfil 5, color
 ilegible). Las dos vías rápidas están siempre activas (puertas nil en
-<code>wire.go</code>); ffprobe es la red de seguridad y nunca se salta. Un segundo
+<code>wire.go</code>); ffprobe es el respaldo y nunca se omite. Un segundo
 repartidor idéntico (<code>keyframe_dispatcher.go</code>) se encarga del índice de
 posicionamiento.</p>
 <table>
@@ -3413,7 +3413,7 @@ peldaños, con el audio aparte dentro de una trama AAC).</p>
 <tbody>
 <tr>
 <td>Puertos y adaptadores (hexagonal)</td>
-<td>la capa de aplicación habla con <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code>; ffmpeg y mkvgo los implementan, y un motor nuevo es un adaptador nuevo</td>
+<td>la capa de aplicación usa <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code>; ffmpeg y mkvgo los implementan, y un motor nuevo es un adaptador nuevo</td>
 </tr>
 <tr>
 <td>Estrategia</td>

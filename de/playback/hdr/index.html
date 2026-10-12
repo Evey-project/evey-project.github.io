@@ -3159,7 +3159,7 @@
 <h1 id="hdr-and-dolby-vision">HDR und Dolby Vision<a class="headerlink" href="#hdr-and-dolby-vision" title="Permanent link">¶</a></h1>
 <p><strong>Kurz gesagt:</strong></p>
 <ul>
-<li><strong>HDR</strong> ist ein Bild mit helleren Lichtern und satteren Farben als das
+<li><strong>HDR</strong> ist ein Bild mit helleren Spitzlichtern und satteren Farben als das
   übliche Bild (genannt <strong>SDR</strong>). Dolby Vision ist eine Art von HDR. HDR
   braucht einen Bildschirm, der es anzeigen kann.</li>
 <li>Auf einem HDR-Bildschirm mit der App für Android oder Android TV (und einem
@@ -3168,7 +3168,7 @@
 <li>In einem Webbrowser und auf jedem Bildschirm ohne HDR wandelt der Server das
   Bild in SDR um. Das ist Absicht: HDR auf einem SDR-Bildschirm sieht grau und
   ausgewaschen aus.</li>
-<li>HDR in SDR umzuwandeln ist die schwerste Arbeit, die der Prozessor leisten
+<li>HDR in SDR umzuwandeln ist die aufwendigste Arbeit, die der Prozessor leisten
   kann. Eine Grafikkarte hilft: siehe
   <a href="../../administration/hardware-acceleration/">Hardware-Beschleunigung</a>.</li>
 </ul>
@@ -3219,7 +3219,7 @@ Bild eingebrannt werden soll, kann eine HDR-Quelle zur Neukodierung zwingen.
 Das HDR bleibt dann erhalten, wenn all dies zutrifft:</p>
 <ul>
 <li>Der Player meldet einen HDR-Bildschirm und dekodiert HEVC;</li>
-<li>der Server hat eine Grafikkarte, die bei seiner Messung bewiesen hat, dass
+<li>der Server hat eine Grafikkarte, die bei seiner Messung nachgewiesen hat, dass
   sie HEVC 10 Bit mit HDR kodiert;</li>
 <li>diese Karte ist für diesen Stream frei.</li>
 </ul>
@@ -3238,7 +3238,7 @@ Neukodieren erhalten</strong>.</p>
 <h2 id="when-the-screen-is-sdr">Wenn der Bildschirm SDR ist<a class="headerlink" href="#when-the-screen-is-sdr" title="Permanent link">¶</a></h2>
 <p>Ein Player, der keinen HDR-Bildschirm meldet, erhält ein SDR-Bild, das per
 Tone-Mapping umgerechnet wurde. Das Tone-Mapping läuft auf der Grafikkarte,
-wenn sie bewiesen hat, dass sie es kann (zum Beispiel VAAPI mit OpenCL), sonst
+wenn sie nachgewiesen hat, dass sie es kann (zum Beispiel VAAPI mit OpenCL), sonst
 auf dem Prozessor: mit einem SIMD-optimierten Filter (AVX2), wenn der
 ffmpeg-Build ihn mitbringt, sonst mit einer portablen Kette von Filtern.</p>
 <div class="admonition note">

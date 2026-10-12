@@ -3080,7 +3080,7 @@
 <p>Postgres डेटाबेस और Meilisearch इंडेक्स के वेरिएबल। डिफ़ॉल्ट रूप से इमेज
 दोनों को खुद चलाती है और उनके पासवर्ड खुद बनाती है: सामान्य इंस्टॉलेशन में
 इनमें से कुछ भी सेट नहीं करना पड़ता। ये उस इंस्टॉलेशन के काम आते हैं जो अपना
-डेटाबेस या सर्च इंजन लाता है, या अंदर वाले को ट्यून करता है; तरीके
+डेटाबेस या सर्च इंजन लाता है, या इमेज में शामिल (embedded) डेटाबेस और सर्च इंजन को ट्यून करता है; तरीके
 <a href="../../operations/advanced-deployments/">एडवांस्ड डिप्लॉयमेंट</a> में हैं। इनमें से
 किसी का भी पैनल में कोई विकल्प नहीं है।</p>
 <h2 id="database">डेटाबेस<a class="headerlink" href="#database" title="Permanent link">¶</a></h2>
@@ -3097,25 +3097,25 @@
 <tr>
 <td><code>EVEY_EMBEDDED_POSTGRES</code></td>
 <td>सेट नहीं</td>
-<td>सेट नहीं: <code>EVEY_DB_HOST</code> सेट न हो तो अंदर वाला डेटाबेस, वरना बाहरी। साफ़ तय करने के लिए <code>true</code> या <code>false</code>। इसे entrypoint पढ़ता है।</td>
+<td>सेट नहीं: <code>EVEY_DB_HOST</code> सेट न हो तो embedded डेटाबेस, वरना बाहरी। साफ़ तय करने के लिए <code>true</code> या <code>false</code>। इसे entrypoint पढ़ता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
 <td><code>EVEY_POSTGRES_DATA_DIR</code></td>
 <td><code>/data/postgres</code></td>
-<td>अंदर वाला क्लस्टर कहाँ रहता है। यह लोकल फ़ाइल सिस्टम पर होना चाहिए, नेटवर्क शेयर पर नहीं। इसे entrypoint पढ़ता है।</td>
+<td>embedded क्लस्टर कहाँ रखा जाता है। यह लोकल फ़ाइल सिस्टम पर होना चाहिए, नेटवर्क शेयर पर नहीं। इसे entrypoint पढ़ता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
 <td><code>EVEY_POSTGRES_IMPORT</code></td>
 <td><code>/data/postgres-import.sql.gz</code></td>
-<td>gzip किया हुआ एक <code>pg_dump</code>, जो अंदर वाला क्लस्टर पहली बार बनते समय उसमें वापस डाला जाता है, फिर उसका नाम <code>*.imported-&lt;date&gt;</code> कर दिया जाता है। अगर क्लस्टर पहले से है, तो एक संदेश के साथ इसे छोड़ दिया जाता है। इसे entrypoint पढ़ता है।</td>
+<td>gzip किया हुआ एक <code>pg_dump</code>, जो embedded क्लस्टर पहली बार बनते समय उसमें रीस्टोर किया जाता है, फिर उसका नाम <code>*.imported-&lt;date&gt;</code> कर दिया जाता है। अगर क्लस्टर पहले से है, तो एक संदेश के साथ इसे छोड़ दिया जाता है। इसे entrypoint पढ़ता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
 <td><code>EVEY_DB_HOST</code></td>
 <td><code>localhost</code></td>
-<td>डेटाबेस का होस्ट। <strong>इसे सेट करने से अंदर वाला डेटाबेस बंद हो जाता है।</strong></td>
+<td>डेटाबेस का होस्ट। <strong>इसे सेट करने से embedded डेटाबेस बंद हो जाता है।</strong></td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
@@ -3127,7 +3127,7 @@
 <tr>
 <td><code>EVEY_DB_USER</code></td>
 <td><code>evey</code></td>
-<td>डेटाबेस का लॉगिन। जब यह superuser हो (अंदर वाला क्लस्टर और साथ आने वाली compose फ़ाइल), तो सर्वर इसे सिर्फ़ रीस्टोर के लिए रखता है और <code>EVEY_DB_APP_USER</code> के रूप में चलता है।</td>
+<td>डेटाबेस का लॉगिन। जब यह superuser हो (embedded क्लस्टर और साथ आने वाली compose फ़ाइल), तो सर्वर इसे सिर्फ़ रीस्टोर के लिए रखता है और <code>EVEY_DB_APP_USER</code> के रूप में चलता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
@@ -3139,7 +3139,7 @@
 <tr>
 <td><code>EVEY_DB_PRIVILEGE_SPLIT</code></td>
 <td><code>true</code></td>
-<td><code>false</code> सब कुछ <code>EVEY_DB_USER</code> के रूप में चलाता है, superuser भी। अगर कोई डेटाबेस यह बँटवारा न माने, तो यह बचने का रास्ता है; वरना बूट रुक जाता है और इसी वेरिएबल का नाम बताता है।</td>
+<td><code>false</code> सब कुछ <code>EVEY_DB_USER</code> के रूप में चलाता है, superuser भी। अगर कोई डेटाबेस यह बँटवारा न माने, तो यह एक विकल्प है; वरना बूट रुक जाता है और इसी वेरिएबल का नाम बताता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
@@ -3194,7 +3194,7 @@
 <tr>
 <td><code>EVEY_EMBEDDED_MEILI</code></td>
 <td><code>true</code></td>
-<td><code>false</code> अंदर वाले की जगह <code>EVEY_MEILI_URL</code> पर मौजूद Meilisearch इस्तेमाल करता है। इसे entrypoint पढ़ता है।</td>
+<td><code>false</code> embedded Meilisearch की जगह <code>EVEY_MEILI_URL</code> पर मौजूद Meilisearch इस्तेमाल करता है। इसे entrypoint पढ़ता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
@@ -3218,13 +3218,13 @@
 <tr>
 <td><code>MEILI_DATA_DIR</code></td>
 <td><code>/data/meili</code></td>
-<td>अंदर वाला इंडेक्स कहाँ रहता है। इसे entrypoint पढ़ता है।</td>
+<td>embedded इंडेक्स कहाँ रखा जाता है। इसे entrypoint पढ़ता है।</td>
 <td>कोई नहीं</td>
 </tr>
 <tr>
 <td><code>MEILI_MAX_INDEXING_MEMORY</code></td>
 <td>कंटेनर की मेमोरी का लगभग 20 %, कम से कम 128 MiB</td>
-<td>इंडेक्स बनाने के लिए अंदर वाला Meilisearch जितनी मेमोरी ले सकता है। यह कंटेनर की सीमा से निकाला जाता है, मशीन की मेमोरी से नहीं, ताकि कोई स्कैन छोटे कंटेनर की पूरी मेमोरी न खा जाए। कोई मान साफ़ दिया जाए, तो वही आगे भेजा जाता है।</td>
+<td>इंडेक्स बनाने के लिए embedded Meilisearch जितनी मेमोरी ले सकता है। यह कंटेनर की सीमा से निकाला जाता है, मशीन की मेमोरी से नहीं, ताकि कोई स्कैन छोटे कंटेनर की पूरी मेमोरी इस्तेमाल न कर ले। कोई मान साफ़ दिया जाए, तो वही आगे भेजा जाता है।</td>
 <td>कोई नहीं</td>
 </tr>
 </tbody>

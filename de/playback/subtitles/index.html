@@ -3114,18 +3114,18 @@
 
 <h1 id="subtitles">Untertitel<a class="headerlink" href="#subtitles" title="Permanent link">¶</a></h1>
 <p><strong>Um Untertitel einzuschalten</strong>, öffnen Sie im Player das Einstellungsmenü und
-wählen <strong>Untertitel</strong>. Damit sie jedes Mal in Ihrer Sprache kommen, stellen
+wählen <strong>Untertitel</strong>. Damit sie jedes Mal in Ihrer Sprache erscheinen, stellen
 Sie <strong>Einstellungen → Wiedergabe → Standard-Untertitelsprache</strong> ein.</p>
 <p>Die meisten Untertitel erscheinen sofort. Zwei Fälle sind anders:</p>
 <ul>
 <li><strong>Wenn jemand zum ersten Mal einen Untertitel wählt, der in der Datei
-  steckt</strong>, muss Evey ihn aus der Datei holen. Der Player zeigt <strong>Untertitel
+  steckt</strong>, muss Evey ihn aus der Datei extrahieren. Der Player zeigt <strong>Untertitel
   werden vorbereitet…</strong>, das Video läuft weiter, und die Untertitel erscheinen
   von selbst. Bei einem sehr großen Film kann das einige Minuten dauern,
   einmalig: Danach erscheinen sie für alle sofort. Siehe
   <a href="#the-first-time-a-subtitle-is-shown">Wenn ein Untertitel zum ersten Mal gezeigt wird</a>.</li>
 <li><strong>Untertitel von DVDs und aus dem Fernsehen</strong> sind Bilder, kein Text. Der
-  Server zeichnet sie direkt ins Video, was ihn viel mehr arbeiten lässt. Die
+  Server brennt sie direkt ins Video ein, was für ihn deutlich mehr Rechenaufwand bedeutet. Die
   Profileinstellung <strong>Untertitel einbrennen</strong> (<strong>Einstellungen → Wiedergabe</strong>)
   kann das ablehnen, aber dann können diese Untertitel nicht angezeigt
   werden. Siehe <a href="#subtitle-burn-in">Untertitel einbrennen</a>.</li>
@@ -3146,13 +3146,13 @@ Server ändert.</p>
 <tr>
 <td>Text</td>
 <td>SRT, ASS/SSA, WebVTT, Untertitel in der Datei</td>
-<td>Neben dem Video geschickt und vom Player gezeichnet, mit Ihrem <strong>Untertitel-Stil</strong></td>
+<td>Neben dem Video geschickt und vom Player dargestellt, mit Ihrem <strong>Untertitel-Stil</strong></td>
 <td>Keine</td>
 </tr>
 <tr>
 <td>PGS (Blu-ray)</td>
 <td><code>hdmv_pgs_subtitle</code></td>
-<td>Einmal vom Server in Bilder umgewandelt, zwischengespeichert und vom Player unverändert gezeichnet</td>
+<td>Einmal vom Server in Bilder umgewandelt, zwischengespeichert und vom Player unverändert dargestellt</td>
 <td>Keine</td>
 </tr>
 <tr>
@@ -3163,8 +3163,8 @@ Server ändert.</p>
 </tr>
 </tbody>
 </table>
-<p>Jeder Player (Web, Android, Android TV) zeichnet Text- und PGS-Untertitel
-selbst. Einen davon zu wählen, ändert also nie, wie das Video geliefert wird.
+<p>Jeder Player (Web, Android, Android TV) stellt Text- und PGS-Untertitel
+selbst dar. Einen davon zu wählen, ändert also nie, wie das Video geliefert wird.
 Nur die letzte Zeile tut das: Untertitel ins Bild einzubrennen heißt, das
 Video zu dekodieren und neu zu kodieren. Ein Titel, der direkt abgespielt
 wurde, wird so zu einer Transkodierung. Die Stream-Info zeigt dann
@@ -3187,24 +3187,24 @@ Wiedergabe</strong>) gilt für die Formate der letzten Zeile:</p>
 <tr>
 <td><strong>Auto</strong></td>
 <td>Eingebrannt, das Video wird neu kodiert.</td>
-<td>Vom Player gezeichnet.</td>
+<td>Vom Player dargestellt.</td>
 </tr>
 <tr>
 <td><strong>Immer einbrennen</strong></td>
 <td>Wie Auto.</td>
-<td>Vom Player gezeichnet: Text wird nie eingebrannt, egal bei welcher Einstellung.</td>
+<td>Vom Player dargestellt: Text wird nie eingebrannt, egal bei welcher Einstellung.</td>
 </tr>
 <tr>
 <td><strong>Nie einbrennen</strong></td>
 <td>Kann nicht angezeigt werden: Das Video wird für einen Untertitel nie neu kodiert.</td>
-<td>Vom Player gezeichnet.</td>
+<td>Vom Player dargestellt.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-first-time-a-subtitle-is-shown">Wenn ein Untertitel zum ersten Mal gezeigt wird<a class="headerlink" href="#the-first-time-a-subtitle-is-shown" title="Permanent link">¶</a></h2>
-<p>Ein Untertitel in der Datei (Text oder PGS) wird vom Server herausgeholt, wenn
-ihn jemand zum ersten Mal wählt, und dann aufbewahrt: Jedes spätere Schauen,
-von wem auch immer, bekommt ihn sofort. Deckt der eigene Index der Datei die
+<p>Ein Untertitel in der Datei (Text oder PGS) wird vom Server extrahiert, wenn
+ihn jemand zum ersten Mal wählt, und dann aufbewahrt: Bei jeder späteren
+Wiedergabe, egal durch wen, erscheint er sofort. Deckt der eigene Index der Datei die
 Spur ab, liest der Server nur die Blöcke des Untertitels, und das dauert
 Sekunden. Ohne diesen Index liest er die ganze Datei: einige Minuten bei
 einem großen Film (etwa fünf bei einem UHD-Remux von 85 GB auf einer lokalen
@@ -3212,10 +3212,10 @@ Festplatte, länger, wenn derselbe Server gleichzeitig streamt).</p>
 <p>Währenddessen zeigt der Player <strong>Untertitel werden vorbereitet…</strong> dort, wo
 die Untertitel erscheinen, prüft von selbst erneut und zeigt sie an, sobald
 sie bereit sind; das Video läuft weiter. Eine andere Spur zu wählen, stoppt
-die Arbeit nicht: Der Server macht sie für das nächste Mal fertig.</p>
-<p>Eine Spur, die der Server nicht herausholen kann, bleibt leer. Der Fehler
-wird gemerkt, sodass eine erneute Auswahl nicht noch einmal die ganze Datei
-liest; ein Update von MKVGo, der Bibliothek, die die Spur herausholt,
+die Arbeit nicht: Der Server schließt sie für das nächste Mal ab.</p>
+<p>Eine Spur, die der Server nicht extrahieren kann, bleibt leer. Der Fehler
+wird gespeichert, sodass eine erneute Auswahl nicht noch einmal die ganze Datei
+liest; ein Update von MKVGo, der Bibliothek, die die Spur extrahiert,
 versucht es erneut. Siehe <a href="../mkvgo/#what-mkvgo-does">MKVGo in Evey</a>, was
 wann gelesen wird.</p>
 <h2 id="choosing-and-adjusting">Auswählen und anpassen<a class="headerlink" href="#choosing-and-adjusting" title="Permanent link">¶</a></h2>
@@ -3228,7 +3228,7 @@ wann gelesen wird.</p>
   laufenden Titel (positive Werte zeigen sie später). Das wirkt sofort.</li>
 <li><strong>Untertitel-Stil</strong> stellt Größe, Textfarbe, Hintergrund, Schrift, Schatten
   und Position von Text-Untertiteln ein. PGS-Bilder werden unverändert
-  gezeichnet.</li>
+  dargestellt.</li>
 <li><strong>Untertitel hochladen…</strong> fügt dem Titel eine Datei hinzu.</li>
 <li>Mit einem OpenSubtitles-Schlüssel (siehe <a href="../../administration/libraries/#metadata-keys">Bibliotheken und Metadaten</a>)
   kann die Server-API nach einem Untertitel suchen, den die Datei nicht

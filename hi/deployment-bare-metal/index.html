@@ -3357,7 +3357,7 @@ launcher को पहले <code>$EVEY_PLUGIN_LAUNCHER</code> में ढू
 <p>आपके प्लगइन का <code>entrypoint:</code> जो भी चलाता है, उसे इंस्टॉल करें। runner <code>python3</code>,
 <code>python</code>, <code>node</code>, <code>php</code>, <code>ruby</code>, <code>perl</code>, <code>lua</code>, <code>bash</code> और <code>sh</code> पहचानता है;
 ज़्यादातर कम्युनिटी प्लगइन के लिए <code>python3</code> काफ़ी है। फिर वे सर्विस जिनसे सर्वर
-बात करता है:</p>
+जुड़ता है:</p>
 <table>
 <thead>
 <tr>
@@ -3388,9 +3388,9 @@ launcher को पहले <code>$EVEY_PLUGIN_LAUNCHER</code> में ढू
 </tr>
 </tbody>
 </table>
-<p>अंदर वाला डेटाबेस और सर्च इंजन इमेज के entrypoint की सुविधा है, binary की नहीं:
-bare metal पर दोनों आप खुद चलाते हैं और <code>EVEY_DB_HOST</code> और <code>EVEY_MEILI_URL</code> को
-उनकी ओर भेजते हैं।</p>
+<p>इमेज में शामिल (embedded) डेटाबेस और सर्च इंजन इमेज के entrypoint की सुविधा है,
+binary की नहीं: bare metal पर दोनों आप खुद चलाते हैं और <code>EVEY_DB_HOST</code> और
+<code>EVEY_MEILI_URL</code> में उनके पते सेट करते हैं।</p>
 <h2 id="run-as-a-dedicated-non-root-user">एक अलग उपयोगकर्ता से चलाएँ, root से नहीं<a class="headerlink" href="#run-as-a-dedicated-non-root-user" title="Permanent link">¶</a></h2>
 <p>सर्वर को कभी root के रूप में न चलाएँ। इमेज की तरह एक ग्रुप और बिना विशेष
 अधिकार वाले दो उपयोगकर्ता बनाएँ:</p>
@@ -3400,15 +3400,15 @@ bare metal पर दोनों आप खुद चलाते हैं औ
 </span></code></pre></div>
 <ul>
 <li><code>evey</code> (UID 1000) सर्वर चलाता है।</li>
-<li><code>evey-plugin</code> (UID 1001) वह उपयोगकर्ता है जिस पर प्लगइन uid separation चालू
-  होने पर भेजे जाते हैं, ताकि कोई हैक हुआ प्लगइन एक अलग, बिना विशेष अधिकार वाले
-  उपयोगकर्ता के रूप में रहे, जो सामान्य फ़ाइल अनुमतियों की वजह से सर्वर के
-  secret नहीं पढ़ सकता।</li>
+<li><code>evey-plugin</code> (UID 1001) वह उपयोगकर्ता है जिसके रूप में uid separation चालू
+  होने पर प्लगइन चलाए जाते हैं, ताकि कोई हैक हुआ प्लगइन एक अलग, बिना विशेष
+  अधिकार वाले उपयोगकर्ता के रूप में चले, जो सामान्य फ़ाइल अनुमतियों की वजह से
+  सर्वर के secret नहीं पढ़ सकता।</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>ग्रुप id मायने रखती है: launcher प्लगइन को UID 1001 और सर्वर के अपने ग्रुप
-पर भेजता है, और 1000 से नीचे की कोई भी uid या gid मना कर देता है। सिर्फ़
+पर स्विच करता है, और 1000 से नीचे की कोई भी uid या gid मना कर देता है। सिर्फ़
 <code>useradd --system</code> से बने ग्रुप को 1000 से नीचे की system id मिलती है, और तब
 <code>basic</code> मोड में प्लगइन मना कर दिए जाते हैं।</p>
 </div>
@@ -3437,8 +3437,8 @@ reboot करें (मौजूदा एंट्री रखें, यह 
 <p>फिर या तो <code>auto</code> रहने दें, या इसे तय कर दें:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">    </span><span class="c1"># fail closed: Landlock लागू न हो सके तो प्लगइन मना कर दिया जाता है</span>
 </span></code></pre></div>
-<p><code>landlock</code> launcher को <code>-require-landlock</code> देता है, जो प्लगइन को बिना घेरे के
-चलाने की जगह non-zero के साथ बाहर निकल जाता है।</p>
+<p><code>landlock</code> launcher को <code>-require-landlock</code> देता है, जो प्लगइन को बिना प्रतिबंध के
+चलाने की जगह non-zero कोड के साथ बंद हो जाता है।</p>
 <h3 id="bubblewrap">bubblewrap<a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
 <p>जब Landlock उपलब्ध न हो, तो <code>bwrap</code> इंस्टॉल करें। यह हर प्लगइन को user, pid,
 uts, ipc और network namespace में रखता है, mount की एक अनुमति-सूची के साथ। इसके
@@ -3455,19 +3455,19 @@ bare-metal Linux पर मिलते हैं पर बिना विश�
 <h3 id="basic-last-resort">basic (आखिरी उपाय)<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
 <p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> में uid बदला जाता है और साथ में seccomp shim
 होता है; launcher मौजूद हो, तो वह फिर भी अपनी kernel seccomp मनाही-सूची और जितना
-हो सके उतना Landlock लगाता है। हर रास्ते के हिसाब से फ़ाइल सिस्टम का कोई घेरा
-नहीं है: प्लगइन सिर्फ़ seccomp के साथ UID 1001 पर चलता है। इसे पुराने या कसकर
-बंद kernel पर इस्तेमाल करें जहाँ न Landlock चलता है न bubblewrap, और secret
+हो सके उतना Landlock लगाता है। हर रास्ते के हिसाब से फ़ाइल सिस्टम का कोई प्रतिबंध
+नहीं है: प्लगइन सिर्फ़ seccomp के साथ UID 1001 पर चलता है। इसे पुराने या सख़्ती से
+प्रतिबंधित kernel पर इस्तेमाल करें जहाँ न Landlock चलता है न bubblewrap, और secret
 बचाने के लिए नीचे दिए uid separation पर भरोसा करें।</p>
 <p>जिस प्लगइन को <code>subprocess</code> की अनुमति मिली है, उसे <code>basic</code> मोड में भी launcher
-चाहिए: shim किसी child process के <code>exec</code> के बाद नहीं बचता, सिर्फ़ launcher का
-kernel seccomp बचता है। launcher के बिना ऐसा प्लगइन बिना घेरे के चलने की जगह शुरू
-होने से मना कर देता है।</p>
+चाहिए: shim किसी child process के <code>exec</code> के बाद लागू नहीं रहता, सिर्फ़ launcher का
+kernel seccomp लागू रहता है। launcher के बिना ऐसा प्लगइन बिना प्रतिबंध के चलने की
+जगह शुरू होने से मना कर देता है।</p>
 <h2 id="keep-secrets-out-of-a-plugins-reach">secret को प्लगइन की पहुँच से दूर रखें<a class="headerlink" href="#keep-secrets-out-of-a-plugins-reach" title="Permanent link">¶</a></h2>
 <p>uid separation हर प्लगइन को <code>evey-plugin</code> (UID 1001) के रूप में चलाता है, जो
 सर्वर (UID 1000) से अलग है, ताकि सामान्य फ़ाइल अनुमतियों की वजह से प्लगइन
 <code>jwt.key</code>, बैकअप या लॉग न पढ़ सके। यह <code>basic</code> मोड में मायने रखता है; Landlock या
-bubblewrap में फ़ाइल सिस्टम पहले से घिरा होता है, इसलिए वहाँ यह दोहराव है।</p>
+bubblewrap में फ़ाइल सिस्टम पहले से प्रतिबंधित होता है, इसलिए वहाँ यह दोहराव है।</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
 <thead>
@@ -3498,20 +3498,20 @@ capability के रहता है; launcher के पास एक file cap
 </span></code></pre></div>
 <p>launcher 1000 से नीचे की कोई भी लक्ष्य uid या gid मना कर देता है। जब वह uid नहीं
 बदल पाता (capability नहीं है, <code>no_new_privs</code> सेट है), तो <code>basic</code> मोड वाला प्लगइन
-मना कर दिया जाता है, क्योंकि वहाँ uid ही उसकी अकेली दीवार है; Landlock में वह लॉग
+मना कर दिया जाता है, क्योंकि वहाँ uid ही उसकी एकमात्र सुरक्षा है; Landlock में वह लॉग
 में चेतावनी लिखता है और सर्वर की uid पर चलता है।</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>uid separation <code>no_new_privs</code> के साथ नहीं चलता। अगर सर्वर systemd
 <code>NoNewPrivileges=yes</code> के साथ चलता है, तो exec पर file capability अनदेखी हो
 जाती है: <code>basic</code> मोड में प्लगइन मना कर दिए जाते हैं, और Landlock में uid
-separation घटकर एक ही uid रह जाता है। एक चुनें।</p>
+separation लागू नहीं होता, प्लगइन सर्वर की uid पर चलता है। एक चुनें।</p>
 </div>
 <p>अगर सर्वर इसकी जगह root के रूप में चलता है (सुझाया नहीं जाता), तो वह प्लगइन को
-सीधे 1001 पर भेजता है और capability की ज़रूरत नहीं होती। हर स्थिति की आसान भाषा
-में तस्वीर <a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> में है।</p>
+सीधे 1001 पर भेजता है और capability की ज़रूरत नहीं होती। हर स्थिति का आसान भाषा
+में विवरण <a href="../plugins/sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> में है।</p>
 <h2 id="secret-file-permissions">secret वाली फ़ाइलों की अनुमतियाँ<a class="headerlink" href="#secret-file-permissions" title="Permanent link">¶</a></h2>
-<p>इमेज की नकल करें: secret वाले फ़ोल्डर सिर्फ़ मालिक के लिए होते हैं, ताकि UID
+<p>इमेज जैसी ही अनुमतियाँ रखें: secret वाले फ़ोल्डर सिर्फ़ मालिक के लिए होते हैं, ताकि UID
 1001 पर भेजा गया प्लगइन Landlock के बिना भी उन्हें न पढ़ सके।</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>evey:evey<span class="w"> </span>/var/lib/evey
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># plugins/ सर्वर का है (वह इंस्टॉल वहीं खोलता है); ग्रुप evey,</span>
@@ -3522,15 +3522,15 @@ separation घटकर एक ही uid रह जाता है। एक �
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># JWT पर साइन करने वाली कुंजी खुद (पहले बूट पर 0600 के साथ बनती है):</span>
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/var/lib/evey/jwt.key
 </span></code></pre></div>
-<p>रास्ते वहाँ के हिसाब से बदलें जहाँ आप <code>EVEY_*_DIR</code> वेरिएबल और
-<code>EVEY_JWT_PRIVATE_KEY_PATH</code> भेजते हैं।</p>
+<p>रास्ते उन फ़ोल्डरों के हिसाब से बदलें जो आप <code>EVEY_*_DIR</code> वेरिएबल और
+<code>EVEY_JWT_PRIVATE_KEY_PATH</code> में सेट करते हैं।</p>
 <h2 id="configure-the-environment">environment कॉन्फ़िगर करें<a class="headerlink" href="#configure-the-environment" title="Permanent link">¶</a></h2>
 <p>सारा कॉन्फ़िगरेशन <code>EVEY_*</code> environment वेरिएबल से होता है;
 <a href="../configuration/">कॉन्फ़िगरेशन रेफ़रेंस</a> में पूरी टेबल है। bare metal पर चलाने
 की खास बातें:</p>
 <ul>
-<li><code>EVEY_DB_HOST</code> और <code>EVEY_MEILI_URL</code> को अपने PostgreSQL और Meilisearch की ओर
-  भेजें। <code>EVEY_DB_PASSWORD</code> डिफ़ॉल्ट <code>evey</code> नहीं होना चाहिए।</li>
+<li><code>EVEY_DB_HOST</code> और <code>EVEY_MEILI_URL</code> में अपने PostgreSQL और Meilisearch के पते
+  सेट करें। <code>EVEY_DB_PASSWORD</code> डिफ़ॉल्ट <code>evey</code> नहीं होना चाहिए।</li>
 <li>रास्तों के Go डिफ़ॉल्ट कंटेनर के लिए चुने गए थे: <code>EVEY_LOG_DIR</code> (डिफ़ॉल्ट
   सापेक्ष <code>logs</code>), <code>EVEY_BACKUP_DIR</code> (<code>/data/backups</code>),
   <code>EVEY_TRANSCODING_CACHE_DIR</code> (<code>/data/transcode</code>), <code>EVEY_TRICKPLAY_CACHE_DIR</code>
@@ -3539,10 +3539,10 @@ separation घटकर एक ही uid रह जाता है। एक �
 <li>सर्वर सादा HTTP देता है: TLS के लिए आगे एक रिवर्स प्रॉक्सी लगाएँ, <code>https://</code>
   वाले <strong>बाहरी URL</strong> के साथ, और प्रॉक्सी को <strong>विश्वसनीय प्रॉक्सी</strong> में डालें
   (<strong>एडमिन → रिमोट एक्सेस</strong>; <code>EVEY_SERVER_BASE_URL</code> और <code>EVEY_TRUSTED_PROXIES</code>
-  बैकअप हैं)। देखें <a href="../reverse-proxy/">रिवर्स प्रॉक्सी कॉन्फ़िगरेशन</a>।</li>
+  वैकल्पिक तरीका (fallback) हैं)। देखें <a href="../reverse-proxy/">रिवर्स प्रॉक्सी कॉन्फ़िगरेशन</a>।</li>
 <li><strong>सर्वर दो पोर्ट खोलता है, और सिर्फ़ एक बाहर खुला होना चाहिए।</strong>
-  <code>EVEY_SERVER_PORT</code> (डिफ़ॉल्ट <code>9090</code>) अपना gRPC listener है; जिस HTTP API से
-  आपके क्लाइंट और रिवर्स प्रॉक्सी बात करते हैं, वह इस पोर्ट से एक आगे (<code>9091</code>)
+  <code>EVEY_SERVER_PORT</code> (डिफ़ॉल्ट <code>9090</code>) native gRPC listener है; जिस HTTP API से
+  आपके क्लाइंट और रिवर्स प्रॉक्सी जुड़ते हैं, वह इस पोर्ट से एक आगे (<code>9091</code>)
   है। रिमोट एक्सेस की जाँच, जो तय करती है कि आपके LAN के बाहर के क्लाइंट जुड़
   सकते हैं या नहीं, HTTP वाले रास्ते में लगी है और gRPC listener पर लागू नहीं
   होती, इसीलिए वह डिफ़ॉल्ट रूप से सिर्फ़ loopback पर सुनता है
@@ -3551,7 +3551,7 @@ separation घटकर एक ही uid रह जाता है। एक �
   लागू नहीं होती, और तब उसे फ़ायरवॉल से बचाना आपकी ज़िम्मेदारी है।</li>
 <li>माइग्रेशन सर्वर शुरू होते समय चलते हैं; माइग्रेशन का कोई अलग कदम नहीं है।</li>
 <li>प्लगइन के संसाधनों की सीमाएँ (<code>EVEY_PLUGINS_MEMORY_MB</code>, <code>_PIDS_MAX</code>,
-  <code>_DISK_MAX_MB</code>, <code>_CPU_NICE</code>) और सैंडबॉक्स मोड चलते-चलते <strong>एडमिन → प्लगइन →
+  <code>_DISK_MAX_MB</code>, <code>_CPU_NICE</code>) और सैंडबॉक्स मोड सर्वर चलते समय <strong>एडमिन → प्लगइन →
   संसाधन सीमाएँ</strong> से बदले जा सकते हैं; environment के मान शुरुआती डिफ़ॉल्ट हैं।</li>
 <li>एडमिन पैनल से सर्वर रीस्टार्ट इमेज के supervisor पर निर्भर है, और बिना कंटेनर
   चलाने पर खुद को उपलब्ध नहीं बताता: सर्विस को खुद रीस्टार्ट करें।</li>
@@ -3575,7 +3575,7 @@ separation घटकर एक ही uid रह जाता है। एक �
 </span></code></pre></div>
 <p>चल रहे प्लगइन प्रोसेस पर <code>Seccomp: 2</code> वाली लाइन पुष्टि करती है कि kernel
 फ़िल्टर लगा हुआ है। <code>EVEY_PLUGINS_SANDBOX_MODE=landlock</code> के साथ और Landlock लागू
-न होने पर, प्लगइन शुरू होने से मना कर देता है: यही fail-closed वादा काम कर रहा
+न होने पर, प्लगइन शुरू होने से मना कर देता है: यही fail-closed नियम काम कर रहा
 है।</p>
 <p>बैकअप, अपडेट और रिकवरी की कमांड के लिए कंटेनर वाले पेज जैसे हैं वैसे लागू होते
 हैं: <a href="../backups/">बैकअप और अपडेट</a>, <a href="../runbooks/recovery/">रिकवरी</a> और

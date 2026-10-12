@@ -3339,8 +3339,8 @@ los registros y <code>evey admin doctor</code> (más abajo) dan más informació
 </tbody>
 </table>
 <h2 id="the-logs">Los registros<a class="headerlink" href="#the-logs" title="Permanent link">¶</a></h2>
-<p>El registro (log) es el diario de Evey: cada error se anota ahí, con la
-hora.</p>
+<p>El registro (log) es el archivo donde Evey anota lo que hace: cada error
+se anota ahí, con la hora.</p>
 <p><strong>La forma fácil: Administración → Registros y depuración.</strong> Muestra el registro
 con un buscador, una vista <strong>En vivo</strong> que sigue las líneas nuevas, y un
 filtro <strong>Zona</strong> para una sola parte (reproductor y conversión, subtítulos,
@@ -3392,7 +3392,7 @@ comprobación. Los demás comandos están en
 </tr>
 <tr>
 <td>Líneas que empiezan por <code>evey:</code> sobre Postgres</td>
-<td>La base de datos integrada no quiso arrancar: un clúster de otra versión principal de Postgres (<a href="../advanced-deployments/#move-to-a-newer-postgres-major">Actualización de versión principal de Postgres</a>), un directorio de datos que no es un clúster de Postgres, un disco lleno, o <code>./evey-data/postgres</code> en una carpeta compartida en red.</td>
+<td>La base de datos integrada se negó a arrancar: un clúster de otra versión principal de Postgres (<a href="../advanced-deployments/#move-to-a-newer-postgres-major">Actualización de versión principal de Postgres</a>), un directorio de datos que no es un clúster de Postgres, un disco lleno, o <code>./evey-data/postgres</code> en una carpeta compartida en red.</td>
 </tr>
 <tr>
 <td><code>permission denied</code> en <code>/cache/...</code>, en un bucle de reinicios</td>
@@ -3484,7 +3484,7 @@ reprodujera tal cual: ver
 <li><strong>Preparando subtítulos…</strong> se queda varios minutos: el archivo no tiene
   índice para esa pista y el servidor lo lee entero, una vez. Ver
   <a href="../../playback/subtitles/#the-first-time-a-subtitle-is-shown">La primera vez que se muestra un subtítulo</a>.</li>
-<li>Los títulos transcodificados no arrancan o se atascan mientras los títulos
+<li>Los títulos transcodificados no arrancan o se detienen mientras los títulos
   ya reproducidos siguen funcionando, o los administradores reciben <strong>Caché
   de subtítulos llena</strong>: el disco está por debajo de su margen de espacio
   libre. Ver

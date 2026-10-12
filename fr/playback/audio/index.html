@@ -3164,7 +3164,7 @@ sont dans <strong>Paramètres → Lecture</strong>.</p>
 <tbody>
 <tr>
 <td>Un navigateur</td>
-<td>La piste telle quelle quand le navigateur la décode ; l'AC-3 et l'E-AC-3 décodés dans la page (ci-dessous) ; sinon de l'AAC. Une piste AAC surround est ramenée sur votre sortie par le navigateur.</td>
+<td>La piste telle quelle quand le navigateur la décode ; l'AC-3 et l'E-AC-3 décodés dans la page (ci-dessous) ; sinon de l'AAC. Une piste AAC surround est réduite par le navigateur aux canaux de votre sortie.</td>
 </tr>
 <tr>
 <td>Un téléphone Android sur son haut-parleur, un casque ou le Bluetooth</td>
@@ -3219,8 +3219,8 @@ navigateurs qui décodent nativement le Dolby Digital, comme Safari, la
 reçoivent comme une piste ordinaire ; le choix se fait en testant le
 navigateur, pas en le reconnaissant. Une piste surround n'est décodée dans la
 page que si les <strong>Canaux audio maximum</strong> du profil l'autorisent : un profil
-réglé en stéréo reçoit le réencodage AAC à la place, qui sait ramener les
-canaux.</p>
+réglé en stéréo reçoit le réencodage AAC à la place, qui peut réduire le nombre
+de canaux.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Un reverse proxy qui impose sa propre Content-Security-Policy doit

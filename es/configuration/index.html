@@ -3187,7 +3187,7 @@
 
 
 <h1 id="configuration-reference">Referencia de configuración<a class="headerlink" href="#configuration-reference" title="Permanent link">¶</a></h1>
-<p>Dónde vive cada ajuste de un servidor Evey, qué valor gana cuando un ajuste
+<p>Dónde está cada ajuste de un servidor Evey, qué valor tiene prioridad cuando un ajuste
 existe a la vez en el panel de administración y en el entorno, y para qué
 hace falta reiniciar. Las variables en sí están listadas por tema en las diez
 páginas enlazadas más abajo; esta página es para el administrador que edita
@@ -3197,13 +3197,13 @@ el archivo compose o que se pregunta por qué una variable parece ignorada.</p>
 rutas de almacenamiento, la dirección pública, datos del proxy inverso) va en
 el archivo compose como variables de entorno. <strong>Lo que un administrador
 ajusta después</strong> (idiomas, límites de transcodificación, aceleración por
-hardware, horarios, límites de los plugins) vive en el panel de
+hardware, horarios, límites de los plugins) está en el panel de
 administración, se guarda en la base de datos, sobrevive a una actualización
 del contenedor y casi siempre se aplica sin reiniciar.</p>
 <p>Para un ajuste que existe en los dos lugares, la prioridad es siempre la
 misma:</p>
 <ol>
-<li><strong>Gana el valor guardado en el panel.</strong> En cada arranque, el servidor lee
+<li><strong>Tiene prioridad el valor guardado en el panel.</strong> En cada arranque, el servidor lee
    primero el entorno y después sustituye cada campo por el valor guardado en
    la base de datos, si lo hay. Una variable nunca se impone a un valor
    guardado.</li>
@@ -3300,7 +3300,7 @@ panel.</p>
   después de editar el archivo compose.</li>
 <li><code>EVEY_DB_PASSWORD</code> y <code>MEILI_MASTER_KEY</code> también pueden venir de un archivo
   indicado por la misma variable con el sufijo <code>_FILE</code>; un valor explícito
-  gana al archivo.</li>
+  tiene prioridad sobre el archivo.</li>
 </ul>
 <h2 id="secrets">Secretos<a class="headerlink" href="#secrets" title="Permanent link">¶</a></h2>
 <p>El Postgres y el Meilisearch integrados generan sus secretos en el primer
@@ -3310,11 +3310,11 @@ arranque, en <code>./evey-data/keys</code> (<code>postgres.password</code>, <cod
 <code>evey admin</code> no necesitan contraseña. Define <code>EVEY_DB_PASSWORD</code> o
 <code>MEILI_MASTER_KEY</code> solo para una base de datos o un motor de búsqueda
 externos.</p>
-<p>Evey trae una clave TMDB integrada. <code>EVEY_TMDB_API_KEY</code> siembra la tuya; la
+<p>Evey trae una clave TMDB integrada. <code>EVEY_TMDB_API_KEY</code> define la tuya como valor inicial; la
 clave definida en <strong>Administración → Configuración del servidor → Claves
 API</strong> tiene prioridad sobre ella.</p>
 <h2 id="variables-you-do-not-need">Variables que no necesitas<a class="headerlink" href="#variables-you-do-not-need" title="Permanent link">¶</a></h2>
-<p>Líneas que a menudo se arrastran de instalaciones antiguas, y por qué no
+<p>Líneas que a menudo se conservan de instalaciones antiguas, y por qué no
 cambian nada:</p>
 <table>
 <thead>
@@ -3366,14 +3366,14 @@ se une a los grupos de los demás montajes como grupos adicionales, así que
 las reparaciones en esos montajes funcionan cuando sus archivos tienen
 permiso de escritura para el grupo (el aviso de arranque indica qué montajes
 podrían seguir rechazando la escritura). La detección automática solo se
-aparta del todo (vuelve a <code>1000:1000</code> con un aviso) cuando todos los montajes
+desactiva del todo (vuelve a <code>1000:1000</code> con un aviso) cuando todos los montajes
 de medios pertenecen a root o al uid reservado <code>1001</code>: cambia el propietario
 de tus medios a un usuario normal con chown, o define <code>PUID</code>/<code>PGID</code>
 explícitamente:</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>PUID=1026   # ejecuta el servidor con este id de usuario  (en el equipo: `id -u &lt;media-owner&gt;`)
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>PGID=100    # ...y este id de grupo
 </span></code></pre></div>
-<p>Los valores explícitos siempre ganan a la detección.</p>
+<p>Los valores explícitos siempre tienen prioridad sobre la detección.</p>
 <p>Cómo funciona: el contenedor arranca como root solo el tiempo justo para
 reasignar su usuario interno (y devolver al usuario la propiedad de las
 carpetas de estado de Evey, <code>/data</code> y <code>/cache</code>, <strong>nunca</strong> tus montajes de
@@ -3381,11 +3381,11 @@ medios), y después renuncia a los privilegios. Los grupos adicionales dados
 con <code>group_add:</code> en el compose (por ejemplo el grupo render de tu equipo para
 la transcodificación por hardware con <code>/dev/dri</code>) se conservan después del
 cambio. El proceso del servidor nunca se ejecuta como root.</p>
-<p>Alternativa sin nada de root: si ni siquiera ese root pasajero te parece
-aceptable, define <code>user: "UID:GID"</code> en el servicio de tu archivo compose. El
+<p>Alternativa sin nada de root: si ni siquiera ese uso temporal de root te
+parece aceptable, define <code>user: "UID:GID"</code> en el servicio de tu archivo compose. El
 punto de entrada detecta el arranque sin root y se salta la reasignación
-(incluida la detección del propietario de los medios); entonces te toca a ti
-mantener <code>./evey-data</code> con permiso de escritura para ese UID.</p>
+(incluida la detección del propietario de los medios); entonces tienes que
+mantener tú <code>./evey-data</code> con permiso de escritura para ese UID.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>PUID=1001</code> se rechaza: es el usuario interno <code>evey-plugin</code>, que se

@@ -3101,7 +3101,7 @@
 <h1 id="libraries-and-metadata">Bibliotecas y metadatos<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
 <p>Las variables que hay detrás del escaneo, de las fuentes de metadatos y de la
 detección de intros. La mayoría tiene un campo en el panel de administración,
-que gana en cuanto se guarda un valor ahí; la parte del panel se describe en
+que tiene prioridad en cuanto se guarda un valor ahí; la parte del panel se describe en
 <a href="../../administration/libraries/">Bibliotecas y metadatos</a>.</p>
 <h2 id="scanning">Escaneo<a class="headerlink" href="#scanning" title="Permanent link">¶</a></h2>
 <table>
@@ -3123,13 +3123,13 @@ que gana en cuanto se guarda un valor ahí; la parte del panel se describe en
 <tr>
 <td><code>EVEY_LIBRARY_PERIODIC_SCAN_INTERVAL</code></td>
 <td><code>2m</code></td>
-<td>Cada cuánto se revisan las carpetas en busca de lo que se le escapó a la vigilancia (carpetas compartidas por red).</td>
+<td>Cada cuánto se revisan las carpetas en busca de lo que la vigilancia no detectó (carpetas compartidas por red).</td>
 <td>Configuración del servidor → Ajustes del servidor → <strong>Intervalo de escaneo periódico</strong>, al reiniciar</td>
 </tr>
 <tr>
 <td><code>EVEY_LIBRARY_SCAN_WORKERS</code></td>
 <td>según la parte de CPU</td>
-<td>Archivos analizados en paralelo durante un escaneo. Si la defines a mano, se salta la parte de <strong>Potencia asignada</strong> para los escaneos.</td>
+<td>Archivos analizados en paralelo durante un escaneo. Si la defines a mano, no se aplica la parte de <strong>Potencia asignada</strong> para los escaneos.</td>
 <td>ninguno</td>
 </tr>
 <tr>
@@ -3221,7 +3221,7 @@ que gana en cuanto se guarda un valor ahí; la parte del panel se describe en
 <tr>
 <td><code>EVEY_INTRO_DETECTION_MAX_PARALLEL</code></td>
 <td>según la parte de CPU</td>
-<td>Títulos analizados a la vez. Si la defines a mano, se salta la parte de <strong>Potencia asignada</strong> para esta tarea.</td>
+<td>Títulos analizados a la vez. Si la defines a mano, no se aplica la parte de <strong>Potencia asignada</strong> para esta tarea.</td>
 <td>ninguno</td>
 </tr>
 <tr>

@@ -1321,7 +1321,7 @@
   <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        क्लाइंट के असली IP और रिमोट एक्सेस का दरवाज़ा
+        क्लाइंट के असली IP और रिमोट एक्सेस की जाँच
       
     </span>
   </a>
@@ -3565,7 +3565,7 @@
   <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        क्लाइंट के असली IP और रिमोट एक्सेस का दरवाज़ा
+        क्लाइंट के असली IP और रिमोट एक्सेस की जाँच
       
     </span>
   </a>
@@ -3611,7 +3611,7 @@ Manager, या वह जो आप पहले से चला रहे ह
 <code>X-Forwarded-Proto</code> माना जाता है। रिमोट एक्सेस का स्विच और क्लाइंट का असली
 पता <a href="../administration/remote-access/">रिमोट एक्सेस और HTTPS</a> में समझाए गए हैं।</p>
 <p>यही जवाब environment से भी आ सकते हैं, उस इंस्टॉलेशन के लिए जो पूरा कोड के
-रूप में लिखा है (दोनों सेट हों तो पैनल की बात मानी जाती है):</p>
+रूप में लिखा है (दोनों सेट हों तो पैनल के मान को प्राथमिकता मिलती है):</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SERVER_BASE_URL=https://media.example.com
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_TRUSTED_PROXIES=172.16.0.0/12       # सिर्फ़ तब ज़रूरी जब प्रॉक्सी एक कंटेनर हो; loopback पर हमेशा भरोसा है
 </span></code></pre></div>
@@ -3753,14 +3753,14 @@ regex नहीं लिख सकता):</p>
 प्रॉक्सी ब्लॉक से जाता है, जिसे Details टैब सेट करता है। यह snippet छोड़ दें तो
 भी कुछ नहीं टूटता - इससे सिर्फ़ यह बदलता है कि बड़ी फ़ाइलें कहाँ बफ़र होती हैं।</p>
 <h2 id="a-proxy-you-already-run-tls-terminated-upstream">वह प्रॉक्सी जो आप पहले से चला रहे हैं (TLS पहले ही संभाला गया)<a class="headerlink" href="#a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h2>
-<p>जिस NAS पर पहले से एक रिवर्स प्रॉक्सी है (कंपनी का अपना, Nginx Proxy Manager,
+<p>जिस NAS पर पहले से एक रिवर्स प्रॉक्सी है (NAS निर्माता का अपना, Nginx Proxy Manager,
 या किसी साझा Docker नेटवर्क पर Traefik), वहाँ Caddy की ज़रूरत नहीं है: Evey
 अपने सुरक्षा हेडर और पूरा CSP खुद भेजता है, और स्ट्रीमिंग के नियम वैसे भी
 सिर्फ़ वही प्रॉक्सी लागू कर सकता है जो क्लाइंट के सामने है। उसके पीछे दूसरा
 प्रॉक्सी कुछ नहीं जोड़ता।</p>
 <h3 id="set-it-up">सेट करें<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
 <p>evey सर्विस को उस प्रॉक्सी के नेटवर्क पर रखें और <code>evey-server:9091</code> को
-निशाना बनाएँ (कंटेनर का नाम; सर्विस का नाम <code>evey</code> भी काम करता है):</p>
+लक्ष्य के रूप में सेट करें (कंटेनर का नाम; सर्विस का नाम <code>evey</code> भी काम करता है):</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1"># कोई पोर्ट नहीं: अंदर आने का एकमात्र रास्ता प्रॉक्सी है</span>
@@ -3883,7 +3883,7 @@ Caddy भेजता है:</p>
 <p class="admonition-title">ब्राउज़र तक ठीक एक ही CSP हेडर पहुँचना चाहिए</p>
 <p>दो हों (ऐप का और आपके प्रॉक्सी का, या Caddy का और Nginx Proxy Manager के
 "Advanced" snippet का), तो ब्राउज़र दोनों का <em>साझा हिस्सा</em> लागू करते हैं:
-सबसे सख्त वाला जीतता है और गड़बड़ी चुपचाप होती है। इससे जाँचें:
+सबसे सख्त नियम लागू होता है और गड़बड़ी का कोई संकेत नहीं मिलता। इससे जाँचें:
 <code>curl -sI https://your.domain | grep -ci content-security-policy</code>, जिसे
 <code>1</code> छापना चाहिए।</p>
 </div>
@@ -3897,7 +3897,7 @@ Caddy भेजता है:</p>
   <code>curl -sI https://your.domain/plugin-frame.html | grep -i -e content-security -e x-frame</code>
   में <code>sandbox allow-scripts</code> और <code>SAMEORIGIN</code> दिखने चाहिए।</li>
 </ul>
-<h2 id="real-client-ips-and-the-remote-access-gate">क्लाइंट के असली IP और रिमोट एक्सेस का दरवाज़ा<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
+<h2 id="real-client-ips-and-the-remote-access-gate">क्लाइंट के असली IP और रिमोट एक्सेस की जाँच<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
 <p>जब प्रॉक्सी क्लाइंट का असली पता आगे भेजता है, तो Evey घर के दर्शक और
 इंटरनेट के दर्शक में फ़र्क कर पाता है: <strong>अधिकतम रिमोट बिटरेट</strong> और रिमोट
 एक्सेस का स्विच इसी पर काम करते हैं। दो नियम:</p>

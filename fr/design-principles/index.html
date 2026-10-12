@@ -2834,7 +2834,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Le code tiers est contenu, pas digne de confiance
+        2. Le code tiers est confiné, pas considéré comme fiable
       
     </span>
   </a>
@@ -3104,7 +3104,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Le code tiers est contenu, pas digne de confiance
+        2. Le code tiers est confiné, pas considéré comme fiable
       
     </span>
   </a>
@@ -3222,7 +3222,7 @@ entrent en conflit, le premier de la liste l'emporte.</p>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a></td>
 </tr>
 <tr>
-<td>2. Le code tiers est contenu, pas digne de confiance</td>
+<td>2. Le code tiers est confiné, pas considéré comme fiable</td>
 <td>sandbox des plugins</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>, <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a></td>
 </tr>
@@ -3258,17 +3258,17 @@ entrent en conflit, le premier de la liste l'emporte.</p>
 restrictive. Un profil dont les réglages parentaux ne peuvent pas être lus ne
 reçoit aucun contenu ; un plugin dont le code ne peut pas être analysé n'est
 pas installé ; l'accès distant suit un choix explicite une fois qu'il a été
-fait, et le dit clairement quand il refuse tout le monde. Accès distant et
+fait, et l'indique clairement quand il refuse tout le monde. Accès distant et
 authentification sont deux choses distinctes : le premier est un choix de
 déploiement, la seconde est ce qui protège la bibliothèque.</p>
 <p>Voir <a href="../administration/users/">Utilisateurs, profils et contrôle parental</a>,
 <a href="../administration/remote-access/">Accès distant et HTTPS</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a>.</p>
-<h2 id="2-third-party-code-is-contained-not-trusted">2. Le code tiers est contenu, pas digne de confiance<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
+<h2 id="2-third-party-code-is-contained-not-trusted">2. Le code tiers est confiné, pas considéré comme fiable<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
 <p>Un plugin obtient les permissions que son manifeste déclare et rien d'autre,
 est analysé avant l'installation, s'exécute dans une sandbox sans accès
 réseau direct, et détient un jeton refusé par défaut. Ce que la sandbox ne
-peut toujours pas empêcher est écrit noir sur blanc plutôt que sous-entendu.</p>
+peut toujours pas empêcher est écrit explicitement plutôt que sous-entendu.</p>
 <p>Voir <a href="../SECURITY/">Sandbox des plugins et modèle de menace</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>.</p>

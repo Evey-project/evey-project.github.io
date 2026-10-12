@@ -1863,12 +1863,12 @@
   <a href="#the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        अंदर वाला डेटाबेस
+        embedded डेटाबेस
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="अंदर वाला डेटाबेस">
+    <nav class="md-nav" aria-label="embedded डेटाबेस">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1913,7 +1913,7 @@
   <a href="#move-back-onto-the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        अंदर वाले डेटाबेस पर लौटना
+        embedded डेटाबेस पर लौटना
       
     </span>
   </a>
@@ -3107,12 +3107,12 @@
   <a href="#the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        अंदर वाला डेटाबेस
+        embedded डेटाबेस
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="अंदर वाला डेटाबेस">
+    <nav class="md-nav" aria-label="embedded डेटाबेस">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3157,7 +3157,7 @@
   <a href="#move-back-onto-the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        अंदर वाले डेटाबेस पर लौटना
+        embedded डेटाबेस पर लौटना
       
     </span>
   </a>
@@ -3226,8 +3226,8 @@
 होस्ट ARM हो, जब आपको इमेज का कोई दूसरा रूप चाहिए, या जब प्लगइन सैंडबॉक्स
 <code>landlock</code> के अलावा कुछ और बताए। Evey को Docker के बिना ही चलाने के लिए देखें
 <a href="../../deployment-bare-metal/">बिना कंटेनर के</a>।</p>
-<h2 id="the-embedded-database">अंदर वाला डेटाबेस<a class="headerlink" href="#the-embedded-database" title="Permanent link">¶</a></h2>
-<p>क्लस्टर <code>./evey-data/postgres</code> में रहता है (Postgres 17, पहली बार शुरू होने पर
+<h2 id="the-embedded-database">embedded डेटाबेस<a class="headerlink" href="#the-embedded-database" title="Permanent link">¶</a></h2>
+<p>क्लस्टर <code>./evey-data/postgres</code> में रखा जाता है (Postgres 17, पहली बार शुरू होने पर
 बनता है, सर्वर के उपयोगकर्ता का होता है)। यह सिर्फ़ कंटेनर के loopback पर सुनता
 है और बनाया गया पासवर्ड माँगता है, इसलिए किसी दूसरे उपयोगकर्ता के रूप में चल
 रहा प्लगइन इसे नहीं खोल सकता। <code>docker stop</code> इसे ठीक से बंद करता है, जब सर्वर
@@ -3237,9 +3237,9 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) psql -h 127.0.0.1 -U evey evey'</span>
 </span></code></pre></div>
 <h3 id="move-to-a-newer-postgres-major">Postgres के नए major वर्ज़न पर जाना<a class="headerlink" href="#move-to-a-newer-postgres-major" title="Permanent link">¶</a></h3>
-<p>इमेज अंदर वाले डेटाबेस का major वर्ज़न तय रखती है। जो इमेज नया major वर्ज़न
+<p>इमेज embedded डेटाबेस का major वर्ज़न तय रखती है। जो इमेज नया major वर्ज़न
 लाती है, वह पुराना क्लस्टर खोलने से मना कर देती है, और एक संदेश इस पेज की ओर
-भेजता है, बजाय ऐसे डेटा फ़ोल्डर को चलाने के जिसे वह पढ़ नहीं सकती। पार जाने का
+भेजता है, बजाय ऐसे डेटा फ़ोल्डर को चलाने के जिसे वह पढ़ नहीं सकती। नए वर्ज़न पर जाने का
 तरीका है पुरानी इमेज से एक dump, और नई इमेज से उसका restore:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'PGPASSWORD=$(cat /data/keys/postgres.password) pg_dump -h 127.0.0.1 -U evey -Fc evey'</span><span class="w"> </span>&gt;<span class="w"> </span>evey-before-upgrade.dump
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
@@ -3251,8 +3251,8 @@
 </span></code></pre></div>
 <h2 id="run-postgres-as-a-separate-service">Postgres को अलग सर्विस के रूप में चलाएँ<a class="headerlink" href="#run-postgres-as-a-separate-service" title="Permanent link">¶</a></h2>
 <p>डेटाबेस का पूरा रख-रखाव खुद करने के लिए (कोई managed Postgres, तय major वर्ज़न,
-dump का अपना तरीका), उसे अपनी अलग सर्विस के रूप में चलाएँ और सर्वर को उसकी ओर
-भेजें। <code>EVEY_DB_HOST</code> सेट करने से ही अंदर वाला डेटाबेस बंद होता है। डिफ़ॉल्ट
+dump का अपना तरीका), उसे अपनी अलग सर्विस के रूप में चलाएँ और सर्वर को उससे
+जोड़ें। <code>EVEY_DB_HOST</code> सेट करने से ही embedded डेटाबेस बंद होता है। डिफ़ॉल्ट
 पासवर्ड <code>evey</code> के साथ सर्वर शुरू होने से मना करता है।</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">docker-compose.yml</label><label for="__tabbed_1_2">.env</label></div>
 <div class="tabbed-content">
@@ -3290,9 +3290,9 @@ dump का अपना तरीका), उसे अपनी अलग स�
 </div>
 </div>
 <h2 id="run-meilisearch-as-a-separate-service">Meilisearch को अलग सर्विस के रूप में चलाएँ<a class="headerlink" href="#run-meilisearch-as-a-separate-service" title="Permanent link">¶</a></h2>
-<p>सर्च इंजन के लिए भी यही तरीका: अंदर वाले को बंद करें, सर्वर को अपने वाले की ओर
-भेजें और कुंजी दोनों को दें। साफ़ दिया गया <code>MEILI_MASTER_KEY</code> बनाई गई
-<code>./evey-data/keys/meili.key</code> पर भारी पड़ता है।</p>
+<p>सर्च इंजन के लिए भी यही तरीका: embedded सर्च इंजन बंद करें, सर्वर को अपने सर्च
+इंजन से जोड़ें और कुंजी दोनों को दें। साफ़ दिया गया <code>MEILI_MASTER_KEY</code> बनाई गई
+<code>./evey-data/keys/meili.key</code> से ज़्यादा प्राथमिकता रखता है।</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">docker-compose.yml</label><label for="__tabbed_2_2">.env</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3328,9 +3328,9 @@ dump का अपना तरीका), उसे अपनी अलग स�
 </div>
 <p>इंडेक्स <code>docker exec evey-server evey admin reindex-search</code> से डेटाबेस से दोबारा
 बनता है, इसलिए <code>meili-data</code> को कभी भी हटाया जा सकता है।</p>
-<h2 id="move-back-onto-the-embedded-database">अंदर वाले डेटाबेस पर लौटना<a class="headerlink" href="#move-back-onto-the-embedded-database" title="Permanent link">¶</a></h2>
+<h2 id="move-back-onto-the-embedded-database">embedded डेटाबेस पर लौटना<a class="headerlink" href="#move-back-onto-the-embedded-database" title="Permanent link">¶</a></h2>
 <p>जो इंस्टॉलेशन Postgres को अलग सर्विस के रूप में चलाता है, वह एक कंटेनर वाले
-सेटअप पर आ सकता है। अंदर वाला डेटाबेस <code>./evey-data/postgres-import.sql.gz</code> पर
+सेटअप पर आ सकता है। embedded डेटाबेस <code>./evey-data/postgres-import.sql.gz</code> पर
 मिले dump को एक बार, पहली बार शुरू होने पर बनाए गए क्लस्टर में, सर्वर चलने से
 पहले डाल लेता है; फिर सर्वर के माइग्रेशन उसके ऊपर लागू होते हैं।</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. मौजूदा डेटाबेस का dump लें (सादा SQL, gzip किया हुआ)</span>
@@ -3356,7 +3356,7 @@ dump का अपना तरीका), उसे अपनी अलग स�
 <p>किसी release tag (<code>0.2.0</code>, <code>0.2.0-beta.1</code> जैसे pre-release भी) से बनी इमेज कई
 आर्किटेक्चर के लिए होती हैं (<code>linux/amd64</code> और <code>linux/arm64</code>); Docker सही वाली
 चुन लेता है। <code>beta-0.0.1</code> जैसे branch tag सिर्फ़ amd64 के लिए हैं: ARM होस्ट पर
-कोई release tag तय करें।</p>
+कोई release tag पिन करें।</p>
 <ul>
 <li><strong>ARM पर हार्डवेयर ट्रांसकोडिंग</strong> RKMPP के ज़रिए सिर्फ़ Rockchip SoC (RK3588,
   RK3576, RK3568 वर्ग) तक सीमित है। <code>/dev/mpp_service</code>, <code>/dev/dri</code> और, जहाँ
@@ -3388,7 +3388,7 @@ dump का अपना तरीका), उसे अपनी अलग स�
 <tr>
 <td><code>X.Y.Z-beta.N</code></td>
 <td>एक pre-release tag</td>
-<td>सिर्फ़ अपना tag प्रकाशित करता है, <code>latest</code> को कभी नहीं हिलाता</td>
+<td>सिर्फ़ अपना tag प्रकाशित करता है, <code>latest</code> को कभी नहीं बदलता</td>
 </tr>
 <tr>
 <td><code>beta-0.0.1</code>, <code>sha-&lt;commit&gt;</code></td>
@@ -3408,7 +3408,7 @@ dump का अपना तरीका), उसे अपनी अलग स�
 <code>GPU=amd</code> या <code>GPU=none</code>। NVIDIA के लिए किसी रूप की ज़रूरत नहीं: NVIDIA
 Container Toolkit चलते समय होस्ट का ड्राइवर कंटेनर में डाल देता है।</p>
 <h2 id="the-plugin-sandbox-on-an-unusual-host">किसी असामान्य होस्ट पर प्लगइन सैंडबॉक्स<a class="headerlink" href="#the-plugin-sandbox-on-an-unusual-host" title="Permanent link">¶</a></h2>
-<p>इमेज में प्लगइन को घेरे में रखने के लिए सब कुछ है, privileged मोड के बिना।
+<p>इमेज में प्लगइन को सीमित और अलग रखने के लिए सब कुछ है, privileged मोड के बिना।
 डिफ़ॉल्ट सैंडबॉक्स मोड (<code>auto</code>) वह सबसे मज़बूत बैकएंड चुनता है जिसकी होस्ट
 अनुमति देता है: किसी भी आधुनिक kernel पर Landlock। लागू मोड <strong>एडमिन → प्लगइन</strong>
 के <strong>सुरक्षा डैशबोर्ड</strong> में देखें। जो होस्ट <code>basic</code> दिखाता है, वह प्लगइन की

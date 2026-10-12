@@ -3161,7 +3161,7 @@
 <p>Ces règles concernent les applications Evey pour Android et Android TV.</p>
 <p>En bref : le projet Evey ne fait tourner aucun service qui reçoit vos données.
 Pas de compte chez nous, pas de statistiques d'usage, pas de publicité, pas de
-rapports de plantage envoyés chez nous. Les applications parlent au serveur
+rapports de plantage envoyés chez nous. Les applications communiquent avec le serveur
 Evey que vous, ou la personne qui vous a invité, avez installé et faites
 tourner.</p>
 <h2 id="what-the-apps-send-and-to-whom">Ce que les applications envoient, et à qui<a class="headerlink" href="#what-the-apps-send-and-to-whom" title="Permanent link">¶</a></h2>
@@ -3169,8 +3169,8 @@ tourner.</p>
 envoient ce dont un lecteur de médias a besoin pour fonctionner :</p>
 <ul>
 <li>votre nom d'utilisateur et votre mot de passe quand vous vous connectez (ou
-  le code de Connexion rapide), puis un jeton de session, une clé qui vous
-  garde connecté ;</li>
+  le code de Connexion rapide), puis un jeton de session, une clé qui
+  maintient votre connexion ;</li>
 <li>ce que vous parcourez, cherchez, lisez, notez, mettez en favori ou
   demandez, et l'endroit où vous en êtes dans la lecture, pour reprendre sur
   un autre appareil ;</li>
@@ -3197,7 +3197,7 @@ projet Evey n'y a pas accès.</p>
   des services Google Play de votre téléphone. Le Chromecast charge la page de
   réception Evey depuis <code>cast.eveyproject.org</code>, hébergée par GitHub Pages. Le
   film ou la musique, lui, arrive directement de votre serveur.</li>
-<li><strong>Recherche vocale sur Android TV.</strong> Le bouton micro passe la main à la
+<li><strong>Recherche vocale sur Android TV.</strong> Le bouton micro fait appel à la
   reconnaissance vocale de la TV (en général celle de Google). L'application
   reçoit le texte reconnu, jamais l'enregistrement.</li>
 <li><strong>Liens que vous ouvrez.</strong> Une bande-annonce, une page The Movie Database
@@ -3224,7 +3224,7 @@ l'activez, est géré par Android : l'application sait seulement s'il a réussi.
 <tbody>
 <tr>
 <td>Internet, état du Wi-Fi</td>
-<td>Joindre votre serveur, savoir si vous êtes sur le réseau de la maison ou dehors.</td>
+<td>Joindre votre serveur, savoir si vous êtes sur le réseau domestique ou à l'extérieur.</td>
 </tr>
 <tr>
 <td>Appareil photo</td>
@@ -3244,7 +3244,7 @@ l'activez, est géré par Android : l'application sait seulement s'il a réussi.
 <h2 id="this-website">Ce site<a class="headerlink" href="#this-website" title="Permanent link">¶</a></h2>
 <p><code>eveyproject.org</code> est hébergé par GitHub Pages, qui voit l'adresse IP du
 visiteur. Le site fournit lui-même ses polices et ses scripts : le navigateur
-ne contacte aucun autre service. Il ne dépose aucun cookie à lui et ne fait
+ne contacte aucun autre service. Il ne dépose aucun cookie propre et ne fait
 pas de statistiques de visite.</p>
 <h2 id="children">Enfants<a class="headerlink" href="#children" title="Permanent link">¶</a></h2>
 <p>Les applications ne sont pas destinées aux enfants. Les profils enfant sont

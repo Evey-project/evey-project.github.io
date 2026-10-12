@@ -3512,7 +3512,7 @@
 </tr>
 <tr>
 <td><code>external_fetch</code></td>
-<td>单纯的主机名。带协议前缀可以，但前缀会被丢掉；通配符或 IP 地址会导致安装被拒绝（<a href="../security-model/#external-fetch-rules">规则</a>）。</td>
+<td>纯主机名。带协议前缀可以，但前缀会被丢弃；通配符或 IP 地址会导致安装被拒绝（<a href="../security-model/#external-fetch-rules">规则</a>）。</td>
 </tr>
 <tr>
 <td><code>capabilities</code></td>
@@ -3560,7 +3560,7 @@
 </tr>
 <tr>
 <td><code>HealthCheck()</code></td>
-<td>定期调用，用来区分活着的进程和卡住的进程。只要还能提供服务，就回答 <code>healthy: true</code>。</td>
+<td>定期调用，用来区分正常运行的进程和无响应的进程。只要还能提供服务，就回答 <code>healthy: true</code>。</td>
 </tr>
 <tr>
 <td><code>Shutdown(reason)</code></td>
@@ -3568,7 +3568,7 @@
 </tr>
 <tr>
 <td><code>OnEvent(event_type, payload, source)</code></td>
-<td>约定里有定义，但服务器目前不向插件投递任何事件：实现它并回答 <code>handled: true</code> 即可，不要指望会被调用。</td>
+<td>约定里有定义，但服务器目前不向插件投递任何事件：实现它并回答 <code>handled: true</code> 即可，目前它不会被调用。</td>
 </tr>
 <tr>
 <td><code>GetCapabilities()</code></td>
@@ -3616,7 +3616,7 @@
 <tr>
 <td><code>Fetch(url, method, headers)</code></td>
 <td><code>network</code></td>
-<td>走出沙箱的唯一途径：<code>http</code> 或 <code>https</code>，<code>GET</code> 或 <code>HEAD</code>，目标是 <code>external_fetch</code> 里的主机；私有地址在解析后和重定向时都会被拒绝。响应体最大 8 MiB（<code>truncated</code> 会注明是否被截断），整个请求最长 20 秒。服务器不会附加自己的任何凭据。</td>
+<td>访问沙箱外部的唯一途径：<code>http</code> 或 <code>https</code>，<code>GET</code> 或 <code>HEAD</code>，目标是 <code>external_fetch</code> 里的主机；私有地址在解析后和重定向时都会被拒绝。响应体最大 8 MiB（<code>truncated</code> 会注明是否被截断），整个请求最长 20 秒。服务器不会附加自己的任何凭据。</td>
 </tr>
 <tr>
 <td><code>SearchMedia</code>、<code>GetMediaStreams</code>、<code>GetChapters</code>、<code>GetSubtitles</code></td>
@@ -3672,8 +3672,8 @@
 </table>
 <p>这个存储对整个插件是共用的。<strong>每个用户各自</strong>的数据（比如正在看小组件的那个人的偏好）放在界面这一侧，通过下面的 <code>prefs</code> 权限保存。</p>
 <h2 id="frontend-api">前端 API<a class="headerlink" href="#frontend-api" title="Permanent link">¶</a></h2>
-<p>界面模块运行在一个来源不透明的框架里，策略是 <code>default-src 'none'</code>：碰不到宿主页面、宿主的 cookie 和存储，
-不能用表单，不能弹出窗口，<code>connect-src</code> 也只限于 <code>external_fetch</code> 里的主机，且只能走 <code>https</code>。
+<p>界面模块运行在一个来源不透明的框架里，策略是 <code>default-src 'none'</code>：无法访问宿主页面、宿主的 cookie 和存储，
+不能用表单，不能弹出窗口，<code>connect-src</code> 也只限于 <code>external_fetch</code> 里的主机，且只能使用 <code>https</code>。
 其他一切都通过 <code>window.evey</code> 进行，它在模块运行之前注入。同一个模块无需修改，就能在网页应用以及移动和电视应用里运行。</p>
 <h3 id="eveyoninitcallback"><code>evey.onInit(callback)</code><a class="headerlink" href="#eveyoninitcallback" title="Permanent link">¶</a></h3>
 <p>用宿主发来的上下文调用一次；如果回调是在上下文到达之后才注册的，会立即被调用。</p>
@@ -3688,14 +3688,14 @@
 </span></code></pre></div>
 <h3 id="eveynavigatepath"><code>evey.navigate(path)</code><a class="headerlink" href="#eveynavigatepath" title="Permanent link">¶</a></h3>
 <p>让宿主应用跳转到 <code>path</code>。只有 <code>/home</code>、<code>/library</code>、<code>/media</code>、<code>/player</code>、<code>/settings</code> 和 <code>/search</code> 开头的路径会被执行；
-其他路径（管理区域、登录页、绝对 URL）都会被悄悄丢弃。</p>
+其他路径（管理区域、登录页、绝对 URL）都会被直接丢弃，不给任何提示。</p>
 <h3 id="eveytoastlevel-message"><code>evey.toast(level, message)</code><a class="headerlink" href="#eveytoastlevel-message" title="Permanent link">¶</a></h3>
 <p>在宿主界面里显示一条提示消息。<code>level</code> 取 <code>"success"</code>、<code>"error"</code> 或 <code>"info"</code>；<code>message</code> 是纯文本，超过 200 个字符的部分会被截掉；
 每秒最多显示 3 条。</p>
 <h3 id="eveyresizeheight"><code>evey.resize(height)</code><a class="headerlink" href="#eveyresizeheight" title="Permanent link">¶</a></h3>
 <p>请求把插槽的高度设为 <code>height</code> 像素，限制在 50 到 800 之间。<code>0</code> 会把插槽收起来：没有内容可显示的小组件不占任何空间。
 <code>home.section</code> 小组件什么都不用做，打开时就是 <code>data.suggestedHeight</code> 的高度：宿主知道把您放在了哪个界面上，
-会推荐首页小组件在那里应有的高度，这样每个小组件的大小都一致。只有在您确实更清楚该多高时，才需要调整。</p>
+会推荐首页小组件在那里应有的高度，这样每个小组件的大小都一致。只有在您确实需要不同的高度时，才需要调整。</p>
 <h3 id="eveyprefs-permission-prefs"><code>evey.prefs.*</code>（权限 <code>prefs</code>）<a class="headerlink" href="#eveyprefs-permission-prefs" title="Permanent link">¶</a></h3>
 <p>当前用户在插件自己命名空间里的偏好，通过宿主为框架持有的令牌，绑定到（这个插件，这个用户）。
 每个调用都返回一个 promise；缺少权限时 promise 会被拒绝。</p>
@@ -3719,7 +3719,7 @@
 <ul>
 <li><strong>不要按自己的视口来定尺寸。</strong> 在 WebView 里，<code>window.innerHeight</code> 就是宿主刚刚分给您的插槽高度。
   请按 <code>data.viewportHeight</code> 或 <code>data.suggestedHeight</code> 来定尺寸。</li>
-<li><strong>没有焦点，也没有指针。</strong> 小组件永远拿不到方向键的焦点，也没有悬停效果；任何需要交互的东西都应放在网页和移动端。</li>
+<li><strong>没有焦点，也没有指针。</strong> 小组件永远不会获得方向键的焦点，也没有悬停效果；任何需要交互的东西都应放在网页和移动端。</li>
 <li><strong>文字不要贴着边缘。</strong> 电视会过扫描：每一边都留出大约 5% 的宽度和高度。</li>
 <li><strong>在真实的电视盒上测试 WebGL。</strong> 着色器运行在电视盒自己的 GPU 和驱动上，而不是您电脑上的；噪声坐标要保持在有限范围内。
   <code>tests/plugins/weather-v2</code> 是以上所有要点的参考小组件。</li>
@@ -3782,7 +3782,7 @@
 （<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>）。</p>
 <div class="admonition note">
 <p class="admonition-title">插件永远不能申请的权限</p>
-<p><code>admin.*</code>、<code>auth.*</code>、<code>system.*</code>、<code>user.write</code> 和 <code>library.write</code> 被彻底锁死：
+<p><code>admin.*</code>、<code>auth.*</code>、<code>system.*</code>、<code>user.write</code> 和 <code>library.write</code> 被完全禁止：
 写了它们的清单会被拒绝，令牌永远不可能带有它们，而且无论令牌带有什么权限范围，管理方法都会拒绝插件令牌。</p>
 </div>
 <h2 id="examples">示例<a class="headerlink" href="#examples" title="Permanent link">¶</a></h2>

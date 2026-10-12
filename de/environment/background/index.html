@@ -3114,7 +3114,7 @@ dafür diesen Anteil.</p>
 <h2 id="passes">Durchläufe<a class="headerlink" href="#passes" title="Permanent link">¶</a></h2>
 <p>Jede Variable hat einen Schlüssel, der auch als Zeile unter <strong>Verwaltung →
 Serverkonfiguration → Konfigurationseinträge</strong> akzeptiert wird; dort werden
-diese Schlüssel vorgeschlagen. Die Zeile gewinnt gegenüber der Umgebung. Die
+diese Schlüssel vorgeschlagen. Die Zeile hat Vorrang vor der Umgebung. Die
 Karte <strong>Hintergrundarbeiten</strong> auf demselben Bildschirm stellt die wichtigsten
 ein. Alle werden beim Start gelesen: Eine Änderung gilt also ab dem nächsten
 Neustart, egal auf welchem Weg sie gemacht wurde.</p>
@@ -3173,7 +3173,7 @@ Neustart, egal auf welchem Weg sie gemacht wurde.</p>
 <tr>
 <td><code>EVEY_SNAPSHOT_FASTPATH</code></td>
 <td>an</td>
-<td>Zieht Vorschaubilder mit dem schnellen Decoder im Prozess heraus. <code>off</code> nutzt nur den exakten Extraktor von ffmpeg, um ihn als Ursache auszuschließen, wenn ein Vorschaubild das falsche Bild zeigt.</td>
+<td>Extrahiert Vorschaubilder mit dem schnellen Decoder im Prozess. <code>off</code> nutzt nur den exakten Extraktor von ffmpeg, um ihn als Ursache auszuschließen, wenn ein Vorschaubild das falsche Bild zeigt.</td>
 <td>Konfigurationseinträge <code>transcoding.snapshot_fastpath</code>, Neustart</td>
 </tr>
 <tr>

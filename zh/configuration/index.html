@@ -3187,12 +3187,12 @@
 
 
 <h1 id="configuration-reference">配置参考<a class="headerlink" href="#configuration-reference" title="Permanent link">¶</a></h1>
-<p>这一页说明：Evey 服务器的每项设置放在哪里，一项设置同时出现在管理面板和环境变量里时以哪个值为准，
-以及什么情况需要重启。变量本身按主题列在下面链接的十个页面里；这一页写给要修改 compose 文件的管理员，
+<p>本页说明：Evey 服务器的每项设置位于哪里，一项设置同时出现在管理面板和环境变量里时以哪个值为准，
+以及什么情况需要重启。变量本身按主题列在下面链接的十个页面里；本页面向要修改 compose 文件的管理员，
 或者想知道为什么某个变量好像不起作用的人。</p>
 <h2 id="two-places-one-rule">两个地方，一条规则<a class="headerlink" href="#two-places-one-rule" title="Permanent link">¶</a></h2>
-<p><strong>服务器启动之前就必须有的东西</strong>，例如密钥、存储路径、公网地址、反向代理的情况，作为环境变量写在 compose 文件里。
-<strong>管理员之后再调整的东西</strong>，例如语言、转码上限、硬件加速、计划任务、插件限制，放在管理面板里，
+<p><strong>服务器启动之前就必须具备的内容</strong>，例如密钥、存储路径、公网地址、反向代理的情况，作为环境变量写在 compose 文件里。
+<strong>管理员之后再调整的内容</strong>，例如语言、转码上限、硬件加速、计划任务、插件限制，放在管理面板里，
 保存在数据库中，容器更新后依然保留，而且大多不用重启就能生效。</p>
 <p>如果一项设置在两个地方都有，优先顺序永远一样：</p>
 <ol>
@@ -3319,27 +3319,27 @@
 </table>
 <h2 id="file-ownership-puid-and-pgid">文件所有者（PUID 和 PGID）<a class="headerlink" href="#file-ownership-puid-and-pgid" title="Permanent link">¶</a></h2>
 <p><strong>默认：自动。</strong> 没有设置 <code>PUID</code>/<code>PGID</code> 时，入口脚本会在启动时查看您的 <code>/media*</code> 挂载目录归谁所有，
-并以那个用户运行服务器。这样，那些会<em>写入</em>您媒体库的功能（修复跳转索引时会就地重建文件）开箱即用：
-不用 <code>chown</code>，也不用任何配置。启动日志会告诉您选了谁：</p>
+并以那个用户运行服务器。这样，那些会<em>写入</em>您媒体库的功能（修复跳转索引时会就地重建文件）无需额外设置即可使用：
+不用 <code>chown</code>，也不用任何配置。启动日志会显示选择了哪个用户：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>evey: media mounts owned by 1026:100 (detected on /media) - running the
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>server as that user so write features (seek-index repair) work out of the box
 </span></code></pre></div>
 <p>如果媒体挂载目录属于<strong>不同的用户</strong>，服务器会尽力处理：它采用拥有挂载目录最多的那个用户，
 并把其他挂载目录的组加为附加组，这样，只要那些挂载目录里的文件允许组写入，修复就能进行
 （启动时的警告会列出哪些挂载目录仍可能拒绝写入）。只有当所有媒体挂载目录都属于 root，
-或者属于保留的 uid <code>1001</code> 时，自动检测才会完全放弃（退回到 <code>1000:1000</code>，并给出警告）。
+或者属于保留的 uid <code>1001</code> 时，自动检测才会完全不生效（改用 <code>1000:1000</code>，并给出警告）。
 这时，请把您的媒体 chown 给一个普通用户，或者明确设置 <code>PUID</code>/<code>PGID</code>：</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>PUID=1026   # 以这个用户 id 运行服务器（在主机上查看：`id -u &lt;media-owner&gt;`）
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>PGID=100    # ……以及这个组 id
 </span></code></pre></div>
 <p>明确设置的值永远优先于自动检测。</p>
-<p>工作原理：容器以 root 身份启动，时间只够重新映射它内部的用户
-（并把 Evey 自己的状态目录 <code>/data</code>、<code>/cache</code> 的所有者改过来，<strong>绝不</strong>改动您的媒体挂载目录），然后放弃特权。
+<p>工作原理：容器以 root 身份启动，仅用于重新映射它内部的用户
+（并重新设置 Evey 自己的状态目录 <code>/data</code>、<code>/cache</code> 的所有者，<strong>绝不</strong>改动您的媒体挂载目录），然后放弃特权。
 通过 compose 的 <code>group_add:</code> 授予的附加组（例如为了 <code>/dev/dri</code> 硬件转码而加入的主机 render 组）在放弃特权后仍然保留。
 服务器进程本身从不以 root 身份运行。</p>
 <p>完全不用 root 的做法：如果连这短暂的 root 您也不能接受，可以改为在 compose 文件里给服务设置 <code>user: "UID:GID"</code>。
 入口脚本会发现自己不是以 root 启动，于是跳过重新映射（也跳过检测媒体的所有者）。
-这时，保证 <code>./evey-data</code> 对这个 UID 可写，就是您自己的事了。</p>
+这时，需要由您自己保证 <code>./evey-data</code> 对这个 UID 可写。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>PUID=1001</code> 会被拒绝：它是内部的 <code>evey-plugin</code> 用户，单独留出来，是为了让插件永远不会和服务器使用同一个身份。

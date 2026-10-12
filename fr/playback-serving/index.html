@@ -3168,7 +3168,7 @@ plan, une décision), <a href="https://github.com/Evey-project/evey/blob/master/
 résolveur de plan) et
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a> (des
 capacités mesurées). C'est le pendant du pipeline de scan décrit dans
-<a href="../ARCHITECTURE/">Architecture</a> et l'explication détaillée derrière le
+<a href="../ARCHITECTURE/">Architecture</a> et l'explication détaillée du
 « Golden path 4 » de la <a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">Carte du code</a>. Pour la vue côté
 utilisateur de la même négociation, lisez
 <a href="../playback/how-playback-is-decided/">Comment la lecture est décidée</a>.</p>
@@ -3201,9 +3201,9 @@ réponse, le tout adressé par un seul hachage.</p>
 </tr>
 </tbody>
 </table>
-<p>Deux moteurs traversent tout cela :</p>
+<p>Deux moteurs interviennent dans tout cela :</p>
 <ul>
-<li><strong>mkvgo</strong> lit et ré-empaquette (remux, à la demande) sans lancer de processus. Gratuit.</li>
+<li><strong>mkvgo</strong> lit et ré-empaquette (remux, à la demande) sans lancer de processus. Coût négligeable.</li>
 <li><strong>ffmpeg / ffprobe</strong> décodent, ré-encodent et sondent en lançant un processus. Coûteux.</li>
 </ul>
 <p>Une clé : tout (dossier de cache, session ffmpeg, URL des segments) est
@@ -3226,7 +3226,7 @@ détient un lecteur et chaque segment qu'il récupère ensuite.</p>
     plan --&gt; pack
     mkv --&gt; wire
     ff --&gt; seg</code></pre>
-<p>Les deux moteurs quittent le serveur différemment : un segment mkvgo est
+<p>Les deux moteurs envoient leurs segments différemment : un segment mkvgo est
 construit à la demande et écrit sur la connexion au fil de l'envoi, la voie
 copy ne touche donc jamais le cache de segments ; un segment ffmpeg est un
 fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.</p>
@@ -3246,15 +3246,15 @@ fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.
    manifestes, sonde de délestage, scellé anti-URL périmée, choix du
    producteur et clé de segment lisent tous cette résolution unique, si bien
    qu'à l'intérieur d'une requête l'invariant du hachage de cache tient par
-   construction (le chemin chaud des segments est passé d'environ 5 lectures
+   construction (le chemin critique des segments est passé d'environ 5 lectures
    des préférences de profil à 1). Les assistants de faits sur la source
-   (codec, HDR, SAR, dix bits...) vivent à côté dans <code>source_facts.go</code>.
+   (codec, HDR, SAR, dix bits...) se trouvent à côté, dans <code>source_facts.go</code>.
    <code>makeDecision</code> et <code>buildFingerprint</code> dans
    <code>http/transcode_vod_fingerprint.go</code> sont de fines enveloppes pour les
    appelants sans plan (préchauffage, master à la demande).</li>
 <li><strong>Q2 : décision</strong> : <code>internal/app/transcoding/decision.go</code> :
-   <code>MakePlaybackDecisionWithPrefs</code> (pure) est le cerveau copy/transcode par
-   piste. Le résolveur y superpose les épingles de la requête (<code>vd=</code> /
+   <code>MakePlaybackDecisionWithPrefs</code> (pure) prend la décision copy/transcode
+   par piste. Le résolveur y superpose les valeurs imposées par la requête (<code>vd=</code> /
    <code>ad=</code>), la surcharge de resynchronisation audio, etc.</li>
 <li><strong>Q3 : capacité</strong> : <code>internal/app/transcoding/calibration_service.go</code> :
    <code>Current()</code> renvoie <code>domain/transcoding.Derive(report, policy)</code>
@@ -3262,11 +3262,11 @@ fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.
 <li><strong>Échelle et admission</strong> : le résolveur met l'échelle en forme (classe de
    complexité, profils de producteur, plafonds de la source et de la
    capacité, plafonds CMCD/AV1, route et plafond d'admission), puis la
-   <strong>fige</strong> sur l'épingle d'admission (<code>admission_shaper.go</code>,
+   <strong>fige</strong> sur la valeur d'admission enregistrée (<code>admission_shaper.go</code>,
    <code>FreezeLadder</code>), relue telle quelle à chaque appel suivant : l'invariant
    du hachage de cache rendu structurel. <code>video_session_limiter.go</code> tient la
-   place de capacité ; la route déborde du matériel vers le logiciel quand
-   c'est plein.</li>
+   place de capacité ; la route passe du matériel au logiciel quand il n'y
+   a plus de place.</li>
 <li><strong>Empreinte</strong> : une <code>DecisionFingerprint</code> (type et <code>Hash()</code> dans
    <code>app/transcoding/segment_cache.go</code>), assemblée par le résolveur. Le
    hachage est la clé du cache.</li>
@@ -3274,7 +3274,7 @@ fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.
    <code>app/transcoding/ondemand.go</code> (port) et
    <code>adapters/driven/mkvgo/ondemand.go</code> ; transcodage : <strong>ffmpeg</strong>,
    <code>adapters/driven/ffmpeg/hls_transcoder.go</code> (<code>BuildFFmpegArgs</code> est pure ;
-   les segments atterrissent dans <code>/cache/transcode/segments/&lt;hash&gt;/</code>).</li>
+   les segments sont écrits dans <code>/cache/transcode/segments/&lt;hash&gt;/</code>).</li>
 <li><strong>Empaquetage</strong> : <code>app/transcoding/manifest_generator.go</code> écrit
    <code>master.m3u8</code> / <code>stream_N.m3u8</code> ; <code>manifest_generator_dash.go</code> écrit
    <code>manifest.mpd</code>.</li>
@@ -3283,7 +3283,7 @@ fichier sous le répertoire de l'empreinte, écrit une fois et servi depuis là.
 <p class="admonition-title">D'une requête à l'autre, l'invariant repose sur les URL</p>
 <p>Chaque entrée de la décision doit être inscrite dans les URL enfants
 (<code>querySuffix</code> dans <code>manifest_generator.go</code>), sinon une relecture du
-manifeste en cours de lecture peut faire basculer le plan sous le
+manifeste en cours de lecture peut changer le plan à l'insu du
 lecteur. Les URL par session sont réécrites
 (<code>transcode_vod_manifest_rebake.go</code>) pour porter le jeton de flux, en
 HLS comme en DASH, y compris pour le Chromecast sans cookie.</p>
@@ -3294,13 +3294,13 @@ chaîne de responsabilité indexée sur l'extension : il essaie mkvgo et se
 replie sur ffprobe au moindre doute (erreur d'analyse, panique, résultat
 inexploitable, piste média MP4 abandonnée, DoVi profil 5, couleur illisible).
 Les deux voies rapides sont toujours actives (portes à nil dans <code>wire.go</code>) ;
-ffprobe est le filet de sécurité, jamais contourné. Un second répartiteur
+ffprobe est le repli de sécurité, jamais contourné. Un second répartiteur
 identique (<code>keyframe_dispatcher.go</code>) gère l'index de lecture.</p>
 <table>
 <thead>
 <tr>
 <th>Opération</th>
-<th>mkvgo (gratuit)</th>
+<th>mkvgo (coût négligeable)</th>
 <th>ffprobe / ffmpeg (coûteux)</th>
 </tr>
 </thead>
@@ -3375,7 +3375,7 @@ vrai que si le navigateur déclare qu'il <em>ne peut pas</em> lire l'AC-3
 nativement, et Safari déclare qu'il le peut.</p>
 <h2 id="packaging-cmaf-hls-dash">Empaquetage : CMAF, HLS, DASH<a class="headerlink" href="#packaging-cmaf-hls-dash" title="Permanent link">¶</a></h2>
 <p>Le conteneur est toujours <strong>CMAF</strong> (fMP4) : un <code>init.mp4</code> par variante plus
-des segments <code>.m4s</code> (la branche MPEG-TS de <code>hls_transcoder.go</code> est morte :
+des segments <code>.m4s</code> (la branche MPEG-TS de <code>hls_transcoder.go</code> est du code mort :
 <code>needsFMP4Segments</code> renvoie toujours vrai). Sur les <em>mêmes</em> segments :</p>
 <ul>
 <li><strong>HLS</strong> (<code>master.m3u8</code>, <code>stream_N.m3u8</code>, init <code>EXT-X-MAP</code> + <code>.m4s</code>), les deux moteurs.</li>
@@ -3386,7 +3386,7 @@ des segments <code>.m4s</code> (la branche MPEG-TS de <code>hls_transcoder.go</c
   les listes HLS (<code>ManifestGenerator.MPD</code>), écrit avant qu'aucun fragment
   n'existe.</li>
 </ul>
-<p>Ce qui rend le manifeste DASH honnête, c'est la <strong>grille de segments</strong>
+<p>Ce qui rend le manifeste DASH exact, c'est la <strong>grille de segments</strong>
 (<code>domain/transcoding.SegmentGrid</code>) : chaque barreau transcodé est découpé
 sur le même nombre entier d'images, <code>arrondi(3 s x fps)</code> (72 à 23,976 fps,
 75 à 25, 90 à 29,97), donc un segment est exact dans les ticks de la piste
@@ -3409,7 +3409,7 @@ barreaux, audio séparé à une trame AAC près).</p>
 <tbody>
 <tr>
 <td>Ports et adaptateurs (hexagonal)</td>
-<td>la couche applicative parle à <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code> ; ffmpeg et mkvgo les implémentent, et un nouveau moteur est un nouvel adaptateur</td>
+<td>la couche applicative utilise <code>StreamProber</code>, <code>BenchmarkRunner</code>, <code>OnDemandPackager</code>, <code>StreamProducer</code> ; ffmpeg et mkvgo les implémentent, et un nouveau moteur est un nouvel adaptateur</td>
 </tr>
 <tr>
 <td>Stratégie</td>
@@ -3433,7 +3433,7 @@ barreaux, audio séparé à une trame AAC près).</p>
 </tr>
 <tr>
 <td>Dégradation gracieuse</td>
-<td>un repli sûr à chaque étape : capacité 720p par défaut, débordement du matériel vers le logiciel, de la copie vers le transcodage, de mkvgo vers ffprobe</td>
+<td>un repli sûr à chaque étape : capacité 720p par défaut, passage du matériel au logiciel, de la copie vers le transcodage, de mkvgo vers ffprobe</td>
 </tr>
 </tbody>
 </table>

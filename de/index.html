@@ -632,10 +632,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#plugins-are-kept-on-a-leash" class="md-nav__link">
+  <a href="#plugins-run-isolated-and-controlled" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Plugins werden an der kurzen Leine gehalten
+        Plugins laufen isoliert und kontrolliert
       
     </span>
   </a>
@@ -3109,10 +3109,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#plugins-are-kept-on-a-leash" class="md-nav__link">
+  <a href="#plugins-run-isolated-and-controlled" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Plugins werden an der kurzen Leine gehalten
+        Plugins laufen isoliert und kontrolliert
       
     </span>
   </a>
@@ -3240,10 +3240,10 @@ auf dem Fernseher.
 <a href="getting-started/apps/">Apps verbinden</a> ·
 <a href="administration/users/">Benutzer, Profile und Kindersicherung</a></p>
 <h2 id="nothing-to-choose-before-pressing-play">Nichts zu wählen, bevor Sie auf Abspielen drücken<a class="headerlink" href="#nothing-to-choose-before-pressing-play" title="Permanent link">¶</a></h2>
-<p>Manche Dateien laufen überall. Andere sind zu schwer für ein altes Handy,
+<p>Manche Dateien laufen überall. Andere sind zu anspruchsvoll für ein altes Handy,
 oder sie haben ein Tonformat, das ein Fernseher nicht lesen kann. Jedes Mal,
-wenn Sie auf Abspielen drücken, schaut sich der Server die Datei, das Gerät
-und seine eigene Auslastung an. Dann wählt er den leichtesten Weg, der
+wenn Sie auf Abspielen drücken, prüft der Server die Datei, das Gerät
+und seine eigene Auslastung. Dann wählt er den leichtesten Weg, der
 funktioniert:</p>
 <ul>
 <li><strong>Direktwiedergabe</strong>: Die Datei wird so geschickt, wie sie ist.</li>
@@ -3251,8 +3251,8 @@ funktioniert:</p>
   das Gerät annimmt. Das kostet den Server fast nichts. Evey hat dafür ein
   eigenes Werkzeug, <strong>MKVGo</strong>, und nimmt FFmpeg, wenn MKVGo es nicht kann.</li>
 <li><strong>Transkodierung</strong>: Der Server wandelt nur um, was das Gerät nicht
-  abspielen kann, oft nur den Ton. Nur in diesem Fall hat der Prozessor
-  richtig zu tun.</li>
+  abspielen kann, oft nur den Ton. Nur in diesem Fall wird der Prozessor
+  stark belastet.</li>
 </ul>
 <p>Derselbe Film kann also unverändert an einen Fernseher gehen und für ein
 älteres Handy umgewandelt werden. Im Player zeigt die <strong>Stream-Info</strong>, welchen
@@ -3274,11 +3274,11 @@ schreiben und keine Einstellung für Arbeitsspeicher oder Prozessor.</p>
 <li><strong>Der Server läuft nie als root.</strong> Er läuft als Besitzer Ihres
   Medienordners, wenn er ihn erkennen kann, damit Reparaturen schreiben
   können.</li>
-<li><strong>Der Server misst sich selbst.</strong> In einem ruhigen Moment stoppt er echte
+<li><strong>Der Server misst sich selbst.</strong> In einem ruhigen Moment misst er die Dauer echter
   Umwandlungen auf dem Prozessor und auf einer Grafikkarte, falls Sie ihm eine
   gegeben haben. Danach weiß er, wie viele Personen er gleichzeitig bedienen
   kann. Wird es knapp, bekommt eine neue Wiedergabe eine niedrigere Qualität,
-  oder sie wandert von einer ausgelasteten Grafikkarte auf den Prozessor. Kann
+  oder sie wird von einer ausgelasteten Grafikkarte auf den Prozessor verlagert. Kann
   eine Wiedergabe nicht starten, sagt die Meldung, warum: Der Server ist voll,
   er misst sich noch, oder die Datei ist noch nicht bereit.</li>
 <li><strong>Der Zugriff von außerhalb Ihres Zuhauses ist aus</strong>, bis Sie dem Server
@@ -3302,13 +3302,13 @@ wird gemeldet und in Ruhe gelassen.
 <a href="runbooks/media-health/">Medienzustand</a></p>
 <p><strong>Ihre Daten.</strong> Das Projekt betreibt keinen Dienst, der sie empfängt: kein
 Konto bei uns, keine Nutzungsstatistik, keine Absturzberichte. Die Apps
-sprechen mit Ihrem Server und mit nichts anderem, das wir betreiben. Was Ihr
+kommunizieren mit Ihrem Server und mit nichts anderem, das wir betreiben. Was Ihr
 Netzwerk verlässt: Der Server holt Bilder und Beschreibungen von externen
 Diensten (The Movie Database, und Quellen für Musik-Cover). Ab und zu fragt er
 außerdem nach, ob es eine neuere Version gibt, was Sie abschalten können. Die
 Datenbank wird vor jedem Update gesichert, das sie verändert.
 <a href="privacy/">Datenschutzerklärung</a> · <a href="backups/">Sicherungen und Updates</a></p>
-<h2 id="plugins-are-kept-on-a-leash">Plugins werden an der kurzen Leine gehalten<a class="headerlink" href="#plugins-are-kept-on-a-leash" title="Permanent link">¶</a></h2>
+<h2 id="plugins-run-isolated-and-controlled">Plugins laufen isoliert und kontrolliert<a class="headerlink" href="#plugins-run-isolated-and-controlled" title="Permanent link">¶</a></h2>
 <p>Plugins fügen Quellen für Titelinformationen, Benachrichtigungskanäle,
 Bereiche auf der Startseite und Einblendungen im Player hinzu. Themes ändern
 das Aussehen. Bevor ein Plugin installiert wird, sieht der Administrator, was
@@ -3316,8 +3316,8 @@ die Prüfung des Plugins gefunden hat und welche Berechtigungen es verlangt.
 Eine neue Berechtigung muss ausdrücklich angenommen werden. Ein Plugin läuft
 als eigener Prozess, unter einem eigenen Benutzer, ohne direkten
 Netzwerkzugang. Es wird gestoppt, wenn es seine Grenze für Arbeitsspeicher,
-Prozesse oder Speicherplatz überschreitet. Wie streng seine Dateien
-abgeschottet sind, hängt vom Rechner ab, und das <strong>Sicherheits-Dashboard</strong>
+Prozesse oder Speicherplatz überschreitet. Wie streng sein Dateizugriff
+eingeschränkt ist, hängt vom Rechner ab, und das <strong>Sicherheits-Dashboard</strong>
 zeigt den verwendeten Modus. Das Widget eines Plugins erscheint im Web, auf
 Android und auf dem Fernseher. Auf dem Fernseher können Sie es sehen, aber
 nicht bedienen.

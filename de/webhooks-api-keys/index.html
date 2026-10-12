@@ -3080,7 +3080,7 @@ richtet sich an die Person, die sie einrichtet, und an die Person, die den
 Empfänger oder das Skript schreibt.</p>
 <h2 id="send-events-to-a-url">Ereignisse an eine URL schicken<a class="headerlink" href="#send-events-to-a-url" title="Permanent link">¶</a></h2>
 <p><strong>Verwaltung → Webhooks → Webhook erstellen</strong>: ein <strong>Name</strong>, eine <strong>URL</strong>,
-die <strong>Ereignisse</strong>, die gesendet werden, und optional ein <strong>Secret</strong> zum
+die <strong>Ereignisse</strong>, die gesendet werden, und optional ein <strong>Geheimnis</strong> zum
 Signieren. <strong>Testen</strong> schickt einen Ping und zeigt die Antwort.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Ein Webhook unter Verwaltung → Webhooks" loading="lazy" src="../../images/admin-webhooks.webp"></a>
@@ -3116,7 +3116,7 @@ veröffentlicht, unter anderem:</p>
 </tr>
 <tr>
 <td>Server</td>
-<td><code>backup.created</code>, <code>backup.failed</code>, <code>plugin.installed</code>, <code>plugin.error</code>, <code>server.config.changed</code>, <code>transcoding.derived_cache_full</code> (der Untertitelspeicher unterschreitet seinen Spielraum an freiem Platz)</td>
+<td><code>backup.created</code>, <code>backup.failed</code>, <code>plugin.installed</code>, <code>plugin.error</code>, <code>server.config.changed</code>, <code>transcoding.derived_cache_full</code> (der freie Platz des Untertitelspeichers liegt unter der vorgesehenen Reserve)</td>
 </tr>
 </tbody>
 </table>
@@ -3155,9 +3155,9 @@ API-Schlüssel</strong> an. Sie gehören diesem Administrator.</p>
 <li><strong>Der Schlüssel wird einmal angezeigt</strong>, beim Erstellen. Speichern Sie ihn
   dann. Er lässt sich nicht noch einmal anzeigen, nur mit <strong>Widerrufen</strong>
   sperren.</li>
-<li><strong>Er handelt als sein Besitzer</strong>, mit Administratorrechten, im Rahmen
-  seiner Bereiche.</li>
-<li><strong>Bereiche</strong> (Scopes) begrenzen, was der Schlüssel tun darf:</li>
+<li><strong>Er handelt im Namen seines Besitzers</strong>, mit Administratorrechten, im Rahmen
+  seiner Berechtigungen.</li>
+<li><strong>Berechtigungen</strong> (Scopes) begrenzen, was der Schlüssel tun darf:</li>
 </ul>
 <table>
 <thead>

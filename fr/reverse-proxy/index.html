@@ -1310,7 +1310,7 @@
   <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
     <span class="md-ellipsis">
       
-        En-têtes de sécurité et CSP : à lire si votre proxy pose les siens
+        En-têtes de sécurité et CSP : à lire si votre proxy définit les siens
       
     </span>
   </a>
@@ -3554,7 +3554,7 @@
   <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" class="md-nav__link">
     <span class="md-ellipsis">
       
-        En-têtes de sécurité et CSP : à lire si votre proxy pose les siens
+        En-têtes de sécurité et CSP : à lire si votre proxy définit les siens
       
     </span>
   </a>
@@ -3600,17 +3600,17 @@
 simple ; un reverse proxy n'a qu'à terminer le TLS et tout renvoyer vers
 <code>evey:9091</code>. Choisissez votre proxy ci-dessous (Caddy fourni, Nginx, Traefik,
 Nginx Proxy Manager, ou celui que vous avez déjà), puis lisez les deux
-sections de la fin si vous ajustez le streaming ou posez vos propres en-têtes
+sections de la fin si vous ajustez le streaming ou définissez vos propres en-têtes
 de sécurité.</p>
 <h2 id="tell-evey-about-the-proxy">Indiquer le proxy à Evey<a class="headerlink" href="#tell-evey-about-the-proxy" title="Permanent link">¶</a></h2>
 <p>Quel que soit le proxy, Evey a besoin de son adresse publique et du proxy
-auquel faire confiance. L'endroit pour les deux est <strong>Admin → Accès
+auquel faire confiance. L'endroit pour les deux est <strong>Administration → Accès
 distant</strong> : une <strong>URL externe</strong> en <code>https://</code> et, quand le proxy est un
 conteneur, son réseau dans <strong>Proxys de confiance</strong>. Les deux s'appliquent
 sans redémarrage. C'est une adresse en <code>https://</code> qui indique à Evey qu'un
 proxy assure le TLS devant lui : les cookies reçoivent l'attribut <code>Secure</code>,
 l'en-tête HSTS est envoyé et l'en-tête <code>X-Forwarded-Proto</code> d'un proxy de
-confiance est cru. L'interrupteur d'accès distant et l'adresse réelle du
+confiance est pris en compte. L'interrupteur d'accès distant et l'adresse réelle du
 client sont expliqués dans
 <a href="../administration/remote-access/">Accès distant et HTTPS</a>.</p>
 <p>Les mêmes réponses peuvent venir de l'environnement, pour une installation
@@ -3636,14 +3636,14 @@ du <a href="https://github.com/Evey-project/evey/blob/master/docker-compose.yml"
 <li>Renseignez <code>EVEY_DOMAIN</code> dans <code>.env</code> et assurez-vous que les ports 80 et
    443 de la machine arrivent au conteneur Caddy.</li>
 <li>Ajoutez le service <code>caddy</code> du fichier compose du dépôt au vôtre et lancez
-   <code>docker compose up -d</code>. Caddy obtient seul un certificat Let's Encrypt pour
+   <code>docker compose up -d</code>. Caddy obtient automatiquement un certificat Let's Encrypt pour
    <code>EVEY_DOMAIN</code>.</li>
-<li>Dans <strong>Admin → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
+<li>Dans <strong>Administration → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
    et <code>172.16.0.0/12</code> dans <strong>Proxys de confiance</strong>.</li>
 </ol>
 <h3 id="what-it-already-handles">Ce qu'il gère déjà<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
 <p>Il renvoie tout vers <code>evey:9091</code>, les chemins de streaming étant servis sans
-tampon ni délai. Il pose les en-têtes de sécurité et la CSP de référence de la
+tampon ni délai. Il ajoute les en-têtes de sécurité et la CSP de référence de la
 <a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own">section sécurité</a>
 et retire la CSP de l'application pour qu'une seule arrive au navigateur ; les
 deux pages qui portent leur propre politique la conservent.</p>
@@ -3661,7 +3661,7 @@ et un compose complémentaire prêt à l'emploi,
    <code>/etc/ssl/private/&lt;domaine&gt;.key</code> dans le volume <code>nginx-certs</code>) : le compose
    complémentaire n'obtient pas de certificat à votre place.</li>
 <li><code>docker compose -f docker-compose.yml -f examples/nginx/docker-compose.nginx.yml up -d</code>.</li>
-<li>Dans <strong>Admin → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
+<li>Dans <strong>Administration → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
    et <code>172.16.0.0/12</code> dans <strong>Proxys de confiance</strong>.</li>
 </ol>
 <h3 id="what-it-already-handles">Ce qu'il gère déjà<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
@@ -3684,7 +3684,7 @@ sécurité et la CSP de l'application.</p>
 </span></code></pre></div>
 </li>
 <li>
-<p>Dans <strong>Admin → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
+<p>Dans <strong>Administration → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
    et la plage du réseau <code>proxy</code> dans <strong>Proxys de confiance</strong> (<code>172.16.0.0/12</code>
    couvre les réseaux Docker par défaut).</p>
 </li>
@@ -3711,7 +3711,7 @@ sur le réseau qu'utilise NPM, voir
    l'envoi d'un plugin répond un jour 403 sans raison).</li>
 <li><strong>SSL</strong> : votre certificat, Force SSL, HTTP/2. HSTS est facultatif ici :
    l'application l'envoie déjà.</li>
-<li>Dans <strong>Admin → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
+<li>Dans <strong>Administration → Accès distant</strong>, renseignez l'<strong>URL externe</strong> en <code>https://</code>
    et la plage du réseau de NPM dans <strong>Proxys de confiance</strong>.</li>
 </ol>
 <h3 id="what-it-already-handles">Ce qu'il gère déjà<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
@@ -3755,7 +3755,7 @@ directe sur son propre disque. <strong>Advanced</strong> → <em>Custom Nginx Co
 </span></code></pre></div>
 <p>Tous les autres chemins (l'interface web, le reste de l'API, le WebSocket de
 SyncPlay) passent par le bloc de proxy de NPM, que configure l'onglet Details.
-Sans cet extrait, rien ne casse : il change seulement l'endroit où les gros
+Sans cet extrait, tout fonctionne : il change seulement l'endroit où les gros
 fichiers sont mis en tampon.</p>
 <h2 id="a-proxy-you-already-run-tls-terminated-upstream">Un proxy que vous avez déjà (TLS terminé en amont)<a class="headerlink" href="#a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h2>
 <p>Sur un NAS qui a déjà un reverse proxy (celui du fabricant, Nginx Proxy
@@ -3764,7 +3764,7 @@ Manager, un Traefik sur un réseau Docker partagé), Caddy est inutile : Evey
 streaming ne peuvent de toute façon être appliquées que par le proxy qui fait
 face au client. Un second proxy derrière lui n'ajoute rien.</p>
 <h3 id="set-it-up">Mise en place<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
-<p>Placez le service evey sur le réseau de ce proxy et visez <code>evey-server:9091</code>
+<p>Placez le service evey sur le réseau de ce proxy et indiquez-lui la cible <code>evey-server:9091</code>
 (le nom du conteneur ; le nom du service, <code>evey</code>, fonctionne aussi) :</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
@@ -3813,19 +3813,19 @@ Deux points restent utiles à connaître :</p>
 délai) sur ces chemins. L'exemple Traefik et un proxy piloté par une interface
 comme Nginx Proxy Manager gardent leurs réglages par défaut, qui conviennent ;
 l'extrait NPM ci-dessus est facultatif.</p>
-<h2 id="security-headers--csp---read-this-if-your-proxy-sets-its-own">En-têtes de sécurité et CSP : à lire si votre proxy pose les siens<a class="headerlink" href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" title="Permanent link">¶</a></h2>
+<h2 id="security-headers--csp---read-this-if-your-proxy-sets-its-own">En-têtes de sécurité et CSP : à lire si votre proxy définit les siens<a class="headerlink" href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" title="Permanent link">¶</a></h2>
 <p>Evey émet une Content-Security-Policy complète. Si votre proxy la laisse
 passer, il n'y a rien d'autre à faire.</p>
 <p>Beaucoup d'installations la retirent au contraire (<code>header_down
--Content-Security-Policy</code> dans Caddy) et posent la leur. C'est possible, mais
+-Content-Security-Policy</code> dans Caddy) et définissent la leur. C'est possible, mais
 <strong>votre</strong> politique doit alors garder ces éléments, sans quoi des fonctions
-cessent de marcher sans le moindre message :</p>
+cessent de fonctionner sans le moindre message :</p>
 <table>
 <thead>
 <tr>
 <th>Élément</th>
 <th>Directive</th>
-<th>Ce qui casse sans lui</th>
+<th>Ce qui ne fonctionne plus sans lui</th>
 </tr>
 </thead>
 <tbody>
@@ -3842,7 +3842,7 @@ cessent de marcher sans le moindre message :</p>
 <tr>
 <td><code>https://www.gstatic.com</code></td>
 <td><code>script-src</code> (+ <code>frame-src</code>)</td>
-<td>Le SDK d'envoi Google Cast ne se charge jamais, plus personne n'a de bouton de diffusion. C'est le seul moyen pour un navigateur de découvrir les Chromecast du réseau local de l'utilisateur.</td>
+<td>Le SDK d'envoi Google Cast ne se charge jamais, et le bouton de diffusion n'apparaît plus pour personne. C'est le seul moyen pour un navigateur de découvrir les Chromecast du réseau local de l'utilisateur.</td>
 </tr>
 <tr>
 <td><code>blob:</code></td>
@@ -3852,11 +3852,11 @@ cessent de marcher sans le moindre message :</p>
 <tr>
 <td><code>blob:</code></td>
 <td><code>worker-src</code></td>
-<td>hls.js se rabat sans le dire sur un démultiplexage dans le thread principal (plus saccadé sur mobile).</td>
+<td>hls.js se rabat silencieusement sur un démultiplexage dans le thread principal (plus saccadé sur mobile).</td>
 </tr>
 </tbody>
 </table>
-<p>Une politique éprouvée pour un proxy qui pose la sienne, celle qu'envoie le
+<p>Une politique éprouvée pour un proxy qui définit la sienne, celle qu'envoie le
 Caddy fourni :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>default-src 'self'; base-uri 'self'; object-src 'none';
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>img-src 'self' https: data: blob:; media-src 'self' blob:;
@@ -3867,7 +3867,7 @@ Caddy fourni :</p>
 </span></code></pre></div>
 <p><code>base-uri</code> et <code>object-src</code> ne retombent pas sur <code>default-src</code> : une politique
 qui les omet laisse libres l'injection de <code>&lt;base href&gt;</code> et l'intégration par
-<code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code>. Gardez-les si vous posez votre propre politique.
+<code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code>. Gardez-les si vous définissez votre propre politique.
 <code>script-src</code> ne contient pas <code>'unsafe-inline'</code> : un script injecté dans la
 page ne s'exécute pas. Ne le rajoutez pas, rien dans l'application n'en a
 besoin.</p>
@@ -3900,7 +3900,7 @@ doit afficher <code>1</code>.</p>
 <ul>
 <li><strong>Gardez la politique sur une seule ligne.</strong> Une CSP coupée sur plusieurs
   lignes dans la configuration d'un proxy est une corruption silencieuse
-  classique : la jonction avale les caractères de part et d'autre
+  classique : la jonction des lignes supprime les caractères de part et d'autre
   (<code>...gstatic.com; connect-src</code> est ainsi devenu <code>...gstaticonnect-src</code>, ce
   qui a désactivé le SDK Cast et fusionné deux directives).</li>
 <li><strong>La page des plugins garde sa propre politique :</strong>
@@ -3909,7 +3909,7 @@ doit afficher <code>1</code>.</p>
 </ul>
 <h2 id="real-client-ips-and-the-remote-access-gate">Adresse réelle des clients et contrôle de l'accès distant<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
 <p>Dès que le proxy transmet l'adresse réelle du client, Evey sait distinguer un
-spectateur à la maison d'un spectateur sur Internet : c'est sur cette
+spectateur sur le réseau domestique d'un spectateur sur Internet : c'est sur cette
 distinction que s'appuient le <strong>Débit distant maximal</strong> et l'interrupteur
 d'accès distant. Deux règles :</p>
 <ul>

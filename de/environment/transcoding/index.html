@@ -3125,8 +3125,8 @@
 dem Transkodierungs-Cache. Die meisten Installationen setzen keine davon: Der
 Server misst die Maschine und wählt die Hardware selbst, wie unter
 <a href="../../playback/transcoding/">Transkodierung und Serverkapazität</a> erklärt.
-Gibt es eine Einstellung unter <strong>Verwaltung → Transkodierung</strong>, gewinnt der
-dort gespeicherte Wert.</p>
+Gibt es eine Einstellung unter <strong>Verwaltung → Transkodierung</strong>, hat der
+dort gespeicherte Wert Vorrang.</p>
 <h2 id="hardware-acceleration">Hardwarebeschleunigung<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h2>
 <p>Wie Sie die GPU für den Container freigeben:
 <a href="../../administration/hardware-acceleration/">Hardwarebeschleunigung</a>.</p>
@@ -3213,14 +3213,14 @@ eingestellt.</p>
 <tr>
 <td><code>EVEY_TRANSCODING_SINGLE_VARIANT</code></td>
 <td><code>true</code></td>
-<td>Kodiert nur die Qualität, die ein Zuschauer gerade schaut. <code>false</code> teilt ein Dekodieren zwischen allen Qualitäten, kodiert aber auch die, die niemand schaut; nur für einen Host ohne Hardware-Dekodierung mit schweren Quellen.</td>
+<td>Kodiert nur die Qualität, die ein Zuschauer gerade schaut. <code>false</code> teilt ein Dekodieren zwischen allen Qualitäten, kodiert aber auch die, die niemand schaut; nur für einen Host ohne Hardware-Dekodierung mit anspruchsvollen Quellen.</td>
 <td>Transkodierung → Erweiterte Grenzwerte → <strong>Nur eine Qualitätsstufe gleichzeitig kodieren</strong>, Neustart</td>
 </tr>
 <tr>
 <td><code>EVEY_TRANSCODING_SOFTWARE_MAX_HEIGHT</code></td>
 <td><code>0</code> (gemessen)</td>
 <td>Erzwingt die Auflösungsobergrenze des Prozessors statt der gemessenen.</td>
-<td>Transkodierung → Erweiterte Grenzwerte → <strong>Höhengrenze für Software-Transcoding</strong>, Neustart</td>
+<td>Transkodierung → Erweiterte Grenzwerte → <strong>Höhengrenze für Software-Transkodierung</strong>, Neustart</td>
 </tr>
 <tr>
 <td><code>EVEY_TRANSCODING_SOFTWARE_HDR_MAX_HEIGHT</code></td>
@@ -3263,7 +3263,7 @@ eingestellt.</p>
 <td><code>EVEY_TRANSCODING_CACHE_MAX_GB</code></td>
 <td><code>10</code></td>
 <td>Die Größe des gesamten Transkodierungs-Caches (Segmente, Remux-Dateien, vorbereitete Downloads). Was am längsten nicht benutzt wurde, wird zuerst entfernt.</td>
-<td>Serverkonfiguration → Servereinstellungen → <strong>Budget des Transcode-Caches</strong>, Neustart</td>
+<td>Serverkonfiguration → Servereinstellungen → <strong>Budget des Transkodierungs-Caches (GB)</strong>, Neustart</td>
 </tr>
 <tr>
 <td><code>EVEY_TRANSCODE_CACHE_MIN_FREE_MB</code></td>
@@ -3288,7 +3288,7 @@ eingestellt.</p>
 <h2 id="calibration-clip">Kalibrierungsclip<a class="headerlink" href="#calibration-clip" title="Permanent link">¶</a></h2>
 <p>Die Messung kodiert einen 4K-Clip. In dieser Reihenfolge: Ihre Datei, ein
 Clip, der einmal heruntergeladen und anhand seines Hashwerts geprüft wird,
-oder ein künstlich erzeugter Clip. Ein echter Clip misst ehrlicher als der
+oder ein künstlich erzeugter Clip. Ein echter Clip liefert genauere Messwerte als der
 künstliche. Keine dieser Variablen hat ein Gegenstück im Verwaltungsbereich.</p>
 <table>
 <thead>

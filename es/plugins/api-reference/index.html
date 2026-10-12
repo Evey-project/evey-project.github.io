@@ -3544,7 +3544,7 @@ las rutas de lectura, incluido el panel <strong>Configuración</strong> de admin
 el panel con la máscara sin tocar conserva el valor guardado, así que editar
 otro campo nunca borra un secreto.</p>
 <h2 id="backend-the-two-services">Backend: los dos servicios<a class="headerlink" href="#backend-the-two-services" title="Permanent link">¶</a></h2>
-<p>El proceso del backend y el servidor hablan gRPC por dos sockets Unix cuyas
+<p>El proceso del backend y el servidor se comunican por gRPC mediante dos sockets Unix cuyas
 rutas llegan en el entorno:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>EVEY_PLUGIN_ID=&lt;plugin id&gt;
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>EVEY_PLUGIN_SOCK=&lt;path&gt;   # tu proceso escucha aquí y sirve PluginService
@@ -3687,7 +3687,7 @@ se borra con el plugin.</p>
 </tbody>
 </table>
 <p>Este almacén es global para el plugin. Los datos <strong>por usuario</strong> (una
-preferencia de la persona que mira el widget) viven del lado de la interfaz,
+preferencia de la persona que mira el widget) se guardan del lado de la interfaz,
 con el permiso <code>prefs</code> que se explica más abajo.</p>
 <h2 id="frontend-api">API de la interfaz<a class="headerlink" href="#frontend-api" title="Permanent link">¶</a></h2>
 <p>Un módulo de interfaz se ejecuta en un marco con un origen opaco, bajo una
@@ -3713,7 +3713,7 @@ registrado después de que llegue el contexto se llama en el acto.</p>
 <p>Lleva la aplicación anfitriona a <code>path</code>. Solo se siguen los prefijos
 <code>/home</code>, <code>/library</code>, <code>/media</code>, <code>/player</code>, <code>/settings</code> y <code>/search</code>; todo lo
 demás (la zona de administración, el inicio de sesión, una URL absoluta) se
-descarta sin decir nada.</p>
+descarta sin avisar.</p>
 <h3 id="eveytoastlevel-message"><code>evey.toast(level, message)</code><a class="headerlink" href="#eveytoastlevel-message" title="Permanent link">¶</a></h3>
 <p>Muestra un aviso emergente en la interfaz anfitriona. <code>level</code> es
 <code>"success"</code>, <code>"error"</code> o <code>"info"</code>; <code>message</code> es texto plano, cortado a 200
@@ -3722,9 +3722,9 @@ caracteres; se muestran como mucho 3 avisos por segundo.</p>
 <p>Pide que el slot mida <code>height</code> píxeles de alto, limitado entre 50 y 800. <code>0</code>
 pliega el slot: un widget sin nada que mostrar no ocupa sitio. Un widget
 <code>home.section</code> se abre a <code>data.suggestedHeight</code> sin hacer nada: la página
-anfitriona conoce la superficie en la que te ha puesto y recomienda la altura
+anfitriona conoce la superficie en la que ha colocado tu widget y recomienda la altura
 que tiene ahí un widget del inicio, así que todos los widgets salen del mismo
-tamaño. Cambia el tamaño solo si sabes algo mejor.</p>
+tamaño. Cambia el tamaño solo si tienes un motivo concreto.</p>
 <h3 id="eveyprefs-permission-prefs"><code>evey.prefs.*</code> (permiso <code>prefs</code>)<a class="headerlink" href="#eveyprefs-permission-prefs" title="Permanent link">¶</a></h3>
 <p>Las preferencias del usuario actual en el espacio de nombres propio del
 plugin, ligadas a (este plugin, este usuario) por el token que la página
@@ -3760,7 +3760,7 @@ que son ciertas en un navegador dejan de serlo ahí:</p>
   darte. Calcula el tamaño a partir de <code>data.viewportHeight</code> o
   <code>data.suggestedHeight</code>.</li>
 <li><strong>Ni foco ni puntero.</strong> El widget nunca recibe el foco de la cruceta y no
-  hay efecto al pasar por encima; todo lo interactivo es cosa de las
+  hay efecto al pasar por encima; todo lo interactivo corresponde a las
   superficies web y móvil.</li>
 <li><strong>Aleja el texto de los bordes.</strong> Los televisores recortan los bordes de la
   imagen (overscan): deja libre alrededor de un 5 % de la anchura y de la

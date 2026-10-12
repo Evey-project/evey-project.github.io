@@ -3293,8 +3293,9 @@
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
 <p>Comment le serveur est assemblé : les couches hexagonales sous <code>internal/</code>,
 les contextes bornés, les événements qui les relient, et les gardes statiques
-qui maintiennent le code sur ces rails. Le code vit dans <code>internal/domain</code>,
-<code>internal/app</code>, <code>internal/adapters/{driving,driven}</code> et est câblé dans
+qui obligent le code à respecter cette structure. Le code se trouve dans
+<code>internal/domain</code>, <code>internal/app</code>, <code>internal/adapters/{driving,driven}</code> et est
+assemblé dans
 <code>cmd/evey/wire*.go</code> ; la disposition est décidée par
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a>, la séparation des dépôts par
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a> et le bus d'événements par
@@ -3365,7 +3366,7 @@ Les tests contournent les adaptateurs en injectant des doublures qui
 implémentent les mêmes ports du domaine : 20 des 21 paquets du domaine
 livrent un sous-paquet <code>fakes/</code>.</p>
 <h2 id="bounded-contexts">Contextes bornés<a class="headerlink" href="#bounded-contexts" title="Permanent link">¶</a></h2>
-<p>Trente-deux paquets de contexte vivent sous <code>internal/domain/</code> et
+<p>Trente-deux paquets de contexte se trouvent sous <code>internal/domain/</code> et
 <code>internal/app/</code> : 19 existent dans les deux couches, 2 n'existent que dans le
 domaine (<code>ratings</code>, <code>shared</code>), 11 n'existent que dans la couche applicative.
 Ils collaborent en partie par des événements de domaine sur un bus partagé ;
@@ -3385,7 +3386,7 @@ contexte voisin (voir <a href="#relations">Relations</a>).</p>
 </tr>
 <tr>
 <td><code>library</code></td>
-<td>bibliothèques, dossiers, tâches de scan, index des médias, personnes, collections, favoris et pouces d'un profil (les pouces n'ont pas de service applicatif : le RPC de notation stocke et lit <code>UserRatingRepository</code> tel quel), trickplay, détection des intros et génériques</td>
+<td>bibliothèques, dossiers, tâches de scan, index des médias, personnes, collections, favoris et votes pouce levé / baissé d'un profil (ces votes n'ont pas de service applicatif : le RPC de notation stocke et lit <code>UserRatingRepository</code> tel quel), trickplay, détection des intros et génériques</td>
 </tr>
 <tr>
 <td><code>media</code> (app seulement)</td>
@@ -3425,7 +3426,7 @@ contexte voisin (voir <a href="#relations">Relations</a>).</p>
 </tr>
 <tr>
 <td><code>favorite</code> (app seulement)</td>
-<td>favoris par profil ; le modèle et <code>FavoriteRepository</code> vivent dans <code>domain/library</code></td>
+<td>favoris par profil ; le modèle et <code>FavoriteRepository</code> se trouvent dans <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>playlist</code></td>
@@ -3433,7 +3434,7 @@ contexte voisin (voir <a href="#relations">Relations</a>).</p>
 </tr>
 <tr>
 <td><code>collection</code> (app seulement)</td>
-<td>collections constituées par l'administrateur ; ses ports vivent dans <code>domain/library</code></td>
+<td>collections constituées par l'administrateur ; ses ports se trouvent dans <code>domain/library</code></td>
 </tr>
 <tr>
 <td><code>ratings</code> (domaine seulement)</td>
@@ -3527,7 +3528,7 @@ contexte voisin (voir <a href="#relations">Relations</a>).</p>
 <tr>
 <td><code>playback</code></td>
 <td><code>PlaybackStarted</code> / <code>PlaybackStopped</code></td>
-<td>aucun abonné dédié aujourd'hui ; seul le fourre-tout <code>"*"</code> de <code>webhook</code> les reçoit</td>
+<td>aucun abonné dédié aujourd'hui ; seul l'abonnement générique <code>"*"</code> de <code>webhook</code> les reçoit</td>
 </tr>
 <tr>
 <td><code>user</code></td>
@@ -3568,7 +3569,7 @@ domaine d'un contexte voisin.</p>
 <li><code>internal/adapters/driving/grpcapi</code> (<code>playback_handler.go</code>) valide le proto et appelle <code>app/playback.CommandService.StartStream</code> (séparation commande/requête, voir <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a>).</li>
 <li><code>app/playback.CommandService</code> appelle les ports du domaine : <code>user.UserRepository</code>, <code>playback.SessionQueryRepo</code> (idempotence + plafond d'appareils), <code>playback.SessionCommandRepo</code>, puis <code>shared.EventBus.Publish(PlaybackStarted)</code>.</li>
 <li>Les adaptateurs sortants s'exécutent : <code>postgres</code> persiste la session dans une portée <code>shared.TransactionalUnit.Do</code> ; le bus en mémoire (<code>internal/pkg/eventbus</code>) distribue de façon asynchrone.</li>
-<li><code>PlaybackStarted</code> n'a pas d'abonné dédié aujourd'hui : seul le fourre-tout <code>"*"</code> de <code>webhook</code> le reçoit.</li>
+<li><code>PlaybackStarted</code> n'a pas d'abonné dédié aujourd'hui : seul l'abonnement générique <code>"*"</code> de <code>webhook</code> le reçoit.</li>
 <li>La réponse revient en JSON via grpc-gateway ; les mises à jour de progression passent par SSE / flux gRPC.</li>
 </ol>
 <p>Ce qui se passe ensuite, quand le lecteur demande le manifeste et les
@@ -3582,8 +3583,8 @@ fichiers qui font échouer le build dès que le code s'en écarte.</p>
 impose exactement ceci : un contexte peut importer <code>internal/domain/shared</code> et
 sa propre arborescence, rien d'autre dans <code>internal/domain</code>, et jamais
 <code>internal/app</code> ni <code>internal/adapters</code>. Sa portée s'arrête à
-<code>internal/domain</code> : elle ne dit rien de la couche applicative.</p>
-<p>Les autres gardent des contrats qui franchissent une frontière de langage ou
+<code>internal/domain</code> : elle ne s'applique pas à la couche applicative.</p>
+<p>Les autres protègent des contrats qui franchissent une frontière de langage ou
 de processus, parmi lesquels :</p>
 <table>
 <thead>
@@ -3652,7 +3653,7 @@ des paquets Go sous <code>internal/</code>. Les noms des conteneurs viennent de
 déclarés dans <code>docker-compose.override.yml</code> et n'existent que dans la
 topologie de développement.</p>
 <h3 id="level-1---system-context">Niveau 1 : contexte du système<a class="headerlink" href="#level-1---system-context" title="Permanent link">¶</a></h3>
-<p>Qui parle à Evey, et quels tiers Evey contacte.</p>
+<p>Qui communique avec Evey, et quels tiers Evey contacte.</p>
 <pre class="mermaid"><code>flowchart LR
     user[Utilisateur&lt;br/&gt;client web / mobile / TV]
     admin[Administrateur&lt;br/&gt;interface web /admin]
@@ -3826,11 +3827,11 @@ implémentent ces ports.</p>
 <li>Le serveur gRPC (<code>grpc.Server.Serve</code>) et le serveur HTTP (gateway + statique) tournent chacun dans leur propre goroutine, lancée depuis le câblage principal de <code>cmd/evey</code>.</li>
 <li>Les tâches de scan de <code>app/library</code> tournent sur un pool de workers (une goroutine par scan de bibliothèque actif, voir <code>library.ScanService</code>).</li>
 <li>Les tâches ffmpeg sont lancées via <code>internal/pkg/procfork</code> par l'adaptateur sortant <code>ffmpeg</code> (<code>ffmpeg.Transcoder.Start</code>), avec une goroutine de supervision par tâche qui vide la sortie d'erreur du processus.</li>
-<li><code>shared.EventBus</code> distribue aux abonnés de façon asynchrone : chaque abonné tourne dans sa propre goroutine, pour qu'un consommateur lent ne bloque jamais les émetteurs. Le bus n'ouvre aucune transaction de son propre chef ; c'est le travail du handler.</li>
-<li><code>pluginrunner</code> lance un sous-processus par plugin ; les plugins en iframe vivent dans le navigateur de l'utilisateur et répondent via des jetons signés émis par <code>app/plugin</code>.</li>
+<li><code>shared.EventBus</code> distribue aux abonnés de façon asynchrone : chaque abonné tourne dans sa propre goroutine, pour qu'un consommateur lent ne bloque jamais les émetteurs. Le bus n'ouvre aucune transaction lui-même ; c'est le travail du handler.</li>
+<li><code>pluginrunner</code> lance un sous-processus par plugin ; les plugins en iframe s'exécutent dans le navigateur de l'utilisateur et répondent via des jetons signés émis par <code>app/plugin</code>.</li>
 </ul>
 <h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">Niveau 3 (bonus) : zoom sur le pipeline de scan<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
-<p>Le chemin chaud qui transforme des fichiers sur disque en médias enrichis et
+<p>Le chemin critique qui transforme des fichiers sur disque en médias enrichis et
 cherchables. Les flèches pleines sont des appels directs ; les flèches
 pointillées sont des événements de domaine sur le bus. L'indexation de
 recherche est un appel direct de port depuis <code>ScanService</code>, pas un événement.</p>
@@ -3886,9 +3887,9 @@ recherche est un appel direct de port depuis <code>ScanService</code>, pas un é
     trick -. TrickplayGenerated .-&gt; intro
     meta --&gt; repo
     trick --&gt; ffstore[(evey-cache&lt;br/&gt;sprites de trickplay)]</code></pre>
-<p>À lire avec la section « Flux de données typique » ci-dessus : le chemin de
-lecture est le chemin de lecture symétrique ; le pipeline de scan est le
-chemin d'écriture qui prépare l'index des médias que le chemin de lecture
+<p>À lire avec la section « Flux de données typique » ci-dessus : la lecture
+d'un média est le côté lecture des données ; le pipeline de scan est le côté
+écriture, qui remplit l'index des médias où la lecture va chercher ce qu'elle
 sert.</p>
 <h2 id="further-reading">Pour aller plus loin<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
 <ul>

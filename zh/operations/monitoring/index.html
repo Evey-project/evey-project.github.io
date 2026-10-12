@@ -3163,7 +3163,7 @@
 
 
 <h1 id="monitoring-and-logs">监控和日志<a class="headerlink" href="#monitoring-and-logs" title="Permanent link">¶</a></h1>
-<p>这一页写给想查看服务器状况、而不是要修什么东西的管理员：在哪里看服务器正在做什么，从此刻正在播放的内容，到本月的统计数据，中间还有日志。如果要排查某个具体症状，请从<a href="../troubleshooting/">故障排除</a>开始。</p>
+<p>本页面向想查看服务器状况、而不是修复问题的管理员：在哪里看服务器正在做什么，从此刻正在播放的内容，到本月的统计数据，中间还有日志。如果要排查某个具体症状，请从<a href="../troubleshooting/">故障排除</a>开始。</p>
 <h2 id="what-is-playing-now">正在播放什么<a class="headerlink" href="#what-is-playing-now" title="Permanent link">¶</a></h2>
 <p><strong>管理 → 正在播放</strong>列出所有正在进行的流：谁、在看什么、用哪台设备，以及每条音视频轨是怎么处理的（直接复制、转码，以及负责编码的后端）。管理员可以<strong>停止</strong>某个会话，或者给观众<strong>发送消息</strong>。</p>
 <p>仪表盘上的<strong>在线用户</strong>卡片按个人资料列出此刻在线的人，以及每个应用上一次联系服务器是多久以前。如果某台 Chromecast 的电视一直加载着 Evey 的接收端，那么即使它的播放已经结束、已从<strong>正在播放</strong>中消失，它也会继续出现在列表里；<strong>停止此 Chromecast</strong>会给它发送停止命令，电视会在 30 秒内执行。</p>
@@ -3175,13 +3175,13 @@
 </figure>
 <h2 id="logs">日志<a class="headerlink" href="#logs" title="Permanent link">¶</a></h2>
 <p><strong>管理 → 日志与调试</strong>可以搜索服务器日志，也可以实时跟踪（<strong>实时</strong>），还能用<strong>区域</strong>缩小到某个方面（播放器和转码、播放跳转索引、字幕、片头检测、Chromecast、身份验证、基础设施……）。用户报告问题时，首先应该看这里。</p>
-<p>同样的日志也保存在磁盘上，每天一个 JSON 文件，位于 <code>./evey-data/logs/</code>（容器里是 <code>/data/logs/evey-YYYY-MM-DD.log</code>），默认保留 90 天。<code>docker compose logs evey</code> 只显示容器在启动过程中输出的内容，服务器起不来时要看的就是它。见<a href="../troubleshooting/#the-logs">故障排除</a>。</p>
+<p>同样的日志也保存在磁盘上，每天一个 JSON 文件，位于 <code>./evey-data/logs/</code>（容器里是 <code>/data/logs/evey-YYYY-MM-DD.log</code>），默认保留 90 天。<code>docker compose logs evey</code> 只显示容器在启动过程中输出的内容，服务器无法启动时应查看这些内容。见<a href="../troubleshooting/#the-logs">故障排除</a>。</p>
 <h2 id="how-playback-actually-went">播放的实际情况如何<a class="headerlink" href="#how-playback-actually-went" title="Permanent link">¶</a></h2>
-<p><strong>管理 → 流媒体质量</strong>根据播放器在播放过程中上报的数据生成（缓冲水平、重新缓冲、吞吐量，采用 CMCD 格式）：观众多久等待一次、最常卡顿的片名，以及哪类设备比较吃力，时间范围是最近一天或一周。</p>
+<p><strong>管理 → 流媒体质量</strong>根据播放器在播放过程中上报的数据生成（缓冲水平、重新缓冲、吞吐量，采用 CMCD 格式）：观众多久等待一次、最常卡顿的影片，以及哪类设备播放困难，时间范围是最近一天或一周。</p>
 <p>服务器也会据此采取行动。如果某一类片源总是让观众等待，服务器会在校准得出的上限之外，暂时降低这类片源的最高质量，之后再自动解除限制。正在生效的限制列在<strong>自动质量限制</strong>下，附有原因和到期时间；<strong>重置</strong>会立即取消其中一项。</p>
 <h2 id="history-and-statistics">历史和统计<a class="headerlink" href="#history-and-statistics" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>管理 → 分析</strong>：今天和本周的播放次数、活跃用户、最近 30 天观看最多的片名。</li>
+<li><strong>管理 → 分析</strong>：今天和本周的播放次数、活跃用户、最近 30 天观看最多的影片。</li>
 <li><strong>管理 → 活动</strong>：播放记录和管理操作的历史，以及正在进行的后台工作。</li>
 </ul>
 <p>每种历史记录保留多久，在<strong>管理 → 服务器配置 → 服务器设置</strong>里设置（播放会话、审计日志、服务器指标、流媒体质量）。修改会在下一次每日清理时生效。</p>

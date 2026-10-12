@@ -3251,7 +3251,7 @@
 
 <h1 id="themes">主题<a class="headerlink" href="#themes" title="Permanent link">¶</a></h1>
 <p>主题用来改变 Evey 界面的外观：它是一个 <code>kind: theme</code> 的包，没有后端进程，由一个样式表组成，
-还可以带一个脚本，这个脚本被关在一个隐藏的框架里运行。本页写给主题作者，说明这两个文件里可以写什么，
+还可以带一个脚本，这个脚本在一个隐藏的框架中受限运行。本页面向主题作者，说明这两个文件里可以写什么，
 以及安装程序会改写或拒绝什么。主题和插件一样，从<strong>管理 → 插件</strong>安装；每位用户在<strong>设置 → 外观 → 主题</strong>里挑选自己的主题。</p>
 <h2 id="manifest">清单<a class="headerlink" href="#manifest" title="Permanent link">¶</a></h2>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aurora</span><span class="w">               </span><span class="c1"># 必填；给人看的名称</span>
@@ -3263,7 +3263,7 @@
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># 不要写 language、entrypoint、permissions 或 capabilities：写了安装就会被拒绝</span>
 </span></code></pre></div>
-<p>ZIP 包的根目录里，在清单旁边放 <code>theme.css</code> 和/或 <code>theme.js</code>。两个都没有的包也能安装，只是看不出任何效果。
+<p>ZIP 包的根目录里，在清单旁边放 <code>theme.css</code> 和/或 <code>theme.js</code>。两个都没有的包也能安装，但没有可见效果。
 <code>examples/plugins/theme-dark-blue</code>（一个只覆盖颜色变量的简短 <code>theme.css</code>）和 <code>examples/plugins/open-workshop</code>（一套完整的外观重设计）
 都能通过清理器，是很好的起点。</p>
 <h2 id="themecss">theme.css<a class="headerlink" href="#themecss" title="Permanent link">¶</a></h2>
@@ -3284,7 +3284,7 @@
 </span></code></pre></div>
 <h3 id="stable-theming-hooks">稳定的样式挂钩<a class="headerlink" href="#stable-theming-hooks" title="Permanent link">¶</a></h3>
 <p>有几个纯装饰性的元素带有稳定的类名，您可以直接针对它们写样式，而不必依赖那些每个版本都会变化的工具类。
-这是一项约定：这些类名不会被改名。</p>
+这是一项约定：这些类名不会被重命名。</p>
 <table>
 <thead>
 <tr>
@@ -3366,19 +3366,19 @@
 <tr>
 <td>在针对 <code>button</code>、<code>[role=button]</code>、<code>a[href*=logout]</code> 或 <code>[data-critical]</code> 的规则里写 <code>pointer-events: none</code></td>
 <td>删除这一条声明，其余保留</td>
-<td>让关键控件点不动，是一种界面伪装攻击。</td>
+<td>让关键控件无法点击，是一种界面伪装攻击。</td>
 </tr>
 <tr>
 <td>大于 999 的 <code>z-index</code></td>
-<td>压到 999</td>
-<td>主题必须待在应用自己的对话框层之下。</td>
+<td>限制为 999</td>
+<td>主题必须位于应用自身的对话框层之下。</td>
 </tr>
 </tbody>
 </table>
-<p>转义字符会在这些检查之前先解码，所以用转义序列绕不过去。</p>
+<p>转义字符会在这些检查之前先解码，所以无法用转义序列绕过这些检查。</p>
 <h2 id="themejs">theme.js<a class="headerlink" href="#themejs" title="Permanent link">¶</a></h2>
 <p>脚本是可选的。它在 <code>/api/v1/themes/&lt;id&gt;/theme.js</code> 提供给已登录的用户，运行在一个隐藏的 <code>&lt;iframe sandbox="allow-scripts"&gt;</code> 里，
-这个框架的策略设置了 <code>connect-src 'none'</code>：即使脚本通过了安装扫描，它也碰不到宿主页面、宿主的存储，也上不了网。
+这个框架的策略设置了 <code>connect-src 'none'</code>：即使脚本通过了安装扫描，它也无法访问宿主页面、宿主的存储或网络。
 它唯一能用的接口是 <code>window.evey.theme</code>，在脚本运行之前注入。</p>
 <h3 id="eveythemecssdeclarations"><code>evey.theme.css(declarations)</code><a class="headerlink" href="#eveythemecssdeclarations" title="Permanent link">¶</a></h3>
 <p>把自定义属性的声明发给宿主页面，由宿主页面应用到 <code>:root</code> 上。只接受这一种形式：一串 <code>--name: value</code>，

@@ -3203,7 +3203,7 @@ Datenbank gespeichert, übersteht ein Update des Containers und gilt meist
 ohne Neustart.</p>
 <p>Gibt es eine Einstellung an beiden Orten, gilt immer dieselbe Reihenfolge:</p>
 <ol>
-<li><strong>Der im Verwaltungsbereich gespeicherte Wert gewinnt.</strong> Bei jedem Start
+<li><strong>Der im Verwaltungsbereich gespeicherte Wert hat Vorrang.</strong> Bei jedem Start
    liest der Server zuerst die Umgebung. Dann ersetzt er jedes Feld durch den
    Wert aus der Datenbank, falls dort einer gespeichert ist. Eine Variable
    überschreibt nie einen gespeicherten Wert.</li>
@@ -3300,7 +3300,7 @@ Verwaltungsbereich gibt.</p>
   die Compose-Datei bearbeitet haben.</li>
 <li><code>EVEY_DB_PASSWORD</code> und <code>MEILI_MASTER_KEY</code> können auch aus einer Datei
   kommen, deren Pfad in derselben Variable mit der Endung <code>_FILE</code> steht. Ein
-  ausdrücklich gesetzter Wert gewinnt gegenüber der Datei.</li>
+  ausdrücklich gesetzter Wert hat Vorrang vor der Datei.</li>
 </ul>
 <h2 id="secrets">Geheimnisse<a class="headerlink" href="#secrets" title="Permanent link">¶</a></h2>
 <p>Das eingebettete Postgres und Meilisearch erzeugen ihre Geheimnisse beim
@@ -3311,7 +3311,7 @@ Befehle <code>evey admin</code> kein Passwort. Setzen Sie <code>EVEY_DB_PASSWORD
 <code>MEILI_MASTER_KEY</code> nur für eine externe Datenbank oder Suchmaschine.</p>
 <p>Ein TMDB-Schlüssel ist eingebaut. <code>EVEY_TMDB_API_KEY</code> hinterlegt Ihren
 eigenen. Der Schlüssel unter <strong>Verwaltung → Serverkonfiguration →
-API-Schlüssel</strong> gewinnt gegenüber dieser Variable.</p>
+API-Schlüssel</strong> hat Vorrang vor dieser Variable.</p>
 <h2 id="variables-you-do-not-need">Variablen, die Sie nicht brauchen<a class="headerlink" href="#variables-you-do-not-need" title="Permanent link">¶</a></h2>
 <p>Zeilen, die oft aus älteren Installationen übernommen werden, und warum sie
 nichts ändern:</p>
@@ -3341,7 +3341,7 @@ nichts ändern:</p>
 </tr>
 <tr>
 <td><code>EVEY_PLUGINS_SANDBOX_MODE</code></td>
-<td><code>auto</code> wählt die stärkste Abschottung, die Ihr Host unterstützt. Setzen Sie die Variable nur ausdrücklich, wenn Sie eine <em>fail-closed</em>-Garantie wollen: <code>landlock</code> weigert sich, ein Plugin zu starten, das es nicht abschotten kann, während <code>auto</code> mit einer Warnung auf eine schwächere Stufe zurückfällt.</td>
+<td><code>auto</code> wählt die stärkste Isolierung, die Ihr Host unterstützt. Setzen Sie die Variable nur ausdrücklich, wenn Sie eine <em>fail-closed</em>-Garantie wollen: <code>landlock</code> weigert sich, ein Plugin zu starten, das es nicht isolieren kann, während <code>auto</code> mit einer Warnung auf eine schwächere Stufe zurückfällt.</td>
 </tr>
 <tr>
 <td>ein <code>group_add</code> für <code>/dev/dri/card0</code></td>
@@ -3350,8 +3350,8 @@ nichts ändern:</p>
 </tbody>
 </table>
 <h2 id="file-ownership-puid-and-pgid">Dateibesitz (PUID und PGID)<a class="headerlink" href="#file-ownership-puid-and-pgid" title="Permanent link">¶</a></h2>
-<p><strong>Standard: automatisch.</strong> Wenn <code>PUID</code>/<code>PGID</code> nicht gesetzt sind, schaut das
-Startskript (Entrypoint) beim Start nach, wem Ihre <code>/media*</code>-Mounts gehören,
+<p><strong>Standard: automatisch.</strong> Wenn <code>PUID</code>/<code>PGID</code> nicht gesetzt sind, prüft das
+Startskript (Entrypoint) beim Start, wem Ihre <code>/media*</code>-Mounts gehören,
 und startet den Server als dieser Benutzer. So funktionieren die Funktionen,
 die <em>in Ihre Bibliothek schreiben</em> (die Reparatur des Seek-Index baut Dateien
 an Ort und Stelle neu auf), ohne weiteres Zutun - kein <code>chown</code>, keine
@@ -3359,20 +3359,20 @@ Konfiguration. Das Protokoll beim Start sagt Ihnen, was gewählt wurde:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>evey: media mounts owned by 1026:100 (detected on /media) - running the
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>server as that user so write features (seek-index repair) work out of the box
 </span></code></pre></div>
-<p>Gehören die Medien-Mounts <strong>verschiedenen Benutzern</strong>, macht der Server das
-Beste daraus: Er übernimmt den Benutzer, dem die meisten Mounts gehören, und
+<p>Gehören die Medien-Mounts <strong>verschiedenen Benutzern</strong>, wählt der Server die
+beste mögliche Lösung: Er übernimmt den Benutzer, dem die meisten Mounts gehören, und
 tritt den Gruppen der anderen Mounts als Zusatzgruppen bei. Reparaturen auf
 diesen Mounts funktionieren dann, wenn ihre Dateien für die Gruppe
 beschreibbar sind (die Warnung beim Start nennt die Mounts, die
-Schreibzugriffe womöglich noch ablehnen). Die automatische Erkennung tritt nur
-ganz zurück (sie fällt mit einer Warnung auf <code>1000:1000</code> zurück), wenn jeder
+Schreibzugriffe womöglich noch ablehnen). Die automatische Erkennung wird nur
+ganz aufgegeben (sie fällt mit einer Warnung auf <code>1000:1000</code> zurück), wenn jeder
 Medien-Mount root oder der reservierten UID <code>1001</code> gehört. Übertragen Sie Ihre
 Medien dann mit chown an einen normalen Benutzer, oder setzen Sie
 <code>PUID</code>/<code>PGID</code> ausdrücklich:</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>PUID=1026   # den Server unter dieser Benutzer-ID starten  (Host: `id -u &lt;media-owner&gt;`)
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>PGID=100    # ...und mit dieser Gruppen-ID
 </span></code></pre></div>
-<p>Ausdrücklich gesetzte Werte gewinnen immer gegenüber der Erkennung.</p>
+<p>Ausdrücklich gesetzte Werte haben immer Vorrang vor der Erkennung.</p>
 <p>So funktioniert es: Der Container startet als root, gerade lange genug, um
 seinen internen Benutzer umzustellen (und Eveys eigene Zustandsverzeichnisse
 <code>/data</code>, <code>/cache</code> neu zuzuweisen - <strong>nie</strong> Ihre Medien-Mounts). Dann gibt er

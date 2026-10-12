@@ -2500,7 +2500,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Die Außenwelt erreichen
+        6. Externe Dienste erreichen
       
     </span>
   </a>
@@ -3184,7 +3184,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Die Außenwelt erreichen
+        6. Externe Dienste erreichen
       
     </span>
   </a>
@@ -3274,7 +3274,7 @@
 das auf einem lokalen Server läuft, und dann zu einem signierten Paket, das
 andere Administratoren installieren können. Die Anleitung in
 <a href="#3-your-first-plugin-step-by-step">Abschnitt 3</a> ist der direkte Weg; der
-Rest ist Nachschlagestoff, zu dem Sie zurückkehren werden. Die Aufrufe und
+Rest ist Nachschlagematerial, zu dem Sie zurückkehren werden. Die Aufrufe und
 Felder selbst stehen in der <a href="../api-reference/">Plugin-API-Referenz</a>.</p>
 <pre class="mermaid"><code>flowchart LR
   subgraph server["Evey-Server"]
@@ -3292,8 +3292,8 @@ Felder selbst stehen in der <a href="../api-reference/">Plugin-API-Referenz</a>.
 Backend-Prozess, den der Server in einer Sandbox startet. Der Prozess bietet
 einen kleinen gRPC-Dienst auf einem Unix-Socket an und ruft den Server über
 einen anderen zurück. Es kann auch ein Oberflächenmodul mitbringen, das in
-einem abgeschotteten Frame der Seite gezeichnet wird. Mit der Außenwelt
-spricht es nur über den Server, und nur mit den Hosts, die es angegeben hat.</p>
+einem isolierten Frame der Seite dargestellt wird. Mit externen Diensten
+kommuniziert es nur über den Server, und nur mit den Hosts, die es angegeben hat.</p>
 <h2 id="1-prerequisites">1. Voraussetzungen<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -3325,7 +3325,7 @@ Standard-Image enthält nur Python. Das Image <code>-nodejs</code> ergänzt Node
 Image <code>-full</code> ergänzt PHP, Ruby und Lua. Ein Manifest, das eine Laufzeit
 nennt, die dem Image fehlt, wird bei der Installation abgelehnt, mit der
 Liste der verfügbaren Laufzeiten.</p>
-<p>Der gRPC-Vertrag ist eine einzige Datei, <code>proto/plugin/v1/plugin_api.proto</code>.
+<p>Die gRPC-Schnittstelle ist in einer einzigen Datei definiert, <code>proto/plugin/v1/plugin_api.proto</code>.
 Stubs werden für Python, Node.js, PHP, Ruby, Dart, Java und Swift unter
 <code>sdk/&lt;language&gt;/</code> erzeugt. Der Server kopiert die Stubs Ihrer Sprache beim
 Start des Plugins neben Ihren Einstiegspunkt. Ein Plugin in Node.js oder
@@ -3349,7 +3349,7 @@ ZIP:</p>
 <p>Öffnen Sie <code>https://evey.test</code>. Der Einrichtungsassistent legt beim ersten
 Start das Administratorkonto an, wie in
 <a href="../../getting-started/first-setup/">Ersteinrichtung</a> beschrieben.
-Plugin-Dateien landen in <code>./evey-data/plugins/&lt;plugin-id&gt;/</code>, im Container
+Plugin-Dateien liegen in <code>./evey-data/plugins/&lt;plugin-id&gt;/</code>, im Container
 als <code>/data/plugins</code> eingehängt.</p>
 <h2 id="3-your-first-plugin-step-by-step">3. Ihr erstes Plugin, Schritt für Schritt<a class="headerlink" href="#3-your-first-plugin-step-by-step" title="Permanent link">¶</a></h2>
 <p>Das Beispiel <code>examples/plugins/nodejs-example</code> ist das kleinste vollständige
@@ -3423,10 +3423,10 @@ des Plugins, mit der Umgebung aus dem nächsten Schritt.</p>
    Zustimmungsschritt aus, den der Administrator bestätigen muss.</p>
 </li>
 </ol>
-<p>Was Sie jetzt haben, ist der ganze Backend-Vertrag. Von hier wächst ein
-Plugin in drei Richtungen: den Server aufrufen (<code>HostService</code>, Abschnitt 4),
-eine Oberfläche zeichnen (Abschnitt 5) und die Außenwelt erreichen
-(Abschnitt 6).</p>
+<p>Damit kennen Sie die gesamte Backend-Schnittstelle. Davon ausgehend lässt
+sich ein Plugin in drei Richtungen erweitern: den Server aufrufen
+(<code>HostService</code>, Abschnitt 4), eine Oberfläche darstellen (Abschnitt 5) und
+externe Dienste erreichen (Abschnitt 6).</p>
 <h2 id="4-call-the-server-from-the-backend">4. Den Server aus dem Backend aufrufen<a class="headerlink" href="#4-call-the-server-from-the-backend" title="Permanent link">¶</a></h2>
 <p>Jeder Aufruf an <code>HostService</code> trägt die Identität des Plugins: Der Server
 prüft den Prozess am Socket über seine PID, und ein Interceptor lehnt jeden
@@ -3443,11 +3443,11 @@ brauchen gar keine Berechtigung:</p>
 </ul>
 <p><code>GetMediaItem</code> und <code>ListMediaItems</code> brauchen <code>api.library</code> oder
 <code>media.read</code>; <code>Fetch</code> braucht <code>network</code>. Die vollständige Tabelle, mit den
-Methoden, die im Vertrag stehen, aber noch nicht bedient werden, steht in
+Methoden, die in der Schnittstelle definiert sind, aber noch nicht bedient werden, steht in
 der <a href="../api-reference/#hostservice-what-the-plugin-can-call">Plugin-API-Referenz</a>.</p>
 <h2 id="5-add-an-interface">5. Eine Oberfläche hinzufügen<a class="headerlink" href="#5-add-an-interface" title="Permanent link">¶</a></h2>
 <p>Eine Oberfläche ist ein JavaScript-Modul, das die Seite in einem
-abgeschotteten Frame lädt, in einem der Slots, die der Server erlaubt. Geben
+isolierten Frame lädt, in einem der Slots, die der Server erlaubt. Geben
 Sie an, wo die Dateien liegen und wohin das Modul kommt:</p>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">web_root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="w">               </span><span class="c1"># das Verzeichnis, das als statische Dateien ausgeliefert wird</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">frontend</span><span class="p">:</span>
@@ -3455,18 +3455,18 @@ Sie an, wo die Dateien liegen und wohin das Modul kommt:</p>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist/index.js</span><span class="w">       </span><span class="c1"># muss unter web_root liegen</span>
 </span></code></pre></div>
 <p>Das Modul bekommt eine Brücke <code>window.evey</code>: <code>evey.onInit</code> übergibt ihm die
-Konfiguration des Plugins, die Sprache, das Design und die Oberfläche, auf
-der es gelandet ist. <code>evey.resize</code>, <code>evey.toast</code> und <code>evey.navigate</code> wirken
+Konfiguration des Plugins, die Sprache, das Design und die Oberfläche, in
+der es angezeigt wird. <code>evey.resize</code>, <code>evey.toast</code> und <code>evey.navigate</code> wirken
 innerhalb fester Grenzen auf die Seite. Und wenn das Manifest <code>prefs</code> oder
 <code>public</code> angibt, erreichen <code>evey.prefs.*</code> und <code>evey.media.*</code> den Server über
-einen kurzlebigen Token, den der Host für den Frame hält.
+einen kurzlebigen Token, den der Host für den Frame verwaltet.
 <code>examples/plugins/weather</code> ist ein vollständiges Widget mit Build-Schritt;
 <code>examples/plugins/data-demo</code> zeigt <code>prefs</code>, <code>public</code> und den Slot
 <code>admin.nav</code>. Die Brücke und die Slots sind in der
 <a href="../api-reference/#frontend-api">Plugin-API-Referenz</a> beschrieben.</p>
-<h2 id="6-reach-the-outside-world">6. Die Außenwelt erreichen<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
+<h2 id="6-reach-the-outside-world">6. Externe Dienste erreichen<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
 <p>Ein Plugin-Prozess kann keinen Socket ins Internet öffnen, in keinem
-Sandbox-Modus. Der einzige Weg hinaus ist der Aufruf <code>Fetch</code> von
+Sandbox-Modus. Die einzige Verbindung nach außen ist der Aufruf <code>Fetch</code> von
 <code>HostService</code>: Der Server prüft das Ziel gegen das Manifest und führt die
 Anfrage dann selbst aus.</p>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">permissions</span><span class="p">:</span>
@@ -3482,7 +3482,7 @@ Oberfläche bekommt dieselbe Hostliste als <code>connect-src</code>. Ein Widget 
 diese Hosts also direkt über <code>https</code> aufrufen. Die Regeln stehen in
 <a href="../security-model/#external-fetch-rules">Berechtigungen und Slots</a>.</p>
 <div class="admonition note">
-<p class="admonition-title">Hosts sind ein Vertrag mit dem Administrator</p>
+<p class="admonition-title">Die Hostliste ist eine verbindliche Zusage an den Administrator</p>
 <p>Der Administrator sieht die Hostliste bei der Installation und muss
 jede Ergänzung beim Update bestätigen. Beschränken Sie sie auf das, was
 das Plugin braucht, und schreiben Sie in Ihre README, was jeder Host
@@ -3491,9 +3491,9 @@ bekommt.</p>
 <h2 id="7-sign-your-plugin">7. Ihr Plugin signieren<a class="headerlink" href="#7-sign-your-plugin" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Was eine Signatur beweist</p>
-<p>Eine Signatur sagt, dass das ZIP, das der Administrator installiert,
+<p>Eine Signatur belegt, dass das ZIP, das der Administrator installiert,
 Byte für Byte das ist, das <strong>Sie</strong> veröffentlicht haben, signiert mit dem
-Schlüssel, dem er vertraut. Sie sagt nichts darüber, was das Plugin tut:
+Schlüssel, dem er vertraut. Sie sagt nichts darüber aus, was das Plugin tut:
 Berechtigungen, Hosts und die Analyse in der Vorschau gelten weiter.
 Evey prüft sie offline und im eigenen Prozess (ECDSA P-256 über den
 SHA-256 des ZIP, das Format, das <code>cosign sign-blob --key</code> erzeugt): kein
@@ -3545,7 +3545,7 @@ Schlüssel und eine Regel und startet den Server neu:</p>
 die Signatur das Feld <code>sig</code> beim Hochladen. Die Vorschau zeigt <strong>Signiert</strong>
 oder eine ungültige Signatur, und das Sicherheits-Dashboard behält das
 Ergebnis.</p>
-<p>Typische Stolpersteine:</p>
+<p>Typische Fehlerquellen:</p>
 <ul>
 <li><strong>Jede Änderung am ZIP macht die Signatur ungültig</strong>, sogar dieselben
   Dateien neu zu packen. Signieren Sie die Datei, die Sie verteilen, und
@@ -3554,8 +3554,8 @@ Ergebnis.</p>
   <code>cosign generate-key-pair</code>. Schlüsselloses Signieren und Verweise auf ein
   KMS werden nicht geprüft.</li>
 <li>Der Schlüssel wird beim Start aus einer PEM-Datei gelesen: Eine fehlende
-  oder fehlerhafte Datei hält den Server an, statt erst bei der ersten
-  Installation zu scheitern. Mit <code>enforce</code> und ohne Schlüssel startet der
+  oder fehlerhafte Datei verhindert den Start des Servers, statt erst bei der
+  ersten Installation einen Fehler auszulösen. Mit <code>enforce</code> und ohne Schlüssel startet der
   Server nicht.</li>
 <li>Mit dem Standard <code>warn</code> und ohne konfigurierten öffentlichen Schlüssel
   <strong>wird nichts geprüft</strong>; der Server schreibt beim Start nur eine Warnung
@@ -3585,17 +3585,17 @@ das Serverprotokoll enthält die Einzelheiten.</p>
 <li><strong>Entpacken</strong> in ein Zwischenverzeichnis: höchstens 5.000 Einträge,
    100 MB pro Datei, 500 MB insgesamt, ein Kompressionsverhältnis von 100:1,
    kein symbolischer Link, kein Pfad, der das Archiv verlässt. Ein Update
-   rührt die laufende Version erst an, wenn alle folgenden Schritte
+   ändert die laufende Version erst, wenn alle folgenden Schritte
    bestanden sind.</li>
 <li><strong>Nur Themes:</strong> Das Stylesheet wird bereinigt und zurückgeschrieben, und
-   eine <code>theme.js</code>, die ein verbotenes Muster trifft, lässt das Paket
-   scheitern.</li>
+   eine <code>theme.js</code>, die ein verbotenes Muster enthält, führt zur
+   Ablehnung des Pakets.</li>
 <li><strong>Statische Analyse</strong> jeder Textdatei: Ein kritischer Fund lehnt das
    Paket ab. Die Warnungen <code>deserialization</code> und <code>obfuscation</code> lehnen es
    ebenfalls ab, und <code>native_code</code>, kompilierte Binärdateien und eingebettete
    Archive lehnen es ab, außer das Manifest gibt <code>native-binary</code> an.</li>
-<li><strong>Speichern und starten.</strong> Das Zwischenverzeichnis wird an seinen Platz
-   getauscht, der Datensatz geschrieben und der Prozess gestartet.</li>
+<li><strong>Speichern und starten.</strong> Das Zwischenverzeichnis ersetzt das bisherige
+   Verzeichnis, der Datensatz geschrieben und der Prozess gestartet.</li>
 </ol>
 <p>Wonach die Analyse sucht, steht in
 <a href="../../SECURITY/#static-analysis">Plugin-Sandbox und Bedrohungsmodell</a>. Sie
@@ -3610,7 +3610,7 @@ Der Administrator kann sie unter <strong>Verwaltung → Plugins → Ressourcenli
 anpassen. Ohne die Berechtigung <code>subprocess</code> kann der Prozess keine
 Kindprozesse starten, egal in welcher Sprache; Threads funktionieren.</p>
 <p>Die Sandbox beschränkt das Dateisystem auf das Verzeichnis des Plugins und
-kappt jeden Netzwerk-Socket, ohne Ausnahme. Welcher Modus gilt, hängt vom
+blockiert jeden Netzwerk-Socket, ohne Ausnahme. Welcher Modus gilt, hängt vom
 Host ab, nicht vom Plugin:
 <a href="../../SECURITY/#sandbox-modes">Plugin-Sandbox und Bedrohungsmodell</a>
 beschreibt die Modi, und <a href="../sandbox-deployment/">Plugin-Sandbox einrichten</a>
@@ -3625,7 +3625,7 @@ Website).</p>
   (Abschnitt 7).</li>
 <li>Nennen Sie die Berechtigungen und die Hosts aus <code>external_fetch</code> in Ihrer
   README: Der Administrator sieht sie bei der Installation und muss sie
-  bestätigen. Eine Überraschung dort ist der häufigste Grund, warum eine
+  bestätigen. Ein unerwarteter Eintrag dort ist der häufigste Grund, warum eine
   Installation abgelehnt wird.</li>
 <li>Damit Ihr Plugin bei den mitgelieferten Beispielen erscheint, öffnen Sie
   einen Pull Request gegen <code>examples/plugins/</code> mit dem Quellcode und einer

@@ -3165,9 +3165,9 @@
 
 
 <h1 id="server-and-network">Serveur et réseau<a class="headerlink" href="#server-and-network" title="Permanent link">¶</a></h1>
-<p>Les variables qui disent où le serveur est publié, quels proxys il croit, qui
+<p>Les variables qui indiquent où le serveur est publié, à quels proxys il fait confiance, qui
 peut le joindre de l'extérieur et combien de requêtes il accepte. La plupart
-se définissent une fois dans le fichier compose ; ce que <strong>Admin → Accès
+se définissent une fois dans le fichier compose ; ce que <strong>Administration → Accès
 distant</strong> enregistre ensuite l'emporte sur elles, comme l'explique la
 <a href="../../configuration/">Référence de configuration</a>.</p>
 <h2 id="address-and-ports">Adresse et ports<a class="headerlink" href="#address-and-ports" title="Permanent link">¶</a></h2>
@@ -3221,7 +3221,7 @@ distant</strong> enregistre ensuite l'emporte sur elles, comme l'explique la
 <tr>
 <td><code>EVEY_TRUSTED_PROXIES</code></td>
 <td>boucle locale seulement</td>
-<td>Les réseaux dont l'adresse client transmise est crue, séparés par des virgules (pour un proxy en conteneur : <code>172.16.0.0/12</code>, à resserrer une fois connu). S'ajoutent à la boucle locale, sans jamais la remplacer ; une entrée mal formée empêche le démarrage.</td>
+<td>Les réseaux dont l'adresse client transmise est considérée comme fiable, séparés par des virgules (pour un proxy en conteneur : <code>172.16.0.0/12</code>, à resserrer une fois connu). S'ajoutent à la boucle locale, sans jamais la remplacer ; une entrée mal formée empêche le démarrage.</td>
 <td>Accès distant → <strong>Proxys de confiance</strong> remplace cette liste, immédiat ; vider le champ rétablit la variable</td>
 </tr>
 <tr>
@@ -3240,7 +3240,7 @@ distant</strong> enregistre ensuite l'emporte sur elles, comme l'explique la
 </table>
 <p>Les réglages du proxy qui comptent pour la diffusion : <a href="../../reverse-proxy/">Configurations de reverse proxy</a>.</p>
 <h2 id="remote-access">Accès distant<a class="headerlink" href="#remote-access" title="Permanent link">¶</a></h2>
-<p>Ces variables servent au premier démarrage ; <strong>Admin → Accès distant</strong>
+<p>Ces variables servent au premier démarrage ; <strong>Administration → Accès distant</strong>
 enregistre ensuite ses propres valeurs et les applique sans redémarrage. La
 façon dont le contrôle décide :
 <a href="../../administration/remote-access/">Accès distant et HTTPS</a>.</p>
@@ -3269,13 +3269,13 @@ façon dont le contrôle décide :
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_LAN_NETWORKS</code></td>
 <td><code>10.0.0.0/8,172.16.0.0/12,192.168.0.0/16</code></td>
-<td>Les réseaux considérés comme la maison. Ajoutez une plage de VPN ou de CGNAT (<code>100.64.0.0/10</code>) dont les clients doivent compter comme locaux.</td>
+<td>Les réseaux considérés comme le réseau domestique. Ajoutez une plage de VPN ou de CGNAT (<code>100.64.0.0/10</code>) dont les clients doivent compter comme locaux.</td>
 <td>Accès distant → <strong>Réseaux LAN</strong>, immédiat</td>
 </tr>
 <tr>
 <td><code>EVEY_REMOTE_ACCESS_MAX_BITRATE_KBPS</code></td>
 <td><code>0</code></td>
-<td>Un plafond de débit pour les clients hors de la maison, en kbit/s ; <code>0</code> = aucun. Une adresse privée n'est jamais plafonnée.</td>
+<td>Un plafond de débit pour les clients hors du réseau domestique, en kbit/s ; <code>0</code> = aucun. Une adresse privée n'est jamais plafonnée.</td>
 <td>Accès distant → <strong>Débit distant maximal</strong>, immédiat</td>
 </tr>
 </tbody>

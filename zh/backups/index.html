@@ -3183,7 +3183,7 @@
 <p>它<strong>不</strong>包含：</p>
 <ul>
 <li>您的媒体文件；</li>
-<li>视频缓存（它会自己重新填满）；</li>
+<li>视频缓存（它会自动重新生成）；</li>
 <li>搜索索引（会根据数据库重建）；</li>
 <li>保存在 <code>./evey-data</code> 里的密钥：保护每次登录的 <code>jwt.key</code>，以及 <code>keys</code> 文件夹（数据库密码、搜索密钥）；</li>
 <li>已安装的插件文件。</li>
@@ -3191,7 +3191,7 @@
 <p><strong>所以，也请保留整个 <code>./evey-data</code> 文件夹的副本。</strong> 数据库备份可以在同一套安装上恢复 Evey。要从零重建一台机器，您需要这个文件夹。</p>
 <details class="info">
 <summary>遥测数据和文件格式</summary>
-<p>播放和服务器的测量数据（质量图表和负载图表背后的数据）默认不包含在备份里：它们增长最快，而且与您的片库无关。<strong>在备份中包含遥测数据</strong>（<strong>管理 → 服务器配置</strong>）会把它们加回去，适用于手动、定时和命令行备份。恢复备份时，这些表总是会被清空。</p>
+<p>播放和服务器的测量数据（质量图表和负载图表背后的数据）默认不包含在备份里：它们增长最快，而且与您的片库无关。<strong>在备份中包含遥测数据</strong>（<strong>管理 → 服务器配置</strong>）会把它们包含在备份中，适用于手动、定时和命令行备份。恢复备份时，这些表总是会被清空。</p>
 <p>备份是一个 <code>.tar.gz</code> 文件，里面有数据库转储，以及一份简短说明，记录校验和（SHA256）和数据库结构版本。</p>
 </details>
 <h2 id="restore-a-backup">恢复备份<a class="headerlink" href="#restore-a-backup" title="Permanent link">¶</a></h2>
@@ -3206,10 +3206,10 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>pull<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>evey
 </span></code></pre></div>
-<p>更新就这么简单。</p>
+<p>以上就是全部更新步骤。</p>
 <ul>
 <li><strong>您的数据会先被保存。</strong> 如果新版本需要修改数据库，它会先把副本写到 <code>./evey-data/backups/pre-migration-*.sql.gz</code>（保留最近的三份），然后在启动时进行修改。</li>
-<li><strong>可能需要几分钟</strong>，如果片库很大的话。容器重新开始应答后，会报告为健康状态。</li>
+<li>片库很大时，<strong>可能需要几分钟</strong>。容器重新开始应答后，会报告为健康状态。</li>
 <li><strong>有更新时 Evey 会告诉您。</strong> 它每小时检查一次是否发布了更新的镜像，并在管理面板里提示。它从不自动更新自己。</li>
 <li><strong>正在运行哪个版本：</strong> <code>docker exec evey-server evey version</code> 会显示版本号和提交（commit）。</li>
 </ul>

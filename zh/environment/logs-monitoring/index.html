@@ -3165,7 +3165,7 @@
 <tr>
 <td><code>EVEY_BACKUP_INTERVAL_HOURS</code></td>
 <td><code>0</code>（关闭）</td>
-<td>每 N 小时备份一次，和面板里的计划互不相干；通常用面板里的计划。</td>
+<td>每 N 小时备份一次，与面板里的计划相互独立；通常使用面板里的计划。</td>
 <td>数据库备份 → <strong>计划任务</strong>（cron 表达式），实时生效</td>
 </tr>
 <tr>
@@ -3196,7 +3196,7 @@
 <tr>
 <td><code>EVEY_LOG_DIR</code></td>
 <td><code>/data/logs</code></td>
-<td>每天的日志文件 <code>evey-YYYY-MM-DD.log</code> 写入的位置。由镜像设置。这个文件才是准的：<code>docker logs</code> 显示的是同样的内容，但 Docker 会轮换掉旧的部分。</td>
+<td>每天的日志文件 <code>evey-YYYY-MM-DD.log</code> 写入的位置。由镜像设置。以这个文件为准：<code>docker logs</code> 显示的是同样的内容，但 Docker 会对其进行轮换。</td>
 <td>无</td>
 </tr>
 <tr>

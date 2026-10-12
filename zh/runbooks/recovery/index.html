@@ -3119,7 +3119,7 @@
 
 
 <h1 id="recovery">恢复<a class="headerlink" href="#recovery" title="Permanent link">¶</a></h1>
-<p>当谁都登录不了、用来签发访问令牌的密钥可能已经泄露，或者数据库必须回到迁移前的转储时，请打开本页。每个步骤都是在容器里运行一条 <code>evey admin</code> 命令；其他子命令见<a href="../cli/">命令行</a>页面。</p>
+<p>当所有人都无法登录、用来签发访问令牌的密钥可能已经泄露，或者数据库必须回到迁移前的转储时，请打开本页。每个步骤都是在容器里运行一条 <code>evey admin</code> 命令；其他子命令见<a href="../cli/">命令行</a>页面。</p>
 <h2 id="before-you-start">开始之前<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <p>这些命令读取和服务器相同的 <code>EVEY_*</code> 配置，所以在服务器的容器里运行它们，不需要任何别的东西：</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>&lt;subcommand&gt;<span class="w">        </span><span class="c1"># 服务器正在运行时</span>
@@ -3127,7 +3127,7 @@
 </span></code></pre></div>
 <p>第二种方式会先启动内置的数据库，再运行命令，然后退出。这些命令都不会启动服务器。</p>
 <h2 id="give-a-user-a-new-password">给用户一个新密码<a class="headerlink" href="#give-a-user-a-new-password" title="Permanent link">¶</a></h2>
-<p>在用户被锁在外面时使用，或者在怀疑账户被盗之后立即使用。新密码只显示一次，而且从不写进日志：关闭终端之前请先把它复制下来。</p>
+<p>在用户无法登录时使用，或者在怀疑账户被盗之后立即使用。新密码只显示一次，而且从不写进日志：关闭终端之前请先把它复制下来。</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
 </span></code></pre></div>
 <p>结果正常时是这样的：</p>
@@ -3138,7 +3138,7 @@
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Save this - it is the only time the new password is shown.
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Every session of this user has been ended.
 </span></code></pre></div>
-<p>这位用户的所有会话会立即结束：刷新令牌被删除，访问令牌被吊销。已打开的应用大约在 30 秒内会发现，并要求重新登录。如果您弄丢了输出，再运行一次命令即可。</p>
+<p>这位用户的所有会话会立即结束：刷新令牌被删除，访问令牌被吊销。已打开的应用大约在 30 秒内会发现，并要求重新登录。如果输出丢失，再运行一次命令即可。</p>
 <h2 id="rotate-the-key-that-signs-access-tokens">轮换签发访问令牌的密钥<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
 <p>在密钥文件可能已经泄露时使用，或者想让所有用户一次性退出登录时使用。如果只涉及一个账户，用<strong>管理 → 用户 → 禁用</strong>或上面的重置密码就够了。</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
@@ -3149,7 +3149,7 @@
 <li>在同一个事务里，删除所有刷新令牌，并吊销所有访问令牌。已打开的应用大约在 30 秒内会发现；所有人都要重新登录。</li>
 <li>服务器下次启动时，会生成一个新的 2048 位 RSA 密钥。</li>
 </ol>
-<p>之后请重启容器（<code>docker compose restart evey</code>），让新密钥生效。如果连不上数据库，密钥仍然会被移到一边，命令会显示 <code>key rotated, but sessions could not be ended (restart the server, then run this again)</code>：请照着做，先重启服务器，再运行一次这条命令。</p>
+<p>之后请重启容器（<code>docker compose restart evey</code>），让新密钥生效。如果连不上数据库，密钥文件仍然会被重命名移走，命令会显示 <code>key rotated, but sessions could not be ended (restart the server, then run this again)</code>：请按此操作，先重启服务器，再运行一次这条命令。</p>
 <h2 id="restore-a-pre-migration-dump">恢复迁移前的转储<a class="headerlink" href="#restore-a-pre-migration-dump" title="Permanent link">¶</a></h2>
 <p>当某次更新必须撤销、而且之后写入的数据可以丢弃时使用。这条命令会把一个 <code>.sql.gz</code> 转储通过 <code>gunzip | psql</code> 导入到配置好的数据库里。</p>
 <div class="admonition warning">
@@ -3163,7 +3163,7 @@
 <p>会发生什么：</p>
 <ol>
 <li>命令先读取整个文件：文件必须能完整解压，并以 <code>pg_dump</code> 的完成标记行结尾。被截断或损坏的转储会被拒绝（<code>refusing to restore: ...</code>），这时还没有删除任何东西。</li>
-<li>然后它会等待 5 秒再动手：按 Ctrl+C 可以中止。</li>
+<li>然后它会等待 5 秒再进行任何更改：按 Ctrl+C 可以中止。</li>
 <li><code>psql</code> 以 <code>--single-transaction</code> 和 <code>ON_ERROR_STOP=1</code> 应用转储。只要出现任何错误，事务就会回滚，数据库保持原样。</li>
 <li>成功时，最后一行是 <code>[admin] restored backup &lt;path&gt;</code>。</li>
 </ol>

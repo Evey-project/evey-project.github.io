@@ -1736,7 +1736,7 @@
   <a href="#rotate-the-key-that-signs-access-tokens" class="md-nav__link">
     <span class="md-ellipsis">
       
-        एक्सेस टोकन पर साइन करने वाली की बदलना
+        एक्सेस टोकन पर साइन करने वाली कुंजी बदलना
       
     </span>
   </a>
@@ -3077,7 +3077,7 @@
   <a href="#rotate-the-key-that-signs-access-tokens" class="md-nav__link">
     <span class="md-ellipsis">
       
-        एक्सेस टोकन पर साइन करने वाली की बदलना
+        एक्सेस टोकन पर साइन करने वाली कुंजी बदलना
       
     </span>
   </a>
@@ -3120,7 +3120,7 @@
 
 <h1 id="recovery">रिकवरी<a class="headerlink" href="#recovery" title="Permanent link">¶</a></h1>
 <p>यह पेज तब खोलें जब कोई भी साइन इन न कर पा रहा हो, जब एक्सेस टोकन पर साइन करने
-वाली की (key) शायद लीक हो गई हो, या जब डेटाबेस को माइग्रेशन से पहले के डंप पर
+वाली कुंजी शायद लीक हो गई हो, या जब डेटाबेस को माइग्रेशन से पहले के डंप पर
 वापस ले जाना हो। हर तरीका कंटेनर के अंदर चलने वाली एक <code>evey admin</code> कमांड है;
 बाकी सबकमांड <a href="../cli/">कमांड लाइन</a> पेज पर हैं।</p>
 <h2 id="before-you-start">शुरू करने से पहले<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
@@ -3129,10 +3129,10 @@
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>&lt;subcommand&gt;<span class="w">        </span><span class="c1"># सर्वर चल रहा है</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>&lt;subcommand&gt;<span class="w">        </span><span class="c1"># कंटेनर बंद है</span>
 </span></code></pre></div>
-<p>दूसरा तरीका पहले अंदर वाला डेटाबेस शुरू करता है, फिर कमांड चलाता है और बंद हो
+<p>दूसरा तरीका पहले embedded डेटाबेस शुरू करता है, फिर कमांड चलाता है और बंद हो
 जाता है। इनमें से कोई भी कमांड सर्वर शुरू नहीं करती।</p>
 <h2 id="give-a-user-a-new-password">किसी उपयोगकर्ता को नया पासवर्ड देना<a class="headerlink" href="#give-a-user-a-new-password" title="Permanent link">¶</a></h2>
-<p>इसका इस्तेमाल तब करें जब कोई उपयोगकर्ता अंदर न जा पा रहा हो, या जब किसी खाते पर
+<p>इसका इस्तेमाल तब करें जब कोई उपयोगकर्ता साइन इन न कर पा रहा हो, या जब किसी खाते पर
 किसी और के कब्ज़े का शक हो, तुरंत उसके बाद। नया पासवर्ड एक ही बार छपता है और कभी
 लॉग में नहीं लिखा जाता: टर्मिनल बंद करने से पहले उसे कॉपी कर लें।</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
@@ -3146,26 +3146,26 @@
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Every session of this user has been ended.
 </span></code></pre></div>
 <p>उस उपयोगकर्ता का हर सेशन एक साथ खत्म हो जाता है: रिफ़्रेश टोकन मिटा दिए जाते
-हैं और एक्सेस टोकन रद्द कर दिए जाते हैं। खुला हुआ ऐप लगभग 30 सेकंड के अंदर यह
-पकड़ लेता है और फिर से साइन इन करने को कहता है। अगर आपसे आउटपुट खो जाए, तो कमांड
+हैं और एक्सेस टोकन रद्द कर दिए जाते हैं। खुला हुआ ऐप लगभग 30 सेकंड के अंदर इसका
+पता लगा लेता है और फिर से साइन इन करने को कहता है। अगर आपसे आउटपुट खो जाए, तो कमांड
 फिर से चलाएँ।</p>
-<h2 id="rotate-the-key-that-signs-access-tokens">एक्सेस टोकन पर साइन करने वाली की बदलना<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
-<p>इसका इस्तेमाल तब करें जब की वाली फ़ाइल शायद लीक हो गई हो, या जब सभी उपयोगकर्ताओं
+<h2 id="rotate-the-key-that-signs-access-tokens">एक्सेस टोकन पर साइन करने वाली कुंजी बदलना<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
+<p>इसका इस्तेमाल तब करें जब कुंजी वाली फ़ाइल शायद लीक हो गई हो, या जब सभी उपयोगकर्ताओं
 को एक साथ साइन आउट करना हो। किसी एक खाते के लिए <strong>एडमिन → उपयोगकर्ता → अक्षम
 करें</strong>, या ऊपर वाला पासवर्ड रीसेट काफ़ी है।</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
 </span></code></pre></div>
 <p>क्या होता है:</p>
 <ol>
-<li>की वाली फ़ाइल (<code>EVEY_JWT_PRIVATE_KEY_PATH</code>, डिफ़ॉल्ट रूप से <code>/data/jwt.key</code>)
+<li>कुंजी वाली फ़ाइल (<code>EVEY_JWT_PRIVATE_KEY_PATH</code>, डिफ़ॉल्ट रूप से <code>/data/jwt.key</code>)
    का नाम बदलकर <code>&lt;path&gt;.rotated-&lt;UTC timestamp&gt;</code> कर दिया जाता है।</li>
 <li>हर रिफ़्रेश टोकन मिटा दिया जाता है और हर एक्सेस टोकन रद्द कर दिया जाता है, एक
-   ही ट्रांज़ैक्शन में। खुले ऐप लगभग 30 सेकंड के अंदर यह पकड़ लेते हैं; सब लोग
+   ही ट्रांज़ैक्शन में। खुले ऐप लगभग 30 सेकंड के अंदर इसका पता लगा लेते हैं; सब लोग
    फिर से साइन इन करते हैं।</li>
-<li>अगली बार शुरू होने पर सर्वर एक नई 2048-बिट RSA की बनाता है।</li>
+<li>अगली बार शुरू होने पर सर्वर एक नई 2048-बिट RSA कुंजी बनाता है।</li>
 </ol>
-<p>इसके बाद कंटेनर रीस्टार्ट करें (<code>docker compose restart evey</code>), ताकि नई की
-इस्तेमाल हो। अगर डेटाबेस तक पहुँचा नहीं जा सका, तब भी की किनारे कर दी जाती है और
+<p>इसके बाद कंटेनर रीस्टार्ट करें (<code>docker compose restart evey</code>), ताकि नई कुंजी
+इस्तेमाल हो। अगर डेटाबेस तक पहुँचा नहीं जा सका, तब भी कुंजी वाली फ़ाइल का नाम बदल दिया जाता है और
 कमांड कहती है <code>key rotated, but sessions could not be ended
 (restart the server, then run this again)</code>: ठीक यही करें।</p>
 <h2 id="restore-a-pre-migration-dump">माइग्रेशन से पहले का डंप वापस लाना<a class="headerlink" href="#restore-a-pre-migration-dump" title="Permanent link">¶</a></h2>
@@ -3195,8 +3195,8 @@
 </ol>
 <p>ज़रूरी बातें:</p>
 <ul>
-<li>फ़ाइल का नाम <code>.sql.gz</code> पर खत्म होना चाहिए। <strong>एडमिन → बैकअप और
-  पुनर्स्थापना</strong> के <code>.tar.gz</code> आर्काइव पैनल से वापस लाए जाते हैं, इस कमांड से नहीं।</li>
+<li>फ़ाइल का नाम <code>.sql.gz</code> पर खत्म होना चाहिए। <strong>एडमिन → डेटाबेस
+  बैकअप</strong> के <code>.tar.gz</code> आर्काइव पैनल से वापस लाए जाते हैं, इस कमांड से नहीं।</li>
 <li>जिस डेटाबेस में डालना है, वह मौजूद होना चाहिए; डंप टेबल हटाकर फिर से बनाता है,
   डेटाबेस नहीं।</li>
 <li><code>psql</code> और <code>gunzip</code> PATH में होने चाहिए, जिसकी गारंटी इमेज देती है।</li>

@@ -1919,7 +1919,7 @@
   <a href="#cheatsheet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spickzettel
+        Kurzübersicht
       
     </span>
   </a>
@@ -3320,7 +3320,7 @@
   <a href="#cheatsheet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spickzettel
+        Kurzübersicht
       
     </span>
   </a>
@@ -3374,7 +3374,7 @@ Zeile <code>ports:</code> der Compose-Datei.</p>
 <code>./evey-data/logs/evey-YYYY-MM-DD.log</code> (<code>EVEY_LOG_DIR</code>, <code>/data/logs</code> im
 Image) und in <code>docker logs evey-server</code>. Maßgeblich ist die Datei: Der
 json-file-Treiber von Docker rotiert <code>docker logs</code>, und nach einer Rotation
-kann der Befehl Stunden vor dem Container aufhören. Widersprechen sich die
+kann die Ausgabe des Befehls um Stunden hinter dem Container zurückliegen. Widersprechen sich die
 beiden, lesen Sie die Datei. Die Seite <strong>Protokolle &amp; Debug</strong> im
 Verwaltungsbereich durchsucht dieselben Zeilen
 (<code>GET /api/v1/admin/logs/search?q=&lt;term&gt;&amp;limit=200</code>). Bearer-Token, JWTs und
@@ -3395,14 +3395,14 @@ wird abgewiesen.</p>
 <ul>
 <li>Container beendet: Die Panic steht am Ende von <code>docker logs evey-server</code>.
   Beheben Sie die Ursache, dann <code>docker compose up -d evey</code>.</li>
-<li>Gesundheitsprüfung rot, weil die Datenbank oder die Suchmaschine
+<li>Gesundheitsprüfung schlägt fehl, weil die Datenbank oder die Suchmaschine
   ausgefallen ist: siehe <a href="#database-errors">Datenbankfehler</a> und
   <a href="#search-is-degraded">Die Suche ist eingeschränkt</a>.</li>
 <li>Portkonflikt auf dem Rechner: Ändern Sie die Rechnerseite der Zeile
   <code>ports:</code> in der Compose-Datei, oder geben Sie den Port frei.</li>
 <li>Caddy davor leitet nicht weiter (Aufbau des Repositorys):
   <code>docker logs evey-caddy</code>, prüfen Sie <code>EVEY_DOMAIN</code> und ob die
-  Gesundheitsprüfung von <code>evey</code> grün ist, denn Caddy wartet auf sie.</li>
+  Gesundheitsprüfung von <code>evey</code> erfolgreich ist, denn Caddy wartet auf sie.</li>
 </ul>
 <h2 id="every-login-returns-401">Jede Anmeldung liefert 401<a class="headerlink" href="#every-login-returns-401" title="Permanent link">¶</a></h2>
 <p><strong>Symptom</strong>: Jeder Benutzer, auch Administratoren, bekommt 401 von
@@ -3415,11 +3415,11 @@ wird abgewiesen.</p>
 die Token-Epoche des Benutzers erneut in der Datenbank, und diese Prüfung
 schlägt im Zweifel fehl: Ist die Datenbank langsam, gesperrt oder nicht
 erreichbar, liefert jede Anfrage dasselbe 401 wie ein abgelaufenes Token. Das
-sieht aus wie ein Problem mit dem JWT, ist aber keines. Der Server sagt es:</p>
+sieht aus wie ein Problem mit dem JWT, ist aber keines. Der Server meldet das:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>auth rejected: the token epoch could not be read, so every authenticated request is failing - check the database, not the JWT key
 </span></code></pre></div>
 <p>Steht diese Zeile da, gehen Sie zu <a href="#database-errors">Datenbankfehler</a>.
-<code>/healthz</code> kann währenddessen grün bleiben: Es prüft die Verbindung, führt
+<code>/healthz</code> kann währenddessen weiter erfolgreich antworten: Es prüft die Verbindung, führt
 aber die Abfrage der Epoche nicht aus. Der Prometheus-Zähler ist
 <code>evey_auth_failures_total{reason="epoch_lookup_failed"}</code>.</p>
 <p><strong>Lösung</strong>:</p>
@@ -3437,7 +3437,7 @@ aber die Abfrage der Epoche nicht aus. Der Prometheus-Zähler ist
   <code>EVEY_RATELIMIT_GLOBAL_MAX</code> (<code>300</code>). Ein Reverse Proxy, der alles unter
   einer einzigen Adresse weiterreicht, löst sie schnell aus: Tragen Sie den
   Proxy unter <strong>Vertrauenswürdige Proxys (IP oder CIDR, kommagetrennt)</strong> in
-  <strong>Verwaltung -&gt; Fernzugriff</strong> ein (gilt ohne Neustart;
+  <strong>Verwaltung → Fernzugriff</strong> ein (gilt ohne Neustart;
   <code>EVEY_TRUSTED_PROXIES</code> ist der Ersatz). Die
   <code>docker-compose.override.yml</code> des Repositorys hebt beide für die
   Entwicklung auf <code>1000</code> / <code>10000</code> an.</li>
@@ -3467,8 +3467,8 @@ Protokoll des Servers zeigt Exit-Codes von ffmpeg.</p>
   <code>environment:</code> in der Compose-Datei überschreibt sie. Außerhalb des Images
   sind die Go-Standardwerte <code>/data/transcode</code> und <code>/cache/trickplay</code>.</li>
 <li><strong>Cache voll</strong>: siehe <a href="#the-cache-disk-is-full">Die Cache-Festplatte ist voll</a>.</li>
-<li><strong>Hardware-Beschleunigung macht Probleme</strong>: Stellen Sie
-  <strong>Hardwarebeschleunigung</strong> unter <strong>Verwaltung -&gt; Transkodierung -&gt;
+<li><strong>Hardware-Beschleunigung verursacht Probleme</strong>: Stellen Sie
+  <strong>Hardwarebeschleunigung</strong> unter <strong>Verwaltung → Transkodierung →
   Encode-Kalibrierung</strong> auf <strong>Aus (nur Software)</strong> (gilt sofort und
   kalibriert neu), damit jede Transkodierung auf dem Prozessor läuft.
   Stellen Sie wieder auf <strong>Auto (bestmöglich)</strong>, sobald die Hardware
@@ -3477,15 +3477,15 @@ Protokoll des Servers zeigt Exit-Codes von ffmpeg.</p>
   laufende Wiedergabe wird gemessen, nicht eingestellt; siehe
   <a href="../../playback/transcoding/#sharing-the-capacity">Die Kapazität teilen</a>.
   <code>EVEY_TRANSCODING_MAX_CONCURRENT</code> (<strong>Max. gleichzeitig</strong> unter
-  <strong>Verwaltung -&gt; Transkodierungs-Cache</strong>) gilt nur für
+  <strong>Verwaltung → Transkodierungs-Cache</strong>) gilt nur für
   Transkodierungsaufträge außerhalb der laufenden Wiedergabe.</li>
 </ul>
 <h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">Es puffert oder bricht ab, und das Protokoll sagt nicht warum<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
-<p><strong>Symptom</strong>: Ein Zuschauer meldet Hänger bei einem transkodierten Titel; das
+<p><strong>Symptom</strong>: Ein Zuschauer meldet Unterbrechungen bei einem transkodierten Titel; das
 Protokoll zeigt <code>hls-vod: segment timeout</code> mit <code>err:"context canceled"</code>. Das
-heißt: Der Client hat aufgelegt, nicht der Server hat zu lange gebraucht.</p>
+heißt: Der Client hat die Verbindung beendet, nicht der Server hat zu lange gebraucht.</p>
 <p><strong>Diagnose</strong>: Beginnen Sie mit dem, was der Server schon aufgezeichnet hat,
-das kostet nichts:</p>
+das erfordert keinen zusätzlichen Aufwand:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Warum eine Segmentanfrage einen Encoder wiederverwendet oder einen neuen</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># gestartet hat, und was das den Player gekostet hat. Nur protokolliert, wenn</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># es etwas kostet. `over_client_patience: true` ist der klare Beweis.</span>
@@ -3526,10 +3526,10 @@ sieht man, wenn Encoder ständig neu starten.</p>
 <ul>
 <li><strong>Wiederholte kurze Sprünge nach vorn</strong>: Jeder kann einen neuen Encoder
   starten, und die Grenze pro Hash (<code>MaxSessionsPerHash</code>, standardmäßig 2,
-  im Profil für wenig Arbeitsspeicher 1) wirft den am längsten nicht
-  benutzten hinaus: <code>session killed reason:lru_cap</code> im Protokoll. In Maßen
+  im Profil für wenig Arbeitsspeicher 1) beendet den am längsten nicht
+  benutzten: <code>session killed reason:lru_cap</code> im Protokoll. In Maßen
   normal.</li>
-<li><strong>Der Client ist ungeduldiger als der Server</strong>: Das Fenster für das
+<li><strong>Der Client wartet kürzer als der Server</strong>: Das Fenster für das
   Erreichen eines Sprungziels ist auf <code>clientSegmentPatience</code> (6 s)
   ausgelegt, während das eigene Warte-Budget des Servers (<code>WaitBudgetDur</code>)
   60 s beträgt. Eine Zeile <code>reach decision</code> mit
@@ -3537,11 +3537,11 @@ sieht man, wenn Encoder ständig neu starten.</p>
   zu verlangen, die kein Player abwartet.</li>
 </ul>
 <h3 id="stale_rendition-410s-the-player-refetches-its-master-mid-play"><code>stale_rendition</code>-410er, der Player lädt seinen Master mitten in der Wiedergabe neu<a class="headerlink" href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" title="Permanent link">¶</a></h3>
-<p><strong>Symptom</strong>: Der Player hängt kurz und fängt sich dann; das Protokoll zeigt
+<p><strong>Symptom</strong>: Der Player stockt kurz und läuft dann weiter; das Protokoll zeigt
 <code>hls-vod: stale rendition URL refused (the ladder moved under a live player)</code>
 und Anfragen, die mit <code>410 Gone</code> und <code>X-Evey-Error: stale_rendition</code>
 beantwortet werden.</p>
-<p>Das ist eine Schutzfunktion, die anspringt, nicht der Fehler selbst. Jede
+<p>Das ist eine Schutzfunktion, die greift, nicht der Fehler selbst. Jede
 URI im Manifest trägt den Hash der Entscheidung, unter der sie gebaut wurde
 (<code>fp=</code>). Ein 410 bedeutet: Ein Player hat eine URL aus einer Sitzung
 vorgelegt, deren ABR-Leiter inzwischen umgebaut wurde. Sie auszuliefern
@@ -3550,11 +3550,11 @@ erzwingt ein sauberes Neuladen des Masters.</p>
 <p><strong>Diagnose</strong>: Die WARN-Zeile enthält <code>sealed_fp</code>, <code>current_fp</code> und die
 Medien-ID.</p>
 <ul>
-<li>Ein <strong>Schwall direkt nach einem Ausrollen, einem Neustart oder einer neuen
+<li>Eine <strong>Häufung direkt nach einem Ausrollen, einem Neustart oder einer neuen
   Kalibrierung</strong> ist zu erwarten: Laufende Sitzungen haben eine Änderung der
   Fähigkeiten überdauert. Die Player synchronisieren sich innerhalb einer
   Abfrage neu.</li>
-<li>Ein <strong>stetiges Tröpfeln im normalen Betrieb</strong> heißt, dass etwas die
+<li>Eine <strong>geringe, aber stetige Zahl im normalen Betrieb</strong> heißt, dass etwas die
   Leitern unter laufenden Streams immer wieder umbaut: Suchen Sie nach
   schwankenden Fähigkeiten (<code>docker logs evey-server | grep -iE
   'calibrat|capability'</code>), einem Admission-Shaper, der unter Last ständig
@@ -3607,7 +3607,7 @@ auf der Loopback-Adresse des Containers, Port 7700.</p>
 <p><strong>Lösung</strong>:</p>
 <ul>
 <li>Nicht gesund: <code>docker compose restart evey</code>.</li>
-<li>Index beschädigt: Container stoppen, <code>./evey-data/meili</code> beiseitelegen,
+<li>Index beschädigt: Container stoppen, <code>./evey-data/meili</code> an einen anderen Ort verschieben,
   wieder starten, dann den Index aus der Datenbank neu aufbauen:
   <div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reindex-search
 </span></code></pre></div>
@@ -3615,7 +3615,7 @@ auf der Loopback-Adresse des Containers, Port 7700.</p>
 </ul>
 <h2 id="the-cache-disk-is-full">Die Cache-Festplatte ist voll<a class="headerlink" href="#the-cache-disk-is-full" title="Permanent link">¶</a></h2>
 <p><strong>Symptom</strong>: Transkodierungen schlagen mit <code>no space left on device</code> fehl;
-die Gesundheitsprüfung springt hin und her.</p>
+die Gesundheitsprüfung wechselt ständig zwischen Erfolg und Fehler.</p>
 <p><strong>Diagnose</strong>:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>df<span class="w"> </span>-h<span class="w"> </span>/cache
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/cache/transcode<span class="w"> </span>/data/trickplay<span class="w"> </span><span class="m">2</span>&gt;/dev/null
@@ -3627,15 +3627,15 @@ die Gesundheitsprüfung springt hin und her.</p>
   <div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /cache/transcode/*'</span>
 </span></code></pre></div>
   Das entfernt auch <code>photos/</code> (verkleinerte Fassungen von Fotos) und
-  <code>track-art/</code> (Cover, die aus den Tags von Audiodateien herausgezogen
+  <code>track-art/</code> (Cover, die aus den Tags von Audiodateien extrahiert
   wurden) darunter; beide werden bei der nächsten Anfrage neu gebaut.
-  <strong>Alle leeren</strong> unter <strong>Verwaltung -&gt; Transkodierungs-Cache</strong> leert
+  <strong>Alle leeren</strong> unter <strong>Verwaltung → Transkodierungs-Cache</strong> leert
   denselben Cache aus dem Verwaltungsbereich.</li>
-<li>Trickplay ist teurer neu zu erzeugen; leeren Sie es nur, wenn es sein muss:
+<li>Trickplay ist aufwendiger neu zu erzeugen; leeren Sie es nur, wenn es sein muss:
   <div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /data/trickplay/*'</span>
 </span></code></pre></div></li>
-<li>Senken Sie <strong>Budget des Transkodierungs-Caches (GB)</strong> unter <strong>Verwaltung -&gt;
-  Serverkonfiguration -&gt; Servereinstellungen</strong> (Standard <code>10</code>), wenn das
+<li>Senken Sie <strong>Budget des Transkodierungs-Caches (GB)</strong> unter <strong>Verwaltung →
+  Serverkonfiguration → Servereinstellungen</strong> (Standard <code>10</code>), wenn das
   Volume auf dem Rechner knapp ist. Unabhängig vom Budget hält die
   Aufräumfunktion 2 GiB auf dem Cache-Volume frei.</li>
 </ul>
@@ -3648,8 +3648,8 @@ dem Plugin-Runner.</p>
 </span></code></pre></div>
 <p><strong>Lösung</strong>:</p>
 <ol>
-<li>Starten Sie das Plugin neu, ohne den Server anzufassen: <strong>Aktivieren</strong>
-   Sie es erneut unter <strong>Verwaltung -&gt; Plugins</strong>, oder
+<li>Starten Sie das Plugin neu, ohne den Server neu zu starten: <strong>Aktivieren</strong>
+   Sie es erneut unter <strong>Verwaltung → Plugins</strong>, oder
    <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>. Das funktioniert, wenn das
    Plugin aktiviert ist, aber in <code>Error</code> hängt: Der Start lehnt nur ein
    Plugin ab, das schon <code>Running</code> oder <code>Initializing</code> ist.</li>
@@ -3661,15 +3661,15 @@ dem Plugin-Runner.</p>
 <li>Schicken Sie den Panic-Trace und die ID des Plugins an seinen Autor.</li>
 </ol>
 <h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">Ein Cast ist eingefroren, stumm geworden, oder das Handy lädt endlos<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
-<p>Alles hier lässt sich unter <strong>Verwaltung -&gt; Protokolle &amp; Debug</strong> lesen; Sie
+<p>Alles hier lässt sich unter <strong>Verwaltung → Protokolle &amp; Debug</strong> lesen; Sie
 brauchen keine Shell auf dem Rechner. Die Zeiten sind in UTC. Jedes Signal
 ist eine Zeile <code>player-client: playback event reported</code> mit <code>type=</code> und einer
 Zeichenkette <code>details=</code>.</p>
 <ol>
-<li><strong>War der Empfänger am Leben, und bis wann?</strong> Suchen Sie
+<li><strong>Lief der Empfänger noch, und bis wann?</strong> Suchen Sie
    <code>cast_receiver_alive</code>. Der Empfänger sendet alle 30 s eines, solange er
    abspielt; <code>details</code> enthält <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code> (gepufferte
-   Sekunden rund um die Abspielposition) und <code>pos_sec</code>. Bei gesunder
+   Sekunden rund um die Abspielposition) und <code>pos_sec</code>. Bei normaler
    Wiedergabe liegt <code>ahead</code> bei einigen zehn Sekunden. Die Zeit des letzten
    Signals ist der Moment, in dem der Empfänger abgestürzt ist oder beendet
    wurde: Kommt danach nichts mehr, läuft der Empfänger auf dem Fernseher
@@ -3683,11 +3683,11 @@ Zeichenkette <code>details=</code>.</p>
    Speichermangels beendet wurde.</li>
 <li><strong>Was hat das Handy gesehen?</strong> Suchen Sie <code>cast_sender_stall</code>: Der Sender
    meldet <code>state=playing frozen=&lt;n&gt;s pos=&lt;p&gt;</code>, wenn das Cast-SDK noch
-   PLAYING sagt, die Position sich aber seit 20 s nicht bewegt hat, und
+   PLAYING meldet, die Position sich aber seit 20 s nicht bewegt hat, und
    <code>state=idle reason=&lt;r&gt;</code>, wenn der Empfänger einen Grund für den Leerlauf
    gemeldet hat. Das sind WARN-Zeilen, der Warnfilter der Seite zeigt sie
    also. Vergleichen Sie ihr <code>pos</code> mit dem letzten <code>pos_sec</code> des Empfängers.</li>
-<li><strong>Hat die Sitzung eine Kettenreaktion ausgelöst?</strong> Suchen Sie
+<li><strong>Hat die Sitzung Folgefehler ausgelöst?</strong> Suchen Sie
    <code>refresh rejected</code>: Ein Refresh-Token <code>not found</code> meldet die App ab und
    wieder an (gespeicherte Zugangsdaten), was den Stream neu anfordert; die
    Zeile enthält <code>jti</code>, <code>issued</code> und <code>age</code> des Tokens. Daran unterscheiden
@@ -3696,24 +3696,24 @@ Zeichenkette <code>details=</code>.</p>
 <li><strong>War der Stream zu groß für das Gerät?</strong> Suchen Sie <code>advertises a
    fallback rung</code> (die Spitzenbitrate des Kopie-Masters) und <code>plan fitted to
    the client's line</code> (die Messung <code>maxKbps</code> des Empfängers oder seine
-   Rettung <code>abr=floor</code>; der Transkodierungs-Master, der folgt, trägt den
+   Rückfallstufe <code>abr=floor</code>; der Transkodierungs-Master, der folgt, trägt den
    Grund <code>client_line_exceeded</code> oder <code>abr_floor_requested</code>). Eine Sitzung,
    die mit einem Kopie-Master über 20 Mbps begann und nach wenigen Sekunden
-   auf eine angepasste 1080p-Stufe fiel, ist die Rettung, die ihre Arbeit
-   tut; ein erneutes LOAD, das wieder mit dem Kopie-Master beginnt, ist das
+   auf eine angepasste 1080p-Stufe wechselte, ist die Rückfallstufe, die wie
+   vorgesehen greift; ein erneutes LOAD, das wieder mit dem Kopie-Master beginnt, ist das
    Muster, das einen Chromecast HD zum Absturz bringt.</li>
-<li><strong>Kommt der Server nicht hinterher?</strong> Suchen Sie <code>on-demand resource
-   refused</code>: Ein Schwall von Ablehnungen mit <code>context canceled</code> bei
+<li><strong>Ist der Server überlastet?</strong> Suchen Sie <code>on-demand resource
+   refused</code>: Eine Häufung von Ablehnungen mit <code>context canceled</code> bei
    aufeinanderfolgenden Segmenten ist Spulen (jede Anfrage wird von der
    nächsten abgebrochen), kein Fehler des Servers; <code>served</code>-Zeilen mit
-   langen Dauern sind einer.</li>
+   langen Dauern deuten auf einen hin.</li>
 </ol>
-<p>Zeigen die Schritte 1-3 einen lebendigen Empfänger und einen stummen Sender,
+<p>Zeigen die Schritte 1-3 einen laufenden Empfänger und einen Sender ohne Meldungen,
 liegt das Problem in der Cast-Sitzung des Handys (das SDK, das Netzwerk zum
-Fernseher). Hören die Signale des Empfängers zuerst auf, schauen Sie auf den
+Fernseher). Hören die Signale des Empfängers zuerst auf, prüfen Sie den
 Fernseher: Speicher, Codec, die Bitrate des Streams.</p>
 <h2 id="stop-a-session-or-a-compromised-device">Eine Sitzung oder ein kompromittiertes Gerät stoppen<a class="headerlink" href="#stop-a-session-or-a-compromised-device" title="Permanent link">¶</a></h2>
-<p><strong>Symptom</strong>: Ein unerwartetes Gerät unter <strong>Verwaltung -&gt; Aktuelle
+<p><strong>Symptom</strong>: Ein unerwartetes Gerät unter <strong>Verwaltung → Aktuelle
 Wiedergabe</strong>, oder ein Benutzer meldet ein unbekanntes Gerät in seiner Liste
 der Sitzungen.</p>
 <ol>
@@ -3724,7 +3724,7 @@ der Sitzungen.</p>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s1">   WHERE ended_at IS NULL</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s1">   ORDER BY started_at DESC LIMIT 20;"'</span>
 </span></code></pre></div></li>
-<li>Stoppen Sie sie unter <strong>Verwaltung -&gt; Aktuelle Wiedergabe</strong>: das
+<li>Stoppen Sie sie unter <strong>Verwaltung → Aktuelle Wiedergabe</strong>: das
    Stopp-Symbol an der Sitzung (<strong>Sitzung beenden</strong>), dann zur Bestätigung
    <strong>Stoppen</strong>; oder <code>AdminSessionService/KillSession</code> über gRPC mit der ID
    der Sitzung. Der Player erhält zuerst einen Stopp-Befehl, und der Stream
@@ -3734,7 +3734,7 @@ der Sitzungen.</p>
    Encoder stoppt mit ihm.
    <div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
 </span></code></pre></div></li>
-<li>Ist das Konto selbst kompromittiert: <strong>Verwaltung -&gt; Benutzer -&gt;
+<li>Ist das Konto selbst kompromittiert: <strong>Verwaltung → Benutzer →
    Deaktivieren</strong>. Die Refresh-Token werden gelöscht und die Zugangstoken
    sofort widerrufen, jedes Gerät ist also abgemeldet. Setzen Sie ein neues
    Passwort (<code>evey admin reset-password --user &lt;email&gt;</code>, siehe
@@ -3746,10 +3746,10 @@ der Sitzungen.</p>
 bei den Dateien zu sehen ist.</p>
 <ol>
 <li>Prüfen Sie, ob der Scan noch etwas protokolliert; ein hängender Scan
-   zeigt einen untätigen Prozessor und keine neue <code>scan:</code>-Zeile:
+   zeigt einen Prozessor ohne Last und keine neue <code>scan:</code>-Zeile:
    <div class="language-sh highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">500</span><span class="w"> </span>evey-server<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'scan:'</span>
 </span></code></pre></div></li>
-<li>Die Sperre des Scans liegt im Arbeitsspeicher, ein Neustart löst sie also:
+<li>Die Sperre des Scans liegt im Arbeitsspeicher, ein Neustart hebt sie also auf:
    <div class="language-sh highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
 </span></code></pre></div></li>
 <li>Löst eine Datei immer wieder Panics aus (die Stack-Traces nennen sie),
@@ -3760,7 +3760,7 @@ bei den Dateien zu sehen ist.</p>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>-p
 </span></code></pre></div></li>
 </ol>
-<h2 id="cheatsheet">Spickzettel<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
+<h2 id="cheatsheet">Kurzübersicht<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Status von allem</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>healthy

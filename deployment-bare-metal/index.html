@@ -3467,7 +3467,7 @@ refuses to start rather than run unconfined.</p>
 <p>Uid separation runs each plugin under <code>evey-plugin</code> (UID 1001), distinct
 from the server (UID 1000), so a plugin cannot read <code>jwt.key</code>, the backups
 or the logs by plain file permissions. It matters in <code>basic</code> mode; under
-Landlock or bubblewrap the filesystem is already walled off, so it is
+Landlock or bubblewrap the filesystem is already restricted, so it is
 redundant there.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
@@ -3499,7 +3499,7 @@ UID 1001 just before executing the plugin:</p>
 </span></code></pre></div>
 <p>The launcher refuses any target uid or gid below 1000. When it cannot drop
 (capability missing, <code>no_new_privs</code> set), a plugin in <code>basic</code> mode is
-refused, since the uid is its only wall there; under Landlock it logs a
+refused, since the uid is its only protection there; under Landlock it logs a
 warning and runs at the server's uid.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>

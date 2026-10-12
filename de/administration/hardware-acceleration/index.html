@@ -3148,8 +3148,8 @@
 <li>Was Sie tun: ein paar Zeilen in Ihre Compose-Datei schreiben, damit Evey die
   Karte benutzen kann, und die Einstellung dann auf <strong>Auto (bestmöglich)</strong>
   lassen.</li>
-<li>Evey testet die Karte mit einer echten Umwandlung, bevor es ihr eine
-  Wiedergabe anvertraut. Eine Karte, die den Test nicht besteht, wird nicht
+<li>Evey testet die Karte mit einer echten Umwandlung, bevor es sie für eine
+  Wiedergabe verwendet. Eine Karte, die den Test nicht besteht, wird nicht
   benutzt.</li>
 </ul>
 <p>Hier folgen die Schritte, danach, wie der Server nachweist, was die Karte
@@ -3185,7 +3185,7 @@ Geräte Sie ihm geben.</p>
 <p>Die Gruppe muss die Gruppe <code>render</code> des Hosts sein
 (<code>getent group render</code> oder <code>stat -c %g /dev/dri/renderD128</code>). Ein
 falscher Wert macht nichts kaputt: Die GPU ist dann einfach nicht
-erreichbar, und der Server bleibt beim Prozessor.</p>
+erreichbar, und der Server verwendet weiter den Prozessor.</p>
 </div>
 <div class="tabbed-block">
 <p>Installieren Sie das NVIDIA Container Toolkit auf dem Host. Reservieren
@@ -3224,8 +3224,8 @@ Karte:</p>
    (720p bis 2160p) um, im selben Ablauf wie bei einer echten Wiedergabe, und
    behält die höchste Stufe, die er mit dem 1,2-Fachen der Echtzeit schafft.
    Einige Bilder jeder Probe werden zurück dekodiert und mit der Quelle
-   verglichen, denn ein fehlerhafter Treiber kann sauber beenden und dabei
-   grüne oder verstümmelte Bilder liefern. Ein Beschleuniger, der 720p nicht
+   verglichen, denn ein fehlerhafter Treiber kann ohne Fehlermeldung beenden und dabei
+   grüne oder beschädigte Bilder liefern. Ein Beschleuniger, der 720p nicht
    schafft, wird nicht benutzt.</li>
 <li><strong>Die Wege messen.</strong> Für jede Fähigkeit, die der Beschleuniger
    nachgewiesen hat (SDR, HEVC, AV1, Tone-Mapping auf der GPU, HDR erhalten),
@@ -3237,13 +3237,13 @@ Karte:</p>
 </ol>
 <p>Die Messung wartet auf einen ruhigen Moment: kein laufender Stream und die
 CPU des Hosts fünf Messungen in Folge, im Abstand von vier Sekunden, unter
-20 %. So setzen ein geschäftiger Start oder ein Bibliotheks-Scan die
-Obergrenzen nicht zu niedrig an. Sie läuft erneut, wenn sich die Hardware
+20 %. So führen eine hohe Last beim Start oder ein Bibliotheks-Scan nicht
+zu Obergrenzen, die zu niedrig sind. Sie läuft erneut, wenn sich die Hardware
 ändert. <strong>Neu kalibrieren</strong> startet sie sofort: Nutzen Sie das, nachdem Sie
 eine Karte eingebaut oder den Container auf einen anderen Rechner umgezogen
 haben.</p>
 <div class="admonition note">
-<p class="admonition-title">Ein kalter Start ist kein Urteil</p>
+<p class="admonition-title">Ein Fehler direkt nach dem Start ist nicht endgültig</p>
 <p>Eine GPU, die sich in den ersten Sekunden nach dem Start des Containers
 nicht initialisieren lässt, wird in kurzen Abständen erneut geprüft, bevor
 irgendetwas festgehalten wird. Nur ein Fehler, der bleibt, oder einer von
@@ -3252,11 +3252,11 @@ den Beschleuniger als unbrauchbar.</p>
 </div>
 <h2 id="forcing-a-backend-or-turning-it-off">Ein Backend erzwingen oder ausschalten<a class="headerlink" href="#forcing-a-backend-or-turning-it-off" title="Permanent link">¶</a></h2>
 <p><strong>Aus (nur Software)</strong> lässt jede Transkodierung auf dem Prozessor laufen.
-Das ist der Notausgang bei einem fehlerhaften Treiber. Wählen Sie ein
+Das ist die Ausweichlösung bei einem fehlerhaften Treiber. Wählen Sie ein
 <strong>Backend</strong> von Hand (NVENC, VAAPI, QSV, RKMPP), wird dieses erzwungen. Stellt
 es sich als unbrauchbar heraus, weicht der Server auf den Prozessor aus, und
 die Karte zeigt das tatsächlich verwendete Backend.</p>
-<p>Auf einem Rechner mit mehreren Beschleunigern hat Auto keine feste Vorliebe:
+<p>Auf einem Rechner mit mehreren Beschleunigern hat Auto keine feste Rangfolge:
 Jeder wird bestätigt und gemessen, und jeder Stream geht an das Backend, das
 den benötigten Weg nachgewiesen hat, in der besten nachgewiesenen Qualität und
 zu den niedrigsten gemessenen Kosten. Zwei Streams auf demselben Server können

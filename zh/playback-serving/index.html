@@ -2879,7 +2879,7 @@
   <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        思路：3 个问题，2 个引擎，1 把钥匙
+        思路：3 个问题，2 个引擎，1 个键
       
     </span>
   </a>
@@ -2890,7 +2890,7 @@
   <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        阅读顺序：跟着一个请求走一遍代码
+        阅读顺序：按一个请求的处理过程阅读代码
       
     </span>
   </a>
@@ -3071,7 +3071,7 @@
   <a href="#the-mental-model-3-questions-2-engines-1-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        思路：3 个问题，2 个引擎，1 把钥匙
+        思路：3 个问题，2 个引擎，1 个键
       
     </span>
   </a>
@@ -3082,7 +3082,7 @@
   <a href="#reading-order---follow-one-request-through-the-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        阅读顺序：跟着一个请求走一遍代码
+        阅读顺序：按一个请求的处理过程阅读代码
       
     </span>
   </a>
@@ -3159,13 +3159,13 @@
 <h1 id="serving-a-video---the-hls-playback-path">提供视频：HLS 播放路径<a class="headerlink" href="#serving-a-video---the-hls-playback-path" title="Permanent link">¶</a></h1>
 <p>播放器请求一个视频时发生了什么：从第一个 <code>master.m3u8</code> 请求，一直到某个分段的字节，也就是读取路径。
 相关代码分散在 <code>http</code> 驱动适配器（<code>internal/adapters/driving/http/transcode_*</code>）、<code>app/transcoding</code> 的各项服务，
-以及 <code>ffmpeg</code> / <code>mkvgo</code> / <code>prober</code> 这几个被驱动适配器里；没有哪一个函数负责整条流程，所以本页就是这张地图。
+以及 <code>ffmpeg</code> / <code>mkvgo</code> / <code>prober</code> 这几个被驱动适配器里；没有哪一个函数负责整条流程，所以由本页说明整个流程。
 它依据的决策是 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>（一个计划，一个决定）、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a>（计划解析器）和
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0029-transcoding-routes-are-measured-not-assumed.md">ADR-0029</a>（经过测量的能力）。
 它和<a href="../ARCHITECTURE/">架构</a>里的扫描流程相对应，也是<a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a>里 "Golden path 4" 背后的详细说明。
 同一套协商过程在用户眼里是什么样子，请读<a href="../playback/how-playback-is-decided/">Evey 如何选择播放方式</a>。</p>
-<h2 id="the-mental-model-3-questions-2-engines-1-key">思路：3 个问题，2 个引擎，1 把钥匙<a class="headerlink" href="#the-mental-model-3-questions-2-engines-1-key" title="Permanent link">¶</a></h2>
+<h2 id="the-mental-model-3-questions-2-engines-1-key">思路：3 个问题，2 个引擎，1 个键<a class="headerlink" href="#the-mental-model-3-questions-2-engines-1-key" title="Permanent link">¶</a></h2>
 <p>提供一个视频，归结起来就是回答三个问题，再把答案打包，而一切都用同一个哈希值来定位。</p>
 <table>
 <thead>
@@ -3198,8 +3198,8 @@
 <li><strong>mkvgo</strong> 读取并重新打包（重封装、按需生成），不需要启动进程。没有成本。</li>
 <li><strong>ffmpeg / ffprobe</strong> 通过启动进程来解码、重新编码和探测。成本高。</li>
 </ul>
-<p>一把钥匙：一切（缓存目录、ffmpeg 会话、分段 URL）都用<strong>决定指纹</strong>来定位，它是决定的哈希值。
-字节相同，哈希就相同，大家共用同一次编码。整个系统是否正确，取决于这个哈希在播放器手里的清单文件和它之后取的每一个分段之间保持<strong>稳定</strong>。</p>
+<p>一个键：一切（缓存目录、ffmpeg 会话、分段 URL）都用<strong>决定指纹</strong>来定位，它是决定的哈希值。
+字节相同，哈希就相同，共用同一次编码。整个系统是否正确，取决于这个哈希在播放器手里的清单文件和它之后取的每一个分段之间保持<strong>稳定</strong>。</p>
 <pre class="mermaid"><code>flowchart LR
     req[播放器请求&lt;br/&gt;master / variant / segment / audio]
     h[http 适配器&lt;br/&gt;transcode_handler_vod.go&lt;br/&gt;身份验证、分派]
@@ -3215,28 +3215,28 @@
     plan --&gt; pack
     mkv --&gt; wire
     ff --&gt; seg</code></pre>
-<p>两个引擎的输出离开服务器的方式不同：mkvgo 的分段在收到请求时才生成，边生成边写到连接上，所以复制路径从不碰分段缓存；
+<p>两个引擎的输出离开服务器的方式不同：mkvgo 的分段在收到请求时才生成，边生成边写到连接上，所以复制路径从不使用分段缓存；
 ffmpeg 的分段是指纹目录下的一个文件，写一次，之后从那里提供。</p>
-<h2 id="reading-order---follow-one-request-through-the-code">阅读顺序：跟着一个请求走一遍代码<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
+<h2 id="reading-order---follow-one-request-through-the-code">阅读顺序：按一个请求的处理过程阅读代码<a class="headerlink" href="#reading-order---follow-one-request-through-the-code" title="Permanent link">¶</a></h2>
 <p>按这个顺序打开文件，就能从头到尾追踪一次播放请求：</p>
 <ol>
 <li><strong>入口</strong> - <code>internal/adapters/driving/http/transcode_handler_vod.go</code>：
    <code>serveHTTP</code> 先验证身份，再分派到 master / variant / segment / audio。</li>
-<li><strong>计划任务</strong> - <code>http/transcode_vod_plan.go</code> 把 <code>*http.Request</code> 整理成一个与传输层无关的 <code>PlaybackRequest</code>；
+<li><strong>计划</strong> - <code>http/transcode_vod_plan.go</code> 把 <code>*http.Request</code> 整理成一个与传输层无关的 <code>PlaybackRequest</code>；
    <code>app/transcoding/playback_plan_resolver.go</code>（<code>PlanResolver.Resolve</code>，具体实现是 <code>playback_plan.go</code> 里的 <code>PlaybackPlanResolver</code>）
-   返回一个不可变的 <code>PlaybackPlan</code>：决定（Q2）、阶梯类别、调整后的阶梯、硬件路线、打包器和指纹。
+   返回一个不可变的 <code>PlaybackPlan</code>：决定（Q2）、阶梯类别、调整后的阶梯、硬件路径、打包器和指纹。
    这个会话的每个清单文件和每个分段都依据它来提供：清单的输入、降档探测、过期 URL 的封存、生产者的选择和分段的键，读的都是这同一次解析结果，
-   所以在一个请求之内，缓存哈希的不变量天然成立（分段的热路径从大约 5 次读取配置偏好减少到 1 次）。
+   所以在一个请求之内，缓存哈希的不变量由设计保证成立（分段的热路径从大约 5 次读取配置偏好减少到 1 次）。
    关于源文件事实的辅助函数（编码、HDR、SAR、10 位……）放在旁边的 <code>source_facts.go</code> 里。
    <code>http/transcode_vod_fingerprint.go</code> 里的 <code>makeDecision</code> 和 <code>buildFingerprint</code> 是薄包装，供没有计划的调用处使用（预热、按需生成的 master）。</li>
 <li><strong>Q2 - 决定</strong> - <code>internal/app/transcoding/decision.go</code>：
-   <code>MakePlaybackDecisionWithPrefs</code>（纯函数）是按轨道决定复制还是转码的大脑。解析器在它之上叠加请求时的固定参数（<code>vd=</code> / <code>ad=</code>）、
+   <code>MakePlaybackDecisionWithPrefs</code>（纯函数）是按轨道决定复制还是转码的核心逻辑。解析器在它之上叠加请求时的固定参数（<code>vd=</code> / <code>ad=</code>）、
    音频重新同步的覆盖设置等。</li>
 <li><strong>Q3 - 能力</strong> - <code>internal/app/transcoding/calibration_service.go</code>：
    <code>Current()</code> 返回 <code>domain/transcoding.Derive(report, policy)</code>（<code>derive.go</code>），也就是根据最近一次校准推算出的这台机器的上限。</li>
-<li><strong>阶梯和准入</strong> - 解析器调整阶梯（复杂度类别、生产者配置、源文件和能力的上限、CMCD/AV1 上限、准入路线和上限），
+<li><strong>阶梯和准入</strong> - 解析器调整阶梯（复杂度类别、生产者配置、源文件和能力的上限、CMCD/AV1 上限、准入路径和上限），
    然后把它<strong>冻结</strong>在准入记录上（<code>admission_shaper.go</code>，<code>FreezeLadder</code>），之后每次调用都原样读取：
-   缓存哈希的不变量由结构来保证。<code>video_session_limiter.go</code> 占住容量名额；名额满了，路线就从硬件溢出到软件。</li>
+   缓存哈希的不变量由结构来保证。<code>video_session_limiter.go</code> 占用容量名额；名额满了，处理路径就从硬件转到软件。</li>
 <li><strong>指纹</strong> - 一个 <code>DecisionFingerprint</code>（类型和 <code>Hash()</code> 在 <code>app/transcoding/segment_cache.go</code> 里），由解析器组装。这个哈希就是缓存的键。</li>
 <li><strong>生成字节</strong> - 复制：<strong>mkvgo</strong>，<code>app/transcoding/ondemand.go</code>（端口）和 <code>adapters/driven/mkvgo/ondemand.go</code>；
    转码：<strong>ffmpeg</strong>，<code>adapters/driven/ffmpeg/hls_transcoder.go</code>（<code>BuildFFmpegArgs</code> 是纯函数；分段写到 <code>/cache/transcode/segments/&lt;hash&gt;/</code>）。</li>
@@ -3249,8 +3249,8 @@ ffmpeg 的分段是指纹目录下的一个文件，写一次，之后从那里�
 </div>
 <h2 id="the-two-engines-by-cost">两个引擎，按成本区分<a class="headerlink" href="#the-two-engines-by-cost" title="Permanent link">¶</a></h2>
 <p><strong>探测分派器</strong>（<code>adapters/driven/prober/dispatcher.go</code>）是一条按扩展名区分的责任链：它先试 mkvgo，只要有任何疑问就退回 ffprobe
-（解析错误、panic、结果无法映射、MP4 的某条媒体轨道丢失、DoVi profile 5、颜色信息读不出）。两条快速路径始终开启（<code>wire.go</code> 里的开关为 nil）；
-ffprobe 是安全网，从不被绕过。另一个一模一样的分派器（<code>keyframe_dispatcher.go</code>）负责跳转索引。</p>
+（解析错误、panic、结果无法映射、MP4 的某条媒体轨道丢失、DoVi profile 5、颜色信息无法读取）。两条快速路径始终开启（<code>wire.go</code> 里的开关为 nil）；
+ffprobe 是最终的后备，从不被绕过。另一个完全相同的分派器（<code>keyframe_dispatcher.go</code>）负责跳转索引。</p>
 <table>
 <thead>
 <tr>
@@ -3329,7 +3329,7 @@ ffprobe 是安全网，从不被绕过。另一个一模一样的分派器（<co
 <li><strong>DASH</strong>（<code>manifest.mpd</code>）：在 mkvgo 复制路径上，用打包器自己生成的清单（<code>OnDemandPlan.HasDASH</code>，逐字节相同，不占存储，在 AES-128 下关闭）；
   在 ffmpeg 路径上，用一份<strong>根据计划声明</strong>的清单，指向 HLS 播放列表所用的同一批片段（<code>ManifestGenerator.MPD</code>），在任何片段生成之前就写好。</li>
 </ul>
-<p>让 DASH 清单名副其实的，是<strong>分段网格</strong>（<code>domain/transcoding.SegmentGrid</code>）：每一档转码都按同样的整数帧数切分，即 <code>round(3 s x fps)</code>
+<p>保证 DASH 清单准确的，是<strong>分段网格</strong>（<code>domain/transcoding.SegmentGrid</code>）：每一档转码都按同样的整数帧数切分，即 <code>round(3 s x fps)</code>
 （23.976 fps 时为 72，25 时为 75，29.97 时为 90），所以每个分段在视频轨道的时间刻度上都是精确的，并且在可切换的各档之间完全一致；
 复制路径的后备方案则声明自己的关键帧计划。帧率未知或可变的源文件仍然使用旧的 3 秒时钟，保留 HLS，对 <code>manifest.mpd</code> 返回 404。
 没有任何客户端被切换到 DASH：HLS 在所有地方仍是默认。在生成的片段上运行 mkvgo 的 <code>DASHFromCMAF</code>，作为一致性的参照
@@ -3345,7 +3345,7 @@ ffprobe 是安全网，从不被绕过。另一个一模一样的分派器（<co
 <tbody>
 <tr>
 <td>端口与适配器（六边形架构）</td>
-<td>应用层只和 <code>StreamProber</code>、<code>BenchmarkRunner</code>、<code>OnDemandPackager</code>、<code>StreamProducer</code> 打交道；ffmpeg 和 mkvgo 实现它们，新增一个引擎就是新增一个适配器</td>
+<td>应用层只和 <code>StreamProber</code>、<code>BenchmarkRunner</code>、<code>OnDemandPackager</code>、<code>StreamProducer</code> 交互；ffmpeg 和 mkvgo 实现它们，新增一个引擎就是新增一个适配器</td>
 </tr>
 <tr>
 <td>策略模式</td>
@@ -3365,7 +3365,7 @@ ffprobe 是安全网，从不被绕过。另一个一模一样的分派器（<co
 </tr>
 <tr>
 <td>不可变的值对象</td>
-<td><code>StreamPlan</code>，也就是准入决定，只生成一次，从不修改，所以“URL 对应字节”的不变量天然成立</td>
+<td><code>StreamPlan</code>，也就是准入决定，只生成一次，从不修改，所以“URL 对应字节”的不变量由设计保证成立</td>
 </tr>
 <tr>
 <td>优雅降级</td>

@@ -3166,9 +3166,9 @@
 
 <h1 id="server-and-network">Server und Netzwerk<a class="headerlink" href="#server-and-network" title="Permanent link">¶</a></h1>
 <p>Die Variablen, die festlegen, unter welcher Adresse der Server erreichbar ist,
-welchen Proxys er glaubt, wer ihn von außen erreichen darf und wie viele
+welchen Proxys er vertraut, wer ihn von außen erreichen darf und wie viele
 Anfragen er annimmt. Die meisten setzen Sie einmal in der Compose-Datei. Was
-<strong>Verwaltung → Fernzugriff</strong> danach speichert, gewinnt gegenüber ihnen, wie in
+<strong>Verwaltung → Fernzugriff</strong> danach speichert, hat Vorrang vor ihnen, wie in
 der <a href="../../configuration/">Konfigurationsreferenz</a> erklärt.</p>
 <h2 id="address-and-ports">Adresse und Ports<a class="headerlink" href="#address-and-ports" title="Permanent link">¶</a></h2>
 <table>
@@ -3185,7 +3185,7 @@ der <a href="../../configuration/">Konfigurationsreferenz</a> erklärt.</p>
 <td><code>EVEY_SERVER_BASE_URL</code></td>
 <td><code>http://localhost:9091</code></td>
 <td>Die öffentliche Adresse. Eine <code>https://</code>-Adresse schaltet <code>Secure</code>-Cookies, HSTS und das Vertrauen in <code>X-Forwarded-Proto</code> ein. Links in E-Mails, Weiterleitungen beim Single Sign-on und Cast-URLs werden daraus gebildet.</td>
-<td>Fernzugriff → <strong>Externe URL</strong> gewinnt, wenn gesetzt, sofort; eine <code>https://</code>-Externe-URL schaltet auch HTTPS ein</td>
+<td>Fernzugriff → <strong>Externe URL</strong> hat Vorrang, wenn gesetzt, sofort; eine <code>https://</code>-Externe-URL schaltet auch HTTPS ein</td>
 </tr>
 <tr>
 <td><code>EVEY_SERVER_PORT</code></td>
@@ -3221,7 +3221,7 @@ der <a href="../../configuration/">Konfigurationsreferenz</a> erklärt.</p>
 <tr>
 <td><code>EVEY_TRUSTED_PROXIES</code></td>
 <td>nur Loopback</td>
-<td>Netzwerke, deren weitergereichter Client-Adresse geglaubt wird, durch Kommas getrennt (für einen Proxy in einem Container: <code>172.16.0.0/12</code>, eingeengt, sobald bekannt). Kommt zu Loopback hinzu, ersetzt es nie. Ein fehlerhafter Eintrag verhindert den Start.</td>
+<td>Netzwerke, deren weitergegebene Client-Adresse übernommen wird, durch Kommas getrennt (für einen Proxy in einem Container: <code>172.16.0.0/12</code>, eingeengt, sobald bekannt). Kommt zu Loopback hinzu, ersetzt es nie. Ein fehlerhafter Eintrag verhindert den Start.</td>
 <td>Fernzugriff → <strong>Vertrauenswürdige Proxys</strong> ersetzt diese Liste, sofort; leert man das Feld, gilt wieder die Variable</td>
 </tr>
 <tr>

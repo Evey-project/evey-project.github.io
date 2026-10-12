@@ -2834,7 +2834,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. El código de terceros se encierra, no se le da confianza
+        2. El código de terceros se aísla, no se le da confianza
       
     </span>
   </a>
@@ -3104,7 +3104,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. El código de terceros se encierra, no se le da confianza
+        2. El código de terceros se aísla, no se le da confianza
       
     </span>
   </a>
@@ -3206,7 +3206,7 @@ de decisión donde se ve. Lee esta página para entender por qué Evey se
 comporta como se comporta, antes de leer cómo está construido
 (<a href="../ARCHITECTURE/">Arquitectura</a>) o por qué se tomó una decisión de
 estructura (<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/README.md">registros de decisión</a>). Cuando dos principios
-chocan, gana el que aparece antes en esta lista.</p>
+entran en conflicto, prevalece el que aparece antes en esta lista.</p>
 <table>
 <thead>
 <tr>
@@ -3222,7 +3222,7 @@ chocan, gana el que aparece antes en esta lista.</p>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a></td>
 </tr>
 <tr>
-<td>2. El código de terceros se encierra, no se le da confianza</td>
+<td>2. El código de terceros se aísla, no se le da confianza</td>
 <td>sandbox de plugins</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>, <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a></td>
 </tr>
@@ -3264,7 +3264,7 @@ lo segundo es lo que protege la biblioteca.</p>
 <p>Consulta <a href="../administration/users/">Usuarios, perfiles y control parental</a>,
 <a href="../administration/remote-access/">Acceso remoto y HTTPS</a>,
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a>.</p>
-<h2 id="2-third-party-code-is-contained-not-trusted">2. El código de terceros se encierra, no se le da confianza<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
+<h2 id="2-third-party-code-is-contained-not-trusted">2. El código de terceros se aísla, no se le da confianza<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
 <p>Un plugin recibe los permisos que declara su manifiesto y nada más, se
 analiza antes de instalarse, se ejecuta en un sandbox sin acceso directo a la
 red y tiene un token que lo deniega todo por defecto. Lo que el sandbox

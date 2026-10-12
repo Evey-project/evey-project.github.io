@@ -3167,9 +3167,9 @@ Plugin-Autoren sind <a href="#writing-a-plugin">am Ende</a> aufgeführt.</p>
 <p>Ein Plugin ergänzt Evey um etwas, das es selbst nicht kann: einen Abschnitt
 auf der Startseite, eine Einblendung im Player, eine Metadatenquelle, ein
 Theme. Jedes Plugin ist ein eigener Prozess, der über einen lokalen Socket mit
-dem Server spricht, von einer Sandbox eingesperrt und auf die Berechtigungen
+dem Server kommuniziert, durch eine Sandbox isoliert und auf die Berechtigungen
 beschränkt, die sein Manifest angibt. Seine Oberfläche, falls es eine hat,
-läuft in einem abgeschotteten Rahmen der Seite.</p>
+läuft in einem isolierten Rahmen der Seite.</p>
 <div class="evey-shot-pair">
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Die Startseite ohne Plugins" loading="lazy" src="../../images/home-no-plugin.webp"></a>
@@ -3179,7 +3179,7 @@ läuft in einem abgeschotteten Rahmen der Seite.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Die Startseite mit dem Wetter-Plugin" loading="lazy" src="../../images/home.webp"></a>
 <br>
-<figcaption>Mit dem Beispiel-Plugin für das Wetter: ein Abschnitt ganz oben, in seinem eigenen Rahmen gezeichnet.</figcaption>
+<figcaption>Mit dem Beispiel-Plugin für das Wetter: ein Abschnitt ganz oben, in seinem eigenen Rahmen dargestellt.</figcaption>
 </figure>
 </div>
 <h2 id="install-a-plugin">Ein Plugin installieren<a class="headerlink" href="#install-a-plugin" title="Permanent link">¶</a></h2>
@@ -3196,7 +3196,7 @@ läuft in einem abgeschotteten Rahmen der Seite.</p>
    will, die Hosts, die es kontaktieren wird, das Ergebnis der <strong>Statischen
    Analyse</strong> und, wenn der Server Signaturen prüft, ob das Paket
    <strong>Signiert</strong> ist.</li>
-<li>Lesen Sie diese Liste als Vertrag: Das ist alles, was das Plugin tun
+<li>Diese Liste ist verbindlich: Das ist alles, was das Plugin tun
    können wird. Bestätigen Sie, und das Plugin startet.</li>
 </ol>
 <figure class="evey-shot">
@@ -3308,13 +3308,13 @@ für Arbeitsspeicher, Prozesse oder Festplatte ab.</p>
 <p>Das <strong>Sicherheits-Dashboard</strong> hält pro Plugin die Befunde der Analyse, das
 Ergebnis der Signaturprüfung und den letzten Fehler fest. Seine Zeile
 <strong>Host-Sandbox</strong> zeigt den Sandbox-Modus, der auf dieser Maschine wirklich
-gilt: Steht dort <code>basic</code>, bietet der Host keine Abschottung des Dateisystems
-Pfad für Pfad, und <a href="sandbox-deployment/">Plugin-Sandbox einrichten</a>
+gilt: Steht dort <code>basic</code>, bietet der Host keine Beschränkung des Dateisystems
+pro Pfad, und <a href="sandbox-deployment/">Plugin-Sandbox einrichten</a>
 erklärt, was zu ändern ist.</p>
 <p>Plugins sind standardmäßig eingeschaltet. <code>EVEY_PLUGINS_ENABLED=false</code>
 schaltet das gesamte Plugin-System ab.</p>
 <h2 id="what-a-plugin-can-do-on-your-host">Was ein Plugin auf Ihrem Host tun kann<a class="headerlink" href="#what-a-plugin-can-do-on-your-host" title="Permanent link">¶</a></h2>
-<p>Egal, was sein Manifest sagt, ein Plugin:</p>
+<p>Egal, was sein Manifest angibt, ein Plugin:</p>
 <ul>
 <li>sieht sein eigenes Verzeichnis, weder die Daten des Servers noch die
   Mediendateien;</li>
@@ -3330,8 +3330,8 @@ Abschnitt oder den großen Bereich oben auf der Startseite, eine Seitenleiste
 in einer Bibliothek oder auf einer Detailseite, eine Einblendung im Player,
 die Darstellungseinstellungen, den unteren Teil der Navigationsleiste oder
 einen Eintrag im Verwaltungsmenü, der die eigene Seite des Plugins öffnet.
-Ein Plugin kann nie in die Bildschirme für Anmeldung, Einrichtung und
-Sicherheit oder in die vorhandenen Verwaltungsbildschirme zeichnen. In seinem
+Ein Plugin kann nie etwas in den Bildschirmen für Anmeldung, Einrichtung und
+Sicherheit oder in den vorhandenen Verwaltungsbildschirmen anzeigen. In seinem
 Rahmen hat es keinen Zugriff auf die Seite, Ihre Cookies oder Ihre Sitzung:
 Was es vom Server liest, läuft über ein kurzlebiges Token, das auf die zwei
 Berechtigungen beschränkt ist, die es verlangen darf (<code>public</code> für eine
@@ -3342,7 +3342,7 @@ des aktuellen Benutzers in seinem eigenen Namensraum).</p>
 funktioniert und was sie trotzdem nicht verhindern kann, steht unter
 <a href="../SECURITY/">Plugin-Sandbox und Bedrohungsmodell</a>.</p>
 <div class="admonition warning">
-<p class="admonition-title">Der Server prüft, mit wem ein Plugin spricht, nicht was es sagt</p>
+<p class="admonition-title">Der Server prüft, welche Hosts ein Plugin kontaktiert, nicht welche Daten es sendet</p>
 <p>Steht ein Host einmal auf der Liste eines Plugins, kann der Server nicht
 prüfen, was das Plugin an ihn schickt. Prüfen Sie ein Plugin eines
 Drittanbieters vor der Installation, wie jede andere Software, und
@@ -3351,7 +3351,7 @@ Bibliothek erhalten können.</p>
 </div>
 <h2 id="themes">Themes<a class="headerlink" href="#themes" title="Permanent link">¶</a></h2>
 <p>Ein Theme ist ein Paket mit <code>kind: theme</code> ohne Prozess: ein Stylesheet und
-optional ein Skript, das in einem versteckten Rahmen eingesperrt ist. Es wird
+optional ein Skript, das isoliert in einem versteckten Rahmen läuft. Es wird
 über denselben Dialog <strong>Plugin installieren</strong> installiert; das Stylesheet wird
 bei der Installation bereinigt. Jeder Benutzer wählt es dann unter
 <strong>Einstellungen → Darstellung → Design</strong>. Was ein Theme enthalten darf, steht
@@ -3367,7 +3367,7 @@ unter <a href="../themes/">Themes</a>.</p>
 <tbody>
 <tr>
 <td><a href="dev-setup/">Ein Plugin schreiben</a></td>
-<td>Ein erstes Plugin Schritt für Schritt, der Installationskreislauf, Signieren, Verteilung. Fangen Sie hier an.</td>
+<td>Ein erstes Plugin Schritt für Schritt, der Installationsablauf, Signieren, Verteilung. Fangen Sie hier an.</td>
 </tr>
 <tr>
 <td><a href="api-reference/">Plugin-API-Referenz</a></td>

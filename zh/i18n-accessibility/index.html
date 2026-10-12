@@ -3291,8 +3291,8 @@
 
 
 <h1 id="languages--accessibility">语言与无障碍<a class="headerlink" href="#languages--accessibility" title="Permanent link">¶</a></h1>
-<p>本页说明 Evey 在国际化（i18n）和无障碍（a11y）方面做到了哪一步：先说哪些内容有翻译、翻译怎样送到每个客户端，
-再说为辅助技术准备了什么、还缺什么。翻译目录放在仓库根目录的 <code>i18n/&lt;locale&gt;/*.yaml</code>，
+<p>本页说明 Evey 在国际化（i18n）和无障碍（a11y）方面的现状：先说明哪些内容有翻译、翻译目录如何提供给每个客户端，
+再说明为辅助技术提供了哪些支持、还缺少什么。翻译目录放在仓库根目录的 <code>i18n/&lt;locale&gt;/*.yaml</code>，
 由 <code>internal/pkg/i18n</code> 提供，再由每个应用的 i18n 模块加载。这是一个由一个人维护的自托管项目：
 尤其是无障碍方面，请把它看作尽力而为，而不是经过认证。</p>
 <h2 id="internationalization-i18n">国际化（i18n）<a class="headerlink" href="#internationalization-i18n" title="Permanent link">¶</a></h2>
@@ -3307,7 +3307,7 @@
 <tbody>
 <tr>
 <td>界面本身：按钮、菜单、设置、错误消息、推送通知的文字、通知邮件（使用收件人的语言）</td>
-<td>媒体元数据（标题、剧情简介、类型）：它们来自元数据提供方，使用设置向导或<strong>管理 → 服务器配置 → 语言和地区</strong>里设置的<strong>元数据语言</strong>（<code>EVEY_METADATA_LANGUAGE</code> 只是默认值）</td>
+<td>媒体元数据（标题、剧情简介、流派）：它们来自元数据提供方，使用设置向导或<strong>管理 → 服务器配置 → 语言和地区</strong>里设置的<strong>元数据语言</strong>（<code>EVEY_METADATA_LANGUAGE</code> 只是默认值）</td>
 </tr>
 <tr>
 <td></td>
@@ -3327,7 +3327,7 @@
 <li><strong>服务器</strong>加载它，并通过 <code>GET /api/v1/i18n/{locale}</code> 提供出去；服务器自己翻译 API 错误消息和通知文字时，也直接使用它。</li>
 <li><strong>网页应用</strong>从这个端点加载翻译（i18next 配合 HTTP 后端），在浏览器的本地存储里留一份副本供下次启动使用，
   并让 <code>&lt;html lang&gt;</code> 始终跟随当前语言，这样辅助技术就会用正确的语言朗读。<strong>移动和电视应用</strong>通过共享的原生 i18n 模块从同一个端点加载，
-  并自带一份打包好的英文兜底（<code>fallback.en.json</code>、<code>offlineStrings.ts</code>），用于服务器回应之前显示的界面。</li>
+  并自带一份打包好的英文后备文本（<code>fallback.en.json</code>、<code>offlineStrings.ts</code>），用于服务器回应之前显示的界面。</li>
 <li>语言按这个顺序选择：先看您账户里的偏好；没有的话，用浏览器或设备的语言（解析 <code>Accept-Language</code>，去掉地区部分：<code>fr-FR</code> 变成 <code>fr</code>）；
   再没有的话，用<strong>管理 → 服务器配置 → 语言和地区</strong>里的<strong>服务器语言</strong>（它也决定新账户的语言）；最后是英语。</li>
 <li>插值和复数形式使用 i18next（<code>{{count}}</code> 等）。</li>
@@ -3337,8 +3337,8 @@
 <li><strong>完整程度不一。</strong> 英语是权威版本，始终完整；其他五种语言靠手工保持同步，有一个测试
   （<code>internal/pkg/i18n/parity_test.go</code>）会在键的集合出现偏差时失败。但一个全新的功能可能先只有英语，在翻译完成之前显示英语。</li>
 <li><strong>不支持从右到左书写的语言。</strong> 没有阿拉伯语、希伯来语或波斯语，布局也没有为从右到左（RTL）设计或测试过：
-  加一种这样的语言是实打实的工作（CSS 逻辑属性、<code>dir</code> 的处理），不只是多一个翻译文件。</li>
-<li><strong>翻译没有经过专业审校。</strong> 它们是维护者水平的质量。欢迎指正。</li>
+  添加一种这样的语言需要实际的开发工作（CSS 逻辑属性、<code>dir</code> 的处理），不只是多一个翻译文件。</li>
+<li><strong>翻译没有经过专业审校。</strong> 翻译由维护者完成，质量以此为限。欢迎指正。</li>
 <li><strong>按地区格式化只做了一部分。</strong> 日期和数字依赖平台的 <code>Intl</code> 或浏览器的语言设置，并没有在每个界面上统一接入。</li>
 </ul>
 <h3 id="adding-or-fixing-a-language">添加或修正一种语言<a class="headerlink" href="#adding-or-fixing-a-language" title="Permanent link">¶</a></h3>
@@ -3354,7 +3354,7 @@
 <h3 id="where-this-stands">现状<a class="headerlink" href="#where-this-stands" title="Permanent link">¶</a></h3>
 <p>Evey 使用语义化 HTML、ARIA 标签和 React Native 的无障碍属性构建，下面列出的几项是有意为之的。
 但它<strong>没有</strong>按照 WCAG 做过正式审计，测试套件里<strong>没有自动化的无障碍测试</strong>，也<strong>没有</strong>用屏幕阅读器系统地测试过。
-有些部分大概可以配合辅助技术使用，有些部分大概不行。如果您依赖辅助技术，难免会遇到不顺手的地方，请把具体情况告诉我们。</p>
+有些部分大概可以配合辅助技术使用，有些部分大概不行。如果您依赖辅助技术，难免会遇到不完善之处，请把具体情况告诉我们。</p>
 <h3 id="what-is-in-place">已经具备的<a class="headerlink" href="#what-is-in-place" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -3392,7 +3392,7 @@
 </table>
 <h3 id="what-is-not-done-yet">还没有做到的<a class="headerlink" href="#what-is-not-done-yet" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>没有用屏幕阅读器完整走过一遍。</strong> NVDA/VoiceOver/TalkBack 下的使用流程未经验证；
+<li><strong>没有用屏幕阅读器做过完整测试。</strong> NVDA/VoiceOver/TalkBack 下的使用流程未经验证；
   一些自定义组件（菜单、对话框、进度条、轨道选择器）可能无法正确读出自己的状态或角色。</li>
 <li><strong>焦点管理没有经过审计。</strong> 焦点高亮样式，以及对话框和浮层里的焦点顺序，有些地方不一致。</li>
 <li><strong>只对内置主题测量了对比度。</strong> 一个单元测试（<code>frontend/packages/theme/src/contrast.test.ts</code>）要求每个内置主题的强调色、
@@ -3403,7 +3403,7 @@
 </ul>
 <h3 id="reporting-an-issue">报告问题<a class="headerlink" href="#reporting-an-issue" title="Permanent link">¶</a></h3>
 <p>请告诉我们是哪个页面或界面、哪个控件、您原本期待什么，以及您使用的辅助技术和版本。
-具体的报告会得到修复；只说“这不够无障碍”，我们就无从下手。无障碍方面的修复按尽力而为的方式处理。</p>
+具体的报告会得到修复；只说“这不够无障碍”，我们则无法据此处理。无障碍方面的修复按尽力而为的方式处理。</p>
 <!-- sources
 catalogue: i18n/en, de, es, fr, hi, zh ; internal/pkg/i18n/i18n.go - supportedLocales, FallbackLocale, ParseLocale ; internal/pkg/i18n/parity_test.go ; internal/contractguard - TestI18nPlaceholdersAgreeAcrossLocales, TestServerEmittedI18nKeysExistInCatalogue
 endpoint: internal/adapters/driving/http/server.go - GET /api/v1/i18n/{locale}

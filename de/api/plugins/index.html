@@ -3054,8 +3054,8 @@
 <h1 id="plugin-api">Plugin-API<a class="headerlink" href="#plugin-api" title="Permanent link">¶</a></h1>
 <p>Die Endpunkte rund um Plugins: sie installieren und verwalten
 (Administrator), Webhooks (Administrator) und die Einstellungen, die die
-Oberfläche eines Plugins pro Benutzer speichert. Ein Plugin zu schreiben ist
-ein anderer Vertrag, über gRPC auf einem lokalen Socket: siehe
+Oberfläche eines Plugins pro Benutzer speichert. Ein Plugin zu schreiben nutzt
+eine andere Schnittstelle, über gRPC auf einem lokalen Socket: siehe
 <a href="../../plugins/dev-setup/">Ein Plugin schreiben</a> und die
 <a href="../../plugins/api-reference/">Plugin-API-Referenz</a>.</p>
 <table>
@@ -3087,7 +3087,7 @@ Routen für Administratoren.</p>
 <h2 id="authentication">Authentifizierung<a class="headerlink" href="#authentication" title="Permanent link">¶</a></h2>
 <p>Plugin-Verwaltung und Webhooks verlangen einen Administrator, wie die
 <a href="../admin/">Admin-API</a>. <code>plugin_prefs</code> ist der einzige Dienst, der
-für einen Plugin-Token gemacht ist: Die Hostseite stellt ihn für ein Plugin
+für einen Plugin-Token vorgesehen ist: Die Hostseite stellt ihn für ein Plugin
 und einen Benutzer aus, und der Dienst antwortet nur mit den Zeilen genau
 dieses Paares (<a href="../#authentication">Server-API</a>).</p>
 <!-- sources

@@ -2834,7 +2834,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 第三方代码要关起来，而不是信任它
+        2. 第三方代码受到隔离，而不是被信任
       
     </span>
   </a>
@@ -3104,7 +3104,7 @@
   <a href="#2-third-party-code-is-contained-not-trusted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 第三方代码要关起来，而不是信任它
+        2. 第三方代码受到隔离，而不是被信任
       
     </span>
   </a>
@@ -3219,7 +3219,7 @@
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a></td>
 </tr>
 <tr>
-<td>2. 第三方代码要关起来，而不是信任它</td>
+<td>2. 第三方代码受到隔离，而不是被信任</td>
 <td>插件沙箱</td>
 <td><a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>，<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a></td>
 </tr>
@@ -3252,14 +3252,14 @@
 </table>
 <h2 id="1-access-is-refused-when-it-cannot-be-checked">1. 无法核实时，就拒绝访问<a class="headerlink" href="#1-access-is-refused-when-it-cannot-be-checked" title="Permanent link">¶</a></h2>
 <p>凡是决定是否放行的地方，一旦出错，就按最严格的结果处理。读不到家长控制设置的个人资料，什么内容都看不到；
-无法分析代码的插件，不会被安装；远程访问一旦有了明确的选择，就按这个选择执行，而且当它把所有人都拒之门外时，会醒目地提示出来。
-远程访问和身份验证是两回事：前者是部署上的选择，后者才是保护媒体库的东西。</p>
+无法分析代码的插件，不会被安装；远程访问一旦有了明确的选择，就按这个选择执行，而且当它拒绝所有人的访问时，会明确地给出提示。
+远程访问和身份验证是两回事：前者是部署上的选择，后者才是保护媒体库的机制。</p>
 <p>请看<a href="../administration/users/">用户、个人资料和家长控制</a>、
 <a href="../administration/remote-access/">远程访问和 HTTPS</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0026-remote-access-inferred-from-a-published-url.md">ADR-0026</a>。</p>
-<h2 id="2-third-party-code-is-contained-not-trusted">2. 第三方代码要关起来，而不是信任它<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
+<h2 id="2-third-party-code-is-contained-not-trusted">2. 第三方代码受到隔离，而不是被信任<a class="headerlink" href="#2-third-party-code-is-contained-not-trusted" title="Permanent link">¶</a></h2>
 <p>插件只得到它的清单里声明的权限，别的一概没有；安装前要经过分析；运行在没有直接网络访问的沙箱里；
-它持有的令牌默认被拒绝。沙箱仍然防不住的事情，会明明白白写出来，而不是让人自己去猜。</p>
+它持有的令牌默认被拒绝。沙箱仍然无法阻止的情况，会明确写出来，而不是隐含不提。</p>
 <p>请看<a href="../SECURITY/">插件沙箱与威胁模型</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0012-plugin-token-deny-by-default.md">ADR-0012</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0014-landlock-plugin-sandbox.md">ADR-0014</a>。</p>
@@ -3278,17 +3278,17 @@
 <p>一次播放只在开始时决定一次，这个会话里的每个清单文件和每个分段都按这个决定来提供。
 播放器永远不会收到来自两种编码的分段；<strong>流信息</strong>显示的内容，来自播放流程所用的同一份传送计划，
 并有双向的测试加以检查。</p>
-<p>请看<a href="../playback-serving/">提供视频：HLS 播放路径</a>、
+<p>请看<a href="../playback-serving/">播放链路</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0030-one-plan-one-decision.md">ADR-0030</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0024-playback-plan-resolver.md">ADR-0024</a>。</p>
 <h2 id="6-the-server-sizes-itself-to-the-machine">6. 服务器按机器的能力调整自己<a class="headerlink" href="#6-the-server-sizes-itself-to-the-machine" title="Permanent link">¶</a></h2>
-<p>服务器会测量自己能承担多少转码，超出的部分不再接受：小机器同时播放的转码流少一些，而不是把所有流都播得很差。
+<p>服务器会测量自己能承担多少转码，超出的部分不再接受：性能较低的机器同时播放的转码流少一些，而不是把所有流都播得很差。
 播放优先；有人在看的时候，后台工作会暂停。同一个镜像既能在 NAS 上运行，也能在装有好几块显卡的服务器上运行。</p>
 <p>请看<a href="../playback/transcoding/">转码与服务器容量</a>、
 <a href="../operations/background-work/">后台工作和服务器负载</a>。</p>
 <h2 id="7-few-settings-each-in-one-place">7. 设置项少，每项只在一个地方<a class="headerlink" href="#7-few-settings-each-in-one-place" title="Permanent link">¶</a></h2>
 <p>服务器启动前就必须具备的东西（存储、密钥、公网地址）写在 compose 文件里；之后可能更改的一切都在管理面板里，
-保存在数据库中，只要没有必须重启的理由，改了就直接生效。凡是能做到的地方，都用检测和测量代替设置：
+保存在数据库中，只要没有必须重启的理由，修改后无需重启即可生效。凡是能做到的地方，都用检测和测量代替设置：
 一次安装，就是一个 compose 文件，加上媒体库和用户。</p>
 <p>请看<a href="../installation/">安装</a>、<a href="../configuration/">配置参考</a>、
 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0028-install-is-one-compose-file.md">ADR-0028</a>。</p>

@@ -3107,7 +3107,7 @@ elige un flujo en primer lugar:
 <a href="../../playback/how-playback-is-decided/">Cómo elige Evey el modo de reproducción</a>.</p>
 <p>Una variable con clave de panel también se puede definir como una fila con
 esa clave en <strong>Administración → Configuración del servidor → Entradas de
-configuración</strong>; la fila gana al entorno. El panel sugiere las claves de las
+configuración</strong>; la fila tiene prioridad sobre el entorno. El panel sugiere las claves de las
 descargas; las demás se escriben tal como aparecen aquí. Todas se leen al
 arrancar, así que un cambio se aplica en el siguiente reinicio, se haga como
 se haga.</p>
@@ -3143,7 +3143,7 @@ se haga.</p>
 <tr>
 <td><code>EVEY_HLS_COPY_FALLBACK_RUNG</code></td>
 <td><code>true</code></td>
-<td>Añade una calidad baja transcodificada junto a un flujo copiado, para que un reproductor cuya conexión se hunde pueda bajar de calidad en lugar de congelarse. No cuesta nada hasta que un reproductor la usa.</td>
+<td>Añade una calidad baja transcodificada junto a un flujo copiado, para que un reproductor cuya conexión cae bruscamente pueda bajar de calidad en lugar de quedarse parado. No cuesta nada hasta que un reproductor la usa.</td>
 <td>ninguno</td>
 </tr>
 <tr>

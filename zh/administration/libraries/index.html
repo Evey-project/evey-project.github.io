@@ -913,7 +913,7 @@
   <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        给文件起名，让 Evey 认得出来
+        正确命名文件以便识别
       
     </span>
   </a>
@@ -924,7 +924,7 @@
   <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        纠正错误或缺失的片名
+        纠正错误或缺失的影片
       
     </span>
   </a>
@@ -3118,7 +3118,7 @@
   <a href="#name-files-so-they-are-recognised" class="md-nav__link">
     <span class="md-ellipsis">
       
-        给文件起名，让 Evey 认得出来
+        正确命名文件以便识别
       
     </span>
   </a>
@@ -3129,7 +3129,7 @@
   <a href="#fix-a-wrong-or-missing-title" class="md-nav__link">
     <span class="md-ellipsis">
       
-        纠正错误或缺失的片名
+        纠正错误或缺失的影片
       
     </span>
   </a>
@@ -3226,8 +3226,8 @@
 
 
 <h1 id="libraries-and-metadata">媒体库与元数据<a class="headerlink" href="#libraries-and-metadata" title="Permanent link">¶</a></h1>
-<p><strong>媒体库</strong>就是放在一个或多个文件夹里的同一类媒体（电影、电视剧、音乐或照片）。Evey 会读取这些文件夹，根据文件名认出每个文件，再从网上获取它的详细信息：片名、简介、海报、演员、评分。这些信息叫作<strong>元数据</strong>。电影和电视剧的元数据来自 The Movie Database（TMDB），一个免费的在线影视数据库。</p>
-<p>本页先讲您最先要做的三件事：添加媒体库、给文件起名、纠正认错的片名。之后再讲扫描如何进行、音乐和照片、合集，以及元数据的来源。</p>
+<p><strong>媒体库</strong>就是放在一个或多个文件夹里的同一类媒体（电影、电视剧、音乐或照片）。Evey 会读取这些文件夹，根据文件名识别每个文件，再从网上获取它的详细信息：标题、简介、海报、演员、评分。这些信息叫作<strong>元数据</strong>。电影和电视剧的元数据来自 The Movie Database（TMDB），一个免费的在线影视数据库。</p>
+<p>本页先讲您最先要做的三件事：添加媒体库、为文件命名、纠正匹配错误的影片。之后再讲扫描如何进行、音乐和照片、合集，以及元数据的来源。</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="演示服务器上的“管理 → 媒体库”" loading="lazy" src="../../../images/admin-libraries.webp"></a>
 <br>
@@ -3238,7 +3238,7 @@
 <li>打开<strong>管理 → 媒体库 → 添加媒体库</strong>。</li>
 <li>填写<strong>名称</strong>，选择<strong>类型</strong>。电影和电视剧请放在不同的媒体库里：类型告诉扫描程序要找什么。</li>
 <li>在<strong>路径</strong>下，从列表里选一个文件夹；也可以选择<strong>输入自定义路径...</strong>，自己输入。<strong>+ 添加路径</strong>可以给同一个媒体库再加一个文件夹。</li>
-<li>点击<strong>创建媒体库</strong>。Evey 会在几分钟内读取这些文件夹；想马上开始，请点击该媒体库那一行的<strong>扫描</strong>。海报和简介在后台陆续到达，所以大的媒体库要几分钟才会填满。</li>
+<li>点击<strong>创建媒体库</strong>。Evey 会在几分钟内读取这些文件夹；想马上开始，请点击该媒体库那一行的<strong>扫描</strong>。海报和简介在后台陆续获取，所以大型媒体库需要几分钟才能显示完整。</li>
 </ol>
 <table>
 <thead>
@@ -3275,8 +3275,8 @@
 <p class="admonition-title">文件夹按 Evey 看到的样子命名</p>
 <p>文件夹列表显示的是 Evey 在自己的容器里看到的文件夹。如果您用的是<a href="../../installation/">安装</a>一页里的 compose 文件，您的媒体文件夹就是 <code>/media</code>。所以，您电脑上的文件夹 <code>/srv/media/films</code> 在 Evey 里就是 <code>/media/films</code>。第二个媒体文件夹（<code>/media2</code>）也是同样的道理。</p>
 </div>
-<h2 id="name-files-so-they-are-recognised">给文件起名，让 Evey 认得出来<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
-<p>扫描程序能认出这样的名字：</p>
+<h2 id="name-files-so-they-are-recognised">正确命名文件以便识别<a class="headerlink" href="#name-files-so-they-are-recognised" title="Permanent link">¶</a></h2>
+<p>扫描程序能识别这样的名称：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/media/films/The Mirror (1999)/The Mirror (1999) 1080p.mkv
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/media/films/Lantern.2010.1080p.BluRay.x264.mkv
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>/media/series/The Outpost/Season 01/The.Outpost.S01E05.720p.mkv
@@ -3288,11 +3288,11 @@
 <li>名字里多余的词会被忽略：分辨率、片源、编码、音频、<code>VOSTFR</code> 或 <code>MULTI</code> 这样的语言标记，以及“Director's Cut”这样的版本名。</li>
 </ul>
 <p>如果您的文件里有某个词 Evey 还不会忽略，请在<strong>管理 → 服务器配置 → 解析器标记</strong>里添加：单个词（如 <code>HDRIP</code>）填在<strong>额外的质量标记</strong>里，词组填在<strong>额外的版本后缀</strong>里。从下一次扫描起生效。</p>
-<h2 id="fix-a-wrong-or-missing-title">纠正错误或缺失的片名<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
+<h2 id="fix-a-wrong-or-missing-title">纠正错误或缺失的影片<a class="headerlink" href="#fix-a-wrong-or-missing-title" title="Permanent link">¶</a></h2>
 <p>一部电影显示的是另一部同名电影的海报？最快的办法：</p>
 <ol>
-<li>打开这个片名，选择<strong>编辑元数据</strong>。</li>
-<li>点击<strong>在 TMDB 上识别</strong>，搜索正确的片名。</li>
+<li>打开该影片，选择<strong>编辑元数据</strong>。</li>
+<li>点击<strong>在 TMDB 上识别</strong>，搜索正确的影片。</li>
 <li>点击<strong>使用此匹配</strong>。</li>
 </ol>
 <p><strong>编辑元数据</strong>里还有其他选项：</p>
@@ -3303,8 +3303,8 @@
 </ul>
 <p>对整个媒体库，<strong>管理 → 媒体库</strong>里该媒体库的那一行提供：</p>
 <ul>
-<li><strong>仅匹配孤立项</strong>：重新尝试那些从未被认出的文件。速度快。</li>
-<li><strong>从 TMDB 重新匹配全部</strong>：为每个片名重新搜索。速度慢。适合在重命名大量文件之后使用。</li>
+<li><strong>仅匹配孤立项</strong>：重新尝试那些从未被识别的文件。速度快。</li>
+<li><strong>从 TMDB 重新匹配全部</strong>：为每个影片重新搜索。速度慢。适合在重命名大量文件之后使用。</li>
 <li><strong>修复系列</strong>：如果某个系列的其他电影已经在媒体库里，就把不属于任何合集的电影重新归入这个系列。</li>
 </ul>
 <h2 id="how-new-files-are-picked-up">新文件是怎样被发现的<a class="headerlink" href="#how-new-files-are-picked-up" title="Permanent link">¶</a></h2>
@@ -3320,7 +3320,7 @@
 <tbody>
 <tr>
 <td><strong>扫描</strong></td>
-<td>立即读取文件夹。这一行先显示<strong>扫描中...</strong>，然后显示结果。无法读取的文件夹会被点名。</td>
+<td>立即读取文件夹。这一行先显示<strong>扫描中...</strong>，然后显示结果。无法读取的文件夹会被列出。</td>
 </tr>
 <tr>
 <td><strong>计划任务</strong></td>
@@ -3347,15 +3347,15 @@
 <h2 id="photo-libraries">照片媒体库<a class="headerlink" href="#photo-libraries" title="Permanent link">¶</a></h2>
 <p>扫描程序读取 JPEG、PNG、HEIC、WebP、GIF、TIFF 和 BMP 文件。照片的相册就是它所在的文件夹（相对于媒体库文件夹而言）；直接放在最上层的照片不属于任何相册。把文件移到另一个文件夹，下次扫描时它就会移到那个相册。拍摄日期和相机型号来自 JPEG 文件的 EXIF 数据；其他格式的照片不显示这些信息。缩略图在服务器上缩放，保存在转码缓存里。</p>
 <h2 id="collections">合集<a class="headerlink" href="#collections" title="Permanent link">¶</a></h2>
-<p><strong>合集</strong>把一些片名归到一个名字下，所有账户都能看到。合集分三种：</p>
+<p><strong>合集</strong>把一些影片归到一个名称下，所有账户都能看到。合集分三种：</p>
 <ul>
-<li><strong>TMDB 合集</strong>：即电影系列。TMDB 把一部电影归入某个系列时，它会自动填入。<strong>修复系列</strong>（见上文）可以找回漏掉的电影。</li>
-<li><strong>新建合集</strong>：由管理员手动填充的列表。在一个片名或一组选中的条目上使用<strong>添加到合集</strong>，还可以调整顺序。</li>
-<li><strong>新建智能合集</strong>：按<strong>流派</strong>、<strong>年份</strong>、<strong>媒体类型</strong>、<strong>评分 ≥</strong> 和<strong>媒体库</strong>设定规则，片名必须全部符合。每次打开时都会重新计算内容，所以新片名会自动出现。</li>
+<li><strong>TMDB 合集</strong>：即电影系列。TMDB 把一部电影归入某个系列时，它会自动填入。<strong>修复系列</strong>（见上文）可以把遗漏的电影归入对应系列。</li>
+<li><strong>新建合集</strong>：由管理员手动填充的列表。在一个影片或一组选中的条目上使用<strong>添加到合集</strong>，还可以调整顺序。</li>
+<li><strong>新建智能合集</strong>：按<strong>流派</strong>、<strong>年份</strong>、<strong>媒体类型</strong>、<strong>评分 ≥</strong> 和<strong>媒体库</strong>设定规则，影片必须全部符合。每次打开时都会重新计算内容，所以新影片会自动出现。</li>
 </ul>
-<p>只有管理员可以创建和编辑合集。所有人都可以浏览合集。在网页上，<strong>下载合集</strong>会把原始文件打包成一个 ZIP（最多 1000 个片名），并排除该账户的媒体库权限或年龄限制所隐藏的内容。</p>
+<p>只有管理员可以创建和编辑合集。所有人都可以浏览合集。在网页上，<strong>下载合集</strong>会把原始文件打包成一个 ZIP（最多 1000 个影片），并排除该账户的媒体库权限或年龄限制所隐藏的内容。</p>
 <h2 id="metadata-keys">元数据密钥<a class="headerlink" href="#metadata-keys" title="Permanent link">¶</a></h2>
-<p>Evey 自带一个 TMDB 密钥，所以不用任何设置就能获取元数据。其他来源是可选的。要使用它们，请从该服务获取一个密钥（类似密码的东西），粘贴到<strong>管理 → 服务器配置 → API 密钥</strong>里。在这里设置的密钥优先于环境变量中给出的同一密钥（见<a href="../../environment/libraries/">环境变量：媒体库与元数据</a>）。</p>
+<p>Evey 自带一个 TMDB 密钥，所以不用任何设置就能获取元数据。其他来源是可选的。要使用它们，请从该服务获取一个密钥（一种类似密码的凭据），粘贴到<strong>管理 → 服务器配置 → API 密钥</strong>里。在这里设置的密钥优先于环境变量中给出的同一密钥（见<a href="../../environment/libraries/">环境变量：媒体库与元数据</a>）。</p>
 <table>
 <thead>
 <tr>
@@ -3383,7 +3383,7 @@
 </tbody>
 </table>
 <h2 id="intro-recap-and-credits">片头、前情提要和片尾<a class="headerlink" href="#intro-recap-and-credits" title="Permanent link">¶</a></h2>
-<p>Evey 会找出剧集和电影的片头、前情提要和片尾，让播放器可以提供跳过。如果社区数据库（先查 TheIntroDB，再查 IntroDB）认识这个片名，时间点就来自那里。否则，服务器会分析文件，自己算出来。管理员可以为某个片名手动调整时间点，或重新运行检测。</p>
+<p>Evey 会找出剧集和电影的片头、前情提要和片尾，让播放器可以提供跳过。如果社区数据库（先查 TheIntroDB，再查 IntroDB）收录了该影片，时间点就来自那里。否则，服务器会分析文件，自行计算。管理员可以为某个影片手动调整时间点，或重新运行检测。</p>
 <p>播放器默认显示<strong>跳过片头</strong>、<strong>跳过前情提要</strong>和<strong>跳过片尾</strong>按钮。开启<strong>自动跳过片头</strong>（<strong>管理 → 服务器配置 → 服务器设置</strong>，默认关闭）后，所有播放器都会自动跳过。</p>
 <!-- sources
 add library: frontend/apps/web/src/features/admin/LibraryForm.tsx (name, type, paths only - no realtime/scan-on-startup toggles) ; i18n admin.libraries.addLibrary, tvShows, paths, enterCustomPath, addPath, createLibrary ; internal/domain/library/model.go NewLibrary (RealtimeMonitoring false by default) ; grpcapi/library_handler.go CreateLibrary (no scan trigger ; only watcher + feed subscribe library.created)

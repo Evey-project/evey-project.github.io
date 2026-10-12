@@ -3174,7 +3174,7 @@
 
 
 <h1 id="remote-access-and-https">Accès distant et HTTPS<a class="headerlink" href="#remote-access-and-https" title="Permanent link">¶</a></h1>
-<p>À la maison, Evey marche à une adresse comme <code>http://192.168.1.20:9091</code>.
+<p>Chez vous, Evey fonctionne à une adresse comme <code>http://192.168.1.20:9091</code>.
 Pour regarder depuis l'extérieur, il vous faut deux choses de plus :</p>
 <ul>
 <li><strong>Une adresse publique</strong>, par exemple <code>https://evey.example.org</code> : un nom
@@ -3201,11 +3201,11 @@ réglage.</p>
 </ul>
 </li>
 <li><strong>C'est tout.</strong> Dès qu'il a une adresse publique, le serveur ouvre l'accès
-   distant tout seul.</li>
+   distant de lui-même.</li>
 </ol>
 <p>Pour vérifier, lancez <code>docker exec evey-server evey admin doctor</code>. Il montre
 les proxys de confiance utilisés, et prévient quand un serveur publié refuse
-les gens de l'extérieur.</p>
+les personnes de l'extérieur.</p>
 <h2 id="remote-access-is-decided-from-the-public-address">L'accès distant se décide d'après l'adresse publique<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
 <p>Sauf si vous choisissez vous-même, Evey décide au démarrage :</p>
 <ul>
@@ -3213,11 +3213,11 @@ les gens de l'extérieur.</p>
   <code>EVEY_SERVER_BASE_URL</code> ou <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>) : l'accès
   distant est <strong>activé</strong>.</li>
 <li><strong>Il n'en a pas</strong> : l'accès distant est <strong>désactivé</strong>. Seuls les appareils
-  du réseau de la maison peuvent se connecter.</li>
+  du réseau domestique peuvent se connecter.</li>
 </ul>
 <p>Dès que vous changez vous-même <strong>Activer l'accès distant</strong>, Evey garde votre
 choix et arrête de décider à votre place. Un serveur publié peut donc rester
-limité à la maison si vous le voulez.</p>
+limité au réseau domestique si vous le voulez.</p>
 <p>L'accès distant décide seulement qui peut joindre le serveur. Ce n'est pas
 une protection à lui seul : chaque page demande toujours de se connecter.</p>
 <p><strong>Quand l'accès distant est désactivé</strong>, quelqu'un hors de chez vous est
@@ -3228,7 +3228,7 @@ prévient à plusieurs endroits :</p>
 <ul>
 <li><strong>Administration → Accès distant</strong> affiche <strong>Tous les utilisateurs
   distants sont bloqués</strong> ;</li>
-<li>les logs du serveur le disent au démarrage, puis notent chaque refus avec
+<li>les logs du serveur l'indiquent au démarrage, puis notent chaque refus avec
   l'adresse d'où il venait ;</li>
 <li><code>evey admin doctor</code> le compte comme un échec.</li>
 </ul>
@@ -3251,7 +3251,7 @@ la lecture suivante.</p>
 <tbody>
 <tr>
 <td><strong>Activer l'accès distant</strong></td>
-<td>Activé : les gens hors du réseau de la maison peuvent se connecter comme tout le monde. Désactivé : ils sont refusés (<code>403</code>).</td>
+<td>Activé : les personnes hors du réseau domestique peuvent se connecter comme tout le monde. Désactivé : ils sont refusés (<code>403</code>).</td>
 </tr>
 <tr>
 <td><strong>URL externe</strong></td>
@@ -3259,15 +3259,15 @@ la lecture suivante.</p>
 </tr>
 <tr>
 <td><strong>Proxys de confiance (IP ou CIDR, séparés par des virgules)</strong></td>
-<td>Les reverse proxys qu'Evey croit quand ils disent qui est le vrai visiteur. La machine elle-même (boucle locale) est toujours de confiance. Vide : la liste vient de <code>EVEY_TRUSTED_PROXIES</code>.</td>
+<td>Les reverse proxys auxquels Evey fait confiance quand ils indiquent qui est le vrai visiteur. La machine elle-même (boucle locale) est toujours de confiance. Vide : la liste vient de <code>EVEY_TRUSTED_PROXIES</code>.</td>
 </tr>
 <tr>
 <td><strong>Réseaux LAN (CIDR, séparés par des virgules)</strong></td>
-<td>Les plages d'adresses qu'Evey considère comme « la maison ». Les plages privées sont listées par défaut. Si vous utilisez un VPN (Tailscale, WireGuard) et voulez que ses utilisateurs comptent comme à la maison, ajoutez sa plage ici.</td>
+<td>Les plages d'adresses qu'Evey considère comme le réseau domestique. Les plages privées sont listées par défaut. Si vous utilisez un VPN (Tailscale, WireGuard) et voulez que ses utilisateurs comptent comme locaux, ajoutez sa plage ici.</td>
 </tr>
 <tr>
 <td><strong>Débit distant maximal (Kbps, 0 = illimité)</strong></td>
-<td>Une limite de qualité pour les gens hors du réseau de la maison. Une adresse privée n'est jamais limitée. Si <strong>Administration → Configuration transcodage</strong> fixe aussi une limite pour les spectateurs à distance, c'est la plus basse qui s'applique. Voir <a href="../../playback/how-playback-is-decided/#limits-on-the-session">Comment Evey choisit le mode de lecture</a>.</td>
+<td>Une limite de qualité pour les personnes hors du réseau domestique. Une adresse privée n'est jamais limitée. Si <strong>Administration → Configuration transcodage</strong> fixe aussi une limite pour les spectateurs à distance, c'est la plus basse qui s'applique. Voir <a href="../../playback/how-playback-is-decided/#limits-on-the-session">Comment Evey choisit le mode de lecture</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -3278,7 +3278,7 @@ Evey a besoin de savoir deux choses sur lui, toutes les deux dans
 <ul>
 <li><strong>URL externe</strong> en <code>https://</code>. Cela dit à Evey qu'un proxy gère le HTTPS.
   Evey protège alors ses cookies de connexion (attribut <code>Secure</code>), demande
-  aux navigateurs de toujours utiliser le HTTPS (HSTS), et croit l'en-tête
+  aux navigateurs de toujours utiliser le HTTPS (HSTS), et fait confiance à l'en-tête
   <code>X-Forwarded-Proto</code> d'un proxy de confiance.</li>
 <li><strong>Les proxys de confiance</strong>, quand le proxy n'est pas sur la même machine
   qu'Evey. Un proxy dans un autre conteneur a besoin de son réseau ici, par
@@ -3296,28 +3296,28 @@ ou le réseau du proxy lui-même.</p>
 chose depuis le fichier compose. C'est pratique pour une installation écrite
 entièrement dans des fichiers, ou pour un serveur qui doit répondre en HTTPS
 dès son tout premier démarrage.</p>
-<p>Quand les deux sont réglés, le panneau gagne. Une <strong>URL externe</strong> en
+<p>Quand les deux sont réglés, le panneau l'emporte. Une <strong>URL externe</strong> en
 <code>https://</code> active le mode HTTPS même si l'URL de base est en HTTP simple, et
 une liste de proxys enregistrée remplace la variable. Videz le champ pour
-redonner la main à la variable. Voir
+revenir à la variable. Voir
 <a href="../../environment/server/#remote-access">Serveur et réseau</a>.</p>
 <h2 id="the-real-client-address">L'adresse réelle du client<a class="headerlink" href="#the-real-client-address" title="Permanent link">¶</a></h2>
-<p>Pour que l'accès distant et la limite de qualité à distance marchent, Evey
+<p>Pour que l'accès distant et la limite de qualité à distance fonctionnent, Evey
 doit voir la vraie adresse de chaque visiteur. Deux réglages travaillent
 ensemble :</p>
 <ol>
-<li>Les proxys de confiance décident qui Evey croit sur la vraie adresse du
-   visiteur.</li>
-<li>Les réseaux LAN décident ensuite si cette adresse est « à la maison » ou
-   « à distance ».</li>
+<li>Les proxys de confiance déterminent à qui Evey fait confiance pour la vraie
+   adresse du visiteur.</li>
+<li>Les réseaux LAN décident ensuite si cette adresse est « locale » ou
+   « distante ».</li>
 </ol>
 <p>Si le proxy ne transmet pas la vraie adresse, ou si Evey ne lui fait pas
 confiance, toutes les demandes semblent venir de l'adresse privée du proxy.
-Tout le monde compte alors comme à la maison : le réglage d'accès distant n'a
+Tout le monde compte alors comme local : le réglage d'accès distant n'a
 aucun effet, et aucune limite à distance ne s'applique.</p>
 <div class="admonition note">
 <p class="admonition-title">Corriger le proxy change qui compte comme à distance</p>
-<p>Si l'accès distant était désactivé, les gens de l'extérieur sont refusés
+<p>Si l'accès distant était désactivé, les personnes de l'extérieur sont refusées
 dès que le proxy transmet leur vraie adresse. Lancez <code>evey admin doctor</code>
 après avoir changé les réglages du proxy : il montre la liste utilisée et
 d'où elle vient, prévient en cas de plage publique, et échoue sur une

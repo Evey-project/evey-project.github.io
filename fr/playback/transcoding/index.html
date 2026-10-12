@@ -3168,7 +3168,7 @@ capacité, et ce que voit un spectateur quand elle est épuisée.</p>
   au repos.</li>
 <li><strong>Quoi.</strong> De vrais encodages d'un extrait 4K, en SDR et en HDR, sur le
   processeur et sur chaque accélérateur détecté, selon le même schéma qu'une
-  vraie lecture. Le résultat est la résolution la plus haute que chacun tient
+  vraie lecture. Le résultat est la résolution la plus haute que chacun soutient
   en temps réel, et le coût de chaque type de flux.</li>
 <li><strong>De nouveau.</strong> Après un changement de matériel, ou avec <strong>Recalibrer</strong>
   dans <strong>Administration → Configuration transcodage → Calibrage de l'encodage</strong>. Le
@@ -3177,13 +3177,13 @@ capacité, et ce que voit un spectateur quand elle est épuisée.</p>
 <p>Pendant la mesure, une lecture qui a besoin d'un transcodage affiche <strong>Le
 serveur se calibre</strong> et demande de réessayer un peu plus tard. La lecture
 directe et le remux ne sont pas concernés.</p>
-<p>Sur un processeur qui ne tient aucune des résolutions, le serveur propose
+<p>Sur un processeur qui ne soutient aucune des résolutions, le serveur propose
 malgré tout du 720p (SDR) et du 480p (HDR), un flux à la fois.</p>
 <p>La mesure utilise, dans cet ordre, un extrait que vous fournissez, un extrait
 de référence téléchargé une fois et vérifié par son empreinte SHA256, ou un
 extrait synthétique généré sur place. Un extrait réel mesure plus fidèlement
-que l'extrait synthétique, qui surestime le coût et peut plafonner une
-machine plus bas qu'elle ne le mérite :</p>
+que l'extrait synthétique, qui surestime le coût et peut fixer pour une
+machine un plafond plus bas que nécessaire :</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">evey</span><span class="p">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
@@ -3211,7 +3211,7 @@ empaquetage.</p>
 <p>Quand la place vient à manquer, le serveur répond dans cet ordre :</p>
 <ol>
 <li><strong>Une qualité plus basse.</strong> Un nouveau flux dont la qualité la plus haute
-   ne tient pas est admis à la plus haute qui tient, et ce plafond vaut pour
+   ne peut pas être assurée est admis à la plus haute possible, et ce plafond vaut pour
    toute la durée du flux.</li>
 <li><strong>Le processeur.</strong> Quand les accélérateurs sont saturés, un nouveau flux
    passe sur le processeur s'il a de la place.</li>
@@ -3303,7 +3303,7 @@ flux en mémoire tampon une fois, puis la lecture reprend.</p>
 <li><strong>Administration → Qualité streaming</strong> : le déroulement des lectures pour les vrais
   spectateurs.</li>
 <li><strong>Test de charge</strong> (<strong>Administration → Configuration transcodage</strong>) : simule des
-  spectateurs pour mesurer ce que le serveur tient. Il refuse de démarrer tant
+  spectateurs pour mesurer ce que le serveur supporte. Il refuse de démarrer tant
   que quelqu'un regarde.</li>
 </ul>
 

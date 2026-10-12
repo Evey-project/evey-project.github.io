@@ -3293,7 +3293,7 @@
 <h1 id="languages--accessibility">Idiomas y accesibilidad<a class="headerlink" href="#languages--accessibility" title="Permanent link">¶</a></h1>
 <p>En qué punto está Evey en internacionalización (i18n) y accesibilidad
 (a11y): qué se traduce y cómo llega el catálogo a cada cliente, y después qué
-hay para las tecnologías de apoyo y qué no. El catálogo vive en
+hay para las tecnologías de apoyo y qué no. El catálogo está en
 <code>i18n/&lt;locale&gt;/*.yaml</code>, en la raíz del repositorio; lo sirve
 <code>internal/pkg/i18n</code> y lo carga el módulo i18n de cada aplicación. Es un
 proyecto autoalojado que mantiene una sola persona: considera la a11y, sobre
@@ -3331,7 +3331,7 @@ lugar de un hueco vacío o una clave.</p>
 <li><strong>Una sola fuente de verdad:</strong> <a href="https://github.com/Evey-project/evey/blob/master/i18n"><code>/i18n/&lt;locale&gt;/*.yaml</code></a> en la
   raíz del repositorio, dividido en espacios de nombres (<code>common</code>, <code>auth</code>,
   <code>media</code>, <code>player</code>, <code>admin</code>, <code>errors</code>, <code>notifications</code>, <code>mobile</code>,
-  <code>downloads</code>, <code>requests</code>). El mismo catálogo alimenta todas las superficies.</li>
+  <code>downloads</code>, <code>requests</code>). El mismo catálogo se usa en todas las interfaces.</li>
 <li>El <strong>servidor</strong> lo carga y lo sirve en <code>GET /api/v1/i18n/{locale}</code>, y lo
   usa directamente para los mensajes de error traducidos de la API y el texto
   de las notificaciones.</li>
@@ -3386,7 +3386,7 @@ deliberadas. Pero <strong>no</strong> se ha auditado formalmente según las WCAG
 tests automáticos de accesibilidad</strong> en la batería de tests y <strong>no</strong> se ha
 probado de forma sistemática con lectores de pantalla. Algunas partes
 probablemente se pueden usar con tecnologías de apoyo; otras probablemente
-no. Si dependes de ellas, espera asperezas y, por favor, cuéntanos los
+no. Si dependes de ellas, espera algunos problemas y, por favor, cuéntanos los
 detalles.</p>
 <h3 id="what-is-in-place">Lo que ya está<a class="headerlink" href="#what-is-in-place" title="Permanent link">¶</a></h3>
 <table>

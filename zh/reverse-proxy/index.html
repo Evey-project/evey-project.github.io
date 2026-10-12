@@ -1321,7 +1321,7 @@
   <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        客户端真实 IP 和远程访问关口
+        客户端真实 IP 和远程访问控制
       
     </span>
   </a>
@@ -3565,7 +3565,7 @@
   <a href="#real-client-ips-and-the-remote-access-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        客户端真实 IP 和远程访问关口
+        客户端真实 IP 和远程访问控制
       
     </span>
   </a>
@@ -3617,13 +3617,13 @@
 <li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 <code>172.16.0.0/12</code>。</li>
 </ol>
 <h3 id="what-it-already-handles">它已经处理好的事情<a class="headerlink" href="#what-it-already-handles" title="Permanent link">¶</a></h3>
-<p>把所有请求代理到 <code>evey:9091</code>，流媒体路径不缓冲、不超时，数据随到随发。它整理好<a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own">安全一节</a>中的安全头和标准 CSP，并去掉应用自己的 CSP，确保到达浏览器的恰好只有一个；两个自带策略的页面会保留各自的策略。</p>
+<p>把所有请求代理到 <code>evey:9091</code>，流媒体路径不缓冲、不超时，数据即时转发。它设置好<a href="#security-headers--csp---read-this-if-your-proxy-sets-its-own">安全一节</a>中的安全头和标准 CSP，并去掉应用自己的 CSP，确保到达浏览器的恰好只有一个；两个自带策略的页面会保留各自的策略。</p>
 <h2 id="nginx">Nginx<a class="headerlink" href="#nginx" title="Permanent link">¶</a></h2>
 <h3 id="files">文件<a class="headerlink" href="#files" title="Permanent link">¶</a></h3>
 <p><a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/evey.conf.template"><code>examples/nginx/evey.conf.template</code></a>，以及一个现成的 compose 叠加文件 <a href="https://github.com/Evey-project/evey/blob/master/examples/nginx/docker-compose.nginx.yml"><code>examples/nginx/docker-compose.nginx.yml</code></a>。</p>
 <h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
 <ol>
-<li>在 <code>.env</code> 里设置 <code>EVEY_DOMAIN</code>。nginx 镜像在启动时会生成配置模板，并替换其中的 <code>EVEY_DOMAIN</code>。</li>
+<li>在 <code>.env</code> 里设置 <code>EVEY_DOMAIN</code>。nginx 镜像在启动时会根据模板生成配置，并替换其中的 <code>EVEY_DOMAIN</code>。</li>
 <li>把证书和密钥放到模板期望的位置，用对应的文件名（<code>nginx-certs</code> 卷里的 <code>/etc/ssl/certs/&lt;domain&gt;.pem</code> 和 <code>/etc/ssl/private/&lt;domain&gt;.key</code>）：这个叠加文件不会替您申请证书。</li>
 <li><code>docker compose -f docker-compose.yml -f examples/nginx/docker-compose.nginx.yml up -d</code>。</li>
 <li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 <code>172.16.0.0/12</code>。</li>
@@ -3653,7 +3653,7 @@
 <h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
 <p>在 <strong>Edit Proxy Host</strong> 里：</p>
 <ol>
-<li><strong>Details</strong>：Scheme 填 <code>http</code>，Forward Hostname 填 <code>evey-server</code>，Forward Port 填 <code>9091</code>。<strong>Websockets Support：开启</strong>（SyncPlay 需要）。<strong>Cache Assets：关闭</strong>，否则它会以固定的过期时间缓存媒体片段和播放列表。Block Common Exploits 可以保持开启（如果搜索或插件上传无缘无故返回 403，就把它关掉）。</li>
+<li><strong>Details</strong>：Scheme 填 <code>http</code>，Forward Hostname 填 <code>evey-server</code>，Forward Port 填 <code>9091</code>。<strong>Websockets Support：开启</strong>（SyncPlay 需要）。<strong>Cache Assets：关闭</strong>，否则它会以固定的过期时间缓存媒体片段和播放列表。Block Common Exploits 可以保持开启（如果搜索或插件上传在没有明显原因的情况下返回 403，就把它关掉）。</li>
 <li><strong>SSL</strong>：您的证书、Force SSL、HTTP/2。HSTS 在这里可选，因为应用已经会发送它。</li>
 <li>在<strong>管理 → 远程访问</strong>里，设置 <code>https://</code> 开头的<strong>外部 URL</strong>，并在<strong>受信任的代理</strong>里填入 NPM 网络的地址范围。</li>
 </ol>
@@ -3692,9 +3692,9 @@
 </span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
 </span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>其他所有路径（网页界面、API 的其余部分、SyncPlay 的 WebSocket）都走 NPM 自己的代理块，也就是 Details 标签页配置的那部分。不加这段配置也不会出问题，它只是改变大文件在哪里缓冲。</p>
+<p>其他所有路径（网页界面、API 的其余部分、SyncPlay 的 WebSocket）都经过 NPM 自己的代理块，也就是 Details 标签页配置的那部分。不加这段配置也不会出问题，它只是改变大文件在哪里缓冲。</p>
 <h2 id="a-proxy-you-already-run-tls-terminated-upstream">您已经在运行的代理（TLS 在上游终止）<a class="headerlink" href="#a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h2>
-<p>如果 NAS 上已经有反向代理（厂商自带的、Nginx Proxy Manager，或者共享 Docker 网络上的 Traefik），就不需要 Caddy：Evey 会自己发出安全头和完整的 CSP，而流媒体规则无论如何也只能由面对客户端的那个代理来执行。在它后面再加一个代理没有任何好处。</p>
+<p>如果 NAS 上已经有反向代理（厂商自带的、Nginx Proxy Manager，或者共享 Docker 网络上的 Traefik），就不需要 Caddy：Evey 会自己发出安全头和完整的 CSP，而流媒体规则无论如何也只能由直接面向客户端的代理来执行。在它后面再加一个代理没有任何好处。</p>
 <h3 id="set-it-up">设置<a class="headerlink" href="#set-it-up" title="Permanent link">¶</a></h3>
 <p>把 evey 服务放到那个代理的网络上，目标设为 <code>evey-server:9091</code>（容器名；服务名 <code>evey</code> 也能解析）：</p>
 <div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">services</span><span class="p">:</span>
@@ -3726,7 +3726,7 @@
 <p>自带的 Caddy 和 Nginx 示例都在这些路径上做了这两项设置（不缓冲、不超时）。Traefik 示例和 Nginx Proxy Manager 这类通过界面配置的代理保持默认设置，这样也没有问题；上面 NPM 的那段配置是可选的。</p>
 <h2 id="security-headers--csp---read-this-if-your-proxy-sets-its-own">安全头和 CSP：如果您的代理自己设置安全头，请读这一节<a class="headerlink" href="#security-headers--csp---read-this-if-your-proxy-sets-its-own" title="Permanent link">¶</a></h2>
 <p>Evey 会发出完整的 Content-Security-Policy。如果您的代理原样传递它，就不用再做什么了。</p>
-<p>但很多配置会把它去掉（Caddy 里的 <code>header_down -Content-Security-Policy</code>），再自己整理一份策略。这样做没问题，但<strong>您的</strong>策略必须保留下面这些指令值，否则一些功能会悄无声息地失效：</p>
+<p>但很多配置会把它去掉（Caddy 里的 <code>header_down -Content-Security-Policy</code>），再自行编写一份策略。这样做没问题，但<strong>您的</strong>策略必须保留下面这些指令值，否则一些功能会在没有任何提示的情况下失效：</p>
 <table>
 <thead>
 <tr>
@@ -3739,7 +3739,7 @@
 <tr>
 <td><code>'self'</code></td>
 <td><code>frame-src</code></td>
-<td>所有插件界面和主题脚本（iframe 一片空白）。它们运行在 <code>/plugin-frame.html</code> 里，这是应用用框架嵌入的一个 Evey 页面（见下文）。</td>
+<td>所有插件界面和主题脚本（iframe 显示为空白）。它们运行在 <code>/plugin-frame.html</code> 里，这是应用用框架嵌入的一个 Evey 页面（见下文）。</td>
 </tr>
 <tr>
 <td><code>'wasm-unsafe-eval'</code></td>
@@ -3749,7 +3749,7 @@
 <tr>
 <td><code>https://www.gstatic.com</code></td>
 <td><code>script-src</code>（以及 <code>frame-src</code>）</td>
-<td>Google Cast 发送端 SDK 永远加载不了，所以谁都看不到投屏按钮。这是浏览器发现用户自己局域网里 Chromecast 的唯一途径。</td>
+<td>Google Cast 发送端 SDK 无法加载，所以所有人都看不到投屏按钮。这是浏览器发现用户自己局域网里 Chromecast 的唯一途径。</td>
 </tr>
 <tr>
 <td><code>blob:</code></td>
@@ -3759,11 +3759,11 @@
 <tr>
 <td><code>blob:</code></td>
 <td><code>worker-src</code></td>
-<td>hls.js 会悄悄退回到在主线程里解复用（在手机上更卡顿）。</td>
+<td>hls.js 会在没有提示的情况下改为在主线程里解复用（在手机上更卡顿）。</td>
 </tr>
 </tbody>
 </table>
-<p>对于自己整理策略的代理，这是一份确认可用的策略，也就是自带的 Caddy 发送的那一份：</p>
+<p>对于自行编写策略的代理，这是一份确认可用的策略，也就是自带的 Caddy 发送的那一份：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>default-src 'self'; base-uri 'self'; object-src 'none';
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>img-src 'self' https: data: blob:; media-src 'self' blob:;
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>style-src 'self' 'unsafe-inline';
@@ -3771,30 +3771,30 @@
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>connect-src 'self' https: wss:; worker-src 'self' blob:; font-src 'self' data:;
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>frame-src 'self' https://www.gstatic.com
 </span></code></pre></div>
-<p><code>base-uri</code> 和 <code>object-src</code> 不会退回到 <code>default-src</code>，所以省略它们的策略对 <code>&lt;base href&gt;</code> 注入和 <code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code> 嵌入毫无限制。如果您自己整理策略，请保留它们。<code>script-src</code> 里没有 <code>'unsafe-inline'</code>：注入到页面里的脚本不会运行。请不要把它加回去，应用里没有任何地方需要它。</p>
+<p><code>base-uri</code> 和 <code>object-src</code> 不会退回到 <code>default-src</code>，所以省略它们的策略对 <code>&lt;base href&gt;</code> 注入和 <code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code> 嵌入毫无限制。如果您自行编写策略，请保留它们。<code>script-src</code> 里没有 <code>'unsafe-inline'</code>：注入到页面里的脚本不会运行。请不要把它加回去，应用里没有任何地方需要它。</p>
 <p>有两个页面带有自己的策略，由应用发送；请在这两个路径上保留应用的头：</p>
 <ul>
-<li><code>/plugin-frame.html</code>：插件界面和主题脚本运行的页面。它的策略把它放进沙箱（即使在 iframe 以外打开也是如此），把它的网络访问限制在插件清单声明的主机内，并且只允许应用用框架嵌入它，所以它还会发送 <code>X-Frame-Options: SAMEORIGIN</code>：不要在这个路径上用 <code>DENY</code> 覆盖它，否则所有插件界面都会一片空白。</li>
+<li><code>/plugin-frame.html</code>：插件界面和主题脚本运行的页面。它的策略把它放进沙箱（即使在 iframe 以外打开也是如此），把它的网络访问限制在插件清单声明的主机内，并且只允许应用用框架嵌入它，所以它还会发送 <code>X-Frame-Options: SAMEORIGIN</code>：不要在这个路径上用 <code>DENY</code> 覆盖它，否则所有插件界面都会显示为空白。</li>
 <li><code>/cast-receiver.html</code>：Chromecast 从 Evey 播放时加载的页面。Cast 播放器会往里面注入来自 <code>www.gstatic.com</code> 的样式、字体和图片。请在这个路径上保留应用的头，或者只对这个路径应用下面的策略：</li>
 </ul>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://www.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob: https:; worker-src 'self' blob:; font-src 'self' data: https://www.gstatic.com; connect-src 'self' https: wss:; frame-src https://www.gstatic.com; base-uri 'self'; object-src 'none'
 </span></code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">到达浏览器的 CSP 头必须恰好只有一个</p>
-<p>如果有两个（应用的和您代理的，或者 Caddy 的和 Nginx Proxy Manager“Advanced”里那段配置的），浏览器会执行两者的<em>交集</em>：最严格的那个说了算，而且出错时没有任何提示。请用 <code>curl -sI https://your.domain | grep -ci content-security-policy</code> 检查，它必须输出 <code>1</code>。</p>
+<p>如果有两个（应用的和您代理的，或者 Caddy 的和 Nginx Proxy Manager“Advanced”里那段配置的），浏览器会执行两者的<em>交集</em>：最严格的规则生效，而且出错时没有任何提示。请用 <code>curl -sI https://your.domain | grep -ci content-security-policy</code> 检查，它必须输出 <code>1</code>。</p>
 </div>
 <p>每次修改后，还要再做两项检查：</p>
 <ul>
-<li><strong>策略要写在一行里。</strong> 在代理配置里把 CSP 拆成多行，是一种典型的、不会报错的损坏：拼接时会吞掉接缝处的字符（有一次 <code>...gstatic.com; connect-src</code> 变成了 <code>...gstaticonnect-src</code>，结果 Cast SDK 被禁用，两条指令也被合并了）。</li>
+<li><strong>策略要写在一行里。</strong> 在代理配置里把 CSP 拆成多行，是一种典型的、不会报错的损坏：拼接时会丢失连接处的字符（有一次 <code>...gstatic.com; connect-src</code> 变成了 <code>...gstaticonnect-src</code>，结果 Cast SDK 被禁用，两条指令也被合并了）。</li>
 <li><strong>插件框架保留它自己的策略：</strong> <code>curl -sI https://your.domain/plugin-frame.html | grep -i -e content-security -e x-frame</code> 必须显示 <code>sandbox allow-scripts</code> 和 <code>SAMEORIGIN</code>。</li>
 </ul>
-<h2 id="real-client-ips-and-the-remote-access-gate">客户端真实 IP 和远程访问关口<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
+<h2 id="real-client-ips-and-the-remote-access-gate">客户端真实 IP 和远程访问控制<a class="headerlink" href="#real-client-ips-and-the-remote-access-gate" title="Permanent link">¶</a></h2>
 <p>代理一旦转发客户端的真实地址，Evey 就能分辨观众是在家里还是在互联网上：<strong>最大远程码率</strong>和远程访问开关正是依据这一点起作用。有两条规则：</p>
 <ul>
 <li>受信任的代理（管理面板或 <code>EVEY_TRUSTED_PROXIES</code>）必须包含这个代理：如果代理是 Docker 网络上的容器，填 <code>172.16.0.0/12</code>；如果它运行在主机上，就什么都不用加，因为环回地址始终受信任，您设置的内容会加在它之上。</li>
 <li>多个代理串联时，每一个都必须保留 <code>X-Forwarded-For</code>。在 Caddy 里是 <code>servers { trusted_proxies static private_ranges }</code>；nginx 用 <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code>。</li>
 </ul>
-<p>开启这项功能会改变谁算作远程：一台远程访问原本关闭的服务器，会开始拒绝真正的远程客户端（<code>403 {"code":"remote_access_disabled"}</code>），尽管应用的设置一项都没改。设置了公网地址、而您又没有做过选择时，Evey 会自己开启远程访问；它在每次启动时记录当前状态，每次拒绝时记录客户端地址；<code>evey admin doctor</code> 会对“已发布但在拒绝访问”的情况报告失败。整个机制的说明见<a href="../administration/remote-access/#the-real-client-address">远程访问和 HTTPS</a>。</p>
+<p>开启这项功能会改变谁算作远程：一台远程访问原本关闭的服务器，会开始拒绝真正的远程客户端（<code>403 {"code":"remote_access_disabled"}</code>），尽管应用的设置一项都没改。设置了公网地址、而您又没有做过选择时，Evey 会自动开启远程访问；它在每次启动时记录当前状态，每次拒绝时记录客户端地址；<code>evey admin doctor</code> 会对“已发布但在拒绝访问”的情况报告失败。整个机制的说明见<a href="../administration/remote-access/#the-real-client-address">远程访问和 HTTPS</a>。</p>
 <!-- sources
 one port for API and UI, https mode from the scheme: internal/config/config.go (EVEY_FORWARDED_PROTO deprecated) ; internal/config/network_live.go - EffectiveHTTPS
 bundled Caddy: docker/Caddyfile (streaming matcher, @ownPolicy, header_down CSP) ; docker/Dockerfile.caddy ; docker-compose.yml caddy service

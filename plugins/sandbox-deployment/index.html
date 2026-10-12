@@ -1938,10 +1938,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The one knob you might touch: uid separation
+        The one setting you might change: uid separation
       
     </span>
   </a>
@@ -3109,10 +3109,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The one knob you might touch: uid separation
+        The one setting you might change: uid separation
       
     </span>
   </a>
@@ -3190,10 +3190,10 @@
 <p>Which sandbox setup fits your server, in plain words. For almost everyone
 the answer is: leave the defaults. The server detects the machine and picks
 the strongest isolation it can. Read on only if you run an old NAS, run Evey
-without Docker, or want to tighten things further. The full technical model
+without Docker, or want stronger isolation. The full technical model
 is in <a href="../../SECURITY/">Security model and plugin sandbox</a>.</p>
 <h2 id="what-protects-you">What protects you<a class="headerlink" href="#what-protects-you" title="Permanent link">¶</a></h2>
-<p>A plugin you install is boxed in. Depending on the machine, the box:</p>
+<p>A plugin you install runs isolated. Depending on the machine, the isolation:</p>
 <ul>
 <li><strong>limits which files it can touch</strong>: its own folder and the system
   libraries it needs, nothing else (not your media, not your secrets, not
@@ -3203,7 +3203,7 @@ is in <a href="../../SECURITY/">Security model and plugin sandbox</a>.</p>
 <li><strong>cuts off direct network access</strong>, always: a plugin that asked for the
   network, and that you approved, reaches only the hosts it declared, through
   the server;</li>
-<li><strong>caps CPU, memory, disk and process count</strong>, so a runaway plugin cannot
+<li><strong>caps CPU, memory, disk and process count</strong>, so a plugin that uses too much cannot
   take the server down;</li>
 <li><strong>keeps your secrets unreadable</strong>: the login-signing key and the backups.</li>
 </ul>
@@ -3232,7 +3232,7 @@ sections below say what to change.</p>
 </tr>
 <tr>
 <td><strong>Old NAS in Docker</strong> (kernel older than 5.13)</td>
-<td>good isolation minus the per-folder file walls; secrets, network and system actions stay locked down</td>
+<td>good isolation without the per-folder file restriction; secrets, network and system actions stay locked down</td>
 <td>nothing: uid separation (below) turns itself on</td>
 </tr>
 <tr>
@@ -3242,11 +3242,11 @@ sections below say what to change.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="the-one-knob-you-might-touch-uid-separation">The one knob you might touch: uid separation<a class="headerlink" href="#the-one-knob-you-might-touch-uid-separation" title="Permanent link">¶</a></h2>
+<h2 id="the-one-setting-you-might-change-uid-separation">The one setting you might change: uid separation<a class="headerlink" href="#the-one-setting-you-might-change-uid-separation" title="Permanent link">¶</a></h2>
 <p>Uid separation makes a plugin run under a different user account than the
-server, so it physically cannot read the server's secret files even if
+server, so it cannot read the server's secret files even if
 nothing else stopped it. It only matters on a machine without the
-per-folder file walls (the <code>basic</code> case); on a modern machine the walls
+per-folder file restriction (the <code>basic</code> case); on a modern machine that restriction
 already keep secrets out of reach, and the separation is a redundant extra
 layer.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
@@ -3266,8 +3266,8 @@ layer.</p>
 </tr>
 <tr>
 <td><code>on</code></td>
-<td>always on, a second independent wall on top of the file walls</td>
-<td>you want belt and braces and accept the small cost below</td>
+<td>always on, a second, independent protection on top of the file restriction</td>
+<td>you want both protections and accept the small cost below</td>
 </tr>
 <tr>
 <td><code>off</code></td>
@@ -3282,32 +3282,32 @@ layer.</p>
 option: pick one. When the drop cannot be granted on an old machine
 (<code>basic</code>), the server refuses to start the plugin rather than run it
 next to your secrets; on a modern machine it logs a warning and runs the
-plugin without the extra wall. The image ships everything needed, you
+plugin without the extra protection. The image ships everything needed, you
 only set the variable.</p>
 </div>
 <p>The small cost of <code>on</code>: the plugin runs as a separate account, so a plugin
-that writes scratch files inside its own folder can trip up. If one does,
+that writes scratch files inside its own folder can fail. If one does,
 set <code>off</code>. That is why the default is <code>auto</code>: it only takes that risk where
 there is a real benefit.</p>
 <h2 id="what-a-malicious-plugin-could-do">What a malicious plugin could do<a class="headerlink" href="#what-a-malicious-plugin-could-do" title="Permanent link">¶</a></h2>
-<p><strong>Modern Linux (Docker or bare metal):</strong> a bad plugin is fully boxed in. It
+<p><strong>Modern Linux (Docker or bare metal):</strong> a malicious plugin is fully isolated. It
 cannot read your secrets, cannot see or touch other plugins' files, cannot
 make arbitrary network calls and cannot tamper with the system. The only
 realistic way out is a serious kernel bug, true of any sandbox that is not a
 full virtual machine.</p>
-<p><strong>Old NAS in Docker, no per-folder walls (<code>basic</code>):</strong></p>
+<p><strong>Old NAS in Docker, no per-folder file restriction (<code>basic</code>):</strong></p>
 <ul>
 <li>your secrets stay protected (login key, backups) by the separate user
   account, which <code>auto</code> turns on here;</li>
 <li>the plugin has no direct network; a permitted one reaches only the hosts it
   declared;</li>
 <li>dangerous system actions are still blocked at the kernel;</li>
-<li>but with no per-folder walls, a bad plugin could read ordinary, non-secret
+<li>but with no per-folder file restriction, a malicious plugin could read ordinary, non-secret
   files, list running processes and, because plugins share one account,
   read or disturb another plugin's files.</li>
 </ul>
 <p>Only install plugins you trust on such a host, or move to a modern kernel
-for the full file walls.</p>
+for the full file restriction.</p>
 <h2 id="configuration-examples">Configuration examples<a class="headerlink" href="#configuration-examples" title="Permanent link">¶</a></h2>
 <p>These go in your <code>.env</code> (compose) or as <code>EVEY_*</code> environment variables.</p>
 <div class="language-bash highlight"><span class="filename">1. Modern server, recommended (nothing to do)</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># picks the strongest available (default)</span>
@@ -3317,8 +3317,8 @@ for the full file walls.</p>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># (default) on in the basic case</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">3. Belt and braces on a modern server</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># resolves to landlock</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># add the independent uid wall on top</span>
+<div class="language-bash highlight"><span class="filename">3. Both protections on a modern server</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># resolves to landlock</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># add the independent uid separation on top</span>
 </span></code></pre></div>
 <div class="language-bash highlight"><span class="filename">4. Pin a mode (advanced)</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">      </span><span class="c1"># refuse to start plugins if Landlock is unavailable</span>
 </span></code></pre></div>

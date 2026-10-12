@@ -3074,12 +3074,12 @@
 <h1 id="webhooks-and-api-keys">Webhooks et clés d'API<a class="headerlink" href="#webhooks-and-api-keys" title="Permanent link">¶</a></h1>
 <p>Deux façons de relier Evey à d'autres outils sans écrire de plugin : un
 webhook envoie les événements du serveur vers une URL qui vous appartient,
-une clé d'API permet à un script d'appeler le serveur en votre nom. Les deux
-se créent par un administrateur dans le panneau d'administration ; cette
+une clé d'API permet à un script d'appeler le serveur en votre nom. Un
+administrateur crée l'un et l'autre dans le panneau d'administration ; cette
 page s'adresse à la personne qui les met en place et à celle qui écrit le
 récepteur ou le script.</p>
 <h2 id="send-events-to-a-url">Envoyer les événements vers une URL<a class="headerlink" href="#send-events-to-a-url" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Webhooks → Créer un webhook</strong> : un <strong>Nom</strong>, une <strong>URL</strong>, les
+<p><strong>Administration → Webhooks → Créer un webhook</strong> : un <strong>Nom</strong>, une <strong>URL</strong>, les
 <strong>Événements</strong> à envoyer, et un <strong>Secret</strong> facultatif pour la signature.
 <strong>Tester</strong> envoie un ping et affiche la réponse.</p>
 <figure class="evey-shot">
@@ -3147,7 +3147,7 @@ local a besoin d'une adresse publique ou d'un relais.</p>
 </div>
 <h2 id="call-the-server-from-a-script">Appeler le serveur depuis un script<a class="headerlink" href="#call-the-server-from-a-script" title="Permanent link">¶</a></h2>
 <p>Une clé d'API permet à un script d'appeler l'API du serveur sans mot de
-passe. Les clés se créent dans <strong>Admin → Clés API → Nouvelle clé API</strong>, par
+passe. Les clés se créent dans <strong>Administration → Clés API → Nouvelle clé API</strong>, par
 un administrateur, et lui appartiennent.</p>
 <ul>
 <li><strong>La clé n'est affichée qu'une fois</strong>, à sa création. Conservez-la à ce

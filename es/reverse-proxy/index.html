@@ -3609,11 +3609,11 @@ una <strong>URL externa</strong> en <code>https://</code> y, cuando el proxy es 
 red en <strong>Proxies de confianza</strong>. Las dos se aplican sin reiniciar. Una
 dirección <code>https://</code> es lo que le dice a Evey que delante de él hay un proxy
 que se encarga de TLS: las cookies llevan la marca <code>Secure</code>, se envía HSTS y
-se cree la cabecera <code>X-Forwarded-Proto</code> de un proxy de confianza. El
+se acepta la cabecera <code>X-Forwarded-Proto</code> de un proxy de confianza. El
 interruptor de acceso remoto y la dirección real del cliente se explican en
 <a href="../administration/remote-access/">Acceso remoto y HTTPS</a>.</p>
 <p>Las mismas respuestas pueden venir del entorno, para una instalación descrita
-entera como código (el panel gana cuando están las dos):</p>
+entera como código (el panel tiene prioridad cuando están las dos):</p>
 <div class="language-text highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EVEY_SERVER_BASE_URL=https://media.example.com
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>EVEY_TRUSTED_PROXIES=172.16.0.0/12       # solo hace falta si el proxy es un contenedor; loopback siempre es de confianza
 </span></code></pre></div>
@@ -3752,7 +3752,7 @@ archivos en reproducción directa: <strong>Advanced</strong> → <em>Custom Ngin
 </span></code></pre></div>
 <p>Todas las demás rutas (la interfaz web, el resto de la API, el WebSocket de
 SyncPlay) pasan por el bloque de proxy propio de NPM, que se configura en la
-pestaña Details. Si te saltas este fragmento, no se rompe nada - solo cambia
+pestaña Details. Si omites este fragmento, no deja de funcionar nada - solo cambia
 dónde se guardan en búfer los archivos grandes.</p>
 <h2 id="a-proxy-you-already-run-tls-terminated-upstream">Un proxy que ya tienes funcionando (TLS resuelto antes)<a class="headerlink" href="#a-proxy-you-already-run-tls-terminated-upstream" title="Permanent link">¶</a></h2>
 <p>En un NAS que ya tiene un proxy inverso (el del fabricante, Nginx Proxy
@@ -3787,7 +3787,7 @@ puestos los proxies de confianza.</p>
 <h2 id="streaming---what-a-proxys-defaults-do-to-it">Streaming - lo que le hacen los valores por defecto de un proxy<a class="headerlink" href="#streaming---what-a-proxys-defaults-do-to-it" title="Permanent link">¶</a></h2>
 <p>Evey funciona detrás de un proxy inverso con sus valores por defecto: cada
 respuesta larga o bien envía datos sin parar (segmentos HLS, reproducción
-directa, salida de la transcodificación), o bien da señales de vida al
+directa, salida de la transcodificación), o bien envía una señal de actividad al
 cliente cada 30 s (los flujos de eventos), así que un tiempo límite de
 lectura por defecto nunca salta. Aun así, conviene saber dos cosas:</p>
 <ul>
@@ -3888,7 +3888,7 @@ cabecera de la aplicación en esas dos rutas:</p>
 <p class="admonition-title">Al navegador tiene que llegar exactamente una cabecera CSP</p>
 <p>Con dos (la de la aplicación y la de tu proxy, o la de Caddy y el
 fragmento "Advanced" de Nginx Proxy Manager), los navegadores aplican la
-<em>intersección</em>: gana la más estricta y el fallo no se ve. Compruébalo con
+<em>intersección</em>: se impone la más estricta y el fallo no es visible. Compruébalo con
 <code>curl -sI https://your.domain | grep -ci content-security-policy</code>, que
 tiene que mostrar <code>1</code>.</p>
 </div>
@@ -3896,7 +3896,7 @@ tiene que mostrar <code>1</code>.</p>
 <ul>
 <li><strong>Deja la política en una sola línea.</strong> Una CSP repartida en varias líneas
   en la configuración de un proxy es una corrupción silenciosa clásica: al
-  unir las líneas se pierden los caracteres de la junta
+  unir las líneas se pierden los caracteres de la unión
   (<code>...gstatic.com; connect-src</code> se convirtió una vez en
   <code>...gstaticonnect-src</code>, lo que desactivó el SDK de Cast y fusionó dos
   directivas).</li>

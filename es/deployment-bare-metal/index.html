@@ -3360,7 +3360,7 @@ también sirve.</p>
 <p>Instala lo que invoque el <code>entrypoint:</code> de tus plugins. El ejecutor reconoce
 <code>python3</code>, <code>python</code>, <code>node</code>, <code>php</code>, <code>ruby</code>, <code>perl</code>, <code>lua</code>, <code>bash</code> y <code>sh</code>;
 <code>python3</code> cubre la mayoría de los plugins de la comunidad. Después, los
-servicios con los que habla el servidor:</p>
+servicios que usa el servidor:</p>
 <table>
 <thead>
 <tr>
@@ -3478,7 +3478,7 @@ así se niega a arrancar en lugar de ejecutarse sin confinar.</p>
 distinto del servidor (UID 1000), así que un plugin no puede leer
 <code>jwt.key</code>, las copias de seguridad ni los registros por simples permisos de
 archivo. Es importante en modo <code>basic</code>; con Landlock o bubblewrap, el sistema
-de archivos ya está cerrado, así que ahí es redundante.</p>
+de archivos ya está restringido, así que ahí es redundante.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
 <thead>
@@ -3509,7 +3509,7 @@ archivo y cambia al UID 1001 justo antes de ejecutar el plugin:</p>
 </span></code></pre></div>
 <p>El lanzador rechaza cualquier uid o gid de destino por debajo de 1000. Cuando
 no puede cambiar de usuario (falta la capacidad, <code>no_new_privs</code> activado), un
-plugin en modo <code>basic</code> se rechaza, porque ahí el uid es su única barrera; con
+plugin en modo <code>basic</code> se rechaza, porque ahí el uid es su única protección; con
 Landlock, registra un aviso y se ejecuta con el uid del servidor.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -3552,23 +3552,23 @@ Puntos propios de una instalación sin contenedor:</p>
   <code>EVEY_JWT_PRIVATE_KEY_PATH</code> (<code>/data/jwt.key</code>) con tus propias carpetas.</li>
 <li>El servidor sirve HTTP sin cifrar: pon delante un proxy inverso para TLS,
   con una <strong>URL externa</strong> en <code>https://</code> y el proxy en <strong>Proxies de
-  confianza</strong> (<strong>Administración -&gt; Acceso remoto</strong>; <code>EVEY_SERVER_BASE_URL</code> y
+  confianza</strong> (<strong>Administración → Acceso remoto</strong>; <code>EVEY_SERVER_BASE_URL</code> y
   <code>EVEY_TRUSTED_PROXIES</code> son los valores de respaldo). Consulta
   <a href="../reverse-proxy/">Configuraciones de proxy inverso</a>.</li>
 <li><strong>El servidor abre dos puertos, y solo uno puede quedar expuesto.</strong>
   <code>EVEY_SERVER_PORT</code> (por defecto <code>9090</code>) es la escucha gRPC nativa; la API
-  HTTP con la que hablan tus clientes y tu proxy inverso usa ese puerto más
+  HTTP a la que se conectan tus clientes y tu proxy inverso usa ese puerto más
   uno (<code>9091</code>). El control de acceso remoto, que decide si los clientes de
   fuera de tu red local pueden conectarse, está en la cadena HTTP y no cubre
   la escucha gRPC. Por eso esta solo escucha en la interfaz local por defecto
   (<code>EVEY_GRPC_BIND=127.0.0.1</code>). Si tienes un motivo para publicarla, define
   <code>EVEY_GRPC_BIND=0.0.0.0</code>; el servidor avisa al arrancar de que el control
-  no se le aplica, y entonces te toca a ti protegerla con un cortafuegos.</li>
+  no se le aplica, y entonces tienes que protegerla tú con un cortafuegos.</li>
 <li>Las migraciones se ejecutan al arrancar; no hay un paso de migración
   aparte.</li>
 <li>Los límites de recursos de los plugins (<code>EVEY_PLUGINS_MEMORY_MB</code>,
   <code>_PIDS_MAX</code>, <code>_DISK_MAX_MB</code>, <code>_CPU_NICE</code>) y el modo de sandbox se pueden
-  cambiar en marcha desde <strong>Administración -&gt; Plugins -&gt; Límites de
+  cambiar en marcha desde <strong>Administración → Plugins → Límites de
   recursos</strong>; los valores del entorno son los valores iniciales.</li>
 <li>El reinicio del servidor desde el panel de administración depende del
   supervisor de la imagen y se indica como no disponible sin contenedor:
@@ -3582,7 +3582,7 @@ plugin, busca:</p>
   selected_mode=landlock</code> (o <code>bubblewrap</code>, <code>basic</code>);</li>
 <li>en cada arranque de plugin: <code>plugin sandbox applied sandbox_mode=landlock
   plugin_id=...</code>;</li>
-<li>el aviso que no quieres ver si esperabas Landlock: <code>plugin sandbox
+<li>el aviso que indica un problema si esperabas Landlock: <code>plugin sandbox
   auto-detection fell back to basic mode: no per-path filesystem isolation
   available ...</code>, que significa que no se encontró ni Landlock ni un <code>bwrap</code>
   que funcione. Vuelve a revisar la sección sobre los mecanismos de sandbox.</li>

@@ -2901,7 +2901,7 @@
   <a href="#architecture-guards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        架构守卫
+        架构检查
       
     </span>
   </a>
@@ -3188,7 +3188,7 @@
   <a href="#architecture-guards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        架构守卫
+        架构检查
       
     </span>
   </a>
@@ -3291,11 +3291,11 @@
 
 
 <h1 id="architecture">架构<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
-<p>服务器是怎样搭起来的：<code>internal/</code> 下的六边形分层、各个限界上下文、连接它们的事件，以及让代码不偏离这些轨道的静态守卫。
+<p>服务器的组织结构：<code>internal/</code> 下的六边形分层、各个限界上下文、连接它们的事件，以及确保代码遵守这些规则的静态检查。
 代码位于 <code>internal/domain</code>、<code>internal/app</code>、<code>internal/adapters/{driving,driven}</code>，在 <code>cmd/evey/wire*.go</code> 里组装起来；
 分层方式由 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0001-hexagonal-architecture.md">ADR-0001</a> 决定，仓储的拆分由 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a> 决定，
-事件总线由 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a> 决定。构建和运行请读 <a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a>；某项改动该碰哪些文件，请读<a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a>。</p>
-<p>后端用 Go 编写；网页、移动和电视客户端是 <code>frontend/</code> 下的一个 TypeScript/React 单体仓库（移动和电视端用 React Native / Expo）。</p>
+事件总线由 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a> 决定。构建和运行请读 <a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a>；某项改动需要修改哪些文件，请读<a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a>。</p>
+<p>后端用 Go 编写；网页、移动和电视客户端是 <code>frontend/</code> 下的一个 TypeScript/React 统一代码仓库（monorepo）（移动和电视端用 React Native / Expo）。</p>
 <h2 id="layering">分层<a class="headerlink" href="#layering" title="Permanent link">¶</a></h2>
 <pre class="mermaid"><code>flowchart LR
     driving[驱动适配器&lt;br/&gt;internal/adapters/driving&lt;br/&gt;grpcapi、http、pluginhost]
@@ -3507,12 +3507,12 @@
 <tr>
 <td><code>library</code></td>
 <td><code>LibraryCreated</code> / <code>LibraryDeleted</code>、<code>LibraryScanStarted</code> / <code>LibraryScanCompleted</code>、<code>MediaItemAdded</code>、<code>MediaItemRemoved</code>、<code>TrickplayGenerated</code></td>
-<td><code>media.item.added</code>：<code>notification</code>、<code>metadata</code>（自动补全）、<code>library</code> 自己（trickplay 工作器 + 片头检测）、<code>feed</code>（让类型缓存失效）</td>
+<td><code>media.item.added</code>：<code>notification</code>、<code>metadata</code>（自动补全）、<code>library</code> 自己（trickplay 工作器 + 片头检测）、<code>feed</code>（使流派缓存失效）</td>
 </tr>
 <tr>
 <td><code>playback</code></td>
 <td><code>PlaybackStarted</code> / <code>PlaybackStopped</code></td>
-<td>目前没有专门的订阅者；只有 <code>webhook</code> 的 <code>"*"</code> 全收订阅会收到</td>
+<td>目前没有专门的订阅者；只有 <code>webhook</code> 的 <code>"*"</code> 通配订阅会收到</td>
 </tr>
 <tr>
 <td><code>user</code></td>
@@ -3533,12 +3533,12 @@
 </table>
 <ul>
 <li>搜索索引<strong>不是</strong>由事件驱动的：<code>library.ScanService</code> 直接调用 <code>library.SearchIndex</code> 端口。</li>
-<li>没有把领域事件送进插件的桥梁：插件通过限定权限范围的 JWT 访问 API（<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>）。
+<li>没有把领域事件传给插件的机制：插件通过限定权限范围的 JWT 访问 API（<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0003-plugin-scoped-tokens.md">ADR-0003</a>）。
   总线本身见 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0010-event-bus.md">ADR-0010</a>。</li>
 <li><code>shared.TransactionalUnit</code> 包裹涉及多个聚合的写入（<a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0002-transactional-unit-port.md">ADR-0002</a>）。</li>
 </ul>
 <p><code>internal/domain</code> 下的任何包都不会导入其他上下文的领域包，这条规则由 <code>internal/contractguard/domain_imports_test.go</code> 强制执行
-（见<a href="#architecture-guards">架构守卫</a>）。应用层不受这条规则约束：目前有 15 个应用包导入了相邻上下文的领域包。</p>
+（见<a href="#architecture-guards">架构检查</a>）。应用层不受这条规则约束：目前有 15 个应用包导入了相邻上下文的领域包。</p>
 <h2 id="typical-data-flow---user-plays-a-media">典型的数据流：“用户播放一个媒体”<a class="headerlink" href="#typical-data-flow---user-plays-a-media" title="Permanent link">¶</a></h2>
 <ol>
 <li>移动或网页客户端调用 <code>POST /api/v1/playback/start</code>（grpc-gateway 路由）。</li>
@@ -3546,20 +3546,20 @@
 <li><code>internal/adapters/driving/grpcapi</code>（<code>playback_handler.go</code>）校验 proto，调用 <code>app/playback.CommandService.StartStream</code>（命令和查询分离，见 <a href="https://github.com/Evey-project/evey/blob/master/docs/adr/0009-cqrs-repo-split.md">ADR-0009</a>）。</li>
 <li><code>app/playback.CommandService</code> 调用领域端口：<code>user.UserRepository</code>、<code>playback.SessionQueryRepo</code>（幂等 + 设备数量上限）、<code>playback.SessionCommandRepo</code>，然后 <code>shared.EventBus.Publish(PlaybackStarted)</code>。</li>
 <li>被驱动适配器执行：<code>postgres</code> 在一个 <code>shared.TransactionalUnit.Do</code> 范围内保存会话；进程内的总线（<code>internal/pkg/eventbus</code>）异步分发事件。</li>
-<li><code>PlaybackStarted</code> 目前没有专门的订阅者：只有 <code>webhook</code> 的 <code>"*"</code> 全收订阅会收到它。</li>
+<li><code>PlaybackStarted</code> 目前没有专门的订阅者：只有 <code>webhook</code> 的 <code>"*"</code> 通配订阅会收到它。</li>
 <li>响应以 JSON 形式经 grpc-gateway 返回；进度更新通过 SSE / gRPC 流传输。</li>
 </ol>
-<p>播放器请求清单文件和分段之后发生的事情，是<a href="../playback-serving/">提供视频：HLS 播放路径</a>的主题。</p>
-<h2 id="architecture-guards">架构守卫<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
+<p>播放器请求清单文件和分段之后发生的事情，是<a href="../playback-serving/">播放链路</a>的主题。</p>
+<h2 id="architecture-guards">架构检查<a class="headerlink" href="#architecture-guards" title="Permanent link">¶</a></h2>
 <p>上面这些规则不只是写在文档里。<code>internal/contractguard/</code> 里有分布在 30 个文件中的 58 个静态测试，代码一旦偏离这些规则，构建就会失败。</p>
 <p>六边形规则本身是 <code>domain_imports_test.go</code> 里的 <code>TestDomainContextsDoNotImportEachOther</code>（ADR-0001）。它遍历 <code>internal/domain</code>，
-严格执行这一点：一个上下文可以导入 <code>internal/domain/shared</code> 和它自己的包树，<code>internal/domain</code> 里的其他东西一概不行，
+严格执行这一点：一个上下文可以导入 <code>internal/domain/shared</code> 和它自己的包树，<code>internal/domain</code> 里的其他内容一律不能导入，
 也永远不能导入 <code>internal/app</code> 或 <code>internal/adapters</code>。它的范围止于 <code>internal/domain</code>：对应用层不做任何约束。</p>
-<p>其余的守卫保护跨越语言或进程边界的约定，其中包括：</p>
+<p>其余的检查保护跨越语言或进程边界的约定，其中包括：</p>
 <table>
 <thead>
 <tr>
-<th>守卫</th>
+<th>检查</th>
 <th>它拒绝什么</th>
 </tr>
 </thead>
@@ -3570,7 +3570,7 @@
 </tr>
 <tr>
 <td><code>TestRegisteredHandlersGetEveryPortTheyDeclare</code>、<code>TestBootInstallsItsSilentWirings</code></td>
-<td>否则会悄无声息地失败的组装</td>
+<td>否则会在没有任何提示的情况下失败的组装</td>
 </tr>
 <tr>
 <td><code>TestPostgresRepositoriesBoundTheirQueries</code></td>
@@ -3782,8 +3782,8 @@ Meilisearch 二进制（<code>Dockerfile</code> 的 <code>meili-download</code> 
 <li>gRPC 服务器（<code>grpc.Server.Serve</code>）和 HTTP 服务器（网关 + 静态文件）各自在自己的 goroutine 里运行，由 <code>cmd/evey</code> 的主组装流程启动。</li>
 <li><code>app/library</code> 的扫描任务在一个工作池里运行（每个正在扫描的媒体库一个 goroutine，见 <code>library.ScanService</code>）。</li>
 <li>ffmpeg 任务由 <code>ffmpeg</code> 被驱动适配器（<code>ffmpeg.Transcoder.Start</code>）通过 <code>internal/pkg/procfork</code> 创建子进程，每个任务有一个负责监督的 goroutine 读取进程的 stderr。</li>
-<li><code>shared.EventBus</code> 异步分发给各个订阅者：每个订阅者在自己的 goroutine 里运行，所以慢的消费者永远不会阻塞发布者。总线自己不开启事务；那是处理器的事。</li>
-<li><code>pluginrunner</code> 为每个插件创建一个子进程；iframe 插件运行在用户的浏览器里，凭借 <code>app/plugin</code> 签发的签名令牌回头通信。</li>
+<li><code>shared.EventBus</code> 异步分发给各个订阅者：每个订阅者在自己的 goroutine 里运行，所以慢的消费者永远不会阻塞发布者。总线自己不开启事务；事务由处理器负责。</li>
+<li><code>pluginrunner</code> 为每个插件创建一个子进程；iframe 插件运行在用户的浏览器里，凭借 <code>app/plugin</code> 签发的签名令牌与服务器通信。</li>
 </ul>
 <h3 id="level-3-bonus---component-zoom-on-the-scan-pipeline">第 3 层（附加）：放大扫描流程<a class="headerlink" href="#level-3-bonus---component-zoom-on-the-scan-pipeline" title="Permanent link">¶</a></h3>
 <p>把磁盘上的文件变成可搜索、已补全信息的媒体的热路径。实线箭头是直接调用；虚线箭头是总线上的领域事件。
@@ -3818,7 +3818,7 @@ Meilisearch 二进制（<code>Dockerfile</code> 的 <code>meili-download</code> 
         meta[app/metadata&lt;br/&gt;TMDB/OMDb 补全]
         trick[app/library&lt;br/&gt;trickplay 工作器]
         intro[app/library&lt;br/&gt;片头检测]
-        feed[app/feed&lt;br/&gt;类型缓存失效]
+        feed[app/feed&lt;br/&gt;流派缓存失效]
         notif[app/notification&lt;br/&gt;新媒体提醒]
         wh[app/webhook&lt;br/&gt;全收订阅，出站 POST]
     end
@@ -3844,8 +3844,8 @@ Meilisearch 二进制（<code>Dockerfile</code> 的 <code>meili-download</code> 
 <h2 id="further-reading">延伸阅读<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://github.com/Evey-project/evey/blob/master/DEV.md">DEV.md</a> - 构建、运行、数据库迁移、proto 生成</li>
-<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a> - 常见改动该碰哪些文件</li>
-<li><a href="../playback-serving/">提供视频：HLS 播放路径</a> - HLS 视频提供的读取路径，深入讲解</li>
+<li><a href="https://github.com/Evey-project/evey/blob/master/docs/CODEBASE_MAP.md">代码地图</a> - 常见改动需要修改哪些文件</li>
+<li><a href="../playback-serving/">播放链路</a> - HLS 视频提供的读取路径，深入讲解</li>
 <li><a href="https://github.com/Evey-project/evey/blob/master/docs/api">服务器 API</a> - 生成的 API 参考</li>
 <li><a href="https://github.com/Evey-project/evey/blob/master/docs/adr">决策记录</a> - 架构决策记录</li>
 </ul>

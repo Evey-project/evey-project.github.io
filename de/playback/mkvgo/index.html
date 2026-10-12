@@ -3139,8 +3139,8 @@
 <ul>
 <li>MKVGo ist ein Teil von Evey, der Videodateien (MKV, WebM, MP4, MOV) liest
   und umverpackt, ohne Bild oder Ton umzuwandeln.</li>
-<li>Wo es geht, liefert MKVGo die Wiedergaben als <strong>Remux</strong> aus, zieht
-  Untertitel heraus und liest Ihre Dateien beim Scan. Alles, was eine echte
+<li>Wo es geht, liefert MKVGo die Wiedergaben als <strong>Remux</strong> aus, extrahiert
+  Untertitel und liest Ihre Dateien beim Scan. Alles, was eine echte
   Umwandlung braucht, geht an FFmpeg, ein eigenes Videowerkzeug.</li>
 <li>Sie müssen nichts einstellen. <strong>Verwaltung → Aktuelle Wiedergabe</strong> zeigt
   Spur für Spur, ob MKVGo oder FFmpeg eine Wiedergabe ausgeliefert hat.</li>
@@ -3222,8 +3222,8 @@ dekodiert: <a href="../how-playback-is-decided/">Wie Evey die Wiedergabeart wäh
 </tr>
 <tr>
 <td><strong>Untertitel</strong></td>
-<td>In ein MKV eingebettete Untertitelspuren werden bei Anfrage herausgezogen: Textspuren als WebVTT, Bildspuren (PGS) als Bilder. Deckt der eigene Index der Datei (Cues) eine Spur vollständig ab, liest der Server nur die Blöcke, auf die er zeigt, statt der ganzen Datei. Diesen Blockindex bewahrt er für die nächste Anfrage in seinem Datenverzeichnis auf (<code>subtitle-index/</code>). Muss eine Spur doch ganz gelesen werden, lautet die Antwort „wird vorbereitet“, mit einer Wartezeit für den nächsten Versuch, und die Player fragen nach, bis sie fertig ist.</td>
-<td>ffmpeg zieht die Spur heraus und liest dabei die ganze Datei.</td>
+<td>In ein MKV eingebettete Untertitelspuren werden bei Anfrage extrahiert: Textspuren als WebVTT, Bildspuren (PGS) als Bilder. Deckt der eigene Index der Datei (Cues) eine Spur vollständig ab, liest der Server nur die Blöcke, auf die er zeigt, statt der ganzen Datei. Diesen Blockindex bewahrt er für die nächste Anfrage in seinem Datenverzeichnis auf (<code>subtitle-index/</code>). Muss eine Spur doch ganz gelesen werden, lautet die Antwort „wird vorbereitet“, mit einer Wartezeit für den nächsten Versuch, und die Player fragen nach, bis sie fertig ist.</td>
+<td>ffmpeg extrahiert die Spur und liest dabei die ganze Datei.</td>
 </tr>
 <tr>
 <td><strong>Vorschaubilder</strong></td>

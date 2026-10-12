@@ -3163,12 +3163,12 @@
 
 
 <h1 id="monitoring-and-logs">Supervision et logs<a class="headerlink" href="#monitoring-and-logs" title="Permanent link">¶</a></h1>
-<p>Où voir ce que fait le serveur, pour l'administrateur qui veut garder un œil
-dessus plutôt que réparer quelque chose : de ce qui est lu en ce moment aux
+<p>Où voir ce que fait le serveur, pour l'administrateur qui veut le surveiller
+plutôt que réparer quelque chose : de ce qui est lu en ce moment aux
 statistiques du mois, avec les logs entre les deux. Pour un symptôme précis,
 commencez par le <a href="../troubleshooting/">Dépannage</a>.</p>
 <h2 id="what-is-playing-now">Ce qui est lu en ce moment<a class="headerlink" href="#what-is-playing-now" title="Permanent link">¶</a></h2>
-<p><strong>Admin → En cours de lecture</strong> liste tous les flux en cours : qui, quoi, sur
+<p><strong>Administration → En cours de lecture</strong> liste tous les flux en cours : qui, quoi, sur
 quel appareil, et comment, piste par piste (copiée, transcodée, et le backend
 qui l'encode). Un administrateur peut <strong>Arrêter</strong> une session ou <strong>Envoyer un
 message</strong> au spectateur.</p>
@@ -3177,7 +3177,7 @@ moment, par profil, avec l'ancienneté du dernier signal de chaque application.
 Un Chromecast dont la TV garde le récepteur d'Evey chargé reste listé après la
 fin de sa lecture, une fois sorti de <strong>En cours de lecture</strong> ; <strong>Arrêter ce
 Chromecast</strong> lui envoie un ordre d'arrêt, que la TV applique sous 30 secondes.</p>
-<p><strong>Admin → Santé du système</strong> montre le processeur, la mémoire, la bande
+<p><strong>Administration → Santé du système</strong> montre le processeur, la mémoire, la bande
 passante, le stockage, et la part de la capacité de transcodage utilisée.</p>
 <figure class="evey-shot">
   <a class="glightbox" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Admin → Santé du système sur le serveur de démo" loading="lazy" src="../../../images/admin-system-health.webp"></a>
@@ -3185,7 +3185,7 @@ passante, le stockage, et la part de la capacité de transcodage utilisée.</p>
 <figcaption><strong>Admin → Santé du système</strong>, avec le travail de fond en cours juste en dessous.</figcaption>
 </figure>
 <h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Logs &amp; Debug</strong> permet de chercher dans le journal du serveur et de
+<p><strong>Administration → Logs &amp; Debug</strong> permet de chercher dans le journal du serveur et de
 le suivre en <strong>Direct</strong>, restreint avec <strong>Zone</strong> à un seul domaine (lecteur et
 transcodage, index de lecture, sous-titres, détection d'intro, Chromecast,
 authentification, infrastructure...). C'est le premier endroit où regarder
@@ -3196,10 +3196,10 @@ conservé 90 jours par défaut. <code>docker compose logs evey</code> ne montre 
 le conteneur affiche pendant qu'il démarre, ce qu'il faut lire quand le
 serveur ne se lance pas. Voir <a href="../troubleshooting/#the-logs">Dépannage</a>.</p>
 <h2 id="how-playback-actually-went">Comment les lectures se sont vraiment passées<a class="headerlink" href="#how-playback-actually-went" title="Permanent link">¶</a></h2>
-<p><strong>Admin → Qualité streaming</strong> s'appuie sur ce que les lecteurs remontent
+<p><strong>Administration → Qualité streaming</strong> s'appuie sur ce que les lecteurs remontent
 pendant la lecture (niveau de mémoire tampon, recharges, débit, au format
-CMCD) : à quelle fréquence les spectateurs ont attendu, quels titres coupent le
-plus, et quels types d'appareils peinent, sur le dernier jour ou la dernière
+CMCD) : à quelle fréquence les spectateurs ont attendu, quels titres se bloquent le
+plus souvent, et quels types d'appareils peinent, sur le dernier jour ou la dernière
 semaine.</p>
 <p>Le serveur s'en sert aussi. Quand une catégorie de sources fait régulièrement
 attendre les spectateurs, il abaisse pour un temps la qualité maximale de cette
@@ -3208,12 +3208,12 @@ limites en cours figurent sous <strong>Limites de qualité automatiques</strong>
 raison et leur échéance ; <strong>Réinitialiser</strong> en supprime une immédiatement.</p>
 <h2 id="history-and-statistics">Historique et statistiques<a class="headerlink" href="#history-and-statistics" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Admin → Analytique</strong> : lectures du jour et de la semaine, utilisateurs
+<li><strong>Administration → Analytique</strong> : lectures du jour et de la semaine, utilisateurs
   actifs, titres les plus regardés des 30 derniers jours.</li>
-<li><strong>Admin → Activité</strong> : l'historique des lectures et des actions
+<li><strong>Administration → Activité</strong> : l'historique des lectures et des actions
   d'administration, et les tâches de fond en cours.</li>
 </ul>
-<p>La durée de conservation de chaque historique se règle dans <strong>Admin →
+<p>La durée de conservation de chaque historique se règle dans <strong>Administration →
 Configuration du serveur → Paramètres du serveur</strong> (sessions de lecture,
 journal d'audit, métriques du serveur, qualité de streaming). Un changement
 s'applique au nettoyage quotidien suivant.</p>
@@ -3229,7 +3229,7 @@ Les familles qui méritent un premier graphique :</p>
 <thead>
 <tr>
 <th>Métrique</th>
-<th>Ce qu'elle dit</th>
+<th>Ce qu'elle indique</th>
 </tr>
 </thead>
 <tbody>

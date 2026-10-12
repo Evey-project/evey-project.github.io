@@ -2500,7 +2500,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. बाहरी दुनिया तक पहुँचें
+        6. इंटरनेट तक पहुँचें
       
     </span>
   </a>
@@ -2544,7 +2544,7 @@
   <a href="#10-distribute-a-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. प्लगइन बाँटें
+        10. प्लगइन का वितरण
       
     </span>
   </a>
@@ -3184,7 +3184,7 @@
   <a href="#6-reach-the-outside-world" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. बाहरी दुनिया तक पहुँचें
+        6. इंटरनेट तक पहुँचें
       
     </span>
   </a>
@@ -3228,7 +3228,7 @@
   <a href="#10-distribute-a-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. प्लगइन बाँटें
+        10. प्लगइन का वितरण
       
     </span>
   </a>
@@ -3272,7 +3272,7 @@
 <h1 id="writing-a-plugin">प्लगइन लिखना<a class="headerlink" href="#writing-a-plugin" title="Permanent link">¶</a></h1>
 <p>यह पेज डेवलपर को Evey के clone से शुरू करके लोकल सर्वर पर चलते प्लगइन तक, और
 फिर एक सिग्नेचर वाले पैकेज तक ले जाता है जिसे दूसरे एडमिन इंस्टॉल कर सकें।
-<a href="#3-your-first-plugin-step-by-step">सेक्शन 3</a> का ट्यूटोरियल सीधा रास्ता है; बाकी
+<a href="#3-your-first-plugin-step-by-step">सेक्शन 3</a> का ट्यूटोरियल बुनियादी उदाहरण है; बाकी
 हिस्सा रेफ़रेंस है, जिस पर आप बार-बार लौटेंगे। कॉल और फ़ील्ड खुद
 <a href="../api-reference/">प्लगइन API संदर्भ</a> में हैं।</p>
 <pre class="mermaid"><code>flowchart LR
@@ -3287,11 +3287,11 @@
   backend &lt;--&gt;|"Unix socket पर gRPC"| host
   front &lt;--&gt;|"postMessage पुल"| ui
   host --&gt;|"Fetch: सिर्फ़ बताए गए होस्ट"| net(("इंटरनेट"))</code></pre>
-<p>प्लगइन एक ZIP है, जिसकी जड़ में एक <code>plugin.yaml</code> होता है, और एक बैकएंड प्रोसेस,
+<p>प्लगइन एक ZIP है, जिसके root फ़ोल्डर में एक <code>plugin.yaml</code> होता है, और एक बैकएंड प्रोसेस,
 जिसे सर्वर एक सैंडबॉक्स में शुरू करता है। यह प्रोसेस एक Unix socket पर एक छोटी
 gRPC सर्विस देता है और दूसरे socket पर सर्वर को वापस कॉल करता है। चाहे तो वह एक
 इंटरफ़ेस मॉड्यूल भी साथ ला सकता है, जो पेज के एक सैंडबॉक्स वाले फ़्रेम में बनता
-है। बाहरी दुनिया से वह सिर्फ़ सर्वर के ज़रिए बात करता है, और सिर्फ़ उन होस्ट से
+है। इंटरनेट से वह सिर्फ़ सर्वर के ज़रिए संपर्क करता है, और सिर्फ़ उन होस्ट से
 जो उसने बताए हैं।</p>
 <h2 id="1-prerequisites">1. पहले से क्या चाहिए<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
 <table>
@@ -3388,7 +3388,7 @@ PHP, Ruby, Dart, Java और Swift के stub <code>sdk/&lt;language&gt;/</code
 </span></code></pre></div>
 </li>
 <li>
-<p><strong>ZIP बनाएँ।</strong> manifest आर्काइव की जड़ में होना चाहिए, किसी सब-फ़ोल्डर में
+<p><strong>ZIP बनाएँ।</strong> manifest आर्काइव के root में होना चाहिए, किसी सब-फ़ोल्डर में
    नहीं:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>zip<span class="w"> </span>-r<span class="w"> </span>../hello-plugin.zip<span class="w"> </span>.<span class="w"> </span>-x<span class="w"> </span><span class="s2">".*"</span><span class="w"> </span><span class="s2">"node_modules/*"</span>
 </span></code></pre></div>
@@ -3416,9 +3416,9 @@ PHP, Ruby, Dart, Java और Swift के stub <code>sdk/&lt;language&gt;/</code
 </ol>
 <p>आपके पास अब बैकएंड का पूरा अनुबंध है। यहाँ से प्लगइन तीन दिशाओं में बढ़ता है:
 सर्वर को कॉल करना (<code>HostService</code>, सेक्शन 4), इंटरफ़ेस बनाना (सेक्शन 5), और
-बाहरी दुनिया तक पहुँचना (सेक्शन 6)।</p>
+इंटरनेट तक पहुँचना (सेक्शन 6)।</p>
 <h2 id="4-call-the-server-from-the-backend">4. बैकएंड से सर्वर को कॉल करें<a class="headerlink" href="#4-call-the-server-from-the-backend" title="Permanent link">¶</a></h2>
-<p>हर <code>HostService</code> कॉल के साथ प्लगइन की पहचान जाती है: सर्वर socket पर बैठे
+<p>हर <code>HostService</code> कॉल के साथ प्लगइन की पहचान जाती है: सर्वर socket से जुड़े
 प्रोसेस को उसके PID से जाँचता है, और एक interceptor हर वह कॉल मना कर देता है
 जिसकी अनुमति manifest में नहीं बताई गई। तीन समूहों को किसी अनुमति की ज़रूरत नहीं:</p>
 <ul>
@@ -3442,17 +3442,17 @@ PHP, Ruby, Dart, Java और Swift के stub <code>sdk/&lt;language&gt;/</code
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home.section</span><span class="w">       </span><span class="c1"># स्लॉट की सूची देखें</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist/index.js</span><span class="w">       </span><span class="c1"># web_root के अंदर होना चाहिए</span>
 </span></code></pre></div>
-<p>मॉड्यूल को एक <code>window.evey</code> पुल मिलता है: <code>evey.onInit</code> उसे प्लगइन का
+<p>मॉड्यूल को एक <code>window.evey</code> bridge मिलता है: <code>evey.onInit</code> उसे प्लगइन का
 कॉन्फ़िगरेशन, भाषा, थीम और वह जगह देता है जहाँ वह दिखा है; <code>evey.resize</code>,
 <code>evey.toast</code> और <code>evey.navigate</code> तय सीमाओं के अंदर पेज पर काम करते हैं; और जब
 manifest <code>prefs</code> या <code>public</code> बताता है, तो <code>evey.prefs.*</code> और <code>evey.media.*</code> एक कम
 समय वाले token से सर्वर तक पहुँचते हैं, जिसे होस्ट उस फ़्रेम के लिए रखता है।
 <code>examples/plugins/weather</code> build step वाला एक पूरा विजेट है;
-<code>examples/plugins/data-demo</code> <code>prefs</code>, <code>public</code> और <code>admin.nav</code> स्लॉट दिखाता है। पुल
+<code>examples/plugins/data-demo</code> <code>prefs</code>, <code>public</code> और <code>admin.nav</code> स्लॉट दिखाता है। bridge
 और स्लॉट <a href="../api-reference/#frontend-api">प्लगइन API संदर्भ</a> में बताए गए हैं।</p>
-<h2 id="6-reach-the-outside-world">6. बाहरी दुनिया तक पहुँचें<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
+<h2 id="6-reach-the-outside-world">6. इंटरनेट तक पहुँचें<a class="headerlink" href="#6-reach-the-outside-world" title="Permanent link">¶</a></h2>
 <p>प्लगइन का प्रोसेस किसी भी सैंडबॉक्स मोड में इंटरनेट की ओर कोई socket नहीं खोल
-सकता। बाहर जाने का अकेला रास्ता <code>HostService</code> का <code>Fetch</code> कॉल है: सर्वर लक्ष्य को
+सकता। इंटरनेट तक पहुँचने का एकमात्र तरीका <code>HostService</code> का <code>Fetch</code> कॉल है: सर्वर लक्ष्य को
 manifest से मिलाकर जाँचता है, फिर request खुद भेजता है।</p>
 <div class="language-yaml highlight"><span class="filename">plugin.yaml</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">permissions</span><span class="p">:</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network</span>
@@ -3524,9 +3524,9 @@ transparency log।</p>
 वैकल्पिक)</strong> में उसकी <code>.zip.sig</code>; API से, सिग्नेचर अपलोड का <code>sig</code> फ़ील्ड है।
 पूर्वावलोकन <strong>हस्ताक्षरित</strong> या एक अमान्य सिग्नेचर दिखाता है, और सुरक्षा डैशबोर्ड
 नतीजा रखता है।</p>
-<p>जिन बातों पर लोग अटकते हैं:</p>
+<p>आम गलतियाँ:</p>
 <ul>
-<li><strong>ZIP में कोई भी बदलाव सिग्नेचर तोड़ देता है</strong>, वही फ़ाइलें दोबारा ZIP करने से
+<li><strong>ZIP में कोई भी बदलाव सिग्नेचर को अमान्य कर देता है</strong>, वही फ़ाइलें दोबारा ZIP करने से
   भी। वही फ़ाइल साइन करें जो आप बाँटते हैं, और हर वर्ज़न पर फिर से साइन करें।</li>
 <li><strong>सिर्फ़ ECDSA P-256 कुंजियाँ मानी जाती हैं</strong>, जो <code>cosign
   generate-key-pair</code> बनाता है। keyless signing और KMS reference नहीं जाँचे जाते।</li>
@@ -3578,11 +3578,11 @@ comment भी पढ़ता है: comment में <code># pip install foo
 सीमाएँ</strong> में बदल सकता है। <code>subprocess</code> अनुमति के बिना प्रोसेस child process शुरू
 नहीं कर सकता, भाषा कोई भी हो; thread काम करते हैं।</p>
 <p>सैंडबॉक्स फ़ाइल सिस्टम को प्लगइन के फ़ोल्डर तक सीमित रखता है और हर नेटवर्क socket
-काट देता है, बिना किसी शर्त के। कौन सा मोड लागू है, यह होस्ट पर निर्भर है, प्लगइन
+बंद रखता है, बिना किसी शर्त के। कौन सा मोड लागू है, यह होस्ट पर निर्भर है, प्लगइन
 पर नहीं: <a href="../../SECURITY/#sandbox-modes">प्लगइन सैंडबॉक्स और ख़तरा मॉडल</a> इन्हें
 बताता है, और <a href="../sandbox-deployment/">प्लगइन सैंडबॉक्स सेटअप</a> एडमिन को बताता है कि
 कौन सा चुनें।</p>
-<h2 id="10-distribute-a-plugin">10. प्लगइन बाँटें<a class="headerlink" href="#10-distribute-a-plugin" title="Permanent link">¶</a></h2>
+<h2 id="10-distribute-a-plugin">10. प्लगइन का वितरण<a class="headerlink" href="#10-distribute-a-plugin" title="Permanent link">¶</a></h2>
 <p>कोई कैटलॉग नहीं है: एडमिन प्लगइन इंस्टॉल करने के लिए उसका ZIP अपलोड करता है या
 एडमिन पैनल में उसका URL चिपकाता है, जहाँ भी आप उसे प्रकाशित करें (किसी forge पर
 रिलीज़, आपकी अपनी साइट)।</p>

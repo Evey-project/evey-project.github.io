@@ -3174,32 +3174,32 @@
 
 
 <h1 id="remote-access-and-https">远程访问和 HTTPS<a class="headerlink" href="#remote-access-and-https" title="Permanent link">¶</a></h1>
-<p>在家里，Evey 的地址类似 <code>http://192.168.1.20:9091</code>。要在家以外的地方观看，您还需要两样东西：</p>
+<p>在家里，Evey 的地址类似 <code>http://192.168.1.20:9091</code>。要在家庭网络以外的地方观看，您还需要两样东西：</p>
 <ul>
-<li><strong>一个公网地址</strong>，例如 <code>https://evey.example.org</code>：一个能通到您家里的域名。</li>
+<li><strong>一个公网地址</strong>，例如 <code>https://evey.example.org</code>：一个指向您家中网络的域名。</li>
 <li><strong>HTTPS</strong>，让密码和视频在互联网上加密传输。Evey 自己不做 HTTPS，而是由<strong>反向代理</strong>来做：它是放在 Evey 前面的一个小程序，负责安全连接，再把每个请求转交给 Evey。</li>
 </ul>
 <p>本页先讲如何把服务器发布出去，再讲每项设置的作用。</p>
 <h2 id="publish-the-server-in-three-steps">三步发布服务器<a class="headerlink" href="#publish-the-server-in-three-steps" title="Permanent link">¶</a></h2>
 <ol>
 <li><strong>设置一个反向代理</strong>，由它处理 HTTPS，并把所有请求转发到 Evey 的端口 <code>9091</code>。您可以使用 Evey 自带的 Caddy 配置，也可以用您已经在运行的代理。现成的配置见<a href="../../reverse-proxy/">反向代理配置</a>。</li>
-<li><strong>在 Evey 里告诉它</strong>，位置是<strong>管理 → 远程访问</strong>：<ul>
+<li><strong>在 Evey 中进行设置</strong>，位置是<strong>管理 → 远程访问</strong>：<ul>
 <li><strong>外部 URL</strong>：您的公网 <code>https://</code> 地址。</li>
 <li><strong>受信任的代理（IP 或 CIDR，逗号分隔）</strong>：只有当代理运行在另一个容器里时才需要填。把它所在的网络填在这里，例如 Docker 默认网络是 <code>172.16.0.0/12</code>。</li>
 </ul>
 </li>
-<li><strong>这样就好了。</strong> 服务器一旦有了公网地址，就会自己开启远程访问。</li>
+<li><strong>设置完成。</strong> 服务器一旦有了公网地址，就会自动开启远程访问。</li>
 </ol>
-<p>要检查一下，请运行 <code>docker exec evey-server evey admin doctor</code>。它会显示正在使用的受信任代理；如果一台已发布的服务器正在拒绝家以外的人，它也会发出警告。</p>
+<p>要检查一下，请运行 <code>docker exec evey-server evey admin doctor</code>。它会显示正在使用的受信任代理；如果一台已发布的服务器正在拒绝来自家庭网络以外的人，它也会发出警告。</p>
 <h2 id="remote-access-is-decided-from-the-public-address">远程访问由公网地址决定<a class="headerlink" href="#remote-access-is-decided-from-the-public-address" title="Permanent link">¶</a></h2>
 <p>除非您自己选择，否则 Evey 会在启动时决定：</p>
 <ul>
 <li><strong>服务器有公网地址</strong>（<strong>外部 URL</strong>，或者变量 <code>EVEY_SERVER_BASE_URL</code> 或 <code>EVEY_REMOTE_ACCESS_EXTERNAL_URL</code>）：远程访问<strong>开启</strong>。</li>
 <li><strong>没有公网地址</strong>：远程访问<strong>关闭</strong>。只有您家庭网络里的设备能连接。</li>
 </ul>
-<p>只要您亲自切换过<strong>启用远程访问</strong>，Evey 就会保留您的选择，不再替您决定。所以，一台已发布的服务器也可以按您的意愿只在家里使用。</p>
-<p>远程访问只决定谁能连到服务器。它本身并不是一种保护：每个页面仍然要求登录。</p>
-<p><strong>远程访问关闭时</strong>，家以外的人在每个页面上都会被拒绝（错误 <code>403</code>）。应用会显示<strong>远程访问已禁用</strong>，而不是一个含糊的错误。如果服务器能从互联网访问，而远程访问却是关闭的，Evey 会在好几个地方提醒您：</p>
+<p>只要您手动切换过<strong>启用远程访问</strong>，Evey 就会保留您的选择，不再替您决定。所以，一台已发布的服务器也可以按您的意愿仅在家庭网络中使用。</p>
+<p>远程访问只决定谁能访问服务器。它本身并不是一种保护：每个页面仍然要求登录。</p>
+<p><strong>远程访问关闭时</strong>，家庭网络以外的人在每个页面上都会被拒绝（错误 <code>403</code>）。应用会显示<strong>远程访问已禁用</strong>，而不是一个含糊的错误。如果服务器能从互联网访问，而远程访问却是关闭的，Evey 会在好几个地方提醒您：</p>
 <ul>
 <li><strong>管理 → 远程访问</strong>显示<strong>所有远程用户均已被锁定</strong>；</li>
 <li>服务器日志在启动时会提到这一点，之后每次拒绝都会记录请求来自哪个地址；</li>
@@ -3234,7 +3234,7 @@
 </tr>
 <tr>
 <td><strong>LAN 网络（CIDR，逗号分隔）</strong></td>
-<td>Evey 视为“家里”的地址范围。默认已列出私有地址范围。如果您使用 VPN（Tailscale、WireGuard），并希望它的用户也算在家里，请把它的地址范围加在这里。</td>
+<td>Evey 视为“家庭网络”的地址范围。默认已列出私有地址范围。如果您使用 VPN（Tailscale、WireGuard），并希望它的用户也算作家庭网络，请把它的地址范围加在这里。</td>
 </tr>
 <tr>
 <td><strong>最大远程码率（Kbps，0 = 无限制）</strong></td>
@@ -3250,21 +3250,21 @@
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">覆盖所有地址的范围会被拒绝</p>
-<p>把 <code>0.0.0.0/0</code> 或 <code>::/0</code> 设为受信任代理，会让任何访客都能假装自己来自任何地方。管理面板和 <code>evey admin doctor</code> 都会拒绝它。请改为填写代理自己的地址或网络。</p>
+<p>把 <code>0.0.0.0/0</code> 或 <code>::/0</code> 设为受信任代理，会让任何访客都能冒充来自任意地址。管理面板和 <code>evey admin doctor</code> 都会拒绝它。请改为填写代理自己的地址或网络。</p>
 </div>
 <h3 id="setting-it-in-the-environment-instead">改用环境变量设置<a class="headerlink" href="#setting-it-in-the-environment-instead" title="Permanent link">¶</a></h3>
 <p>变量 <code>EVEY_SERVER_BASE_URL</code> 和 <code>EVEY_TRUSTED_PROXIES</code> 可以在 compose 文件里完成同样的设置。如果您的整套配置都写在文件里，或者服务器从第一次启动起就必须通过 HTTPS 应答，这种方式比较合适。</p>
-<p>两边都设置时，以管理面板为准。即使基础 URL 是普通 HTTP，<code>https://</code> 开头的<strong>外部 URL</strong> 也会开启 HTTPS 模式；保存过的代理列表会取代变量。把这一栏清空，就交回给变量决定。见<a href="../../environment/server/#remote-access">服务器与网络</a>。</p>
+<p>两边都设置时，以管理面板为准。即使基础 URL 是普通 HTTP，<code>https://</code> 开头的<strong>外部 URL</strong> 也会开启 HTTPS 模式；保存过的代理列表会取代变量。清空这一栏，就改为使用变量的值。见<a href="../../environment/server/#remote-access">服务器与网络</a>。</p>
 <h2 id="the-real-client-address">客户端的真实地址<a class="headerlink" href="#the-real-client-address" title="Permanent link">¶</a></h2>
 <p>要让远程访问和远程质量上限起作用，Evey 必须看到每个访客的真实地址。有两项设置一起起作用：</p>
 <ol>
-<li>受信任的代理决定：关于访客的真实地址，Evey 听信谁的话。</li>
-<li>然后，LAN 网络决定这个地址算“家里”还是“远程”。</li>
+<li>受信任的代理决定 Evey 采信哪些代理提供的访客真实地址。</li>
+<li>然后，LAN 网络决定这个地址属于“家庭网络”还是“远程”。</li>
 </ol>
-<p>如果代理没有把真实地址转过来，或者 Evey 不信任这个代理，那么每个请求看起来都来自代理自己的私有地址。这样一来，所有人都算在家里：远程访问设置不起作用，也不会套用任何远程上限。</p>
+<p>如果代理没有转发真实地址，或者 Evey 不信任这个代理，那么每个请求看起来都来自代理自己的私有地址。这样一来，所有人都被视为在家庭网络内：远程访问设置不起作用，也不会套用任何远程上限。</p>
 <div class="admonition note">
-<p class="admonition-title">修好代理，会改变谁算作远程</p>
-<p>如果远程访问原本是关闭的，那么从代理开始转来真实地址的那一刻起，家以外的人就会被拒绝。修改代理设置后，请运行 <code>evey admin doctor</code>：它会显示正在使用的列表及其来源，对公网地址范围发出警告，并对覆盖所有地址的范围报告失败。</p>
+<p class="admonition-title">修正代理设置会改变哪些人被视为远程</p>
+<p>如果远程访问原本是关闭的，那么从代理开始转发真实地址的那一刻起，家庭网络以外的人就会被拒绝。修改代理设置后，请运行 <code>evey admin doctor</code>：它会显示正在使用的列表及其来源，对公网地址范围发出警告，并对覆盖所有地址的范围报告失败。</p>
 </div>
 <!-- sources
 inference and explicit choice: docs/adr/0026-remote-access-inferred-from-a-published-url.md ; internal/config/remote_access_resolve.go - ResolveRemoteAccess, IsPubliclyReachableURL

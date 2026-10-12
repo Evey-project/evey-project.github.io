@@ -3326,7 +3326,7 @@ Inhaltsangabe eines Films auf Englisch, oder umgekehrt.</p>
 <h3 id="supported-ui-languages">Unterstützte Sprachen der Oberfläche<a class="headerlink" href="#supported-ui-languages" title="Permanent link">¶</a></h3>
 <p>Sechs: <strong>Englisch (en)</strong>, <strong>Französisch (fr)</strong>, <strong>Deutsch (de)</strong>,
 <strong>Spanisch (es)</strong>, <strong>Chinesisch (zh)</strong>, <strong>Hindi (hi)</strong>. Englisch ist die
-Ausgangssprache und der Rückfall: Fehlt ein Text in einer anderen Sprache,
+Ausgangssprache und die Ersatzsprache: Fehlt ein Text in einer anderen Sprache,
 erscheint er auf Englisch statt als leeres Feld oder als Schlüssel.</p>
 <h3 id="how-a-string-reaches-the-screen">Wie ein Text auf den Bildschirm kommt<a class="headerlink" href="#how-a-string-reaches-the-screen" title="Permanent link">¶</a></h3>
 <ul>
@@ -3342,7 +3342,7 @@ erscheint er auf Englisch statt als leeres Feld oder als Schlüssel.</p>
   nächsten Start und hält <code>&lt;html lang&gt;</code> mit der aktiven Sprache synchron,
   damit Hilfstechnologien die richtige Sprache ansagen. Die <strong>Mobil- und
   TV-Apps</strong> laden vom selben Endpunkt über das gemeinsame native i18n-Modul
-  und bringen eine eingebaute englische Grundausstattung mit
+  und bringen einen eingebauten englischen Grundbestand an Texten mit
   (<code>fallback.en.json</code>, <code>offlineStrings.ts</code>) für die Bildschirme, die vor der
   ersten Antwort eines Servers erscheinen.</li>
 <li>Die Sprache kommt aus Ihrer Kontoeinstellung. Fehlt sie, gilt die Sprache
@@ -3388,8 +3388,8 @@ ist bewusst so gemacht. Es wurde aber <strong>nicht</strong> formal nach WCAG ge
 gibt <strong>keine automatischen Barrierefreiheitstests</strong> in der Testsuite, und es
 wurde <strong>nicht</strong> systematisch mit Screenreadern getestet. Teile davon sind
 mit Hilfstechnologien wahrscheinlich nutzbar, andere wahrscheinlich nicht.
-Wenn Sie auf Hilfstechnologien angewiesen sind, rechnen Sie mit Ecken und
-Kanten und melden Sie bitte Einzelheiten.</p>
+Wenn Sie auf Hilfstechnologien angewiesen sind, rechnen Sie mit Mängeln
+und melden Sie bitte Einzelheiten.</p>
 <h3 id="what-is-in-place">Was vorhanden ist<a class="headerlink" href="#what-is-in-place" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -3441,7 +3441,7 @@ Kanten und melden Sie bitte Einzelheiten.</p>
   Flächen. Die TV-App prüft ihre abgeleiteten Werte noch einmal
   (<code>ThemeProvider.contrast.test.ts</code>). Theme-Plugins und die Farben, die ein
   Plugin zur Laufzeit einfügt, werden nicht geprüft: Ein eigenes Theme kann
-  stellenweise durchfallen. AAA ist nicht das Ziel.</li>
+  die Anforderung stellenweise nicht erfüllen. AAA ist nicht das Ziel.</li>
 <li><strong>Keine Textvergrößerung in der App</strong> über den Zoom von Browser oder
   Betriebssystem hinaus, und kein eigener Modus mit hohem Kontrast.</li>
 <li><strong>Die Gestaltung von Untertiteln auf dem Handy ist begrenzt</strong> (eine

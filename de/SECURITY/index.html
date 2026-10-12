@@ -3677,7 +3677,7 @@
 
 
 <h1 id="plugin-sandbox-and-threat-model">Plugin-Sandbox und Bedrohungsmodell<a class="headerlink" href="#plugin-sandbox-and-threat-model" title="Permanent link">¶</a></h1>
-<p>Was der Server tut, um ein Plugin einzusperren: die Prüfungen bei der
+<p>Was der Server tut, um ein Plugin zu isolieren: die Prüfungen bei der
 Installation, die Schutzschichten zur Laufzeit, die Sandbox-Modi und was
 jede davon trotzdem nicht verhindern kann. Der Code liegt in
 <code>internal/adapters/driven/pluginrunner</code> (Analyse bei der Installation,
@@ -3694,8 +3694,8 @@ Welche Sandbox Ihre Maschine bekommt, steht in
 <a href="../plugins/sandbox-deployment/">Plugin-Sandbox einrichten</a>.</p>
 <h2 id="threat-model">Bedrohungsmodell<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h2>
 <p>Plugins laufen als eigene Prozesse, die mit dem Server über gRPC auf
-Unix-Sockets sprechen. Der Server vertraut standardmäßig keinem Plugin-Code.
-Die Risiken, gegen die er sich wehrt, vom schwersten zum leichtesten:</p>
+Unix-Sockets kommunizieren. Der Server vertraut standardmäßig keinem Plugin-Code.
+Die Risiken, gegen die er schützt, vom schwersten zum leichtesten:</p>
 <ol>
 <li><strong>Identitätsdiebstahl</strong> - ein Plugin gibt sich als ein anderes aus, um dessen Berechtigungen zu nutzen.</li>
 <li><strong>Rechteausweitung</strong> - ein Plugin bricht aus seiner Sandbox aus und führt Befehle als Server aus.</li>
@@ -3859,8 +3859,8 @@ Umwandlung zur Laufzeit verfolgen (<code>strrev("metsys")</code>, eine Nutzlast,
 die aus einer Datei gelesen und dekodiert wird). Sie schlägt auch in
 Kommentaren an: Ein Kommentar <code># pip install foo</code> löst <code>runtime_install</code>
 aus. <strong>Die Grenze, die wirklich durchgesetzt wird, ist die Sandbox zur
-Laufzeit, nicht die Analyse</strong>: Ein Plugin, das ein Muster an ihr
-vorbeischmuggelt, kann trotzdem die Daten des Servers nicht lesen, keinen
+Laufzeit, nicht die Analyse</strong>: Ein Plugin, dessen Muster die Analyse
+nicht erkennt, kann trotzdem die Daten des Servers nicht lesen, keinen
 gesperrten Systemaufruf machen, seine Ressourcenlimits nicht
 überschreiten und keine Host-Methode aufrufen, für die es keine
 Berechtigung hat.</p>
@@ -3927,7 +3927,7 @@ Unix-Socket auf. Der Host, in
   ablehnt. DNS-Rebinding und Weiterleitungen werden also erneut geprüft
   (eine Weiterleitung zu einem Host außerhalb der Liste wird abgelehnt);</li>
 <li>hängt keine Zugangsdaten des Servers an, begrenzt den Antwortinhalt auf
-  8 MiB und die Anfrage-Header auf 8 KiB und gibt nach 20 s auf.</li>
+  8 MiB und die Anfrage-Header auf 8 KiB und bricht nach 20 s ab.</li>
 </ul>
 <p>Das schließt die Wege, die direkter Ausgang offen ließ (IP-Adressen wie
 <code>169.254.169.254</code>, ein eigener DNS-Resolver des Plugins). Was bleibt: Der
@@ -3937,7 +3937,7 @@ Vermittler bestimmt, <em>wohin</em> ein Aufruf geht, nicht <em>was</em> er mitni
 <p class="admonition-title">Empfehlung für Betreiber</p>
 <p>Der Vermittler verlagert die SSRF-Angriffsfläche auf den Host. Eine
 Ausgangsregel auf dem Container <code>evey-server</code>, unabhängig vom Code,
-fügt eine zweite Mauer hinzu: Verwerfen Sie <code>169.254.0.0/16</code> und
+fügt einen zweiten Schutz hinzu: Verwerfen Sie <code>169.254.0.0/16</code> und
 beschränken Sie das interne Netz auf die Endpunkte von Datenbank und
 Suche.</p>
 </div>
@@ -4028,7 +4028,7 @@ funktionieren weiter.</p>
 und <code>connect</code> bleiben erlaubt. Pfade beschränkt die Dateisystem-Schicht,
 nicht seccomp. In <code>bubblewrap</code> wird der Launcher nicht benutzt: Eine
 statische Binärdatei bekommt dort keinen seccomp-Filter und wird durch die
-Namespaces und die Liste erlaubter Mounts eingesperrt.</p>
+Namespaces und die Liste erlaubter Mounts begrenzt.</p>
 <h3 id="a-separate-user">Ein eigener Benutzer<a class="headerlink" href="#a-separate-user" title="Permanent link">¶</a></h3>
 <p>Ein Plugin kann als Benutzer 1001 (<code>evey-plugin</code>) laufen, getrennt vom
 Server (1000). Dann kann es die Geheimnisse des Servers allein wegen der
@@ -4043,7 +4043,7 @@ Dateirechte nicht lesen. <code>EVEY_PLUGINS_UID_SEPARATION</code> steuert das:</
 <tbody>
 <tr>
 <td><code>auto</code> (Standard)</td>
-<td>nur wenn die Sandbox zu <code>basic</code> aufgelöst wird, der einzige Fall, in dem die Dateirechte die einzige Mauer um die Geheimnisse sind</td>
+<td>nur wenn die Sandbox zu <code>basic</code> aufgelöst wird, der einzige Fall, in dem die Dateirechte der einzige Schutz der Geheimnisse sind</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -4058,7 +4058,7 @@ Dateirechte nicht lesen. <code>EVEY_PLUGINS_UID_SEPARATION</code> steuert das:</
 <p>Den Wechsel macht der Launcher, der <code>cap_setuid</code> hält; der Server selbst
 läuft ohne Rechte oder Capabilities. Der Launcher lehnt jedes Ziel unter
 1000 ab. Kann er nicht wechseln, wird ein Plugin in <code>basic</code> abgelehnt (der
-Benutzer ist dort die einzige Mauer), während es in <code>landlock</code> mit einer
+Benutzer ist dort der einzige Schutz), während es in <code>landlock</code> mit einer
 Warnung als Benutzer des Servers läuft. In <code>bubblewrap</code> und <code>strict</code>
 übernimmt der User-Namespace diese Rolle.</p>
 <p>Ist der Wechsel aktiv, sind der Signierschlüssel (<code>0600</code>) und die
@@ -4255,7 +4255,7 @@ Modus wird protokolliert und in der Zeile <strong>Host-Sandbox</strong> unter
 <li><strong>Voraussetzung:</strong> ein Kernel 5.13 oder neuer mit Landlock in der Liste
   der aktiven LSM, und der Launcher (beides trifft auf das offizielle Image
   mit einem aktuellen Host zu). Ein ausdrücklich gesetztes <code>landlock</code>
-  startet kein Plugin, das es nicht einsperren kann.</li>
+  startet kein Plugin, das es nicht isolieren kann.</li>
 </ul>
 <h3 id="bubblewrap"><code>bubblewrap</code><a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
 <ul>
@@ -4299,7 +4299,7 @@ Modus wird protokolliert und in der Zeile <strong>Host-Sandbox</strong> unter
 </tbody>
 </table>
 <p><code>/data</code>, <code>/var</code>, <code>/home</code>, <code>/root</code>, <code>/run</code> und die Verzeichnisse anderer
-  Plugins existieren darin nicht. Ein Kanarienvogel-Plugin
+  Plugins existieren darin nicht. Ein Canary-Plugin
   (<code>tests/fixtures/plugins/canary-sandbox-runtime/</code>) prüft diese Anordnung
   gegen einen laufenden Stack.
 - <strong>Netz:</strong> der Netzwerk-Namespace, für jedes Plugin.
@@ -4311,7 +4311,7 @@ Modus wird protokolliert und in der Zeile <strong>Host-Sandbox</strong> unter
 <h3 id="strict"><code>strict</code><a class="headerlink" href="#strict" title="Permanent link">¶</a></h3>
 <p><code>bubblewrap</code> plus der <code>LD_PRELOAD</code>-Filter (nur interpretierte Plugins).</p>
 <h3 id="basic"><code>basic</code><a class="headerlink" href="#basic" title="Permanent link">¶</a></h3>
-<p>Der letzte Ausweg von <code>auto</code>: der eigene Benutzer, der Kernel-Filter, der
+<p>Der letzte Rückfallmodus von <code>auto</code>: der eigene Benutzer, der Kernel-Filter, der
 <code>LD_PRELOAD</code>-Filter, <code>-deny-inet</code> und Landlock, wenn der Kernel es hat. Auf
 einem Kernel ohne Landlock gibt es keine Beschränkung pro Pfad: Ein Plugin
 kann nicht sensible, für alle lesbare Dateien lesen und die Prozessliste
@@ -4377,7 +4377,7 @@ Maschine passt, in einfachen Worten:
 </tr>
 <tr>
 <td>Alle Plugins teilen sich den Benutzer 1001</td>
-<td>Ein Plugin kann seinen Geschwistern Signale schicken (Signale an den Server werden abgelehnt)</td>
+<td>Ein Plugin kann den anderen Plugins Signale schicken (Signale an den Server werden abgelehnt)</td>
 <td><code>PR_SET_DUMPABLE</code> verhindert das Lesen anderer Prozesse über <code>/proc</code>; Landlock und bubblewrap trennen die Plugin-Verzeichnisse</td>
 </tr>
 <tr>
@@ -4416,7 +4416,7 @@ Maschine passt, in einfachen Worten:
   liegt auf diesem Port plus eins. gRPC bindet standardmäßig an Loopback
   (<code>EVEY_GRPC_BIND=127.0.0.1</code>), weil die Sperre für den Fernzugriff eine
   HTTP-Middleware ist und gRPC nicht abdeckt. Wer die Bindung erweitert,
-  bekommt eine Warnung im Protokoll; ihn per Firewall abzuschirmen ist dann
+  bekommt eine Warnung im Protokoll; ihn per Firewall zu schützen ist dann
   Aufgabe des Betreibers.</li>
 <li><strong>Die Sperre für den Fernzugriff entscheidet anhand der einen
   Client-Adresse, die an der Grenze des vertrauenswürdigen Proxys geprüft

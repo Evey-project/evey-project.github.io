@@ -3154,7 +3154,7 @@ pierdes lo que ha mostrado el comando, vuelve a ejecutarlo.</p>
 <h2 id="rotate-the-key-that-signs-access-tokens">Cambiar la clave que firma los tokens de acceso<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
 <p>Úsalo cuando el archivo de la clave puede haberse filtrado, o para cerrar la
 sesión de todos los usuarios a la vez. Para una sola cuenta, basta con
-<strong>Administración -&gt; Usuarios -&gt; Desactivar</strong> o con cambiar la contraseña como
+<strong>Administración → Usuarios → Desactivar</strong> o con cambiar la contraseña como
 se explica arriba.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
 </span></code></pre></div>
@@ -3179,8 +3179,8 @@ escritos desde entonces. El comando pasa una copia <code>.sql.gz</code> por
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>La restauración sobrescribe las filas actuales. Haz antes una copia de
-seguridad del estado actual (<strong>Administración -&gt; Copia de seguridad y
-restauración -&gt; Ejecutar ahora</strong>) si hay alguna posibilidad de que lo
+seguridad del estado actual (<strong>Administración → Copia de seguridad y
+restauración → Ejecutar ahora</strong>) si hay alguna posibilidad de que lo
 necesites.</p>
 </div>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>evey
@@ -3201,7 +3201,7 @@ necesites.</p>
 <p>Requisitos:</p>
 <ul>
 <li>El nombre del archivo tiene que terminar en <code>.sql.gz</code>. Los archivos
-  <code>.tar.gz</code> de <strong>Administración -&gt; Copia de seguridad y restauración</strong> se
+  <code>.tar.gz</code> de <strong>Administración → Copia de seguridad y restauración</strong> se
   restauran desde el panel, no con este comando.</li>
 <li>La base de datos de destino tiene que existir; la copia borra y vuelve a
   crear las tablas, no la base de datos.</li>

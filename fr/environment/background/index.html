@@ -3077,15 +3077,15 @@
 
 
 <h1 id="background-work">Tâches de fond<a class="headerlink" href="#background-work" title="Permanent link">¶</a></h1>
-<p>Les variables derrière les passes que le serveur mène de lui-même et la
+<p>Les variables qui règlent les passes que le serveur mène de lui-même et la
 façon dont elles partagent le processeur. Ce que fait chaque passe et
 comment la lecture en est protégée :
 <a href="../../operations/background-work/">Tâches de fond et charge du serveur</a>.</p>
 <h2 id="cpu-share">Part du processeur<a class="headerlink" href="#cpu-share" title="Permanent link">¶</a></h2>
 <p>La part du processeur que peuvent utiliser les tâches de fond se règle dans
-<strong>Admin → Configuration du serveur → Puissance allouée</strong>, immédiatement, sans
+<strong>Administration → Configuration du serveur → Puissance allouée</strong>, immédiatement, sans
 redémarrage ; elle n'a pas de variable d'environnement. Les deux variables
-ci-dessous dimensionnent un pool à la main et court-circuitent cette part
+ci-dessous dimensionnent un pool à la main et remplacent cette part
 pour lui.</p>
 <table>
 <thead>
@@ -3112,7 +3112,7 @@ pour lui.</p>
 </tbody>
 </table>
 <h2 id="passes">Passes<a class="headerlink" href="#passes" title="Permanent link">¶</a></h2>
-<p>Chaque variable a une clé, acceptée aussi comme ligne dans <strong>Admin →
+<p>Chaque variable a une clé, acceptée aussi comme ligne dans <strong>Administration →
 Configuration du serveur → Entrées de configuration</strong>, qui propose ces
 clés ; la ligne l'emporte sur l'environnement. La carte <strong>Travaux en
 arrière-plan</strong> du même écran règle les principales. Toutes sont lues au

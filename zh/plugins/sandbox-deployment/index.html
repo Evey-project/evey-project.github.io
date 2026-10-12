@@ -1919,7 +1919,7 @@
   <a href="#what-protects-you" class="md-nav__link">
     <span class="md-ellipsis">
       
-        是什么在保护您
+        保护您的措施
       
     </span>
   </a>
@@ -1938,10 +1938,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        您可能会动的唯一一个开关：uid 分离
+        您可能需要修改的唯一设置：uid 分离
       
     </span>
   </a>
@@ -1985,7 +1985,7 @@
   <a href="#verify-it-is-working" class="md-nav__link">
     <span class="md-ellipsis">
       
-        确认它在工作
+        确认沙箱正常工作
       
     </span>
   </a>
@@ -3090,7 +3090,7 @@
   <a href="#what-protects-you" class="md-nav__link">
     <span class="md-ellipsis">
       
-        是什么在保护您
+        保护您的措施
       
     </span>
   </a>
@@ -3109,10 +3109,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        您可能会动的唯一一个开关：uid 分离
+        您可能需要修改的唯一设置：uid 分离
       
     </span>
   </a>
@@ -3156,7 +3156,7 @@
   <a href="#verify-it-is-working" class="md-nav__link">
     <span class="md-ellipsis">
       
-        确认它在工作
+        确认沙箱正常工作
       
     </span>
   </a>
@@ -3187,20 +3187,20 @@
 
 
 <h1 id="plugin-sandbox-setup">插件沙箱设置<a class="headerlink" href="#plugin-sandbox-setup" title="Permanent link">¶</a></h1>
-<p>用简单的话说明哪种沙箱设置适合您的服务器。对几乎所有人来说，答案都是：保持默认设置。
-服务器会检测这台机器，并选择它能做到的最强隔离。只有当您用的是旧款 NAS、不用 Docker 运行 Evey，
-或者想把安全收得更紧时，才需要往下读。完整的技术说明见<a href="../../SECURITY/">插件沙箱与威胁模型</a>。</p>
-<h2 id="what-protects-you">是什么在保护您<a class="headerlink" href="#what-protects-you" title="Permanent link">¶</a></h2>
-<p>您安装的插件会被关在一个“盒子”里。根据机器的不同，这个盒子：</p>
+<p>本页用通俗的语言说明哪种沙箱设置适合您的服务器。对几乎所有人来说，答案都是：保持默认设置。
+服务器会检测这台机器，并选择它能提供的最强隔离。只有当您使用旧款 NAS、不使用 Docker 运行 Evey，
+或者需要更强的隔离时，才需要继续阅读。完整的技术说明见<a href="../../SECURITY/">安全模型与插件沙箱</a>。</p>
+<h2 id="what-protects-you">保护您的措施<a class="headerlink" href="#what-protects-you" title="Permanent link">¶</a></h2>
+<p>您安装的插件在隔离环境中运行。根据机器的不同，这种隔离：</p>
 <ul>
-<li><strong>限制它能碰的文件</strong>：只有它自己的文件夹和它需要的系统库，别的都不行（碰不到您的媒体、您的密钥，也碰不到其他插件）；</li>
+<li><strong>限制它能访问的文件</strong>：只能访问它自己的文件夹和它需要的系统库，不能访问其他任何文件（不能访问您的媒体、您的密钥，也不能访问其他插件）；</li>
 <li>在内核层面<strong>阻止危险的系统操作</strong>：调试其他进程、加载模块、修改时钟、挂载磁盘；</li>
 <li>始终<strong>切断直接的网络访问</strong>：一个申请了网络权限、并且您批准了的插件，也只能经过服务器访问它声明过的主机；</li>
-<li><strong>限制 CPU、内存、磁盘和进程数量</strong>，这样失控的插件不会拖垮服务器；</li>
+<li><strong>限制 CPU、内存、磁盘和进程数量</strong>，这样占用资源过多的插件不会导致服务器停止运行；</li>
 <li><strong>让您的密钥无法被读取</strong>：用来给登录签名的密钥，以及备份。</li>
 </ul>
 <p>除此之外，只有管理员才能安装插件，插件会被扫描是否有可疑代码，而且在它运行之前，您要先批准它的权限。</p>
-<p><strong>查看实际生效的保护：</strong> <strong>管理 -&gt; 插件 -&gt; 安全仪表板</strong>会显示主机沙箱，也就是 <code>auto</code> 最终选择的模式
+<p><strong>查看实际生效的保护：</strong> <strong>管理 → 插件 → 安全仪表板</strong>会显示主机沙箱，也就是 <code>auto</code> 最终选择的模式
 （<code>landlock</code>、<code>bubblewrap</code> 或 <code>basic</code>），以及各项检测的结果（<strong>Landlock 内核</strong>、<strong>沙箱启动器</strong>、<strong>Bubblewrap</strong>）。
 <code>basic</code> 表示主机无法按路径隔离文件：插件只靠切换用户（uid）和 seccomp 运行，检测结果会说明原因，下面几节会说明要改什么。</p>
 <h2 id="pick-your-situation">找到您的情况<a class="headerlink" href="#pick-your-situation" title="Permanent link">¶</a></h2>
@@ -3208,7 +3208,7 @@
 <thead>
 <tr>
 <th>您的服务器</th>
-<th>不用设置就能得到什么</th>
+<th>默认提供的保护</th>
 <th>需要做什么吗？</th>
 </tr>
 </thead>
@@ -3220,7 +3220,7 @@
 </tr>
 <tr>
 <td><strong>在 Docker 里运行的旧款 NAS</strong>（内核比 5.13 旧）</td>
-<td>良好的隔离，只是没有按文件夹划分的文件“墙”；密钥、网络和系统操作仍然被锁住</td>
+<td>良好的隔离，但没有按文件夹的文件限制；密钥、网络和系统操作仍然受到严格限制</td>
 <td>不用：uid 分离（见下文）会自动开启</td>
 </tr>
 <tr>
@@ -3230,10 +3230,10 @@
 </tr>
 </tbody>
 </table>
-<h2 id="the-one-knob-you-might-touch-uid-separation">您可能会动的唯一一个开关：uid 分离<a class="headerlink" href="#the-one-knob-you-might-touch-uid-separation" title="Permanent link">¶</a></h2>
-<p>uid 分离让插件以一个和服务器不同的用户账户运行，这样，即使没有别的东西拦住它，它在物理上也读不到服务器的机密文件。
-它只在没有按文件夹划分文件墙的机器上才重要（也就是 <code>basic</code> 的情况）；在现代机器上，文件墙已经让密钥够不着，
-uid 分离只是一层多余的额外防护。</p>
+<h2 id="the-one-setting-you-might-change-uid-separation">您可能需要修改的唯一设置：uid 分离<a class="headerlink" href="#the-one-setting-you-might-change-uid-separation" title="Permanent link">¶</a></h2>
+<p>uid 分离让插件以一个和服务器不同的用户账户运行，这样，即使其他机制都没有阻止它，它也无法读取服务器的机密文件。
+它只在没有按文件夹的文件限制的机器上才有意义（也就是 <code>basic</code> 的情况）；在现代机器上，这种文件限制已经使密钥无法被访问，
+uid 分离只是一层冗余的额外防护。</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>：</p>
 <table>
 <thead>
@@ -3246,13 +3246,13 @@ uid 分离只是一层多余的额外防护。</p>
 <tbody>
 <tr>
 <td><code>auto</code>（默认）</td>
-<td>只在需要时开启（<code>basic</code> 的情况），在多余的地方关闭</td>
-<td>一直用它，除非遇到下面两种情况之一</td>
+<td>只在需要时开启（<code>basic</code> 的情况），在冗余时关闭</td>
+<td>始终使用，除非属于下面两种情况之一</td>
 </tr>
 <tr>
 <td><code>on</code></td>
-<td>始终开启，在文件墙之上再加一道独立的墙</td>
-<td>您想要双重保险，并接受下面说的小代价</td>
+<td>始终开启，在文件限制之上再加一层独立的保护</td>
+<td>您希望同时使用两种保护，并接受下面所述的小代价</td>
 </tr>
 <tr>
 <td><code>off</code></td>
@@ -3264,23 +3264,23 @@ uid 分离只是一层多余的额外防护。</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>uid 分离和 Docker 的 <code>no-new-privileges</code> 选项不能同时使用：只能二选一。在旧机器上（<code>basic</code>），
-如果无法切换用户，服务器宁可不启动这个插件，也不会让它在您的密钥旁边运行；在现代机器上，
-服务器会记录一条警告，然后在没有这道额外墙的情况下运行插件。镜像里已经带好了所需的一切，您只需要设置这个变量。</p>
+如果无法切换用户，服务器会拒绝启动该插件，而不是让它在能接触到您密钥的环境中运行；在现代机器上，
+服务器会记录一条警告，然后在没有这层额外保护的情况下运行插件。镜像里已经带好了所需的一切，您只需要设置这个变量。</p>
 </div>
-<p><code>on</code> 的小代价：插件以一个单独的账户运行，所以在自己文件夹里写临时文件的插件可能会出问题。
+<p><code>on</code> 的小代价：插件以一个单独的账户运行，所以在自己文件夹里写临时文件的插件可能会运行失败。
 如果遇到这种情况，请设为 <code>off</code>。这就是默认值为 <code>auto</code> 的原因：它只在真正有好处的地方才承担这个风险。</p>
 <h2 id="what-a-malicious-plugin-could-do">恶意插件能做什么<a class="headerlink" href="#what-a-malicious-plugin-could-do" title="Permanent link">¶</a></h2>
-<p><strong>现代 Linux（Docker 或裸机）：</strong> 坏插件被完全关在盒子里。它读不到您的密钥，看不到也碰不到其他插件的文件，
-不能随意发起网络请求，也不能篡改系统。唯一现实的逃出办法是内核里的严重漏洞，任何不是完整虚拟机的沙箱都是如此。</p>
-<p><strong>在 Docker 里运行、没有按文件夹划分文件墙的旧款 NAS（<code>basic</code>）：</strong></p>
+<p><strong>现代 Linux（Docker 或裸机）：</strong> 恶意插件被完全隔离。它读不到您的密钥，看不到也碰不到其他插件的文件，
+不能随意发起网络请求，也不能篡改系统。唯一现实的突破方式是内核中的严重漏洞，任何不是完整虚拟机的沙箱都是如此。</p>
+<p><strong>在 Docker 里运行、没有按文件夹的文件限制的旧款 NAS（<code>basic</code>）：</strong></p>
 <ul>
 <li>您的密钥（登录密钥、备份）仍然受到保护，靠的是单独的用户账户，<code>auto</code> 在这种情况下会把它开启；</li>
 <li>插件不能直接上网；获准上网的插件也只能访问它声明过的主机；</li>
 <li>危险的系统操作仍然在内核层面被阻止；</li>
-<li>但由于没有按文件夹划分的墙，坏插件可以读取普通的、不机密的文件，列出正在运行的进程，
+<li>但由于没有按文件夹的文件限制，恶意插件可以读取普通的、非机密的文件，列出正在运行的进程，
   而且因为所有插件共用一个账户，它还能读取或干扰另一个插件的文件。</li>
 </ul>
-<p>在这样的主机上，请只安装您信任的插件，或者换用较新的内核，以获得完整的文件墙。</p>
+<p>在这样的主机上，请只安装您信任的插件，或者换用较新的内核，以获得完整的文件限制。</p>
 <h2 id="configuration-examples">配置示例<a class="headerlink" href="#configuration-examples" title="Permanent link">¶</a></h2>
 <p>这些写在您的 <code>.env</code>（compose）里，或者作为 <code>EVEY_*</code> 环境变量设置。</p>
 <div class="language-bash highlight"><span class="filename">1. 现代服务器，推荐做法（什么都不用做）</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># 选择能用的最强方式（默认）</span>
@@ -3290,8 +3290,8 @@ uid 分离只是一层多余的额外防护。</p>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># （默认）在 basic 的情况下开启</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">3. 在现代服务器上加双重保险</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># 最终选择 landlock</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># 再加上独立的 uid 墙</span>
+<div class="language-bash highlight"><span class="filename">3. 在现代服务器上同时使用两种保护</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># 最终选择 landlock</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># 再加上独立的 uid 分离</span>
 </span></code></pre></div>
 <div class="language-bash highlight"><span class="filename">4. 固定一种模式（高级）</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">      </span><span class="c1"># 如果 Landlock 不可用，就拒绝启动插件</span>
 </span></code></pre></div>
@@ -3303,17 +3303,17 @@ uid 分离只是一层多余的额外防护。</p>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nv">EVEY_PLUGINS_CPU_NICE</span><span class="o">=</span><span class="m">10</span><span class="w">                </span><span class="c1"># 调度优先级 0-19（越大越谦让）</span>
 </span></code></pre></div>
 <h2 id="change-the-sandbox-mode-while-running">运行中更改沙箱模式<a class="headerlink" href="#change-the-sandbox-mode-while-running" title="Permanent link">¶</a></h2>
-<p>在<strong>管理 -&gt; 插件</strong>的<strong>资源限制</strong>卡片里修改<strong>沙箱模式</strong>。正在运行的插件会自动重启，让新模式立即生效，
-<strong>安全仪表板</strong>会显示实际生效的模式。无法在新模式下运行的插件（例如在无特权容器里使用 <code>bubblewrap</code>）会显示为出错：这时请改回原来的模式。</p>
-<h2 id="verify-it-is-working">确认它在工作<a class="headerlink" href="#verify-it-is-working" title="Permanent link">¶</a></h2>
+<p>在<strong>管理 → 插件</strong>的<strong>资源限制</strong>卡片里修改<strong>沙箱模式</strong>。正在运行的插件会自动重启，让新模式立即生效，
+<strong>安全仪表板</strong>会显示实际生效的模式。无法在新模式下运行的插件（例如在无特权容器里使用 <code>bubblewrap</code>）会显示为出错：此时请改回原来的模式。</p>
+<h2 id="verify-it-is-working">确认沙箱正常工作<a class="headerlink" href="#verify-it-is-working" title="Permanent link">¶</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 启动器带有 uid 分离所用的能力（capability）</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>getcap<span class="w"> </span>/evey-plugin-launcher<span class="w">        </span><span class="c1"># cap_setuid=ep</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 正在运行的插件以哪个用户运行（evey = 和服务器共用，</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># evey-plugin = 已分离）；镜像里没有 ps，所以问 Docker</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># evey-plugin = 已分离）；镜像里没有 ps，因此通过 Docker 查询</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>docker<span class="w"> </span>top<span class="w"> </span>evey-server<span class="w"> </span>-o<span class="w"> </span>user,pid,args<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"node|python"</span>
 </span></code></pre></div>
-<p>实际生效的沙箱模式，就是<strong>管理 -&gt; 插件 -&gt; 安全仪表板</strong>上的标记。</p>
+<p>实际生效的沙箱模式显示在<strong>管理 → 插件 → 安全仪表板</strong>的标记中。</p>
 <!-- sources
 auto resolution and probes: internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; runner_sandbox.go - effectiveMode, SandboxStatus, uidSepApplies, WithUIDSeparation, applyBasicSandbox
 defaults: internal/config/config.go (EVEY_PLUGINS_SANDBOX_MODE, EVEY_PLUGINS_UID_SEPARATION, EVEY_PLUGINS_MEMORY_MB, _PIDS_MAX, _DISK_MAX_MB, _CPU_NICE)

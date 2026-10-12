@@ -1913,7 +1913,7 @@
   <a href="#move-back-onto-the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Revenir sur la base embarquée
+        Revenir à la base embarquée
       
     </span>
   </a>
@@ -3157,7 +3157,7 @@
   <a href="#move-back-onto-the-embedded-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Revenir sur la base embarquée
+        Revenir à la base embarquée
       
     </span>
   </a>
@@ -3228,7 +3228,7 @@ une variante de l'image, ou quand la sandbox des plugins signale autre chose
 que <code>landlock</code>. Pour faire tourner Evey sans Docker du tout, voir
 <a href="../../deployment-bare-metal/">Sans conteneur</a>.</p>
 <h2 id="the-embedded-database">La base embarquée<a class="headerlink" href="#the-embedded-database" title="Permanent link">¶</a></h2>
-<p>Le cluster vit dans <code>./evey-data/postgres</code> (Postgres 17, créé au premier
+<p>Le cluster se trouve dans <code>./evey-data/postgres</code> (Postgres 17, créé au premier
 démarrage, propriété de l'utilisateur du serveur). Il n'écoute que sur la
 boucle locale du conteneur et exige le mot de passe généré, donc un plugin
 tournant sous un autre utilisateur ne peut pas l'ouvrir. <code>docker stop</code>
@@ -3255,8 +3255,8 @@ nouvelle :</p>
 <h2 id="run-postgres-as-a-separate-service">Faire tourner Postgres en service séparé<a class="headerlink" href="#run-postgres-as-a-separate-service" title="Permanent link">¶</a></h2>
 <p>Pour gérer vous-même le cycle de vie de la base (un Postgres managé, une
 majeure figée, votre propre politique de dumps), lancez-la comme service à
-part et pointez le serveur dessus. C'est le fait de définir <code>EVEY_DB_HOST</code>
-qui coupe la base embarquée. Le serveur refuse de démarrer avec le mot de
+part et configurez le serveur pour l'utiliser. C'est le fait de définir
+<code>EVEY_DB_HOST</code> qui désactive la base embarquée. Le serveur refuse de démarrer avec le mot de
 passe par défaut <code>evey</code>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">docker-compose.yml</label><label for="__tabbed_1_2">.env</label></div>
 <div class="tabbed-content">
@@ -3294,8 +3294,8 @@ passe par défaut <code>evey</code>.</p>
 </div>
 </div>
 <h2 id="run-meilisearch-as-a-separate-service">Faire tourner Meilisearch en service séparé<a class="headerlink" href="#run-meilisearch-as-a-separate-service" title="Permanent link">¶</a></h2>
-<p>Même principe pour le moteur de recherche : coupez celui qui est embarqué,
-pointez le serveur sur le vôtre et partagez la clé. Un <code>MEILI_MASTER_KEY</code>
+<p>Même principe pour le moteur de recherche : désactivez celui qui est embarqué,
+configurez le serveur pour utiliser le vôtre et partagez la clé. Un <code>MEILI_MASTER_KEY</code>
 explicite l'emporte sur le <code>./evey-data/keys/meili.key</code> généré.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">docker-compose.yml</label><label for="__tabbed_2_2">.env</label></div>
 <div class="tabbed-content">
@@ -3331,8 +3331,8 @@ explicite l'emporte sur le <code>./evey-data/keys/meili.key</code> généré.</p
 </div>
 </div>
 <p>L'index se reconstruit depuis la base avec <code>docker exec evey-server evey
-admin reindex-search</code>, donc <code>meili-data</code> peut toujours être jeté.</p>
-<h2 id="move-back-onto-the-embedded-database">Revenir sur la base embarquée<a class="headerlink" href="#move-back-onto-the-embedded-database" title="Permanent link">¶</a></h2>
+admin reindex-search</code>, donc <code>meili-data</code> peut toujours être supprimé.</p>
+<h2 id="move-back-onto-the-embedded-database">Revenir à la base embarquée<a class="headerlink" href="#move-back-onto-the-embedded-database" title="Permanent link">¶</a></h2>
 <p>Une installation qui fait tourner Postgres en service séparé peut passer au
 conteneur unique. La base embarquée importe une fois un dump trouvé dans
 <code>./evey-data/postgres-import.sql.gz</code>, dans le cluster qu'elle crée à son
@@ -3355,13 +3355,13 @@ s'appliquent ensuite par-dessus.</p>
 <p><code>EVEY_DB_PASSWORD</code>, <code>MEILI_MASTER_KEY</code> et les réglages <code>EVEY_DB_HOST</code> /
 <code>EVEY_MEILI_URL</code> ne sont plus nécessaires. Gardez <code>./postgres-data</code> jusqu'à
 avoir vérifié le serveur. Un dump laissé à côté d'un cluster existant est
-signalé et ignoré, jamais fusionné ; un import raté jette le nouveau cluster
+signalé et ignoré, jamais fusionné ; un import échoué supprime le nouveau cluster
 pour que le démarrage suivant réessaie depuis le dump.</p>
 <h2 id="arm-hosts">Hôtes ARM<a class="headerlink" href="#arm-hosts" title="Permanent link">¶</a></h2>
 <p>Les images construites depuis un tag de version (<code>0.2.0</code>, préversions comme
 <code>0.2.0-beta.1</code> comprises) sont multi-architectures (<code>linux/amd64</code> et
 <code>linux/arm64</code>) ; Docker choisit la bonne. Les tags de branche comme
-<code>beta-0.0.1</code> sont amd64 uniquement : sur un hôte ARM, figez un tag de
+<code>beta-0.0.1</code> sont amd64 uniquement : sur un hôte ARM, utilisez un tag de
 version.</p>
 <ul>
 <li><strong>Le transcodage matériel sur ARM</strong> se limite aux SoC Rockchip (classe
@@ -3418,10 +3418,10 @@ besoin de variante : le NVIDIA Container Toolkit injecte le pilote de l'hôte
 <p>L'image contient tout ce qu'il faut pour confiner les plugins, sans mode
 privilégié. Le mode de sandbox par défaut (<code>auto</code>) choisit le moteur le plus
 fort que l'hôte autorise : Landlock sur tout noyau moderne. Vérifiez le mode
-en vigueur dans le <strong>Tableau de bord sécurité</strong> de <strong>Admin -&gt; Plugins</strong>. Un
+en vigueur dans le <strong>Tableau de bord sécurité</strong> de <strong>Administration → Plugins</strong>. Un
 hôte qui affiche <code>basic</code> ne sait pas isoler l'accès des plugins aux
-fichiers : <a href="../../plugins/sandbox-deployment/">Sandbox des plugins</a> dit ce
-que cela signifie et quoi changer. Les couches elles-mêmes sont décrites dans
+fichiers : <a href="../../plugins/sandbox-deployment/">Sandbox des plugins</a> explique
+ce que cela signifie et quoi changer. Les couches elles-mêmes sont décrites dans
 <a href="../../SECURITY/">Modèle de sécurité et sandbox des plugins</a>.</p>
 <!-- sources
 embedded db, import, major upgrade, embedded meili: docker/entrypoint.sh (PG_MAJOR, PG_IMPORT, "evey: import done", EVEY_EMBEDDED_MEILI, MEILI_MASTER_KEY_FILE)

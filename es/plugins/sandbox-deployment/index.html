@@ -1938,10 +1938,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        El único ajuste que quizá toques: la separación de uid
+        El único ajuste que quizá cambies: la separación de uid
       
     </span>
   </a>
@@ -3109,10 +3109,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-one-knob-you-might-touch-uid-separation" class="md-nav__link">
+  <a href="#the-one-setting-you-might-change-uid-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        El único ajuste que quizá toques: la separación de uid
+        El único ajuste que quizá cambies: la separación de uid
       
     </span>
   </a>
@@ -3187,15 +3187,15 @@
 
 
 <h1 id="plugin-sandbox-setup">Configurar el sandbox de plugins<a class="headerlink" href="#plugin-sandbox-setup" title="Permanent link">¶</a></h1>
-<p>Qué configuración de sandbox le va a tu servidor, en palabras sencillas. Para
+<p>Qué configuración de sandbox conviene a tu servidor, en palabras sencillas. Para
 casi todo el mundo la respuesta es: deja los valores por defecto. El servidor
 detecta la máquina y elige el aislamiento más fuerte que puede. Sigue leyendo
-solo si tienes un NAS antiguo, si usas Evey sin Docker o si quieres reforzar
-aún más la protección. El modelo técnico completo está en
+solo si tienes un NAS antiguo, si usas Evey sin Docker o si quieres un aislamiento
+más fuerte. El modelo técnico completo está en
 <a href="../../SECURITY/">Sandbox de plugins y modelo de amenazas</a>.</p>
 <h2 id="what-protects-you">Qué te protege<a class="headerlink" href="#what-protects-you" title="Permanent link">¶</a></h2>
-<p>Un plugin que instalas queda encerrado en una caja. Según la máquina, esa
-caja:</p>
+<p>Un plugin que instalas se ejecuta aislado. Según la máquina, ese
+aislamiento:</p>
 <ul>
 <li><strong>limita los archivos que puede tocar</strong>: su propia carpeta y las
   bibliotecas del sistema que necesita, nada más (ni tus medios, ni tus
@@ -3206,14 +3206,14 @@ caja:</p>
   y al que tú se la diste, solo llega a los servidores que declaró, y siempre
   pasando por el servidor de Evey;</li>
 <li><strong>limita la CPU, la memoria, el disco y el número de procesos</strong>, para que
-  un plugin descontrolado no pueda tumbar el servidor;</li>
+  un plugin que consume demasiado no pueda dejar fuera de servicio el servidor;</li>
 <li><strong>mantiene tus secretos ilegibles</strong>: la clave que firma los inicios de
   sesión y las copias de seguridad.</li>
 </ul>
 <p>Además, solo un administrador puede instalar plugins, se analizan en
 busca de código sospechoso y tú apruebas sus permisos antes de que se
 ejecuten.</p>
-<p><strong>Comprueba lo que está activo:</strong> <strong>Administración -&gt; Plugins -&gt; Panel de
+<p><strong>Comprueba lo que está activo:</strong> <strong>Administración → Plugins → Panel de
 seguridad</strong> muestra el sandbox del equipo, el modo que eligió <code>auto</code>
 (<code>landlock</code>, <code>bubblewrap</code> o <code>basic</code>) y los resultados de las pruebas
 (<strong>Kernel Landlock</strong>, <strong>Lanzador del sandbox</strong>, <strong>Bubblewrap</strong>). <code>basic</code> significa
@@ -3237,7 +3237,7 @@ qué, y las secciones siguientes explican qué cambiar.</p>
 </tr>
 <tr>
 <td><strong>NAS antiguo con Docker</strong> (kernel anterior a 5.13)</td>
-<td>buen aislamiento, sin los muros de archivos por carpeta; los secretos, la red y las acciones del sistema siguen bloqueados</td>
+<td>buen aislamiento, sin la restricción de archivos por carpeta; los secretos, la red y las acciones del sistema siguen bloqueados</td>
 <td>nada: la separación de uid (más abajo) se activa sola</td>
 </tr>
 <tr>
@@ -3247,12 +3247,12 @@ qué, y las secciones siguientes explican qué cambiar.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="the-one-knob-you-might-touch-uid-separation">El único ajuste que quizá toques: la separación de uid<a class="headerlink" href="#the-one-knob-you-might-touch-uid-separation" title="Permanent link">¶</a></h2>
+<h2 id="the-one-setting-you-might-change-uid-separation">El único ajuste que quizá cambies: la separación de uid<a class="headerlink" href="#the-one-setting-you-might-change-uid-separation" title="Permanent link">¶</a></h2>
 <p>La separación de uid hace que un plugin se ejecute con una cuenta de usuario
-distinta de la del servidor, así que físicamente no puede leer los archivos
+distinta de la del servidor, así que no puede leer los archivos
 secretos del servidor aunque nada más se lo impidiera. Solo importa en una
-máquina sin los muros de archivos por carpeta (el caso <code>basic</code>); en una
-máquina moderna, esos muros ya mantienen los secretos fuera de su alcance, y
+máquina sin la restricción de archivos por carpeta (el caso <code>basic</code>); en una
+máquina moderna, esa restricción ya mantiene los secretos fuera de su alcance, y
 la separación es una capa extra redundante.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
@@ -3271,8 +3271,8 @@ la separación es una capa extra redundante.</p>
 </tr>
 <tr>
 <td><code>on</code></td>
-<td>siempre activa, un segundo muro independiente encima de los muros de archivos</td>
-<td>quieres protección doble y aceptas el pequeño coste descrito más abajo</td>
+<td>siempre activa, una segunda protección independiente además de la restricción de archivos</td>
+<td>quieres las dos protecciones y aceptas el pequeño coste descrito más abajo</td>
 </tr>
 <tr>
 <td><code>off</code></td>
@@ -3287,7 +3287,7 @@ la separación es una capa extra redundante.</p>
 <code>no-new-privileges</code>: elige una de las dos. Cuando no se puede cambiar de
 usuario en una máquina antigua (<code>basic</code>), el servidor se niega a arrancar
 el plugin en lugar de ejecutarlo junto a tus secretos; en una máquina
-moderna, registra un aviso y ejecuta el plugin sin el muro extra. La
+moderna, registra un aviso y ejecuta el plugin sin la protección adicional. La
 imagen trae todo lo necesario, solo tienes que definir la variable.</p>
 </div>
 <p>El pequeño coste de <code>on</code>: el plugin se ejecuta con una cuenta aparte, así que
@@ -3295,24 +3295,24 @@ un plugin que escribe archivos temporales en su propia carpeta puede fallar.
 Si pasa, pon <code>off</code>. Por eso el valor por defecto es <code>auto</code>: solo asume ese
 riesgo donde hay un beneficio real.</p>
 <h2 id="what-a-malicious-plugin-could-do">Lo que podría hacer un plugin malicioso<a class="headerlink" href="#what-a-malicious-plugin-could-do" title="Permanent link">¶</a></h2>
-<p><strong>Linux moderno (con Docker o sin él):</strong> un plugin malo queda completamente
-encerrado. No puede leer tus secretos, no puede ver ni tocar los archivos de
+<p><strong>Linux moderno (con Docker o sin él):</strong> un plugin malicioso queda completamente
+aislado. No puede leer tus secretos, no puede ver ni tocar los archivos de
 otros plugins, no puede hacer llamadas de red arbitrarias y no puede alterar
 el sistema. La única salida realista sería un fallo grave del kernel, algo
 que vale para cualquier sandbox que no sea una máquina virtual completa.</p>
-<p><strong>NAS antiguo con Docker, sin muros por carpeta (<code>basic</code>):</strong></p>
+<p><strong>NAS antiguo con Docker, sin restricción de archivos por carpeta (<code>basic</code>):</strong></p>
 <ul>
 <li>tus secretos siguen protegidos (clave de inicio de sesión, copias de
   seguridad) gracias a la cuenta de usuario aparte, que <code>auto</code> activa aquí;</li>
 <li>el plugin no tiene acceso directo a la red; uno que tenga permiso solo llega
   a los servidores que declaró;</li>
 <li>las acciones peligrosas del sistema siguen bloqueadas en el kernel;</li>
-<li>pero sin muros por carpeta, un plugin malo podría leer archivos corrientes
+<li>pero sin restricción de archivos por carpeta, un plugin malicioso podría leer archivos corrientes
   que no son secretos, ver la lista de procesos en marcha y, como los plugins
   comparten una misma cuenta, leer o alterar los archivos de otro plugin.</li>
 </ul>
 <p>En un equipo así, instala solo plugins de confianza, o pasa a un kernel
-moderno para tener todos los muros de archivos.</p>
+moderno para tener la restricción de archivos completa.</p>
 <h2 id="configuration-examples">Ejemplos de configuración<a class="headerlink" href="#configuration-examples" title="Permanent link">¶</a></h2>
 <p>Esto va en tu <code>.env</code> (compose) o como variables de entorno <code>EVEY_*</code>.</p>
 <div class="language-bash highlight"><span class="filename">1. Servidor moderno, recomendado (nada que hacer)</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># elige el más fuerte disponible (por defecto)</span>
@@ -3322,8 +3322,8 @@ moderno para tener todos los muros de archivos.</p>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>auto<span class="w">        </span><span class="c1"># (por defecto) activa en el caso basic</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">3. Protección doble en un servidor moderno</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># queda en landlock</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># añade encima el muro independiente de uid</span>
+<div class="language-bash highlight"><span class="filename">3. Las dos protecciones en un servidor moderno</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>auto<span class="w">          </span><span class="c1"># queda en landlock</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">EVEY_PLUGINS_UID_SEPARATION</span><span class="o">=</span>on<span class="w">          </span><span class="c1"># añade además la separación de uid independiente</span>
 </span></code></pre></div>
 <div class="language-bash highlight"><span class="filename">4. Fijar un modo (avanzado)</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">      </span><span class="c1"># no arranca los plugins si Landlock no está disponible</span>
 </span></code></pre></div>
@@ -3336,7 +3336,7 @@ moderno para tener todos los muros de archivos.</p>
 </span></code></pre></div>
 <h2 id="change-the-sandbox-mode-while-running">Cambiar el modo de sandbox en marcha<a class="headerlink" href="#change-the-sandbox-mode-while-running" title="Permanent link">¶</a></h2>
 <p>Cambia el <strong>Modo de sandbox</strong> en la tarjeta <strong>Límites de recursos</strong> de
-<strong>Administración -&gt; Plugins</strong>. Los plugins en marcha se reinician
+<strong>Administración → Plugins</strong>. Los plugins en marcha se reinician
 automáticamente para que el nuevo modo se aplique enseguida, y el <strong>Panel de
 seguridad</strong> muestra el modo activo. Un plugin que no puede funcionar con el
 nuevo modo (por ejemplo <code>bubblewrap</code> dentro de un contenedor sin privilegios)
@@ -3349,7 +3349,7 @@ aparece con error: vuelve al modo anterior.</p>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># evey-plugin = separado); la imagen no tiene ps, así que pregunta a Docker</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>docker<span class="w"> </span>top<span class="w"> </span>evey-server<span class="w"> </span>-o<span class="w"> </span>user,pid,args<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"node|python"</span>
 </span></code></pre></div>
-<p>El modo de sandbox activo es la insignia de <strong>Administración -&gt; Plugins -&gt;
+<p>El modo de sandbox activo es la insignia de <strong>Administración → Plugins →
 Panel de seguridad</strong>.</p>
 <!-- sources
 auto resolution and probes: internal/adapters/driven/pluginrunner/runner_landlock.go - resolveAutoMode ; runner_sandbox.go - effectiveMode, SandboxStatus, uidSepApplies, WithUIDSeparation, applyBasicSandbox

@@ -1919,7 +1919,7 @@
   <a href="#cheatsheet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Chuleta
+        Resumen de comandos
       
     </span>
   </a>
@@ -3320,7 +3320,7 @@
   <a href="#cheatsheet" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Chuleta
+        Resumen de comandos
       
     </span>
   </a>
@@ -3371,7 +3371,7 @@ publica.</p>
 </span></code></pre></div>
 <p><strong>Registros.</strong> El mismo flujo existe dos veces: el archivo diario
 <code>./evey-data/logs/evey-YYYY-MM-DD.log</code> (<code>EVEY_LOG_DIR</code>, <code>/data/logs</code> dentro
-de la imagen) y <code>docker logs evey-server</code>. El que manda es el archivo: el
+de la imagen) y <code>docker logs evey-server</code>. La referencia es el archivo: el
 driver json-file de Docker rota <code>docker logs</code>, y después de una rotación el
 comando puede dejar de mostrar líneas horas antes de que se parara el
 contenedor. Cuando los dos no coinciden, lee el archivo. La página
@@ -3414,7 +3414,7 @@ rechazado.</p>
 </span></code></pre></div>
 <p>Busca primero la línea de la época (epoch). Cada petición autenticada vuelve
 a comprobar la época del token del usuario en la base de datos, y esa
-comprobación falla en cerrado: una base de datos lenta, bloqueada o
+comprobación aplica el cierre por defecto: una base de datos lenta, bloqueada o
 inalcanzable hace que todas las peticiones devuelvan el mismo 401 que un
 token caducado, lo que parece un problema de JWT y no lo es. El servidor lo
 dice:</p>
@@ -3434,11 +3434,11 @@ ejecuta la consulta de la época. El contador de Prometheus es
   no con la clave: los usuarios siguen con la sesión iniciada. Comprueba que
   el volumen <code>./evey-data</code> está montado en <code>/data</code>; sin él, también falta la
   base de datos.</li>
-<li><strong>El limitador de peticiones salta en cada petición</strong>:
+<li><strong>El limitador de peticiones se activa en cada petición</strong>:
   <code>EVEY_RATELIMIT_LOGIN_MAX</code> (<code>10</code> por IP y por minuto) y
   <code>EVEY_RATELIMIT_GLOBAL_MAX</code> (<code>300</code>). Un proxy inverso que lo reenvía todo
-  como una sola dirección lo hace saltar enseguida: añade el proxy a
-  <strong>Proxies de confianza</strong> en <strong>Administración -&gt; Acceso remoto</strong> (se aplica
+  como una sola dirección lo activa enseguida: añade el proxy a
+  <strong>Proxies de confianza</strong> en <strong>Administración → Acceso remoto</strong> (se aplica
   sin reiniciar; <code>EVEY_TRUSTED_PROXIES</code> es el valor de reserva). El
   <code>docker-compose.override.yml</code> del repositorio sube los dos a <code>1000</code> /
   <code>10000</code> para el desarrollo.</li>
@@ -3468,9 +3468,9 @@ servidor muestra códigos de salida de ffmpeg.</p>
   compose los sustituye. Fuera de la imagen, los valores por defecto de Go
   son <code>/data/transcode</code> y <code>/cache/trickplay</code>.</li>
 <li><strong>Caché llena</strong>: consulta <a href="#the-cache-disk-is-full">El disco de la caché está lleno</a>.</li>
-<li><strong>La aceleración por hardware se porta mal</strong>: pon <strong>Aceleración por
-  hardware</strong> en <strong>Desactivada (solo software)</strong> en <strong>Administración -&gt;
-  Transcodificación -&gt; Calibración de codificación</strong> (se aplica en el acto y
+<li><strong>La aceleración por hardware falla</strong>: pon <strong>Aceleración por
+  hardware</strong> en <strong>Desactivada (solo software)</strong> en <strong>Administración →
+  Transcodificación → Calibración de codificación</strong> (se aplica en el acto y
   vuelve a calibrar) para que todas las transcodificaciones se hagan con el
   procesador; vuelve a <strong>Auto (mejor disponible)</strong> cuando el hardware esté
   arreglado.</li>
@@ -3478,13 +3478,13 @@ servidor muestra códigos de salida de ffmpeg.</p>
   en directo se mide, no se fija; consulta <a href="../../playback/transcoding/#sharing-the-capacity">Repartir la
   capacidad</a>.
   <code>EVEY_TRANSCODING_MAX_CONCURRENT</code> (<strong>Máximo simultáneo</strong> en
-  <strong>Administración -&gt; Caché de transcodificación</strong>) solo cubre las tareas de
+  <strong>Administración → Caché de transcodificación</strong>) solo cubre las tareas de
   transcodificación fuera de la reproducción en directo.</li>
 </ul>
 <h3 id="it-buffers-or-cuts-out-and-the-log-does-not-say-why">Se queda cargando o se corta y el registro no dice por qué<a class="headerlink" href="#it-buffers-or-cuts-out-and-the-log-does-not-say-why" title="Permanent link">¶</a></h3>
-<p><strong>Síntoma</strong>: un espectador avisa de parones en un título transcodificado; el
+<p><strong>Síntoma</strong>: un espectador avisa de interrupciones en un título transcodificado; el
 registro muestra <code>hls-vod: segment timeout</code> con <code>err:"context canceled"</code>, lo
-que significa que el cliente ha colgado, no que el servidor haya agotado su
+que significa que el cliente ha cerrado la conexión, no que el servidor haya agotado su
 tiempo.</p>
 <p><strong>Diagnóstico</strong>: empieza por lo que el servidor ya ha registrado, no cuesta
 nada:</p>
@@ -3529,7 +3529,7 @@ que los codificadores se relanzan sin parar.</p>
 <ul>
 <li><strong>Saltos cortos hacia delante repetidos</strong>: cada uno puede lanzar un
   codificador nuevo, y el límite por hash (<code>MaxSessionsPerHash</code>, 2 por
-  defecto, 1 con el perfil de poca memoria) echa al que lleva más tiempo sin
+  defecto, 1 con el perfil de poca memoria) cierra el que lleva más tiempo sin
   usarse: <code>session killed reason:lru_cap</code> en el registro. Normal si no pasa
   demasiado.</li>
 <li><strong>El cliente tiene menos paciencia que el servidor</strong>: la ventana para
@@ -3537,14 +3537,14 @@ que los codificadores se relanzan sin parar.</p>
   que el propio margen de espera del servidor (<code>WaitBudgetDur</code>) es de 60 s.
   Una línea <code>reach decision</code> con <code>over_client_patience: true</code> significa que
   el servidor estaba a punto de pedir una espera que ningún reproductor
-  aguanta.</li>
+  soporta.</li>
 </ul>
 <h3 id="stale_rendition-410s-the-player-refetches-its-master-mid-play">Errores 410 <code>stale_rendition</code>: el reproductor vuelve a pedir su lista maestra en plena reproducción<a class="headerlink" href="#stale_rendition-410s-the-player-refetches-its-master-mid-play" title="Permanent link">¶</a></h3>
 <p><strong>Síntoma</strong>: el reproductor se para un momento y luego se recupera; el
 registro muestra
 <code>hls-vod: stale rendition URL refused (the ladder moved under a live player)</code>
 y peticiones respondidas con <code>410 Gone</code> y <code>X-Evey-Error: stale_rendition</code>.</p>
-<p>Es una protección que salta, no la avería en sí. Cada URI del manifiesto
+<p>Es una protección que se activa, no la avería en sí. Cada URI del manifiesto
 lleva el hash de la decisión con la que se construyó (<code>fp=</code>). Un 410 significa
 que un reproductor ha presentado una URL de una sesión cuya escala ABR ha
 cambiado de forma desde entonces; servirla le daría al descodificador bytes
@@ -3632,15 +3632,15 @@ la comprobación de salud cambia de estado una y otra vez.</p>
   Esto también borra <code>photos/</code> (las versiones redimensionadas de las fotos)
   y <code>track-art/</code> (las portadas extraídas de las etiquetas de audio) que hay
   dentro; las dos se reconstruyen en la siguiente petición. <strong>Borrar todo</strong>
-  en <strong>Administración -&gt; Caché de transcodificación</strong> vacía la misma caché
+  en <strong>Administración → Caché de transcodificación</strong> vacía la misma caché
   desde el panel.</li>
 <li>Las miniaturas de la barra de avance (trickplay) cuestan más de regenerar;
   bórralas solo si hace falta:
   <div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'rm -rf /data/trickplay/*'</span>
 </span></code></pre></div></li>
 <li>Baja el <strong>Presupuesto de caché de transcodificación (GB)</strong> en
-  <strong>Administración -&gt; Configuración del servidor -&gt; Configuración del
-  servidor</strong> (por defecto <code>10</code>) si el volumen del equipo va justo. Sea cual
+  <strong>Administración → Configuración del servidor → Configuración del
+  servidor</strong> (por defecto <code>10</code>) si el volumen del equipo tiene poco espacio. Sea cual
   sea el presupuesto, la limpieza automática mantiene 2 GiB libres en el
   volumen de la caché.</li>
 </ul>
@@ -3654,35 +3654,35 @@ ejecutor de plugins.</p>
 <p><strong>Solución</strong>:</p>
 <ol>
 <li>Vuelve a lanzar el plugin sin tocar el servidor: <strong>Activar</strong> otra vez en
-   <strong>Administración -&gt; Plugins</strong>, o <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>.
+   <strong>Administración → Plugins</strong>, o <code>POST /api/v1/admin/plugins/&lt;id&gt;/enable</code>.
    Funciona cuando el plugin está activado pero atascado en <code>Error</code>: el
    arranque solo rechaza un plugin que ya está <code>Running</code> o <code>Initializing</code>.</li>
 <li>Si con eso no se arregla, <strong>Desactivar</strong> el plugin desde el panel.</li>
 <li>Si el propio servidor está inestable: <code>docker compose restart evey</code>.</li>
 <li>Los archivos de los plugins están en <code>./evey-data/plugins/</code> en el equipo
-   (<code>/data/plugins</code> en el contenedor). Borra la carpeta del plugin roto y
+   (<code>/data/plugins</code> en el contenedor). Borra la carpeta del plugin que falla y
    reinicia.</li>
 <li>Envía la traza del panic y el id del plugin a su autor.</li>
 </ol>
 <h2 id="a-cast-froze-went-silent-or-the-phone-keeps-spinning">Un envío se ha congelado, se ha quedado sin sonido, o el teléfono no deja de cargar<a class="headerlink" href="#a-cast-froze-went-silent-or-the-phone-keeps-spinning" title="Permanent link">¶</a></h2>
-<p>Todo lo de aquí se puede leer en <strong>Administración -&gt; Registros y depuración</strong>; no
+<p>Todo lo de aquí se puede leer en <strong>Administración → Registros y depuración</strong>; no
 hace falta un shell en la máquina. Las horas están en UTC. Cada señal es una
 línea <code>player-client: playback event reported</code> con <code>type=</code> y una cadena
 <code>details=</code>.</p>
 <ol>
-<li><strong>¿Estaba vivo el receptor, y hasta cuándo?</strong> Busca <code>cast_receiver_alive</code>.
+<li><strong>¿Funcionaba el receptor, y hasta cuándo?</strong> Busca <code>cast_receiver_alive</code>.
    El receptor envía una cada 30 s mientras reproduce; <code>details</code> lleva
    <code>buf=&lt;behind&gt;/&lt;ahead&gt;/&lt;ranges&gt;</code> (los segundos en búfer alrededor de la
    posición de lectura) y <code>pos_sec</code>. Una reproducción sana muestra <code>ahead</code>
    en decenas de segundos. La hora de la última señal es cuando el receptor
-   murió o lo mataron: si no hay nada después, la tele ya no está ejecutando
+   se detuvo o fue terminado: si no hay nada después, la tele ya no está ejecutando
    el receptor, diga lo que diga el teléfono.</li>
 <li><strong>¿Por qué se paró?</strong> Busca <code>cast_receiver_finished</code>:
    <code>reason=INTERRUPTED</code> es un LOAD nuevo que sustituye al que estaba en
    marcha (busca un <code>StartStream</code> unos segundos antes), <code>reason=ERROR</code> lleva
    el error del reproductor. Si no hay ningún <code>finished</code> después del último
    <code>alive</code>, el proceso del receptor ha desaparecido; casi siempre es un
-   Chromecast HD que se ha cerrado por falta de memoria con una lista maestra
+   Chromecast HD que el sistema ha cerrado por falta de memoria con una lista maestra
    de copia de más de 20 Mbps.</li>
 <li><strong>¿Qué ha visto el teléfono?</strong> Busca <code>cast_sender_stall</code>: el emisor envía
    <code>state=playing frozen=&lt;n&gt;s pos=&lt;p&gt;</code> cuando el SDK de Cast sigue diciendo
@@ -3690,7 +3690,7 @@ línea <code>player-client: playback event reported</code> con <code>type=</code
    <code>state=idle reason=&lt;r&gt;</code> cuando el receptor ha indicado un motivo de
    inactividad. Son líneas WARN, así que el filtro de avisos de la página
    las muestra. Compara su <code>pos</code> con el último <code>pos_sec</code> del receptor.</li>
-<li><strong>¿Ha habido una reacción en cadena en la sesión?</strong> Busca
+<li><strong>¿Ha provocado la sesión fallos en cadena?</strong> Busca
    <code>refresh rejected</code>: un token de renovación <code>not found</code> cierra la sesión de
    la app y la vuelve a abrir (con las credenciales guardadas), lo que vuelve
    a lanzar el flujo; la línea lleva el <code>jti</code>, <code>issued</code> y <code>age</code> del token,
@@ -3699,25 +3699,25 @@ línea <code>player-client: playback event reported</code> con <code>type=</code
 <li><strong>¿Era el flujo demasiado pesado para el dispositivo?</strong> Busca
    <code>advertises a fallback rung</code> (el bitrate máximo de la lista maestra de
    copia) y <code>plan fitted to the client's line</code> (la medida <code>maxKbps</code> del
-   receptor o su rescate <code>abr=floor</code>; la lista maestra transcodificada que
+   receptor o su mecanismo de rescate <code>abr=floor</code>; la lista maestra transcodificada que
    viene después lleva el motivo <code>client_line_exceeded</code> o
    <code>abr_floor_requested</code>). Una sesión que empezó con una lista maestra de
    copia de más de 20 Mbps y bajó a un escalón 1080p ajustado al cabo de
-   unos segundos es el rescate haciendo su trabajo; un nuevo LOAD que vuelve
-   a empezar con la lista maestra de copia es lo que mata a un Chromecast
-   HD.</li>
+   unos segundos es el mecanismo de rescate funcionando como debe; un nuevo LOAD que vuelve
+   a empezar con la lista maestra de copia es lo que hace fallar a un
+   Chromecast HD.</li>
 <li><strong>¿Le ha faltado algo al servidor?</strong> Busca
    <code>on-demand resource refused</code>: una ráfaga de rechazos <code>context canceled</code>
    en segmentos seguidos es alguien moviéndose por la barra de avance (cada
    petición la cancela la siguiente), no un fallo del servidor; las líneas
    <code>served</code> con duraciones largas sí lo son.</li>
 </ol>
-<p>Si los pasos 1 a 3 muestran el receptor vivo y el emisor callado, el problema
+<p>Si los pasos 1 a 3 muestran el receptor activo y el emisor sin señales, el problema
 está en la sesión de Cast del teléfono (el SDK, la red hasta la tele). Si las
 señales del receptor se paran primero, mira la tele: la memoria, el códec,
 el bitrate del flujo.</p>
 <h2 id="stop-a-session-or-a-compromised-device">Detener una sesión o un dispositivo comprometido<a class="headerlink" href="#stop-a-session-or-a-compromised-device" title="Permanent link">¶</a></h2>
-<p><strong>Síntoma</strong>: un dispositivo inesperado en <strong>Administración -&gt; Reproduciendo
+<p><strong>Síntoma</strong>: un dispositivo inesperado en <strong>Administración → Reproduciendo
 ahora</strong>, o un usuario avisa de un dispositivo desconocido en su lista de
 sesiones.</p>
 <ol>
@@ -3728,7 +3728,7 @@ sesiones.</p>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s1">   WHERE ended_at IS NULL</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="s1">   ORDER BY started_at DESC LIMIT 20;"'</span>
 </span></code></pre></div></li>
-<li>Detenla desde <strong>Administración -&gt; Reproduciendo ahora</strong>: el icono de
+<li>Detenla desde <strong>Administración → Reproduciendo ahora</strong>: el icono de
    parar de la sesión (<strong>Detener sesión</strong>), y después <strong>Detener</strong> para
    confirmar; o <code>AdminSessionService/KillSession</code> por gRPC con el id de la
    sesión. El reproductor recibe primero una orden de parar y el flujo se
@@ -3738,7 +3738,7 @@ sesiones.</p>
    todos los codificadores se paran con él.
    <div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>evey
 </span></code></pre></div></li>
-<li>Si la propia cuenta está comprometida, <strong>Administración -&gt; Usuarios -&gt;
+<li>Si la propia cuenta está comprometida, <strong>Administración → Usuarios →
    Desactivar</strong>: los tokens de renovación se borran y los tokens de acceso se
    revocan en el acto, así que se cierra la sesión en todos los
    dispositivos. Pon una contraseña nueva (<code>evey admin reset-password
@@ -3766,7 +3766,7 @@ archivos en el registro.</p>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>sysctl<span class="w"> </span>-p
 </span></code></pre></div></li>
 </ol>
-<h2 id="cheatsheet">Chuleta<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
+<h2 id="cheatsheet">Resumen de comandos<a class="headerlink" href="#cheatsheet" title="Permanent link">¶</a></h2>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Estado de todo</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>curl<span class="w"> </span>-sf<span class="w"> </span>http://localhost:9091/healthz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>healthy

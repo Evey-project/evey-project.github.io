@@ -3121,7 +3121,8 @@
 <h1 id="recovery">Wiederherstellung<a class="headerlink" href="#recovery" title="Permanent link">¶</a></h1>
 <p>Öffnen Sie diese Seite, wenn sich niemand mehr anmelden kann, wenn der
 Schlüssel, der die Zugangstoken signiert, nach außen gelangt sein könnte,
-oder wenn die Datenbank auf einen Dump von vor einer Migration zurück muss.
+oder wenn die Datenbank auf einen Dump von vor einer Migration zurückgesetzt
+werden muss.
 Jeder Ablauf ist ein einziger <code>evey admin</code>-Befehl, der im Container läuft; die
 Seite <a href="../cli/">Kommandozeile</a> listet die anderen Unterbefehle auf.</p>
 <h2 id="before-you-start">Bevor Sie beginnen<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
@@ -3133,13 +3134,13 @@ Container des Servers brauchen sie daher nichts weiter:</p>
 <p>Die zweite Form startet zuerst die eingebaute Datenbank, führt dann den Befehl
 aus und beendet sich. Keiner dieser Befehle startet den Server.</p>
 <h2 id="give-a-user-a-new-password">Einem Benutzer ein neues Passwort geben<a class="headerlink" href="#give-a-user-a-new-password" title="Permanent link">¶</a></h2>
-<p>Nutzen Sie das, wenn ein Benutzer sich ausgesperrt hat, oder sofort, wenn Sie
+<p>Nutzen Sie das, wenn ein Benutzer sich nicht mehr anmelden kann, oder sofort, wenn Sie
 vermuten, dass ein Konto übernommen wurde. Das neue Passwort wird einmal
 angezeigt und nie protokolliert: Kopieren Sie es, bevor Sie das Terminal
 schließen.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>reset-password<span class="w"> </span>--user<span class="w"> </span>admin@example.com
 </span></code></pre></div>
-<p>Ein gutes Ergebnis sieht so aus:</p>
+<p>Eine erfolgreiche Ausgabe sieht so aus:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>user:     admin@example.com
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>user_id:  usr-xxxxxxxx
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>password: &lt;random 24-byte base64url&gt;
@@ -3154,7 +3155,7 @@ verloren, führen Sie den Befehl einfach noch einmal aus.</p>
 <h2 id="rotate-the-key-that-signs-access-tokens">Den Schlüssel wechseln, der die Zugangstoken signiert<a class="headerlink" href="#rotate-the-key-that-signs-access-tokens" title="Permanent link">¶</a></h2>
 <p>Nutzen Sie das, wenn die Schlüsseldatei nach außen gelangt sein könnte, oder
 um alle Benutzer auf einmal abzumelden. Für ein einzelnes Konto genügt
-<strong>Verwaltung -&gt; Benutzer -&gt; Deaktivieren</strong> oder das Zurücksetzen des Passworts
+<strong>Verwaltung → Benutzer → Deaktivieren</strong> oder das Zurücksetzen des Passworts
 oben.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>evey-server<span class="w"> </span>evey<span class="w"> </span>admin<span class="w"> </span>rotate-jwt-key
 </span></code></pre></div>
@@ -3170,7 +3171,7 @@ oben.</p>
 </ol>
 <p>Starten Sie den Container danach neu (<code>docker compose restart evey</code>), damit
 der neue Schlüssel benutzt wird. War die Datenbank nicht erreichbar, wird der
-Schlüssel trotzdem beiseitegelegt, und der Befehl meldet <code>key rotated, but
+Schlüssel trotzdem umbenannt, und der Befehl meldet <code>key rotated, but
 sessions could not be ended (restart the server, then run this again)</code>: Tun
 Sie genau das.</p>
 <h2 id="restore-a-pre-migration-dump">Einen Dump von vor einer Migration wiederherstellen<a class="headerlink" href="#restore-a-pre-migration-dump" title="Permanent link">¶</a></h2>
@@ -3180,8 +3181,8 @@ die seitdem geschrieben wurden, verloren gehen dürfen. Der Befehl spielt einen
 <div class="admonition warning">
 <p class="admonition-title">Achtung</p>
 <p>Die Wiederherstellung überschreibt die aktuellen Zeilen. Legen Sie zuerst
-eine Sicherung des aktuellen Stands an (<strong>Verwaltung -&gt; Sicherung &amp;
-Wiederherstellung -&gt; Jetzt ausführen</strong>), wenn Sie ihn vielleicht noch
+eine Sicherung des aktuellen Stands an (<strong>Verwaltung → Sicherung &amp;
+Wiederherstellung → Jetzt ausführen</strong>), wenn Sie ihn vielleicht noch
 einmal brauchen.</p>
 </div>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>evey
@@ -3194,7 +3195,7 @@ einmal brauchen.</p>
    lassen und mit der Abschlusszeile von <code>pg_dump</code> enden. Ein abgeschnittener
    oder beschädigter Dump wird abgelehnt (<code>refusing to restore: ...</code>), bevor
    irgendetwas gelöscht wird.</li>
-<li>Dann wartet er 5 Sekunden, bevor er etwas anfasst: Strg+C bricht ab.</li>
+<li>Dann wartet er 5 Sekunden, bevor er etwas ändert: Strg+C bricht ab.</li>
 <li><code>psql</code> spielt den Dump mit <code>--single-transaction</code> und <code>ON_ERROR_STOP=1</code>
    ein. Bei jedem Fehler wird die Transaktion zurückgerollt, und die
    Datenbank bleibt, wie sie war.</li>
@@ -3203,7 +3204,7 @@ einmal brauchen.</p>
 <p>Voraussetzungen:</p>
 <ul>
 <li>Der Dateiname muss auf <code>.sql.gz</code> enden. Die <code>.tar.gz</code>-Archive aus
-  <strong>Verwaltung -&gt; Sicherung &amp; Wiederherstellung</strong> werden im Verwaltungsbereich
+  <strong>Verwaltung → Sicherung &amp; Wiederherstellung</strong> werden im Verwaltungsbereich
   wiederhergestellt, nicht mit diesem Befehl.</li>
 <li>Die Zieldatenbank muss existieren; der Dump löscht Tabellen und legt sie neu
   an, nicht die Datenbank.</li>

@@ -1975,7 +1975,7 @@
   <a href="#basic-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        basic (letzter Ausweg)
+        basic (letzte Möglichkeit)
       
     </span>
   </a>
@@ -3241,7 +3241,7 @@
   <a href="#basic-last-resort" class="md-nav__link">
     <span class="md-ellipsis">
       
-        basic (letzter Ausweg)
+        basic (letzte Möglichkeit)
       
     </span>
   </a>
@@ -3360,7 +3360,7 @@ legt sie mit dem SDK unter <code>/app</code> ab; ein symbolischer Link funktioni
 <p>Installieren Sie, was der <code>entrypoint:</code> Ihrer Plugins aufruft. Der Runner
 erkennt <code>python3</code>, <code>python</code>, <code>node</code>, <code>php</code>, <code>ruby</code>, <code>perl</code>, <code>lua</code>, <code>bash</code> und
 <code>sh</code>; <code>python3</code> deckt die meisten Community-Plugins ab. Dann die Dienste, mit
-denen der Server spricht:</p>
+denen der Server kommuniziert:</p>
 <table>
 <thead>
 <tr>
@@ -3404,8 +3404,8 @@ ohne Sonderrechte an, wie das Image es tut:</p>
 <ul>
 <li><code>evey</code> (UID 1000) führt den Server aus.</li>
 <li><code>evey-plugin</code> (UID 1001) ist der Benutzer, zu dem Plugins wechseln, wenn die
-  UID-Trennung aktiv ist. Ein kompromittiertes Plugin landet so bei einem
-  anderen Benutzer ohne Sonderrechte, der die Geheimnisse des Servers schon
+  UID-Trennung aktiv ist. Ein kompromittiertes Plugin läuft so als ein
+  anderer Benutzer ohne Sonderrechte, der die Geheimnisse des Servers schon
   wegen der normalen Dateirechte nicht lesen kann.</li>
 </ul>
 <div class="admonition warning">
@@ -3447,7 +3447,7 @@ unterscheidet sich je nach Distribution):</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>landlock<span class="w">    </span><span class="c1"># fail closed: ein Plugin wird abgelehnt, wenn Landlock nicht durchgesetzt werden kann</span>
 </span></code></pre></div>
 <p><code>landlock</code> übergibt dem Launcher <code>-require-landlock</code>. Der Launcher beendet
-sich dann mit einem Fehlercode, statt ein Plugin ohne Abschottung zu starten.</p>
+sich dann mit einem Fehlercode, statt ein Plugin ohne Isolierung zu starten.</p>
 <h3 id="bubblewrap">bubblewrap<a class="headerlink" href="#bubblewrap" title="Permanent link">¶</a></h3>
 <p>Wenn Landlock nicht verfügbar ist, installieren Sie <code>bwrap</code>. Es setzt jedes
 Plugin in eigene user-, pid-, uts-, ipc- und Netzwerk-Namespaces, mit einer
@@ -3455,32 +3455,32 @@ Positivliste für Mounts. Es braucht User-Namespaces ohne Sonderrechte und den
 Systemaufruf <code>mount</code>. Das ist auf den meisten Linux-Systemen ohne Container
 gegeben, aber in einem Container ohne Sonderrechte gesperrt. Deshalb ist
 Landlock der Standard im Container. <code>auto</code> wählt bubblewrap nur, wenn Landlock
-fehlt und eine Probe mit einem Wegwerf-<code>bwrap</code> gelingt.</p>
+fehlt und ein einmaliger Testlauf von <code>bwrap</code> gelingt.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>bubblewrap<span class="w">  </span><span class="c1"># Namespaces</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">EVEY_PLUGINS_SANDBOX_MODE</span><span class="o">=</span>strict<span class="w">      </span><span class="c1"># Namespaces plus die seccomp-Zwischenschicht</span>
 </span></code></pre></div>
 <p>Prüfen Sie, ob der Host die Einrichtung der Namespaces und Mounts erlaubt:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>bwrap<span class="w"> </span>--unshare-user<span class="w"> </span>--unshare-net<span class="w"> </span>--ro-bind<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/bin/true<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"bwrap OK"</span>
 </span></code></pre></div>
-<h3 id="basic-last-resort">basic (letzter Ausweg)<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
+<h3 id="basic-last-resort">basic (letzte Möglichkeit)<a class="headerlink" href="#basic-last-resort" title="Permanent link">¶</a></h3>
 <p><code>EVEY_PLUGINS_SANDBOX_MODE=basic</code> ist ein Wechsel der UID plus die
 seccomp-Zwischenschicht. Ist der Launcher vorhanden, installiert er trotzdem
 seine seccomp-Sperrliste im Kernel und, so weit möglich, Landlock. Es gibt
-keine Abschottung des Dateisystems Pfad für Pfad: Ein Plugin läuft mit UID
+keine Beschränkung des Dateisystems pro Pfad: Ein Plugin läuft mit UID
 1001 und nur mit seccomp. Verwenden Sie diesen Modus auf alten oder
-abgeriegelten Kerneln, auf denen weder Landlock noch bubblewrap funktioniert,
+stark eingeschränkten Kerneln, auf denen weder Landlock noch bubblewrap funktioniert,
 und verlassen Sie sich auf die UID-Trennung unten, um die Geheimnisse zu
 schützen.</p>
 <p>Ein Plugin mit der Berechtigung <code>subprocess</code> braucht den Launcher auch im
 Modus <code>basic</code>: Die Zwischenschicht überlebt das <code>exec</code> eines Kindprozesses
 nicht, nur das seccomp des Launchers im Kernel tut das. Ohne den Launcher
-weigert sich ein solches Plugin zu starten, statt ohne Abschottung zu laufen.</p>
+weigert sich ein solches Plugin zu starten, statt ohne Isolierung zu laufen.</p>
 <h2 id="keep-secrets-out-of-a-plugins-reach">Geheimnisse außer Reichweite der Plugins halten<a class="headerlink" href="#keep-secrets-out-of-a-plugins-reach" title="Permanent link">¶</a></h2>
 <p>Die UID-Trennung startet jedes Plugin unter <code>evey-plugin</code> (UID 1001), getrennt
 vom Server (UID 1000). So kann ein Plugin <code>jwt.key</code>, die Sicherungen oder die
 Protokolle schon wegen der normalen Dateirechte nicht lesen. Das zählt im
 Modus <code>basic</code>. Unter Landlock oder bubblewrap ist das Dateisystem bereits
-abgeschottet, dort ist die Trennung also doppelt.</p>
+beschränkt, dort ist die Trennung also redundant.</p>
 <p><code>EVEY_PLUGINS_UID_SEPARATION</code>:</p>
 <table>
 <thead>
@@ -3492,7 +3492,7 @@ abgeschottet, dort ist die Trennung also doppelt.</p>
 <tbody>
 <tr>
 <td><code>auto</code> (Standard)</td>
-<td>nur an, wenn die Sandbox auf <code>basic</code> hinausläuft</td>
+<td>nur an, wenn die Sandbox zu <code>basic</code> aufgelöst wird</td>
 </tr>
 <tr>
 <td><code>on</code></td>
@@ -3511,7 +3511,7 @@ wechselt kurz vor dem Start des Plugins zu UID 1001:</p>
 </span></code></pre></div>
 <p>Der Launcher lehnt jede Ziel-UID oder -GID unter 1000 ab. Kann er nicht
 wechseln (Capability fehlt, <code>no_new_privs</code> gesetzt), wird ein Plugin im Modus
-<code>basic</code> abgelehnt, weil die UID dort seine einzige Schutzmauer ist. Unter
+<code>basic</code> abgelehnt, weil die UID dort sein einziger Schutz ist. Unter
 Landlock schreibt er eine Warnung ins Protokoll und startet das Plugin mit der
 UID des Servers.</p>
 <div class="admonition warning">
@@ -3523,7 +3523,7 @@ abgelehnt, und unter Landlock fällt die UID-Trennung auf dieselbe UID
 zurück. Entscheiden Sie sich für eines von beiden.</p>
 </div>
 <p>Läuft der Server stattdessen als root (nicht empfohlen), lässt er Plugins
-direkt zu 1001 wechseln, und die Capability wird nicht gebraucht. Das Bild in
+direkt zu 1001 wechseln, und die Capability wird nicht gebraucht. Die Übersicht in
 einfachen Worten, Fall für Fall, steht unter
 <a href="../plugins/sandbox-deployment/">Plugin-Sandbox einrichten</a>.</p>
 <h2 id="secret-file-permissions">Dateirechte für Geheimnisse<a class="headerlink" href="#secret-file-permissions" title="Permanent link">¶</a></h2>
@@ -3561,7 +3561,7 @@ Punkte, die nur ohne Container gelten:</p>
   nichts eingetragen ist). Siehe <a href="../reverse-proxy/">Reverse Proxy</a>.</li>
 <li><strong>Der Server öffnet zwei Ports, und nur einer darf erreichbar sein.</strong>
   <code>EVEY_SERVER_PORT</code> (Standard <code>9090</code>) ist der eigentliche gRPC-Listener. Die
-  HTTP-API, mit der Ihre Clients und Ihr Reverse Proxy sprechen, liegt auf
+  HTTP-API, mit der Ihre Clients und Ihr Reverse Proxy kommunizieren, liegt auf
   diesem Port plus eins (<code>9091</code>). Die Sperre für den Fernzugriff, die
   entscheidet, ob Clients außerhalb Ihres LAN sich verbinden dürfen, sitzt in
   der HTTP-Kette und gilt nicht für den gRPC-Listener. Deshalb lauscht dieser

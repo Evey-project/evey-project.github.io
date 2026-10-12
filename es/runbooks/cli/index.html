@@ -3408,7 +3408,7 @@ completos están en <a href="../recovery/">Recuperación</a>.</p>
 </span></code></pre></div>
 <p>Se hace un <code>pg_dump</code> antes de la migración para <code>up</code> y <code>down</code> cuando
 <code>EVEY_BACKUP_DIR</code> está definido (<code>/data/backups</code> en la imagen Docker);
-<code>--no-backup</code> se lo salta, para equipos sin <code>pg_dump</code>. Un fallo a mitad de
+<code>--no-backup</code> lo omite, para equipos sin <code>pg_dump</code>. Un fallo a mitad de
 <code>up</code> deja <code>schema_migrations.dirty = true</code>: consulta
 <a href="../migration-runbook/">Migraciones de la base de datos</a>. En el entorno de
 desarrollo, el Makefile ofrece estos tres como <code>make migrate-up</code>,
@@ -3538,7 +3538,7 @@ imagen Docker no los incluye:</p>
 <ul>
 <li><a href="../recovery/">Recuperación</a>: restablecer una contraseña, cambiar la clave JWT, restaurar una copia de seguridad.</li>
 <li><a href="../migration-runbook/">Migraciones de la base de datos</a>: desplegar el esquema, volver atrás, recuperar un estado «dirty».</li>
-<li><a href="../incident-runbook/">Manual de incidentes</a>: qué hacer primero cuando el servidor se porta mal.</li>
+<li><a href="../incident-runbook/">Manual de incidentes</a>: qué hacer primero cuando el servidor no funciona como debe.</li>
 </ul>
 <!-- sources
 dispatch and top-level commands: cmd/evey/cli.go - runCLI (version, help, completion, man, unknown command refused), cmd/evey/main.go
