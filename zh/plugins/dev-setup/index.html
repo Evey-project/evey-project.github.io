@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
     
@@ -711,6 +713,34 @@
     
   
     用 Evey 观看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
   
 
     
@@ -3471,8 +3501,8 @@
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">EVEY_PLUGINS_COSIGN_PUBLIC_KEY</span><span class="o">=</span>/etc/evey/cosign.pub
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">EVEY_PLUGINS_COSIGN_POLICY</span><span class="o">=</span>warn<span class="w">   </span><span class="c1"># 或者 "enforce"，拒绝验证不通过的包</span>
 </span></code></pre></div>
-<p>之后，在<strong>管理 → 插件</strong>里选择 ZIP 包，并在<strong>签名文件（.zip.sig，可选）</strong>里选择对应的 <code>.zip.sig</code>；
-通过 API 上传时，签名放在 <code>sig</code> 字段里。预览会显示<strong>已签名</strong>或签名无效，<strong>安全仪表板</strong>会保存这个结果。</p>
+<p>之后，在<strong>管理 → 插件</strong>里选择 ZIP 包，并在<strong>签名文件（.zip.sig，可选）<strong>里选择对应的 <code>.zip.sig</code>；
+通过 API 上传时，签名放在 <code>sig</code> 字段里。预览会显示</strong>已签名</strong>或签名无效，<strong>安全仪表板</strong>会保存这个结果。</p>
 <p>常见问题：</p>
 <ul>
 <li><strong>对 ZIP 包的任何改动都会让签名失效</strong>，哪怕只是把同样的文件重新打包。请给您分发的那个文件签名，每个版本都重新签一次。</li>

@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
     
@@ -711,6 +713,34 @@
     
   
     Regarder avec Evey
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Questions fréquentes
   
 
     
@@ -3161,7 +3191,7 @@ redémarrage suivant, quelle que soit la façon de le faire.</p>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_ENCRYPT</code></td>
 <td>désactivé</td>
-<td>Chiffre en AES-128 les flux réempaquetés (HLS seulement : aucun manifeste DASH n'est alors proposé).</td>
+<td>Chiffre en AES-128 les flux réempaquetés. Désactive deux choses : le manifeste DASH (HLS seulement) et la lecture enchaînée sans coupure entre épisodes (chaque épisode est lu comme un flux à part).</td>
 <td>Entrées de configuration <code>transcoding.hls_ondemand_encrypt</code>, redémarrage</td>
 </tr>
 <tr>

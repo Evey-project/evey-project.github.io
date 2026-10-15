@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
     
@@ -711,6 +713,34 @@
     
   
     用 Evey 观看
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
   
 
     
@@ -3201,7 +3231,7 @@
 <p>如果 GPU 在容器启动后的头几秒里初始化失败，服务器会在短时间内多次重新探测，然后才记录结果。只有持续的失败，或者确定性的失败（缺少编码器、不支持的格式），才会把加速器标记为不可用。</p>
 </div>
 <h2 id="forcing-a-backend-or-turning-it-off">强制指定后端，或者关闭硬件加速<a class="headerlink" href="#forcing-a-backend-or-turning-it-off" title="Permanent link">¶</a></h2>
-<p><strong>关闭（仅软件）</strong>让所有转码都在处理器上进行，这是驱动有缺陷时的应急办法。手动选择一个<strong>后端</strong>（NVENC、VAAPI、QSV、RKMPP）会强制使用它；如果它不可用，服务器会改用处理器，卡片上会显示实际使用的后端。</p>
+<p><strong>关闭（仅软件）<strong>让所有转码都在处理器上进行，这是驱动有缺陷时的应急办法。手动选择一个</strong>后端</strong>（NVENC、VAAPI、QSV、RKMPP）会强制使用它；如果它不可用，服务器会改用处理器，卡片上会显示实际使用的后端。</p>
 <p>在有多个加速器的机器上，自动模式没有固定的偏好：每个加速器都经过认证和测量，每个流都交给已经证明支持其所需处理路径的后端，选择已证明的最佳质量和测得的最低开销。因此，同一台服务器上的两个流可以使用不同的后端，例如一块卡做 HDR 色调映射，另一块卡做 HEVC 编码。</p>
 <h2 id="checking-that-it-is-used">检查它是否在使用<a class="headerlink" href="#checking-that-it-is-used" title="Permanent link">¶</a></h2>
 <p><strong>管理 → 转码 → 编码校准</strong>显示检测到的加速器、正在使用的后端、GPU 和处理器各自通过认证的分辨率；在<strong>硬件回退</strong>下，还会列出最近退回到处理器的编码及其原因。播放时，<strong>管理 → 正在播放</strong>会写明每个流用的是哪个后端。</p>

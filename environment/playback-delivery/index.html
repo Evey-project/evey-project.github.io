@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
     
@@ -711,6 +713,34 @@
     
   
     Watching with Evey
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common questions
   
 
     
@@ -3159,7 +3189,7 @@ the next restart whichever way it is made.</p>
 <tr>
 <td><code>EVEY_HLS_ONDEMAND_ENCRYPT</code></td>
 <td>off</td>
-<td>Encrypts repackaged streams with AES-128 (HLS only: no DASH manifest is offered then).</td>
+<td>Encrypts repackaged streams with AES-128. Turns off two things: the DASH manifest (HLS only) and gapless playback across episodes (each episode plays as its own stream).</td>
 <td>Config entries <code>transcoding.hls_ondemand_encrypt</code>, restart</td>
 </tr>
 <tr>
